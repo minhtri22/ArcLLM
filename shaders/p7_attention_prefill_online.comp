@@ -1,0 +1,16 @@
+#version 450
+layout(local_size_x = 128) in;
+layout(std430, binding = 0) readonly buffer QBuf { float q[]; } Q;
+layout(std430, binding = 1) readonly buffer KBuf { float k[]; } K;
+layout(std430, binding = 2) readonly buffer VBuf { float v[]; } V;
+layout(std430, binding = 3) writeonly buffer OBuf { float o[]; } O;
+layout(push_constant) uniform PC { uint q_heads; uint kv_heads; uint seq; uint dim; float scale; } pc;
+shared float red[128]; shared float sh_m; shared float sh_l; shared float sh_alpha; shared float sh_beta;
+void main(){
+ uint group=gl_WorkGroupID.x;uint lane=gl_LocalInvocationID.x;uint token=group/pc.q_heads;uint qh=group-token*pc.q_heads;
+ if(token>=pc.seq||qh>=pc.q_heads||pc.dim!=128u)return;uint heads_per_kv=pc.q_heads/pc.kv_heads;uint kvh=qh/heads_per_kv;uint qoff=(token*pc.q_heads+qh)*pc.dim+lane;
+ if(lane==0u){sh_m=-3.402823466e+38;sh_l=0.0;}barrier();float acc=0.0;
+ for(uint t=0u;t<=token;++t){uint koff=(t*pc.kv_heads+kvh)*pc.dim+lane;red[lane]=Q.q[qoff]*K.k[koff];barrier();for(uint s=64u;s>0u;s>>=1u){if(lane<s)red[lane]+=red[lane+s];barrier();}
+  if(lane==0u){float score=red[0]*pc.scale;float nm=max(sh_m,score);float a=(sh_l==0.0)?0.0:exp(sh_m-nm);float b=exp(score-nm);sh_l=sh_l*a+b;sh_m=nm;sh_alpha=a;sh_beta=b;}barrier();uint voff=(t*pc.kv_heads+kvh)*pc.dim+lane;acc=acc*sh_alpha+sh_beta*V.v[voff];barrier();}
+ O.o[qoff]=acc/sh_l;
+}

@@ -1,0 +1,10 @@
+{
+  "schema":"arcllm.p7g.ffn_token_tile16_ab.v1",
+  "status":"PASS",
+  "model":{"layers":28,"tensors":338,"resident_weight_bytes":980097536,"pp_tokens":512,"tg_steps":128,"max_ctx":640},
+  "scope":{"optimized_family":"prefill_ffn_token_tile16_only","tile_rows":8,"baseline_tile_tokens":8,"optimized_tile_tokens":16,"tile_k":32,"attention_projection_tiling_frozen":true,"attention_kernel_changed":false,"lm_head_changed":false,"decode_gemm_changed":false},
+  "regression":{"inherited_pass":true,"tile16_q4_max_abs":2.384185791e-07,"tile16_q4_rmse":2.636384637e-08,"tile16_q4_pass":true,"tile16_q6_max_abs":3.87430191e-07,"tile16_q6_rmse":5.422161642e-08,"tile16_q6_pass":true,"pass":true},
+  "ab_pp512":{"baseline_trial_wall_ms":[5183.5721,6724.076,6512.1689],"optimized_trial_wall_ms":[5185.3987,5583.2184,5317.6081],"baseline_median_wall_ms":6512.1689,"optimized_median_wall_ms":5317.6081,"baseline_tok_s":78.62203943,"optimized_tok_s":96.28389125,"wall_speedup":1.224642504,"submit_wait_speedup":1.224818155,"min_speedup_gate":1.1,"speedup_pass":true,"top1_match_all_trials":true,"worst_logits_max_abs":0,"worst_logits_rmse":0,"logits_gate_max_abs":0.02,"logits_gate_rmse":0.005,"logits_match_all_trials":true,"historical_p7e_optimized_tok_s":74.76969183,"reference_tok_s":677.87,"optimized_ratio_to_reference":0.1420388736},
+  "tg128_unmodified":{"total_wall_ms":34378.4764,"tok_s_wall":3.723259824,"tok_s_submit_wait":3.761246642,"step_wall_median_ms":267.26085,"step_wall_p95_ms":277.694,"historical_p7e_optimized_tok_s":3.699161367,"reference_tok_s":40.35,"ratio_to_historical":1.006514573,"first_input_token":11,"last_output_token":15},
+  "p7g_gate":{"pass":true,"correctness_pass":true,"performance_threshold_pre_registered":true,"min_pp512_speedup":1.1,"p7_closed":false,"criteria":"frozen P7-E graph remains active in both arms; only prefill FFN gate/up/down token tile changes from 8 to 16; final logits agree with live P7-E baseline; live same-run median pp512 wall speedup >=1.10x; attention projections, attention kernel, LM head, and decode path remain unchanged and tg128 completes finite"}
+}

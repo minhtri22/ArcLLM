@@ -1,0 +1,21 @@
+# Generated runtime outputs
+results/
+*.exe
+*.obj
+*.pdb
+*.ilk
+*.spv
+
+# Downloaded compiler/toolchain payloads
+tools/glslang-*/
+tools/*.zip
+
+# Python/local editor caches
+__pycache__/
+*.pyc
+.vscode/
+.idea/
+
+# OS noise
+Thumbs.db
+.DS_Store

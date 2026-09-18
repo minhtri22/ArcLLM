@@ -1,0 +1,19 @@
+#version 450
+layout(local_size_x = 256) in;
+layout(std430, binding = 0) readonly buffer XBuf { float x[]; } X;
+layout(std430, binding = 1) readonly buffer WBuf { float w[]; } W;
+layout(std430, binding = 2) writeonly buffer YBuf { float y[]; } Y;
+layout(push_constant) uniform PC { uint n; uint batch; float eps; uint w_base; } pc;
+shared float ssum[256];
+void main() {
+    uint token = gl_WorkGroupID.x;
+    uint tid = gl_LocalInvocationID.x;
+    if (token >= pc.batch) return;
+    uint base = token * pc.n;
+    float acc = 0.0;
+    for (uint i = tid; i < pc.n; i += 256u) { float v = X.x[base+i]; acc += v*v; }
+    ssum[tid] = acc; barrier();
+    for (uint stride=128u; stride>0u; stride>>=1u) { if (tid<stride) ssum[tid]+=ssum[tid+stride]; barrier(); }
+    float inv = inversesqrt(ssum[0]/float(pc.n)+pc.eps);
+    for (uint i=tid; i<pc.n; i+=256u) Y.y[base+i]=X.x[base+i]*inv*W.w[pc.w_base+i];
+}

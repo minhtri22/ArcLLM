@@ -1,0 +1,42 @@
+{
+  "phase": "P7-H",
+  "date": "2026-09-19",
+  "title": "post-FFN-token-tile16 GPU re-profile",
+  "parent": "P7-G PASS; FFN token tile16 frozen; attention projection tile8 frozen; P7 OPEN",
+  "target": {
+    "model": "Qwen2.5-Coder-1.5B",
+    "sha256": "6A77366395772462C84F0C4D226AC404674327CBE78C01E4391CC7E0C698851E"
+  },
+  "authoritative_p7g": {
+    "baseline_p7e_pp512_tok_s": 78.62203943,
+    "optimized_pp512_tok_s": 96.28389125,
+    "wall_speedup": 1.224642504,
+    "tg128_unmodified_tok_s": 3.723259824
+  },
+  "profile": {
+    "pp_tokens": 512,
+    "prefill_ffn_token_tile": 16,
+    "prefill_attention_projection_token_tile": 8,
+    "decode_unchanged": true,
+    "timestamp_every_dispatch": true,
+    "top_individual_dispatches": 12
+  },
+  "invariants": {
+    "attention_kernel_unchanged": true,
+    "lm_head_unchanged": true,
+    "decode_gemm_unchanged": true,
+    "all_weights_resident": true,
+    "kv_gpu_resident": true,
+    "packed_q4k_q6k": true
+  },
+  "gate": {
+    "performance_threshold_applied": false,
+    "measurement_only": true,
+    "requires_inherited_regressions": true,
+    "requires_timestamp_support": true,
+    "p7_closed_by_this_package": false
+  },
+  "purpose": "measure the new dominant GPU-side bottleneck after freezing P7-G before selecting exactly one next optimization family",
+  "package_revision": "R1",
+  "repair": "build script source path corrected; measurement contract unchanged"
+}

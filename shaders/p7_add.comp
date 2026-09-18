@@ -1,0 +1,10 @@
+#version 450
+layout(local_size_x = 256) in;
+layout(std430, binding = 0) readonly buffer ABuf { float a[]; } A;
+layout(std430, binding = 1) readonly buffer BBuf { float b[]; } B;
+layout(std430, binding = 2) writeonly buffer YBuf { float y[]; } Y;
+layout(push_constant) uniform PC { uint n; } pc;
+void main() {
+    uint i = gl_GlobalInvocationID.x;
+    if (i < pc.n) Y.y[i] = A.a[i] + B.b[i];
+}

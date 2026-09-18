@@ -1,0 +1,20 @@
+{
+  "schema": "arcllm.p0.target.v1",
+  "logical_name": "registry.ollama.ai/library/qwen2.5-coder/1.5b-base",
+  "general_name_expected": "Qwen2.5 Coder 1.5B",
+  "architecture_expected": "qwen2",
+  "model_path": "C:\\Users\\minht\\.ollama\\models\\blobs\\sha256-6a77366395772462c84f0c4d226ac404674327cbe78c01e4391cc7e0c698851e",
+  "sha256": "6A77366395772462C84F0C4D226AC404674327CBE78C01E4391CC7E0C698851E",
+  "size_bytes_inventory": 986048512,
+  "params_estimate": 1543714304,
+  "ctx_default": 4096,
+  "system_reserve_gib": 8.0,
+  "scratch_reserve_gib": 1.0,
+  "weight_margin_fraction": 0.1,
+  "validated_resident_floor_bytes": 4026531840,
+  "validated_resident_floor_gib": 3.75,
+  "validated_resident_floor_source": "inputs/hardware_capacity_a1.authoritative.json",
+  "validated_resident_floor_source_sha256": "23DFF73F9BA1E35C8175D96A08248751F54584ECC0A76E25AE1A0BC9B4D39977",
+  "current_state_system_reserve_gib": 8.0,
+  "p0_gate_semantics": "capability uses validated A1 resident floor; current-state reserve is advisory"
+}

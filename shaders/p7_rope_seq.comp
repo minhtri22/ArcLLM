@@ -1,0 +1,38 @@
+#version 450
+layout(local_size_x = 128) in;
+
+layout(std430, binding = 0) readonly buffer XBuf { float x[]; } X;
+layout(std430, binding = 1) writeonly buffer YBuf { float y[]; } Y;
+
+layout(push_constant) uniform PC {
+    uint batch;
+    uint heads;
+    uint head_dim;
+    uint pos_base;
+    float theta;
+} pc;
+
+void main() {
+    uint pair_idx = gl_GlobalInvocationID.x;
+    uint pairs_per_head = pc.head_dim / 2u;
+    uint pairs_per_token = pc.heads * pairs_per_head;
+    uint total_pairs = pc.batch * pairs_per_token;
+    if (pair_idx >= total_pairs) return;
+
+    uint token = pair_idx / pairs_per_token;
+    uint within = pair_idx - token * pairs_per_token;
+    uint head = within / pairs_per_head;
+    uint p = within - head * pairs_per_head;
+    uint base = (token * pc.heads + head) * pc.head_dim;
+    uint i0 = base + 2u * p;
+    uint i1 = i0 + 1u;
+
+    float exponent = -2.0 * float(p) / float(pc.head_dim);
+    float angle = float(pc.pos_base + token) * pow(pc.theta, exponent);
+    float c = cos(angle);
+    float s = sin(angle);
+    float a = X.x[i0];
+    float b = X.x[i1];
+    Y.y[i0] = a * c - b * s;
+    Y.y[i1] = a * s + b * c;
+}

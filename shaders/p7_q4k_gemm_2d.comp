@@ -1,0 +1,17 @@
+#version 450
+layout(local_size_x = 64) in;
+layout(std430, binding = 0) readonly buffer WBuf { uint w[]; } W;
+layout(std430, binding = 1) readonly buffer XBuf { float x[]; } X;
+layout(std430, binding = 2) readonly buffer BiasBuf { float bias[]; } B;
+layout(std430, binding = 3) writeonly buffer YBuf { float y[]; } Y;
+layout(push_constant) uniform PC { uint n; uint rows; uint batch; uint row_bytes; uint add_bias; uint w_base_bytes; uint bias_base; } pc;
+uint load_u8(uint byte_off){uint word=W.w[byte_off>>2u];uint shift=(byte_off&3u)*8u;return(word>>shift)&255u;}
+uint load_u16(uint byte_off){return load_u8(byte_off)|(load_u8(byte_off+1u)<<8u);}
+float fp16_at(uint byte_off){return unpackHalf2x16(load_u16(byte_off)).x;}
+void scale_min(uint base,uint j,out uint sc,out uint mn){uint qj;if(j<4u){sc=load_u8(base+4u+j)&63u;mn=load_u8(base+8u+j)&63u;}else{qj=load_u8(base+4u+j+4u);sc=(qj&15u)|((load_u8(base+4u+j-4u)>>6u)<<4u);mn=(qj>>4u)|((load_u8(base+4u+j)>>6u)<<4u);}}
+void main(){
+ uint row=gl_GlobalInvocationID.x; uint token=gl_WorkGroupID.y; if(row>=pc.rows||token>=pc.batch)return;
+ uint nblocks=pc.n/256u; float sum=(pc.add_bias!=0u)?B.bias[pc.bias_base+row]:0.0; uint row_base=pc.w_base_bytes+row*pc.row_bytes; uint x_base=token*pc.n;
+ for(uint ib=0u;ib<nblocks;++ib){uint base=row_base+ib*144u;float d=fp16_at(base);float dmin=fp16_at(base+2u);for(uint k=0u;k<256u;++k){uint subgroup=k>>5u;uint sc;uint mn;scale_min(base,subgroup,sc,mn);uint group64=k>>6u;uint local64=k&63u;uint qbyte=load_u8(base+16u+group64*32u+(local64&31u));uint q=(local64<32u)?(qbyte&15u):(qbyte>>4u);float wv=d*float(sc)*float(q)-dmin*float(mn);sum+=wv*X.x[x_base+ib*256u+k];}}
+ Y.y[token*pc.rows+row]=sum;
+}

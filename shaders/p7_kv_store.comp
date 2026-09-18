@@ -1,0 +1,25 @@
+#version 450
+layout(local_size_x = 256) in;
+layout(std430, binding = 0) readonly buffer KSrc { float k[]; } K;
+layout(std430, binding = 1) readonly buffer VSrc { float v[]; } V;
+layout(std430, binding = 2) buffer KCache { float kc[]; } KC;
+layout(std430, binding = 3) buffer VCache { float vc[]; } VC;
+layout(push_constant) uniform PC {
+    uint layer;
+    uint cache_pos_start;
+    uint batch;
+    uint max_ctx;
+    uint kv_dim;
+} pc;
+void main() {
+    uint i = gl_GlobalInvocationID.x;
+    uint total = pc.batch * pc.kv_dim;
+    if (i >= total) return;
+    uint token = i / pc.kv_dim;
+    uint d = i - token * pc.kv_dim;
+    uint pos = pc.cache_pos_start + token;
+    if (pos >= pc.max_ctx) return;
+    uint dst = (pc.layer * pc.max_ctx + pos) * pc.kv_dim + d;
+    KC.kc[dst] = K.k[i];
+    VC.vc[dst] = V.v[i];
+}
