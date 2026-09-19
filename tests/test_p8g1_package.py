@@ -35,7 +35,7 @@ s=(ROOT/'src/p8g1_causal_decomposition.cpp').read_text(encoding='utf-8')
 
 for x in [
     'arcllm.p8g.four_layer_prefix_correctness.v1',
-    '"first_failing_checkpoint":"L3.ffn_down"',
+    'pr.find("\\\"first_failing_checkpoint\\\":\\\"L3.ffn_down\\\"")',
     'blk.3.ffn_down.weight',
     'focus_span_exact',
     'lt[3].dw->ggml_type!=Q4',

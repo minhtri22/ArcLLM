@@ -576,3 +576,10 @@ Comparisons C0-C6 retain finite values, max_abs<=0.02 and RMSE<=0.005. C0 must r
 Classification logic implements H-KERNEL, H-COMMON-Q4, H-AMPLIFICATION, H-INTERACTION, the separately named input-dependent tiled-kernel sensitivity case, INCONCLUSIVE, and PARENT_REPRODUCTION_FAILED exactly as bounded by the contract.
 P8-G remains frozen FAIL regardless of P8-G1 classification. P8-H and full inference remain forbidden.
 Decision: P8-G1 READY_TO_RUN. No P8-G1 causal verdict exists until target-machine JSON evidence is returned.
+
+
+## 2026-09-19 — P8-G1 static source-literal assertion repair
+Observed before build/runtime: test_p8g1_package.py searched for the rendered JSON fragment "first_failing_checkpoint":"L3.ffn_down" inside C++ source text. The runtime guard is correctly encoded as a C++ string literal with escaped quotes: pr.find("\\"first_failing_checkpoint\\":\\"L3.ffn_down\\""). Therefore the static test representation, not the implementation, was wrong.
+Repair: change only that source-text assertion to match the escaped C++ literal. Parent P8-G JSON parsing/assertions remain unchanged and already verify first_failing_checkpoint == L3.ffn_down directly.
+Classification: static-QA packaging defect only. No P8-G1 build or GPU diagnostic run occurred. Frozen P8-G1 contract, parent hashes, 58+4 dispatch design, numerical gates, causal hypotheses, P8-G FAIL verdict, P8-H block and full-inference prohibition are unchanged.
+Decision: P8-G1 remains READY_TO_RUN.
