@@ -315,3 +315,13 @@ Next: P7-N, exactly one hypothesis — fuse SwiGLU into the frozen P7-L gate+up 
 Evidence target: three interleaved pp512 A/B trials. Baseline is the exact frozen P7-L winner (441 prefill dispatches). Optimized changes only prefill gate/up+SwiGLU into one Q4_K fused kernel per layer (413 dispatches). FFN down, attention projections, attention kernel, LM head, residency, KV path, and decode remain unchanged; decode stays at 469 dispatches. Specialized regression compares final s=SiLU(gate)*up against CPU reference on real layer-0 gate/up weights.
 Decision: pre-register median pp512 wall speedup >=1.10x with unchanged logits max_abs<=0.02, RMSE<=0.005, exact top1, and finite decode gates. P7 remains OPEN regardless of outcome; no gate rescue after result.
 Next: target-machine pull/run returns shader_provenance.json, p7n_ab_results.json and p7n_summary.json.
+
+## 2026-09-19 — P7-N FAIL / gate+up+SwiGLU fusion rejected
+Evidence: inherited regressions PASS; fused final SwiGLU regression PASS with max_abs=2.235174179e-08 and RMSE=1.708517748e-09. Three live same-run pp512 A/B trials preserved exact top1 and logits. Median exact P7-L baseline=5,254.987 ms (97.43125911 tok/s), optimized=4,997.0773 ms (102.4598919 tok/s), wall speedup=1.051612109x versus pre-registered >=1.10x gate. Decode remained unchanged and finite at 3.5930945 tok/s.
+Decision: P7-N is a genuine performance negative and is FROZEN. Fusing SwiGLU into the gate+up kernel is rejected despite ~5.16% same-run improvement because it misses the frozen gate. Keep exact P7-L as baseline; do not rescue P7-N by lowering the threshold or stack it into later experiments.
+Next: move to the next independent P7-M bottleneck family, FFN-down (30.42145996% of prefill chain time).
+
+## 2026-09-19 — P7-O implementation
+Evidence target: three interleaved pp512 A/B trials against exact P7-L. Optimized arm changes only prefill FFN-down K tile 32 -> 64 for both Q4_K and Q6_K while row8, token16, workgroup8x8, P7-L gate+up fusion, separate SwiGLU, attention paths, LM head and decode remain unchanged. Both arms retain 441 prefill dispatches; decode remains 469. Specialized regressions use real frozen Q4_K and Q6_K down tensors with batch=9.
+Decision: pre-register median pp512 wall speedup >=1.10x with unchanged correctness gates. The hypothesis is that K64 halves internal FFN-down tiled loop/barrier iterations for K=8960 from 280 to 140 without changing graph semantics. P7 remains OPEN regardless of outcome.
+Next: target-machine pull/run returns shader_provenance.json, p7o_ab_results.json and p7o_summary.json.

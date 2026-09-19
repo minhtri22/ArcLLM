@@ -1,28 +1,33 @@
 {
-  "phase": "P7-N",
+  "phase": "P7-O",
   "date": "2026-09-19",
-  "title": "FFN gate+up+SwiGLU fusion A/B",
-  "parent": "P7-M PASS measurement; P7-L fused gate+up remains frozen baseline; P7 OPEN",
+  "title": "FFN-down K64 A/B",
+  "parent": "P7-N FAIL performance; P7-L remains frozen baseline; P7-M attribution frozen; P7 OPEN",
   "target": {
     "model": "Qwen2.5-Coder-1.5B",
     "sha256": "6A77366395772462C84F0C4D226AC404674327CBE78C01E4391CC7E0C698851E"
   },
-  "authoritative_p7m": {
-    "status": "PASS",
-    "chain_ticks": 79570264,
-    "ffn_gate_up_share": 0.4440335651,
+  "authoritative_p7n": {
+    "status": "FAIL",
+    "correctness_pass": true,
+    "wall_speedup": 1.051612109,
+    "min_speedup_gate": 1.1,
+    "decision": "gate+up+SwiGLU fusion rejected; retain P7-L baseline"
+  },
+  "rationale_p7m": {
     "ffn_down_share": 0.3042145996,
-    "barrier_unattributed_share": 0.00024324413451738705,
-    "decision": "optimize largest prefill family without changing FFN-down"
+    "ffn_down_ticks": 24206436,
+    "barrier_unattributed_share": 0.0002432441345
   },
   "ab": {
     "pp_tokens": 512,
     "baseline_prefill_dispatches": 441,
-    "optimized_prefill_dispatches": 413,
+    "optimized_prefill_dispatches": 441,
     "decode_dispatches": 469,
-    "ffn_row_tile": 8,
-    "ffn_token_tile": 16,
-    "tile_k": 32,
+    "baseline_down_k_tile": 32,
+    "optimized_down_k_tile": 64,
+    "row_tile": 8,
+    "token_tile": 16,
     "workgroup": "8x8",
     "trials": 3,
     "min_wall_speedup": 1.1,
@@ -30,7 +35,8 @@
   },
   "invariants": {
     "baseline_exact_p7l": true,
-    "ffn_down_unchanged": true,
+    "ffn_gate_up_fused_frozen": true,
+    "swiglu_separate_frozen": true,
     "attention_projection_tiling_frozen": true,
     "attention_kernel_unchanged": true,
     "lm_head_unchanged": true,
@@ -46,5 +52,5 @@
     "logits_rmse": 0.005,
     "p7_closed_by_this_package": false
   },
-  "purpose": "test whether fusing SwiGLU into the frozen P7-L gate+up kernel removes enough intermediate memory traffic and dispatch overhead for >=1.10x pp512 speedup"
+  "purpose": "test whether halving FFN-down K-tile loop/barrier iterations with K64 yields >=1.10x end-to-end pp512 speedup without correctness regression"
 }

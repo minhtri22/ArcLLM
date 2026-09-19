@@ -1,0 +1,34 @@
+#version 450
+layout(local_size_x = 8, local_size_y = 8) in;
+layout(std430, binding = 0) readonly buffer WBuf { uint w[]; } W;
+layout(std430, binding = 1) readonly buffer XBuf { float x[]; } X;
+layout(std430, binding = 2) readonly buffer BiasBuf { float bias[]; } B;
+layout(std430, binding = 3) writeonly buffer YBuf { float y[]; } Y;
+layout(push_constant) uniform PC { uint n; uint rows; uint batch; uint row_bytes; uint add_bias; uint w_base_bytes; uint bias_base; } pc;
+shared float sW[512];
+shared float sX[1024];
+uint load_u8(uint byte_off){uint word=W.w[byte_off>>2u];uint shift=(byte_off&3u)*8u;return(word>>shift)&255u;}
+uint load_u16(uint byte_off){return load_u8(byte_off)|(load_u8(byte_off+1u)<<8u);}
+float fp16_at(uint byte_off){return unpackHalf2x16(load_u16(byte_off)).x;}
+void scale_min(uint base,uint j,out uint sc,out uint mn){uint qj;if(j<4u){sc=load_u8(base+4u+j)&63u;mn=load_u8(base+8u+j)&63u;}else{qj=load_u8(base+4u+j+4u);sc=(qj&15u)|((load_u8(base+4u+j-4u)>>6u)<<4u);mn=(qj>>4u)|((load_u8(base+4u+j)>>6u)<<4u);}}
+float dequant_w(uint row,uint k){uint ib=k>>8u;uint kin=k&255u;uint base=pc.w_base_bytes+row*pc.row_bytes+ib*144u;float d=fp16_at(base);float dmin=fp16_at(base+2u);uint subgroup=kin>>5u;uint sc;uint mn;scale_min(base,subgroup,sc,mn);uint group64=kin>>6u;uint local64=kin&63u;uint qbyte=load_u8(base+16u+group64*32u+(local64&31u));uint q=(local64<32u)?(qbyte&15u):(qbyte>>4u);return d*float(sc)*float(q)-dmin*float(mn);}
+void main(){
+ uint lr=gl_LocalInvocationID.x,lt=gl_LocalInvocationID.y,lid=gl_LocalInvocationIndex;
+ uint row0=gl_WorkGroupID.x*8u, tok0=gl_WorkGroupID.y*16u;
+ uint row=row0+lr, tok_a=tok0+lt, tok_b=tok0+lt+8u;
+ bool valid_a=(row<pc.rows && tok_a<pc.batch);
+ bool valid_b=(row<pc.rows && tok_b<pc.batch);
+ float biasv=(row<pc.rows && pc.add_bias!=0u)?B.bias[pc.bias_base+row]:0.0;
+ float acc_a=valid_a?biasv:0.0, acc_b=valid_b?biasv:0.0;
+ for(uint k0=0u;k0<pc.n;k0+=64u){
+   for(uint idx=lid;idx<512u;idx+=64u){uint rr=idx>>6u,kk=idx&63u,gr=row0+rr;sW[idx]=(gr<pc.rows)?dequant_w(gr,k0+kk):0.0;}
+   for(uint idx=lid;idx<1024u;idx+=64u){uint tt=idx>>6u,kk=idx&63u,gt=tok0+tt;sX[idx]=(gt<pc.batch)?X.x[gt*pc.n+k0+kk]:0.0;}
+   barrier();
+   uint wb=lr*64u, xa=lt*64u, xb=(lt+8u)*64u;
+   if(valid_a){for(uint kk=0u;kk<64u;++kk)acc_a+=sW[wb+kk]*sX[xa+kk];}
+   if(valid_b){for(uint kk=0u;kk<32u;++kk)acc_b+=sW[wb+kk]*sX[xb+kk];}
+   barrier();
+ }
+ if(valid_a)Y.y[tok_a*pc.rows+row]=acc_a;
+ if(valid_b)Y.y[tok_b*pc.rows+row]=acc_b;
+}

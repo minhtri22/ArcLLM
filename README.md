@@ -22,9 +22,9 @@ Frozen model SHA256:
 
 P0-P6 are CLOSED. P7 (Q4_K_M production path) is OPEN.
 
-The strongest frozen prefill baseline is now P7-L: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I (token tile32), P7-J (block-aware vec4 dequant), and P7-K (row tile16) are frozen performance negatives; P7-L is a frozen PASS at 1.24293x.
+The strongest frozen prefill baseline remains P7-L: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, and P7-N are frozen performance negatives; P7-L is the current frozen winner.
 
-The active experiment is **P7-N**: starting from the exact P7-L winner, fuse SwiGLU into the Q4_K gate+up kernel so it writes final `s` directly. P7-M is PASS/frozen and shows prefill remains dominated by fused gate/up (44.40%) followed by FFN down (30.42%), while barrier/unattributed time is only ~0.024%.
+The active experiment is **P7-O**: starting from the exact P7-L winner, change only prefill FFN-down K tile from 32 to 64 for both Q4_K and Q6_K. P7-N is frozen as a correctness-PASS/performance-FAIL result at 1.05161x, so its SwiGLU fusion is not promoted.
 
 ## Roadmap
 
@@ -64,16 +64,16 @@ Rules:
 ```powershell
 git pull
 git rev-parse HEAD
-py -3 .\tests\test_p7n_package.py
-powershell.exe -ExecutionPolicy Bypass -File .\run_p7n.ps1
+py -3 .\tests\test_p7o_package.py
+powershell.exe -ExecutionPolicy Bypass -File .\run_p7o.ps1
 ```
 
 Expected evidence:
 
 ```text
 results\shader_provenance.json
-results\p7n_ab_results.json
-results\p7n_summary.json
+results\p7o_ab_results.json
+results\p7o_summary.json
 ```
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.
