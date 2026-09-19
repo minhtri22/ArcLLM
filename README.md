@@ -20,7 +20,7 @@ Frozen model SHA256:
 
 ## Status
 
-P0-P7 are CLOSED. **P8-G is frozen FAIL. P8-G1 causally supports H-AMPLIFICATION. P8-G2 — amplification geometry qualification — is DESIGN_FROZEN / READY_FOR_IMPLEMENTATION.**
+P0-P7 are CLOSED. **P8-G is frozen FAIL. P8-G1 causally supports H-AMPLIFICATION. P8-G2 — amplification geometry qualification — is READY TO RUN.**
 
 The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
 
@@ -74,9 +74,24 @@ The exact-weight kernel controls passed on both CPU and GPU SwiGLU inputs. P7-G 
 
 Observed directional amplification from the existing evidence is approximately 3.378x in max_abs and 5.135x in RMSE.
 
-P8-G2 is **DESIGN_FROZEN / READY_FOR_IMPLEMENTATION**. Contract: `docs/P8G2_CONTRACT.md`.
+P8-G2 implementation is committed and **READY TO RUN**. Contract: `docs/P8G2_CONTRACT.md`.
 
-P8-G2 quantifies linear propagation closure, directional gain, kernel-residual contribution, normalized signal/error scales, and a frozen α-scaling series. It does not change the historical P8-G gate or define a replacement production gate.
+Run:
+
+```powershell
+py -3 .\tests\test_p8g2_package.py
+powershell.exe -ExecutionPolicy Bypass -File .\run_p8g2.ps1
+```
+
+Expected evidence:
+
+```text
+results\p8g2_shader_provenance.json
+results\p8g2_amplification_geometry_results.json
+results\p8g2_summary.json
+```
+
+P8-G2 reconstructs the same 58-dispatch prefix through L3 SwiGLU, then performs one P7-G Q4_K down-projection diagnostic dispatch. CPU analysis measures dX -> WdX closure, directional gain, kernel-residual ratios, normalized signal/error scales and the frozen alpha series {0.25,0.50,0.75,1.00}. It does not change the historical P8-G gate or define a replacement production gate.
 
 P8-H and full 28-layer inference remain blocked.
 

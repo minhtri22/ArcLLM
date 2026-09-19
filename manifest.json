@@ -1,7 +1,7 @@
 {
   "phase": "P8-G2",
   "date": "2026-09-19",
-  "status": "DESIGN_FROZEN",
+  "status": "READY_TO_RUN",
   "title": "amplification geometry qualification",
   "parent": "P8-G1 H-AMPLIFICATION",
   "target": {
@@ -57,11 +57,37 @@
     "replacement_gate_definition_permitted": false
   },
   "implementation_permitted": true,
-  "target_run_permitted": false,
+  "target_run_permitted": true,
   "p8g_verdict_frozen": "FAIL",
   "p8g1_classification_frozen": "H-AMPLIFICATION",
   "p8h_blocked": true,
   "full_inference_forbidden": true,
   "next_on_completion": "adjudicate P8-G2 amplification geometry",
-  "implementation_commit_pending": true
+  "implementation_commit_pending": false,
+  "implementation": {
+    "prefix_scope": "L0-L2 full; L3 through SwiGLU",
+    "prefix_dispatches": 58,
+    "prefix_submits": 1,
+    "kernel_residual_dispatches": 1,
+    "kernel_residual_submits": 1,
+    "shader_count": 11,
+    "cpu_teacher_forcing_prefix": false,
+    "cpu_geometry_analysis": true,
+    "exact_focus_span_required": true,
+    "parent_reproduction_required": true,
+    "linear_closure_gate": {
+      "max_abs": 0.0001,
+      "rmse": 0.000001
+    },
+    "kernel_contribution_ratio_max": 0.01,
+    "alpha_series": [
+      0.25,
+      0.5,
+      0.75,
+      1
+    ],
+    "scaling_ratio_tolerance_fraction": 0.01,
+    "replacement_gate_definition_permitted": false,
+    "p8g_verdict_change_permitted": false
+  }
 }

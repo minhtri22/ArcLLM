@@ -600,3 +600,16 @@ Kernel residual ε_kernel=P7-G_down(X_GPU)-CPU_down(X_GPU) is compared with prop
 A frozen CPU-only scaling series α={0.25,0.50,0.75,1.00} applies the observed ΔX direction and records historical-gate crossings. max_abs/α and RMSE/α must remain within 1% of α=1 values for linearity qualification.
 P8-G2 does not define a replacement gate and cannot change P8-G FAIL. Classifications are limited to H-GEOMETRIC-AMPLIFICATION, H-NONLINEAR/UNEXPLAINED, H-KERNEL-CONTRIBUTION or PARENT-REPRODUCTION-FAILED.
 Decision: P8-G2 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION. P8-H and full inference remain blocked.
+
+
+## 2026-09-19 — P8-G2 implementation / READY_TO_RUN
+Implementation follows the frozen amplification-geometry contract without changing shaders, model weights, sequence length, historical correctness gates or prior verdicts.
+Prefix reconstruction is identical to P8-G1 through L3 SwiGLU: L0-L2 execute the full 15-op chain and L3 executes through SwiGLU, exactly 58 dispatches in one submit with direct L0->L1->L2->L3 GPU handoff and no CPU teacher forcing.
+A0 reproduces both frozen parent observables: X_GPU vs X_CPU at L3 SwiGLU and C3 CPU_down(X_GPU) vs CPU_down(X_CPU), using max_abs tolerance 1e-6 and RMSE tolerance 1e-7.
+A1 forms dX=X_GPU-X_CPU and dY_prop=CPU_down(X_GPU)-CPU_down(X_CPU), recording max/RMS directional gains, X_CPU/Y_CC signal scales and normalized perturbation/error ratios. These measurements have no new correctness threshold.
+A2 independently computes dY_direct=CPU_down(dX) and applies the preregistered linear-closure criterion max_abs<=1e-4 / RMSE<=1e-6.
+A3 executes exactly one additional production P7-G Q4_K tiled16 down-projection on X_GPU in one separate submit. Kernel residual Y_GG-Y_CG is compared with propagated error; both max and RMS contribution ratios must be <=1% for propagation dominance.
+A4 runs the frozen CPU-only alpha series {0.25,0.50,0.75,1.00}. Historical 0.02/0.005 gate results are recorded descriptively. max_abs/alpha and RMSE/alpha must remain within 1% of the alpha=1 values for linearity qualification.
+Classifications are exactly H-GEOMETRIC-AMPLIFICATION, H-NONLINEAR/UNEXPLAINED, H-KERNEL-CONTRIBUTION or PARENT-REPRODUCTION-FAILED.
+P8-G remains frozen FAIL in all outcomes. P8-G1 remains frozen H-AMPLIFICATION. P8-G2 cannot define a replacement gate, permit P8-H, or permit full inference.
+Decision: P8-G2 READY_TO_RUN. No P8-G2 scientific verdict exists until target-machine evidence is returned.
