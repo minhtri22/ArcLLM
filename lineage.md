@@ -250,3 +250,8 @@ Next: P7-I A/B exactly one hypothesis — increase prefill FFN token tile 16 -> 
 Evidence target: live same-run P7-G/tile16 baseline versus tile32 optimized graph, three interleaved pp512 trials. Tile32 Q4_K/Q6_K regression batch=25 exercises all four per-lane token outputs plus tail; full logits/top1 are compared every trial; tg128 path is unchanged.
 Decision: pre-register median pp512 wall speedup >=1.10x with unchanged correctness gates. No gate rescue after result. P7 cannot close in this package.
 Next: target-machine pull/run returns shader_provenance.json, p7i_ab_results.json and p7i_summary.json.
+
+## 2026-09-19 — P7-I-R1 Git byte-transport repair
+Evidence: first execution from commit a199f78 stopped in static package audit before shader compilation because `run_p7i.ps1` SHA did not match `P7I_SHA256SUMS.txt`. Root cause: text-mode GitHub blob creation dropped the source file's final newline while the checksum manifest was generated from the byte-authoritative working tree. No P7-I shader compile, native build, A/B execution, or performance measurement occurred.
+Decision: classify as package/commit-transport failure only. Re-materialize every P7-I checksum-tracked file byte-for-byte, preserve Git checkout EOL policy, regenerate the checksum manifest, and keep the P7-I hypothesis, correctness gates, >=1.10x performance gate, graph, and regression fixture unchanged.
+Next: pull P7-I-R1 and run `run_p7i.ps1`; only an executed A/B result can PASS/FAIL P7-I.

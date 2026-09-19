@@ -8,7 +8,7 @@ ArcLLM is developed as a research-engineering project rather than as a benchmark
 
 ## Current status
 
-The active checkpoint is **P7-I**.
+The active checkpoint is **P7-I-R1**.
 
 Completed phases:
 
@@ -25,7 +25,7 @@ Completed phases:
 
 The latest executed optimization checkpoint is **P7-G PASS**. On the frozen pp512 fixture, performance improved from the original P7-A baseline of about **7.10 tok/s** to about **96.28 tok/s** after tiled packed-GEMM work, while preserving the frozen correctness gates. These numbers are development measurements for the current fixture, not product guarantees.
 
-P7-H is **PASS / frozen**. On the P7-G graph, prefill remained FFN-dominant: gate/up 49.57% plus down 27.39% = about **76.96%** of GPU chain time, while barrier/unattributed time was about 0.025%. P7-I therefore tests exactly one next hypothesis: increase only prefill FFN token reuse from tile16 to tile32; attention projections, attention kernel, LM head, and decode remain frozen.
+P7-H is **PASS / frozen**. On the P7-G graph, prefill remained FFN-dominant: gate/up 49.57% plus down 27.39% = about **76.96%** of GPU chain time, while barrier/unattributed time was about 0.025%. P7-I therefore tests exactly one next hypothesis: increase only prefill FFN token reuse from tile16 to tile32; attention projections, attention kernel, LM head, and decode remain frozen. The first P7-I Git execution was blocked by checksum audit before shader compilation because text-mode blob transport dropped final newlines; P7-I-R1 is a byte-transport/checksum repair only.
 
 ## Architecture
 

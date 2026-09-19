@@ -39,5 +39,7 @@
     "logits_rmse": 0.005,
     "p7_closed_by_this_package": false
   },
-  "purpose": "falsify or support whether doubling FFN token reuse from 16 to 32 produces >=1.10x end-to-end pp512 speedup without correctness regression"
+  "purpose": "falsify or support whether doubling FFN token reuse from 16 to 32 produces >=1.10x end-to-end pp512 speedup without correctness regression",
+  "package_revision": "R1",
+  "repair": "Git byte-transport/checksum closure only; experiment graph, kernels, regression fixture, and frozen gates unchanged"
 }

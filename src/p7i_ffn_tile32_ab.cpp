@@ -698,6 +698,7 @@ public:
         get_device_queue_(device_, queue_family_, 0, &queue_);
         if (!queue_) throw std::runtime_error("queue is null");
     }
+
     ~VkRuntime() { cleanup(); }
 
     uint32_t physical_device_count() const { return physical_device_count_; }
