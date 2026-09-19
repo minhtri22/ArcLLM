@@ -1,0 +1,11 @@
+{
+    "schema":  "arcllm.p8g.summary.v1",
+    "target_sha256":  "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "target_size_bytes":  4683074048,
+    "process_exit_code":  20,
+    "status":  "FAIL",
+    "p8g_pass":  false,
+    "full_inference_permitted":  false,
+    "larger_prefix_design_permitted":  false,
+    "next_step":  "adjudicate first failing P8-G checkpoint"
+}

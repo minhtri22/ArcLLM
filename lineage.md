@@ -549,3 +549,17 @@ Observed before runtime: static QA and shader compilation passed, but MSVC faile
 Repair: restore the same bounded per-layer buffer-destruction lambda immediately before the reverse cleanup loop, and add static QA requiring the helper definition to precede its only invocation.
 Classification: native-build/package defect only. No P8-G GPU dispatch occurred; therefore no scientific P8-G evidence or verdict exists. The frozen hypothesis, parent evidence, four-layer scope, 68 checkpoints, numerical gates, 60-dispatch/one-submit contract and full-inference prohibition are unchanged.
 Decision: P8-G remains READY_TO_RUN.
+
+
+## 2026-09-19 — P8-G genuine FAIL frozen
+Authoritative evidence SHA256: shader provenance C258C76816BDE57CC9D56A3C73955019716A1F01637A11D23197129CC53EA1B9; four-layer results BDB7F4C1480CF960A89EBB29FACE58FC751BA8EF6AF76812F23A7C5ED0E94129; summary 0B1D4CF0355FBB7987217CC1DA8133BD81CA5332B37D5542E69A427A7C196BFE.
+Execution validity: exact target, 19 arenas / 341 pieces, layers [0,1,2,3], direct GPU handoff, exact 60 dispatches / one submit, all K/V rows PASS. L0-L2 all checkpoints PASS. L3 remained PASS through swiglu. First failing checkpoint: L3.ffn_down with max_abs=0.0283279418945 > frozen 0.02 and RMSE=0.000364843778882 < 0.005. L3 final output also FAIL with max_abs=0.0276565551758. No gate is relaxed.
+Format observation: L0-L2 ffn_down are Q6_K; L3 ffn_down is Q4_K. L3 attn_v is also Q4_K but v_proj PASS, so the evidence does not support a generic claim that all Q4_K execution is broken.
+Decision: P8-G is a genuine FAIL and FROZEN. P8-H is blocked. The result localizes the first obstruction to the L3 FFN-down boundary but does not yet distinguish deeper-prefix error amplification from a P7-G Q4 tiled16 kernel-specific defect.
+
+## 2026-09-19 — P8-G1 causal decomposition design frozen
+Question: why does L3.ffn_down cross the frozen max_abs gate?
+Pre-registered hypotheses: H-KERNEL (P7-G Q4 tiled16 implementation defect), H-AMPLIFICATION (upstream L3.swiglu perturbation amplified by a correct down operator), H-COMMON-Q4 (common Q4 decode/reference/binding issue), H-INTERACTION (neither factor alone fails, combination does).
+Design: reproduce X_CPU and X_GPU at L3.swiglu, then compute exact-weight CPU and GPU down projections on both inputs. GPU A/B uses P7-G q4 tiled16 and P7-C q4 tiled8 with the same blk.3.ffn_down.weight and exact n=18944, rows=3584, batch=4 geometry. The two shaders share the same Q4_K dequantization logic but differ in tiling/shared-X execution structure, making this a controlled implementation discriminator.
+Required outputs: Y_CC, Y_CG, Y_GC_P7G, Y_GG_P7G, Y_GC_P7C, Y_GG_P7C. Parent P8-G actual-path failure must reproduce. Frozen correctness gates remain max_abs<=0.02, RMSE<=0.005, finite values. Teacher-forced CPU input is diagnostic only and cannot revise the frozen P8-G verdict.
+Decision: P8-G1 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION. Target run is not yet permitted. P8-H and full inference remain forbidden.

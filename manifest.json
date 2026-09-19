@@ -1,96 +1,74 @@
 {
-  "phase": "P8-G",
+  "phase": "P8-G1",
   "date": "2026-09-19",
-  "status": "READY_TO_RUN",
-  "title": "bounded four-layer prefix correctness",
-  "parent": "P8-F PASS",
+  "status": "DESIGN_FROZEN",
+  "title": "L3 FFN-down causal decomposition",
+  "parent": "P8-G FAIL",
   "target": {
     "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
     "size_bytes": 4683074048
   },
-  "authoritative_p8f": {
-    "shader_provenance_sha256": "9686F747B6A4D7380F4621B1A3EEC09B82DE7832461B1A9C80548D21D7D70A41",
-    "two_layer_results_sha256": "F172E1B0B00558BDE53EB6994BDC1E5BFFC417F96A33FA1C53B0983BB494AE98",
-    "summary_sha256": "1F3EF56BC723FE2D8D8E567ADCB89BC23AE212CB0BBBB51CBC5B83E81DF9FC70",
-    "checkpoint_count": 34,
-    "all_checkpoints_pass": true,
-    "worst_max_abs_checkpoint": "L1.ffn_gate",
-    "worst_max_abs": 0.00325441360474,
-    "worst_rmse_checkpoint": "L0.k_rope",
-    "worst_rmse": 0.000176462817402,
-    "dispatches": 30,
+  "authoritative_p8g": {
+    "shader_provenance_sha256": "C258C76816BDE57CC9D56A3C73955019716A1F01637A11D23197129CC53EA1B9",
+    "four_layer_results_sha256": "BDB7F4C1480CF960A89EBB29FACE58FC751BA8EF6AF76812F23A7C5ED0E94129",
+    "summary_sha256": "0B1D4CF0355FBB7987217CC1DA8133BD81CA5332B37D5542E69A427A7C196BFE",
+    "status": "FAIL",
+    "first_failing_checkpoint": "L3.ffn_down",
+    "l3_swiglu": {
+      "max_abs": 0.00838851928711,
+      "rmse": 0.0000710637175468,
+      "pass": true
+    },
+    "l3_ffn_down": {
+      "max_abs": 0.0283279418945,
+      "rmse": 0.000364843778882,
+      "pass": false
+    },
+    "l3_final": {
+      "max_abs": 0.0276565551758,
+      "rmse": 0.000364470381402,
+      "pass": false
+    },
+    "dispatches": 60,
     "submits": 1,
     "executed_layers": [
       0,
-      1
+      1,
+      2,
+      3
     ],
-    "executed_layer_count": 2,
     "direct_gpu_handoff": true
   },
-  "frozen_7b": {
-    "layers": 28,
-    "hidden": 3584,
-    "q_heads": 28,
-    "kv_heads": 4,
-    "head_dim": 128,
-    "kv_dim": 512,
-    "ffn": 18944,
-    "vocab": 152064,
-    "planned_context": 4096,
-    "arena_count": 19,
-    "physical_piece_count": 341
-  },
-  "p8g_scope": {
-    "executed_layers": [
-      0,
-      1,
-      2,
-      3
+  "diagnosis": {
+    "focus_tensor": "blk.3.ffn_down.weight",
+    "format": "Q4_K",
+    "n": 18944,
+    "rows": 3584,
+    "batch": 4,
+    "hypotheses": [
+      "H-KERNEL",
+      "H-AMPLIFICATION",
+      "H-COMMON-Q4",
+      "H-INTERACTION"
     ],
-    "executed_layer_count": 4,
-    "sequence_length": 4,
-    "position_base": 0,
-    "deterministic_synthetic_hidden_input": true,
-    "direct_gpu_layer_handoff": true,
-    "independent_cpu_prefix_reference": true,
-    "checkpoint_count": 68,
-    "exact_operation_dispatches": 60,
-    "per_layer_operation_dispatches": 15,
-    "all_19_weight_arenas_resident": true,
-    "executed_layers_all_single_piece_required": true,
-    "embedding_execution": false,
-    "output_norm_execution": false,
-    "lm_head_execution": false,
-    "decode_execution": false,
-    "generation": false,
-    "performance_gate": false,
-    "shader_count": 11
-  },
-  "gate": {
-    "exact_target_required": true,
-    "exact_parent_evidence_required": true,
-    "exact_dispatches": 60,
-    "exact_submits": 1,
-    "exact_decoder_layers": 4,
-    "executed_layers": [
-      0,
-      1,
-      2,
-      3
+    "required_outputs": [
+      "Y_CC",
+      "Y_CG",
+      "Y_GC_P7G",
+      "Y_GG_P7G",
+      "Y_GC_P7C",
+      "Y_GG_P7C"
     ],
-    "checkpoint_count": 68,
-    "max_abs": 0.02,
-    "rmse": 0.005,
-    "all_layer_final_outputs_required": true,
-    "all_layers_kv_rows_required": true,
-    "direct_gpu_handoff_required": true,
-    "full_inference_forbidden": true,
-    "parent_p8f_regression_must_pass": true,
-    "deeper_prefix_layers_2_3_must_pass": true
+    "frozen_max_abs": 0.02,
+    "frozen_rmse": 0.005,
+    "exact_weight_binding_required": true,
+    "parent_reproduction_required": true
   },
   "implementation_permitted": true,
-  "target_run_permitted": true,
-  "next_on_pass": "P8-H bounded eight-layer prefix correctness design",
-  "next_on_fail": "adjudicate first failing P8-G checkpoint",
-  "implementation_commit_pending": false
+  "target_run_permitted": false,
+  "p8g_verdict_frozen": "FAIL",
+  "p8h_blocked": true,
+  "full_inference_forbidden": true,
+  "next_on_completion": "adjudicate P8-G1 causal decomposition",
+  "implementation_commit_pending": true
 }
