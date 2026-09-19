@@ -1,31 +1,33 @@
 {
-  "phase": "P7-J",
+  "phase": "P7-K",
   "date": "2026-09-19",
-  "title": "FFN block-aware vec4 dequant A/B",
-  "parent": "P7-I FAIL performance; P7-G FFN tile16 remains frozen baseline; P7 OPEN",
+  "title": "FFN row-tile16 A/B",
+  "parent": "P7-J FAIL performance; P7-G row8/token16 remains frozen baseline; P7 OPEN",
   "target": {
     "model": "Qwen2.5-Coder-1.5B",
     "sha256": "6A77366395772462C84F0C4D226AC404674327CBE78C01E4391CC7E0C698851E"
   },
-  "authoritative_p7i": {
+  "authoritative_p7j": {
     "status": "FAIL",
     "correctness_pass": true,
-    "wall_speedup": 1.003404444,
+    "wall_speedup": 0.9821774944,
     "min_speedup_gate": 1.1,
-    "decision": "tile32 rejected; retain tile16"
+    "decision": "vec4 dequant rejected; retain P7-G tile16"
   },
   "ab": {
     "pp_tokens": 512,
-    "baseline_ffn_token_tile": 16,
-    "optimized_ffn_token_tile": 16,
-    "optimized_change": "block_aware_vec4_dequant_only",
-    "attention_projection_token_tile": 8,
+    "baseline_ffn_row_tile": 8,
+    "optimized_ffn_row_tile": 16,
+    "ffn_token_tile": 16,
+    "tile_k": 32,
+    "workgroup": "8x8",
     "trials": 3,
     "min_wall_speedup": 1.1,
     "regression_batch": 9,
     "decode_unchanged": true
   },
   "invariants": {
+    "attention_projection_tiling_frozen": true,
     "attention_kernel_unchanged": true,
     "lm_head_unchanged": true,
     "decode_gemm_unchanged": true,
@@ -40,5 +42,5 @@
     "logits_rmse": 0.005,
     "p7_closed_by_this_package": false
   },
-  "purpose": "falsify or support whether block-aware vec4 packed dequant at frozen tile16 yields >=1.10x end-to-end pp512 speedup without correctness regression"
+  "purpose": "falsify or support whether doubling FFN output-row reuse from 8 to 16 at frozen token16 yields >=1.10x end-to-end pp512 speedup without correctness regression"
 }

@@ -1,0 +1,10 @@
+{
+  "schema":"arcllm.p7j.ffn_vec4_dequant_ab.v1",
+  "status":"FAIL",
+  "model":{"layers":28,"tensors":338,"resident_weight_bytes":980097536,"pp_tokens":512,"tg_steps":128,"max_ctx":640},
+  "scope":{"optimized_family":"prefill_ffn_vec4_dequant_only","tile_rows":8,"baseline_tile_tokens":16,"optimized_tile_tokens":16,"tile_k":32,"attention_projection_tiling_frozen":true,"attention_kernel_changed":false,"lm_head_changed":false,"decode_gemm_changed":false},
+  "regression":{"inherited_pass":true,"vec4_q4_max_abs":2.384185791e-07,"vec4_q4_rmse":2.636384637e-08,"vec4_q4_pass":true,"vec4_q6_max_abs":3.87430191e-07,"vec4_q6_rmse":5.422161642e-08,"vec4_q6_pass":true,"pass":true},
+  "ab_pp512":{"baseline_trial_wall_ms":[10584.0252,10078.4659,10371.9564],"optimized_trial_wall_ms":[10688.0875,9932.7795,10560.165],"baseline_median_wall_ms":10371.9564,"optimized_median_wall_ms":10560.165,"baseline_tok_s":49.36387893,"optimized_tok_s":48.48409092,"wall_speedup":0.9821774944,"submit_wait_speedup":0.9821561186,"min_speedup_gate":1.1,"speedup_pass":false,"top1_match_all_trials":true,"worst_logits_max_abs":0,"worst_logits_rmse":0,"logits_gate_max_abs":0.02,"logits_gate_rmse":0.005,"logits_match_all_trials":true,"historical_p7g_optimized_tok_s":96.28389125,"reference_tok_s":677.87,"optimized_ratio_to_reference":0.07152417266},
+  "tg128_unmodified":{"total_wall_ms":73078.367,"tok_s_wall":1.751544339,"tok_s_submit_wait":1.760811077,"step_wall_median_ms":289.3187,"step_wall_p95_ms":1638.4885,"historical_p7g_optimized_tok_s":3.723259824,"reference_tok_s":40.35,"ratio_to_historical":0.4704330134,"first_input_token":11,"last_output_token":15},
+  "p7j_gate":{"pass":false,"correctness_pass":true,"performance_threshold_pre_registered":true,"min_pp512_speedup":1.1,"p7_closed":false,"criteria":"frozen P7-G tile16 graph remains active in both arms; only prefill FFN gate/up/down packed dequant loader changes to block-aware vec4 while token tile remains 16; final logits agree with live P7-G baseline; live same-run median pp512 wall speedup >=1.10x; attention projections, attention kernel, LM head, and decode path remain unchanged and tg128 completes finite"}
+}

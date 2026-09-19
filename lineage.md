@@ -265,3 +265,13 @@ Next: P7-J, exactly one different FFN hypothesis: keep tile16 geometry and repla
 Evidence target: three interleaved pp512 A/B trials comparing the frozen P7-G tile16 FFN baseline against tile16 FFN with a vec4 block-aware packed dequant loader. Dispatch geometry, token reuse, attention-projection tile8, attention kernel, LM head, residency, KV architecture, and decode remain unchanged. Q4_K/Q6_K specialized regressions use real frozen tensors with batch=9 to exercise both token outputs of tile16; K spans exercise all packed metadata subgroups/quarters.
 Decision: pre-register median pp512 wall speedup >=1.10x with unchanged logits max_abs<=0.02, RMSE<=0.005, and exact top1 gates. No absolute historical throughput threshold and no gate rescue after result. P7 remains OPEN regardless of P7-J outcome.
 Next: target-machine pull/run returns shader_provenance.json, p7j_ab_results.json, and p7j_summary.json.
+
+## 2026-09-19 — P7-J FAIL / vec4 dequant rejected
+Evidence: inherited regressions PASS; optimized Q4_K/Q6_K vec4 regressions PASS with max_abs ~2.38e-7 / 3.87e-7. Three live same-run pp512 A/B trials preserved exact top1 and logits, but median baseline=10,371.9564 ms (49.36387893 tok/s) and optimized=10,560.165 ms (48.48409092 tok/s), wall speedup=0.9821774944x versus pre-registered >=1.10x gate.
+Decision: P7-J is a genuine performance negative and is FROZEN. Block-aware vec4 dequant is rejected. Together with P7-I, this closes the current token-reuse/dequant micro-tuning branch; P7-G row8 x token16 remains the frozen FFN baseline. Absolute throughput drift in this run is not used as a gate because the A/B comparison is same-run/interleaved.
+Next: P7-K, exactly one independent hypothesis: increase FFN output-row tile 8 -> 16 while keeping token tile16, K32 and workgroup 8x8 unchanged.
+
+## 2026-09-19 — P7-K implementation
+Evidence target: three interleaved pp512 A/B trials against the live P7-G row8/token16 baseline. Optimized arm changes only FFN row tile to 16; each 8x8 lane computes two rows x two token halves. Q/K/V/O projection tile8, attention, LM head and decode remain unchanged. Real Q4_K/Q6_K regressions use batch=9.
+Decision: pre-register median pp512 wall speedup >=1.10x with unchanged correctness gates. Canonical SHA QA normalizes text EOL/final newline while authoritative P7-J evidence is verified by raw SHA256. P7 remains OPEN regardless of outcome.
+Next: target-machine pull/run returns shader_provenance.json, p7k_ab_results.json and p7k_summary.json.

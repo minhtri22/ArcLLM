@@ -1,0 +1,20 @@
+{
+    "schema":  "arcllm.p7j.summary.v1",
+    "target_sha256":  "6A77366395772462C84F0C4D226AC404674327CBE78C01E4391CC7E0C698851E",
+    "process_exit_code":  20,
+    "status":  "FAIL",
+    "optimized_family":  "prefill_ffn_vec4_dequant_only",
+    "attention_projection_tiling_frozen":  true,
+    "vec4_q4_pass":  true,
+    "vec4_q6_pass":  true,
+    "baseline_p7g_pp512_tok_s":  49.36387893,
+    "optimized_pp512_tok_s":  48.48409092,
+    "pp512_wal_speedup":  0.9821774944,
+    "min_speedup_gate":  1.1,
+    "speedup_pass":  false,
+    "top1_match_all_trials":  true,
+    "logits_match_all_trials":  true,
+    "tg128_unmodified_tok_s":  1.751544339,
+    "p7j_gate_pass":  false,
+    "p7_closed":  false
+}
