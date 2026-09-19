@@ -1,0 +1,22 @@
+{
+  "schema":"arcllm.p8g2.amplification_geometry.v1",
+  "status":"COMPLETE",
+  "p8g_verdict_frozen":"FAIL",
+  "p8g1_classification_frozen":"H-AMPLIFICATION",
+  "focus":{"tensor":"blk.3.ffn_down.weight","format":"Q4_K","n":18944,"rows":3584,"batch":4,"single_piece":true,"source_span_exact":true},
+  "binding":{"arena_count":19,"physical_piece_count":341,"segmented_logical_tensor_count":2,"span_equivalence_pass":true,"global_coverage_pass":true},
+  "A0_parent_reproduction":{"x_max_abs":0.00838851928711,"x_rmse":7.10637175468e-05,"x_reproduced":true,"c3_max_abs":0.0283355712891,"c3_rmse":0.000364919435264,"c3_reproduced":true,"pass":true},
+  "A1_directional_amplification":{"delta_x_max_abs":0.00838851928711,"delta_x_rms":7.10637175468e-05,"delta_y_max_abs":0.0283355712891,"delta_y_rms":0.000364919435264,"max_direction_gain":3.37789904502,"rms_direction_gain":5.13510196006,"x_cpu_max_abs":195.133590698,"x_cpu_rms":1.50888530095,"y_cc_max_abs":538.862121582,"y_cc_rms":8.70931744618,"normalized_dx_max":4.29885969765e-05,"normalized_dx_rms":4.70968320138e-05,"normalized_dy_max":5.25840844145e-05,"normalized_dy_rms":4.18998891152e-05},
+  "A2_linear_closure":{"max_abs":0.000383861362934,"rmse":5.5805988593e-06,"finite_pass":true,"max_abs_gate":0.0001,"rmse_gate":0.000001,"pass":false},
+  "A3_kernel_residual":{"kernel_max_abs":3.0517578125e-05,"kernel_rms":6.0782396936e-07,"total_actual_max_abs":0.0283279418945,"total_actual_rms":0.000364843778882,"kernel_max_ratio":0.00107700592353,"kernel_rms_ratio":0.00166563879756,"ratio_gate":0.01,"pass":true},
+  "A4_alpha_series":[
+    {"alpha":0.25,"max_abs":0.00718688964844,"rmse":9.20920799315e-05,"max_abs_per_alpha":0.0287475585938,"rmse_per_alpha":0.000368368319726,"historical_gate_pass":true},
+    {"alpha":0.5,"max_abs":0.0143051147461,"rmse":0.000183921138956,"max_abs_per_alpha":0.0286102294922,"rmse_per_alpha":0.000367842277912,"historical_gate_pass":true},
+    {"alpha":0.75,"max_abs":0.0212173461914,"rmse":0.000273684867918,"max_abs_per_alpha":0.0282897949219,"rmse_per_alpha":0.000364913157224,"historical_gate_pass":false},
+    {"alpha":1,"max_abs":0.0283355712891,"rmse":0.000364919435264,"max_abs_per_alpha":0.0283355712891,"rmse_per_alpha":0.000364919435264,"historical_gate_pass":false}
+  ],
+  "A4_linearity":{"ratio_tolerance_fraction":0.01,"pass":false},
+  "execution":{"prefix_dispatches":58,"prefix_submits":1,"kernel_residual_dispatches":1,"kernel_residual_submits":1,"direct_gpu_handoff":true,"layer4_plus_executed":false},
+  "adjudication":{"classification":"H-NONLINEAR/UNEXPLAINED","replacement_gate_defined":false,"p8g_verdict_changed":false,"p8h_permitted":false,"full_inference_permitted":false},
+  "diagnostic_valid":true
+}

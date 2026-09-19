@@ -613,3 +613,20 @@ A4 runs the frozen CPU-only alpha series {0.25,0.50,0.75,1.00}. Historical 0.02/
 Classifications are exactly H-GEOMETRIC-AMPLIFICATION, H-NONLINEAR/UNEXPLAINED, H-KERNEL-CONTRIBUTION or PARENT-REPRODUCTION-FAILED.
 P8-G remains frozen FAIL in all outcomes. P8-G1 remains frozen H-AMPLIFICATION. P8-G2 cannot define a replacement gate, permit P8-H, or permit full inference.
 Decision: P8-G2 READY_TO_RUN. No P8-G2 scientific verdict exists until target-machine evidence is returned.
+
+
+## 2026-09-20 — P8-G2 COMPLETE / H-NONLINEAR-UNEXPLAINED frozen
+Authoritative evidence SHA256: shader provenance 43A8DEA2AD14FF516B7FDF3EB69EC3D807C455F84D53E67C7BBF00A20C4993F4; amplification geometry 2D183D80DD4A63CC75E10D2DC42BE08D7606B147A39FC15021E1D52E569CA168; summary B48FC0B48CC94363C24C0FD772058AC46C8BD3ED32203039F7FDEE230B0CB8A6.
+Validity: COMPLETE, diagnostic_valid=true, A0 parent reproduction PASS, exact focus/binding PASS, prefix 58 dispatches / one submit, kernel-residual diagnostic one dispatch / one submit, direct GPU handoff, no layer4+.
+A1 directional amplification: max=3.37789904502, RMS=5.13510196006. Normalized input/output perturbations remain approximately 4-5e-5 of reference signal scale.
+A2 linear closure FAIL: max_abs=0.000383861362934 > 1e-4 and RMSE=5.5805988593e-06 > 1e-6. These are about 1.3547% and 1.5293% of propagated max/RMS error.
+A3 propagation dominance PASS: production-kernel residual contributes 0.1077% of propagated max error and 0.1666% of propagated RMS error.
+A4 alpha linearity FAIL narrowly. Relative to alpha=1 normalized ratios, alpha=0.25 differs 1.45396% in max_abs/alpha and 0.94511% in RMSE/alpha; alpha=0.50 differs 0.96931% / 0.80096%; alpha=0.75 differs 0.16155% / approximately 0.00172%. Only alpha=0.25 max_abs/alpha crosses the frozen 1% tolerance.
+Decision: P8-G2 classification H-NONLINEAR/UNEXPLAINED is FROZEN under its preregistered rules. replacement_gate_defined=false. P8-G remains FAIL; P8-G1 remains H-AMPLIFICATION; P8-H and full inference remain forbidden.
+
+## 2026-09-20 — P8-G3 arithmetic-precision attribution design frozen
+Source audit: the frozen CPU Q4_K q4k_dot_row decodes weights to float, computes float products and sequentially accumulates 18,944 terms into float sum. Floating-point non-distributivity is therefore a prospective explanation for the P8-G2 A2/A4 misses; the P8-G2 label does not establish mathematical nonlinearity.
+P8-G3 retains the exact prefix and observed X_CPU/X_GPU, then evaluates nested arithmetic regimes. R0 is the frozen FP32 path. R1 changes only accumulation to double while preserving float products, float input algebra and float output. R2 uses double product/accumulation/output while preserving R0 float dX and X_alpha. R3 additionally performs dX and alpha interpolation in double.
+Every regime uses the unchanged P8-G2 closure criterion 1e-4/1e-6 and alpha normalized-ratio tolerance 1%. Closure and alpha each record their earliest passing regime. Overall classification distinguishes FP32 accumulation, broader dot rounding, input rounding, mixed finite precision, high-precision unexplained behavior, or parent reproduction failure.
+Argmax output indices across alpha are descriptive only and add no gate.
+Decision: P8-G3 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION. No replacement correctness gate is defined. Historical P8-G/P8-G1/P8-G2 outcomes remain frozen. P8-H and full inference remain blocked.

@@ -20,7 +20,7 @@ Frozen model SHA256:
 
 ## Status
 
-P0-P7 are CLOSED. **P8-G is frozen FAIL. P8-G1 causally supports H-AMPLIFICATION. P8-G2 — amplification geometry qualification — is READY TO RUN.**
+P0-P7 are CLOSED. **P8-G is frozen FAIL. P8-G1 supports H-AMPLIFICATION. P8-G2 is frozen H-NONLINEAR/UNEXPLAINED. P8-G3 — arithmetic-precision attribution — is DESIGN_FROZEN / READY_FOR_IMPLEMENTATION.**
 
 The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
 
@@ -37,7 +37,7 @@ P4  One decoder layer                               CLOSED
 P5  Full decoder residency                          CLOSED
 P6  GPU-resident KV + generation                    CLOSED
 P7  Q4_K_M production path                          CLOSED
-P8  7B memory-planned runtime                       ACTIVE (P8-G2 diagnosis)
+P8  7B memory-planned runtime                       ACTIVE (P8-G3 precision attribution)
 P9  Local OpenAI-compatible API                     PLANNED
 P10 Activation/output-aware Q4 research              DEFERRED
 ```
@@ -61,38 +61,25 @@ Rules:
 
 ## Current run
 
-P8-G remains frozen as a genuine FAIL under its original numerical gate.
+P8-G remains frozen FAIL under its original 0.02 / 0.005 gate.
 
-P8-G1 is COMPLETE and diagnostic-valid. It reproduced the parent failure and classified the first obstruction as **H-AMPLIFICATION**.
+P8-G1 remains frozen **H-AMPLIFICATION**.
 
-Authoritative P8-G1 SHA256:
-- shader provenance: `A4B095E1F2E7CD4AD78EE74C06A96323DF258C2ADB2CCA7DE827816191019740`
-- causal decomposition: `416A97CD13A585BD4CAB397A3B3503BA8A87BD94F13BB1F5664F384603359499`
-- summary: `1E04C9BF94DA57258D9DEA36FAE3F71B896D9F0CA773BF360305742397C27B1C`
+P8-G2 is COMPLETE and diagnostic-valid, but its preregistered A2 linear-closure and A4 alpha-linearity criteria failed; the frozen P8-G2 classification is therefore **H-NONLINEAR/UNEXPLAINED**.
 
-The exact-weight kernel controls passed on both CPU and GPU SwiGLU inputs. P7-G tiled16 and P7-C tiled8 were bit-identical in both direct comparisons. CPU-only propagation of the observed upstream perturbation produced max_abs ~= 0.028336, reproducing the P8-G down-projection failure without a GPU-kernel defect.
+Authoritative P8-G2 SHA256:
+- shader provenance: `43A8DEA2AD14FF516B7FDF3EB69EC3D807C455F84D53E67C7BBF00A20C4993F4`
+- amplification geometry: `2D183D80DD4A63CC75E10D2DC42BE08D7606B147A39FC15021E1D52E569CA168`
+- summary: `B48FC0B48CC94363C24C0FD772058AC46C8BD3ED32203039F7FDEE230B0CB8A6`
 
-Observed directional amplification from the existing evidence is approximately 3.378x in max_abs and 5.135x in RMSE.
+P8-G2 reproduced its parent and confirmed that the production GPU kernel residual is negligible relative to propagated error: about 0.108% by max_abs and 0.167% by RMS. A2 closure residual was about 1.35% / 1.53% of propagated max/RMS error. A4 failed narrowly: only alpha=0.25 max_abs/alpha exceeded the frozen 1% tolerance.
 
-P8-G2 implementation is committed and **READY TO RUN**. Contract: `docs/P8G2_CONTRACT.md`.
+Source audit shows the CPU Q4_K reference uses a sequential float accumulator over 18,944 terms. Therefore finite-precision non-distributivity is a prospective explanation for the P8-G2 A2/A4 failures.
 
-Run:
+P8-G3 is **DESIGN_FROZEN / READY_FOR_IMPLEMENTATION**. Contract: `docs/P8G3_CONTRACT.md`.
 
-```powershell
-py -3 .\tests\test_p8g2_package.py
-powershell.exe -ExecutionPolicy Bypass -File .\run_p8g2.ps1
-```
+P8-G3 uses nested CPU arithmetic controls on the exact same observed vectors: frozen FP32 replay -> double accumulator with float product/output -> full double dot with float input algebra -> full double input algebra. It records the earliest regime that restores the unchanged P8-G2 closure and alpha-linearity criteria.
 
-Expected evidence:
-
-```text
-results\p8g2_shader_provenance.json
-results\p8g2_amplification_geometry_results.json
-results\p8g2_summary.json
-```
-
-P8-G2 reconstructs the same 58-dispatch prefix through L3 SwiGLU, then performs one P7-G Q4_K down-projection diagnostic dispatch. CPU analysis measures dX -> WdX closure, directional gain, kernel-residual ratios, normalized signal/error scales and the frozen alpha series {0.25,0.50,0.75,1.00}. It does not change the historical P8-G gate or define a replacement production gate.
-
-P8-H and full 28-layer inference remain blocked.
+No replacement gate is defined. P8-H and full inference remain blocked.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.

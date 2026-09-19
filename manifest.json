@@ -1,34 +1,46 @@
 {
-  "phase": "P8-G2",
-  "date": "2026-09-19",
-  "status": "READY_TO_RUN",
-  "title": "amplification geometry qualification",
-  "parent": "P8-G1 H-AMPLIFICATION",
+  "phase": "P8-G3",
+  "date": "2026-09-20",
+  "status": "DESIGN_FROZEN",
+  "title": "arithmetic-precision attribution",
+  "parent": "P8-G2 H-NONLINEAR/UNEXPLAINED",
   "target": {
     "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
     "size_bytes": 4683074048
   },
-  "authoritative_p8g1": {
-    "shader_provenance_sha256": "A4B095E1F2E7CD4AD78EE74C06A96323DF258C2ADB2CCA7DE827816191019740",
-    "causal_decomposition_sha256": "416A97CD13A585BD4CAB397A3B3503BA8A87BD94F13BB1F5664F384603359499",
-    "summary_sha256": "1E04C9BF94DA57258D9DEA36FAE3F71B896D9F0CA773BF360305742397C27B1C",
+  "authoritative_p8g2": {
+    "shader_provenance_sha256": "43A8DEA2AD14FF516B7FDF3EB69EC3D807C455F84D53E67C7BBF00A20C4993F4",
+    "amplification_geometry_sha256": "2D183D80DD4A63CC75E10D2DC42BE08D7606B147A39FC15021E1D52E569CA168",
+    "summary_sha256": "B48FC0B48CC94363C24C0FD772058AC46C8BD3ED32203039F7FDEE230B0CB8A6",
     "status": "COMPLETE",
     "diagnostic_valid": true,
-    "classification": "H-AMPLIFICATION",
-    "x_max_abs": 0.00838851928711,
-    "x_rmse": 0.0000710637175468,
-    "c0_max_abs": 0.0283279418945,
-    "c0_rmse": 0.000364843778882,
-    "c3_max_abs": 0.0283355712891,
-    "c3_rmse": 0.000364919435264,
-    "c1_max_abs": 0.00006103515625,
-    "c1_rmse": 7.36516371841e-7,
-    "c4_max_abs": 0.000030517578125,
-    "c4_rmse": 6.0782396936e-7,
-    "p7g_vs_p7c_cpu_input_max_abs": 0,
-    "p7g_vs_p7c_gpu_input_max_abs": 0
+    "classification": "H-NONLINEAR/UNEXPLAINED",
+    "a0_pass": true,
+    "a1": {
+      "max_direction_gain": 3.37789904502,
+      "rms_direction_gain": 5.13510196006
+    },
+    "a2": {
+      "max_abs": 0.000383861362934,
+      "rmse": 0.0000055805988593,
+      "pass": false
+    },
+    "a3": {
+      "kernel_max_ratio": 0.00107700592353,
+      "kernel_rms_ratio": 0.00166563879756,
+      "pass": true
+    },
+    "a4": {
+      "pass": false,
+      "alpha_025_max_ratio_deviation_fraction": 0.0145395799681,
+      "alpha_025_rms_ratio_deviation_fraction": 0.00945108461955
+    }
   },
-  "p8g2": {
+  "source_fact": {
+    "q4k_cpu_accumulator": "float sequential sum",
+    "terms_per_row": 18944
+  },
+  "p8g3": {
     "focus_tensor": "blk.3.ffn_down.weight",
     "format": "Q4_K",
     "n": 18944,
@@ -36,58 +48,41 @@
     "batch": 4,
     "prefix_dispatches": 58,
     "prefix_submits": 1,
+    "regimes": [
+      "R0_FP32_BASELINE",
+      "R1_DOUBLE_ACCUM_FLOAT_PRODUCT_FLOAT_OUTPUT",
+      "R2_DOUBLE_DOT_FLOAT_INPUT_ALGEBRA",
+      "R3_DOUBLE_INPUT_ALGEBRA"
+    ],
+    "closure_max_abs": 0.0001,
+    "closure_rmse": 0.000001,
     "alpha_series": [
       0.25,
       0.5,
       0.75,
       1
     ],
+    "alpha_ratio_tolerance_fraction": 0.01,
     "parent_max_abs_tolerance": 0.000001,
     "parent_rmse_tolerance": 1e-7,
-    "linear_closure_max_abs": 0.0001,
-    "linear_closure_rmse": 0.000001,
-    "kernel_contribution_ratio_max": 0.01,
-    "scaling_ratio_tolerance_fraction": 0.01,
+    "parent_alpha_ratio_relative_tolerance": 0.001,
     "classifications": [
-      "H-GEOMETRIC-AMPLIFICATION",
-      "H-NONLINEAR/UNEXPLAINED",
-      "H-KERNEL-CONTRIBUTION",
+      "H-FP32-ACCUMULATION",
+      "H-DOT-ROUNDING",
+      "H-INPUT-ROUNDING",
+      "H-MIXED-FINITE-PRECISION",
+      "H-HIGH-PRECISION-UNEXPLAINED",
       "PARENT-REPRODUCTION-FAILED"
     ],
     "replacement_gate_definition_permitted": false
   },
   "implementation_permitted": true,
-  "target_run_permitted": true,
+  "target_run_permitted": false,
   "p8g_verdict_frozen": "FAIL",
   "p8g1_classification_frozen": "H-AMPLIFICATION",
+  "p8g2_classification_frozen": "H-NONLINEAR/UNEXPLAINED",
   "p8h_blocked": true,
   "full_inference_forbidden": true,
-  "next_on_completion": "adjudicate P8-G2 amplification geometry",
-  "implementation_commit_pending": false,
-  "implementation": {
-    "prefix_scope": "L0-L2 full; L3 through SwiGLU",
-    "prefix_dispatches": 58,
-    "prefix_submits": 1,
-    "kernel_residual_dispatches": 1,
-    "kernel_residual_submits": 1,
-    "shader_count": 11,
-    "cpu_teacher_forcing_prefix": false,
-    "cpu_geometry_analysis": true,
-    "exact_focus_span_required": true,
-    "parent_reproduction_required": true,
-    "linear_closure_gate": {
-      "max_abs": 0.0001,
-      "rmse": 0.000001
-    },
-    "kernel_contribution_ratio_max": 0.01,
-    "alpha_series": [
-      0.25,
-      0.5,
-      0.75,
-      1
-    ],
-    "scaling_ratio_tolerance_fraction": 0.01,
-    "replacement_gate_definition_permitted": false,
-    "p8g_verdict_change_permitted": false
-  }
+  "next_on_completion": "adjudicate P8-G3 arithmetic-precision attribution",
+  "implementation_commit_pending": true
 }
