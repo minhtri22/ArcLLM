@@ -1,47 +1,41 @@
 {
-  "phase": "P7-L",
+  "phase": "P7-M",
   "date": "2026-09-19",
-  "title": "FFN gate+up fusion A/B",
-  "parent": "P7-K FAIL performance; P7-G row8/token16 remains frozen baseline; P7 OPEN",
+  "title": "Post-P7-L timestamp re-profile",
+  "parent": "P7-L PASS; fused gate+up frozen; P7 OPEN",
   "target": {
     "model": "Qwen2.5-Coder-1.5B",
     "sha256": "6A77366395772462C84F0C4D226AC404674327CBE78C01E4391CC7E0C698851E"
   },
-  "authoritative_p7k": {
-    "status": "FAIL",
+  "authoritative_p7l": {
+    "status": "PASS",
     "correctness_pass": true,
-    "wall_speedup": 1.068446103,
+    "wall_speedup": 1.242926134,
     "min_speedup_gate": 1.1,
-    "decision": "row16 rejected; retain P7-G baseline"
+    "decision": "freeze fused gate+up winner then re-profile"
   },
-  "ab": {
+  "measurement": {
     "pp_tokens": 512,
-    "baseline_gate_up_dispatches": 56,
-    "optimized_fused_dispatches": 28,
-    "ffn_row_tile": 8,
-    "ffn_token_tile": 16,
-    "tile_k": 32,
-    "workgroup": "8x8",
-    "trials": 3,
-    "min_wall_speedup": 1.1,
-    "decode_unchanged": true
+    "profile_decode_pos": 512,
+    "prefill_dispatches": 441,
+    "decode_dispatches": 469,
+    "timestamp_every_dispatch": true,
+    "performance_threshold_applied": false
   },
   "invariants": {
-    "ffn_down_unchanged": true,
+    "ffn_gate_up_fused": true,
+    "ffn_down_p7g_tile16": true,
     "attention_projection_tiling_frozen": true,
     "attention_kernel_unchanged": true,
     "lm_head_unchanged": true,
-    "decode_gemm_unchanged": true,
+    "decode_unchanged": true,
     "all_weights_resident": true,
     "kv_gpu_resident": true,
     "packed_q4k_q6k": true
   },
   "gate": {
-    "performance_threshold_pre_registered": true,
-    "min_pp512_speedup": 1.1,
-    "logits_max_abs": 0.02,
-    "logits_rmse": 0.005,
+    "performance_threshold_applied": false,
     "p7_closed_by_this_package": false
   },
-  "purpose": "test whether sharing activation loads and dispatch/barrier overhead across FFN gate+up provides >=1.10x end-to-end pp512 speedup without correctness regression"
+  "purpose": "measure the exact P7-L winner and choose exactly one next bottleneck family from device timestamp evidence"
 }

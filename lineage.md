@@ -290,3 +290,13 @@ Next: P7-L, exactly one architectural hypothesis: fuse Q4_K FFN gate+up so both 
 Evidence target: three interleaved pp512 A/B trials against the live P7-G baseline. Baseline uses 56 gate/up GEMM dispatches across 28 layers; optimized uses 28 fused gate+up dispatches. Fused specialized regression compares both real layer-0 gate and up outputs to CPU references. Attention projections, attention kernel, LM head, FFN down and decode remain unchanged.
 Decision: pre-register median pp512 wall speedup >=1.10x with unchanged logits max_abs<=0.02, RMSE<=0.005, and exact top1 gates. P7 remains OPEN regardless of outcome.
 Next: target-machine pull/run returns shader_provenance.json, p7l_ab_results.json and p7l_summary.json.
+
+## 2026-09-19 — P7-L PASS / fused gate+up frozen
+Evidence: inherited regressions PASS; fused real layer-0 Q4_K gate/up regression PASS with max_abs 2.384185791e-07 / 1.490116119e-07. Three live same-run pp512 A/B trials preserved exact top1 and logits. Median baseline=10,280.4444 ms (49.8032945 tok/s), optimized=8,271.1628 ms (61.90181627 tok/s), wall speedup=1.242926134x versus pre-registered >=1.10x gate. Optimized prefill replaces 56 separate gate/up GEMMs with 28 fused dispatches; FFN down and all non-FFN paths remain frozen.
+Decision: P7-L is a genuine PASS and is FROZEN. Absolute cross-run throughput drift, including low unchanged decode throughput, is context only and does not alter the same-run A/B verdict. Do not stack another optimization before re-attribution.
+Next: P7-M timestamp re-profile the exact P7-L winner and unchanged decode graph.
+
+## 2026-09-19 — P7-M implementation
+Evidence target: timestamp every dispatch on the exact P7-L prefill graph (441 dispatches) and one unchanged cached decode step (469 dispatches). Preserve semantic categories so P7-H -> P7-M absolute ticks and chain shares are comparable. Include inherited regressions plus fused gate/up regression.
+Decision: measurement only; no throughput threshold, no optimization, and P7 cannot close here. The next optimization family must be chosen only from P7-M attribution.
+Next: target-machine pull/run returns shader_provenance.json, p7m_profile_results.json and p7m_summary.json.

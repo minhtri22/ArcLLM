@@ -22,9 +22,9 @@ Frozen model SHA256:
 
 P0-P6 are CLOSED. P7 (Q4_K_M production path) is OPEN.
 
-The strongest frozen prefill baseline remains P7-G: FFN row8 x token16 plus tiled attention projections. P7-I (token tile32), P7-J (block-aware vec4 dequant), and P7-K (row tile16) are genuine performance negatives: all preserve correctness but miss the pre-registered >=1.10x speedup gate. P7-K reached 1.06845x but is not promoted because the gate was frozen in advance.
+The strongest frozen prefill baseline remains P7-G: FFN row8 x token16 plus tiled attention projections. P7-I (token tile32), P7-J (block-aware vec4 dequant), and P7-K (row tile16) are frozen performance negatives. P7-L (fused gate+up) is a frozen PASS at 1.24293x. The production candidate now combines tiled attention projections, P7-G FFN-down tile16, and P7-L fused gate+up.
 
-The active experiment is **P7-L**: fuse the Q4_K FFN gate and up GEMMs into one dispatch per layer while keeping P7-G row8 x token16 geometry, FFN down, attention projections, attention kernel, LM head and decode unchanged.
+The active checkpoint is **P7-M**: measurement-only timestamp re-profile of the exact P7-L winner. P7-L fused gate+up is frozen after a 1.24293x same-run pp512 speedup with exact logits/top1 agreement. P7-M applies no throughput threshold and cannot close P7.
 
 ## Roadmap
 
@@ -64,16 +64,16 @@ Rules:
 ```powershell
 git pull
 git rev-parse HEAD
-py -3 .\tests\test_p7l_package.py
-powershell.exe -ExecutionPolicy Bypass -File .\run_p7l.ps1
+py -3 .\tests\test_p7m_package.py
+powershell.exe -ExecutionPolicy Bypass -File .\run_p7m.ps1
 ```
 
 Expected evidence:
 
 ```text
 results\shader_provenance.json
-results\p7l_ab_results.json
-results\p7l_summary.json
+results\p7m_profile_results.json
+results\p7m_summary.json
 ```
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.
