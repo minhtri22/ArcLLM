@@ -1,0 +1,20 @@
+{
+    "schema":  "arcllm.p7o.summary.v1",
+    "target_sha256":  "6A77366395772462C84F0C4D226AC404674327CBE78C01E4391CC7E0C698851E",
+    "process_exit_code":  20,
+    "status":  "FAIL",
+    "optimized_family":  "prefill_ffn_down_k64_only",
+    "attention_projection_tiling_frozen":  true,
+    "down_q4_k64_pass":  true,
+    "down_q6_k64_pass":  true,
+    "baseline_p7l_pp512_tok_s":  84.32122566,
+    "optimized_pp512_tok_s":  74.51206422,
+    "pp512_wall_speedup":  0.8836691312,
+    "min_speedup_gate":  1.1,
+    "speedup_pass":  false,
+    "top1_match_all_trials":  true,
+    "logits_match_all_trials":  true,
+    "tg128_unmodified_tok_s":  3.326577289,
+    "p7o_gate_pass":  false,
+    "p7_closed":  false
+}

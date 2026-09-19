@@ -20,11 +20,11 @@ Frozen model SHA256:
 
 ## Status
 
-P0-P6 are CLOSED. P7 (Q4_K_M production path) is OPEN.
+P0-P7 are CLOSED. P8 (7B memory-planned runtime) is NEXT.
 
-The strongest frozen prefill baseline remains P7-L: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, and P7-N are frozen performance negatives; P7-L is the current frozen winner.
+The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
 
-The active experiment is **P7-O-R1**: starting from the exact P7-L winner, change only prefill FFN-down K tile from 32 to 64 for both Q4_K and Q6_K. P7-N is frozen as a correctness-PASS/performance-FAIL result at 1.05161x, so its SwiGLU fusion is not promoted.
+The next phase is **P8 — 7B memory-planned runtime**. Before implementation, freeze the exact 7B GGUF artifact and SHA256 as required by `docs/P8_ENTRY_CONTRACT.md`.
 
 ## Roadmap
 
@@ -36,8 +36,8 @@ P3  Kernel bring-up                                 CLOSED
 P4  One decoder layer                               CLOSED
 P5  Full decoder residency                          CLOSED
 P6  GPU-resident KV + generation                    CLOSED
-P7  Q4_K_M production path                          OPEN
-P8  7B memory-planned runtime                       PLANNED
+P7  Q4_K_M production path                          CLOSED
+P8  7B memory-planned runtime                       NEXT
 P9  Local OpenAI-compatible API                     PLANNED
 P10 Activation/output-aware Q4 research              DEFERRED
 ```
@@ -59,21 +59,10 @@ Rules:
 6. `lineage.md` is append-only.
 7. The target Windows machine pulls the committed checkpoint and returns JSON evidence.
 
-## Current run
+## Current checkpoint
 
-```powershell
-git pull
-git rev-parse HEAD
-py -3 .\tests\test_p7o_package.py
-powershell.exe -ExecutionPolicy Bypass -File .\run_p7o.ps1
-```
+P7 is closed at the frozen P7-L production path. Do not run P7-O as the active candidate.
 
-Expected evidence:
-
-```text
-results\shader_provenance.json
-results\p7o_ab_results.json
-results\p7o_summary.json
-```
+P8 implementation is blocked only on freezing the exact 7B GGUF target and SHA256.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.

@@ -1,58 +1,39 @@
 {
-  "phase": "P7-O",
+  "phase": "P7-CLOSEOUT",
   "date": "2026-09-19",
-  "title": "FFN-down K64 A/B",
-  "parent": "P7-N FAIL performance; P7-L remains frozen baseline; P7-M attribution frozen; P7 OPEN",
+  "status": "CLOSED",
+  "title": "Q4_K_M production path closeout",
   "target": {
     "model": "Qwen2.5-Coder-1.5B",
     "sha256": "6A77366395772462C84F0C4D226AC404674327CBE78C01E4391CC7E0C698851E"
   },
-  "authoritative_p7n": {
-    "status": "FAIL",
+  "frozen_winner": {
+    "checkpoint": "P7-L",
+    "pp512_same_run_speedup": 1.242926134,
+    "architecture": [
+      "tiled attention Q/K/V/O projections",
+      "fused Q4_K FFN gate+up",
+      "P7-G FFN-down row8 x token16 x K32",
+      "direct packed Q4_K/Q6_K",
+      "GPU-resident KV"
+    ]
+  },
+  "final_negative": {
+    "checkpoint": "P7-O",
     "correctness_pass": true,
-    "wall_speedup": 1.051612109,
-    "min_speedup_gate": 1.1,
-    "decision": "gate+up+SwiGLU fusion rejected; retain P7-L baseline"
+    "wall_speedup": 0.8836691312,
+    "decision": "reject FFN-down K64; retain P7-L"
   },
-  "rationale_p7m": {
-    "ffn_down_share": 0.3042145996,
-    "ffn_down_ticks": 24206436,
-    "barrier_unattributed_share": 0.0002432441345
+  "authoritative_p7o_sha256": {
+    "ab_results": "814D72E96F082575BF160CF8DE02102BA69DDAA79494A07E9EEDE67F39DE6624",
+    "summary": "9C5D3CC11EAE52CC7BF7C55BD2F479F22B0456C113E3BE07E476356700C894B6",
+    "shader_provenance": "59AD51C2DA5D68D01C387592635D675D674490CCC8BCE4B060DB93984B898EC2"
   },
-  "ab": {
-    "pp_tokens": 512,
-    "baseline_prefill_dispatches": 441,
-    "optimized_prefill_dispatches": 441,
-    "decode_dispatches": 469,
-    "baseline_down_k_tile": 32,
-    "optimized_down_k_tile": 64,
-    "row_tile": 8,
-    "token_tile": 16,
-    "workgroup": "8x8",
-    "trials": 3,
-    "min_wall_speedup": 1.1,
-    "decode_unchanged": true
-  },
-  "invariants": {
-    "baseline_exact_p7l": true,
-    "ffn_gate_up_fused_frozen": true,
-    "swiglu_separate_frozen": true,
-    "attention_projection_tiling_frozen": true,
-    "attention_kernel_unchanged": true,
-    "lm_head_unchanged": true,
-    "decode_unchanged": true,
-    "all_weights_resident": true,
-    "kv_gpu_resident": true,
-    "packed_q4k_q6k": true
-  },
-  "gate": {
-    "performance_threshold_pre_registered": true,
-    "min_pp512_speedup": 1.1,
-    "logits_max_abs": 0.02,
-    "logits_rmse": 0.005,
-    "p7_closed_by_this_package": false
-  },
-  "purpose": "test whether halving FFN-down K-tile loop/barrier iterations with K64 yields >=1.10x end-to-end pp512 speedup without correctness regression",
-  "package_revision": "R1",
-  "repair": "fix second token-half K64 accumulation loop in Q4/Q6 shaders; add regression metrics; guard ERROR JSON before scope dereference; scientific contract unchanged"
+  "closeout": {
+    "global_p7_throughput_gate_pre_registered": false,
+    "option_gates_remain_authoritative": true,
+    "production_path_ready": true,
+    "p7_closed": true,
+    "next_phase": "P8"
+  }
 }
