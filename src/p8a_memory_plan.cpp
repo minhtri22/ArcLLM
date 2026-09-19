@@ -15,7 +15,7 @@
 namespace {
 constexpr uint32_t F32=0, Q4_K=12, Q6_K=14;
 constexpr uint64_t QK_K=256, Q4_BYTES=144, Q6_BYTES=210;
-constexpr uint64_t EXPECTED_FILE_BYTES=4683073536ull;
+constexpr uint64_t EXPECTED_FILE_BYTES=4683074048ull;
 constexpr uint64_t ARENA_CAP=268435456ull;
 constexpr uint64_t MAX_CTX=4096ull;
 constexpr uint64_t PREFILL=512ull;

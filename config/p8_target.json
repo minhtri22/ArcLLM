@@ -1,15 +1,17 @@
 {
   "schema": "arcllm.p8.target.v1",
   "phase": "P8",
-  "logical_name": "Qwen/Qwen2.5-Coder-7B-Instruct-GGUF:Q4_K_M",
-  "repo_id": "Qwen/Qwen2.5-Coder-7B-Instruct-GGUF",
-  "revision": "13fb94bfda8c8cf22497dc57b78f391a9acb426a",
-  "filename": "qwen2.5-coder-7b-instruct-q4_k_m.gguf",
-  "download_url": "https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct-GGUF/resolve/13fb94bfda8c8cf22497dc57b78f391a9acb426a/qwen2.5-coder-7b-instruct-q4_k_m.gguf?download=true",
-  "sha256": "509287F78CB4D4CF6B3843734733B914B2C158E43E22A7F4BF5E963800894D3C",
-  "size_bytes": 4683073536,
+  "logical_name": "registry.ollama.ai/library/qwen2.5-coder / local 7B Q4_K_M model layer",
+  "source": "ollama-local",
+  "ollama_repository": "registry.ollama.ai/library/qwen2.5-coder",
+  "manifest_search_relative": "manifests/registry.ollama.ai/library/qwen2.5-coder",
+  "model_layer_media_type": "application/vnd.ollama.image.model",
+  "model_layer_digest": "sha256:60e05f2100071479f596b964f89f510f057ce397ea22f2833a0cfe029bfc2463",
+  "blob_relative": "blobs/sha256-60e05f2100071479f596b964f89f510f057ce397ea22f2833a0cfe029bfc2463",
+  "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+  "size_bytes": 4683074048,
   "architecture_expected": "qwen2",
-  "quantization": "Q4_K_M",
+  "quantization_intent": "Q4_K_M",
   "max_context_initial": 4096,
   "prefill_chunk_initial": 512,
   "arena_cap_bytes": 268435456,
@@ -18,5 +20,14 @@
   "safety_margin_bytes": 2147483648,
   "safety_margin_gib": 2,
   "usable_planned_bytes": 16374562816,
-  "notes": "P8-A freezes this exact artifact before implementation. Budget is the previously observed target-machine Vulkan UMA budget; 2 GiB is reserved before evaluating planned GPU-visible buffers."
+  "superseded_pre_execution_candidate": {
+    "source": "huggingface",
+    "repo_id": "Qwen/Qwen2.5-Coder-7B-Instruct-GGUF",
+    "revision": "13fb94bfda8c8cf22497dc57b78f391a9acb426a",
+    "filename": "qwen2.5-coder-7b-instruct-q4_k_m.gguf",
+    "size_bytes": 4683073536,
+    "sha256": "509287F78CB4D4CF6B3843734733B914B2C158E43E22A7F4BF5E963800894D3C",
+    "reason": "superseded before any P8-A execution because an existing local Ollama model layer is available; byte identity is different, so it is not treated as interchangeable evidence"
+  },
+  "notes": "P8-A-R1 freezes the exact local Ollama model-layer blob. Runtime auto-discovery must resolve the manifest layer to this digest and independently verify actual blob size and SHA256 before planning."
 }

@@ -1,11 +1,18 @@
-# P8-A Implementation
+# P8-A-R1 Implementation
 
-P8-A reuses the repository GGUF parser but intentionally does not use TensorStore because TensorStore maps the entire file. The planner needs only metadata and tensor descriptors.
+Default model resolution is local and offline.
 
-The executable checks exact file size, parses GGUF, derives model dimensions, computes tensor bytes for F32/Q4_K/Q6_K, validates offsets, simulates inherited <=256 MiB arenas, computes production KV and P7-L-equivalent working buffers, and writes deterministic JSON evidence.
+tools/resolve_p8_target.ps1:
+- reads config/p8_target.json;
+- uses OLLAMA_MODELS when set, otherwise %USERPROFILE%/.ollama/models;
+- recursively scans manifests/registry.ollama.ai/library/qwen2.5-coder;
+- selects only application/vnd.ollama.image.model layers matching the frozen digest and size;
+- resolves the frozen content-addressed blob path;
+- checks existence and byte size;
+- outputs the blob path.
 
-run_p8a.ps1 performs the authoritative SHA256 check before invoking the planner.
+run_p8a.ps1 then independently computes SHA256 on the resolved blob before static QA, build and planner execution.
 
-tools/fetch_p8_target.ps1 downloads only the frozen revision/file into .models/ and verifies size + SHA. .models/ remains untracked.
+tools/fetch_p8_target.ps1 is retained only as a compatibility entry point; it performs no network download and delegates to the local resolver.
 
-P8-A performs no Vulkan allocation and no inference.
+The native planner remains metadata-only: no Vulkan instance, GPU allocation, shader compile or inference.

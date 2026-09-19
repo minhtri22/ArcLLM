@@ -24,7 +24,7 @@ P0-P7 are CLOSED. **P8-A — frozen 7B memory-plan-only bring-up** is READY TO R
 
 The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
 
-The P8 target is now frozen to official `Qwen/Qwen2.5-Coder-7B-Instruct-GGUF` Q4_K_M at revision `13fb94bfda8c8cf22497dc57b78f391a9acb426a`, size 4,683,073,536 bytes, SHA256 `509287F78CB4D4CF6B3843734733B914B2C158E43E22A7F4BF5E963800894D3C`. P8-A performs memory planning only; full 7B inference is forbidden until it passes.
+The active P8-A-R1 target is the existing local Ollama model layer for `registry.ollama.ai/library/qwen2.5-coder`, size 4,683,074,048 bytes, SHA256 `60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463`. The earlier Hugging Face candidate was superseded before any P8-A execution because it differs by 512 bytes and has a different SHA. P8-A performs memory planning only; full 7B inference is forbidden until it passes.
 
 ## Roadmap
 
@@ -61,10 +61,10 @@ Rules:
 
 ## Current run
 
-First download/verify the frozen 7B target:
+By default P8-A automatically resolves the frozen model from the local Ollama manifest/blob store. No download is required. Optional resolver check:
 
 ```powershell
-powershell.exe -ExecutionPolicy Bypass -File .\tools\fetch_p8_target.ps1
+powershell.exe -ExecutionPolicy Bypass -File .\tools\resolve_p8_target.ps1
 ```
 
 Then execute the memory-plan-only gate:

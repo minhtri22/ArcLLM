@@ -1,15 +1,24 @@
 {
   "phase": "P8-A",
+  "revision": "R1",
   "date": "2026-09-19",
   "status": "READY_TO_RUN",
-  "title": "7B frozen-target memory-plan-only bring-up",
+  "title": "7B local-Ollama frozen-target memory-plan-only bring-up",
   "parent": "P7 CLOSED; P7-L production path frozen",
   "target": {
-    "repo_id": "Qwen/Qwen2.5-Coder-7B-Instruct-GGUF",
-    "revision": "13fb94bfda8c8cf22497dc57b78f391a9acb426a",
-    "filename": "qwen2.5-coder-7b-instruct-q4_k_m.gguf",
+    "source": "ollama-local",
+    "ollama_repository": "registry.ollama.ai/library/qwen2.5-coder",
+    "model_layer_media_type": "application/vnd.ollama.image.model",
+    "digest": "sha256:60e05f2100071479f596b964f89f510f057ce397ea22f2833a0cfe029bfc2463",
+    "size_bytes": 4683074048,
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "auto_discovery": true
+  },
+  "superseded_pre_execution_target": {
+    "source": "huggingface",
     "size_bytes": 4683073536,
-    "sha256": "509287F78CB4D4CF6B3843734733B914B2C158E43E22A7F4BF5E963800894D3C"
+    "sha256": "509287F78CB4D4CF6B3843734733B914B2C158E43E22A7F4BF5E963800894D3C",
+    "executed": false
   },
   "plan": {
     "max_context": 4096,
@@ -22,8 +31,10 @@
   "gate": {
     "performance_gate": false,
     "full_inference_forbidden_until_pass": true,
+    "exact_blob_identity_required": true,
     "p8a_pass_requires": [
-      "exact target size+SHA",
+      "exact local blob size+SHA",
+      "manifest layer mediaType+digest+size match frozen target",
       "qwen2 metadata",
       "P7-supported F32/Q4_K/Q6_K only",
       "no tensor overlap",
