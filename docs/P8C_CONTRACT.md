@@ -28,8 +28,19 @@ Exactly two compute dispatches are allowed:
 
 CPU references are read from the original mapped GGUF tensor bytes, not from resident GPU output.
 
+Before either dispatch, the executable must independently verify mapping equivalence for every preregistered probe row:
+
+```text
+segment_source_offset + local_row * row_bytes
+==
+tensor_source_offset + global_row * row_bytes
+```
+
+This pre-dispatch address-translation gate is independent of the numerical CPU↔GPU comparison.
+
 ## Correctness gate
 
+- pre-dispatch mapping equivalence passes for all selected embedding and LM-head rows;
 - all outputs finite;
 - embedding compares all 8*3584 = 28672 values;
 - LM-head compares all 8 selected logits;

@@ -19,6 +19,8 @@ for x in ['hidden=3584,vocab=152064','emb_boundary=133152,out_boundary=91304','e
     assert x in s,x
 assert s.count('p8c_embedding_q4k_segmented_probe.spv')==1
 assert s.count('p8c_lmhead_q6k_segmented_probe.spv')==1
+for x in ['mapping_equivalent=[]','emb_mapping_equivalence_pass','lm_mapping_equivalence_pass','P8-C pre-dispatch mapping equivalence failed','mapping_equivalence_pass&&em.pass','mapping_equivalence','mapping_equivalence_pass']:
+    assert x in s,x
 assert 'build_prefill' not in s and 'build_decode' not in s
 e=(ROOT/'shaders/p8c_embedding_q4k_segmented_probe.comp').read_text(encoding='utf-8')
 assert e.count('binding=')==4 and 'row<pc.boundary' in e and 'row-pc.boundary' in e and '*144u' in e
@@ -40,4 +42,5 @@ assert m['phase']=='P8-C' and m['status']=='READY_TO_RUN'
 assert m['authoritative_p8b']['results_sha256']=='127E25B9CA8F8B4C74CDEBAFB6559CAFF078EFFE7F1513BD1A7429FD0E69B3B2'
 assert m['authoritative_p8b']['summary_sha256']=='078FE23DF5B31B3D69162BADC6285D608F0EB1178430E38A56DD0FF827EC2B5C'
 assert m['gate']['performance_gate'] is False and m['gate']['max_abs']==0.02 and m['gate']['rmse']==0.005 and m['gate']['exact_dispatches']==2
+assert m['gate']['mapping_equivalence_required'] is True
 print('ArcLLM P8-C static contract PASS')

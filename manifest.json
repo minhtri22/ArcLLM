@@ -54,7 +54,8 @@
     "finite_required": true,
     "boundary_adjacency_required": true,
     "exact_dispatches": 2,
-    "full_inference_forbidden": true
+    "full_inference_forbidden": true,
+    "mapping_equivalence_required": true
   },
   "next_on_pass": "P8-D segmented access integration into 7B graph",
   "next_on_fail": "adjudicate segmented GPU access correctness before graph integration"

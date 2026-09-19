@@ -1215,6 +1215,27 @@ int main(int argc,char**argv){
 
         std::vector<uint32_t> emb_ids={0u,1u,133150u,133151u,133152u,133153u,152062u,152063u};
         std::vector<uint32_t> lm_rows={0u,1u,91302u,91303u,91304u,91305u,152062u,152063u};
+
+        auto mapping_equivalent=[](uint64_t tensor_offset,uint32_t row_bytes,uint32_t boundary,
+                                   uint64_t segment0_source_offset,uint64_t segment1_source_offset,
+                                   uint32_t global_row){
+            uint64_t local_row=(global_row<boundary)?uint64_t(global_row):uint64_t(global_row-boundary);
+            uint64_t segment_source=(global_row<boundary)?segment0_source_offset:segment1_source_offset;
+            return segment_source+local_row*uint64_t(row_bytes)==
+                   tensor_offset+uint64_t(global_row)*uint64_t(row_bytes);
+        };
+        bool emb_mapping_equivalence_pass=true;
+        for(uint32_t row:emb_ids)
+            emb_mapping_equivalence_pass=emb_mapping_equivalence_pass&&
+                mapping_equivalent(emb->offset,emb_rb,emb_boundary,emb->offset,emb->offset+emb0_bytes,row);
+        bool lm_mapping_equivalence_pass=true;
+        for(uint32_t row:lm_rows)
+            lm_mapping_equivalence_pass=lm_mapping_equivalence_pass&&
+                mapping_equivalent(outw->offset,out_rb,out_boundary,outw->offset,outw->offset+out0_bytes,row);
+        bool mapping_equivalence_pass=emb_mapping_equivalence_pass&&lm_mapping_equivalence_pass;
+        if(!mapping_equivalence_pass)
+            throw std::runtime_error("P8-C pre-dispatch mapping equivalence failed");
+
         std::vector<float> emb_ref(uint64_t(emb_ids.size())*hidden);
         for(size_t i=0;i<emb_ids.size();++i)
             q4k_dequant_row_p8c(emb_ptr+uint64_t(emb_ids[i])*emb_rb,emb_ref.data()+uint64_t(i)*hidden,hidden);
@@ -1256,7 +1277,7 @@ int main(int argc,char**argv){
         bool finite=true;
         for(float v:emb_got)finite=finite&&std::isfinite(v);
         for(float v:lm_got)finite=finite&&std::isfinite(v);
-        bool pass=em.pass&&lm.pass&&boundary_ids&&finite&&stats.dispatch_count==2u&&stats.submit_count==1u;
+        bool pass=mapping_equivalence_pass&&em.pass&&lm.pass&&boundary_ids&&finite&&stats.dispatch_count==2u&&stats.submit_count==1u;
 
         std::ofstream o(out,std::ios::binary);
         if(!o)throw std::runtime_error("cannot write P8-C result JSON");
@@ -1270,10 +1291,11 @@ int main(int argc,char**argv){
         o<<"],\"lm_head\":[";
         for(size_t i=0;i<lm_rows.size();++i){if(i)o<<",";o<<lm_rows[i];}
         o<<"],\"boundary_adjacency_pass\":"<<json_bool(boundary_ids)<<"},\n";
+        o<<"  \"mapping_equivalence\":{\"embedding_pass\":"<<json_bool(emb_mapping_equivalence_pass)<<",\"lm_head_pass\":"<<json_bool(lm_mapping_equivalence_pass)<<",\"pass\":"<<json_bool(mapping_equivalence_pass)<<"},\n";
         o<<"  \"embedding\":{\"compared_values\":"<<emb_ref.size()<<",\"max_abs\":"<<std::setprecision(12)<<em.max_abs<<",\"rmse\":"<<em.rmse<<",\"pass\":"<<json_bool(em.pass)<<"},\n";
         o<<"  \"lm_head\":{\"compared_values\":"<<lm_ref.size()<<",\"max_abs\":"<<lm.max_abs<<",\"rmse\":"<<lm.rmse<<",\"pass\":"<<json_bool(lm.pass)<<"},\n";
         o<<"  \"execution\":{\"dispatches\":"<<stats.dispatch_count<<",\"submits\":"<<stats.submit_count<<",\"fence_waits\":"<<stats.fence_wait_count<<",\"finite_pass\":"<<json_bool(finite)<<"},\n";
-        o<<"  \"gate\":{\"embedding_pass\":"<<json_bool(em.pass)<<",\"lm_head_pass\":"<<json_bool(lm.pass)<<",\"boundary_pass\":"<<json_bool(boundary_ids)<<",\"finite_pass\":"<<json_bool(finite)<<",\"exact_two_dispatches_pass\":"<<json_bool(stats.dispatch_count==2u)<<",\"p8c_pass\":"<<json_bool(pass)<<"}\n";
+        o<<"  \"gate\":{\"mapping_equivalence_pass\":"<<json_bool(mapping_equivalence_pass)<<",\"embedding_pass\":"<<json_bool(em.pass)<<",\"lm_head_pass\":"<<json_bool(lm.pass)<<",\"boundary_pass\":"<<json_bool(boundary_ids)<<",\"finite_pass\":"<<json_bool(finite)<<",\"exact_two_dispatches_pass\":"<<json_bool(stats.dispatch_count==2u)<<",\"p8c_pass\":"<<json_bool(pass)<<"}\n";
         o<<"}\n";o.close();
         std::cout<<"ArcLLM P8-C segmented embedding/LM-head correctness\n";
         std::cout<<"embedding max_abs="<<em.max_abs<<" rmse="<<em.rmse<<" pass="<<em.pass<<"\n";
