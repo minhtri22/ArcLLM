@@ -1,55 +1,48 @@
 {
-  "phase": "P8-A2",
+  "phase": "P8-B",
   "date": "2026-09-19",
   "status": "READY_TO_RUN",
-  "title": "segmented large-tensor memory-plan qualification",
-  "parent": "P8-A-R1 FAIL: capacity PASS; only token_embd.weight and output.weight exceed 256 MiB single-tensor arena contract",
+  "title": "segmented Vulkan residency allocation/copy bring-up",
+  "parent": "P8-A2 PASS",
   "target": {
-    "source": "ollama-local",
     "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
     "size_bytes": 4683074048
   },
-  "authoritative_p8a": {
-    "status": "FAIL",
-    "memory_plan_sha256": "6495545700E4104B05ED7D913ACC728C64329CB92AC894342A690946EDECE31E",
-    "summary_sha256": "C191DC70AEBAEEF733847AFE8B15ECECC95BE112F1041178DD307FE68D981EA9",
-    "failed_gates": [
-      "arena_pack_pass",
-      "no_oversize_tensor_pass"
-    ],
-    "oversize_tensors": [
-      "token_embd.weight",
-      "output.weight"
-    ],
-    "capacity_pass": true,
-    "total_planned_bytes": 5347770372,
-    "usable_budget_bytes": 16374562816,
-    "headroom_bytes": 11026792444
+  "authoritative_p8a2": {
+    "plan_sha256": "7390D579937EDD8748A08D7D72E7DFEC53D7470FA9C86208C2412A33E231D481",
+    "summary_sha256": "2534F8AC68134562F8D0AD1F5CB6464440C368E48659FC0DE1EB051C02B74876",
+    "arena_count": 19,
+    "piece_count": 341,
+    "addressability_pass": true,
+    "total_planned_bytes": 5347770372
   },
-  "hypothesis": "row-aligned physical segmentation of only oversize logical tensors can satisfy the inherited <=256 MiB arena cap without changing packed bytes, quantization semantics, KV, working buffers or total planned memory",
   "frozen": {
     "arena_cap_bytes": 268435456,
     "max_context": 4096,
     "prefill_chunk": 512,
-    "observed_budget_bytes": 18522046464,
-    "safety_margin_bytes": 2147483648,
-    "usable_budget_bytes": 16374562816,
-    "no_vulkan": true,
-    "no_inference": true,
-    "non_oversize_tensors_unsplit": true
+    "weight_bytes": 4677120000,
+    "kv_bytes": 469762048,
+    "working_bytes": 200888324,
+    "total_requested_bytes": 5347770372,
+    "usable_budget_bytes": 16374562816
   },
   "gate": {
     "performance_gate": false,
-    "parent_obstruction_exact_match": true,
-    "row_aligned_segments": true,
-    "every_segment_le_arena_cap": true,
-    "exact_row_coverage": true,
-    "every_piece_contained_once": true,
-    "embedding_addressability_required": true,
-    "lm_head_addressability_required": true,
-    "capacity_formula_unchanged": true,
+    "exact_parent_plan_required": true,
+    "required_memory_flags": [
+      "DEVICE_LOCAL",
+      "HOST_VISIBLE",
+      "HOST_COHERENT"
+    ],
+    "all_19_weight_arenas_simultaneous": true,
+    "full_weight_byte_compare": true,
+    "kv_and_working_simultaneous": true,
+    "exhaustive_segment_row_translation": true,
+    "actual_allocation_le_usable_budget": true,
+    "no_shader": true,
+    "no_dispatch": true,
     "full_inference_forbidden": true
   },
-  "next_on_pass": "P8-B segmented residency allocation/copy bring-up",
-  "next_on_fail": "adjudicate exact remaining segmented-plan obstruction"
+  "next_on_pass": "P8-C segmented embedding/LM-head access correctness bring-up",
+  "next_on_fail": "adjudicate exact residency obstruction without shrinking frozen plan"
 }
