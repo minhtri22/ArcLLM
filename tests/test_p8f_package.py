@@ -7,18 +7,18 @@ REQ=[
  'src/p8f_two_layer_prefix_correctness.cpp',
  'tools/compile_p8f_shaders.ps1','tools/build_p8f.ps1','run_p8f.ps1',
  'manifest.json','P8E_SHA256SUMS.txt',
- 'inputs/p8e_shader_provenance.authoritative.json',
- 'inputs/p8e_single_layer_results.authoritative.json',
- 'inputs/p8e_summary.authoritative.json'
+ 'inputs/p8e_shader_provenance.authoritative.raw',
+ 'inputs/p8e_single_layer_results.authoritative.raw',
+ 'inputs/p8e_summary.authoritative.raw'
 ]
 for r in REQ:
     assert (ROOT/r).is_file(),r
 
-assert hashlib.sha256((ROOT/'inputs/p8e_shader_provenance.authoritative.json').read_bytes()).hexdigest().upper()=='73916DE149A413B835541B95F01FEAF2B87DDDE03C039C3D1ABC0E2A3A115861'
-assert hashlib.sha256((ROOT/'inputs/p8e_single_layer_results.authoritative.json').read_bytes()).hexdigest().upper()=='992A986081FAFC81AC2E6E1A38063384434DE3138CAE469A04A57FED57BDA52B'
-assert hashlib.sha256((ROOT/'inputs/p8e_summary.authoritative.json').read_bytes()).hexdigest().upper()=='EBC4C8088B0992A30D72973DC7485CCF7AA0618B354509A506CC9FDE294B5B9D'
+assert hashlib.sha256((ROOT/'inputs/p8e_shader_provenance.authoritative.raw').read_bytes()).hexdigest().upper()=='73916DE149A413B835541B95F01FEAF2B87DDDE03C039C3D1ABC0E2A3A115861'
+assert hashlib.sha256((ROOT/'inputs/p8e_single_layer_results.authoritative.raw').read_bytes()).hexdigest().upper()=='992A986081FAFC81AC2E6E1A38063384434DE3138CAE469A04A57FED57BDA52B'
+assert hashlib.sha256((ROOT/'inputs/p8e_summary.authoritative.raw').read_bytes()).hexdigest().upper()=='EBC4C8088B0992A30D72973DC7485CCF7AA0618B354509A506CC9FDE294B5B9D'
 
-pe=json.loads((ROOT/'inputs/p8e_single_layer_results.authoritative.json').read_text(encoding='utf-8'))
+pe=json.loads((ROOT/'inputs/p8e_single_layer_results.authoritative.raw').read_text(encoding='utf-8'))
 assert pe['status']=='PASS' and pe['gate']['p8e_pass']
 assert pe['execution']['dispatches']==15 and pe['execution']['submits']==1
 assert pe['execution']['executed_layer']==0 and pe['execution']['executed_layer_count']==1

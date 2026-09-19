@@ -11,9 +11,9 @@ if(-not $ModelPath){
 $f=Get-Item $ModelPath;if($f.Length -ne $ExpectedSize){throw "P8-F target size mismatch"}
 $Hash=(Get-FileHash $ModelPath -Algorithm SHA256).Hash.ToUpperInvariant();if($Hash -ne $ExpectedHash){throw "P8-F target SHA mismatch"}
 
-$ParentShader=Join-Path $Here "inputs\p8e_shader_provenance.authoritative.json"
-$ParentResult=Join-Path $Here "inputs\p8e_single_layer_results.authoritative.json"
-$ParentSummary=Join-Path $Here "inputs\p8e_summary.authoritative.json"
+$ParentShader=Join-Path $Here "inputs\p8e_shader_provenance.authoritative.raw"
+$ParentResult=Join-Path $Here "inputs\p8e_single_layer_results.authoritative.raw"
+$ParentSummary=Join-Path $Here "inputs\p8e_summary.authoritative.raw"
 if((Get-FileHash $ParentShader -Algorithm SHA256).Hash.ToUpperInvariant() -ne "73916DE149A413B835541B95F01FEAF2B87DDDE03C039C3D1ABC0E2A3A115861"){throw "P8-F parent shader SHA mismatch"}
 if((Get-FileHash $ParentResult -Algorithm SHA256).Hash.ToUpperInvariant() -ne "992A986081FAFC81AC2E6E1A38063384434DE3138CAE469A04A57FED57BDA52B"){throw "P8-F parent result SHA mismatch"}
 if((Get-FileHash $ParentSummary -Algorithm SHA256).Hash.ToUpperInvariant() -ne "EBC4C8088B0992A30D72973DC7485CCF7AA0618B354509A506CC9FDE294B5B9D"){throw "P8-F parent summary SHA mismatch"}

@@ -493,3 +493,11 @@ Evidence preservation: each layer has its own intermediate/checkpoint buffers. S
 Provenance: runner verifies byte-exact P8-E parent artifacts, recompiles the same 11 frozen shaders with pinned glslang 16.5.0, and writes fresh P8-F provenance.
 Decision: P8-F is READY_TO_RUN. No scientific verdict exists until target-machine JSON is returned. Build/compiler/environment/static-QA failures are infrastructure only. A layer-0 numerical failure is a P8-E regression; layer-0 PASS followed by a layer-1 first failure is the new cross-layer composition obstruction.
 Next on PASS: P8-G larger bounded-prefix correctness design. Full 28-layer inference remains forbidden.
+
+
+## 2026-09-19 — P8-F parent-evidence transport repair
+Observed before P8-F runtime: static QA and run_p8f.ps1 both rejected the P8-E shader-provenance parent because the SHA256 of the checked-out .json working-tree file did not equal the already frozen authoritative raw SHA256 73916DE149A413B835541B95F01FEAF2B87DDDE03C039C3D1ABC0E2A3A115861. The user-supplied raw P8-E artifact itself still hashes exactly to that frozen value; the scientific parent evidence and P8-E verdict are unchanged.
+Cause class: repository transport / working-tree byte preservation. JSON evidence paths are text files and are not a safe byte-exact transport boundary across Windows line-ending handling.
+Repair: preserve the same authoritative Git blobs under new inputs/*.authoritative.raw paths and add .gitattributes with -text for that transport class. P8-F static QA, runner parent hashing, P8E_SHA256SUMS.txt and C++ parent inputs now use the .raw paths. The decoded/content semantics, frozen SHA256 values, P8-F contract, target, numerical gates, dispatch count, submit count and layer scope are unchanged.
+Classification: package/provenance transport repair only. No P8-F scientific run occurred because execution stopped before static QA/runtime.
+Decision: P8-F remains READY_TO_RUN under the original frozen contract.

@@ -1,0 +1,11 @@
+{
+    "schema":  "arcllm.p8e.summary.v1",
+    "target_sha256":  "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "target_size_bytes":  4683074048,
+    "process_exit_code":  0,
+    "status":  "PASS",
+    "p8e_pass":  true,
+    "full_inference_permitted":  false,
+    "multi_layer_prefix_design_permitted":  true,
+    "next_step":  "P8-F bounded multi-layer-prefix correctness design"
+}
