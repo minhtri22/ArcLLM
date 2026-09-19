@@ -19,3 +19,6 @@ __pycache__/
 # OS noise
 Thumbs.db
 .DS_Store
+
+# Frozen local model artifacts
+.models/

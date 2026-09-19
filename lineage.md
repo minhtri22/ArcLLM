@@ -345,3 +345,15 @@ Next: P8 7B memory-planned runtime. Freeze exact 7B GGUF artifact + SHA256 befor
 Evidence: first P7 closeout static audit stopped on raw SHA256 mismatch for inputs/p7o_shader_provenance.authoritative.json. The user-returned authoritative file is 8,361 bytes with SHA256 59AD51C2DA5D68D01C387592635D675D674490CCC8BCE4B060DB93984B898EC2. Inspection of the committed blob found one transport/transcription omission: compiled entry p7c_ffn_q6k_tiled.comp was missing its spv_bytes=12412 field. P7-O A/B results and summary were already byte-exact, and no scientific value changed.
 Decision: classify as closeout provenance packaging failure only. Replace the provenance file byte-for-byte from the original user upload, preserve inputs/*.json as -text, and strengthen closeout QA to require 18 compiled entries with spv_bytes present on every entry. P7-O FAIL, P7-L frozen winner, and P7 CLOSED remain unchanged.
 Next: rerun tests/test_p7_closeout.py; then proceed to P8 target freeze.
+
+## 2026-09-19 — P8 target freeze
+Evidence: P7 closeout PASS on target. Official Hugging Face repository Qwen/Qwen2.5-Coder-7B-Instruct-GGUF exposes qwen2.5-coder-7b-instruct-q4_k_m.gguf at revision 13fb94bfda8c8cf22497dc57b78f391a9acb426a. Frozen remote file size=4,683,073,536 bytes and SHA256=509287F78CB4D4CF6B3843734733B914B2C158E43E22A7F4BF5E963800894D3C.
+Decision: freeze this exact artifact for P8. Initial context=4096, prefill chunk=512, inherited arena cap=256 MiB. Preserve the previously observed 17.25 GiB target Vulkan budget and reserve 2 GiB before feasibility judgment. No artifact substitution is allowed inside P8-A.
+Next: P8-A memory-plan-only bring-up.
+
+## 2026-09-19 — P8-A implementation
+Question: can the exact frozen 7B Q4_K_M artifact inherit P7-L packed residency without any Vulkan allocation or inference?
+Implementation: native planner reuses GgufReader only; verifies model metadata, quant mix, tensor spans, deterministic <=256 MiB tensor-aware arena packing, single-tensor fit, FP32 KV@4096, and P7-L-equivalent pp512 working buffers. Runner performs authoritative size+SHA verification before planning. Full inference is explicitly forbidden until PASS.
+Gate: exact file identity; qwen2 metadata; F32/Q4_K/Q6_K-only quant mix; non-overlap; no single tensor >256 MiB; every arena <=256 MiB; total planned bytes <=15.25 GiB usable budget after 2 GiB reserve. No performance gate.
+Decision: package READY_TO_RUN. Any FAIL must be adjudicated as a concrete memory-contract obstruction; do not relax arena cap or memory formula post hoc.
+Next on PASS: P8-B residency-allocation bring-up. Next on FAIL: design the minimum architecture change required by the reported obstruction before any full inference.

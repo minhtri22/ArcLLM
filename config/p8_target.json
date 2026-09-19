@@ -1,0 +1,22 @@
+{
+  "schema": "arcllm.p8.target.v1",
+  "phase": "P8",
+  "logical_name": "Qwen/Qwen2.5-Coder-7B-Instruct-GGUF:Q4_K_M",
+  "repo_id": "Qwen/Qwen2.5-Coder-7B-Instruct-GGUF",
+  "revision": "13fb94bfda8c8cf22497dc57b78f391a9acb426a",
+  "filename": "qwen2.5-coder-7b-instruct-q4_k_m.gguf",
+  "download_url": "https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct-GGUF/resolve/13fb94bfda8c8cf22497dc57b78f391a9acb426a/qwen2.5-coder-7b-instruct-q4_k_m.gguf?download=true",
+  "sha256": "509287F78CB4D4CF6B3843734733B914B2C158E43E22A7F4BF5E963800894D3C",
+  "size_bytes": 4683073536,
+  "architecture_expected": "qwen2",
+  "quantization": "Q4_K_M",
+  "max_context_initial": 4096,
+  "prefill_chunk_initial": 512,
+  "arena_cap_bytes": 268435456,
+  "observed_target_vulkan_budget_bytes": 18522046464,
+  "observed_target_vulkan_budget_gib": 17.25,
+  "safety_margin_bytes": 2147483648,
+  "safety_margin_gib": 2,
+  "usable_planned_bytes": 16374562816,
+  "notes": "P8-A freezes this exact artifact before implementation. Budget is the previously observed target-machine Vulkan UMA budget; 2 GiB is reserved before evaluating planned GPU-visible buffers."
+}

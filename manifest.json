@@ -1,41 +1,37 @@
 {
-  "phase": "P7-CLOSEOUT",
+  "phase": "P8-A",
   "date": "2026-09-19",
-  "status": "CLOSED",
-  "title": "Q4_K_M production path closeout",
+  "status": "READY_TO_RUN",
+  "title": "7B frozen-target memory-plan-only bring-up",
+  "parent": "P7 CLOSED; P7-L production path frozen",
   "target": {
-    "model": "Qwen2.5-Coder-1.5B",
-    "sha256": "6A77366395772462C84F0C4D226AC404674327CBE78C01E4391CC7E0C698851E"
+    "repo_id": "Qwen/Qwen2.5-Coder-7B-Instruct-GGUF",
+    "revision": "13fb94bfda8c8cf22497dc57b78f391a9acb426a",
+    "filename": "qwen2.5-coder-7b-instruct-q4_k_m.gguf",
+    "size_bytes": 4683073536,
+    "sha256": "509287F78CB4D4CF6B3843734733B914B2C158E43E22A7F4BF5E963800894D3C"
   },
-  "frozen_winner": {
-    "checkpoint": "P7-L",
-    "pp512_same_run_speedup": 1.242926134,
-    "architecture": [
-      "tiled attention Q/K/V/O projections",
-      "fused Q4_K FFN gate+up",
-      "P7-G FFN-down row8 x token16 x K32",
-      "direct packed Q4_K/Q6_K",
-      "GPU-resident KV"
+  "plan": {
+    "max_context": 4096,
+    "prefill_chunk": 512,
+    "arena_cap_bytes": 268435456,
+    "observed_budget_bytes": 18522046464,
+    "safety_margin_bytes": 2147483648,
+    "usable_budget_bytes": 16374562816
+  },
+  "gate": {
+    "performance_gate": false,
+    "full_inference_forbidden_until_pass": true,
+    "p8a_pass_requires": [
+      "exact target size+SHA",
+      "qwen2 metadata",
+      "P7-supported F32/Q4_K/Q6_K only",
+      "no tensor overlap",
+      "all arenas <=256 MiB",
+      "no single tensor >256 MiB",
+      "planned bytes <= usable budget"
     ]
   },
-  "final_negative": {
-    "checkpoint": "P7-O",
-    "correctness_pass": true,
-    "wall_speedup": 0.8836691312,
-    "decision": "reject FFN-down K64; retain P7-L"
-  },
-  "authoritative_p7o_sha256": {
-    "ab_results": "814D72E96F082575BF160CF8DE02102BA69DDAA79494A07E9EEDE67F39DE6624",
-    "summary": "9C5D3CC11EAE52CC7BF7C55BD2F479F22B0456C113E3BE07E476356700C894B6",
-    "shader_provenance": "59AD51C2DA5D68D01C387592635D675D674490CCC8BCE4B060DB93984B898EC2"
-  },
-  "closeout": {
-    "global_p7_throughput_gate_pre_registered": false,
-    "option_gates_remain_authoritative": true,
-    "production_path_ready": true,
-    "p7_closed": true,
-    "next_phase": "P8"
-  },
-  "package_revision": "R1",
-  "repair": "replace P7-O shader provenance with byte-exact user upload after missing spv_bytes transport omission; closeout decision unchanged"
+  "next_on_pass": "P8-B residency allocation bring-up",
+  "next_on_fail": "adjudicate exact memory-plan obstruction; do not run full inference"
 }

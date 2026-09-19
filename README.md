@@ -20,11 +20,11 @@ Frozen model SHA256:
 
 ## Status
 
-P0-P7 are CLOSED. P8 (7B memory-planned runtime) is NEXT.
+P0-P7 are CLOSED. **P8-A — frozen 7B memory-plan-only bring-up** is READY TO RUN.
 
 The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
 
-The next phase is **P8 — 7B memory-planned runtime**. Before implementation, freeze the exact 7B GGUF artifact and SHA256 as required by `docs/P8_ENTRY_CONTRACT.md`.
+The P8 target is now frozen to official `Qwen/Qwen2.5-Coder-7B-Instruct-GGUF` Q4_K_M at revision `13fb94bfda8c8cf22497dc57b78f391a9acb426a`, size 4,683,073,536 bytes, SHA256 `509287F78CB4D4CF6B3843734733B914B2C158E43E22A7F4BF5E963800894D3C`. P8-A performs memory planning only; full 7B inference is forbidden until it passes.
 
 ## Roadmap
 
@@ -37,7 +37,7 @@ P4  One decoder layer                               CLOSED
 P5  Full decoder residency                          CLOSED
 P6  GPU-resident KV + generation                    CLOSED
 P7  Q4_K_M production path                          CLOSED
-P8  7B memory-planned runtime                       NEXT
+P8  7B memory-planned runtime                       ACTIVE (P8-A)
 P9  Local OpenAI-compatible API                     PLANNED
 P10 Activation/output-aware Q4 research              DEFERRED
 ```
@@ -59,10 +59,27 @@ Rules:
 6. `lineage.md` is append-only.
 7. The target Windows machine pulls the committed checkpoint and returns JSON evidence.
 
-## Current checkpoint
+## Current run
 
-P7 is closed at the frozen P7-L production path. Do not run P7-O as the active candidate.
+First download/verify the frozen 7B target:
 
-P8 implementation is blocked only on freezing the exact 7B GGUF target and SHA256.
+```powershell
+powershell.exe -ExecutionPolicy Bypass -File .\tools\fetch_p8_target.ps1
+```
+
+Then execute the memory-plan-only gate:
+
+```powershell
+powershell.exe -ExecutionPolicy Bypass -File .\run_p8a.ps1
+```
+
+Expected evidence:
+
+```text
+results\p8a_memory_plan.json
+results\p8a_summary.json
+```
+
+Do not run full 7B inference before P8-A PASS.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.
