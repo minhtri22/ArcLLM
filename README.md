@@ -8,7 +8,7 @@ ArcLLM is developed as a research-engineering project rather than as a benchmark
 
 ## Current status
 
-The active checkpoint is **P7-H-R1**.
+The active checkpoint is **P7-I**.
 
 Completed phases:
 
@@ -25,7 +25,7 @@ Completed phases:
 
 The latest executed optimization checkpoint is **P7-G PASS**. On the frozen pp512 fixture, performance improved from the original P7-A baseline of about **7.10 tok/s** to about **96.28 tok/s** after tiled packed-GEMM work, while preserving the frozen correctness gates. These numbers are development measurements for the current fixture, not product guarantees.
 
-P7-H is a **measurement-only re-profile** of the P7-G graph. The first P7-H package invocation was blocked before profiler execution by a stale build-script source path; P7-H-R1 repairs only that packaging/build reference. No P7-H performance result exists yet.
+P7-H is **PASS / frozen**. On the P7-G graph, prefill remained FFN-dominant: gate/up 49.57% plus down 27.39% = about **76.96%** of GPU chain time, while barrier/unattributed time was about 0.025%. P7-I therefore tests exactly one next hypothesis: increase only prefill FFN token reuse from tile16 to tile32; attention projections, attention kernel, LM head, and decode remain frozen.
 
 ## Architecture
 
@@ -62,7 +62,7 @@ tests/       Static package and contract checks
 tools/       Windows build and shader-compilation scripts
 lineage.md   Append-only research/engineering history
 manifest.json Current checkpoint contract
-run_p7h.ps1  Current Windows entry point
+run_p7i.ps1  Current Windows entry point
 ```
 
 Generated binaries, SPIR-V files, downloaded toolchains, and local `results/` output are intentionally excluded from Git.
@@ -73,18 +73,18 @@ On the frozen Windows target machine:
 
 ```powershell
 cd ArcLLM
-powershell.exe -ExecutionPolicy Bypass -File .\run_p7h.ps1
+powershell.exe -ExecutionPolicy Bypass -File .\run_p7i.ps1
 ```
 
 Expected output for the current checkpoint:
 
 ```text
 results\shader_provenance.json
-results\p7h_profile_results.json
-results\p7h_summary.json
+results\p7i_ab_results.json
+results\p7i_summary.json
 ```
 
-Only an executed timestamp profile can close P7-H measurement. A build, package, environment, or provenance problem must not be interpreted as a scientific/performance negative.
+P7-I uses three interleaved pp512 A/B trials with the performance gate frozen at median wall speedup >=1.10x. A build, package, environment, provenance, or shader-compile problem is not a scientific/performance negative.
 
 ## Roadmap
 
@@ -124,7 +124,7 @@ Rules:
 
 ## Provenance and evidence
 
-The active tree carries the authoritative evidence required by the current checkpoint (currently the frozen P7-G A/B result, summary, and shader provenance) together with the complete append-only `lineage.md`. Historical source packages that are not available byte-for-byte are **not reconstructed as fake Git history**. Older run archives remain external backup artifacts and can be imported later as immutable archives with their original SHA values.
+The active tree carries the authoritative evidence required by the current checkpoint (currently the frozen P7-H profile, summary, shader provenance, plus the earlier P7-G baseline evidence) together with the complete append-only `lineage.md`. Historical source packages that are not available byte-for-byte are **not reconstructed as fake Git history**. Older run archives remain external backup artifacts and can be imported later as immutable archives with their original SHA values.
 
 ## Hardware assumptions
 

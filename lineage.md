@@ -241,4 +241,12 @@ Next: select exactly one next bottleneck family from P7-H evidence.
 Evidence: first P7-H invocation passed package audit, target SHA, and all shader compilation/provenance, then native build stopped before execution because `tools/build_p7h.ps1` referenced stale `src/p7h_post_attnproj_profile.cpp` while the packaged profiler source is `src/p7h_post_tile16_profile.cpp`. No P7-H profile measurement occurred.
 Decision: classify as build/package failure only. P7-H graph, shader set, timestamp measurement contract, inherited regressions, and scientific interpretation remain unchanged. R1 points the build script at the packaged source and adds build-script source-path closure to static audit.
 Next: run P7-H-R1 once; only an executed timestamp profile can close P7-H measurement.
+## 2026-09-19 — P7-H PASS / post-tile16 attribution frozen
+Evidence: P7-H executed from Git commit 7e412731cfb8f8ad19b071ae9b32d8463a14ba11 with inherited regressions PASS, Vulkan timestamp_valid_bits=64, all weights/KV resident, packed Q4_K/Q6_K direct, and finite outputs. Prefill chain wall=4477.6328 ms, submit/wait=4472.9068 ms. FFN gate/up=49.57180228% and FFN down=27.38724097%, combined 76.95904325%; barrier/unattributed=0.02478526%. Decode remains FFN-dominant at 57.47858654% combined, with LM head next at 17.43315699%.
+Decision: P7-H PASS and FROZEN. P7 remains OPEN. The next optimization family is prefill FFN packed GEMM; do not change attention, LM head or decode in the same experiment.
+Next: P7-I A/B exactly one hypothesis — increase prefill FFN token tile 16 -> 32.
 
+## 2026-09-19 — P7-I implementation
+Evidence target: live same-run P7-G/tile16 baseline versus tile32 optimized graph, three interleaved pp512 trials. Tile32 Q4_K/Q6_K regression batch=25 exercises all four per-lane token outputs plus tail; full logits/top1 are compared every trial; tg128 path is unchanged.
+Decision: pre-register median pp512 wall speedup >=1.10x with unchanged correctness gates. No gate rescue after result. P7 cannot close in this package.
+Next: target-machine pull/run returns shader_provenance.json, p7i_ab_results.json and p7i_summary.json.

@@ -1,25 +1,28 @@
 {
-  "phase": "P7-H",
+  "phase": "P7-I",
   "date": "2026-09-19",
-  "title": "post-FFN-token-tile16 GPU re-profile",
-  "parent": "P7-G PASS; FFN token tile16 frozen; attention projection tile8 frozen; P7 OPEN",
+  "title": "FFN token-tile32 A/B",
+  "parent": "P7-H PASS; P7-G FFN tile16 frozen; P7 OPEN",
   "target": {
     "model": "Qwen2.5-Coder-1.5B",
     "sha256": "6A77366395772462C84F0C4D226AC404674327CBE78C01E4391CC7E0C698851E"
   },
-  "authoritative_p7g": {
-    "baseline_p7e_pp512_tok_s": 78.62203943,
-    "optimized_pp512_tok_s": 96.28389125,
-    "wall_speedup": 1.224642504,
-    "tg128_unmodified_tok_s": 3.723259824
+  "authoritative_p7h": {
+    "status": "PASS",
+    "prefill_top_family": "ffn_gate_up",
+    "prefill_top_share": 0.4957180228,
+    "prefill_ffn_combined_share": 0.7695904325,
+    "barrier_unattributed_share": 0.00024785263486649386
   },
-  "profile": {
+  "ab": {
     "pp_tokens": 512,
-    "prefill_ffn_token_tile": 16,
-    "prefill_attention_projection_token_tile": 8,
-    "decode_unchanged": true,
-    "timestamp_every_dispatch": true,
-    "top_individual_dispatches": 12
+    "baseline_ffn_token_tile": 16,
+    "optimized_ffn_token_tile": 32,
+    "attention_projection_token_tile": 8,
+    "trials": 3,
+    "min_wall_speedup": 1.1,
+    "regression_batch": 25,
+    "decode_unchanged": true
   },
   "invariants": {
     "attention_kernel_unchanged": true,
@@ -30,13 +33,11 @@
     "packed_q4k_q6k": true
   },
   "gate": {
-    "performance_threshold_applied": false,
-    "measurement_only": true,
-    "requires_inherited_regressions": true,
-    "requires_timestamp_support": true,
+    "performance_threshold_pre_registered": true,
+    "min_pp512_speedup": 1.1,
+    "logits_max_abs": 0.02,
+    "logits_rmse": 0.005,
     "p7_closed_by_this_package": false
   },
-  "purpose": "measure the new dominant GPU-side bottleneck after freezing P7-G before selecting exactly one next optimization family",
-  "package_revision": "R1",
-  "repair": "build script source path corrected; measurement contract unchanged"
+  "purpose": "falsify or support whether doubling FFN token reuse from 16 to 32 produces >=1.10x end-to-end pp512 speedup without correctness regression"
 }

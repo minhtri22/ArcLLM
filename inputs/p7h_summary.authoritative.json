@@ -1,0 +1,19 @@
+﻿{
+    "schema":  "arcllm.p7h.summary.v1",
+    "target_sha256":  "6A77366395772462C84F0C4D226AC404674327CBE78C01E4391CC7E0C698851E",
+    "process_exit_code":  0,
+    "status":  "PASS",
+    "p7g_optimized_pp512_tok_s":  96.28389125,
+    "p7g_pp512_speedup":  1.224642504,
+    "timestamp_valid_bits":  64,
+    "optimized_prefill_profile_wall_ms":  4477.6328,
+    "optimized_prefill_top_category":  "ffn_gate_up",
+    "optimized_prefill_top_share":  0.4957180228,
+    "optimized_prefill_barrier_unattributed_share":  0.00024785263486649386,
+    "decode_profile_wall_ms":  302.3118,
+    "decode_top_category":  "ffn_gate_up",
+    "decode_top_share":  0.3552625379,
+    "decode_barrier_unattributed_share":  0.0034549704650217641,
+    "p7h_gate_pass":  true,
+    "p7_closed":  false
+}
