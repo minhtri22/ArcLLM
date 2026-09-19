@@ -1,0 +1,12 @@
+{
+  "schema":"arcllm.p8c.segmented_access_correctness.v1",
+  "status":"PASS",
+  "target":{"tensor_count":339,"hidden":3584,"vocab":152064},
+  "segments":{"embedding":{"type":"Q4_K","boundary":133152,"row_bytes":2016,"segment_bytes":[268434432,38126592]},"lm_head":{"type":"Q6_K","boundary":91304,"row_bytes":2940,"segment_bytes":[268433760,178634400]}},
+  "probe_rows":{"embedding":[0,1,133150,133151,133152,133153,152062,152063],"lm_head":[0,1,91302,91303,91304,91305,152062,152063],"boundary_adjacency_pass":true},
+  "mapping_equivalence":{"embedding_pass":true,"lm_head_pass":true,"pass":true},
+  "embedding":{"compared_values":28672,"max_abs":0,"rmse":0,"pass":true},
+  "lm_head":{"compared_values":8,"max_abs":2.38418579102e-07,"rmse":1.11027394095e-07,"pass":true},
+  "execution":{"dispatches":2,"submits":1,"fence_waits":1,"finite_pass":true},
+  "gate":{"mapping_equivalence_pass":true,"embedding_pass":true,"lm_head_pass":true,"boundary_pass":true,"finite_pass":true,"exact_two_dispatches_pass":true,"p8c_pass":true}
+}

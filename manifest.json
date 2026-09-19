@@ -1,62 +1,70 @@
 {
-  "phase": "P8-C",
+  "phase": "P8-D",
   "date": "2026-09-19",
-  "status": "READY_TO_RUN",
-  "title": "segmented embedding/LM-head GPU access correctness bring-up",
-  "parent": "P8-B PASS",
+  "status": "DESIGN_FROZEN",
+  "title": "segmented access integration into 7B graph",
+  "parent": "P8-C PASS",
   "target": {
     "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
     "size_bytes": 4683074048
   },
-  "authoritative_p8b": {
-    "results_sha256": "127E25B9CA8F8B4C74CDEBAFB6559CAFF078EFFE7F1513BD1A7429FD0E69B3B2",
-    "summary_sha256": "078FE23DF5B31B3D69162BADC6285D608F0EB1178430E38A56DD0FF827EC2B5C",
-    "requested_bytes": 5347770372,
-    "vulkan_allocation_bytes": 5347770496,
-    "full_weight_compare": true
+  "authoritative_p8c": {
+    "shader_provenance_sha256": "25D7E7D01F033B85692E83C102D269A37E21988D229191BCA5FF51DBC0E118E3",
+    "access_results_sha256": "9773C48A7D895EB3D22B993132854E58BC0668288725E5186E80D3462D4D5340",
+    "summary_sha256": "8620A9089CF9066088F5E30543864D7A17B87F4DC55CEFE1CD10320C01574CD4",
+    "mapping_equivalence_pass": true,
+    "embedding_max_abs": 0,
+    "embedding_rmse": 0,
+    "lm_head_max_abs": 2.38418579102e-7,
+    "lm_head_rmse": 1.11027394095e-7,
+    "dispatches": 2,
+    "submits": 1
   },
-  "segmented_access": {
-    "embedding": {
-      "type": "Q4_K",
-      "boundary": 133152,
-      "row_bytes": 2016,
-      "probe_rows": [
-        0,
-        1,
-        133150,
-        133151,
-        133152,
-        133153,
-        152062,
-        152063
-      ]
-    },
-    "lm_head": {
-      "type": "Q6_K",
-      "boundary": 91304,
-      "row_bytes": 2940,
-      "probe_rows": [
-        0,
-        1,
-        91302,
-        91303,
-        91304,
-        91305,
-        152062,
-        152063
-      ]
-    }
+  "frozen_7b": {
+    "layers": 28,
+    "hidden": 3584,
+    "q_heads": 28,
+    "kv_heads": 4,
+    "head_dim": 128,
+    "ffn": 18944,
+    "vocab": 152064,
+    "planned_context": 4096,
+    "prefill_chunk": 512,
+    "arena_count": 19,
+    "physical_piece_count": 341,
+    "segmented_logical_tensors": [
+      "token_embd.weight",
+      "output.weight"
+    ]
+  },
+  "p8d_scope": {
+    "graph_binding_resolver": true,
+    "exhaustive_tensor_binding": true,
+    "endpoint_embedding_probe": true,
+    "endpoint_lm_head_probe": true,
+    "decoder_layer_execution": false,
+    "prefill_execution": false,
+    "decode_execution": false,
+    "generation": false,
+    "performance_gate": false
   },
   "gate": {
-    "performance_gate": false,
+    "exact_target_required": true,
+    "exact_parent_evidence_required": true,
+    "tensor_census": 339,
+    "arena_count": 19,
+    "physical_piece_count": 341,
+    "exact_segmented_logical_tensor_count": 2,
+    "exhaustive_resolved_span_equivalence": true,
+    "mapping_equivalence_required": true,
     "max_abs": 0.02,
     "rmse": 0.005,
-    "finite_required": true,
-    "boundary_adjacency_required": true,
     "exact_dispatches": 2,
-    "full_inference_forbidden": true,
-    "mapping_equivalence_required": true
+    "exact_submits": 1,
+    "full_inference_forbidden": true
   },
-  "next_on_pass": "P8-D segmented access integration into 7B graph",
-  "next_on_fail": "adjudicate segmented GPU access correctness before graph integration"
+  "implementation_permitted": true,
+  "target_run_permitted": false,
+  "next_on_pass": "P8-E bounded single-layer 7B graph correctness bring-up",
+  "next_on_fail": "adjudicate exact graph-binding obstruction before layer execution"
 }

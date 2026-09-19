@@ -410,3 +410,18 @@ Next on PASS: P8-D segmented access integration into the 7B graph. On package/sh
 Evidence: independent review of the READY_TO_RUN P8-C package found that boundary-focused GPU numerical comparison was implemented, but the separately frozen pre-dispatch mapping-equivalence check from the handoff was omitted. The required invariant is segment_source_offset + local_row*row_bytes == tensor_source_offset + global_row*row_bytes for every preregistered embedding and LM-head probe row.
 Decision: classify as a pre-run harness/contract omission, not a scientific result. Restore only the missing independent address-translation gate; do not change the P8-C hypothesis, probe rows, segmentation geometry, numerical thresholds, dispatch count, quantization, or full-inference prohibition. P8-C remains READY_TO_RUN and has not yet been scientifically adjudicated.
 Next: rerun tests/test_p8c_package.py, then run P8-C on the target machine. Only target-machine JSON may adjudicate P8-C PASS/FAIL.
+
+
+## 2026-09-19 — P8-C PASS / segmented access correctness frozen
+Evidence: target-machine run at commit 65e07b06e1e6bf6f9c514c78fa24cf2579e062c0 passed static contract, pinned shader compile, native build and runtime. Exact target SHA256 remained 60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463. Pre-dispatch mapping equivalence passed independently for embedding and LM-head. Boundary-adjacent probe sets were preserved exactly. Embedding compared 28,672 FP32 values with max_abs=0 and RMSE=0. LM-head compared eight selected logits with max_abs=2.38418579102e-07 and RMSE=1.11027394095e-07. Execution was exactly two dispatches, one submit and one fence wait; all outputs finite. process_exit_code=0 and every P8-C gate is true.
+Build note: MSVC C4505 warnings reported only unused internal helper functions removed by the optimizer; build completed successfully and these warnings do not affect the executed P8-C path.
+Decision: P8-C is a genuine PASS and is FROZEN. The P8-A2 row-segment mapping plus P8-B residency plan is now qualified for graph-level integration at both oversize vocab-tensor endpoints. This does not establish decoder-layer or full-model inference correctness. full_inference_permitted remains false.
+Authoritative evidence SHA256: shader_provenance=25D7E7D01F033B85692E83C102D269A37E21988D229191BCA5FF51DBC0E118E3; p8c_access_results=9773C48A7D895EB3D22B993132854E58BC0668288725E5186E80D3462D4D5340; p8c_summary=8620A9089CF9066088F5E30543864D7A17B87F4DC55CEFE1CD10320C01574CD4.
+Repository preservation: p8c_access_results and p8c_summary are stored byte-exact as authoritative inputs. The shader_provenance raw file was not supplied in chat, so only its user-reported SHA256 is frozen here; no provenance JSON content is fabricated.
+Next: P8-D segmented access integration into the 7B graph.
+
+## 2026-09-19 — P8-D design frozen
+Question: can the existing production graph consume the exact 19-arena/341-piece P8-A2 map through a graph-level tensor-binding resolver without changing non-segmented tensor semantics?
+Design: retain all 7B architecture, quantization, P7-L kernel choices, KV/context and memory assumptions. Resolve ordinary tensors to one physical slice and only token_embd.weight/output.weight to two row-aligned slices. Require exhaustive graph tensor binding and byte-span equivalence. Re-route only the two P8-C endpoint probes through the graph resolver/executor; decoder-layer, prefill, decode and generation execution remain disabled.
+Decision: P8-D contract is DESIGN_FROZEN and implementation is permitted. It is not READY_TO_RUN until code plus static QA are committed.
+Next on P8-D PASS: P8-E bounded single-layer 7B graph correctness bring-up. Full 28-layer inference remains forbidden.
