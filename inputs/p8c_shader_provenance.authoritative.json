@@ -1,0 +1,25 @@
+{
+    "schema":  "arcllm.p8c.shader_provenance.v1",
+    "compiler":  "glslang.exe",
+    "compiler_release":  "16.5.0",
+    "compiler_asset":  "glslang-16.5.0-windows-x86_64-release.zip",
+    "compiler_asset_url":  "https://github.com/KhronosGroup/glslang/releases/download/16.5.0/glslang-16.5.0-windows-x86_64-release.zip",
+    "compiler_asset_sha256":  "06B71298B750268C127F2EE7AE0EF7525E2068120C6C8A3A08B2F58CA6F325CE",
+    "target_env":  "vulkan1.2",
+    "compiled":  [
+                     {
+                         "source":  "p8c_embedding_q4k_segmented_probe.comp",
+                         "source_sha256":  "7CC7B71BF8E4B03E8A5D8C11824D96CFF40AFD085394F3FC627A9CED23333DE4",
+                         "spv":  "p8c_embedding_q4k_segmented_probe.spv",
+                         "spv_sha256":  "561B5B388763D1D9912868B6FD49B579F27BE815A0AC18F27D5C9BFF91A8B056",
+                         "spv_bytes":  8356
+                     },
+                     {
+                         "source":  "p8c_lmhead_q6k_segmented_probe.comp",
+                         "source_sha256":  "CF0BBAD234D1CF6E2A6693FC0B15DA59C885D188CA828E07041D6E22EE6965BF",
+                         "spv":  "p8c_lmhead_q6k_segmented_probe.spv",
+                         "spv_sha256":  "24ADA4471DEC35EAC50F6A909098E46AF4D7D37AA68E4F82EC16B3C9290D2E8D",
+                         "spv_bytes":  10416
+                     }
+                 ]
+}

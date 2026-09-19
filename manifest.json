@@ -18,7 +18,9 @@
     "lm_head_max_abs": 2.38418579102e-7,
     "lm_head_rmse": 1.11027394095e-7,
     "dispatches": 2,
-    "submits": 1
+    "submits": 1,
+    "shader_provenance_raw_preserved": true,
+    "shader_provenance_path": "inputs/p8c_shader_provenance.authoritative.json"
   },
   "frozen_7b": {
     "layers": 28,

@@ -433,3 +433,8 @@ Execution boundary: all 19 weight arenas are allocated, but the only compute ope
 Parent provenance: runner verifies byte-exact P8-A2 plan SHA256 7390D579937EDD8748A08D7D72E7DFEC53D7470FA9C86208C2412A33E231D481, P8-C access SHA256 9773C48A7D895EB3D22B993132854E58BC0668288725E5186E80D3462D4D5340 and P8-C summary SHA256 8620A9089CF9066088F5E30543864D7A17B87F4DC55CEFE1CD10320C01574CD4. The missing raw P8-C shader provenance remains represented only by its frozen hash; P8-D produces fresh provenance for the unchanged shader sources.
 Decision: P8-D is READY_TO_RUN. No scientific verdict exists until target-machine JSON is returned. On package/build/compiler failure, repair infrastructure only. On resolver/span FAIL, adjudicate graph-binding architecture. On numerical FAIL after resolver PASS, adjudicate descriptor propagation before any layer execution.
 Next on PASS: P8-E bounded single-layer 7B graph correctness bring-up. Full 28-layer inference remains forbidden.
+
+
+## 2026-09-19 — P8-C raw shader-provenance preservation completed
+Evidence: the previously missing raw P8-C shader_provenance.json was supplied later. Its exact raw SHA256 is 25D7E7D01F033B85692E83C102D269A37E21988D229191BCA5FF51DBC0E118E3, matching the hash frozen at P8-C closeout. It records glslang 16.5.0 / Vulkan 1.2 and the exact same source/SPIR-V hashes later reproduced by P8-D for both segmented endpoint shaders.
+Decision: provenance gap only is closed. Store the raw file byte-exact as inputs/p8c_shader_provenance.authoritative.json and point P8C_SHA256SUMS.txt at the authoritative input. No P8-C scientific result or gate changes.
