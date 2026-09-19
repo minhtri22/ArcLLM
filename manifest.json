@@ -35,5 +35,7 @@
     "production_path_ready": true,
     "p7_closed": true,
     "next_phase": "P8"
-  }
+  },
+  "package_revision": "R1",
+  "repair": "replace P7-O shader provenance with byte-exact user upload after missing spv_bytes transport omission; closeout decision unchanged"
 }

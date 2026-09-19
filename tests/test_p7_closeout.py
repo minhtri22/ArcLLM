@@ -19,6 +19,11 @@ for r in REQ:
 assert hashlib.sha256((ROOT/'inputs/p7o_ab_results.authoritative.json').read_bytes()).hexdigest().upper() == '814D72E96F082575BF160CF8DE02102BA69DDAA79494A07E9EEDE67F39DE6624'
 assert hashlib.sha256((ROOT/'inputs/p7o_summary.authoritative.json').read_bytes()).hexdigest().upper() == '9C5D3CC11EAE52CC7BF7C55BD2F479F22B0456C113E3BE07E476356700C894B6'
 assert hashlib.sha256((ROOT/'inputs/p7o_shader_provenance.authoritative.json').read_bytes()).hexdigest().upper() == '59AD51C2DA5D68D01C387592635D675D674490CCC8BCE4B060DB93984B898EC2'
+prov=json.loads((ROOT/'inputs/p7o_shader_provenance.authoritative.json').read_text(encoding='utf-8-sig'))
+assert prov['schema']=='arcllm.p7o.shader_provenance.v1'
+assert len(prov['compiled'])==18
+assert all('spv_bytes' in x and isinstance(x['spv_bytes'], int) and x['spv_bytes']>0 for x in prov['compiled'])
+assert next(x for x in prov['compiled'] if x['source']=='p7c_ffn_q6k_tiled.comp')['spv_bytes']==12412
 
 o=json.loads((ROOT/'inputs/p7o_ab_results.authoritative.json').read_text(encoding='utf-8-sig'))
 assert o['status']=='FAIL'

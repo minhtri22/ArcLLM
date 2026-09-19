@@ -96,7 +96,8 @@
                          "source_sha256":  "6B0B91E802B72D2B3720E71BB7DBE82F1C140924D49BE0D58C95E56E51DD2ED2",
                          "spv":  "p7c_ffn_q6k_tiled.spv",
                          "spv_sha256":  "A303F13125F6EDE85A93C6063019622B543DD1A1A30E744CCE266049FD5D328A",
-                   },
+                         "spv_bytes":  12412
+                     },
                      {
                          "source":  "p7g_ffn_q4k_tiled16.comp",
                          "source_sha256":  "97D167DF7F2542989DDC9C4257D801832B2492A435072EE532FACC1D6674149A",
