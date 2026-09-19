@@ -1,7 +1,7 @@
 {
   "phase": "P8-D",
   "date": "2026-09-19",
-  "status": "DESIGN_FROZEN",
+  "status": "READY_TO_RUN",
   "title": "segmented access integration into 7B graph",
   "parent": "P8-C PASS",
   "target": {
@@ -46,7 +46,9 @@
     "prefill_execution": false,
     "decode_execution": false,
     "generation": false,
-    "performance_gate": false
+    "performance_gate": false,
+    "all_19_weight_arenas_allocated": true,
+    "graph_endpoint_buffers_from_resolver": true
   },
   "gate": {
     "exact_target_required": true,
@@ -61,10 +63,12 @@
     "rmse": 0.005,
     "exact_dispatches": 2,
     "exact_submits": 1,
-    "full_inference_forbidden": true
+    "full_inference_forbidden": true,
+    "decoder_layer_dispatches": 0
   },
   "implementation_permitted": true,
-  "target_run_permitted": false,
+  "target_run_permitted": true,
   "next_on_pass": "P8-E bounded single-layer 7B graph correctness bring-up",
-  "next_on_fail": "adjudicate exact graph-binding obstruction before layer execution"
+  "next_on_fail": "adjudicate exact graph-binding obstruction before layer execution",
+  "implementation_commit_pending": false
 }
