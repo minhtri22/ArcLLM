@@ -20,7 +20,7 @@ Frozen model SHA256:
 
 ## Status
 
-P0-P7 are CLOSED. **P8-E is frozen PASS. P8-F — bounded two-layer prefix correctness — is DESIGN_FROZEN / READY_FOR_IMPLEMENTATION.**
+P0-P7 are CLOSED. **P8-E is frozen PASS. P8-F — bounded two-layer prefix correctness — is READY TO RUN.**
 
 The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
 
@@ -37,7 +37,7 @@ P4  One decoder layer                               CLOSED
 P5  Full decoder residency                          CLOSED
 P6  GPU-resident KV + generation                    CLOSED
 P7  Q4_K_M production path                          CLOSED
-P8  7B memory-planned runtime                       ACTIVE (P8-F design)
+P8  7B memory-planned runtime                       ACTIVE (P8-F)
 P9  Local OpenAI-compatible API                     PLANNED
 P10 Activation/output-aware Q4 research              DEFERRED
 ```
@@ -70,9 +70,24 @@ Authoritative P8-E SHA256:
 
 P8-E executed exactly layer 0 at seq=4 through the frozen 19-arena / 341-piece graph-binding plan. All 17 CPU-vs-GPU checkpoints passed. The largest observed error was at K RoPE/K-cache with max_abs ~= 0.00277 and RMSE ~= 0.000176, still well inside the frozen 0.02 / 0.005 gates. Final layer output max_abs ~= 0.000297 and RMSE ~= 1.75e-5. Execution was exactly 15 dispatches, one submit and one decoder layer. Full inference remained forbidden.
 
-P8-F is now **DESIGN_FROZEN / READY_FOR_IMPLEMENTATION**, not READY_TO_RUN. Its contract is in `docs/P8F_CONTRACT.md`.
+P8-F implementation is committed and **READY TO RUN**. Its frozen contract is in `docs/P8F_CONTRACT.md`.
 
-P8-F changes only one scientific variable: layer composition. It executes exactly the prefix layers 0 -> 1 at the same seq=4, with direct GPU hidden-state handoff, independent two-layer CPU reference, 34 checkpoint records, and exact 30 dispatches in one submit.
+Run:
+
+```powershell
+py -3 .\tests\test_p8f_package.py
+powershell.exe -ExecutionPolicy Bypass -File .\run_p8f.ps1
+```
+
+Expected evidence:
+
+```text
+results\p8f_shader_provenance.json
+results\p8f_two_layer_results.json
+results\p8f_summary.json
+```
+
+P8-F changes only one scientific variable: layer composition. It executes exactly prefix layers 0 -> 1 at seq=4 with direct GPU hidden-state handoff, independent two-layer CPU reference, 34 checkpoint records and exact 30 dispatches in one submit.
 
 Full 28-layer inference, decode and generation remain forbidden.
 

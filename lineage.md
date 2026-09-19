@@ -483,3 +483,13 @@ Failure localization: any layer-0 failure is a P8-E regression; layer-0 PASS fol
 Exclusions: no embedding, output_norm, LM-head, decode, sampling, generation, layer 2+, or performance trial.
 Decision: P8-F contract is DESIGN_FROZEN and implementation is permitted. It is not READY_TO_RUN until implementation plus static QA are committed.
 Next on PASS: P8-G larger bounded-prefix correctness design. Full 28-layer inference remains forbidden.
+
+
+## 2026-09-19 — P8-F implementation / READY_TO_RUN
+Implementation: added a bounded two-layer-prefix executable at the exact frozen 7B geometry. It independently reconstructs the 339-tensor graph binding census and exact 19-arena / 341-piece map, validates target formats for layers 0 and 1, and requires every executed-layer tensor to resolve to exactly one physical slice. All 19 weight arenas remain resident.
+CPU reference: the exact P8-E synthetic hidden input is used. CPU layer 0 is computed from original GGUF bytes; CPU layer 1 consumes CPU layer-0 output. No GPU intermediate contributes to CPU expected values.
+GPU composition: one prepared chain contains exactly 30 dispatches and is submitted once. Layer 0 writes gpu[0].out. Layer 1 is wired explicitly with layer1_input=&gpu[0].out and consumes that buffer directly; no host correction, CPU injection, intermediate resubmission, or layer loop is used to invoke execution. The shared per-layer builder contains exactly the frozen 15 P8-E operations and is called explicitly only for layers 0 and 1.
+Evidence preservation: each layer has its own intermediate/checkpoint buffers. Shared K/V caches are sized for exactly two layer regions and use the actual layer index. The run records 17 checkpoints per layer, 34 total, including per-layer K/V rows and final output. Frozen numerical gates remain max_abs<=0.02, RMSE<=0.005 and finite values.
+Provenance: runner verifies byte-exact P8-E parent artifacts, recompiles the same 11 frozen shaders with pinned glslang 16.5.0, and writes fresh P8-F provenance.
+Decision: P8-F is READY_TO_RUN. No scientific verdict exists until target-machine JSON is returned. Build/compiler/environment/static-QA failures are infrastructure only. A layer-0 numerical failure is a P8-E regression; layer-0 PASS followed by a layer-1 first failure is the new cross-layer composition obstruction.
+Next on PASS: P8-G larger bounded-prefix correctness design. Full 28-layer inference remains forbidden.

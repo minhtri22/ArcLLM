@@ -1,7 +1,7 @@
 {
   "phase": "P8-F",
   "date": "2026-09-19",
-  "status": "DESIGN_FROZEN",
+  "status": "READY_TO_RUN",
   "title": "bounded two-layer prefix correctness",
   "parent": "P8-E PASS",
   "target": {
@@ -58,7 +58,10 @@
     "lm_head_execution": false,
     "decode_execution": false,
     "generation": false,
-    "performance_gate": false
+    "performance_gate": false,
+    "layer0_layer1_all_single_piece_required": true,
+    "per_layer_operation_dispatches": 15,
+    "shader_count": 11
   },
   "gate": {
     "exact_target_required": true,
@@ -76,10 +79,13 @@
     "both_layer_final_outputs_required": true,
     "both_layers_kv_rows_required": true,
     "direct_gpu_handoff_required": true,
-    "full_inference_forbidden": true
+    "full_inference_forbidden": true,
+    "layer0_regression_must_pass": true,
+    "layer1_composition_must_pass": true
   },
   "implementation_permitted": true,
-  "target_run_permitted": false,
+  "target_run_permitted": true,
   "next_on_pass": "P8-G larger bounded-prefix correctness design",
-  "next_on_fail": "adjudicate first failing P8-F checkpoint"
+  "next_on_fail": "adjudicate first failing P8-F checkpoint",
+  "implementation_commit_pending": false
 }
