@@ -1,0 +1,130 @@
+{
+    "schema":  "arcllm.p7k.shader_provenance.v1",
+    "compiler":  "glslang.exe",
+    "compiler_release":  "16.5.0",
+    "compiler_asset":  "glslang-16.5.0-windows-x86_64-release.zip",
+    "compiler_asset_url":  "https://github.com/KhronosGroup/glslang/releases/download/16.5.0/glslang-16.5.0-windows-x86_64-release.zip",
+    "compiler_asset_sha256":  "06B71298B750268C127F2EE7AE0EF7525E2068120C6C8A3A08B2F58CA6F325CE",
+    "target_env":  "vulkan1.2",
+    "compiled":  [
+                     {
+                         "source":  "p7_add.comp",
+                         "source_sha256":  "B0020A0E6754AE7753C8E246FA9E32D5EEE6880677E1A36AF72899BE21C5D7AC",
+                         "spv":  "p7_add.spv",
+                         "spv_sha256":  "189794B3BAE7CE6F3661E1407748F9DDEE5F7C384DC137D0D9B6BAB7200C9378",
+                         "spv_bytes":  1652
+                     },
+                     {
+                         "source":  "p7_attention_kv_online.comp",
+                         "source_sha256":  "2D9590773398D8AE35D2C9447B7593ABD172A458584B1D6531CE047D346FBABB",
+                         "spv":  "p7_attention_kv_online.spv",
+                         "spv_sha256":  "0A6AB679398B0A71CC812D338850D791981A19A935333E92A6E2693BE0E4DE74",
+                         "spv_bytes":  6324
+                     },
+                     {
+                         "source":  "p7_attention_prefill_online.comp",
+                         "source_sha256":  "8B57A8F7B8692FA35AE26F541665A9F0B2A01BD19247D9193BF0BCB9F7906413",
+                         "spv":  "p7_attention_prefill_online.spv",
+                         "spv_sha256":  "90778E1C9C82CC1A5A22C4D0A1208EB85D9AB00F25BB29BB3F6646E5E665DC3C",
+                         "spv_bytes":  6312
+                     },
+                     {
+                         "source":  "p7_embedding_q6k.comp",
+                         "source_sha256":  "E07FA9870D8DE7DF361D7DB06D5D0E3483102ADF836D54C09CA9AD50E83E11E7",
+                         "spv":  "p7_embedding_q6k.spv",
+                         "spv_sha256":  "16F61839B3EE20846E15F368CFBF5D48933D16A6E017A64940842B0D4BE3E4DE",
+                         "spv_bytes":  7976
+                     },
+                     {
+                         "source":  "p7_kv_store.comp",
+                         "source_sha256":  "7C8F26B1FF8C7B4BE5E8AC4ACCA46708D47F5F9E3B7D59C9E7D486F49F02BB7D",
+                         "spv":  "p7_kv_store.spv",
+                         "spv_sha256":  "FA4F9F71F700EACC91F4910E061936D22EBEAC293B34C79A42696F0735B59686",
+                         "spv_bytes":  2960
+                     },
+                     {
+                         "source":  "p7_lmhead_q6k_chunk.comp",
+                         "source_sha256":  "5E0F8867E0B5AA45CD2E52AE2E4C2A02B6CA94B7C94B1594FEF7C06CCD6EFDCD",
+                         "spv":  "p7_lmhead_q6k_chunk.spv",
+                         "spv_sha256":  "B227226965E84947F6ECBBD2497E2BE52A09EE7405AB29638A716C76BE20AB8A",
+                         "spv_bytes":  8528
+                     },
+                     {
+                         "source":  "p7_q4k_gemm_2d.comp",
+                         "source_sha256":  "7125252B74FEE89A0697B7E8917637346A7ED1F30472DF6CF27EB7518F3A906B",
+                         "spv":  "p7_q4k_gemm_2d.spv",
+                         "spv_sha256":  "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A",
+                         "spv_bytes":  8260
+                     },
+                     {
+                         "source":  "p7_q6k_gemm_2d.comp",
+                         "source_sha256":  "95335DF6E3FD592EA19B5707C9EEFE2FD23CA6472A98EA3002E6604D35892D56",
+                         "spv":  "p7_q6k_gemm_2d.spv",
+                         "spv_sha256":  "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67",
+                         "spv_bytes":  9480
+                     },
+                     {
+                         "source":  "p7_rmsnorm_seq.comp",
+                         "source_sha256":  "3C8E2D083CEBC458AE8051B7C2149C7C3907AF363F264EC57D7C4A2D586C1A70",
+                         "spv":  "p7_rmsnorm_seq.spv",
+                         "spv_sha256":  "AC92BCAD6F39E0A1FB8D77AA6D8D58DAB630D3237BBAA85E29722DDB5BBB6336",
+                         "spv_bytes":  4108
+                     },
+                     {
+                         "source":  "p7_rope_seq.comp",
+                         "source_sha256":  "E2482AF22888DE9BD2AD31E8CAE137E4F6B4764DBD94E9E8D08AFCBC53C46366",
+                         "spv":  "p7_rope_seq.spv",
+                         "spv_sha256":  "865BFFEFFCFA0449CBBDDD33EA405F2E6F37546017F8DC394B547BB163ABFAD3",
+                         "spv_bytes":  3864
+                     },
+                     {
+                         "source":  "p7_swiglu.comp",
+                         "source_sha256":  "79D333DDDD1840FC2B0B06A2E3664E4355D8E73526866E044F5CB9640F370AF7",
+                         "spv":  "p7_swiglu.spv",
+                         "spv_sha256":  "D3E9F2AD2706DB335853823443F04F31830D37EF49B6A273806FAEE81B73459F",
+                         "spv_bytes":  1836
+                     },
+                     {
+                         "source":  "p7c_ffn_q4k_tiled.comp",
+                         "source_sha256":  "17DFD9B03C0571F2930C3C9D1DBB31E263485327C7DB52FE2540A3BEA3F2B55E",
+                         "spv":  "p7c_ffn_q4k_tiled.spv",
+                         "spv_sha256":  "38BE2A2470AD8CB6925CB005C992B515BC5AB8306428A5F14E9F478FD023FF54",
+                         "spv_bytes":  11136
+                     },
+                     {
+                         "source":  "p7c_ffn_q6k_tiled.comp",
+                         "source_sha256":  "6B0B91E802B72D2B3720E71BB7DBE82F1C140924D49BE0D58C95E56E51DD2ED2",
+                         "spv":  "p7c_ffn_q6k_tiled.spv",
+                         "spv_sha256":  "A303F13125F6EDE85A93C6063019622B543DD1A1A30E744CCE266049FD5D328A",
+                         "spv_bytes":  12412
+                     },
+                     {
+                         "source":  "p7g_ffn_q4k_tiled16.comp",
+                         "source_sha256":  "97D167DF7F2542989DDC9C4257D801832B2492A435072EE532FACC1D6674149A",
+                         "spv":  "p7g_ffn_q4k_tiled16.spv",
+                         "spv_sha256":  "5BD995EAA8381E64995AD108C7FEB88D02AA67905CB359BDC5B4CF95D4DE349F",
+                         "spv_bytes":  12692
+                     },
+                     {
+                         "source":  "p7g_ffn_q6k_tiled16.comp",
+                         "source_sha256":  "7D28AEEB5829759D9C0DAB973C5135F0928157AF00A42A8C8DFFC7324E49BE7C",
+                         "spv":  "p7g_ffn_q6k_tiled16.spv",
+                         "spv_sha256":  "00E2E4767FDBBADD261F5002B2ACEB8BA12798825BD5B4CD51ED8C2C1F02803C",
+                         "spv_bytes":  13984
+                     },
+                     {
+                         "source":  "p7k_ffn_q4k_row16.comp",
+                         "source_sha256":  "135A5681051A3F2FF71ABC2338A0D3637EF5DCEBE4E34DB8ED621DA690E8B04B",
+                         "spv":  "p7k_ffn_q4k_row16.spv",
+                         "spv_sha256":  "E369D0A4A35E8F8EC0B3B457404A5F136C4BCD63B0349F1B9A0F15063338C593",
+                         "spv_bytes":  15636
+                     },
+                     {
+                         "source":  "p7k_ffn_q6k_row16.comp",
+                         "source_sha256":  "243AD9B1174E775E3F7770E34291C9ADAAF4A07FFFD2E141CC1ABE7251080296",
+                         "spv":  "p7k_ffn_q6k_row16.spv",
+                         "spv_sha256":  "F9CD820908976D900782B58646BAAA4C233A5E0A04A9FD266A37FAE4161BB5F5",
+                         "spv_bytes":  16928
+                     }
+                 ]
+}

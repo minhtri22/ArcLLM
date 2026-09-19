@@ -22,9 +22,9 @@ Frozen model SHA256:
 
 P0-P6 are CLOSED. P7 (Q4_K_M production path) is OPEN.
 
-The strongest frozen prefill baseline remains P7-G: FFN row8 x token16 plus tiled attention projections. P7-I (token tile32) and P7-J (block-aware vec4 dequant) are genuine performance negatives: both preserve correctness but miss the pre-registered >=1.10x speedup gate.
+The strongest frozen prefill baseline remains P7-G: FFN row8 x token16 plus tiled attention projections. P7-I (token tile32), P7-J (block-aware vec4 dequant), and P7-K (row tile16) are genuine performance negatives: all preserve correctness but miss the pre-registered >=1.10x speedup gate. P7-K reached 1.06845x but is not promoted because the gate was frozen in advance.
 
-The active experiment is **P7-K**: increase only FFN output-row tile 8 -> 16 while keeping token tile16, K32, workgroup 8x8, attention projections, attention kernel, LM head and decode unchanged.
+The active experiment is **P7-L**: fuse the Q4_K FFN gate and up GEMMs into one dispatch per layer while keeping P7-G row8 x token16 geometry, FFN down, attention projections, attention kernel, LM head and decode unchanged.
 
 ## Roadmap
 
@@ -64,16 +64,16 @@ Rules:
 ```powershell
 git pull
 git rev-parse HEAD
-py -3 .\tests\test_p7k_package.py
-powershell.exe -ExecutionPolicy Bypass -File .\run_p7k.ps1
+py -3 .\tests\test_p7l_package.py
+powershell.exe -ExecutionPolicy Bypass -File .\run_p7l.ps1
 ```
 
 Expected evidence:
 
 ```text
 results\shader_provenance.json
-results\p7k_ab_results.json
-results\p7k_summary.json
+results\p7l_ab_results.json
+results\p7l_summary.json
 ```
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.

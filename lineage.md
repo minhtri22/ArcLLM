@@ -280,3 +280,13 @@ Next: target-machine pull/run returns shader_provenance.json, p7k_ab_results.jso
 Evidence: the first P7-K static audit stopped before shader compile/build because inputs/p7j_summary.authoritative.json on GitHub was not byte-identical to the user-returned P7-J summary. The committed blob had a transport transcription error in key pp512_wall_speedup (stored as pp512_wal_speedup). p7j_ab_results and p7j_shader_provenance were independently checked and remain byte-exact.
 Decision: classify as repository/provenance packaging failure only. Replace only p7j_summary.authoritative.json with the exact user-uploaded bytes; P7-K hypothesis, shaders, graph, correctness gates and >=1.10x performance gate are unchanged.
 Next: rerun P7-K static audit; only an executed A/B run can produce a scientific P7-K verdict.
+
+## 2026-09-19 — P7-K FAIL / row-tile16 rejected
+Evidence: inherited regressions PASS; row16 Q4_K/Q6_K regressions PASS with max_abs ~2.38e-7 / 3.87e-7. Three live same-run pp512 A/B trials preserved exact top1 and logits. Median baseline=5,807.862 ms (88.1563646 tok/s), optimized=5,435.8025 ms (94.19032424 tok/s), wall speedup=1.068446103x versus pre-registered >=1.10x gate. Decode path remained unchanged and finite at 3.225888286 tok/s.
+Decision: P7-K is a genuine performance negative and is FROZEN. Although row16 improves same-run pp512 by ~6.84%, it does not meet the frozen gate and is not promoted. Do not try row32 mechanically. P7-G row8 x token16 remains the frozen FFN baseline.
+Next: P7-L, exactly one architectural hypothesis: fuse Q4_K FFN gate+up so both weight matrices share one activation-tile load and one dispatch/barrier schedule; keep FFN down and all non-FFN paths unchanged.
+
+## 2026-09-19 — P7-L implementation
+Evidence target: three interleaved pp512 A/B trials against the live P7-G baseline. Baseline uses 56 gate/up GEMM dispatches across 28 layers; optimized uses 28 fused gate+up dispatches. Fused specialized regression compares both real layer-0 gate and up outputs to CPU references. Attention projections, attention kernel, LM head, FFN down and decode remain unchanged.
+Decision: pre-register median pp512 wall speedup >=1.10x with unchanged logits max_abs<=0.02, RMSE<=0.005, and exact top1 gates. P7 remains OPEN regardless of outcome.
+Next: target-machine pull/run returns shader_provenance.json, p7l_ab_results.json and p7l_summary.json.

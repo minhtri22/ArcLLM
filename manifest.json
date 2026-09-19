@@ -1,32 +1,33 @@
 {
-  "phase": "P7-K",
+  "phase": "P7-L",
   "date": "2026-09-19",
-  "title": "FFN row-tile16 A/B",
-  "parent": "P7-J FAIL performance; P7-G row8/token16 remains frozen baseline; P7 OPEN",
+  "title": "FFN gate+up fusion A/B",
+  "parent": "P7-K FAIL performance; P7-G row8/token16 remains frozen baseline; P7 OPEN",
   "target": {
     "model": "Qwen2.5-Coder-1.5B",
     "sha256": "6A77366395772462C84F0C4D226AC404674327CBE78C01E4391CC7E0C698851E"
   },
-  "authoritative_p7j": {
+  "authoritative_p7k": {
     "status": "FAIL",
     "correctness_pass": true,
-    "wall_speedup": 0.9821774944,
+    "wall_speedup": 1.068446103,
     "min_speedup_gate": 1.1,
-    "decision": "vec4 dequant rejected; retain P7-G tile16"
+    "decision": "row16 rejected; retain P7-G baseline"
   },
   "ab": {
     "pp_tokens": 512,
-    "baseline_ffn_row_tile": 8,
-    "optimized_ffn_row_tile": 16,
+    "baseline_gate_up_dispatches": 56,
+    "optimized_fused_dispatches": 28,
+    "ffn_row_tile": 8,
     "ffn_token_tile": 16,
     "tile_k": 32,
     "workgroup": "8x8",
     "trials": 3,
     "min_wall_speedup": 1.1,
-    "regression_batch": 9,
     "decode_unchanged": true
   },
   "invariants": {
+    "ffn_down_unchanged": true,
     "attention_projection_tiling_frozen": true,
     "attention_kernel_unchanged": true,
     "lm_head_unchanged": true,
@@ -42,5 +43,5 @@
     "logits_rmse": 0.005,
     "p7_closed_by_this_package": false
   },
-  "purpose": "falsify or support whether doubling FFN output-row reuse from 8 to 16 at frozen token16 yields >=1.10x end-to-end pp512 speedup without correctness regression"
+  "purpose": "test whether sharing activation loads and dispatch/barrier overhead across FFN gate+up provides >=1.10x end-to-end pp512 speedup without correctness regression"
 }
