@@ -452,3 +452,12 @@ Design: execute one layer only, sequence length 4, position base 0, deterministi
 Exclusions: no embedding, output_norm, LM-head, decode, sampling, generation, second layer or performance trial.
 Decision: P8-E contract is DESIGN_FROZEN and implementation is permitted. It is not READY_TO_RUN until implementation plus static QA are committed.
 Next on PASS: P8-F bounded multi-layer-prefix correctness design. Full 28-layer inference remains forbidden.
+
+
+## 2026-09-19 — P8-E implementation / READY_TO_RUN
+Implementation: added a bounded layer-0 executable at the exact frozen 7B geometry. The executable independently rebuilds the P8-D 339-tensor binding census and exact 19-arena / 341-piece map, requires every layer-0 tensor to resolve to exactly one slice, keeps all 19 weight arenas resident, and uses resolved arena/base pairs for every GPU weight access. CPU reference values are generated directly from original GGUF bytes and never from GPU intermediates.
+Execution: frozen synthetic hidden input, seq=4, pos_base=0, layer=0 only. The prepared GPU chain is exactly 15 dispatches in one submit: attention RMSNorm; Q/K/V projections; Q/K RoPE; layer-0 KV store; causal GQA; output projection; attention residual; FFN RMSNorm; fused P7-L gate+up; SwiGLU; P7-G FFN down; FFN residual. The V projection and FFN-down select Q4_K or Q6_K from the exact target format. No embedding, output_norm, LM-head, decode, generation, second layer or performance path is constructed.
+Observation contract: 17 CPU-vs-GPU checkpoints are preserved, including K/V cache rows for positions 0..3 and mandatory final layer output. Every floating checkpoint retains max_abs<=0.02 and RMSE<=0.005 plus finite-value requirement. Exact execution gates remain 15 dispatches, one submit, exactly one decoder layer, layer index 0.
+Provenance: runner verifies byte-exact authoritative P8-D evidence before static QA/build/run and produces fresh provenance for the 11 required frozen shaders using pinned glslang 16.5.0.
+Decision: P8-E is READY_TO_RUN. No scientific verdict exists until target-machine JSON is returned. Build/compiler/environment errors remain infrastructure failures only. A numerical FAIL is adjudicated at the first failing checkpoint; no additional layers may run.
+Next on PASS: P8-F bounded multi-layer-prefix correctness design. Full 28-layer inference remains forbidden.

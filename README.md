@@ -20,7 +20,7 @@ Frozen model SHA256:
 
 ## Status
 
-P0-P7 are CLOSED. **P8-D is frozen PASS. P8-E — bounded single-layer 7B graph correctness — is DESIGN_FROZEN / READY_FOR_IMPLEMENTATION.**
+P0-P7 are CLOSED. **P8-D is frozen PASS. P8-E — bounded single-layer 7B graph correctness — is READY TO RUN.**
 
 The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
 
@@ -37,7 +37,7 @@ P4  One decoder layer                               CLOSED
 P5  Full decoder residency                          CLOSED
 P6  GPU-resident KV + generation                    CLOSED
 P7  Q4_K_M production path                          CLOSED
-P8  7B memory-planned runtime                       ACTIVE (P8-E design)
+P8  7B memory-planned runtime                       ACTIVE (P8-E)
 P9  Local OpenAI-compatible API                     PLANNED
 P10 Activation/output-aware Q4 research              DEFERRED
 ```
@@ -70,8 +70,23 @@ Authoritative P8-D SHA256:
 
 P8-D resolved 339/339 graph tensors with zero missing or ambiguous bindings, retained exactly 19 arenas / 341 pieces / two segmented logical tensors, passed exhaustive span and global-coverage equivalence, and executed exactly two endpoint dispatches in one submit with decoder_layer_dispatches=0. Embedding remained exact; selected LM-head logits remained within ~2.38e-7 max_abs.
 
-P8-E is now **DESIGN_FROZEN / READY_FOR_IMPLEMENTATION**, not READY_TO_RUN. Its contract is in `docs/P8E_CONTRACT.md`.
+P8-E implementation is committed and **READY TO RUN**. Its frozen contract is in `docs/P8E_CONTRACT.md`.
 
-P8-E permits exactly one decoder layer (layer 0) at sequence length 4, with deterministic synthetic hidden input and full CPU-vs-GPU checkpoint comparison. Full 28-layer inference, decode and generation remain forbidden.
+Run:
+
+```powershell
+py -3 .\tests\test_p8e_package.py
+powershell.exe -ExecutionPolicy Bypass -File .\run_p8e.ps1
+```
+
+Expected evidence:
+
+```text
+results\p8e_shader_provenance.json
+results\p8e_single_layer_results.json
+results\p8e_summary.json
+```
+
+P8-E permits exactly one decoder layer (layer 0) at sequence length 4, with deterministic synthetic hidden input and full CPU-vs-GPU checkpoint comparison across 17 recorded checkpoints. Full 28-layer inference, decode and generation remain forbidden.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.
