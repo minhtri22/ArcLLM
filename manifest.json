@@ -1,7 +1,7 @@
 {
   "phase": "P8-G1",
   "date": "2026-09-19",
-  "status": "DESIGN_FROZEN",
+  "status": "READY_TO_RUN",
   "title": "L3 FFN-down causal decomposition",
   "parent": "P8-G FAIL",
   "target": {
@@ -65,10 +65,23 @@
     "parent_reproduction_required": true
   },
   "implementation_permitted": true,
-  "target_run_permitted": false,
+  "target_run_permitted": true,
   "p8g_verdict_frozen": "FAIL",
   "p8h_blocked": true,
   "full_inference_forbidden": true,
   "next_on_completion": "adjudicate P8-G1 causal decomposition",
-  "implementation_commit_pending": true
+  "implementation_commit_pending": false,
+  "implementation": {
+    "prefix_scope": "L0-L2 full; L3 through SwiGLU",
+    "prefix_dispatches": 58,
+    "prefix_submits": 1,
+    "diagnostic_dispatches": 4,
+    "diagnostic_submits": 1,
+    "shader_count": 11,
+    "cpu_teacher_forcing_prefix": false,
+    "diagnostic_cpu_teacher_forcing": true,
+    "parent_metric_reproduction_required": true,
+    "c0_parent_failure_reproduction_required": true,
+    "p8g_verdict_change_permitted": false
+  }
 }

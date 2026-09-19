@@ -563,3 +563,16 @@ Pre-registered hypotheses: H-KERNEL (P7-G Q4 tiled16 implementation defect), H-A
 Design: reproduce X_CPU and X_GPU at L3.swiglu, then compute exact-weight CPU and GPU down projections on both inputs. GPU A/B uses P7-G q4 tiled16 and P7-C q4 tiled8 with the same blk.3.ffn_down.weight and exact n=18944, rows=3584, batch=4 geometry. The two shaders share the same Q4_K dequantization logic but differ in tiling/shared-X execution structure, making this a controlled implementation discriminator.
 Required outputs: Y_CC, Y_CG, Y_GC_P7G, Y_GG_P7G, Y_GC_P7C, Y_GG_P7C. Parent P8-G actual-path failure must reproduce. Frozen correctness gates remain max_abs<=0.02, RMSE<=0.005, finite values. Teacher-forced CPU input is diagnostic only and cannot revise the frozen P8-G verdict.
 Decision: P8-G1 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION. Target run is not yet permitted. P8-H and full inference remain forbidden.
+
+
+## 2026-09-19 — P8-G1 implementation / READY_TO_RUN
+Implementation follows the frozen causal-decomposition contract without shader or gate changes.
+Stage 1 reconstructs the original direct GPU prefix through L3 SwiGLU only: L0-L2 execute the full 15-op decoder chain and L3 executes the first 13 ops through SwiGLU, for exactly 58 dispatches in one submit. Direct hidden-state handoff remains L0->L1->L2->L3. CPU teacher forcing is absent from this prefix stage.
+Independent CPU reference computes the same four-layer prefix and retains X_CPU=L3 CPU SwiGLU. After Stage 1, X_GPU is read from the actual GPU L3 SwiGLU buffer. X_GPU vs X_CPU is required to reproduce the frozen P8-G L3.swiglu metrics.
+Focus binding is blk.3.ffn_down.weight only. The executable requires Q4_K, n=18944, rows=3584, batch=4, one physical slice, and exact equality between the P8-D/P8-G arena mapping and the original GGUF tensor byte span.
+CPU outputs are Y_CC=CPU_down(X_CPU) and Y_CG=CPU_down(X_GPU).
+Stage 2 uses the exact same resident weight to execute exactly four GPU diagnostic dispatches in one separate submit: P7-G Q4_K tiled16 on X_CPU/X_GPU and P7-C Q4_K tiled8 on X_CPU/X_GPU. No weight conversion or re-encoding occurs.
+Comparisons C0-C6 retain finite values, max_abs<=0.02 and RMSE<=0.005. C0 must reproduce the original P8-G L3.ffn_down failure; otherwise the diagnostic is INVALID and no causal adjudication is accepted.
+Classification logic implements H-KERNEL, H-COMMON-Q4, H-AMPLIFICATION, H-INTERACTION, the separately named input-dependent tiled-kernel sensitivity case, INCONCLUSIVE, and PARENT_REPRODUCTION_FAILED exactly as bounded by the contract.
+P8-G remains frozen FAIL regardless of P8-G1 classification. P8-H and full inference remain forbidden.
+Decision: P8-G1 READY_TO_RUN. No P8-G1 causal verdict exists until target-machine JSON evidence is returned.

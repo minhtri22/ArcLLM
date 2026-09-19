@@ -20,7 +20,7 @@ Frozen model SHA256:
 
 ## Status
 
-P0-P7 are CLOSED. **P8-G is frozen FAIL at L3.ffn_down. P8-G1 — L3 FFN-down causal decomposition — is DESIGN_FROZEN / READY_FOR_IMPLEMENTATION.**
+P0-P7 are CLOSED. **P8-G is frozen FAIL at L3.ffn_down. P8-G1 — L3 FFN-down causal decomposition — is READY TO RUN.**
 
 The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
 
@@ -70,9 +70,24 @@ Authoritative P8-G SHA256:
 
 P8-G correctly executed layers [0,1,2,3] with 60 dispatches / one submit and direct GPU handoff. L0-L2 fully passed. L3 passed through SwiGLU, then first failed at `L3.ffn_down`: max_abs ~= 0.028328 exceeded the frozen 0.02 gate while RMSE ~= 0.00036484 remained below 0.005. L3 ffn_down is Q4_K whereas L0-L2 ffn_down are Q6_K.
 
-P8-G1 is **DESIGN_FROZEN / READY_FOR_IMPLEMENTATION**. Contract: `docs/P8G1_CONTRACT.md`.
+P8-G1 implementation is committed and **READY TO RUN**. Contract: `docs/P8G1_CONTRACT.md`.
 
-P8-G1 does not rerun or relax P8-G. It causally decomposes the L3 failure using CPU-vs-GPU input interventions and an exact-weight A/B between P7-G Q4_K tiled16 and P7-C Q4_K tiled8.
+Run:
+
+```powershell
+py -3 .\tests\test_p8g1_package.py
+powershell.exe -ExecutionPolicy Bypass -File .\run_p8g1.ps1
+```
+
+Expected evidence:
+
+```text
+results\p8g1_shader_provenance.json
+results\p8g1_causal_decomposition_results.json
+results\p8g1_summary.json
+```
+
+P8-G1 does not rerun or relax P8-G. Stage 1 reconstructs the direct four-layer prefix only through L3 SwiGLU (58 dispatches / one submit). Stage 2 performs four exact-weight Q4_K down-projection diagnostics in one separate submit: P7-G tiled16 and P7-C tiled8, each on CPU and GPU SwiGLU inputs.
 
 P8-H and full 28-layer inference remain blocked.
 
