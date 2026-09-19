@@ -1,0 +1,37 @@
+#version 450
+layout(local_size_x = 8, local_size_y = 8) in;
+layout(std430, binding = 0) readonly buffer GateWBuf { uint w[]; } GW;
+layout(std430, binding = 1) readonly buffer UpWBuf { uint w[]; } UW;
+layout(std430, binding = 2) readonly buffer XBuf { float x[]; } X;
+layout(std430, binding = 3) writeonly buffer SOut { float y[]; } S;
+layout(push_constant) uniform PC { uint n; uint rows; uint batch; uint row_bytes; uint gate_base_bytes; uint up_base_bytes; } pc;
+shared float sWG[256];
+shared float sWU[256];
+shared float sX[512];
+uint load_u8_g(uint byte_off){uint word=GW.w[byte_off>>2u];uint shift=(byte_off&3u)*8u;return(word>>shift)&255u;}
+uint load_u16_g(uint byte_off){return load_u8_g(byte_off)|(load_u8_g(byte_off+1u)<<8u);}
+float fp16_g(uint byte_off){return unpackHalf2x16(load_u16_g(byte_off)).x;}
+uint load_u8_u(uint byte_off){uint word=UW.w[byte_off>>2u];uint shift=(byte_off&3u)*8u;return(word>>shift)&255u;}
+uint load_u16_u(uint byte_off){return load_u8_u(byte_off)|(load_u8_u(byte_off+1u)<<8u);}
+float fp16_u(uint byte_off){return unpackHalf2x16(load_u16_u(byte_off)).x;}
+void scale_min_g(uint base,uint j,out uint sc,out uint mn){uint qj;if(j<4u){sc=load_u8_g(base+4u+j)&63u;mn=load_u8_g(base+8u+j)&63u;}else{qj=load_u8_g(base+4u+j+4u);sc=(qj&15u)|((load_u8_g(base+4u+j-4u)>>6u)<<4u);mn=(qj>>4u)|((load_u8_g(base+4u+j)>>6u)<<4u);}}
+void scale_min_u(uint base,uint j,out uint sc,out uint mn){uint qj;if(j<4u){sc=load_u8_u(base+4u+j)&63u;mn=load_u8_u(base+8u+j)&63u;}else{qj=load_u8_u(base+4u+j+4u);sc=(qj&15u)|((load_u8_u(base+4u+j-4u)>>6u)<<4u);mn=(qj>>4u)|((load_u8_u(base+4u+j)>>6u)<<4u);}}
+float dequant_g(uint row,uint k){uint ib=k>>8u,kin=k&255u,base=pc.gate_base_bytes+row*pc.row_bytes+ib*144u;float d=fp16_g(base),dm=fp16_g(base+2u);uint sc,mn;scale_min_g(base,kin>>5u,sc,mn);uint g=kin>>6u,l=kin&63u,qb=load_u8_g(base+16u+g*32u+(l&31u)),v=(l<32u)?(qb&15u):(qb>>4u);return d*float(sc)*float(v)-dm*float(mn);}
+float dequant_u(uint row,uint k){uint ib=k>>8u,kin=k&255u,base=pc.up_base_bytes+row*pc.row_bytes+ib*144u;float d=fp16_u(base),dm=fp16_u(base+2u);uint sc,mn;scale_min_u(base,kin>>5u,sc,mn);uint g=kin>>6u,l=kin&63u,qb=load_u8_u(base+16u+g*32u+(l&31u)),v=(l<32u)?(qb&15u):(qb>>4u);return d*float(sc)*float(v)-dm*float(mn);}
+void main(){
+ uint lr=gl_LocalInvocationID.x,lt=gl_LocalInvocationID.y,lid=gl_LocalInvocationIndex;
+ uint row0=gl_WorkGroupID.x*8u,tok0=gl_WorkGroupID.y*16u,row=row0+lr,tok_a=tok0+lt,tok_b=tok0+lt+8u;
+ bool va=(row<pc.rows&&tok_a<pc.batch),vb=(row<pc.rows&&tok_b<pc.batch);
+ float ga=0.0,gb=0.0,ua=0.0,ub=0.0;
+ for(uint k0=0u;k0<pc.n;k0+=32u){
+   for(uint idx=lid;idx<256u;idx+=64u){uint rr=idx>>5u,kk=idx&31u,gr=row0+rr;sWG[idx]=(gr<pc.rows)?dequant_g(gr,k0+kk):0.0;sWU[idx]=(gr<pc.rows)?dequant_u(gr,k0+kk):0.0;}
+   for(uint idx=lid;idx<512u;idx+=64u){uint tt=idx>>5u,kk=idx&31u,gt=tok0+tt;sX[idx]=(gt<pc.batch)?X.x[gt*pc.n+k0+kk]:0.0;}
+   barrier();
+   uint wb=lr*32u,xa=lt*32u,xb=(lt+8u)*32u;
+   if(va){for(uint kk=0u;kk<32u;++kk){float xv=sX[xa+kk];ga+=sWG[wb+kk]*xv;ua+=sWU[wb+kk]*xv;}}
+   if(vb){for(uint kk=0u;kk<32u;++kk){float xv=sX[xb+kk];gb+=sWG[wb+kk]*xv;ub+=sWU[wb+kk]*xv;}}
+   barrier();
+ }
+ if(va){float sg=ga/(1.0+exp(-ga));S.y[tok_a*pc.rows+row]=sg*ua;}
+ if(vb){float sg=gb/(1.0+exp(-gb));S.y[tok_b*pc.rows+row]=sg*ub;}
+}

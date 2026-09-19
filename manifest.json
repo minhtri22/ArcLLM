@@ -1,30 +1,36 @@
 {
-  "phase": "P7-M",
+  "phase": "P7-N",
   "date": "2026-09-19",
-  "title": "Post-P7-L timestamp re-profile",
-  "parent": "P7-L PASS; fused gate+up frozen; P7 OPEN",
+  "title": "FFN gate+up+SwiGLU fusion A/B",
+  "parent": "P7-M PASS measurement; P7-L fused gate+up remains frozen baseline; P7 OPEN",
   "target": {
     "model": "Qwen2.5-Coder-1.5B",
     "sha256": "6A77366395772462C84F0C4D226AC404674327CBE78C01E4391CC7E0C698851E"
   },
-  "authoritative_p7l": {
+  "authoritative_p7m": {
     "status": "PASS",
-    "correctness_pass": true,
-    "wall_speedup": 1.242926134,
-    "min_speedup_gate": 1.1,
-    "decision": "freeze fused gate+up winner then re-profile"
+    "chain_ticks": 79570264,
+    "ffn_gate_up_share": 0.4440335651,
+    "ffn_down_share": 0.3042145996,
+    "barrier_unattributed_share": 0.00024324413451738705,
+    "decision": "optimize largest prefill family without changing FFN-down"
   },
-  "measurement": {
+  "ab": {
     "pp_tokens": 512,
-    "profile_decode_pos": 512,
-    "prefill_dispatches": 441,
+    "baseline_prefill_dispatches": 441,
+    "optimized_prefill_dispatches": 413,
     "decode_dispatches": 469,
-    "timestamp_every_dispatch": true,
-    "performance_threshold_applied": false
+    "ffn_row_tile": 8,
+    "ffn_token_tile": 16,
+    "tile_k": 32,
+    "workgroup": "8x8",
+    "trials": 3,
+    "min_wall_speedup": 1.1,
+    "decode_unchanged": true
   },
   "invariants": {
-    "ffn_gate_up_fused": true,
-    "ffn_down_p7g_tile16": true,
+    "baseline_exact_p7l": true,
+    "ffn_down_unchanged": true,
     "attention_projection_tiling_frozen": true,
     "attention_kernel_unchanged": true,
     "lm_head_unchanged": true,
@@ -34,10 +40,11 @@
     "packed_q4k_q6k": true
   },
   "gate": {
-    "performance_threshold_applied": false,
+    "performance_threshold_pre_registered": true,
+    "min_pp512_speedup": 1.1,
+    "logits_max_abs": 0.02,
+    "logits_rmse": 0.005,
     "p7_closed_by_this_package": false
   },
-  "purpose": "measure the exact P7-L winner and choose exactly one next bottleneck family from device timestamp evidence",
-  "package_revision": "R1",
-  "repair": "static QA literal + profiler dispatch-log syntax + error-schema repair; measurement contract unchanged"
+  "purpose": "test whether fusing SwiGLU into the frozen P7-L gate+up kernel removes enough intermediate memory traffic and dispatch overhead for >=1.10x pp512 speedup"
 }
