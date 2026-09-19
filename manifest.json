@@ -37,5 +37,7 @@
     "performance_threshold_applied": false,
     "p7_closed_by_this_package": false
   },
-  "purpose": "measure the exact P7-L winner and choose exactly one next bottleneck family from device timestamp evidence"
+  "purpose": "measure the exact P7-L winner and choose exactly one next bottleneck family from device timestamp evidence",
+  "package_revision": "R1",
+  "repair": "static QA literal + profiler dispatch-log syntax + error-schema repair; measurement contract unchanged"
 }

@@ -24,8 +24,11 @@ assert 'ffn_down",lr[l].dw->ggml_type==Q4_K?"p7g_ffn_q4k_tiled16.spv":"p7g_ffn_q
 assert 'p7l_ffn_q4k_gateup_fused.spv' not in dec
 assert 'expected_prefill=1u+layers*15u+1u+lm_dispatches' in s
 assert 'expected_decode=1u+layers*16u+1u+lm_dispatches' in s
+assert '<<expected_decode<<"'+chr(92)+'n";' in s
+assert 'arcllm.p7m.post_tile16_reprofile.v1' not in s
 assert 'arcllm.p7m.post_gateup_fusion_reprofile.v1' in s
-assert 'performance_threshold_applied\":false' in s
+p=s.index('performance_threshold_applied')
+assert s[p:p+80].replace('\\','').startswith('performance_threshold_applied":false')
 assert 'fused_gate_pass' in s and 'fused_up_pass' in s
 assert 'ffn_gate_up' in s
 build=(ROOT/'tools/build_p7m.ps1').read_text(encoding='ascii')

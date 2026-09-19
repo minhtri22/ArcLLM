@@ -300,3 +300,8 @@ Next: P7-M timestamp re-profile the exact P7-L winner and unchanged decode graph
 Evidence target: timestamp every dispatch on the exact P7-L prefill graph (441 dispatches) and one unchanged cached decode step (469 dispatches). Preserve semantic categories so P7-H -> P7-M absolute ticks and chain shares are comparable. Include inherited regressions plus fused gate/up regression.
 Decision: measurement only; no throughput threshold, no optimization, and P7 cannot close here. The next optimization family must be chosen only from P7-M attribution.
 Next: target-machine pull/run returns shader_provenance.json, p7m_profile_results.json and p7m_summary.json.
+
+## 2026-09-19 — P7-M-R1 static-QA/source repair
+Evidence: first P7-M invocation stopped in static audit before shader compile/build because the Python test searched for an unescaped JSON-writer literal. Review also found a latent C++ syntax defect in the pre-profile dispatch-count log (missing << before "\\n") and a stale ERROR schema name from P7-H. No P7-M executable was built and no timestamp measurement occurred.
+Decision: classify as QA/source packaging failure only. R1 changes only the test literal, the console-log syntax, and the error-path schema. Exact P7-L graph, 441/469 dispatch contract, timestamp measurement, regressions, and no-performance-threshold gate are unchanged.
+Next: rerun P7-M static audit; only an executed timestamp profile can produce the P7-M scientific result.

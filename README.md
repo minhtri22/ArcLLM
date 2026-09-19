@@ -24,7 +24,7 @@ P0-P6 are CLOSED. P7 (Q4_K_M production path) is OPEN.
 
 The strongest frozen prefill baseline remains P7-G: FFN row8 x token16 plus tiled attention projections. P7-I (token tile32), P7-J (block-aware vec4 dequant), and P7-K (row tile16) are frozen performance negatives. P7-L (fused gate+up) is a frozen PASS at 1.24293x. The production candidate now combines tiled attention projections, P7-G FFN-down tile16, and P7-L fused gate+up.
 
-The active checkpoint is **P7-M**: measurement-only timestamp re-profile of the exact P7-L winner. P7-L fused gate+up is frozen after a 1.24293x same-run pp512 speedup with exact logits/top1 agreement. P7-M applies no throughput threshold and cannot close P7.
+The active checkpoint is **P7-M-R1**: measurement-only timestamp re-profile of the exact P7-L winner. P7-L fused gate+up is frozen after a 1.24293x same-run pp512 speedup with exact logits/top1 agreement. P7-M applies no throughput threshold and cannot close P7.
 
 ## Roadmap
 
