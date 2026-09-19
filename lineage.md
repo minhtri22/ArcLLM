@@ -583,3 +583,20 @@ Observed before build/runtime: test_p8g1_package.py searched for the rendered JS
 Repair: change only that source-text assertion to match the escaped C++ literal. Parent P8-G JSON parsing/assertions remain unchanged and already verify first_failing_checkpoint == L3.ffn_down directly.
 Classification: static-QA packaging defect only. No P8-G1 build or GPU diagnostic run occurred. Frozen P8-G1 contract, parent hashes, 58+4 dispatch design, numerical gates, causal hypotheses, P8-G FAIL verdict, P8-H block and full-inference prohibition are unchanged.
 Decision: P8-G1 remains READY_TO_RUN.
+
+
+## 2026-09-19 — P8-G1 COMPLETE / H-AMPLIFICATION frozen
+Authoritative evidence SHA256: shader provenance A4B095E1F2E7CD4AD78EE74C06A96323DF258C2ADB2CCA7DE827816191019740; causal decomposition 416A97CD13A585BD4CAB397A3B3503BA8A87BD94F13BB1F5664F384603359499; summary 1E04C9BF94DA57258D9DEA36FAE3F71B896D9F0CA773BF360305742397C27B1C.
+Validity: COMPLETE, diagnostic_valid=true, exact focus blk.3.ffn_down.weight Q4_K, one physical slice and exact source span, 19 arenas / 341 pieces, prefix 58 dispatches / one submit, diagnostic 4 dispatches / one submit, direct GPU handoff, no layer4+.
+Parent reproduction passed: X_GPU vs X_CPU reproduced L3.swiglu max_abs=0.00838851928711 and RMSE=7.10637175468e-05; C0 reproduced L3.ffn_down max_abs=0.0283279418945 and RMSE=0.000364843778882.
+Kernel controls falsified the tested kernel-defect explanations: C1 P7-G(X_CPU) and C2 P7-C(X_CPU) both PASS at max_abs=6.103515625e-05 / RMSE=7.36516371841e-07; C4 P7-G(X_GPU) and C5 P7-C(X_GPU) both PASS at max_abs=3.0517578125e-05 / RMSE=6.0782396936e-07. P7-G vs P7-C is bit-identical on both inputs (C6a=C6b=0).
+C3 CPU_down(X_GPU) vs CPU_down(X_CPU) alone reproduces the failure: max_abs=0.0283355712891, RMSE=0.000364919435264. Therefore P8-G1 supports H-AMPLIFICATION. Approximate observed directional gain is 3.3779x in max_abs and 5.1351x in RMSE.
+Decision: P8-G1 causal classification H-AMPLIFICATION is FROZEN. P8-G remains historically FAIL; verdict_changed=false. P8-H and full inference remain forbidden.
+
+## 2026-09-19 — P8-G2 amplification geometry design frozen
+Question: is the P8-G gate crossing quantitatively explained by linear propagation of the already-observed upstream perturbation through the exact L3 Q4_K FFN-down operator, with kernel residual negligible?
+Design retains the exact P8-G1 prefix through L3 SwiGLU. It records ΔX, ΔY_prop=CPU_down(X_GPU)-CPU_down(X_CPU), directional max/RMS gain, reference signal scales and normalized errors. It separately computes CPU_down(ΔX) and tests linear propagation closure at max_abs<=1e-4 / RMSE<=1e-6.
+Kernel residual ε_kernel=P7-G_down(X_GPU)-CPU_down(X_GPU) is compared with propagated error. Propagation dominance requires kernel max and RMS contribution ratios <=1%.
+A frozen CPU-only scaling series α={0.25,0.50,0.75,1.00} applies the observed ΔX direction and records historical-gate crossings. max_abs/α and RMSE/α must remain within 1% of α=1 values for linearity qualification.
+P8-G2 does not define a replacement gate and cannot change P8-G FAIL. Classifications are limited to H-GEOMETRIC-AMPLIFICATION, H-NONLINEAR/UNEXPLAINED, H-KERNEL-CONTRIBUTION or PARENT-REPRODUCTION-FAILED.
+Decision: P8-G2 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION. P8-H and full inference remain blocked.

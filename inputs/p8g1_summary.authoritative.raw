@@ -1,0 +1,14 @@
+{
+    "schema":  "arcllm.p8g1.summary.v1",
+    "target_sha256":  "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "target_size_bytes":  4683074048,
+    "process_exit_code":  0,
+    "status":  "COMPLETE",
+    "diagnostic_valid":  true,
+    "classification":  "H-AMPLIFICATION",
+    "p8g_verdict_frozen":  "FAIL",
+    "p8g_verdict_changed":  false,
+    "p8h_permitted":  false,
+    "full_inference_permitted":  false,
+    "next_step":  "adjudicate P8-G1 causal decomposition"
+}

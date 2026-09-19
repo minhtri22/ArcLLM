@@ -1,87 +1,67 @@
 {
-  "phase": "P8-G1",
+  "phase": "P8-G2",
   "date": "2026-09-19",
-  "status": "READY_TO_RUN",
-  "title": "L3 FFN-down causal decomposition",
-  "parent": "P8-G FAIL",
+  "status": "DESIGN_FROZEN",
+  "title": "amplification geometry qualification",
+  "parent": "P8-G1 H-AMPLIFICATION",
   "target": {
     "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
     "size_bytes": 4683074048
   },
-  "authoritative_p8g": {
-    "shader_provenance_sha256": "C258C76816BDE57CC9D56A3C73955019716A1F01637A11D23197129CC53EA1B9",
-    "four_layer_results_sha256": "BDB7F4C1480CF960A89EBB29FACE58FC751BA8EF6AF76812F23A7C5ED0E94129",
-    "summary_sha256": "0B1D4CF0355FBB7987217CC1DA8133BD81CA5332B37D5542E69A427A7C196BFE",
-    "status": "FAIL",
-    "first_failing_checkpoint": "L3.ffn_down",
-    "l3_swiglu": {
-      "max_abs": 0.00838851928711,
-      "rmse": 0.0000710637175468,
-      "pass": true
-    },
-    "l3_ffn_down": {
-      "max_abs": 0.0283279418945,
-      "rmse": 0.000364843778882,
-      "pass": false
-    },
-    "l3_final": {
-      "max_abs": 0.0276565551758,
-      "rmse": 0.000364470381402,
-      "pass": false
-    },
-    "dispatches": 60,
-    "submits": 1,
-    "executed_layers": [
-      0,
-      1,
-      2,
-      3
-    ],
-    "direct_gpu_handoff": true
+  "authoritative_p8g1": {
+    "shader_provenance_sha256": "A4B095E1F2E7CD4AD78EE74C06A96323DF258C2ADB2CCA7DE827816191019740",
+    "causal_decomposition_sha256": "416A97CD13A585BD4CAB397A3B3503BA8A87BD94F13BB1F5664F384603359499",
+    "summary_sha256": "1E04C9BF94DA57258D9DEA36FAE3F71B896D9F0CA773BF360305742397C27B1C",
+    "status": "COMPLETE",
+    "diagnostic_valid": true,
+    "classification": "H-AMPLIFICATION",
+    "x_max_abs": 0.00838851928711,
+    "x_rmse": 0.0000710637175468,
+    "c0_max_abs": 0.0283279418945,
+    "c0_rmse": 0.000364843778882,
+    "c3_max_abs": 0.0283355712891,
+    "c3_rmse": 0.000364919435264,
+    "c1_max_abs": 0.00006103515625,
+    "c1_rmse": 7.36516371841e-7,
+    "c4_max_abs": 0.000030517578125,
+    "c4_rmse": 6.0782396936e-7,
+    "p7g_vs_p7c_cpu_input_max_abs": 0,
+    "p7g_vs_p7c_gpu_input_max_abs": 0
   },
-  "diagnosis": {
+  "p8g2": {
     "focus_tensor": "blk.3.ffn_down.weight",
     "format": "Q4_K",
     "n": 18944,
     "rows": 3584,
     "batch": 4,
-    "hypotheses": [
-      "H-KERNEL",
-      "H-AMPLIFICATION",
-      "H-COMMON-Q4",
-      "H-INTERACTION"
-    ],
-    "required_outputs": [
-      "Y_CC",
-      "Y_CG",
-      "Y_GC_P7G",
-      "Y_GG_P7G",
-      "Y_GC_P7C",
-      "Y_GG_P7C"
-    ],
-    "frozen_max_abs": 0.02,
-    "frozen_rmse": 0.005,
-    "exact_weight_binding_required": true,
-    "parent_reproduction_required": true
-  },
-  "implementation_permitted": true,
-  "target_run_permitted": true,
-  "p8g_verdict_frozen": "FAIL",
-  "p8h_blocked": true,
-  "full_inference_forbidden": true,
-  "next_on_completion": "adjudicate P8-G1 causal decomposition",
-  "implementation_commit_pending": false,
-  "implementation": {
-    "prefix_scope": "L0-L2 full; L3 through SwiGLU",
     "prefix_dispatches": 58,
     "prefix_submits": 1,
-    "diagnostic_dispatches": 4,
-    "diagnostic_submits": 1,
-    "shader_count": 11,
-    "cpu_teacher_forcing_prefix": false,
-    "diagnostic_cpu_teacher_forcing": true,
-    "parent_metric_reproduction_required": true,
-    "c0_parent_failure_reproduction_required": true,
-    "p8g_verdict_change_permitted": false
-  }
+    "alpha_series": [
+      0.25,
+      0.5,
+      0.75,
+      1
+    ],
+    "parent_max_abs_tolerance": 0.000001,
+    "parent_rmse_tolerance": 1e-7,
+    "linear_closure_max_abs": 0.0001,
+    "linear_closure_rmse": 0.000001,
+    "kernel_contribution_ratio_max": 0.01,
+    "scaling_ratio_tolerance_fraction": 0.01,
+    "classifications": [
+      "H-GEOMETRIC-AMPLIFICATION",
+      "H-NONLINEAR/UNEXPLAINED",
+      "H-KERNEL-CONTRIBUTION",
+      "PARENT-REPRODUCTION-FAILED"
+    ],
+    "replacement_gate_definition_permitted": false
+  },
+  "implementation_permitted": true,
+  "target_run_permitted": false,
+  "p8g_verdict_frozen": "FAIL",
+  "p8g1_classification_frozen": "H-AMPLIFICATION",
+  "p8h_blocked": true,
+  "full_inference_forbidden": true,
+  "next_on_completion": "adjudicate P8-G2 amplification geometry",
+  "implementation_commit_pending": true
 }

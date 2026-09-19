@@ -20,7 +20,7 @@ Frozen model SHA256:
 
 ## Status
 
-P0-P7 are CLOSED. **P8-G is frozen FAIL at L3.ffn_down. P8-G1 — L3 FFN-down causal decomposition — is READY TO RUN.**
+P0-P7 are CLOSED. **P8-G is frozen FAIL. P8-G1 causally supports H-AMPLIFICATION. P8-G2 — amplification geometry qualification — is DESIGN_FROZEN / READY_FOR_IMPLEMENTATION.**
 
 The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
 
@@ -37,7 +37,7 @@ P4  One decoder layer                               CLOSED
 P5  Full decoder residency                          CLOSED
 P6  GPU-resident KV + generation                    CLOSED
 P7  Q4_K_M production path                          CLOSED
-P8  7B memory-planned runtime                       ACTIVE (P8-G1 diagnosis)
+P8  7B memory-planned runtime                       ACTIVE (P8-G2 diagnosis)
 P9  Local OpenAI-compatible API                     PLANNED
 P10 Activation/output-aware Q4 research              DEFERRED
 ```
@@ -61,33 +61,22 @@ Rules:
 
 ## Current run
 
-P8-G is frozen as a genuine FAIL under the original numerical gate.
+P8-G remains frozen as a genuine FAIL under its original numerical gate.
 
-Authoritative P8-G SHA256:
-- shader provenance: `C258C76816BDE57CC9D56A3C73955019716A1F01637A11D23197129CC53EA1B9`
-- four-layer results: `BDB7F4C1480CF960A89EBB29FACE58FC751BA8EF6AF76812F23A7C5ED0E94129`
-- summary: `0B1D4CF0355FBB7987217CC1DA8133BD81CA5332B37D5542E69A427A7C196BFE`
+P8-G1 is COMPLETE and diagnostic-valid. It reproduced the parent failure and classified the first obstruction as **H-AMPLIFICATION**.
 
-P8-G correctly executed layers [0,1,2,3] with 60 dispatches / one submit and direct GPU handoff. L0-L2 fully passed. L3 passed through SwiGLU, then first failed at `L3.ffn_down`: max_abs ~= 0.028328 exceeded the frozen 0.02 gate while RMSE ~= 0.00036484 remained below 0.005. L3 ffn_down is Q4_K whereas L0-L2 ffn_down are Q6_K.
+Authoritative P8-G1 SHA256:
+- shader provenance: `A4B095E1F2E7CD4AD78EE74C06A96323DF258C2ADB2CCA7DE827816191019740`
+- causal decomposition: `416A97CD13A585BD4CAB397A3B3503BA8A87BD94F13BB1F5664F384603359499`
+- summary: `1E04C9BF94DA57258D9DEA36FAE3F71B896D9F0CA773BF360305742397C27B1C`
 
-P8-G1 implementation is committed and **READY TO RUN**. Contract: `docs/P8G1_CONTRACT.md`.
+The exact-weight kernel controls passed on both CPU and GPU SwiGLU inputs. P7-G tiled16 and P7-C tiled8 were bit-identical in both direct comparisons. CPU-only propagation of the observed upstream perturbation produced max_abs ~= 0.028336, reproducing the P8-G down-projection failure without a GPU-kernel defect.
 
-Run:
+Observed directional amplification from the existing evidence is approximately 3.378x in max_abs and 5.135x in RMSE.
 
-```powershell
-py -3 .\tests\test_p8g1_package.py
-powershell.exe -ExecutionPolicy Bypass -File .\run_p8g1.ps1
-```
+P8-G2 is **DESIGN_FROZEN / READY_FOR_IMPLEMENTATION**. Contract: `docs/P8G2_CONTRACT.md`.
 
-Expected evidence:
-
-```text
-results\p8g1_shader_provenance.json
-results\p8g1_causal_decomposition_results.json
-results\p8g1_summary.json
-```
-
-P8-G1 does not rerun or relax P8-G. Stage 1 reconstructs the direct four-layer prefix only through L3 SwiGLU (58 dispatches / one submit). Stage 2 performs four exact-weight Q4_K down-projection diagnostics in one separate submit: P7-G tiled16 and P7-C tiled8, each on CPU and GPU SwiGLU inputs.
+P8-G2 quantifies linear propagation closure, directional gain, kernel-residual contribution, normalized signal/error scales, and a frozen α-scaling series. It does not change the historical P8-G gate or define a replacement production gate.
 
 P8-H and full 28-layer inference remain blocked.
 

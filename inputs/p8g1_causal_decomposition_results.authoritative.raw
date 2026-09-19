@@ -1,0 +1,23 @@
+{
+  "schema":"arcllm.p8g1.causal_decomposition.v1",
+  "status":"COMPLETE",
+  "p8g_verdict_frozen":"FAIL",
+  "focus":{"tensor":"blk.3.ffn_down.weight","format":"Q4_K","n":18944,"rows":3584,"batch":4,"single_piece":true,"source_span_exact":true},
+  "binding":{"arena_count":19,"physical_piece_count":341,"segmented_logical_tensor_count":2,"span_equivalence_pass":true,"global_coverage_pass":true},
+  "controlled_inputs":{"x_cpu_values":75776,"x_gpu_values":75776,"x_gpu_vs_x_cpu":{"max_abs":0.00838851928711,"rmse":7.10637175468e-05,"finite_pass":true,"frozen_gate_pass":true,"parent_metric_reproduced":true}},
+  "outputs":["Y_CC","Y_CG","Y_GC_P7G","Y_GG_P7G","Y_GC_P7C","Y_GG_P7C"],
+  "comparisons":{
+    "C0_parent_reproduction":{"max_abs":0.0283279418945,"rmse":0.000364843778882,"finite_pass":true,"frozen_gate_pass":false},
+    "C1_p7g_cpu_input":{"max_abs":6.103515625e-05,"rmse":7.36516371841e-07,"finite_pass":true,"frozen_gate_pass":true},
+    "C2_p7c_cpu_input":{"max_abs":6.103515625e-05,"rmse":7.36516371841e-07,"finite_pass":true,"frozen_gate_pass":true},
+    "C3_cpu_input_amplification":{"max_abs":0.0283355712891,"rmse":0.000364919435264,"finite_pass":true,"frozen_gate_pass":false},
+    "C4_p7g_gpu_input":{"max_abs":3.0517578125e-05,"rmse":6.0782396936e-07,"finite_pass":true,"frozen_gate_pass":true},
+    "C5_p7c_gpu_input":{"max_abs":3.0517578125e-05,"rmse":6.0782396936e-07,"finite_pass":true,"frozen_gate_pass":true},
+    "C6a_p7g_vs_p7c_cpu_input":{"max_abs":0,"rmse":0,"finite_pass":true,"frozen_gate_pass":true},
+    "C6b_p7g_vs_p7c_gpu_input":{"max_abs":0,"rmse":0,"finite_pass":true,"frozen_gate_pass":true}
+  },
+  "execution":{"prefix_dispatches":58,"prefix_submits":1,"diagnostic_dispatches":4,"diagnostic_submits":1,"direct_gpu_handoff":true,"layer4_plus_executed":false},
+  "reproduction":{"x_parent_metric_reproduced":true,"c0_parent_failure_reproduced":true,"parent_reproduction_pass":true},
+  "adjudication":{"classification":"H-AMPLIFICATION","p8g_verdict_changed":false,"p8h_permitted":false,"full_inference_permitted":false},
+  "diagnostic_valid":true
+}
