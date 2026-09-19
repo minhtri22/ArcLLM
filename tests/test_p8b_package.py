@@ -9,6 +9,10 @@ p=json.loads((ROOT/'inputs/p8a2_segment_plan.authoritative.json').read_text(enco
 assert p['status']=='PASS' and p['gate']['p8a2_pass']
 assert p['arena_plan']['count']==19 and p['arena_plan']['piece_count']==341
 assert p['arena_plan']['piece_bytes_total']==4677120000
+assert len((ROOT/'inputs/p8a2_segment_plan.authoritative.json').read_bytes())==4117
+assert len((ROOT/'inputs/p8a2_summary.authoritative.json').read_bytes())==595
+assert p['arena_plan']['contained_once_pass'] is True
+assert 'rcontained_once_pass' not in p['arena_plan']
 assert p['addressability']['pass'] is True
 assert p['memory']['total_planned_bytes']==5347770372 and p['memory']['capacity_pass'] is True
 seg={x['name']:x for x in p['segmented_tensors']}

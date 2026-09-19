@@ -44,5 +44,7 @@
     "full_inference_forbidden": true
   },
   "next_on_pass": "P8-C segmented embedding/LM-head access correctness bring-up",
-  "next_on_fail": "adjudicate exact residency obstruction without shrinking frozen plan"
+  "next_on_fail": "adjudicate exact residency obstruction without shrinking frozen plan",
+  "package_revision": "R1",
+  "repair": "byte-exact restore of authoritative P8-A2 segment plan; prior committed JSON had stray leading 'r' in contained_once_pass key; P8-B scientific contract unchanged"
 }
