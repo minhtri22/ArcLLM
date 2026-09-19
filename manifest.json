@@ -1,33 +1,30 @@
 {
-  "phase": "P8-E",
+  "phase": "P8-F",
   "date": "2026-09-19",
-  "status": "READY_TO_RUN",
-  "title": "bounded single-layer 7B graph correctness bring-up",
-  "parent": "P8-D PASS",
+  "status": "DESIGN_FROZEN",
+  "title": "bounded two-layer prefix correctness",
+  "parent": "P8-E PASS",
   "target": {
     "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
     "size_bytes": 4683074048
   },
-  "authoritative_p8d": {
-    "shader_provenance_sha256": "FABD3DAE027DB5AA69E037FE179BCD0C4F5A16C5D3AAFF0E08A938101AC8F454",
-    "graph_binding_results_sha256": "53C373BD3BA1A9BD31B45702CED08E2EB39C7F2B7B099E052EC8C5153A824ABD",
-    "summary_sha256": "74624BFAC44F4E5B9A6F08AC972508A353DAB96E0B6D4B92E8C658ABB1651D27",
-    "resolved_tensors": 339,
-    "missing": 0,
-    "ambiguous": 0,
-    "arena_count": 19,
-    "physical_piece_count": 341,
-    "segmented_logical_tensor_count": 2,
-    "span_equivalence_pass": true,
-    "global_coverage_pass": true,
-    "mapping_equivalence_pass": true,
-    "embedding_max_abs": 0,
-    "embedding_rmse": 0,
-    "lm_head_max_abs": 2.38418579102e-7,
-    "lm_head_rmse": 1.11027394095e-7,
-    "dispatches": 2,
+  "authoritative_p8e": {
+    "shader_provenance_sha256": "73916DE149A413B835541B95F01FEAF2B87DDDE03C039C3D1ABC0E2A3A115861",
+    "single_layer_results_sha256": "992A986081FAFC81AC2E6E1A38063384434DE3138CAE469A04A57FED57BDA52B",
+    "summary_sha256": "EBC4C8088B0992A30D72973DC7485CCF7AA0618B354509A506CC9FDE294B5B9D",
+    "checkpoint_count": 17,
+    "all_checkpoints_pass": true,
+    "worst_checkpoint": "k_rope",
+    "worst_max_abs": 0.00276947021484,
+    "worst_rmse": 0.000176462817402,
+    "final_layer_output_max_abs": 0.000296622514725,
+    "final_layer_output_rmse": 0.0000174611629593,
+    "dispatches": 15,
     "submits": 1,
-    "decoder_layer_dispatches": 0
+    "executed_layer": 0,
+    "executed_layer_count": 1,
+    "attn_v_format": "Q6_K",
+    "ffn_down_format": "Q6_K"
   },
   "frozen_7b": {
     "layers": 28,
@@ -42,43 +39,47 @@
     "arena_count": 19,
     "physical_piece_count": 341
   },
-  "p8e_scope": {
-    "executed_layer": 0,
-    "executed_layer_count": 1,
+  "p8f_scope": {
+    "executed_layers": [
+      0,
+      1
+    ],
+    "executed_layer_count": 2,
     "sequence_length": 4,
     "position_base": 0,
     "deterministic_synthetic_hidden_input": true,
+    "direct_gpu_layer_handoff": true,
+    "independent_cpu_prefix_reference": true,
+    "checkpoint_count": 34,
+    "exact_operation_dispatches": 30,
     "all_19_weight_arenas_resident": true,
-    "graph_binding_resolver_required": true,
-    "independent_cpu_reference": true,
     "embedding_execution": false,
     "output_norm_execution": false,
     "lm_head_execution": false,
     "decode_execution": false,
     "generation": false,
-    "performance_gate": false,
-    "checkpoint_count": 17,
-    "exact_operation_dispatches": 15,
-    "layer0_all_single_piece_required": true,
-    "q4_q6_target_format_dispatch": true
+    "performance_gate": false
   },
   "gate": {
     "exact_target_required": true,
     "exact_parent_evidence_required": true,
-    "exact_dispatches": 15,
+    "exact_dispatches": 30,
     "exact_submits": 1,
-    "exact_decoder_layers": 1,
-    "executed_layer": 0,
+    "exact_decoder_layers": 2,
+    "executed_layers": [
+      0,
+      1
+    ],
+    "checkpoint_count": 34,
     "max_abs": 0.02,
     "rmse": 0.005,
-    "final_layer_output_required": true,
-    "full_inference_forbidden": true,
-    "checkpoint_count": 17,
-    "kv_rows_required": true
+    "both_layer_final_outputs_required": true,
+    "both_layers_kv_rows_required": true,
+    "direct_gpu_handoff_required": true,
+    "full_inference_forbidden": true
   },
   "implementation_permitted": true,
-  "target_run_permitted": true,
-  "next_on_pass": "P8-F bounded multi-layer-prefix correctness design",
-  "next_on_fail": "adjudicate first failing P8-E checkpoint",
-  "implementation_commit_pending": false
+  "target_run_permitted": false,
+  "next_on_pass": "P8-G larger bounded-prefix correctness design",
+  "next_on_fail": "adjudicate first failing P8-F checkpoint"
 }

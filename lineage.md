@@ -468,3 +468,18 @@ Observed before runtime: tests/test_p8e_package.py rejected the source because i
 Repair: replace the over-broad text ban with two scoped checks: require the 28-layer loop inside the graph-name metadata function, and require no layer loop inside the DispatchOp construction region while retaining exactly 15 layer-0 addop calls.
 Classification: package/static-QA defect only. No shader, runtime, numerical gate, P8-E contract, target evidence, or scientific hypothesis changed. No scientific run occurred because the runner stopped at static QA.
 Decision: P8-E remains READY_TO_RUN under the original frozen contract.
+
+
+## 2026-09-19 — P8-E PASS / bounded single-layer correctness frozen
+Authoritative evidence: p8e_shader_provenance SHA256 73916DE149A413B835541B95F01FEAF2B87DDDE03C039C3D1ABC0E2A3A115861; p8e_single_layer_results SHA256 992A986081FAFC81AC2E6E1A38063384434DE3138CAE469A04A57FED57BDA52B; p8e_summary SHA256 EBC4C8088B0992A30D72973DC7485CCF7AA0618B354509A506CC9FDE294B5B9D.
+Result: status=PASS on the exact 7B target. Binding retained 19 arenas, 341 physical pieces, two segmented logical tensors, span/global coverage PASS, and all layer-0 tensors were single-piece. The exact target formats observed for layer 0 were Q6_K for attn_v and Q6_K for ffn_down. All 17 CPU-vs-GPU checkpoints were finite and PASS. Worst numerical checkpoint was k_rope (and identically the stored K-cache rows), max_abs=0.00276947021484 and RMSE=0.000176462817402. Final layer output max_abs=0.000296622514725 and RMSE=1.74611629593e-05. Execution was exactly 15 dispatches, one submit, one fence wait, layer index 0, executed_layer_count=1. Every P8-E gate is true and first_failing_checkpoint is empty. Summary process_exit_code=0, p8e_pass=true, full_inference_permitted=false.
+Decision: P8-E is a genuine PASS and is FROZEN. This proves bounded layer-0 correctness at the 7B geometry but does not establish multi-layer or full-model inference correctness.
+Next: P8-F bounded two-layer-prefix correctness. Full 28-layer inference remains forbidden.
+
+## 2026-09-19 — P8-F design frozen
+Question: does the validated P8-E layer path compose correctly across one real layer boundary when layer-0 GPU output becomes layer-1 GPU input?
+Design: execute exactly layers [0,1], seq=4, same deterministic input, same 19-arena / 341-piece resolver, same P7-L/P7-G kernels and same numerical gates. CPU reference computes layers 0 then 1 independently from original GGUF bytes; GPU layer 1 must consume the unmodified GPU layer-0 output. Record the same 17 observations per layer, 34 total. Exact execution gate is 30 dispatches in one submit and exactly two executed decoder layers.
+Failure localization: any layer-0 failure is a P8-E regression; layer-0 PASS followed by a layer-1 checkpoint failure is the first genuine cross-layer composition obstruction.
+Exclusions: no embedding, output_norm, LM-head, decode, sampling, generation, layer 2+, or performance trial.
+Decision: P8-F contract is DESIGN_FROZEN and implementation is permitted. It is not READY_TO_RUN until implementation plus static QA are committed.
+Next on PASS: P8-G larger bounded-prefix correctness design. Full 28-layer inference remains forbidden.

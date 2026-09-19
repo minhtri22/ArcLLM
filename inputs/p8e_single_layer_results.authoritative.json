@@ -1,0 +1,30 @@
+{
+  "schema":"arcllm.p8e.single_layer_correctness.v1",
+  "status":"PASS",
+  "target":{"tensor_count":339,"layers":28,"hidden":3584,"q_heads":28,"kv_heads":4,"head_dim":128,"kv_dim":512,"ffn":18944},
+  "scope":{"executed_layer":0,"executed_layer_count":1,"sequence_length":4,"position_base":0,"embedding_executed":false,"lm_head_executed":false,"decode_executed":false,"generation_executed":false},
+  "binding":{"arena_count":19,"physical_piece_count":341,"segmented_logical_tensor_count":2,"span_equivalence_pass":true,"global_coverage_pass":true,"layer0_all_single_piece":true},
+  "formats":{"attn_v":"Q6_K","ffn_down":"Q6_K"},
+  "checkpoints":{
+    "attn_rmsnorm":{"compared_values":14336,"max_abs":1.19209289551e-07,"rmse":2.82162681603e-08,"finite_pass":true,"pass":true},
+    "q_proj":{"compared_values":14336,"max_abs":0.000133514404297,"rmse":4.86716804124e-06,"finite_pass":true,"pass":true},
+    "k_proj":{"compared_values":2048,"max_abs":0.000579833984375,"rmse":4.73884180545e-05,"finite_pass":true,"pass":true},
+    "v_proj":{"compared_values":2048,"max_abs":5.24520874023e-06,"rmse":2.71354642225e-07,"finite_pass":true,"pass":true},
+    "q_rope":{"compared_values":14336,"max_abs":0.000461578369141,"rmse":1.3586085252e-05,"finite_pass":true,"pass":true},
+    "k_rope":{"compared_values":2048,"max_abs":0.00276947021484,"rmse":0.000176462817402,"finite_pass":true,"pass":true},
+    "k_cache_rows_0_3":{"compared_values":2048,"max_abs":0.00276947021484,"rmse":0.000176462817402,"finite_pass":true,"pass":true},
+    "v_cache_rows_0_3":{"compared_values":2048,"max_abs":5.24520874023e-06,"rmse":2.71354642225e-07,"finite_pass":true,"pass":true},
+    "causal_gqa":{"compared_values":14336,"max_abs":0.000191569328308,"rmse":1.56956240827e-05,"finite_pass":true,"pass":true},
+    "o_proj":{"compared_values":14336,"max_abs":0.00018647313118,"rmse":1.24606135406e-05,"finite_pass":true,"pass":true},
+    "attn_residual":{"compared_values":14336,"max_abs":0.000186502933502,"rmse":1.24606574111e-05,"finite_pass":true,"pass":true},
+    "ffn_rmsnorm":{"compared_values":14336,"max_abs":0.000129595398903,"rmse":1.20922949974e-05,"finite_pass":true,"pass":true},
+    "ffn_gate":{"compared_values":75776,"max_abs":0.000274121761322,"rmse":2.4929420892e-05,"finite_pass":true,"pass":true},
+    "ffn_up":{"compared_values":75776,"max_abs":0.000120811164379,"rmse":1.510944354e-05,"finite_pass":true,"pass":true},
+    "swiglu":{"compared_values":75776,"max_abs":0.000135451555252,"rmse":3.60086628283e-06,"finite_pass":true,"pass":true},
+    "ffn_down":{"compared_values":14336,"max_abs":0.000110104680061,"rmse":1.0061808401e-05,"finite_pass":true,"pass":true},
+    "final_layer_output":{"compared_values":14336,"max_abs":0.000296622514725,"rmse":1.74611629593e-05,"finite_pass":true,"pass":true}
+  },
+  "execution":{"dispatches":15,"submits":1,"fence_waits":1,"executed_layer":0,"executed_layer_count":1},
+  "gate":{"binding_pass":true,"checkpoint_pass":true,"kv_rows_pass":true,"final_layer_output_pass":true,"exact_15_dispatches_pass":true,"exact_one_submit_pass":true,"exact_one_layer_pass":true,"p8e_pass":true},
+  "first_failing_checkpoint":""
+}
