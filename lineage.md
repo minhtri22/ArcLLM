@@ -531,3 +531,14 @@ Failure localization: L0/L1 failure is a P8-F regression; L0/L1 PASS followed by
 Exclusions: no embedding, output_norm, LM-head, decode, generation, layer 4+, or performance trial.
 Decision: P8-G contract is DESIGN_FROZEN and implementation is permitted. It is not READY_TO_RUN until implementation plus static QA are committed.
 Next on PASS: P8-H bounded eight-layer prefix correctness design. Full 28-layer inference remains forbidden.
+
+
+## 2026-09-19 — P8-G implementation / READY_TO_RUN
+Implementation: extended the frozen P8-F path mechanically from two to exactly four consecutive decoder layers without changing kernels, quantization, sequence length, graph binding, memory plan, numerical gates or submission model.
+CPU reference: computes CPU L0 -> L1 -> L2 -> L3 sequentially from original GGUF bytes. GPU intermediates never construct CPU expected values.
+GPU composition: the unchanged 15-operation per-layer builder is invoked explicitly for L0, L1, L2 and L3. Hidden-state inputs are wired directly as synthetic input -> gpu[0].out -> gpu[1].out -> gpu[2].out. No CPU correction, host replacement, intermediate re-upload or additional submit is introduced. The prepared chain must contain exactly 60 dispatches and execute in one submit.
+Binding/residency: exact 339-tensor graph census, 19 weight arenas and 341 physical pieces are retained. Every executed-layer weight for L0..L3 must resolve to one physical slice. K/V caches allocate four layer regions and preserve rows 0..3 independently for each layer.
+Evidence: each layer retains the same 17 checkpoints used by P8-E/P8-F, for 68 total. Gates remain finite values, max_abs<=0.02 and RMSE<=0.005. Any L0/L1 numerical failure is a P8-F regression; after L0/L1 PASS, first failure in L2/L3 is the new deeper-prefix composition obstruction.
+Provenance: runner verifies byte-exact authoritative P8-F parent evidence, recompiles the same 11 frozen shaders with pinned glslang 16.5.0, and writes fresh P8-G provenance/results/summary.
+Decision: P8-G is READY_TO_RUN. No P8-G scientific verdict exists until target-machine evidence is returned. Full 28-layer inference remains forbidden.
+Next on PASS: P8-H bounded eight-layer prefix correctness design.
