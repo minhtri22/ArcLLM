@@ -501,3 +501,11 @@ Cause class: repository transport / working-tree byte preservation. JSON evidenc
 Repair: preserve the same authoritative Git blobs under new inputs/*.authoritative.raw paths and add .gitattributes with -text for that transport class. P8-F static QA, runner parent hashing, P8E_SHA256SUMS.txt and C++ parent inputs now use the .raw paths. The decoded/content semantics, frozen SHA256 values, P8-F contract, target, numerical gates, dispatch count, submit count and layer scope are unchanged.
 Classification: package/provenance transport repair only. No P8-F scientific run occurred because execution stopped before static QA/runtime.
 Decision: P8-F remains READY_TO_RUN under the original frozen contract.
+
+
+## 2026-09-19 — P8-F parent shader-provenance byte repair
+Root cause confirmed by byte-level comparison against the originally uploaded P8-E shader provenance. The authoritative GitHub shader blob was 5101 bytes, while the uploaded raw artifact is 5107 bytes. All lines matched except compiler_asset_sha256: the GitHub blob contained the truncated value 06B71298B750268C127F2EE7525E2068120C6C8A3A08B2F58CA6F325CE, missing exactly six characters AE0EF7. The original uploaded artifact contains 06B71298B750268C127F2EE7AE0EF7525E2068120C6C8A3A08B2F58CA6F325CE and hashes to the already frozen SHA256 73916DE149A413B835541B95F01FEAF2B87DDDE03C039C3D1ABC0E2A3A115861.
+Repair: replace both p8e_shader_provenance.authoritative.json and p8e_shader_provenance.authoritative.raw with the exact 5107-byte uploaded content. The resulting Git blob SHA is 8260be58506e38df2d51dd49529d289211bf1e4f, independently predicted from the uploaded bytes before the repository write. The P8-E result and summary raw blobs were checked and already matched their expected exact Git blob SHAs feba036e91c41a3238a766f5400e5105f65e79c6 and 5fd0a29b6d22aa89f1a8fb410c1dd5e9396cf023.
+Also restore the pre-existing .gitattributes rules that were accidentally overwritten by the previous transport-repair commit, then append the authoritative.raw -text rule.
+Classification: provenance/package repair only. No P8-F scientific run occurred; execution still stopped before runtime. P8-E scientific evidence, frozen SHA256 values, P8-F hypothesis, scope, numerical gates, 30-dispatch/one-submit contract and full-inference prohibition are unchanged.
+Decision: P8-F remains READY_TO_RUN.

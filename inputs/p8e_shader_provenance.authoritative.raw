@@ -2,7 +2,7 @@
     "schema":  "arcllm.p8e.shader_provenance.v1",
     "compiler":  "glslang.exe",
     "compiler_release":  "16.5.0",
-    "compiler_asset_sha256":  "06B71298B750268C127F2EE7525E2068120C6C8A3A08B2F58CA6F325CE",
+    "compiler_asset_sha256":  "06B71298B750268C127F2EE7AE0EF7525E2068120C6C8A3A08B2F58CA6F325CE",
     "target_env":  "vulkan1.2",
     "shader_count":  11,
     "compiled":  [

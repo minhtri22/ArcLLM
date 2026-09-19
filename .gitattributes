@@ -1,2 +1,12 @@
-# Authoritative evidence must remain byte-exact across Windows checkouts.
+*.ps1 text eol=crlf
+*.py text eol=lf
+*.cpp text eol=lf
+*.h text eol=lf
+*.comp text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+manifest.json text eol=lf
+config/*.json text eol=lf
+# Authoritative evidence is provenance: preserve exact bytes and original line endings.
+inputs/*.json -text
 inputs/*.authoritative.raw -text
