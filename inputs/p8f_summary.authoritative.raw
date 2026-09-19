@@ -1,0 +1,11 @@
+{
+    "schema":  "arcllm.p8f.summary.v1",
+    "target_sha256":  "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "target_size_bytes":  4683074048,
+    "process_exit_code":  0,
+    "status":  "PASS",
+    "p8f_pass":  true,
+    "full_inference_permitted":  false,
+    "larger_prefix_design_permitted":  true,
+    "next_step":  "P8-G larger bounded-prefix correctness design"
+}

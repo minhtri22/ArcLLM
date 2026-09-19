@@ -516,3 +516,18 @@ Observed before runtime: test_p8f_package.py still expected the old P8-E parent 
 Repair: update only the three stale runner-path assertions in static QA from .json to .raw.
 Classification: static-QA packaging defect only. No P8-F source, contract, scientific gate, parent hash, execution scope, or runtime behavior changed.
 Decision: P8-F remains READY_TO_RUN.
+
+
+## 2026-09-19 — P8-F PASS / two-layer prefix correctness frozen
+Authoritative evidence SHA256: shader provenance 9686F747B6A4D7380F4621B1A3EEC09B82DE7832461B1A9C80548D21D7D70A41; two-layer results F172E1B0B00558BDE53EB6994BDC1E5BFFC417F96A33FA1C53B0983BB494AE98; summary 1F3EF56BC723FE2D8D8E567ADCB89BC23AE212CB0BBBB51CBC5B83E81DF9FC70.
+Result: status=PASS on the exact 7B target. Binding retained 19 arenas / 341 pieces / two globally segmented logical tensors, while all tensors used by layers 0 and 1 were single-piece. Direct GPU L0->L1 handoff was true. All 34 checkpoints were finite and PASS. Worst max_abs was L1.ffn_gate=0.00325441360474; worst RMSE was L0.k_rope=0.000176462817402. L1 final output max_abs=0.000379204750061 and RMSE=2.92844861807e-05. Execution was exactly 30 dispatches, one submit, one fence wait and exactly layers [0,1]. first_failing_checkpoint was empty.
+Decision: P8-F is a genuine PASS and is FROZEN. This supports bounded cross-layer composition across one real decoder boundary; it does not establish full-model correctness.
+Next: P8-G larger bounded prefix. Full 28-layer inference remains forbidden.
+
+## 2026-09-19 — P8-G design frozen
+Question: does the validated prefix remain correct when depth doubles from two layers to four layers while hidden states stay GPU-resident and unmodified?
+Design: execute exactly layers [0,1,2,3], seq=4, same deterministic input, same graph binding, same 19 arenas / 341 pieces, same frozen kernels and same numerical gates. CPU reference computes the same four-layer prefix independently from original GGUF bytes. GPU execution uses direct handoff L0->L1->L2->L3. Record the same 17 checkpoints per layer, 68 total. Exact execution gate is 60 dispatches in one submit and exactly four executed layers.
+Failure localization: L0/L1 failure is a P8-F regression; L0/L1 PASS followed by first failure in L2/L3 is the new deeper-prefix composition obstruction.
+Exclusions: no embedding, output_norm, LM-head, decode, generation, layer 4+, or performance trial.
+Decision: P8-G contract is DESIGN_FROZEN and implementation is permitted. It is not READY_TO_RUN until implementation plus static QA are committed.
+Next on PASS: P8-H bounded eight-layer prefix correctness design. Full 28-layer inference remains forbidden.

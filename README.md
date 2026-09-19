@@ -20,7 +20,7 @@ Frozen model SHA256:
 
 ## Status
 
-P0-P7 are CLOSED. **P8-E is frozen PASS. P8-F — bounded two-layer prefix correctness — is READY TO RUN.**
+P0-P7 are CLOSED. **P8-F is frozen PASS. P8-G — bounded four-layer prefix correctness — is DESIGN_FROZEN / READY_FOR_IMPLEMENTATION.**
 
 The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
 
@@ -37,7 +37,7 @@ P4  One decoder layer                               CLOSED
 P5  Full decoder residency                          CLOSED
 P6  GPU-resident KV + generation                    CLOSED
 P7  Q4_K_M production path                          CLOSED
-P8  7B memory-planned runtime                       ACTIVE (P8-F)
+P8  7B memory-planned runtime                       ACTIVE (P8-G design)
 P9  Local OpenAI-compatible API                     PLANNED
 P10 Activation/output-aware Q4 research              DEFERRED
 ```
@@ -61,33 +61,18 @@ Rules:
 
 ## Current run
 
-P8-E is frozen as a genuine PASS.
+P8-F is frozen as a genuine PASS.
 
-Authoritative P8-E SHA256:
-- shader provenance: `73916DE149A413B835541B95F01FEAF2B87DDDE03C039C3D1ABC0E2A3A115861`
-- single-layer results: `992A986081FAFC81AC2E6E1A38063384434DE3138CAE469A04A57FED57BDA52B`
-- summary: `EBC4C8088B0992A30D72973DC7485CCF7AA0618B354509A506CC9FDE294B5B9D`
+Authoritative P8-F SHA256:
+- shader provenance: `9686F747B6A4D7380F4621B1A3EEC09B82DE7832461B1A9C80548D21D7D70A41`
+- two-layer results: `F172E1B0B00558BDE53EB6994BDC1E5BFFC417F96A33FA1C53B0983BB494AE98`
+- summary: `1F3EF56BC723FE2D8D8E567ADCB89BC23AE212CB0BBBB51CBC5B83E81DF9FC70`
 
-P8-E executed exactly layer 0 at seq=4 through the frozen 19-arena / 341-piece graph-binding plan. All 17 CPU-vs-GPU checkpoints passed. The largest observed error was at K RoPE/K-cache with max_abs ~= 0.00277 and RMSE ~= 0.000176, still well inside the frozen 0.02 / 0.005 gates. Final layer output max_abs ~= 0.000297 and RMSE ~= 1.75e-5. Execution was exactly 15 dispatches, one submit and one decoder layer. Full inference remained forbidden.
+P8-F executed exactly layers 0 -> 1 at seq=4 with direct GPU hidden-state handoff. All 34 CPU-vs-GPU checkpoints passed. Worst max_abs was L1.ffn_gate ~= 0.003254; worst RMSE remained L0.k_rope ~= 0.000176, both inside the frozen 0.02 / 0.005 gates. Execution was exactly 30 dispatches, one submit and two decoder layers. Full inference remained forbidden.
 
-P8-F implementation is committed and **READY TO RUN**. Its frozen contract is in `docs/P8F_CONTRACT.md`.
+P8-G is **DESIGN_FROZEN / READY_FOR_IMPLEMENTATION**. Its contract is in `docs/P8G_CONTRACT.md`.
 
-Run:
-
-```powershell
-py -3 .\tests\test_p8f_package.py
-powershell.exe -ExecutionPolicy Bypass -File .\run_p8f.ps1
-```
-
-Expected evidence:
-
-```text
-results\p8f_shader_provenance.json
-results\p8f_two_layer_results.json
-results\p8f_summary.json
-```
-
-P8-F changes only one scientific variable: layer composition. It executes exactly prefix layers 0 -> 1 at seq=4 with direct GPU hidden-state handoff, independent two-layer CPU reference, 34 checkpoint records and exact 30 dispatches in one submit.
+P8-G changes only prefix depth: exactly layers [0,1,2,3], same seq=4/input/kernels/gates, direct GPU handoff across all three boundaries, independent four-layer CPU reference, 68 checkpoints, and exact 60 dispatches in one submit.
 
 Full 28-layer inference, decode and generation remain forbidden.
 
