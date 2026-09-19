@@ -542,3 +542,10 @@ Evidence: each layer retains the same 17 checkpoints used by P8-E/P8-F, for 68 t
 Provenance: runner verifies byte-exact authoritative P8-F parent evidence, recompiles the same 11 frozen shaders with pinned glslang 16.5.0, and writes fresh P8-G provenance/results/summary.
 Decision: P8-G is READY_TO_RUN. No P8-G scientific verdict exists until target-machine evidence is returned. Full 28-layer inference remains forbidden.
 Next on PASS: P8-H bounded eight-layer prefix correctness design.
+
+
+## 2026-09-19 — P8-G native-build cleanup-symbol repair
+Observed before runtime: static QA and shader compilation passed, but MSVC failed in p8g_four_layer_prefix_correctness.cpp with C3861 because destroy_layer was called in the cleanup path without a local definition. The helper had been present in P8-F but was accidentally removed when the P8-G output/cleanup block was mechanically replaced.
+Repair: restore the same bounded per-layer buffer-destruction lambda immediately before the reverse cleanup loop, and add static QA requiring the helper definition to precede its only invocation.
+Classification: native-build/package defect only. No P8-G GPU dispatch occurred; therefore no scientific P8-G evidence or verdict exists. The frozen hypothesis, parent evidence, four-layer scope, 68 checkpoints, numerical gates, 60-dispatch/one-submit contract and full-inference prohibition are unchanged.
+Decision: P8-G remains READY_TO_RUN.

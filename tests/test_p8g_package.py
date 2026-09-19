@@ -71,6 +71,12 @@ exec_block=s[ab1:s.index('if(ops.size()!=60u)',ab1)]
 assert exec_block.count('append_layer(')==4
 assert 'append_layer(4' not in s
 
+# Cleanup helper must be defined before the bounded reverse-destruction loop.
+cleanup_def=s.index('auto destroy_layer=[&](P8GLayerBuffers&b)')
+cleanup_call=s.index('for(int l=int(EXEC_LAYERS)-1;l>=0;--l)destroy_layer',cleanup_def)
+assert cleanup_def>=0 and cleanup_call>cleanup_def
+assert s.count('destroy_layer(')==1
+
 # Error and normal output belong to P8-G; P8-F schema remains only as parent check.
 assert s.count('arcllm.p8g.four_layer_prefix_correctness.v1')==2
 assert s.count('arcllm.p8f.two_layer_prefix_correctness.v1')==1

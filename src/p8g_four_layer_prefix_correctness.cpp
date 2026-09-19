@@ -389,6 +389,9 @@ int main(int argc,char**argv){
         std::cout<<"P8-G "<<(pass?"PASS":"FAIL");if(!first_fail.empty())std::cout<<" first_fail="<<first_fail;std::cout<<"\n";
 
         vk.destroy_prepared(chain);
+        auto destroy_layer=[&](P8GLayerBuffers&b){
+            for(Buffer*p:{&b.out,&b.d,&b.s,&b.u,&b.g,&b.n2,&b.r1,&b.o,&b.attn,&b.kr,&b.qr,&b.v,&b.k,&b.q,&b.n1})vk.destroy_buffer(*p);
+        };
         for(int l=int(EXEC_LAYERS)-1;l>=0;--l)destroy_layer(gpu[size_t(l)]);
         vk.destroy_buffer(b_vcache);vk.destroy_buffer(b_kcache);vk.destroy_buffer(b_dummy);vk.destroy_buffer(b_x);
         for(auto&b:arenas)vk.destroy_buffer(b);
