@@ -1,121 +1,86 @@
 {
-  "phase": "P8-G3",
+  "phase": "P8-G4",
   "date": "2026-09-20",
-  "status": "READY_TO_RUN",
-  "title": "arithmetic-precision attribution",
-  "parent": "P8-G2 H-NONLINEAR/UNEXPLAINED",
+  "status": "DESIGN_FROZEN",
+  "title": "fresh-cohort compositional error decomposition",
+  "parent": "P8-G3 H-FP32-ACCUMULATION",
   "target": {
     "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
     "size_bytes": 4683074048
   },
-  "authoritative_p8g2": {
-    "shader_provenance_sha256": "43A8DEA2AD14FF516B7FDF3EB69EC3D807C455F84D53E67C7BBF00A20C4993F4",
-    "amplification_geometry_sha256": "2D183D80DD4A63CC75E10D2DC42BE08D7606B147A39FC15021E1D52E569CA168",
-    "summary_sha256": "B48FC0B48CC94363C24C0FD772058AC46C8BD3ED32203039F7FDEE230B0CB8A6",
+  "authoritative_p8g3": {
+    "shader_provenance_sha256": "C10D0DB9444E584CDC76D939F5D134EC1229BD600CF3EED181C9D08505E955E8",
+    "arithmetic_precision_sha256": "B0ADAAF9790018467C721599C2147AF7A6C0F69F0967B5C25F77631095571835",
+    "summary_sha256": "EF494284E7BFBED541380267EDB197CF53F9EBB7E86040A83546735F84209C4D",
     "status": "COMPLETE",
     "diagnostic_valid": true,
-    "classification": "H-NONLINEAR/UNEXPLAINED",
-    "a0_pass": true,
-    "a1": {
-      "max_direction_gain": 3.37789904502,
-      "rms_direction_gain": 5.13510196006
-    },
-    "a2": {
-      "max_abs": 0.000383861362934,
-      "rmse": 0.0000055805988593,
+    "classification": "H-FP32-ACCUMULATION",
+    "closure_earliest_pass": "R1",
+    "alpha_earliest_pass": "R1",
+    "r0_closure": {
+      "max_abs": 0.000383861362934113,
+      "rmse": 0.00000558059885929576,
       "pass": false
     },
-    "a3": {
-      "kernel_max_ratio": 0.00107700592353,
-      "kernel_rms_ratio": 0.00166563879756,
+    "r1_closure": {
+      "max_abs": 0.0000132623827084899,
+      "rmse": 2.76852946947452e-7,
       "pass": true
     },
-    "a4": {
-      "pass": false,
-      "alpha_025_max_ratio_deviation_fraction": 0.0145395799681,
-      "alpha_025_rms_ratio_deviation_fraction": 0.00945108461955
+    "r2_closure": {
+      "max_abs": 3.839948324591e-12,
+      "rmse": 4.91078806241683e-14,
+      "pass": true
+    },
+    "r3_closure": {
+      "max_abs": 3.839948324591e-12,
+      "rmse": 4.84615771723039e-14,
+      "pass": true
     }
   },
-  "source_fact": {
-    "q4k_cpu_accumulator": "float sequential sum",
-    "terms_per_row": 18944
-  },
-  "p8g3": {
-    "focus_tensor": "blk.3.ffn_down.weight",
-    "format": "Q4_K",
-    "n": 18944,
-    "rows": 3584,
-    "batch": 4,
-    "prefix_dispatches": 58,
-    "prefix_submits": 1,
-    "regimes": [
-      "R0_FP32_BASELINE",
-      "R1_DOUBLE_ACCUM_FLOAT_PRODUCT_FLOAT_OUTPUT",
-      "R2_DOUBLE_DOT_FLOAT_INPUT_ALGEBRA",
-      "R3_DOUBLE_INPUT_ALGEBRA"
+  "p8g4": {
+    "fresh_input_ids": [
+      17,
+      29,
+      43,
+      61
     ],
-    "closure_max_abs": 0.0001,
-    "closure_rmse": 0.000001,
-    "alpha_series": [
-      0.25,
-      0.5,
-      0.75,
-      1
+    "input_formula": "0.13*sin((i+11+37*s)*0.009)+0.04*cos((i+5+19*s)*0.017)+0.02*sin((i+3+23*s)*0.0043)",
+    "layers": [
+      0,
+      1,
+      2,
+      3
     ],
-    "alpha_ratio_tolerance_fraction": 0.01,
-    "parent_max_abs_tolerance": 0.000001,
-    "parent_rmse_tolerance": 1e-7,
-    "parent_alpha_ratio_relative_tolerance": 0.001,
+    "seq": 4,
+    "pos": 0,
+    "prefix_dispatches_per_seed": 58,
+    "prefix_submits_per_seed": 1,
+    "local_down_dispatches_per_seed": 1,
+    "local_down_submits_per_seed": 1,
+    "diagnostic_oracle": "R1: float product + double accumulator + float output",
+    "closure_max_abs": 0.00001,
+    "closure_rmse": 1e-7,
+    "local_historical_max_abs": 0.02,
+    "local_historical_rmse": 0.005,
+    "local_to_state_ratio_max": 0.05,
+    "historical_total_gate_decision_role": "descriptive_only",
     "classifications": [
-      "H-FP32-ACCUMULATION",
-      "H-DOT-ROUNDING",
-      "H-INPUT-ROUNDING",
-      "H-MIXED-FINITE-PRECISION",
-      "H-HIGH-PRECISION-UNEXPLAINED",
-      "PARENT-REPRODUCTION-FAILED"
+      "H-COMPOSITIONAL-SEPARATION-REPLICATED",
+      "H-HETEROGENEOUS-SEPARATION",
+      "H-LOCAL-ERROR-NONNEGLIGIBLE",
+      "DECOMPOSITION-INVALID"
     ],
     "replacement_gate_definition_permitted": false
   },
   "implementation_permitted": true,
-  "target_run_permitted": true,
+  "target_run_permitted": false,
   "p8g_verdict_frozen": "FAIL",
   "p8g1_classification_frozen": "H-AMPLIFICATION",
   "p8g2_classification_frozen": "H-NONLINEAR/UNEXPLAINED",
+  "p8g3_classification_frozen": "H-FP32-ACCUMULATION",
   "p8h_blocked": true,
   "full_inference_forbidden": true,
-  "next_on_completion": "adjudicate P8-G3 arithmetic-precision attribution",
-  "implementation_commit_pending": false,
-  "implementation": {
-    "prefix_scope": "L0-L2 full; L3 through SwiGLU",
-    "prefix_dispatches": 58,
-    "prefix_submits": 1,
-    "shader_count": 11,
-    "precision_controls_cpu_only": true,
-    "fused_q4_weight_decode": true,
-    "within_dot_term_order": "k=0..18943 preserved independently per regime",
-    "cpu_workers_max": 8,
-    "r0": "float product + float accumulator + float output + float input algebra",
-    "r1": "float product + double accumulator + float output + float input algebra",
-    "r2": "double product + double accumulator + double output + float input algebra",
-    "r3": "double product + double accumulator + double output + double input algebra",
-    "closure_gate": {
-      "max_abs": 0.0001,
-      "rmse": 0.000001
-    },
-    "alpha_series": [
-      0.25,
-      0.5,
-      0.75,
-      1
-    ],
-    "alpha_ratio_tolerance_fraction": 0.01,
-    "parent_reproduction": {
-      "max_abs_tolerance": 0.000001,
-      "rmse_tolerance": 1e-7,
-      "alpha_ratio_relative_tolerance": 0.001
-    },
-    "replacement_gate_definition_permitted": false,
-    "p8g_verdict_change_permitted": false,
-    "target_experiment_run_in_lock_commit": false
-  }
+  "next_on_completion": "adjudicate P8-G4 fresh-cohort compositional decomposition",
+  "implementation_commit_pending": true
 }

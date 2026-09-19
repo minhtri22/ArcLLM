@@ -20,7 +20,7 @@ Frozen model SHA256:
 
 ## Status
 
-P0-P7 are CLOSED. **P8-G is frozen FAIL. P8-G1 supports H-AMPLIFICATION. P8-G2 is frozen H-NONLINEAR/UNEXPLAINED. P8-G3 — arithmetic-precision attribution — is READY TO RUN.**
+P0-P7 are CLOSED. **P8-G is frozen FAIL. P8-G1=H-AMPLIFICATION. P8-G2=H-NONLINEAR/UNEXPLAINED. P8-G3=H-FP32-ACCUMULATION. P8-G4 fresh-cohort compositional decomposition is DESIGN_FROZEN / READY_FOR_IMPLEMENTATION.**
 
 The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
 
@@ -37,7 +37,7 @@ P4  One decoder layer                               CLOSED
 P5  Full decoder residency                          CLOSED
 P6  GPU-resident KV + generation                    CLOSED
 P7  Q4_K_M production path                          CLOSED
-P8  7B memory-planned runtime                       ACTIVE (P8-G3 precision attribution)
+P8  7B memory-planned runtime                       ACTIVE (P8-G4 fresh-cohort decomposition)
 P9  Local OpenAI-compatible API                     PLANNED
 P10 Activation/output-aware Q4 research              DEFERRED
 ```
@@ -63,38 +63,28 @@ Rules:
 
 P8-G remains frozen FAIL under its original 0.02 / 0.005 gate.
 
-P8-G1 remains frozen **H-AMPLIFICATION**.
+Frozen causal chain:
+- P8-G1: **H-AMPLIFICATION**
+- P8-G2: **H-NONLINEAR/UNEXPLAINED** under its preregistered FP32 closure/linearity criteria
+- P8-G3: **H-FP32-ACCUMULATION**
 
-P8-G2 is COMPLETE and diagnostic-valid, but its preregistered A2 linear-closure and A4 alpha-linearity criteria failed; the frozen P8-G2 classification is therefore **H-NONLINEAR/UNEXPLAINED**.
+Authoritative P8-G3 SHA256:
+- shader provenance: `C10D0DB9444E584CDC76D939F5D134EC1229BD600CF3EED181C9D08505E955E8`
+- arithmetic-precision result: `B0ADAAF9790018467C721599C2147AF7A6C0F69F0967B5C25F77631095571835`
+- summary: `EF494284E7BFBED541380267EDB197CF53F9EBB7E86040A83546735F84209C4D`
 
-Authoritative P8-G2 SHA256:
-- shader provenance: `43A8DEA2AD14FF516B7FDF3EB69EC3D807C455F84D53E67C7BBF00A20C4993F4`
-- amplification geometry: `2D183D80DD4A63CC75E10D2DC42BE08D7606B147A39FC15021E1D52E569CA168`
-- summary: `B48FC0B48CC94363C24C0FD772058AC46C8BD3ED32203039F7FDEE230B0CB8A6`
+P8-G3 reproduced R0 exactly. Both closure and alpha-linearity first pass at R1: float product + double accumulator + float output. R1 closure is max_abs ~= 1.326e-5 / RMSE ~= 2.769e-7; R2/R3 reduce closure to about 3.84e-12 / 4.9e-14. Therefore sequential FP32 accumulation is sufficient to explain the P8-G2 A2/A4 misses.
 
-P8-G2 reproduced its parent and confirmed that the production GPU kernel residual is negligible relative to propagated error: about 0.108% by max_abs and 0.167% by RMS. A2 closure residual was about 1.35% / 1.53% of propagated max/RMS error. A4 failed narrowly: only alpha=0.25 max_abs/alpha exceeded the frozen 1% tolerance.
+This result does not erase P8-G's historical FAIL and does not by itself justify a replacement correctness gate.
 
-Source audit shows the CPU Q4_K reference uses a sequential float accumulator over 18,944 terms. Therefore finite-precision non-distributivity is a prospective explanation for the P8-G2 A2/A4 failures.
+P8-G4 is **DESIGN_FROZEN / READY_FOR_IMPLEMENTATION**. Contract: `docs/P8G4_CONTRACT.md`.
 
-P8-G3 implementation + static QA are locked and **READY TO RUN**. Contract: `docs/P8G3_CONTRACT.md`.
+P8-G4 prospectively tests four fresh deterministic inputs, still only through L3, and decomposes total down-projection error into:
+- propagated upstream state drift;
+- same-input local GPU operator error.
 
-Run only after pulling the implementation-lock commit:
+The P8-G3-qualified R1 arithmetic is used only as a diagnostic CPU oracle. The mechanistic replication gate requires local operator error to be <=5% of state-drift error on both max and RMS for all four fresh inputs, with exact decomposition closure.
 
-```powershell
-py -3 .\tests\test_p8g3_package.py
-powershell.exe -ExecutionPolicy Bypass -File .\run_p8g3.ps1
-```
-
-Expected evidence:
-
-```text
-results\p8g3_shader_provenance.json
-results\p8g3_arithmetic_precision_results.json
-results\p8g3_summary.json
-```
-
-P8-G3 keeps the exact 58-dispatch prefix through L3 SwiGLU. All R0-R3 precision controls are CPU-only. The fused evaluator decodes each Q4_K weight once per output coordinate while preserving the exact within-dot term order for every regime.
-
-No target experiment was run in the implementation-lock commit. No replacement gate is defined. P8-H and full inference remain blocked.
+No replacement gate is defined. P8-H and full inference remain blocked.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.

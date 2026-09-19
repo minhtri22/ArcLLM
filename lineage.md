@@ -643,3 +643,19 @@ Closure and alpha each report earliest pass R1/R2/R3/NONE. Overall classificatio
 Static QA locks exact parent hashes, R0-R3 arithmetic markers, 58/1 prefix scope, CPU-only precision controls, unchanged thresholds, governance fields, runner outputs, build sources and pinned 11-shader provenance.
 No target experiment was run as part of this implementation/static-QA lock.
 Decision: P8-G3 READY_TO_RUN only after this commit is pulled. P8-G remains FAIL; P8-G1 remains H-AMPLIFICATION; P8-G2 remains H-NONLINEAR/UNEXPLAINED; replacement gate remains undefined; P8-H and full inference remain forbidden.
+
+
+## 2026-09-20 — P8-G3 COMPLETE / H-FP32-ACCUMULATION frozen
+Authoritative evidence SHA256: shader provenance C10D0DB9444E584CDC76D939F5D134EC1229BD600CF3EED181C9D08505E955E8; arithmetic-precision result B0ADAAF9790018467C721599C2147AF7A6C0F69F0967B5C25F77631095571835; summary EF494284E7BFBED541380267EDB197CF53F9EBB7E86040A83546735F84209C4D.
+Validity: COMPLETE, diagnostic_valid=true, exact focus/binding PASS, prefix 58 dispatches / one submit, direct GPU handoff, precision controls CPU-only, no layer4+.
+R0 reproduced P8-G2 and retained closure FAIL / alpha FAIL. R1, which changes only sequential accumulation from float to double while preserving float products and float output, is the earliest regime to pass both closure and alpha-linearity. R1 closure max_abs=1.32623827084899e-05 and RMSE=2.76852946947452e-07. R2/R3 reduce closure to approximately 3.84e-12 max_abs and 4.9e-14 RMSE.
+All alpha argmax indices remain 13322 across every regime and alpha. R1 normalized alpha ratios are stable within the frozen 1% criterion.
+Decision: P8-G3 classification H-FP32-ACCUMULATION is FROZEN. Sequential FP32 accumulation is sufficient to explain the P8-G2 A2/A4 misses. This does not revise P8-G FAIL, P8-G1 H-AMPLIFICATION or P8-G2 H-NONLINEAR/UNEXPLAINED under their historical protocols. replacement_gate_defined=false. P8-H and full inference remain forbidden.
+
+## 2026-09-20 — P8-G4 fresh-cohort compositional decomposition design frozen
+Question: does the P8-G1 causal separation between propagated upstream state drift and same-input local FFN-down error replicate prospectively on fresh inputs after removing the P8-G3-identified FP32 oracle artifact?
+Fresh cohort is fixed before target evidence: input IDs {17,29,43,61} with formula x_s[i]=0.13*sin((i+11+37*s)*0.009)+0.04*cos((i+5+19*s)*0.017)+0.02*sin((i+3+23*s)*0.0043). The original P8-G input is excluded.
+Each seed executes only layers0..3 through L3 SwiGLU using the frozen 58-dispatch direct GPU prefix. The exact P8-G3 R1 arithmetic acts only as the CPU diagnostic oracle for L3 FFN-down. One production P7-G Q4_K tiled16 down dispatch on X_GPU yields the local GPU output.
+Per seed: E_state=R1_down(X_GPU)-R1_down(X_CPU), E_local=GPU_down(X_GPU)-R1_down(X_GPU), E_total=GPU_down(X_GPU)-R1_down(X_CPU). Decomposition closure must pass 1e-5 / 1e-7. Same-input local error must pass historical 0.02 / 0.005. Prospective dominance requires local/state <=5% on both max and RMS.
+Historical total-error pass/fail is recorded descriptively only and is excluded from P8-G4 adjudication.
+Decision: P8-G4 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION. No replacement correctness gate is defined. P8-H and full inference remain blocked.
