@@ -43,7 +43,20 @@ assert s.count('addop("L0.')==15
 assert 'p7_embedding' not in s
 assert 'p7_lmhead' not in s
 assert 'build_decode' not in s
-assert 'for(uint32_t l=0;l<28' not in s
+# The 28-layer loop is required only for graph tensor-name census metadata.
+# Execution itself must remain a statically enumerated layer-0 chain with no layer loop.
+gn0=s.index('static std::vector<std::string> p8e_graph_names()')
+gn1=s.index('static std::map<std::string,P8EBinding> p8e_build_bindings',gn0)
+assert gn0>=0 and gn1>gn0
+graph_name_body=s[gn0:gn1]
+assert 'for(uint32_t l=0;l<28u;++l)' in graph_name_body
+
+ex0=s.index('std::vector<DispatchOp> ops;')
+ex1=s.index('if(ops.size()!=15u)',ex0)
+assert ex0>=0 and ex1>ex0
+execution_builder=s[ex0:ex1]
+assert 'for(uint32_t l=' not in execution_builder
+assert execution_builder.count('addop("L0.')==15
 for opname in [
  'L0.attn_rmsnorm','L0.q_proj','L0.k_proj','L0.v_proj','L0.q_rope','L0.k_rope',
  'L0.kv_store','L0.causal_gqa','L0.o_proj','L0.attn_residual','L0.ffn_rmsnorm',

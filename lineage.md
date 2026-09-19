@@ -461,3 +461,10 @@ Observation contract: 17 CPU-vs-GPU checkpoints are preserved, including K/V cac
 Provenance: runner verifies byte-exact authoritative P8-D evidence before static QA/build/run and produces fresh provenance for the 11 required frozen shaders using pinned glslang 16.5.0.
 Decision: P8-E is READY_TO_RUN. No scientific verdict exists until target-machine JSON is returned. Build/compiler/environment errors remain infrastructure failures only. A numerical FAIL is adjudicated at the first failing checkpoint; no additional layers may run.
 Next on PASS: P8-F bounded multi-layer-prefix correctness design. Full 28-layer inference remains forbidden.
+
+
+## 2026-09-19 — P8-E static-QA false-positive repair
+Observed before runtime: tests/test_p8e_package.py rejected the source because it globally banned the text `for(uint32_t l=0;l<28`. The only matching loop is inside `p8e_graph_names()`, where all 28 model layers are enumerated solely to reconstruct the frozen 339-tensor graph census required by P8-D/P8-E binding QA. It does not dispatch or execute decoder layers. The actual P8-E execution builder remains a statically enumerated set of exactly 15 `addop("L0....")` operations for layer 0.
+Repair: replace the over-broad text ban with two scoped checks: require the 28-layer loop inside the graph-name metadata function, and require no layer loop inside the DispatchOp construction region while retaining exactly 15 layer-0 addop calls.
+Classification: package/static-QA defect only. No shader, runtime, numerical gate, P8-E contract, target evidence, or scientific hypothesis changed. No scientific run occurred because the runner stopped at static QA.
+Decision: P8-E remains READY_TO_RUN under the original frozen contract.
