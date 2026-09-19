@@ -20,7 +20,7 @@ Frozen model SHA256:
 
 ## Status
 
-P0-P7 are CLOSED. **P8-C is frozen PASS. P8-D — segmented access integration into the 7B graph — is READY TO RUN.**
+P0-P7 are CLOSED. **P8-D is frozen PASS. P8-E — bounded single-layer 7B graph correctness — is DESIGN_FROZEN / READY_FOR_IMPLEMENTATION.**
 
 The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
 
@@ -37,7 +37,7 @@ P4  One decoder layer                               CLOSED
 P5  Full decoder residency                          CLOSED
 P6  GPU-resident KV + generation                    CLOSED
 P7  Q4_K_M production path                          CLOSED
-P8  7B memory-planned runtime                       ACTIVE (P8-D)
+P8  7B memory-planned runtime                       ACTIVE (P8-E design)
 P9  Local OpenAI-compatible API                     PLANNED
 P10 Activation/output-aware Q4 research              DEFERRED
 ```
@@ -61,25 +61,17 @@ Rules:
 
 ## Current run
 
-P8-C is frozen PASS. Do not rerun it as the active scientific gate.
+P8-D is frozen as a genuine PASS.
 
-P8-D implementation is committed and **READY TO RUN**. Its frozen contract is in `docs/P8D_CONTRACT.md`.
+Authoritative P8-D SHA256:
+- shader provenance: `FABD3DAE027DB5AA69E037FE179BCD0C4F5A16C5D3AAFF0E08A938101AC8F454`
+- graph binding results: `53C373BD3BA1A9BD31B45702CED08E2EB39C7F2B7B099E052EC8C5153A824ABD`
+- summary: `74624BFAC44F4E5B9A6F08AC972508A353DAB96E0B6D4B92E8C658ABB1651D27`
 
-Run:
+P8-D resolved 339/339 graph tensors with zero missing or ambiguous bindings, retained exactly 19 arenas / 341 pieces / two segmented logical tensors, passed exhaustive span and global-coverage equivalence, and executed exactly two endpoint dispatches in one submit with decoder_layer_dispatches=0. Embedding remained exact; selected LM-head logits remained within ~2.38e-7 max_abs.
 
-```powershell
-py -3 .\tests\test_p8d_package.py
-powershell.exe -ExecutionPolicy Bypass -File .\run_p8d.ps1
-```
+P8-E is now **DESIGN_FROZEN / READY_FOR_IMPLEMENTATION**, not READY_TO_RUN. Its contract is in `docs/P8E_CONTRACT.md`.
 
-Expected evidence:
-
-```text
-results\p8d_shader_provenance.json
-results\p8d_graph_binding_results.json
-results\p8d_summary.json
-```
-
-P8-D allocates the 19 frozen weight arenas, resolves all 339 graph tensors into 341 physical pieces, and executes only the two graph-resolved endpoint probes. Decoder-layer dispatches are explicitly gated at zero. Full 28-layer inference remains forbidden.
+P8-E permits exactly one decoder layer (layer 0) at sequence length 4, with deterministic synthetic hidden input and full CPU-vs-GPU checkpoint comparison. Full 28-layer inference, decode and generation remain forbidden.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.

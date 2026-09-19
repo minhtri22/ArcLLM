@@ -438,3 +438,17 @@ Next on PASS: P8-E bounded single-layer 7B graph correctness bring-up. Full 28-l
 ## 2026-09-19 — P8-C raw shader-provenance preservation completed
 Evidence: the previously missing raw P8-C shader_provenance.json was supplied later. Its exact raw SHA256 is 25D7E7D01F033B85692E83C102D269A37E21988D229191BCA5FF51DBC0E118E3, matching the hash frozen at P8-C closeout. It records glslang 16.5.0 / Vulkan 1.2 and the exact same source/SPIR-V hashes later reproduced by P8-D for both segmented endpoint shaders.
 Decision: provenance gap only is closed. Store the raw file byte-exact as inputs/p8c_shader_provenance.authoritative.json and point P8C_SHA256SUMS.txt at the authoritative input. No P8-C scientific result or gate changes.
+
+
+## 2026-09-19 — P8-D PASS / graph binding integration frozen
+Authoritative evidence: p8d_shader_provenance SHA256 FABD3DAE027DB5AA69E037FE179BCD0C4F5A16C5D3AAFF0E08A938101AC8F454; p8d_graph_binding_results SHA256 53C373BD3BA1A9BD31B45702CED08E2EB39C7F2B7B099E052EC8C5153A824ABD; p8d_summary SHA256 74624BFAC44F4E5B9A6F08AC972508A353DAB96E0B6D4B92E8C658ABB1651D27.
+Result: status=PASS, target tensor_count=339 and exact frozen 7B geometry. Resolver required/resolved 339/339 tensors with missing=0 and ambiguous=0; exact 19 arenas, 341 physical pieces, two segmented logical tensors and 337 ordinary one-piece tensors. span_equivalence_pass=true, global_coverage_pass=true, segmented_names_pass=true and segment_geometry_pass=true. Independent embedding/LM-head mapping equivalence remained true. Embedding compared 28,672 values with max_abs=0 and RMSE=0. LM-head compared eight selected logits with max_abs=2.38418579102e-07 and RMSE=1.11027394095e-07. Execution was exactly two dispatches, one submit and one fence wait; decoder_layer_dispatches=0 and all outputs finite. Every P8-D gate is true and process_exit_code=0.
+Decision: P8-D is a genuine PASS and is FROZEN. The P8-A2 segmented physical map is now qualified through graph-level logical tensor bindings, including exhaustive payload ownership and the two segmented endpoints. This still does not establish decoder-layer correctness or full-model inference correctness.
+Next: P8-E bounded single-layer 7B graph correctness bring-up. Full 28-layer inference remains forbidden.
+
+## 2026-09-19 — P8-E design frozen
+Question: can exactly layer 0 at the frozen 7B dimensions execute through the P8-D graph-binding resolver using the frozen P7-L kernel path and match an independent CPU reference?
+Design: execute one layer only, sequence length 4, position base 0, deterministic synthetic hidden input, all 19 weight arenas resident. The frozen chain has exactly 15 operations: attention RMSNorm; Q/K/V projections; Q/K RoPE; layer-0 KV store; causal GQA; output projection; attention residual; FFN RMSNorm; fused P7-L gate+up; SwiGLU; P7-G FFN down; FFN residual. Compare CPU-vs-GPU at all major checkpoints and final layer output with max_abs<=0.02 and RMSE<=0.005. Exact execution gate is 15 dispatches, one submit, exactly one decoder layer, layer index 0.
+Exclusions: no embedding, output_norm, LM-head, decode, sampling, generation, second layer or performance trial.
+Decision: P8-E contract is DESIGN_FROZEN and implementation is permitted. It is not READY_TO_RUN until implementation plus static QA are committed.
+Next on PASS: P8-F bounded multi-layer-prefix correctness design. Full 28-layer inference remains forbidden.

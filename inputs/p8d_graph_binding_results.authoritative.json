@@ -1,0 +1,13 @@
+{
+  "schema":"arcllm.p8d.graph_binding.v1",
+  "status":"PASS",
+  "target":{"tensor_count":339,"layers":28,"hidden":3584,"q_heads":28,"kv_heads":4,"head_dim":128,"ffn":18944,"vocab":152064},
+  "parent":{"p8a2_plan_loaded":true,"p8c_access_loaded":true,"p8c_summary_loaded":true},
+  "resolver":{"graph_required_tensors":339,"resolved_tensors":339,"missing":0,"ambiguous":0,"arena_count":19,"physical_piece_count":341,"segmented_logical_tensor_count":2,"ordinary_single_piece_count":337,"span_equivalence_pass":true,"global_coverage_pass":true,"segmented_names_pass":true,"segment_geometry_pass":true},
+  "mapping_equivalence":{"embedding_pass":true,"lm_head_pass":true,"pass":true},
+  "probe_rows":{"embedding":[0,1,133150,133151,133152,133153,152062,152063],"lm_head":[0,1,91302,91303,91304,91305,152062,152063],"boundary_adjacency_pass":true},
+  "embedding":{"compared_values":28672,"max_abs":0,"rmse":0,"pass":true},
+  "lm_head":{"compared_values":8,"max_abs":2.38418579102e-07,"rmse":1.11027394095e-07,"pass":true},
+  "execution":{"dispatches":2,"submits":1,"fence_waits":1,"decoder_layer_dispatches":0,"finite_pass":true},
+  "gate":{"arena_plan_pass":true,"resolver_pass":true,"mapping_equivalence_pass":true,"embedding_pass":true,"lm_head_pass":true,"boundary_pass":true,"finite_pass":true,"exact_two_dispatches_pass":true,"exact_one_submit_pass":true,"no_decoder_layer_execution_pass":true,"p8d_pass":true}
+}
