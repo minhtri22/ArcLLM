@@ -1,0 +1,13 @@
+{
+  "schema":"arcllm.p8a.memory_plan.v1",
+  "status":"FAIL",
+  "file":{"path":"C:\\Users\\minht\\.ollama\\models\\blobs\\sha256-60e05f2100071479f596b964f89f510f057ce397ea22f2833a0cfe029bfc2463","size_bytes":4683074048,"expected_size_bytes":4683074048,"size_pass":true},
+  "model":{"architecture":"qwen2","layers":28,"hidden":3584,"q_heads":28,"kv_heads":4,"head_dim":128,"kv_dim":512,"ffn":18944,"vocab":152064,"model_context":32768,"planned_context":4096,"prefill_chunk":512},
+  "gguf":{"version":3,"tensor_count":339,"metadata_count":34,"alignment":32,"data_offset":5954048,"tensor_bytes_total":4677120000,"payload_span_bytes":4677120000,"no_overlap":true},
+  "quant_mix":[{"ggml_type":0,"name":"F32","count":141,"bytes":1333248},{"ggml_type":12,"name":"Q4_K","count":169,"bytes":3427909632},{"ggml_type":14,"name":"Q6_K","count":29,"bytes":1247877120}],
+  "unsupported_tensors":[],
+  "oversize_tensors":["token_embd.weight","output.weight"],
+  "arena_plan":{"cap_bytes":268435456,"count":0,"pass":false,"arenas":[]},
+  "memory":{"weight_payload_span_bytes":4677120000,"kv_fp32_bytes":469762048,"working_buffer_bytes":200888324,"total_planned_bytes":5347770372,"observed_budget_bytes":18522046464,"safety_margin_bytes":2147483648,"usable_budget_bytes":16374562816,"headroom_bytes":11026792444,"capacity_pass":true},
+  "gate":{"size_pass":true,"architecture_pass":true,"context_pass":true,"supported_types_pass":true,"no_overlap_pass":true,"arena_pack_pass":false,"no_oversize_tensor_pass":false,"capacity_pass":true,"p8a_pass":false}
+}

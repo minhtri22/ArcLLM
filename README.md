@@ -20,11 +20,11 @@ Frozen model SHA256:
 
 ## Status
 
-P0-P7 are CLOSED. **P8-A — frozen 7B memory-plan-only bring-up** is READY TO RUN.
+P0-P7 are CLOSED. **P8-A2 — segmented large-tensor memory-plan qualification** is READY TO RUN.
 
 The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
 
-The active P8-A-R1 target is the existing local Ollama model layer for `registry.ollama.ai/library/qwen2.5-coder`, size 4,683,074,048 bytes, SHA256 `60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463`. The earlier Hugging Face candidate was superseded before any P8-A execution because it differs by 512 bytes and has a different SHA. P8-A performs memory planning only; full 7B inference is forbidden until it passes.
+The active target remains the exact local Ollama model layer for `registry.ollama.ai/library/qwen2.5-coder`, size 4,683,074,048 bytes, SHA256 `60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463`. P8-A-R1 produced a genuine memory-plan FAIL caused only by `token_embd.weight` and `output.weight` exceeding the inherited 256 MiB single-tensor arena rule while total capacity passed with ~11.03 GB headroom. P8-A2 tests row-aligned segmented logical tensors without Vulkan allocation or inference.
 
 ## Roadmap
 
@@ -61,25 +61,24 @@ Rules:
 
 ## Current run
 
-By default P8-A automatically resolves the frozen model from the local Ollama manifest/blob store. No download is required. Optional resolver check:
+P8-A-R1 is frozen as a memory-contract FAIL. Do not rerun it as the active gate.
+
+Run P8-A2:
 
 ```powershell
-powershell.exe -ExecutionPolicy Bypass -File .\tools\resolve_p8_target.ps1
+py -3 .\tests\test_p8a2_package.py
+powershell.exe -ExecutionPolicy Bypass -File .\run_p8a2.ps1
 ```
 
-Then execute the memory-plan-only gate:
-
-```powershell
-powershell.exe -ExecutionPolicy Bypass -File .\run_p8a.ps1
-```
+The runner auto-resolves and re-hashes the frozen local Ollama blob.
 
 Expected evidence:
 
 ```text
-results\p8a_memory_plan.json
-results\p8a_summary.json
+results\p8a2_segment_plan.json
+results\p8a2_summary.json
 ```
 
-Do not run full 7B inference before P8-A PASS.
+Even on P8-A2 PASS, full inference remains forbidden. The next permitted step is P8-B segmented residency allocation/copy validation.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.

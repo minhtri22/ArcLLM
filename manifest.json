@@ -1,48 +1,55 @@
 {
-  "phase": "P8-A",
-  "revision": "R1",
+  "phase": "P8-A2",
   "date": "2026-09-19",
   "status": "READY_TO_RUN",
-  "title": "7B local-Ollama frozen-target memory-plan-only bring-up",
-  "parent": "P7 CLOSED; P7-L production path frozen",
+  "title": "segmented large-tensor memory-plan qualification",
+  "parent": "P8-A-R1 FAIL: capacity PASS; only token_embd.weight and output.weight exceed 256 MiB single-tensor arena contract",
   "target": {
     "source": "ollama-local",
-    "ollama_repository": "registry.ollama.ai/library/qwen2.5-coder",
-    "model_layer_media_type": "application/vnd.ollama.image.model",
-    "digest": "sha256:60e05f2100071479f596b964f89f510f057ce397ea22f2833a0cfe029bfc2463",
-    "size_bytes": 4683074048,
     "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
-    "auto_discovery": true
+    "size_bytes": 4683074048
   },
-  "superseded_pre_execution_target": {
-    "source": "huggingface",
-    "size_bytes": 4683073536,
-    "sha256": "509287F78CB4D4CF6B3843734733B914B2C158E43E22A7F4BF5E963800894D3C",
-    "executed": false
+  "authoritative_p8a": {
+    "status": "FAIL",
+    "memory_plan_sha256": "6495545700E4104B05ED7D913ACC728C64329CB92AC894342A690946EDECE31E",
+    "summary_sha256": "C191DC70AEBAEEF733847AFE8B15ECECC95BE112F1041178DD307FE68D981EA9",
+    "failed_gates": [
+      "arena_pack_pass",
+      "no_oversize_tensor_pass"
+    ],
+    "oversize_tensors": [
+      "token_embd.weight",
+      "output.weight"
+    ],
+    "capacity_pass": true,
+    "total_planned_bytes": 5347770372,
+    "usable_budget_bytes": 16374562816,
+    "headroom_bytes": 11026792444
   },
-  "plan": {
+  "hypothesis": "row-aligned physical segmentation of only oversize logical tensors can satisfy the inherited <=256 MiB arena cap without changing packed bytes, quantization semantics, KV, working buffers or total planned memory",
+  "frozen": {
+    "arena_cap_bytes": 268435456,
     "max_context": 4096,
     "prefill_chunk": 512,
-    "arena_cap_bytes": 268435456,
     "observed_budget_bytes": 18522046464,
     "safety_margin_bytes": 2147483648,
-    "usable_budget_bytes": 16374562816
+    "usable_budget_bytes": 16374562816,
+    "no_vulkan": true,
+    "no_inference": true,
+    "non_oversize_tensors_unsplit": true
   },
   "gate": {
     "performance_gate": false,
-    "full_inference_forbidden_until_pass": true,
-    "exact_blob_identity_required": true,
-    "p8a_pass_requires": [
-      "exact local blob size+SHA",
-      "manifest layer mediaType+digest+size match frozen target",
-      "qwen2 metadata",
-      "P7-supported F32/Q4_K/Q6_K only",
-      "no tensor overlap",
-      "all arenas <=256 MiB",
-      "no single tensor >256 MiB",
-      "planned bytes <= usable budget"
-    ]
+    "parent_obstruction_exact_match": true,
+    "row_aligned_segments": true,
+    "every_segment_le_arena_cap": true,
+    "exact_row_coverage": true,
+    "every_piece_contained_once": true,
+    "embedding_addressability_required": true,
+    "lm_head_addressability_required": true,
+    "capacity_formula_unchanged": true,
+    "full_inference_forbidden": true
   },
-  "next_on_pass": "P8-B residency allocation bring-up",
-  "next_on_fail": "adjudicate exact memory-plan obstruction; do not run full inference"
+  "next_on_pass": "P8-B segmented residency allocation/copy bring-up",
+  "next_on_fail": "adjudicate exact remaining segmented-plan obstruction"
 }

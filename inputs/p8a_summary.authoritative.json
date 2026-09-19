@@ -1,0 +1,12 @@
+{
+    "schema":  "arcllm.p8a.summary.v1",
+    "target_source":  "ollama-local-auto",
+    "target_path":  "C:\\Users\\minht\\.ollama\\models\\blobs\\sha256-60e05f2100071479f596b964f89f510f057ce397ea22f2833a0cfe029bfc2463",
+    "target_sha256":  "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "target_size_bytes":  4683074048,
+    "process_exit_code":  20,
+    "status":  "FAIL",
+    "p8a_pass":  false,
+    "full_inference_permitted":  false,
+    "next_step":  "adjudicate memory-plan obstruction before any full inference"
+}
