@@ -1,50 +1,61 @@
 {
-  "phase": "P8-B",
+  "phase": "P8-C",
   "date": "2026-09-19",
   "status": "READY_TO_RUN",
-  "title": "segmented Vulkan residency allocation/copy bring-up",
-  "parent": "P8-A2 PASS",
+  "title": "segmented embedding/LM-head GPU access correctness bring-up",
+  "parent": "P8-B PASS",
   "target": {
     "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
     "size_bytes": 4683074048
   },
-  "authoritative_p8a2": {
-    "plan_sha256": "7390D579937EDD8748A08D7D72E7DFEC53D7470FA9C86208C2412A33E231D481",
-    "summary_sha256": "2534F8AC68134562F8D0AD1F5CB6464440C368E48659FC0DE1EB051C02B74876",
-    "arena_count": 19,
-    "piece_count": 341,
-    "addressability_pass": true,
-    "total_planned_bytes": 5347770372
+  "authoritative_p8b": {
+    "results_sha256": "127E25B9CA8F8B4C74CDEBAFB6559CAFF078EFFE7F1513BD1A7429FD0E69B3B2",
+    "summary_sha256": "078FE23DF5B31B3D69162BADC6285D608F0EB1178430E38A56DD0FF827EC2B5C",
+    "requested_bytes": 5347770372,
+    "vulkan_allocation_bytes": 5347770496,
+    "full_weight_compare": true
   },
-  "frozen": {
-    "arena_cap_bytes": 268435456,
-    "max_context": 4096,
-    "prefill_chunk": 512,
-    "weight_bytes": 4677120000,
-    "kv_bytes": 469762048,
-    "working_bytes": 200888324,
-    "total_requested_bytes": 5347770372,
-    "usable_budget_bytes": 16374562816
+  "segmented_access": {
+    "embedding": {
+      "type": "Q4_K",
+      "boundary": 133152,
+      "row_bytes": 2016,
+      "probe_rows": [
+        0,
+        1,
+        133150,
+        133151,
+        133152,
+        133153,
+        152062,
+        152063
+      ]
+    },
+    "lm_head": {
+      "type": "Q6_K",
+      "boundary": 91304,
+      "row_bytes": 2940,
+      "probe_rows": [
+        0,
+        1,
+        91302,
+        91303,
+        91304,
+        91305,
+        152062,
+        152063
+      ]
+    }
   },
   "gate": {
     "performance_gate": false,
-    "exact_parent_plan_required": true,
-    "required_memory_flags": [
-      "DEVICE_LOCAL",
-      "HOST_VISIBLE",
-      "HOST_COHERENT"
-    ],
-    "all_19_weight_arenas_simultaneous": true,
-    "full_weight_byte_compare": true,
-    "kv_and_working_simultaneous": true,
-    "exhaustive_segment_row_translation": true,
-    "actual_allocation_le_usable_budget": true,
-    "no_shader": true,
-    "no_dispatch": true,
+    "max_abs": 0.02,
+    "rmse": 0.005,
+    "finite_required": true,
+    "boundary_adjacency_required": true,
+    "exact_dispatches": 2,
     "full_inference_forbidden": true
   },
-  "next_on_pass": "P8-C segmented embedding/LM-head access correctness bring-up",
-  "next_on_fail": "adjudicate exact residency obstruction without shrinking frozen plan",
-  "package_revision": "R1",
-  "repair": "byte-exact restore of authoritative P8-A2 segment plan; prior committed JSON had stray leading 'r' in contained_once_pass key; P8-B scientific contract unchanged"
+  "next_on_pass": "P8-D segmented access integration into 7B graph",
+  "next_on_fail": "adjudicate segmented GPU access correctness before graph integration"
 }

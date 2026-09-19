@@ -1,0 +1,12 @@
+#version 450
+layout(local_size_x = 256) in;
+layout(std430,binding=0) readonly buffer W0Buf{uint w0[];}W0;
+layout(std430,binding=1) readonly buffer W1Buf{uint w1[];}W1;
+layout(std430,binding=2) readonly buffer IdBuf{uint ids[];}I;
+layout(std430,binding=3) writeonly buffer YBuf{float y[];}Y;
+layout(push_constant) uniform PC{uint n;uint count;uint row_bytes;uint boundary;}pc;
+uint load_u8(uint seg,uint off){uint word=(seg==0u)?W0.w0[off>>2u]:W1.w1[off>>2u];uint sh=(off&3u)*8u;return(word>>sh)&255u;}
+uint load_u16(uint seg,uint off){return load_u8(seg,off)|(load_u8(seg,off+1u)<<8u);}
+float fp16_at(uint seg,uint off){return unpackHalf2x16(load_u16(seg,off)).x;}
+void scale_min(uint seg,uint base,uint j,out uint sc,out uint mn){uint qj;if(j<4u){sc=load_u8(seg,base+4u+j)&63u;mn=load_u8(seg,base+8u+j)&63u;}else{qj=load_u8(seg,base+4u+j+4u);sc=(qj&15u)|((load_u8(seg,base+4u+j-4u)>>6u)<<4u);mn=(qj>>4u)|((load_u8(seg,base+4u+j)>>6u)<<4u);}}
+void main(){uint idx=gl_GlobalInvocationID.x;uint total=pc.n*pc.count;if(idx>=total)return;uint ti=idx/pc.n;uint k=idx-ti*pc.n;uint row=I.ids[ti];uint seg=(row<pc.boundary)?0u:1u;uint local_row=(seg==0u)?row:(row-pc.boundary);uint ib=k>>8u;uint kin=k&255u;uint base=local_row*pc.row_bytes+ib*144u;float d=fp16_at(seg,base);float dmin=fp16_at(seg,base+2u);uint subgroup=kin>>5u;uint sc;uint mn;scale_min(seg,base,subgroup,sc,mn);uint group64=kin>>6u;uint local64=kin&63u;uint qbyte=load_u8(seg,base+16u+group64*32u+(local64&31u));uint q=(local64<32u)?(qbyte&15u):(qbyte>>4u);Y.y[idx]=d*float(sc)*float(q)-dmin*float(mn);}

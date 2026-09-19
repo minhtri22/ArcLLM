@@ -1,0 +1,13 @@
+{
+  "schema":"arcllm.p8b.segmented_residency.v1",
+  "status":"PASS",
+  "target":{"size_bytes":4683074048,"tensor_count":339,"data_offset":5954048},
+  "parent_plan":{"arena_count":19,"segment_count":4,"exact_match":true,"row_translation_exhaustive_pass":true},
+  "vulkan":{"physical_device_count":1,"queue_family":0,"memory_type_index":3,"memory_type_flags":15,"memory_heap_index":0,"memory_heap_size":19332261396,"required_memory_flags_pass":true},
+  "weights":{"arena_count":19,"requested_bytes":4677120000,"allocated_pass":true,"full_byte_compare_bytes":4677120000,"full_byte_compare_pass":true},
+  "kv":{"buffer_count":2,"requested_bytes":469762048,"allocation_pass":true},
+  "working":{"buffer_count":20,"requested_bytes":200888324,"allocation_pass":true,"zero_sample_pass":true},
+  "residency":{"requested_bytes":5347770372,"expected_requested_bytes":5347770372,"vulkan_allocation_bytes":5347770496,"usable_budget_bytes":16374562816,"requested_exact_pass":true,"allocation_budget_pass":true},
+  "failure":{"stage":"","message":""},
+  "gate":{"tensor_store_pass":true,"parent_plan_match":true,"row_translation_pass":true,"memory_flags_pass":true,"weight_allocation_pass":true,"weight_full_compare_pass":true,"kv_allocation_pass":true,"working_allocation_pass":true,"requested_exact_pass":true,"allocation_budget_pass":true,"p8b_pass":true}
+}

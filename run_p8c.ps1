@@ -1,0 +1,12 @@
+param([string]$ModelPath,[string]$OllamaModelsRoot)
+$ErrorActionPreference="Stop";Set-StrictMode -Version Latest
+$Here=Split-Path -Parent $MyInvocation.MyCommand.Path;$Cfg=Get-Content (Join-Path $Here "config\p8_target.json") -Raw -Encoding UTF8|ConvertFrom-Json;$ExpectedSize=[int64]$Cfg.size_bytes;$ExpectedHash=([string]$Cfg.sha256).ToUpperInvariant()
+if(-not $ModelPath){$Resolved=@(& (Join-Path $Here "tools\resolve_p8_target.ps1") -OllamaModelsRoot $OllamaModelsRoot);if($Resolved.Count -lt 1){throw "P8 target resolver returned no path"};$ModelPath=[string]$Resolved[-1]}
+$f=Get-Item $ModelPath;if($f.Length -ne $ExpectedSize){throw "P8-C target size mismatch"};$Hash=(Get-FileHash $ModelPath -Algorithm SHA256).Hash.ToUpperInvariant();if($Hash -ne $ExpectedHash){throw "P8-C target SHA mismatch"}
+py -3 (Join-Path $Here "tests\test_p8c_package.py");if($LASTEXITCODE -ne 0){throw "P8-C static contract failed"}
+powershell.exe -ExecutionPolicy Bypass -File (Join-Path $Here "tools\compile_p8c_shaders.ps1");if($LASTEXITCODE -ne 0){throw "P8-C shader compile failed"}
+powershell.exe -ExecutionPolicy Bypass -File (Join-Path $Here "tools\build_p8c.ps1");if($LASTEXITCODE -ne 0){throw "P8-C native build failed"}
+$Results=Join-Path $Here "results";$Out=Join-Path $Results "p8c_access_results.json";& (Join-Path $Here "arcllm_p8c.exe") --model $ModelPath --shader-dir (Join-Path $Here "compiled_shaders") --out $Out;$Code=$LASTEXITCODE
+if(-not(Test-Path $Out)){throw "P8-C result JSON missing"};$Obj=Get-Content $Out -Raw -Encoding UTF8|ConvertFrom-Json;$Next=if($Obj.status -eq "PASS"){"P8-D segmented access integration into 7B graph"}elseif($Obj.status -eq "FAIL"){"adjudicate segmented access correctness failure"}else{"repair package/shader/runtime before scientific adjudication"}
+$Summary=[ordered]@{schema="arcllm.p8c.summary.v1";target_sha256=$Hash;target_size_bytes=$f.Length;process_exit_code=$Code;status=$Obj.status;p8c_pass=($Obj.status -eq "PASS");full_inference_permitted=$false;graph_integration_permitted=($Obj.status -eq "PASS");next_step=$Next};$SummaryPath=Join-Path $Results "p8c_summary.json";[IO.File]::WriteAllText($SummaryPath,($Summary|ConvertTo-Json -Depth 8),(New-Object Text.UTF8Encoding($false)))
+Write-Host "";Write-Host "Result:";Write-Host "  results\shader_provenance.json";Write-Host "  results\p8c_access_results.json";Write-Host "  results\p8c_summary.json";exit $Code

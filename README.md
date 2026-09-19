@@ -20,11 +20,11 @@ Frozen model SHA256:
 
 ## Status
 
-P0-P7 are CLOSED. **P8-B — segmented Vulkan residency allocation/copy bring-up** is READY TO RUN.
+P0-P7 are CLOSED. **P8-C — segmented embedding/LM-head GPU access correctness** is READY TO RUN.
 
 The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
 
-The active target remains the exact local Ollama model layer for `registry.ollama.ai/library/qwen2.5-coder`, size 4,683,074,048 bytes, SHA256 `60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463`. P8-A2 PASS proved row-aligned segmentation for the two oversize vocab tensors, with 19 arenas, exact addressability and unchanged ~5.35 GB planned residency. P8-B now tests real Vulkan allocation/copy of the exact segmented plan while keeping weights + KV + working buffers resident simultaneously. No shader or inference is permitted.
+The active target remains the exact local Ollama model layer for `registry.ollama.ai/library/qwen2.5-coder`, size 4,683,074,048 bytes, SHA256 `60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463`. P8-B PASS proved simultaneous real Vulkan residency for the full segmented weight plan + FP32 KV + working buffers, including full byte-compare of all 4,677,120,000 weight bytes. P8-C now tests the two segmented vocab access paths on GPU across exact segment boundaries. Full inference remains forbidden.
 
 ## Roadmap
 
@@ -37,7 +37,7 @@ P4  One decoder layer                               CLOSED
 P5  Full decoder residency                          CLOSED
 P6  GPU-resident KV + generation                    CLOSED
 P7  Q4_K_M production path                          CLOSED
-P8  7B memory-planned runtime                       ACTIVE (P8-A)
+P8  7B memory-planned runtime                       ACTIVE (P8-C)
 P9  Local OpenAI-compatible API                     PLANNED
 P10 Activation/output-aware Q4 research              DEFERRED
 ```
@@ -61,24 +61,23 @@ Rules:
 
 ## Current run
 
-P8-A2 is frozen PASS. Do not rerun it as the active gate.
+P8-B is frozen PASS. Do not rerun it as the active gate.
 
-Run P8-B:
+Run P8-C:
 
 ```powershell
-py -3 .\tests\test_p8b_package.py
-powershell.exe -ExecutionPolicy Bypass -File .\run_p8b.ps1
+py -3 .\tests\test_p8c_package.py
+powershell.exe -ExecutionPolicy Bypass -File .\run_p8c.ps1
 ```
-
-The runner auto-resolves and re-hashes the frozen local Ollama blob.
 
 Expected evidence:
 
 ```text
-results\p8b_residency_results.json
-results\p8b_summary.json
+results\shader_provenance.json
+results\p8c_access_results.json
+results\p8c_summary.json
 ```
 
-P8-B allocates/copies only. Full inference remains forbidden even on PASS. The next permitted step is P8-C segmented embedding/LM-head access correctness bring-up.
+P8-C runs only two segmented correctness probes. Full model inference remains forbidden even on PASS. The next permitted step is P8-D graph integration.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.
