@@ -1,7 +1,7 @@
 {
   "phase": "P8-G3",
   "date": "2026-09-20",
-  "status": "DESIGN_FROZEN",
+  "status": "READY_TO_RUN",
   "title": "arithmetic-precision attribution",
   "parent": "P8-G2 H-NONLINEAR/UNEXPLAINED",
   "target": {
@@ -77,12 +77,45 @@
     "replacement_gate_definition_permitted": false
   },
   "implementation_permitted": true,
-  "target_run_permitted": false,
+  "target_run_permitted": true,
   "p8g_verdict_frozen": "FAIL",
   "p8g1_classification_frozen": "H-AMPLIFICATION",
   "p8g2_classification_frozen": "H-NONLINEAR/UNEXPLAINED",
   "p8h_blocked": true,
   "full_inference_forbidden": true,
   "next_on_completion": "adjudicate P8-G3 arithmetic-precision attribution",
-  "implementation_commit_pending": true
+  "implementation_commit_pending": false,
+  "implementation": {
+    "prefix_scope": "L0-L2 full; L3 through SwiGLU",
+    "prefix_dispatches": 58,
+    "prefix_submits": 1,
+    "shader_count": 11,
+    "precision_controls_cpu_only": true,
+    "fused_q4_weight_decode": true,
+    "within_dot_term_order": "k=0..18943 preserved independently per regime",
+    "cpu_workers_max": 8,
+    "r0": "float product + float accumulator + float output + float input algebra",
+    "r1": "float product + double accumulator + float output + float input algebra",
+    "r2": "double product + double accumulator + double output + float input algebra",
+    "r3": "double product + double accumulator + double output + double input algebra",
+    "closure_gate": {
+      "max_abs": 0.0001,
+      "rmse": 0.000001
+    },
+    "alpha_series": [
+      0.25,
+      0.5,
+      0.75,
+      1
+    ],
+    "alpha_ratio_tolerance_fraction": 0.01,
+    "parent_reproduction": {
+      "max_abs_tolerance": 0.000001,
+      "rmse_tolerance": 1e-7,
+      "alpha_ratio_relative_tolerance": 0.001
+    },
+    "replacement_gate_definition_permitted": false,
+    "p8g_verdict_change_permitted": false,
+    "target_experiment_run_in_lock_commit": false
+  }
 }

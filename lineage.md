@@ -630,3 +630,16 @@ P8-G3 retains the exact prefix and observed X_CPU/X_GPU, then evaluates nested a
 Every regime uses the unchanged P8-G2 closure criterion 1e-4/1e-6 and alpha normalized-ratio tolerance 1%. Closure and alpha each record their earliest passing regime. Overall classification distinguishes FP32 accumulation, broader dot rounding, input rounding, mixed finite precision, high-precision unexplained behavior, or parent reproduction failure.
 Argmax output indices across alpha are descriptive only and add no gate.
 Decision: P8-G3 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION. No replacement correctness gate is defined. Historical P8-G/P8-G1/P8-G2 outcomes remain frozen. P8-H and full inference remain blocked.
+
+
+## 2026-09-20 — P8-G3 implementation + static-QA lock / READY_TO_RUN
+Implementation follows the frozen arithmetic-precision attribution contract without shader, weight, sequence-length, historical-gate or prior-verdict changes.
+GPU scope is unchanged from P8-G2 through L3 SwiGLU only: exact 58 dispatches / one submit, direct L0->L1->L2->L3 handoff, no CPU teacher forcing and no layer4+ execution. P8-G3 adds no second GPU diagnostic chain; all precision controls are CPU-only.
+To avoid repeated 18,944-term Q4_K decode work, one fused evaluator decodes each float Q4_K weight once per output coordinate and updates independent R0/R1/R2/R3 accumulators in the same k=0..18943 term order. Output coordinates may run across up to eight CPU worker threads; no cross-output reduction exists, so threading does not alter any per-dot accumulation order.
+R0 exactly preserves float product, float sequential accumulator, float output and float dX/X_alpha algebra. R1 changes only accumulation to double while reusing the exact float product and casts final output to float. R2 uses double product/accumulation/output while preserving R0 float dX/X_alpha. R3 retains R2 dot precision and changes only dX/interpolation to double.
+R0 is required to reproduce authoritative P8-G2 A2 plus all four A4 metrics within max_abs 1e-6, RMSE 1e-7 and normalized-ratio relative tolerance 0.1%; otherwise the diagnostic is INVALID.
+Every regime is evaluated against the unchanged P8-G2 closure gate max_abs<=1e-4 / RMSE<=1e-6 and unchanged alpha normalized-ratio tolerance <=1%. Argmax absolute-error output coordinates are recorded descriptively and do not add a gate.
+Closure and alpha each report earliest pass R1/R2/R3/NONE. Overall classifications are exactly H-FP32-ACCUMULATION, H-DOT-ROUNDING, H-INPUT-ROUNDING, H-MIXED-FINITE-PRECISION, H-HIGH-PRECISION-UNEXPLAINED, or PARENT-REPRODUCTION-FAILED.
+Static QA locks exact parent hashes, R0-R3 arithmetic markers, 58/1 prefix scope, CPU-only precision controls, unchanged thresholds, governance fields, runner outputs, build sources and pinned 11-shader provenance.
+No target experiment was run as part of this implementation/static-QA lock.
+Decision: P8-G3 READY_TO_RUN only after this commit is pulled. P8-G remains FAIL; P8-G1 remains H-AMPLIFICATION; P8-G2 remains H-NONLINEAR/UNEXPLAINED; replacement gate remains undefined; P8-H and full inference remain forbidden.

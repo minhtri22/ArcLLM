@@ -20,7 +20,7 @@ Frozen model SHA256:
 
 ## Status
 
-P0-P7 are CLOSED. **P8-G is frozen FAIL. P8-G1 supports H-AMPLIFICATION. P8-G2 is frozen H-NONLINEAR/UNEXPLAINED. P8-G3 — arithmetic-precision attribution — is DESIGN_FROZEN / READY_FOR_IMPLEMENTATION.**
+P0-P7 are CLOSED. **P8-G is frozen FAIL. P8-G1 supports H-AMPLIFICATION. P8-G2 is frozen H-NONLINEAR/UNEXPLAINED. P8-G3 — arithmetic-precision attribution — is READY TO RUN.**
 
 The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
 
@@ -76,10 +76,25 @@ P8-G2 reproduced its parent and confirmed that the production GPU kernel residua
 
 Source audit shows the CPU Q4_K reference uses a sequential float accumulator over 18,944 terms. Therefore finite-precision non-distributivity is a prospective explanation for the P8-G2 A2/A4 failures.
 
-P8-G3 is **DESIGN_FROZEN / READY_FOR_IMPLEMENTATION**. Contract: `docs/P8G3_CONTRACT.md`.
+P8-G3 implementation + static QA are locked and **READY TO RUN**. Contract: `docs/P8G3_CONTRACT.md`.
 
-P8-G3 uses nested CPU arithmetic controls on the exact same observed vectors: frozen FP32 replay -> double accumulator with float product/output -> full double dot with float input algebra -> full double input algebra. It records the earliest regime that restores the unchanged P8-G2 closure and alpha-linearity criteria.
+Run only after pulling the implementation-lock commit:
 
-No replacement gate is defined. P8-H and full inference remain blocked.
+```powershell
+py -3 .\tests\test_p8g3_package.py
+powershell.exe -ExecutionPolicy Bypass -File .\run_p8g3.ps1
+```
+
+Expected evidence:
+
+```text
+results\p8g3_shader_provenance.json
+results\p8g3_arithmetic_precision_results.json
+results\p8g3_summary.json
+```
+
+P8-G3 keeps the exact 58-dispatch prefix through L3 SwiGLU. All R0-R3 precision controls are CPU-only. The fused evaluator decodes each Q4_K weight once per output coordinate while preserving the exact within-dot term order for every regime.
+
+No target experiment was run in the implementation-lock commit. No replacement gate is defined. P8-H and full inference remain blocked.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.
