@@ -27,7 +27,7 @@ void main(){
    barrier();
    uint wb=lr*64u, xa=lt*64u, xb=(lt+8u)*64u;
    if(valid_a){for(uint kk=0u;kk<64u;++kk)acc_a+=sW[wb+kk]*sX[xa+kk];}
-   if(valid_b){for(uint kk=0u;kk<32u;++kk)acc_b+=sW[wb+kk]*sX[xb+kk];}
+   if(valid_b){for(uint kk=0u;kk<64u;++kk)acc_b+=sW[wb+kk]*sX[xb+kk];}
    barrier();
  }
  if(valid_a)Y.y[tok_a*pc.rows+row]=acc_a;

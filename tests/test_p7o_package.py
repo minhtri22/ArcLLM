@@ -46,6 +46,8 @@ assert 'expected_decode=1u+layers*16u+1u+lm_dispatches' in s
 assert 'arcllm.p7o.ffn_down_k64_ab.v1' in s
 assert 'const double min_speedup=1.10' in s
 assert 'down_q4_k64_pass' in s and 'down_q6_k64_pass' in s
+assert 'ArcLLM P7-O FFN-down K64 A/B' in s
+assert 'md4.max_abs' in s and 'md6.max_abs' in s
 assert 'q4_layer=layers,q6_layer=layers' in s
 assert 'matmul_q4_cpu' in s and 'matmul_q6_cpu' in s
 assert 'p7o_gate' in s
@@ -59,6 +61,8 @@ for sh in ['shaders/p7o_ffn_down_q4k_k64.comp','shaders/p7o_ffn_down_q6k_k64.com
               'k0+=64u','wb=lr*64u','kk<64u']:
         assert x in t,(sh,x)
     assert t.count('barrier();')==2
+    assert t.count('kk<64u')==2
+    assert 'kk<32u' not in t
     assert 'k0+=32u' not in t
 
 build=(ROOT/'tools/build_p7o.ps1').read_text(encoding='ascii')
@@ -79,6 +83,8 @@ assert '@($ProvObj.compiled).Count -ne 18' in run
 assert 'down_q4_k64_pass=$ResultObj.regression.down_q4_k64_pass' in run
 assert 'down_q6_k64_pass=$ResultObj.regression.down_q6_k64_pass' in run
 assert 'baseline_p7l_pp512_tok_s' in run
+assert 'if($ResultObj.status -eq "ERROR")' in run
+assert 'result JSON missing scope outside ERROR status' in run
 assert '$ResultObj.p7o_gate.pass' in run
 
 print('ArcLLM P7-O static contract PASS')

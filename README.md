@@ -24,7 +24,7 @@ P0-P6 are CLOSED. P7 (Q4_K_M production path) is OPEN.
 
 The strongest frozen prefill baseline remains P7-L: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, and P7-N are frozen performance negatives; P7-L is the current frozen winner.
 
-The active experiment is **P7-O**: starting from the exact P7-L winner, change only prefill FFN-down K tile from 32 to 64 for both Q4_K and Q6_K. P7-N is frozen as a correctness-PASS/performance-FAIL result at 1.05161x, so its SwiGLU fusion is not promoted.
+The active experiment is **P7-O-R1**: starting from the exact P7-L winner, change only prefill FFN-down K tile from 32 to 64 for both Q4_K and Q6_K. P7-N is frozen as a correctness-PASS/performance-FAIL result at 1.05161x, so its SwiGLU fusion is not promoted.
 
 ## Roadmap
 

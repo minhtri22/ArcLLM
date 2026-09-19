@@ -52,5 +52,7 @@
     "logits_rmse": 0.005,
     "p7_closed_by_this_package": false
   },
-  "purpose": "test whether halving FFN-down K-tile loop/barrier iterations with K64 yields >=1.10x end-to-end pp512 speedup without correctness regression"
+  "purpose": "test whether halving FFN-down K-tile loop/barrier iterations with K64 yields >=1.10x end-to-end pp512 speedup without correctness regression",
+  "package_revision": "R1",
+  "repair": "fix second token-half K64 accumulation loop in Q4/Q6 shaders; add regression metrics; guard ERROR JSON before scope dereference; scientific contract unchanged"
 }
