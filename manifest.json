@@ -1,27 +1,28 @@
 {
-  "phase": "P7-I",
+  "phase": "P7-J",
   "date": "2026-09-19",
-  "title": "FFN token-tile32 A/B",
-  "parent": "P7-H PASS; P7-G FFN tile16 frozen; P7 OPEN",
+  "title": "FFN block-aware vec4 dequant A/B",
+  "parent": "P7-I FAIL performance; P7-G FFN tile16 remains frozen baseline; P7 OPEN",
   "target": {
     "model": "Qwen2.5-Coder-1.5B",
     "sha256": "6A77366395772462C84F0C4D226AC404674327CBE78C01E4391CC7E0C698851E"
   },
-  "authoritative_p7h": {
-    "status": "PASS",
-    "prefill_top_family": "ffn_gate_up",
-    "prefill_top_share": 0.4957180228,
-    "prefill_ffn_combined_share": 0.7695904325,
-    "barrier_unattributed_share": 0.00024785263486649386
+  "authoritative_p7i": {
+    "status": "FAIL",
+    "correctness_pass": true,
+    "wall_speedup": 1.003404444,
+    "min_speedup_gate": 1.1,
+    "decision": "tile32 rejected; retain tile16"
   },
   "ab": {
     "pp_tokens": 512,
     "baseline_ffn_token_tile": 16,
-    "optimized_ffn_token_tile": 32,
+    "optimized_ffn_token_tile": 16,
+    "optimized_change": "block_aware_vec4_dequant_only",
     "attention_projection_token_tile": 8,
     "trials": 3,
     "min_wall_speedup": 1.1,
-    "regression_batch": 25,
+    "regression_batch": 9,
     "decode_unchanged": true
   },
   "invariants": {
@@ -39,7 +40,5 @@
     "logits_rmse": 0.005,
     "p7_closed_by_this_package": false
   },
-  "purpose": "falsify or support whether doubling FFN token reuse from 16 to 32 produces >=1.10x end-to-end pp512 speedup without correctness regression",
-  "package_revision": "R1",
-  "repair": "Git byte-transport/checksum closure only; experiment graph, kernels, regression fixture, and frozen gates unchanged"
+  "purpose": "falsify or support whether block-aware vec4 packed dequant at frozen tile16 yields >=1.10x end-to-end pp512 speedup without correctness regression"
 }
