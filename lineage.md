@@ -509,3 +509,10 @@ Repair: replace both p8e_shader_provenance.authoritative.json and p8e_shader_pro
 Also restore the pre-existing .gitattributes rules that were accidentally overwritten by the previous transport-repair commit, then append the authoritative.raw -text rule.
 Classification: provenance/package repair only. No P8-F scientific run occurred; execution still stopped before runtime. P8-E scientific evidence, frozen SHA256 values, P8-F hypothesis, scope, numerical gates, 30-dispatch/one-submit contract and full-inference prohibition are unchanged.
 Decision: P8-F remains READY_TO_RUN.
+
+
+## 2026-09-19 — P8-F static parent-path assertion repair
+Observed before runtime: test_p8f_package.py still expected the old P8-E parent filenames ending in .authoritative.json inside run_p8f.ps1, while the runner had already been intentionally switched to the byte-preserving .authoritative.raw paths. Parent hashes themselves were correct and the local raw shader artifact now verifies to the frozen SHA256.
+Repair: update only the three stale runner-path assertions in static QA from .json to .raw.
+Classification: static-QA packaging defect only. No P8-F source, contract, scientific gate, parent hash, execution scope, or runtime behavior changed.
+Decision: P8-F remains READY_TO_RUN.

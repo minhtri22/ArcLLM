@@ -87,7 +87,7 @@ assert cpp_refs==['p8f_two_layer_prefix_correctness.cpp','gguf.cpp','tensor_stor
 r=(ROOT/'run_p8f.ps1').read_text(encoding='ascii')
 for x in [
  'test_p8f_package.py','compile_p8f_shaders.ps1','build_p8f.ps1','arcllm_p8f.exe',
- 'p8e_shader_provenance.authoritative.json','p8e_single_layer_results.authoritative.json','p8e_summary.authoritative.json',
+ 'p8e_shader_provenance.authoritative.raw','p8e_single_layer_results.authoritative.raw','p8e_summary.authoritative.raw',
  '73916DE149A413B835541B95F01FEAF2B87DDDE03C039C3D1ABC0E2A3A115861',
  '992A986081FAFC81AC2E6E1A38063384434DE3138CAE469A04A57FED57BDA52B',
  'EBC4C8088B0992A30D72973DC7485CCF7AA0618B354509A506CC9FDE294B5B9D',
