@@ -275,3 +275,8 @@ Next: P7-K, exactly one independent hypothesis: increase FFN output-row tile 8 -
 Evidence target: three interleaved pp512 A/B trials against the live P7-G row8/token16 baseline. Optimized arm changes only FFN row tile to 16; each 8x8 lane computes two rows x two token halves. Q/K/V/O projection tile8, attention, LM head and decode remain unchanged. Real Q4_K/Q6_K regressions use batch=9.
 Decision: pre-register median pp512 wall speedup >=1.10x with unchanged correctness gates. Canonical SHA QA normalizes text EOL/final newline while authoritative P7-J evidence is verified by raw SHA256. P7 remains OPEN regardless of outcome.
 Next: target-machine pull/run returns shader_provenance.json, p7k_ab_results.json and p7k_summary.json.
+
+## 2026-09-19 — P7-K-R1 authoritative evidence repair
+Evidence: the first P7-K static audit stopped before shader compile/build because inputs/p7j_summary.authoritative.json on GitHub was not byte-identical to the user-returned P7-J summary. The committed blob had a transport transcription error in key pp512_wall_speedup (stored as pp512_wal_speedup). p7j_ab_results and p7j_shader_provenance were independently checked and remain byte-exact.
+Decision: classify as repository/provenance packaging failure only. Replace only p7j_summary.authoritative.json with the exact user-uploaded bytes; P7-K hypothesis, shaders, graph, correctness gates and >=1.10x performance gate are unchanged.
+Next: rerun P7-K static audit; only an executed A/B run can produce a scientific P7-K verdict.

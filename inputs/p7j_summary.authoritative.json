@@ -9,7 +9,7 @@
     "vec4_q6_pass":  true,
     "baseline_p7g_pp512_tok_s":  49.36387893,
     "optimized_pp512_tok_s":  48.48409092,
-    "pp512_wal_speedup":  0.9821774944,
+    "pp512_wall_speedup":  0.9821774944,
     "min_speedup_gate":  1.1,
     "speedup_pass":  false,
     "top1_match_all_trials":  true,
