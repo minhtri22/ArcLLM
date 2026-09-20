@@ -210,7 +210,7 @@
       "baseline_vulkan_sdk": "1.4.357.0",
       "summarizer": "descriptive median/min/max/MAD only",
       "target_model_executed_during_lock": false,
-      "baseline_greedy_postprocess": "single-pass full-vocab finite+argmax scan; no llama_sampler_sample copy/second scan inside primary timing",
+      "baseline_greedy_postprocess": "single-pass full-vocab finite+top2 greedy scan matched to ArcLLM host postprocess; no llama_sampler_sample copy/second scan inside primary timing",
       "measured_runner_rebuilds_preflight_artifacts": false
     },
     "baseline_qualification": {
@@ -270,7 +270,8 @@
         "target model SHA256/size",
         "OS build",
         "power scheme",
-        "AC state"
+        "AC state",
+        "run metadata + measured evidence manifest SHA chain"
       ]
     },
     "execution_authorization_required": true,

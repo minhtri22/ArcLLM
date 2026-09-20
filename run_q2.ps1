@@ -203,9 +203,6 @@ foreach($N in @("q2_baseline_runtime_qualification_W_S.json","q2_baseline_runtim
   Copy-Item -Force $Src (Join-Path $SessionDir $N)
 }
 
-py -3 (Join-Path $Here "tools\summarize_q2.py") --results-dir $SessionDir --contract (Join-Path $Here "docs\Q2_MATCHED_BENCHMARK_CONTRACT.md") --workloads $Workloads --environment $EnvPath --baseline-qualification $QualCopy --preflight-lock $PreflightCopy --execution-authorization $AuthorizationCopy --implementation-commit $ImplementationCommit --model-sha256 $ModelHash
-if($LASTEXITCODE -ne 0){throw "Q2 summarizer failed"}
-
 $RunMeta=[ordered]@{
  schema="arcllm.q2.run_meta.v1"
  implementation_commit=$ImplementationCommit
@@ -220,6 +217,9 @@ $RunMeta=[ordered]@{
  q3_started=$false
 }
 [IO.File]::WriteAllText((Join-Path $SessionDir "q2_run_meta.json"),($RunMeta|ConvertTo-Json -Depth 8),(New-Object Text.UTF8Encoding($false)))
+
+py -3 (Join-Path $Here "tools\summarize_q2.py") --results-dir $SessionDir --contract (Join-Path $Here "docs\Q2_MATCHED_BENCHMARK_CONTRACT.md") --workloads $Workloads --environment $EnvPath --baseline-qualification $QualCopy --preflight-lock $PreflightCopy --execution-authorization $AuthorizationCopy --implementation-commit $ImplementationCommit --model-sha256 $ModelHash
+if($LASTEXITCODE -ne 0){throw "Q2 summarizer failed"}
 
 $Bundle=Join-Path $SessionDir "q2_return_to_chatgpt.zip"
 $Pack=@(Get-ChildItem -File $SessionDir|Where-Object {$_.Name -ne "q2_return_to_chatgpt.zip"}|Select-Object -ExpandProperty FullName)

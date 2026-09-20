@@ -883,3 +883,9 @@ Decision: static package repaired; local preflight may be attempted only after t
 Post-commit QA found that the static test itself hard-coded the pre-authorization manifest state. That would have forced a test modification after target-local preflight, invalidating the implementation-critical SHA set that preflight was meant to freeze.
 Correction: static QA now accepts exactly two governed states without code changes: IMPLEMENTATION_STATIC_LOCKED with no authorization file, or Q2_MEASUREMENT_AUTHORIZED with a committed valid authorization file and zero prior measurements. run_q2.ps1 additionally requires the manifest to be in the explicit authorized state.
 Decision: this correction is implementation-critical and therefore must precede local preflight. No target model or measured attempt was executed.
+
+
+## 2026-09-20 — Q2 host-postprocess and evidence-chain finalization
+Final static review tightened the matched host postprocess: llama.cpp now performs the same one-pass finite + top-2 scan shape used by ArcLLM Q2, using top-1 as the greedy token. This removes both the earlier extra sampler-chain copy/scan and the later top-1-only asymmetry.
+Measured evidence packaging was also closed before preflight: q2_run_meta.json is emitted before summarization, and the evidence manifest now includes/hash-binds shader provenance, run metadata, preflight lock, final authorization and both zero-decode baseline runtime qualification records.
+Decision: no further Q2 implementation change is planned before target-local preflight unless the preflight itself exposes an implementation/package failure. Zero measured attempts remain mandatory; Q3 remains closed.

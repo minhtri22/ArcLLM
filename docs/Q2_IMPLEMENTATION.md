@@ -62,7 +62,7 @@ Frozen baseline configuration:
 - `n_threads_batch=8`;
 - K/V cache F32;
 - KQV offload enabled;
-- greedy argmax via one direct full-vocabulary finite+argmax scan;
+- greedy argmax via one direct full-vocabulary finite+top-2 scan matching ArcLLM's Q2 host postprocess;
 - no llama.cpp sampler-chain copy/second host scan inside primary timing;
 - no EOS early stop;
 - no speculative decode;
@@ -119,7 +119,7 @@ The runner verifies before measurement:
 - MAD;
 - stability/error rate.
 
-It may report ArcLLM/baseline ratios, explicitly labeled descriptive.
+It may report ArcLLM/baseline ratios, explicitly labeled descriptive. The measured evidence manifest also hashes the returned preflight lock, final execution authorization, shader provenance, both runtime qualification records and run metadata so the measurement package preserves the full authorization/provenance chain.
 
 It never produces:
 - a winner;

@@ -110,15 +110,24 @@ def main():
     pf=json.loads(Path(a.preflight_lock).read_text(encoding="utf-8"))
     auth=json.loads(Path(a.execution_authorization).read_text(encoding="utf-8"))
     runtime_quals=pf.get("runtime_qualifications",[])
+    prompt_hashes={"W-S":"93833ffb49890aba","W-C":"5973d0cfd8ad6313"}
     baseline_runtime_qualified=(
         pf.get("baseline_runtime_qualification")=="PASS" and len(runtime_quals)==2 and
         {x.get("workload") for x in runtime_quals}=={"W-S","W-C"} and
-        all(x.get("status")=="QUALIFIED" and x.get("full_offload") is True and x.get("decode_executed") is False and x.get("measured_attempts")==0 for x in runtime_quals)
+        all(x.get("status")=="QUALIFIED" and x.get("full_offload") is True and x.get("decode_executed") is False and
+            x.get("measured_attempts")==0 and str(x.get("prompt_hash_fnv1a64","")).lower()==prompt_hashes.get(x.get("workload")) for x in runtime_quals)
     )
+    pf_sha=sha256(Path(a.preflight_lock))
+    auth_sha=sha256(Path(a.execution_authorization))
     authorization_bound=(
         auth.get("schema")=="arcllm.q2.execution_authorization.v1" and auth.get("authorized") is True and
         auth.get("decision")=="Q2_MEASUREMENT_AUTHORIZED" and auth.get("preflight_implementation_commit")==a.implementation_commit and
-        str(auth.get("target_sha256","")).upper()==a.model_sha256.upper()
+        str(auth.get("preflight_lock_sha256","")).upper()==pf_sha.upper() and
+        str(auth.get("target_sha256","")).upper()==a.model_sha256.upper() and
+        str(auth.get("baseline_exe_sha256","")).upper()==str(pf.get("baseline_exe_sha256","")).upper() and
+        str(auth.get("arcllm_exe_sha256","")).upper()==str(pf.get("arcllm_exe_sha256","")).upper() and
+        str(auth.get("shader_provenance_sha256","")).upper()==str(pf.get("shader_provenance_sha256","")).upper() and
+        auth.get("measurements_executed") is False and auth.get("measured_attempts")==0 and auth.get("q3_started") is False
     )
     candidate="Q2_EVIDENCE_READY_FOR_ADJUDICATION"
     if not mandatory_valid:candidate="Q2_MEASUREMENT_INVALID"
@@ -136,6 +145,8 @@ def main():
         "baseline_build_api_qualified":baseline_build_qualified,
         "baseline_runtime_qualified":baseline_runtime_qualified,
         "measurement_authorization_bound":authorization_bound,
+        "preflight_lock_sha256":pf_sha,
+        "execution_authorization_sha256":auth_sha,
         "candidate_classification":candidate,
         "advantage_adjudicated":False,
         "winner_declared":False,
@@ -148,7 +159,9 @@ def main():
 
     artifact_paths=[
         Path(a.contract),Path(a.workloads),Path(a.environment),Path(a.baseline_qualification),
-        Path(a.preflight_lock),Path(a.execution_authorization),summary_path,comparison_path
+        Path(a.preflight_lock),Path(a.execution_authorization),
+        rd/"q2_arcllm_shader_provenance.json",rd/"q2_run_meta.json",
+        summary_path,comparison_path
     ]
     artifact_paths += sorted(rd.glob("q2_baseline_runtime_qualification_*.json"))
     for key,_,_ in CELLS:
@@ -157,6 +170,8 @@ def main():
         "schema":"arcllm.q2.evidence_manifest.v1",
         "implementation_commit":a.implementation_commit,
         "model_sha256":a.model_sha256,
+        "preflight_lock_sha256":pf_sha,
+        "execution_authorization_sha256":auth_sha,
         "expected_measured_attempts":20,
         "measured_attempts_recorded":sum(x["attempts_recorded"] for x in cell_summaries.values()),
         "artifacts":[{"path":str(p.resolve()),"bytes":p.stat().st_size,"sha256":sha256(p)} for p in artifact_paths if p.exists()],

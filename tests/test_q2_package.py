@@ -57,7 +57,7 @@ for x in [
  "llama_batch_get_one(in.data()","mp.n_gpu_layers=-1",
  "cp.n_ctx=4096","cp.n_batch=256","cp.n_ubatch=256",
  "cp.n_threads=8","cp.n_threads_batch=8","cp.type_k=GGML_TYPE_F32","cp.type_v=GGML_TYPE_F32",
- "q2_greedy_finite","llama_memory_clear","di<31","i<5",
+ "q2_greedy_finite","logit2","llama_memory_clear","di<31","i<5",
  '"raw_token_input\\":true','"tokenizer_used\\":false','"eos_early_stop\\":false',
  '"speculative_decoding\\":false','"advantage_claimed\\":false'
 ]: assert x in base,x
@@ -112,6 +112,9 @@ for x in ['"median"','"min"','"max"','"mad"','descriptive_only_no_winner','"winn
     assert x in summ,x
 assert "p95" not in summ.lower()
 assert "Q2_EVIDENCE_READY_FOR_ADJUDICATION" in summ
+assert "93833ffb49890aba" in summ and "5973d0cfd8ad6313" in summ
+assert "q2_arcllm_shader_provenance.json" in summ and "q2_run_meta.json" in summ
+assert "preflight_lock_sha256" in summ and "execution_authorization_sha256" in summ
 assert '"q3_started":False' in summ
 
 compile_ps=txt("tools/compile_q2_shaders.ps1")

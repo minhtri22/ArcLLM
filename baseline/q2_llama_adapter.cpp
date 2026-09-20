@@ -36,18 +36,22 @@ static std::string hex64(uint64_t v){
 static std::string esc(const std::string&s){
     std::string o;for(char c:s){if(c=='\\'||c=='"'){o+='\\';o+=c;}else if(c=='\n')o+="\\n";else if(c=='\r')o+="\\r";else o+=c;}return o;
 }
-struct Q2GreedyScan{llama_token token=0;bool finite=false;};
+struct Q2GreedyScan{
+    llama_token top1=0,top2=0;
+    float logit1=-std::numeric_limits<float>::infinity();
+    float logit2=-std::numeric_limits<float>::infinity();
+    bool finite=true;
+};
 static Q2GreedyScan q2_greedy_finite(const float * p,int32_t n){
     Q2GreedyScan r;
-    if(!p||n<=0)return r;
-    float best=-std::numeric_limits<float>::infinity();
-    bool have=false,all_finite=true;
+    if(!p||n<=0){r.finite=false;return r;}
     for(int32_t i=0;i<n;++i){
         const float v=p[i];
-        if(!std::isfinite(v)){all_finite=false;continue;}
-        if(!have||v>best){best=v;r.token=llama_token(i);have=true;}
+        if(!std::isfinite(v)){r.finite=false;continue;}
+        if(v>r.logit1){r.logit2=r.logit1;r.top2=r.top1;r.logit1=v;r.top1=llama_token(i);}
+        else if(v>r.logit2){r.logit2=v;r.top2=llama_token(i);}
     }
-    r.finite=all_finite&&have;
+    if(!std::isfinite(r.logit1)||!std::isfinite(r.logit2))r.finite=false;
     return r;
 }
 struct Attempt{
@@ -157,7 +161,7 @@ int main(int argc,char ** argv){
                 float * logits=llama_get_logits_ith(ctx,-1);
                 const Q2GreedyScan prefill_scan=q2_greedy_finite(logits,n_vocab);
                 if(!prefill_scan.finite)throw std::runtime_error("baseline prefill logits non-finite");
-                llama_token next=prefill_scan.token;
+                llama_token next=prefill_scan.top1;
                 auto t1=std::chrono::steady_clock::now();
                 a.ttft_ms=std::chrono::duration<double,std::milli>(t1-t0).count();
                 a.generated.push_back(next);
@@ -170,7 +174,7 @@ int main(int argc,char ** argv){
                     logits=llama_get_logits_ith(ctx,-1);
                     const Q2GreedyScan decode_scan=q2_greedy_finite(logits,n_vocab);
                     if(!decode_scan.finite)throw std::runtime_error("baseline decode logits non-finite");
-                    next=decode_scan.token;
+                    next=decode_scan.top1;
                     a.generated.push_back(next);
                 }
                 auto td1=std::chrono::steady_clock::now();
