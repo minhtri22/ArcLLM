@@ -169,14 +169,20 @@ assert m["q2"]["warmups_per_cell"]==1 and m["q2"]["measured_attempts_per_cell"]=
 assert m["q2"]["total_measured_attempts"]==20
 assert m["q2"]["advantage_claim_permitted"] is False
 assert m["q3_permitted"] is False
-assert m["target_run_permitted"] is False
-assert m["q2"]["target_run_permitted"] is False
-assert m["status"]=="IMPLEMENTATION_STATIC_LOCKED"
-assert m["q2"]["status"]=="IMPLEMENTATION_STATIC_LOCKED"
-assert m["q2"]["local_preflight_permitted"] is True
-assert m["q2"]["measurement_run_permitted"] is False
 assert m["q2"]["execution_authorization_required"] is True
-assert m["q2"]["execution_authorization_committed"] is False
-assert not (ROOT/"config/q2_execution_authorization.json").exists()
+auth_path=ROOT/"config/q2_execution_authorization.json"
+if m["q2"]["measurement_run_permitted"]:
+    assert m["target_run_permitted"] is True and m["q2"]["target_run_permitted"] is True
+    assert m["status"]=="Q2_MEASUREMENT_AUTHORIZED" and m["q2"]["status"]=="Q2_MEASUREMENT_AUTHORIZED"
+    assert m["q2"]["execution_authorization_committed"] is True and auth_path.is_file()
+    auth=json.loads(auth_path.read_text(encoding="utf-8"))
+    assert auth["schema"]=="arcllm.q2.execution_authorization.v1"
+    assert auth["authorized"] is True and auth["decision"]=="Q2_MEASUREMENT_AUTHORIZED"
+    assert auth["measurements_executed"] is False and auth["measured_attempts"]==0 and auth["q3_started"] is False
+else:
+    assert m["target_run_permitted"] is False and m["q2"]["target_run_permitted"] is False
+    assert m["status"]=="IMPLEMENTATION_STATIC_LOCKED" and m["q2"]["status"]=="IMPLEMENTATION_STATIC_LOCKED"
+    assert m["q2"]["local_preflight_permitted"] is True
+    assert m["q2"]["execution_authorization_committed"] is False and not auth_path.exists()
 
 print("ArcLLM Q2 static package: PASS")

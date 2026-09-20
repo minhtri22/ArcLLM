@@ -165,7 +165,7 @@ The preflight:
 
 The measurement runner `run_q2.ps1` has two independent gates. First it requires the returned preflight lock to bind the exact implementation-critical source set, target model, ArcLLM executable, baseline executable, shader provenance, all 16 shader source/SPIR-V hashes, OS build, power scheme and AC state. Second it requires a later **committed** `config/q2_execution_authorization.json` created only after independent adjudication of that returned preflight evidence.
 
-The final authorization must bind the preflight-lock SHA256 and the same executable/shader/source hashes. A later governance-only authorization commit may advance `main`, but all implementation-critical hashes must still equal the preflight commit. The measurement runner does **not** rebuild ArcLLM or shaders after preflight; it executes only the exact artifacts qualified and authorized by hash.
+The final authorization must bind the preflight-lock SHA256 and the same executable/shader/source hashes. A later governance-only authorization commit may advance `main`, but all implementation-critical hashes must still equal the preflight commit. Static QA is deliberately defined to accept exactly two governance states — STATIC_LOCKED before adjudication and Q2_MEASUREMENT_AUTHORIZED after a valid committed authorization — so the authorization commit does not need to modify any implementation-critical test or runner file. The measurement runner does **not** rebuild ArcLLM or shaders after preflight; it executes only the exact artifacts qualified and authorized by hash.
 
 ## Baseline source/API qualification
 

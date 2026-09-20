@@ -877,3 +877,9 @@ Correction: measurement now requires a separate committed config/q2_execution_au
 Baseline greedy selection now uses one direct finite+argmax pass over llama.cpp logits, preserving greedy semantics while removing the extra host copy/second scan from primary timing. Target-local preflight additionally binds exact raw-prompt hashes, OS build, power scheme, AC state, and complete implementation dependencies.
 GPU counter probing now tolerates either Compute or 3D availability without summing aliased classes. Vulkan SDK 1.4.357.0 bootstrap now verifies the official Windows x64 installer SHA256 before execution.
 Decision: static package repaired; local preflight may be attempted only after this commit is pulled. Twenty measured attempts remain blocked. Q3 remains closed.
+
+
+## 2026-09-20 — Q2 authorization-state QA correction
+Post-commit QA found that the static test itself hard-coded the pre-authorization manifest state. That would have forced a test modification after target-local preflight, invalidating the implementation-critical SHA set that preflight was meant to freeze.
+Correction: static QA now accepts exactly two governed states without code changes: IMPLEMENTATION_STATIC_LOCKED with no authorization file, or Q2_MEASUREMENT_AUTHORIZED with a committed valid authorization file and zero prior measurements. run_q2.ps1 additionally requires the manifest to be in the explicit authorized state.
+Decision: this correction is implementation-critical and therefore must precede local preflight. No target model or measured attempt was executed.

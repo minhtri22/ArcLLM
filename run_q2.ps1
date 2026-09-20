@@ -43,6 +43,7 @@ if([bool]$Auth.measurements_executed -or [int]$Auth.measured_attempts -ne 0 -or 
 
 $Manifest=Get-Content (Join-Path $Here "manifest.json") -Raw -Encoding UTF8|ConvertFrom-Json
 if(-not[bool]$Manifest.target_run_permitted -or -not[bool]$Manifest.q2.target_run_permitted -or -not[bool]$Manifest.q2.measurement_run_permitted -or [bool]$Manifest.q3_permitted){throw "Q2 measurement blocked: manifest final execution authorization is not open"}
+if(-not[bool]$Manifest.q2.execution_authorization_committed -or [string]$Manifest.status -ne "Q2_MEASUREMENT_AUTHORIZED" -or [string]$Manifest.q2.status -ne "Q2_MEASUREMENT_AUTHORIZED"){throw "Q2 measurement blocked: manifest authorization state is incomplete"}
 
 $ImplementationCritical=@(
  "src/q2_benchmark.cpp","src/p8c_segmented_access_correctness.cpp","src/gguf.cpp","src/gguf.h","src/tensor_store.cpp","src/tensor_store.h",
