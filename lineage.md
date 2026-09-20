@@ -952,3 +952,12 @@ All four frozen cells contain 5/5 successful measured attempts (20/20 total). Ex
 Descriptive medians show ArcLLM/baseline ratios W-S: TTFT 9.154x, decode TPS 0.02499x, E2E 38.758x, working set 1.832x, private bytes 0.9688x; W-C: TTFT 10.331x, decode TPS 0.03061x, E2E 23.940x, working set 1.825x, private bytes 0.9665x. Q2 does not declare a winner.
 Two non-fatal evidence notes are frozen: Windows GPU Engine peak >100% for some ArcLLM samples, so GPU peak is unreliable/conditional; q2_run_meta.cell_exit_codes contains stdout plus trailing 0, while each resource trace independently records process_exit_code=0 and all result/log artifacts PASS.
 Decision: Q2_MATCHED_CHARACTERIZATION_COMPLETE. Q2 closed. No tuning is permitted before Q3 design lock. Q3 execution remains closed; next is a predeclared no-practical-advantage confirmatory design with fresh reproduction.
+
+
+## 2026-09-20 — Q3 no-practical-advantage confirmatory design frozen
+Q2 established a valid matched head-to-head but showed a large descriptive performance/resource gap. Q3 is frozen as a falsification study, not an optimization phase: unchanged ArcLLM, same exact model/baseline/hardware and only W-S/W-C.
+Two fresh independent sessions are required, each with 4 cells × 5 measured attempts = 40 fresh attempts total. Session order is counterbalanced. A practical advantage requires the same workload and same primary benefit dimension to reproduce in both sessions.
+Primary threshold: >=10% TTFT/decode/E2E improvement or >=15% working-set reduction, while all blocking-harm guards remain within 10% of baseline and both systems are 5/5 stable in the candidate cell. Private bytes, CPU utilization and GPU counters cannot establish advantage alone.
+If no candidate passes, final verdict is FEASIBLE_NO_DEMONSTRATED_ADVANTAGE and the current ArcLLM architecture line closes. No Q3-A/Q3-B search/tuning is permitted.
+NEXUS is explicitly excluded from Q3. Only after a negative final ArcLLM verdict may a separate Architecture Intervention Review use independently established NEXUS findings as hypothesis sources; they cannot be transferred as ArcLLM evidence.
+Q3 execution remains closed. Next: implement runner + zero-measurement qualification only.

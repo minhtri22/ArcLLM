@@ -1,0 +1,117 @@
+{
+  "schema": "arcllm.q3.no_practical_advantage_confirmatory_design.v1",
+  "date": "2026-09-20",
+  "status": "DESIGN_FROZEN_EXECUTION_CLOSED",
+  "parent_q2_commit": "b231631aed37b1ddd60a22bb75ab0d1ed51e38fc",
+  "parent_q2_classification": "Q2_MATCHED_CHARACTERIZATION_COMPLETE",
+  "purpose": "Confirm or falsify a bounded no-practical-advantage hypothesis for the unchanged ArcLLM architecture on the same two frozen W-S/W-C regimes.",
+  "hypotheses": {
+    "H_NPA": "Across both frozen workloads, the unchanged ArcLLM architecture does not demonstrate a practically meaningful matched advantage that reproduces in two fresh sessions.",
+    "falsification": "H_NPA is falsified only if the same predeclared primary benefit dimension satisfies the practical-advantage gate in the same workload independently in both fresh sessions A and B."
+  },
+  "frozen_scope": {
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "model_size_bytes": 4683074048,
+    "baseline_repository": "ggml-org/llama.cpp",
+    "baseline_release": "v0.4.1",
+    "baseline_commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+    "hardware": "Intel Core Ultra 7 258V + Intel Arc 140V",
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "workload_identity_source": "config/q2_workloads.json",
+    "context": 4096,
+    "output_tokens": 32,
+    "raw_token_input": true,
+    "baseline_kv": "F32",
+    "baseline_gpu_offload": "all requested",
+    "arcllm_architecture_change_permitted": false,
+    "kernel_tuning_permitted": false,
+    "workload_search_permitted": false,
+    "nexus_input_permitted": false
+  },
+  "fresh_reproduction": {
+    "sessions": 2,
+    "sessions_must_be_separate_process_runs": true,
+    "warmups_per_cell_per_session": 1,
+    "measured_attempts_per_cell_per_session": 5,
+    "cells_per_session": 4,
+    "total_measured_attempts": 40,
+    "session_A_order": [
+      "ArcLLM/W-S",
+      "llama.cpp/W-S",
+      "llama.cpp/W-C",
+      "ArcLLM/W-C"
+    ],
+    "session_B_order": [
+      "llama.cpp/W-S",
+      "ArcLLM/W-S",
+      "ArcLLM/W-C",
+      "llama.cpp/W-C"
+    ],
+    "environment_match_required": true,
+    "ac_power_required": true,
+    "same_power_scheme_required": true,
+    "same_gpu_driver_required": true
+  },
+  "primary_metrics": [
+    "TTFT_ms",
+    "decode_tps",
+    "E2E_ms",
+    "working_set_peak_bytes"
+  ],
+  "supporting_metrics": [
+    "private_bytes_peak",
+    "cpu_mean",
+    "cpu_peak"
+  ],
+  "practical_effect_thresholds": {
+    "speed_or_latency_minimum_relative_improvement": 0.1,
+    "working_set_minimum_relative_improvement": 0.15,
+    "maximum_allowed_blocking_harm": 0.1
+  },
+  "practical_advantage_gate": {
+    "primary_benefit_any_of": [
+      "TTFT_arc / TTFT_baseline <= 0.90",
+      "decode_tps_arc / decode_tps_baseline >= 1.10",
+      "E2E_arc / E2E_baseline <= 0.90",
+      "working_set_arc / working_set_baseline <= 0.85"
+    ],
+    "blocking_harm_all_required": [
+      "TTFT_arc / TTFT_baseline <= 1.10",
+      "decode_tps_arc / decode_tps_baseline >= 0.90",
+      "E2E_arc / E2E_baseline <= 1.10",
+      "working_set_arc / working_set_baseline <= 1.10"
+    ],
+    "stability_required": "5/5 successful measured attempts for both systems in the candidate workload in each session",
+    "same_primary_benefit_dimension_must_pass_both_sessions": true,
+    "private_bytes_alone_can_establish_advantage": false,
+    "cpu_utilization_alone_can_establish_advantage": false,
+    "gpu_counter_alone_can_establish_advantage": false
+  },
+  "adjudication": {
+    "if_H_NPA_falsified": "REGIME_ADVANTAGE_SUPPORTED",
+    "if_H_NPA_not_falsified": "FEASIBLE_NO_DEMONSTRATED_ADVANTAGE",
+    "unresolved_only_for": "evidence-invalidating measurement/infrastructure failure that prevents adjudication; never to avoid a negative result",
+    "q3_execution_currently_permitted": false
+  },
+  "stop_rule": {
+    "on_FEASIBLE_NO_DEMONSTRATED_ADVANTAGE": "Close the current ArcLLM architecture line. Do not continue iterative tuning or benchmark search.",
+    "on_REGIME_ADVANTAGE_SUPPORTED": "Freeze the supported regime claim and evidence; no generalized 'ArcLLM is faster/better' claim beyond the proven regime."
+  },
+  "post_negative_architecture_intervention_boundary": {
+    "automatic_reopen": false,
+    "nexus_may_be_reviewed_after_negative_q3": true,
+    "required_stage": "separate Architecture Intervention Review after final ArcLLM verdict",
+    "role_of_nexus": "hypothesis source only; NEXUS results are not ArcLLM evidence and cannot be transferred as proof",
+    "reopening_requirements": [
+      "Q3 final verdict is FEASIBLE_NO_DEMONSTRATED_ADVANTAGE",
+      "current ArcLLM architecture line is formally closed",
+      "Q2/Q3 bottleneck is explicitly mapped to a mechanism",
+      "specific NEXUS finding has a mechanistic causal rationale for that bottleneck",
+      "one bounded architecture intervention is frozen with falsification condition, resource budget, and stop condition",
+      "new intervention is treated as a successor architecture study, not retroactive tuning of Q3"
+    ]
+  }
+}

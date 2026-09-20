@@ -1,11 +1,11 @@
 {
-  "phase": "Q2-MATCHED-BENCHMARK",
+  "phase": "Q3-NO-PRACTICAL-ADVANTAGE-CONFIRMATORY",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "Q2_MATCHED_CHARACTERIZATION_COMPLETE",
+  "status": "Q3_DESIGN_FROZEN_EXECUTION_CLOSED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
-  "serves": "Q2_PERFORMANCE_RESOURCE_ENVELOPE",
+  "serves": "Q3_REGIME_ADVANTAGE_FINAL_CONFIRMATION",
   "parent": "P8-G6 H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED",
   "authoritative_p8g6": {
     "shader_provenance_sha256": "1490475D0D7EAA0498FEEA5CD0A37460C4881FFFF676A7C912E0E113E2CAAC84",
@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Freeze Q3 no-practical-advantage confirmatory design with explicit practical-effect thresholds and fresh reproduction; no ArcLLM tuning before Q3 design lock.",
+  "next_on_success": "Implement Q3 runner and zero-measurement preflight exactly from the frozen Q3 contract; no ArcLLM tuning, no NEXUS integration, no 40-attempt execution before independent implementation/preflight adjudication.",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -373,5 +373,36 @@
     },
     "formal_result_file": "inputs/q2_formal_result.authoritative.json",
     "adjudication_document": "docs/Q2_ADJUDICATION.md"
+  },
+  "q3": {
+    "title": "bounded no-practical-advantage fresh confirmation",
+    "status": "DESIGN_FROZEN_EXECUTION_CLOSED",
+    "design_file": "docs/Q3_NO_PRACTICAL_ADVANTAGE_CONFIRMATORY_DESIGN.md",
+    "machine_contract": "config/q3_confirmatory_design.json",
+    "parent_q2_classification": "Q2_MATCHED_CHARACTERIZATION_COMPLETE",
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "sessions": 2,
+    "measured_attempts_per_cell_per_session": 5,
+    "total_fresh_measured_attempts": 40,
+    "arcllm_tuning_permitted": false,
+    "workload_search_permitted": false,
+    "nexus_input_permitted": false,
+    "execution_permitted": false,
+    "implementation_permitted": true,
+    "practical_effect_thresholds": {
+      "speed_or_latency_minimum_relative_improvement": 0.1,
+      "working_set_minimum_relative_improvement": 0.15,
+      "maximum_allowed_blocking_harm": 0.1
+    },
+    "verdicts": [
+      "REGIME_ADVANTAGE_SUPPORTED",
+      "FEASIBLE_NO_DEMONSTRATED_ADVANTAGE",
+      "UNRESOLVED"
+    ],
+    "negative_stop_rule": "FEASIBLE_NO_DEMONSTRATED_ADVANTAGE closes the current ArcLLM architecture line",
+    "post_negative_nexus_boundary": "NEXUS may be considered only in a separate post-verdict Architecture Intervention Review as a hypothesis source"
   }
 }

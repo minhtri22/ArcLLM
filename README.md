@@ -108,6 +108,6 @@ Frozen workloads:
 
 Q2 is characterization only. It cannot declare an advantage. Q3 remains blocked.
 
-Status: **Q2 CLOSED — Q2_MATCHED_CHARACTERIZATION_COMPLETE**. The frozen matched characterization completed 20/20 successful measured attempts. Q2 remains descriptive and declares no winner. Q3 execution is still closed; the next step is a no-practical-advantage confirmatory design lock with explicit practical-effect thresholds and fresh reproduction.
+Status: **Q3 DESIGN FROZEN / EXECUTION CLOSED**. Q2 closed as `Q2_MATCHED_CHARACTERIZATION_COMPLETE`. Q3 will test the unchanged ArcLLM architecture on only W-S/W-C in two fresh counterbalanced sessions (40 measured attempts total). A negative Q3 closes the current ArcLLM architecture line as `FEASIBLE_NO_DEMONSTRATED_ADVANTAGE`; NEXUS is excluded from Q3 and may only seed a separate post-verdict architecture-intervention hypothesis.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.
