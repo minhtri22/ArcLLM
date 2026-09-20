@@ -1,0 +1,41 @@
+{
+  "schema": "arcllm.sa0.specification_qa.v0.1",
+  "date": "2026-09-21",
+  "reviewed_parent_commit": "8c45684ec3df35b27c50760ef68555149d368f9e",
+  "result": "PASS",
+  "checks": {
+    "specification_only": true,
+    "q3_terminal_verdict_preserved": true,
+    "current_architecture_remains_closed": true,
+    "no_runtime_or_shader_file_changed": true,
+    "exact_q2_q3_graph_bound": true,
+    "exact_q3_result_bound": true,
+    "exact_p7_closeout_bound": true,
+    "nexus_used_as_hypothesis_support_only": true,
+    "post_review_nexus_f01_work_excluded": true,
+    "dispatch_census_recomputed": true,
+    "queue_submit_fact_preserved": true,
+    "fusion_count_bound_recomputed": true,
+    "activation_reread_bound_recomputed": true,
+    "residency_proxy_labeled_non_bandwidth": true,
+    "matched_same_hardware_empirical_envelope_used": true,
+    "optional_vulkan_features_not_assumed": true,
+    "fusion_only_primary_explanation_rejected": true,
+    "event_ledger_direct_transfer_rejected": true,
+    "finite_roadmap": true,
+    "falsification_conditions_present": true,
+    "implementation_authorized": false,
+    "target_execution_authorized": false
+  },
+  "calculated_values": {
+    "total_decode_dispatches": 469,
+    "projection_gemm_dispatches": 196,
+    "qkv_plus_gate_up_saved_dispatches": 84,
+    "dispatch_count_reduction_fraction": 0.1791044776119403,
+    "count_only_speedup_bound": 1.2181818181818183,
+    "combined_activation_reread_saving_bytes": 1204224,
+    "non_embedding_resident_footprint_proxy_bytes": 4370558976
+  },
+  "decision": "SA0_SPECIFICATION_QUALIFIED_CAPABILITY_PREFLIGHT_REQUIRED",
+  "next": "SA0-CAP zero-science exact-device Vulkan capability preflight specification/implementation only; no model load and no successor kernel."
+}

@@ -1,8 +1,8 @@
 {
-  "phase": "POST-VERDICT-ARCHITECTURE-INTERVENTION-REVIEW",
+  "phase": "SA0-DECODE-ARCHITECTURE-CAUSAL-CAPABILITY-QUALIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "POST_VERDICT_INTERVENTION_REVIEW_COMPLETE",
+  "status": "SA0_SPECIFICATION_QUALIFIED_CAPABILITY_PREFLIGHT_REQUIRED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Open SA0 specification-only causal/capability qualification for the selected Decode-Specialized Packed-Quant Executor candidate. Do not create kernels or execute target measurements until SA0 is frozen and independently reviewed.",
+  "next_on_success": "Implement only SA0-CAP zero-science exact-device Vulkan capability probe under the frozen SA0 specification. No model load, no performance shader benchmark, and no successor inference kernel until SA1-P preregistration/lock.",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -489,5 +489,20 @@
     "successor_implementation_authorized": false,
     "target_execution_authorized": false,
     "next_step": "SA0_SPECIFICATION_ONLY_CAUSAL_CAPABILITY_QUALIFICATION"
+  },
+  "sa0": {
+    "status": "SA0_SPECIFICATION_QUALIFIED_CAPABILITY_PREFLIGHT_REQUIRED",
+    "document": "docs/SA0_DECODE_ARCHITECTURE_CAUSAL_CAPABILITY_QUALIFICATION.md",
+    "contract": "config/sa0_decode_architecture_qualification_v0.1.json",
+    "qa_artifact": "artifacts/SA0/SA0_SPECIFICATION_QA_v0.1.json",
+    "causal_qualification": "PASS",
+    "static_hardware_feasibility": "PASS",
+    "exact_device_optional_feature_capability": "PENDING_ZERO_SCIENCE",
+    "selected_primary_subhypothesis": "SA-H1a",
+    "fusion_only_primary_explanation": "REJECTED",
+    "event_ledger_direct_transfer": "REJECTED",
+    "successor_implementation_authorized": false,
+    "target_model_execution_authorized": false,
+    "next_step": "SA0-CAP"
   }
 }

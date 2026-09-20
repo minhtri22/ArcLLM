@@ -1,0 +1,143 @@
+{
+  "schema": "arcllm.sa0.decode_architecture_causal_capability_qualification.v0.1",
+  "date": "2026-09-21",
+  "status": "SA0_SPECIFICATION_QUALIFIED_CAPABILITY_PREFLIGHT_REQUIRED",
+  "parent_commit": "8c45684ec3df35b27c50760ef68555149d368f9e",
+  "parent_verdict": "FEASIBLE_NO_DEMONSTRATED_ADVANTAGE",
+  "candidate_id": "SA-H1",
+  "candidate_name": "Decode-Specialized Packed-Quant Executor",
+  "mode": "SPECIFICATION_ONLY",
+  "current_architecture_line_closed": true,
+  "successor_implementation_authorized": false,
+  "target_model_execution_authorized": false,
+  "evidence_bindings": {
+    "arcllm": {
+      "q2_q3_graph_blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+      "q3_formal_result_blob": "06faac573838b1789e6ef007cd0a9ce11b5e1915",
+      "p7_closeout_blob": "1b5b81646575384c44630baf1cce8588ac8d939d",
+      "successor_candidate_blob": "178c24e7c455c173b50802be03270eabab9c2431"
+    },
+    "nexus_hypothesis_support_only": {
+      "r4c_compact_blob": "76f841a8a82b87fdf0205e7f265ae0d9c5910450",
+      "el_l4_formal_blob": "af3cce47905fd94a7109e462c6b128a05dc028b2",
+      "cross_branch_review_blob": "d38b247153d7ea7b314959a830b58e73295092f2",
+      "later_f01_telemetry_work_admissible": false
+    }
+  },
+  "exact_decode_census": {
+    "layers": 28,
+    "dispatches_per_layer": 16,
+    "layer_dispatches": 448,
+    "endpoint_dispatches": 21,
+    "total_dispatches_per_token": 469,
+    "queue_submits_per_token": 1,
+    "projection_gemm_dispatches_per_layer": 7,
+    "projection_gemm_dispatches_per_token": 196,
+    "projection_dispatch_fraction": 0.417910447761194
+  },
+  "fusion_bound": {
+    "qkv_dispatch_saving": 56,
+    "gate_up_dispatch_saving": 28,
+    "combined_dispatch_saving": 84,
+    "dispatches_after_both": 385,
+    "count_reduction_fraction": 0.1791044776119403,
+    "uniform_cost_count_only_speedup_bound": 1.2181818181818183,
+    "hidden_vector_f32_bytes": 14336,
+    "qkv_ideal_activation_reread_saving_bytes_per_token": 802816,
+    "gate_up_ideal_activation_reread_saving_bytes_per_token": 401408,
+    "combined_ideal_activation_reread_saving_bytes_per_token": 1204224,
+    "fusion_only_primary_explanation": "REJECTED"
+  },
+  "residency_proxy": {
+    "frozen_weight_arena_bytes": 4677120000,
+    "full_embedding_tensor_bytes": 306561024,
+    "non_embedding_resident_footprint_proxy_bytes": 4370558976,
+    "caveat": "Resident-footprint proxy only; not measured DRAM traffic and may include padding/cache effects."
+  },
+  "q3_empirical_envelope": {
+    "arcllm_decode_tps_range": [
+      0.297081904938778,
+      0.334781437641452
+    ],
+    "baseline_decode_tps_range": [
+      11.3507926588053,
+      18.5754388117855
+    ],
+    "baseline_over_arcllm_factor_range": [
+      35.7119791652174,
+      56.794521132378
+    ],
+    "arcllm_footprint_rate_proxy_gbps_range": [
+      1.2984139860678734,
+      1.463182017100864
+    ],
+    "baseline_footprint_rate_proxy_gbps_range": [
+      49.60930873963325,
+      81.18505083205127
+    ]
+  },
+  "subhypotheses": {
+    "SA-H1a": {
+      "mechanism": "decode-specialized batch-1 packed Q4_K/Q6_K GEMM/dataflow",
+      "role": "PRIMARY",
+      "status": "CAUSALLY_PLAUSIBLE_QUALIFIED_FOR_BOUNDED_SUCCESSOR_STUDY"
+    },
+    "SA-H1b": {
+      "mechanism": "QKV and gate+up fusion",
+      "role": "SECONDARY_ENABLER",
+      "status": "ALLOWED_ONLY_AFTER_PREREGISTERED_COMPONENT_BASE"
+    },
+    "SA-H1c": {
+      "mechanism": "subgroup/cooperative/hardware-adaptive optional accelerants",
+      "role": "OPTIONAL",
+      "status": "EXACT_DEVICE_CAPABILITY_PREFLIGHT_REQUIRED"
+    },
+    "SA-H1d": {
+      "mechanism": "LM-head layout/dispatch redesign",
+      "role": "DEFERRED",
+      "status": "NO_STAGE_DOMINANCE_EVIDENCE"
+    }
+  },
+  "capability_policy": {
+    "proven_existing_runtime": [
+      "Vulkan compute",
+      "storage-buffer packed-weight access",
+      "direct packed Q4_K/Q6_K execution",
+      "persistent decoder residency",
+      "GPU-resident KV",
+      "GPU timestamps",
+      "prepared multi-dispatch command chain"
+    ],
+    "exact_device_probe_required": [
+      "subgroup size/stages/operations",
+      "subgroup size control",
+      "extended subgroup scalar types",
+      "max compute workgroup size/invocations",
+      "max workgroup shared memory",
+      "memory heap/type properties",
+      "cooperative matrix support and shapes if exposed"
+    ],
+    "optional_feature_absence_fails_primary_hypothesis": false
+  },
+  "forbidden": [
+    "new kernel implementation before SA0-CAP and SA1-P lock",
+    "target model execution",
+    "Q3 reopening",
+    "NEXUS PASS transfer",
+    "Event Ledger direct integration",
+    "sparse neuron/operator skipping",
+    "model conversion",
+    "precision contract change",
+    "workload search",
+    "post-outcome threshold mutation"
+  ],
+  "next_step": {
+    "id": "SA0-CAP",
+    "type": "ZERO_SCIENCE_EXACT_DEVICE_CAPABILITY_PREFLIGHT",
+    "model_load_permitted": false,
+    "shader_performance_measurement_permitted": false,
+    "target_benchmark_permitted": false,
+    "successor_kernel_implementation_permitted": false,
+    "output_required": "driver-bound Vulkan capability evidence suitable for SA1-P preregistration"
+  }
+}

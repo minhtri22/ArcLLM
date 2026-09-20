@@ -122,3 +122,12 @@ A specification-only post-verdict review of ArcLLM evidence, NEXUS findings and 
 `SA-H1 — Decode-Specialized Packed-Quant Executor`.
 
 This is not an implementation authorization. The next allowed step is SA0 causal/capability qualification only; no new kernel or target measurement is permitted yet. See `docs/POST_VERDICT_ARCHITECTURE_INTERVENTION_REVIEW.md`.
+
+
+## SA0 successor qualification
+
+SA0 is complete at the specification/causal level with status `SA0_SPECIFICATION_QUALIFIED_CAPABILITY_PREFLIGHT_REQUIRED`.
+
+The primary successor mechanism is refined to **SA-H1a: decode-specialized batch-1 packed Q4_K/Q6_K GEMM/dataflow**. QKV and gate+up fusion remain secondary enablers; fusion-only and direct Event-Ledger transfer are explicitly rejected as primary explanations.
+
+The current ArcLLM architecture remains closed and no successor kernel or target-model execution is authorized. The next permitted step is an **SA0-CAP zero-science exact-device Vulkan capability preflight** with no model load.
