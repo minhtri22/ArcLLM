@@ -35,7 +35,15 @@ if((Split-Path -Leaf $env:VULKAN_SDK) -ne $VulkanVersion){
 $glslc=Join-Path $env:VULKAN_SDK "Bin\glslc.exe"
 if(-not(Test-Path $glslc)){throw "Q2 baseline Vulkan SDK missing glslc"}
 
-if(-not(Get-Command cmake.exe -ErrorAction SilentlyContinue)){throw "Q2 baseline qualification requires cmake.exe"}
+$CMakeCmd=Get-Command cmake.exe -ErrorAction SilentlyContinue
+if($CMakeCmd){$CMakeExe=$CMakeCmd.Source}else{
+  $VsWhere="${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+  if(-not(Test-Path $VsWhere)){throw "Q2 baseline qualification requires CMake or Visual Studio CMake"}
+  $VSInstall=& $VsWhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+  if(-not $VSInstall){throw "Q2 baseline qualification cannot locate Visual Studio"}
+  $CMakeExe=Join-Path $VSInstall "Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe"
+  if(-not(Test-Path $CMakeExe)){throw "Q2 baseline qualification cannot locate Visual Studio CMake"}
+}
 if(-not(Test-Path (Join-Path $LlamaDir ".git"))){
   New-Item -ItemType Directory -Force -Path (Split-Path -Parent $LlamaDir)|Out-Null
   git clone --filter=blob:none --no-checkout $RepoUrl $LlamaDir
@@ -54,9 +62,9 @@ $Dirty=((git -C $LlamaDir status --porcelain)|Out-String)
 if($Dirty.Trim()){throw "Q2 baseline source tree is dirty"}
 
 if(Test-Path $BuildDir){Remove-Item -Recurse -Force $BuildDir}
-cmake -S (Join-Path $Root "baseline") -B $BuildDir -G "Visual Studio 17 2022" -A x64 "-DLLAMA_CPP_DIR=$LlamaDir"
+& $CMakeExe -S (Join-Path $Root "baseline") -B $BuildDir -G "Visual Studio 17 2022" -A x64 "-DLLAMA_CPP_DIR=$LlamaDir"
 if($LASTEXITCODE -ne 0){throw "Q2 baseline CMake configure failed"}
-cmake --build $BuildDir --config Release --target q2_llama_adapter -- /m
+& $CMakeExe --build $BuildDir --config Release --target q2_llama_adapter -- /m
 if($LASTEXITCODE -ne 0){throw "Q2 baseline native/Vulkan build failed"}
 
 $Exe=Get-ChildItem $BuildDir -Recurse -Filter q2_llama_adapter.exe|Where-Object {$_.FullName -match "\\Release\\"}|Select-Object -First 1 -ExpandProperty FullName
@@ -68,7 +76,7 @@ New-Item -ItemType Directory -Force -Path $OutDir|Out-Null
 $OutExe=Join-Path $OutDir "q2_llama_adapter.exe"
 Copy-Item -Force $Exe $OutExe
 $ExeHash=(Get-FileHash $OutExe -Algorithm SHA256).Hash.ToUpperInvariant()
-$CMakeVersion=((cmake --version|Select-Object -First 1)|Out-String).Trim()
+$CMakeVersion=((& $CMakeExe --version|Select-Object -First 1)|Out-String).Trim()
 $Results=Join-Path $Root "results";New-Item -ItemType Directory -Force -Path $Results|Out-Null
 $Q=[ordered]@{
   schema="arcllm.q2.baseline_qualification.v2"

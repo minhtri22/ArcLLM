@@ -865,3 +865,7 @@ Baseline build qualification script now pins/bootstraps Vulkan SDK 1.4.357.0, ex
 GPU sampler now accepts both Windows GPU Engine Compute and 3D instances and resource parser handles UTF-8 BOM safely.
 run_q2_preflight.ps1 now performs exact-model/static/shader/ArcLLM-build/baseline-build/runtime-qualification checks and writes a SHA-bound q2_preflight_lock.json with zero measurements. run_q2.ps1 refuses all 20 attempts unless that lock matches HEAD, critical-file hashes, model bytes and baseline executable, and both W-S/W-C runtime qualifications are full-offload PASS.
 Decision: IMPLEMENTATION_STATIC_LOCKED. Local preflight is permitted; Q2 measured run remains forbidden. Q3 remains blocked.
+
+
+## 2026-09-20 — Q2 local preflight tooling hardening
+Baseline qualifier now resolves CMake from PATH or the installed Visual Studio 2022 CMake bundle via vswhere. This is packaging/tooling hardening only; baseline pin, Vulkan backend, workloads, timing definitions, gates and Q2 authorization are unchanged. No target model or measured attempt was executed.
