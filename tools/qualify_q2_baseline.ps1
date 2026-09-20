@@ -11,31 +11,63 @@ $PinnedRelease="v0.4.1"
 $RepoUrl="https://github.com/ggml-org/llama.cpp.git"
 $VulkanVersion="1.4.357.0"
 $ExpectedVulkanInstallerSha="81F474711E9042F4CD22B31B2F7A8870DB2E428B21586FB43DD80150BE97310D"
-$VulkanHome="C:\VulkanSDK\$VulkanVersion"
+$SystemVulkanHome="C:\VulkanSDK\$VulkanVersion"
+$PortableVulkanHome=Join-Path $Root (".q2_toolchains\VulkanSDK\"+$VulkanVersion)
 $InstallerSha=$null
+$VulkanBootstrapMode=$null
 if(-not $LlamaDir){$LlamaDir=Join-Path $Root "third_party\llama.cpp-q2"}
 if(-not $BuildDir){$BuildDir=Join-Path $Root "build\q2_baseline"}
 
-if(-not $env:VULKAN_SDK -or -not(Test-Path (Join-Path $env:VULKAN_SDK "Bin\glslc.exe"))){
-  if(Test-Path (Join-Path $VulkanHome "Bin\glslc.exe")){
-    $env:VULKAN_SDK=$VulkanHome
-  }elseif($BootstrapVulkanSdk){
-    $Installer=Join-Path $env:TEMP ("VulkanSDK-"+$VulkanVersion+".exe")
-    $Url="https://sdk.lunarg.com/sdk/download/$VulkanVersion/windows/vulkansdk-windows-X64-$VulkanVersion.exe"
+function Test-Q2VulkanSdk([string]$Path){
+  if(-not $Path){return $false}
+  return (Test-Path (Join-Path $Path "Bin\glslc.exe")) -and
+         (Test-Path (Join-Path $Path "Include\vulkan\vulkan.h")) -and
+         (Test-Path (Join-Path $Path "Lib\vulkan-1.lib"))
+}
+
+$SelectedVulkanHome=$null
+if($env:VULKAN_SDK -and (Split-Path -Leaf $env:VULKAN_SDK) -eq $VulkanVersion -and (Test-Q2VulkanSdk $env:VULKAN_SDK)){
+  $SelectedVulkanHome=$env:VULKAN_SDK
+  $VulkanBootstrapMode="EXISTING_ENV"
+}elseif(Test-Q2VulkanSdk $SystemVulkanHome){
+  $SelectedVulkanHome=$SystemVulkanHome
+  $VulkanBootstrapMode="EXISTING_SYSTEM"
+}elseif(Test-Q2VulkanSdk $PortableVulkanHome){
+  $SelectedVulkanHome=$PortableVulkanHome
+  $VulkanBootstrapMode="PORTABLE_CACHE"
+}elseif($BootstrapVulkanSdk){
+  $Installer=Join-Path $env:TEMP ("VulkanSDK-"+$VulkanVersion+".exe")
+  $Url="https://sdk.lunarg.com/sdk/download/$VulkanVersion/windows/vulkansdk-windows-X64-$VulkanVersion.exe"
+  if(Test-Path $Installer){
+    $InstallerSha=(Get-FileHash $Installer -Algorithm SHA256).Hash.ToUpperInvariant()
+    if($InstallerSha -ne $ExpectedVulkanInstallerSha){Remove-Item -Force $Installer;$InstallerSha=$null}
+  }
+  if(-not(Test-Path $Installer)){
     Invoke-WebRequest -UseBasicParsing -Uri $Url -OutFile $Installer
     $InstallerSha=(Get-FileHash $Installer -Algorithm SHA256).Hash.ToUpperInvariant()
-    if($InstallerSha -ne $ExpectedVulkanInstallerSha){throw "Q2 Vulkan SDK installer SHA mismatch"}
-    & $Installer --accept-licenses --default-answer --confirm-command install
-    if($LASTEXITCODE -ne 0){throw "Q2 Vulkan SDK install failed"}
-    if(-not(Test-Path (Join-Path $VulkanHome "Bin\glslc.exe"))){throw "Q2 pinned Vulkan SDK not found after install"}
-    $env:VULKAN_SDK=$VulkanHome
-  }else{throw "Q2 baseline qualification requires Vulkan SDK 1.4.357.0"}
+  }
+  if($InstallerSha -ne $ExpectedVulkanInstallerSha){throw "Q2 Vulkan SDK installer SHA mismatch"}
+
+  if(Test-Path $PortableVulkanHome){Remove-Item -Recurse -Force $PortableVulkanHome}
+  New-Item -ItemType Directory -Force -Path (Split-Path -Parent $PortableVulkanHome)|Out-Null
+
+  # LunarG-supported non-admin mode: copy SDK files only; no registry, shortcuts, or system PATH changes.
+  & $Installer --root $PortableVulkanHome --accept-licenses --default-answer --confirm-command install copy_only=1
+  if($LASTEXITCODE -ne 0){throw "Q2 Vulkan SDK portable copy-only install failed"}
+  if(-not(Test-Q2VulkanSdk $PortableVulkanHome)){throw "Q2 portable Vulkan SDK incomplete after copy-only install"}
+
+  $SelectedVulkanHome=$PortableVulkanHome
+  $VulkanBootstrapMode="PORTABLE_COPY_ONLY"
+}else{
+  throw "Q2 baseline qualification requires Vulkan SDK 1.4.357.0"
 }
-if((Split-Path -Leaf $env:VULKAN_SDK) -ne $VulkanVersion){
-  if(Test-Path (Join-Path $VulkanHome "Bin\glslc.exe")){$env:VULKAN_SDK=$VulkanHome}else{throw "Q2 Vulkan SDK version mismatch; expected 1.4.357.0"}
-}
+
+$env:VULKAN_SDK=$SelectedVulkanHome
+$env:VK_SDK_PATH=$SelectedVulkanHome
+$env:PATH=(Join-Path $SelectedVulkanHome "Bin")+";"+$env:PATH
+
 $glslc=Join-Path $env:VULKAN_SDK "Bin\glslc.exe"
-if(-not(Test-Path $glslc)){throw "Q2 baseline Vulkan SDK missing glslc"}
+if(-not(Test-Q2VulkanSdk $env:VULKAN_SDK)){throw "Q2 baseline Vulkan SDK validation failed"}
 
 $CMakeCmd=Get-Command cmake.exe -ErrorAction SilentlyContinue
 if($CMakeCmd){$CMakeExe=$CMakeCmd.Source}else{
@@ -90,6 +122,9 @@ $Q=[ordered]@{
   build_backend="Vulkan"
   vulkan_sdk=$env:VULKAN_SDK
   vulkan_sdk_version=$VulkanVersion
+  vulkan_sdk_bootstrap_mode=$VulkanBootstrapMode
+  vulkan_sdk_portable_copy_only=($VulkanBootstrapMode -eq "PORTABLE_COPY_ONLY" -or $VulkanBootstrapMode -eq "PORTABLE_CACHE")
+  vulkan_sdk_admin_required=$false
   vulkan_installer_sha256_expected=$ExpectedVulkanInstallerSha
   vulkan_installer_sha256_observed=$InstallerSha
   cmake=$CMakeVersion

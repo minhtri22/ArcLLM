@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Run target-local run_q2_preflight.ps1 (zero measured attempts) -> return/adjudicate evidence independently -> commit config/q2_execution_authorization.json + manifest authorization only -> then run exactly 20 measured attempts",
+  "next_on_success": "Pull portable Vulkan bootstrap repair -> rerun run_q2_preflight.ps1 from zero measurements -> return q2_preflight_return_to_chatgpt.zip for independent adjudication",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -272,7 +272,32 @@
         "power scheme",
         "AC state",
         "run metadata + measured evidence manifest SHA chain"
-      ]
+      ],
+      "last_local_attempt": {
+        "head_sha": "56d425be480ff19b8f1f5306dec028fb4a854c76",
+        "result": "BLOCKED_PACKAGING_BEFORE_BASELINE_BUILD",
+        "cause": "Vulkan SDK ordinary unattended install required Administrator elevation and rolled back",
+        "static_package": "PASS",
+        "arcllm_shader_compile": "PASS",
+        "arcllm_native_build": "PASS",
+        "baseline_build_api": "NOT_REACHED",
+        "baseline_runtime_qualification": "NOT_REACHED",
+        "llama_decode_executed": false,
+        "measured_attempts": 0,
+        "q3_started": false
+      },
+      "vulkan_bootstrap": {
+        "version": "1.4.357.0",
+        "installer_sha256": "81F474711E9042F4CD22B31B2F7A8870DB2E428B21586FB43DD80150BE97310D",
+        "mode": "PORTABLE_COPY_ONLY",
+        "root": ".q2_toolchains/VulkanSDK/1.4.357.0",
+        "administrator_required": false,
+        "required_files": [
+          "Bin/glslc.exe",
+          "Include/vulkan/vulkan.h",
+          "Lib/vulkan-1.lib"
+        ]
+      }
     },
     "execution_authorization_required": true,
     "execution_authorization_committed": false,

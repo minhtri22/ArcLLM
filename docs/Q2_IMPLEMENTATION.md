@@ -192,6 +192,8 @@ Windows GPU sampling now probes `engtype_Compute` and `engtype_3D` independently
 
 The pinned Vulkan SDK 1.4.357.0 bootstrap verifies the official Windows x64 installer SHA256 `81F474711E9042F4CD22B31B2F7A8870DB2E428B21586FB43DD80150BE97310D` before installation.
 
+After the first target-local preflight exposed that LunarG's ordinary unattended Windows install requires elevation, bootstrap was changed to LunarG's supported `copy_only=1` mode with `--root` pointing to repo-local `.q2_toolchains/VulkanSDK/1.4.357.0`. This mode copies the SDK development files without registry, shortcut, or system-PATH mutation and therefore does not require Administrator privileges. The script validates `Bin/glslc.exe`, `Include/vulkan/vulkan.h`, and `Lib/vulkan-1.lib` before configuring the pinned llama.cpp build. This is packaging/toolchain repair only; baseline source, model, workload, runtime configuration, timings and Q2 gates are unchanged.
+
 ## Current authorization
 
 Q2 implementation is **STATIC_LOCKED**.

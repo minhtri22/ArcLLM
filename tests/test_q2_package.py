@@ -90,6 +90,11 @@ assert 'VulkanVersion="1.4.357.0"' in qual
 assert 'Visual Studio 17 2022' in qual
 assert '81F474711E9042F4CD22B31B2F7A8870DB2E428B21586FB43DD80150BE97310D' in qual
 assert 'Vulkan SDK installer SHA mismatch' in qual
+assert 'copy_only=1' in qual and '--root $PortableVulkanHome' in qual
+assert '.q2_toolchains\\VulkanSDK\\' in qual
+assert 'vulkan_sdk_bootstrap_mode' in qual and 'vulkan_sdk_portable_copy_only' in qual
+assert 'vulkan_sdk_admin_required=$false' in qual
+assert 'Include\\vulkan\\vulkan.h' in qual and 'Lib\\vulkan-1.lib' in qual
 assert 'vulkan_installer_sha256_expected' in qual and 'vulkan_installer_sha256_observed' in qual
 assert 'arcllm.q2.baseline_qualification.v2' in qual
 
