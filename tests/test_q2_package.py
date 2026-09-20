@@ -144,7 +144,11 @@ assert "93833ffb49890aba" in pre and "5973d0cfd8ad6313" in pre
 assert "critical_file_sha256" in pre
 assert "src/p8c_segmented_access_correctness.cpp" in pre and "src/gguf.cpp" in pre and "src/tensor_store.cpp" in pre
 assert "shader_source_sha256" in pre and "compiled_shader_sha256" in pre
-assert "power_scheme=$PowerScheme" in pre and "ac_power_online=$AcPowerOnline" in pre
+assert "GetSystemPowerStatus" in pre and 'source="GetSystemPowerStatus"' in pre
+assert 'ac_line_status=$AcLineStatus' in pre and "ac_power_online=$AcPowerOnline" in pre
+assert 'Get-CimInstance -Namespace root\\wmi -Class BatteryStatus' in pre
+assert 'Where-Object {-not $_.PowerOnline}' not in pre
+assert "power_scheme=$PowerScheme" in pre
 assert "measurement_authorized=$false" in pre
 assert "q2_preflight_return_to_chatgpt.zip" in pre
 
@@ -170,6 +174,9 @@ assert "baseline executable differs from preflight" in runner
 assert "ArcLLM executable differs from qualified/authorized artifact" in runner
 assert "compiled shader drift since preflight" in runner
 assert "active power scheme drift since preflight" in runner
+assert "GetSystemPowerStatus" in runner and 'source="GetSystemPowerStatus"' in runner
+assert 'Get-CimInstance -Namespace root\\wmi -Class BatteryStatus' in runner
+assert 'Where-Object {-not $_.PowerOnline}' not in runner
 runner_after_static=runner.split('py -3 (Join-Path $Here "tests\\test_q2_package.py")',1)[1]
 assert 'tools\\compile_q2_shaders.ps1' not in runner_after_static
 assert 'tools\\build_q2.ps1' not in runner_after_static

@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Pull corrected v0.4.1 annotated-tag baseline identity -> rerun zero-measurement preflight -> return q2_preflight_return_to_chatgpt.zip for independent adjudication",
+  "next_on_success": "Pull system-level AC gate correction -> rerun zero-measurement preflight -> return q2_preflight_return_to_chatgpt.zip for independent adjudication",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -279,15 +279,22 @@
         "run metadata + measured evidence manifest SHA chain"
       ],
       "last_local_attempt": {
-        "head_sha": "844552ace71f554a8f486d3257cc66757d3102f8",
-        "result": "BLOCKED_BY_BASELINE_IDENTITY_CONTRADICTION_BEFORE_BASELINE_BUILD",
-        "cause": "annotated tag v0.4.1 dereferenced to b29c606e28a01b1bc8c1351026a0fa6e616bf6c4 while frozen draft incorrectly paired release v0.4.1 with post-tag commit 391fac16460f15233a7740550d858ac96df3419d",
+        "head_sha": "a77e5fadc3894837060875a301d894e7afda6620",
+        "result": "BLOCKED_BY_POWER_STATUS_MEASUREMENT_DEFECT_AFTER_BASELINE_RUNTIME_QUALIFICATION",
+        "cause": "preflight used per-battery WMI BatteryStatus.PowerOnline as authoritative system AC gate; corrected to system-level GetSystemPowerStatus",
         "arcllm_native_build": "PASS",
-        "baseline_checkout": "POST_TAG_COMMIT_CHECKED_OUT_THEN_GATE_STOPPED",
-        "baseline_build_api": "NOT_REACHED",
-        "baseline_runtime_qualification": "NOT_REACHED",
-        "llama_decode_executed": false,
-        "measured_attempts": 0,
+        "baseline_release_identity": "PASS",
+        "baseline_build_api": "PASS",
+        "baseline_runtime_observed": {
+          "model_loaded": true,
+          "vulkan_full_offload": "29/29",
+          "kv_layers_on_vulkan0": 28,
+          "kv_type": "F32",
+          "kv_buffer_mib": 448,
+          "decode_executed": false,
+          "measured_attempts": 0
+        },
+        "preflight_lock_written": false,
         "q3_started": false
       },
       "vulkan_bootstrap": {
@@ -302,7 +309,14 @@
           "Lib/vulkan-1.lib"
         ]
       },
-      "tag_fetch_refspec": "refs/tags/${PinnedRelease}:refs/tags/${PinnedRelease}"
+      "tag_fetch_refspec": "refs/tags/${PinnedRelease}:refs/tags/${PinnedRelease}",
+      "power_source_gate": {
+        "authoritative_api": "GetSystemPowerStatus",
+        "required_ac_line_status": 1,
+        "offline_status": 0,
+        "unknown_status": 255,
+        "per_battery_wmi_role": "descriptive_only"
+      }
     },
     "execution_authorization_required": true,
     "execution_authorization_committed": false,

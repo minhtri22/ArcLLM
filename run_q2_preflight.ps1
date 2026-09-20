@@ -93,10 +93,44 @@ $Arc=@($GPU|Where-Object {$_.Name -like "*Arc*140V*"})
 if($Arc.Count -lt 1){throw "Q2 preflight Arc 140V not found"}
 if(@($Arc|Where-Object {$_.DriverVersion -eq "32.0.101.8860"}).Count -lt 1){throw "Q2 preflight frozen Intel GPU driver mismatch"}
 $PowerScheme=((powercfg /GETACTIVESCHEME 2>&1)|Out-String).Trim()
+$PowerStatusType=@"
+using System;
+using System.Runtime.InteropServices;
+public static class ArcLlmQ2Power {
+  [StructLayout(LayoutKind.Sequential)]
+  public struct SYSTEM_POWER_STATUS {
+    public byte ACLineStatus;
+    public byte BatteryFlag;
+    public byte BatteryLifePercent;
+    public byte SystemStatusFlag;
+    public uint BatteryLifeTime;
+    public uint BatteryFullLifeTime;
+  }
+  [DllImport("kernel32.dll", SetLastError=true)]
+  [return: MarshalAs(UnmanagedType.Bool)]
+  public static extern bool GetSystemPowerStatus(out SYSTEM_POWER_STATUS s);
+}
+"@
+if(-not ("ArcLlmQ2Power" -as [type])){Add-Type -TypeDefinition $PowerStatusType}
+$SystemPower=New-Object "ArcLlmQ2Power+SYSTEM_POWER_STATUS"
+if(-not [ArcLlmQ2Power]::GetSystemPowerStatus([ref]$SystemPower)){throw "Q2 cannot query system AC power status"}
+$AcLineStatus=[int]$SystemPower.ACLineStatus
+if($AcLineStatus -eq 0){throw "Q2 requires AC power: GetSystemPowerStatus reports Offline"}
+if($AcLineStatus -eq 255){throw "Q2 requires known AC power state: GetSystemPowerStatus reports Unknown"}
+if($AcLineStatus -ne 1){throw "Q2 invalid ACLineStatus=$AcLineStatus"}
+$AcPowerOnline=$true
+$SystemPowerEvidence=[ordered]@{
+  source="GetSystemPowerStatus"
+  ac_line_status=$AcLineStatus
+  ac_line_status_text="Online"
+  battery_flag=[int]$SystemPower.BatteryFlag
+  battery_life_percent=[int]$SystemPower.BatteryLifePercent
+  system_status_flag=[int]$SystemPower.SystemStatusFlag
+  battery_life_time=[uint32]$SystemPower.BatteryLifeTime
+  battery_full_life_time=[uint32]$SystemPower.BatteryFullLifeTime
+}
 $Battery=@()
-try{$Battery=@(Get-CimInstance -Namespace root\wmi -Class BatteryStatus -ErrorAction Stop|Select-Object PowerOnline,Charging,RemainingCapacity)}catch{}
-if($Battery.Count -gt 0 -and @($Battery|Where-Object {-not $_.PowerOnline}).Count -gt 0){throw "Q2 preflight requires AC power / PowerOnline=true"}
-$AcPowerOnline=if($Battery.Count -gt 0){$true}else{$null}
+try{$Battery=@(Get-CimInstance -Namespace root\wmi -Class BatteryStatus -ErrorAction Stop|Select-Object PowerOnline,Charging,Discharging,RemainingCapacity)}catch{}
 
 $CriticalHashes=[ordered]@{}
 foreach($Rel in $ImplementationCritical){$P=Join-Path $Here $Rel;$CriticalHashes[$Rel]=(Get-FileHash $P -Algorithm SHA256).Hash.ToUpperInvariant()}
@@ -135,7 +169,7 @@ $Lock=[ordered]@{
  baseline_build_api="PASS"
  baseline_runtime_qualification="PASS"
  runtime_qualifications=$RuntimeRows
- hardware=[ordered]@{os_caption=$OS.Caption;os_version=$OS.Version;os_build=$OS.BuildNumber;cpu=$CPU;gpu=$GPU;power_scheme=$PowerScheme;battery=$Battery;ac_power_online=$AcPowerOnline}
+ hardware=[ordered]@{os_caption=$OS.Caption;os_version=$OS.Version;os_build=$OS.BuildNumber;cpu=$CPU;gpu=$GPU;power_scheme=$PowerScheme;system_power=$SystemPowerEvidence;battery_device_status=$Battery;ac_power_online=$AcPowerOnline}
  critical_file_sha256=$CriticalHashes
  measurement_authorization_required=$true
  measurement_authorized=$false

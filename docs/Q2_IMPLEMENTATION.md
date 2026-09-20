@@ -80,6 +80,14 @@ KV state is cleared before every warmup/measured attempt.
 
 Build/API qualification uses the same Vulkan SDK version as the pinned upstream llama.cpp Windows Vulkan CI: `1.4.357.0`. Qualification builds the adapter against the exact source tag/commit but does not load or execute the target model.
 
+## System power qualification
+
+Q2 requires AC power during characterization. The first baseline-qualified local preflight exposed that the earlier gate incorrectly treated per-battery WMI `BatteryStatus.PowerOnline` as the authoritative system-power signal. Windows documents `GetSystemPowerStatus` as the preferred query for overall system power status.
+
+Both preflight and measurement runner now require system-level `ACLineStatus=1 (Online)` from `GetSystemPowerStatus`. `ACLineStatus=0` fails as offline/battery and `255` fails as unknown. Per-battery WMI status is retained only as descriptive evidence and cannot veto a valid system-level AC result. The active Windows power scheme remains frozen and must match between preflight and measurement.
+
+This is a measurement-method correction, not a relaxation: AC power remains mandatory.
+
 ## Resource sampler
 
 `tools/q2_resource_sampler.py` launches each benchmark cell and samples at a 100 ms target interval.

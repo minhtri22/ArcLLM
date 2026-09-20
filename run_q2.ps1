@@ -129,9 +129,44 @@ if($TargetGPU.Count -lt 1){throw "Q2 target Arc 140V GPU not found"}
 if(@($TargetGPU|Where-Object {$_.DriverVersion -eq "32.0.101.8860"}).Count -lt 1){throw "Q2 frozen Intel GPU driver mismatch"}
 if(@($CPU|Where-Object {$_.Name -like "*Ultra 7 258V*"}).Count -lt 1){throw "Q2 frozen CPU mismatch"}
 $PowerScheme=((powercfg /GETACTIVESCHEME 2>&1)|Out-String).Trim()
+$PowerStatusType=@"
+using System;
+using System.Runtime.InteropServices;
+public static class ArcLlmQ2Power {
+  [StructLayout(LayoutKind.Sequential)]
+  public struct SYSTEM_POWER_STATUS {
+    public byte ACLineStatus;
+    public byte BatteryFlag;
+    public byte BatteryLifePercent;
+    public byte SystemStatusFlag;
+    public uint BatteryLifeTime;
+    public uint BatteryFullLifeTime;
+  }
+  [DllImport("kernel32.dll", SetLastError=true)]
+  [return: MarshalAs(UnmanagedType.Bool)]
+  public static extern bool GetSystemPowerStatus(out SYSTEM_POWER_STATUS s);
+}
+"@
+if(-not ("ArcLlmQ2Power" -as [type])){Add-Type -TypeDefinition $PowerStatusType}
+$SystemPower=New-Object "ArcLlmQ2Power+SYSTEM_POWER_STATUS"
+if(-not [ArcLlmQ2Power]::GetSystemPowerStatus([ref]$SystemPower)){throw "Q2 cannot query system AC power status"}
+$AcLineStatus=[int]$SystemPower.ACLineStatus
+if($AcLineStatus -eq 0){throw "Q2 requires AC power: GetSystemPowerStatus reports Offline"}
+if($AcLineStatus -eq 255){throw "Q2 requires known AC power state: GetSystemPowerStatus reports Unknown"}
+if($AcLineStatus -ne 1){throw "Q2 invalid ACLineStatus=$AcLineStatus"}
+$AcPowerOnline=$true
+$SystemPowerEvidence=[ordered]@{
+  source="GetSystemPowerStatus"
+  ac_line_status=$AcLineStatus
+  ac_line_status_text="Online"
+  battery_flag=[int]$SystemPower.BatteryFlag
+  battery_life_percent=[int]$SystemPower.BatteryLifePercent
+  system_status_flag=[int]$SystemPower.SystemStatusFlag
+  battery_life_time=[uint32]$SystemPower.BatteryLifeTime
+  battery_full_life_time=[uint32]$SystemPower.BatteryFullLifeTime
+}
 $Battery=@()
-try{$Battery=@(Get-CimInstance -Namespace root\wmi -Class BatteryStatus -ErrorAction Stop|Select-Object PowerOnline,Charging,RemainingCapacity)}catch{}
-if($Battery.Count -gt 0 -and @($Battery|Where-Object {-not $_.PowerOnline}).Count -gt 0){throw "Q2 requires AC power / PowerOnline=true"}
+try{$Battery=@(Get-CimInstance -Namespace root\wmi -Class BatteryStatus -ErrorAction Stop|Select-Object PowerOnline,Charging,Discharging,RemainingCapacity)}catch{}
 if([string]$OS.Version -ne [string]$PF.hardware.os_version -or [string]$OS.BuildNumber -ne [string]$PF.hardware.os_build){throw "Q2 measurement blocked: OS version/build drift since preflight"}
 if($PowerScheme -ne [string]$PF.hardware.power_scheme){throw "Q2 measurement blocked: active power scheme drift since preflight"}
 if($null -ne $PF.hardware.ac_power_online -and -not[bool]$PF.hardware.ac_power_online){throw "Q2 measurement blocked: preflight did not establish AC power"}
@@ -148,7 +183,9 @@ $Env=[ordered]@{
  cpu=$CPU
  gpu=$GPU
  power_scheme=$PowerScheme
- battery=$Battery
+ system_power=$SystemPowerEvidence
+ battery_device_status=$Battery
+ ac_power_online=$AcPowerOnline
  model_path=$ModelPath
  model_sha256=$ModelHash
  model_size_bytes=$mf.Length
