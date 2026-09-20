@@ -30,8 +30,8 @@ assert "p7_q4k_gemm_2d.spv" in src and "p7_q6k_gemm_2d.spv" in src
 assert src.count("for(uint32_t l=0;l<LAYERS;++l)") >= 3
 main=src[src.index("int main("):]
 assert "matmul_q4_cpu(" not in main and "matmul_q6_cpu(" not in main
-assert '"cpu_model_math_fallback":false' in main
-assert '"cpu_teacher_forcing":false' in main
+assert r'\"cpu_model_math_fallback\":false' in main
+assert r'\"cpu_teacher_forcing\":false' in main
 assert "q1_top2(lp,VOC)" in main
 assert "actual_input==expected_input" in main
 assert "A.generated==B.generated" in main
