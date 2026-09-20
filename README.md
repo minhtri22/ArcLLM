@@ -102,12 +102,12 @@ Q1 freezes a real full-model compute run:
 - final norm;
 - full 152064-logit segmented LM head;
 - greedy argmax;
-- exactly four autoregressive decode tokens;
+- one token from prefill logits plus four cached-decode steps = exactly five generated token IDs;
 - two independent reset executions A/B;
 - inherited production graph census 441 prefill dispatches / 469 dispatches per decode step.
 
 Tokenizer/API and performance comparison are intentionally outside Q1.
 
-Status: **Q1 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION**. No end-to-end target run is permitted before implementation + static QA lock.
+Status: **Q1 IMPLEMENTATION_LOCKED / TARGET RUN AUTHORIZED** after static semantic/package review. The target run remains Q1-only; Q2/Q3 are not opened.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.

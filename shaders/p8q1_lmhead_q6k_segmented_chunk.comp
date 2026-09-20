@@ -1,0 +1,51 @@
+#version 450
+layout(local_size_x = 64) in;
+layout(std430,binding=0) readonly buffer W0Buf{uint w0[];}W0;
+layout(std430,binding=1) readonly buffer W1Buf{uint w1[];}W1;
+layout(std430,binding=2) readonly buffer XBuf{float x[];}X;
+layout(std430,binding=3) writeonly buffer YBuf{float y[];}Y;
+layout(push_constant) uniform PC{
+    uint n;
+    uint row_bytes;
+    uint row_start;
+    uint row_count;
+    uint boundary;
+    uint x_base;
+}pc;
+uint load_u8(uint seg,uint off){
+    uint word=(seg==0u)?W0.w0[off>>2u]:W1.w1[off>>2u];
+    return(word>>((off&3u)*8u))&255u;
+}
+uint load_u16(uint seg,uint off){return load_u8(seg,off)|(load_u8(seg,off+1u)<<8u);}
+float fp16_at(uint seg,uint off){return unpackHalf2x16(load_u16(seg,off)).x;}
+int load_i8(uint seg,uint off){int v=int(load_u8(seg,off));return(v>=128)?(v-256):v;}
+int q6_value(uint seg,uint base,uint k,out int scale){
+    uint half128=k>>7u,kk=k&127u,l=kk&31u,quarter=kk>>5u;
+    uint ql_base=base+half128*64u,qh_base=base+128u+half128*32u,sc_base=base+192u+half128*8u;
+    uint is=l>>4u,low,high,sc_idx;
+    if(quarter==0u){low=load_u8(seg,ql_base+l)&15u;high=(load_u8(seg,qh_base+l)>>0u)&3u;sc_idx=is;}
+    else if(quarter==1u){low=load_u8(seg,ql_base+l+32u)&15u;high=(load_u8(seg,qh_base+l)>>2u)&3u;sc_idx=is+2u;}
+    else if(quarter==2u){low=load_u8(seg,ql_base+l)>>4u;high=(load_u8(seg,qh_base+l)>>4u)&3u;sc_idx=is+4u;}
+    else{low=load_u8(seg,ql_base+l+32u)>>4u;high=(load_u8(seg,qh_base+l)>>6u)&3u;sc_idx=is+6u;}
+    scale=load_i8(seg,sc_base+sc_idx);
+    return int(low|(high<<4u))-32;
+}
+void main(){
+    uint i=gl_GlobalInvocationID.x;
+    if(i>=pc.row_count)return;
+    uint row=pc.row_start+i;
+    uint seg=(row<pc.boundary)?0u:1u;
+    uint local_row=(seg==0u)?row:(row-pc.boundary);
+    uint row_base=local_row*pc.row_bytes;
+    uint nb=pc.n/256u;
+    float sum=0.0;
+    for(uint ib=0u;ib<nb;++ib){
+        uint base=row_base+ib*210u;
+        float d=fp16_at(seg,base+208u);
+        for(uint k=0u;k<256u;++k){
+            int sc;int q=q6_value(seg,base,k,sc);
+            sum+=(d*float(sc)*float(q))*X.x[pc.x_base+ib*256u+k];
+        }
+    }
+    Y.y[row]=sum;
+}

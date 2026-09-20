@@ -2,7 +2,7 @@
   "phase": "Q1-END-TO-END",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "DESIGN_FROZEN",
+  "status": "IMPLEMENTATION_LOCKED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "Q1_FEASIBILITY",
@@ -42,7 +42,6 @@
       152062
     ],
     "prefill_seq": 4,
-    "decode_tokens": 4,
     "decode_positions": [
       4,
       5,
@@ -65,10 +64,20 @@
       "Q1_INVALID"
     ],
     "performance_gate_defined": false,
-    "matched_baseline_required_for_q1": false
+    "matched_baseline_required_for_q1": false,
+    "cached_decode_steps": 4,
+    "generated_tokens_total": 5,
+    "predicted_token_positions": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "residency_gate": "requested Q1 residency <= P8-B proven envelope and <= 15.25 GiB usable budget"
   },
   "implementation_permitted": true,
-  "target_run_permitted": false,
+  "target_run_permitted": true,
   "historical": {
     "p8g": "FAIL",
     "p8g1": "H-AMPLIFICATION",
@@ -79,7 +88,11 @@
     "p8g6": "H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED"
   },
   "full_inference_general_permitted": false,
-  "q1_end_to_end_target_run_permitted": false,
+  "q1_end_to_end_target_run_permitted": true,
   "next_on_success": "Q2 frozen matched performance/resource benchmark",
-  "implementation_commit_pending": true
+  "implementation_commit_pending": false,
+  "q2_permitted": false,
+  "q3_permitted": false,
+  "implementation_review": "STATIC_PASS",
+  "pre_execution_clarification": "v0.1a: 5 generated tokens total; residency wording aligned to P8-B proven envelope"
 }

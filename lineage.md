@@ -772,3 +772,12 @@ Q1 execution boundary is pretokenized token IDs through full 28-layer model and 
 Frozen input token IDs are [1,133151,133152,152062], deliberately crossing the segmented embedding boundary. Two independent reset executions A/B are required.
 Inherited P7 production graph census is frozen as 441 prefill dispatches and 469 dispatches per cached decode step. Full segmented embedding/output, all 28 layers, GPU-resident KV, final norm, full 152064 logits and greedy feedback must execute with no CPU model-math fallback or teacher forcing.
 Decision: Q1 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION. No Q1 target run is permitted until implementation + static QA are locked. On Q1 PASS, next is Q2 matched performance/resource benchmark; no further subsystem study is allowed unless Q1 identifies a direct blocker under governance.
+
+
+## 2026-09-20 — Q1 pre-execution clarification v0.1a + implementation lock
+No Q1 target evidence existed at this point.
+Clarification 1: prefill logits already predict token position 4; four cached-decode inputs at positions 4,5,6,7 predict positions 5,6,7,8. Therefore the frozen deterministic sequence contains five generated token IDs total, not four. Input IDs, decode-step count and 441/469 dispatch census are unchanged.
+Clarification 2: Q1 records requested residency and requires it to remain inside the P8-B proven weight/KV/working envelope and the 15.25 GiB usable budget. The inherited Vulkan wrapper does not expose aggregate VkMemoryRequirements allocation bytes, so no new unmeasurable post-hoc allocation gate is invented.
+Implementation composes the P8 segmented resolver/endpoints with the frozen P7 production prefill/decode graph. One new integration shader computes chunked full-vocabulary segmented Q6_K output rows; no weight re-encoding or merged >256 MiB allocation is introduced.
+Static review locks: exact 7B target; [1,133151,133152,152062] input; 28 layers; 441 prefill dispatches; four 469-dispatch decode steps; full 152064 logits; greedy feedback; A/B reset repeat; no CPU model-math fallback; no teacher forcing; exact P8-G6 parent hashes; F3 evidence packaging before final classification.
+Decision: Q1 IMPLEMENTATION_LOCKED / TARGET RUN AUTHORIZED. Q2 and Q3 remain closed.

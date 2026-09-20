@@ -69,6 +69,17 @@ Tokenizer/detokenizer, chat templates, HTTP/OpenAI API and user-facing text tran
 
 This boundary is deliberate: Q1 tests the complete model compute/runtime path without adding a tokenizer implementation as an unrelated blocker.
 
+## Pre-execution clarification v0.1a
+
+This clarification is frozen before any Q1 target execution.
+
+Two implementation-level ambiguities in the initial design text are corrected without changing the scientific question, input, graph, dispatch census, or PASS/FAIL logic:
+
+1. The prefill full-logit output already predicts the token at position 4. Four cached-decode executions at input positions 4,5,6,7 then predict positions 5,6,7,8. Therefore Q1 produces **five generated token IDs total**: one from prefill logits plus four from cached decode.
+2. P8-B already established the actual Vulkan residency feasibility for the frozen 19-arena weights, full 4096-position K/V buffers and a larger frozen working-buffer envelope. Q1 therefore records its requested weight/KV/working bytes and requires them to remain within that P8-B proven envelope and the 15.25 GiB usable budget. Q1 does not invent a new post-hoc "actual allocation bytes" measurement that the inherited Vulkan wrapper does not expose.
+
+No Q1 evidence existed when this clarification was made.
+
 ## Frozen input
 
 Exactly one prefill sequence of four valid vocabulary IDs:
@@ -85,10 +96,11 @@ Prefill:
 - sequence length = 4;
 - positions = 0,1,2,3.
 
-Decode:
+Generation:
 - greedy argmax only;
-- exactly 4 generated tokens;
-- decode positions = 4,5,6,7;
+- prefill logits produce generated token #1 for position 4;
+- exactly four cached-decode steps consume positions 4,5,6,7 and produce generated tokens #2..#5 for positions 5,6,7,8;
+- exactly **five generated token IDs total**;
 - temperature/sampling/randomness = none.
 
 Generated token IDs must come only from the model's actual full-vocabulary logits. No teacher-forced decode token is permitted.
@@ -166,7 +178,7 @@ Each execution must satisfy:
 - full resolved-span coverage;
 - selected Vulkan memory type retains DEVICE_LOCAL | HOST_VISIBLE | HOST_COHERENT;
 - all required weight, KV and working buffers coexist;
-- actual Vulkan allocations remain <= 16,374,562,816 bytes;
+- Q1 requested weight + KV + working residency remains within the frozen P8-B proven residency envelope and <= 16,374,562,816 bytes;
 - all 28 decoder layers execute exactly once per prefill and exactly once per decode step;
 - dispatch census matches 441 / 469;
 - no CPU model-math fallback;
@@ -184,13 +196,13 @@ For prefill and every decode step:
 - selected greedy token ID is within [0,152063];
 - selected token is the actual argmax of that full logit vector;
 - selected token is fed into the next decode step;
-- KV position advances monotonically from prefill positions 0..3 through decode positions 4..7.
+- KV input position advances monotonically from prefill positions 0..3 through cached-decode input positions 4..7; the corresponding predicted token positions are 4..8.
 
 No manual token substitution is permitted.
 
 ## F2 — deterministic repeat
 
-Executions A and B must produce exactly the same four generated token IDs.
+Executions A and B must produce exactly the same five generated token IDs.
 
 Also record per step, descriptively:
 - top-1 logit;
