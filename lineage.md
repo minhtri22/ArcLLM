@@ -723,3 +723,17 @@ Per fresh seed GPU scope remains 58-dispatch direct prefix / one submit through 
 C1 requires GPU-vs-R0 <=1e-4 max_abs / <=1e-6 RMSE. C2 requires R0 decomposition closure <=1e-5 / <=1e-7. C3 retains the unchanged 5% local/state criterion on both max and RMS. No denominator flooring or threshold relaxation is permitted.
 Classification is locked to H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED, H-FRESH-RATIO-SENSITIVITY, H-FRESH-PRODUCTION-LOCAL-RESIDUAL, or CONFIRMATION-INVALID.
 Decision: P8-G6 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION. No replacement correctness gate. P8-H and full inference remain blocked.
+
+
+## 2026-09-20 — P8-G6 implementation + static-QA lock / READY_TO_RUN
+Implementation follows the frozen fresh production-semantic confirmation contract. The only scientific variable changed from the P8-G5 production-semantic decomposition is the confirmatory cohort.
+Executable fresh IDs are exactly {73,89,107,131}. Prior IDs {17,29,43,61} appear only as provenance metadata and are statically forbidden as the executable seed array.
+Per seed GPU scope is unchanged: one prepared 58-dispatch prefix / one submit through L3 SwiGLU, direct GPU handoff, followed by one production P7-G Q4_K tiled16 local-down dispatch / one separate submit. No CPU teacher forcing and no layer4+.
+The joint CPU oracle reuses the P8-G5 arithmetic: each Q4_K weight is decoded once; R0 uses float product + sequential float accumulator + float output; R1 uses the same float product + double accumulator + float output. Within-dot order remains k=0..18943.
+R0 is the primary comparator. C1 compares GPU down(X_GPU) against R0 under 1e-4 / 1e-6. C2 verifies R0 state+local decomposition under 1e-5 / 1e-7. C3 applies the unchanged 5% local/state criterion on max and RMS, without denominator flooring or post-hoc normalization.
+R1 state/local and R0->R1 shifts are descriptive-only. Static QA excludes R1 from C1/C2/C3 and classification. Per the frozen contract, finite R1 output is still checked in C0 as a structural diagnostic validity requirement.
+Descriptive outputs also include signal-normalized R0 errors, max-error coordinates and historical total 0.02/0.005 pass/fail; none can influence classification.
+Classification priority is statically locked: structural/C0/C2 failure -> CONFIRMATION-INVALID; any C1 fail -> H-FRESH-PRODUCTION-LOCAL-RESIDUAL; otherwise all C3 pass -> H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED; else H-FRESH-RATIO-SENSITIVITY.
+Static QA locks exact P8-G5 parent hashes/semantics, fresh-cohort disjointness, unchanged input formula, R0/R1 arithmetic markers, C1/C2/C3 gates, R1 exclusion from decision metrics, two GPU execute call-sites, pinned 11-shader provenance, build source/executable and immutable governance.
+No P8-G6 target experiment was run as part of this implementation/static-QA lock.
+Decision: P8-G6 READY_TO_RUN only after this commit is pulled. Historical P8-G through P8-G5 outcomes remain frozen. replacement_gate_defined=false. P8-H and full inference remain forbidden.

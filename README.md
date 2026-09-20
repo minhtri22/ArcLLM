@@ -20,7 +20,7 @@ Frozen model SHA256:
 
 ## Status
 
-P0-P7 are CLOSED. **P8-G is frozen FAIL. P8-G1=H-AMPLIFICATION. P8-G2=H-NONLINEAR/UNEXPLAINED. P8-G3=H-FP32-ACCUMULATION. P8-G4=H-LOCAL-ERROR-NONNEGLIGIBLE. P8-G5=H-R1-ORACLE-SEMANTIC-MISMATCH. P8-G6 fresh production-semantic confirmation is DESIGN_FROZEN / READY_FOR_IMPLEMENTATION.**
+P0-P7 are CLOSED. **P8-G is frozen FAIL. P8-G1=H-AMPLIFICATION. P8-G2=H-NONLINEAR/UNEXPLAINED. P8-G3=H-FP32-ACCUMULATION. P8-G4=H-LOCAL-ERROR-NONNEGLIGIBLE. P8-G5=H-R1-ORACLE-SEMANTIC-MISMATCH. P8-G6 fresh production-semantic confirmation is READY TO RUN.**
 
 The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
 
@@ -79,15 +79,30 @@ P8-G5 is COMPLETE and diagnostic-valid. All P0/P1/P2/P3 closure/dominance checks
 
 P8-G5 is retrospective attribution only and does not establish generalization.
 
-P8-G6 is **DESIGN_FROZEN / READY_FOR_IMPLEMENTATION**. Contract: `docs/P8G6_CONTRACT.md`.
+P8-G6 implementation + static QA are locked and **READY TO RUN**. Contract: `docs/P8G6_CONTRACT.md`.
 
-P8-G6 uses a new frozen cohort {73,89,107,131}. R0 is the primary production-semantic comparator; R1 is retained only as a descriptive side diagnostic and is statically excluded from adjudication.
+Run only after pulling the implementation-lock commit:
 
-Frozen confirmatory gates remain:
+```powershell
+py -3 .\tests\test_p8g6_package.py
+powershell.exe -ExecutionPolicy Bypass -File .\run_p8g6.ps1
+```
+
+Expected evidence:
+
+```text
+results\p8g6_shader_provenance.json
+results\p8g6_fresh_production_semantic_results.json
+results\p8g6_summary.json
+```
+
+The executable runs only fresh IDs {73,89,107,131}. R0 is the primary comparator for C1/C2/C3. R1 is emitted as descriptive-only diagnostics and is statically excluded from those decision metrics and from classification, except for its preregistered finite-output check in C0.
+
+Frozen gates remain unchanged:
 - local GPU vs R0: max_abs <=1e-4 / RMSE <=1e-6;
 - R0 compositional closure: max_abs <=1e-5 / RMSE <=1e-7;
 - local/state dominance: <=5% on both max and RMS.
 
-No replacement correctness gate is defined. P8-H and full inference remain blocked.
+No fresh target experiment was run in the implementation-lock commit. No replacement correctness gate is defined. P8-H and full inference remain blocked.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.
