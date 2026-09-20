@@ -1,0 +1,48 @@
+{
+  "schema": "arcllm.sa0.capability_preflight.v0.1",
+  "date": "2026-09-21",
+  "status": "SA0_CAP_PROBE_IMPLEMENTATION_STATIC_LOCKED",
+  "parent_sa0_commit": "1ade625ae60acaa9ebeb43890d53a198c200d576",
+  "parent_sa0_contract": "config/sa0_decode_architecture_qualification_v0.1.json",
+  "purpose": "Query exact target Vulkan/device capabilities without loading the model or executing any shader workload.",
+  "model_load_permitted": false,
+  "shader_execution_permitted": false,
+  "successor_kernel_implementation_permitted": false,
+  "target_benchmark_permitted": false,
+  "q3_reopen_permitted": false,
+  "expected_target": {
+    "cpu_contains": "Intel(R) Core(TM) Ultra 7 258V",
+    "gpu_contains": "Arc 140V",
+    "vendor_id": 32902,
+    "q3_reference_windows_driver": "32.0.101.8860",
+    "minimum_vulkan_api": "1.2"
+  },
+  "required_baseline_capabilities": [
+    "Intel vendor + Arc 140V device identity",
+    "Vulkan API >= 1.2",
+    "compute-capable queue",
+    "nonzero queue timestamp valid bits",
+    "compute-stage subgroup with subgroup size > 0",
+    "nonzero maxComputeWorkGroupInvocations",
+    "nonzero maxComputeSharedMemorySize",
+    "at least one memory heap and memory type"
+  ],
+  "recorded_optional_capabilities": [
+    "subgroup operation flags",
+    "shader subgroup extended types",
+    "subgroup size control + computeFullSubgroups",
+    "min/max subgroup size and maxComputeWorkgroupSubgroups",
+    "8-bit storage",
+    "16-bit storage",
+    "shader float16/int8",
+    "VK_KHR_cooperative_matrix extension/properties",
+    "VK_NV_cooperative_matrix extension/properties"
+  ],
+  "pass_semantics": "PASS means exact-device capability inventory is valid and baseline Vulkan requirements are present. Optional capability absence does not falsify SA-H1a.",
+  "outputs": {
+    "raw": "results/sa0_capability_raw.json",
+    "lock": "results/sa0_capability_preflight_lock.json",
+    "bundle": "results/sa0_capability_return_to_chatgpt.zip"
+  },
+  "next_if_pass": "Independent adjudication only. SA1-P remains closed until returned evidence is accepted."
+}

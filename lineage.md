@@ -1007,3 +1007,10 @@ QKV + gate/up fusion can remove at most 84 dispatches by count (469 -> 385; 17.9
 Q3 matched same-hardware evidence gives ArcLLM decode 0.2971-0.3348 tok/s versus llama.cpp 11.3508-18.5754 tok/s, a 35.71-56.79x baseline/Arc factor. This proves substantial software/runtime headroom exists on the exact model/hardware but does not by itself attribute root cause.
 Decision: SA-H1a decode-specialized batch-1 packed Q4_K/Q6_K GEMM/dataflow is causally plausible and qualified for one bounded successor study. QKV/gate+up fusion is secondary-only. Optional subgroup/cooperative paths require exact-device zero-science capability evidence. Event Ledger direct transfer remains rejected.
 SA0 status: SA0_SPECIFICATION_QUALIFIED_CAPABILITY_PREFLIGHT_REQUIRED. Current architecture remains CLOSED; implementation_permitted=false; target_run_permitted=false. Next: SA0-CAP zero-science exact-device Vulkan capability preflight only.
+
+
+## 2026-09-21 — SA0-CAP zero-science capability probe implementation
+Implemented SA0-CAP only in ArcLLM. Added a standalone Vulkan physical-device query executable that deliberately stops before logical-device creation: no model load, no shader module, no compute pipeline, no dispatch and no Q2/Q3 workload.
+The probe inventories exact device/driver/API identity, compute queue/timestamp support, subgroup size/stages/operations, subgroup-size-control, extended 8/16-bit scalar/storage features, compute workgroup/shared-memory limits, memory heaps/types, and KHR/NV cooperative-matrix properties if exposed.
+The local wrapper binds the Core Ultra 7 258V + Arc 140V machine and Q3 reference Windows driver 32.0.101.8860, rebuilds only the query executable, verifies zero-science invariants, hashes the implementation/evidence chain and emits results/sa0_capability_return_to_chatgpt.zip.
+Optional subgroup/cooperative features are descriptive: absence does not falsify SA-H1a. Current ArcLLM architecture remains CLOSED; successor implementation=false; target model execution=false; SA1-P remains CLOSED pending independent adjudication of returned SA0-CAP evidence.

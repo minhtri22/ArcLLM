@@ -2,7 +2,7 @@
   "phase": "SA0-DECODE-ARCHITECTURE-CAUSAL-CAPABILITY-QUALIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "SA0_SPECIFICATION_QUALIFIED_CAPABILITY_PREFLIGHT_REQUIRED",
+  "status": "SA0_CAP_PROBE_IMPLEMENTATION_STATIC_LOCKED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Implement only SA0-CAP zero-science exact-device Vulkan capability probe under the frozen SA0 specification. No model load, no performance shader benchmark, and no successor inference kernel until SA1-P preregistration/lock.",
+  "next_on_success": "Run only the SA0-CAP zero-science exact-device capability preflight and return results/sa0_capability_return_to_chatgpt.zip. SA1-P, successor kernel implementation and model execution remain closed.",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -491,18 +491,33 @@
     "next_step": "SA0_SPECIFICATION_ONLY_CAUSAL_CAPABILITY_QUALIFICATION"
   },
   "sa0": {
-    "status": "SA0_SPECIFICATION_QUALIFIED_CAPABILITY_PREFLIGHT_REQUIRED",
+    "status": "SA0_CAP_PROBE_IMPLEMENTATION_STATIC_LOCKED",
     "document": "docs/SA0_DECODE_ARCHITECTURE_CAUSAL_CAPABILITY_QUALIFICATION.md",
     "contract": "config/sa0_decode_architecture_qualification_v0.1.json",
     "qa_artifact": "artifacts/SA0/SA0_SPECIFICATION_QA_v0.1.json",
     "causal_qualification": "PASS",
     "static_hardware_feasibility": "PASS",
-    "exact_device_optional_feature_capability": "PENDING_ZERO_SCIENCE",
+    "exact_device_optional_feature_capability": "READY_FOR_TARGET_LOCAL_ZERO_SCIENCE",
     "selected_primary_subhypothesis": "SA-H1a",
     "fusion_only_primary_explanation": "REJECTED",
     "event_ledger_direct_transfer": "REJECTED",
     "successor_implementation_authorized": false,
     "target_model_execution_authorized": false,
-    "next_step": "SA0-CAP"
+    "next_step": "SA0-CAP",
+    "capability_probe": {
+      "status": "IMPLEMENTATION_STATIC_LOCKED",
+      "contract": "config/sa0_capability_preflight_v0.1.json",
+      "implementation_doc": "docs/SA0_CAPABILITY_PREFLIGHT_IMPLEMENTATION.md",
+      "source": "src/sa0_capability_probe.cpp",
+      "build": "tools/build_sa0_cap.ps1",
+      "runner": "run_sa0_capability_preflight.ps1",
+      "static_qa": "tests/test_sa0_capability_package.py",
+      "scientific_workload": "NOT_RUN",
+      "model_load_permitted": false,
+      "shader_execution_permitted": false,
+      "successor_kernel_implementation_permitted": false,
+      "target_benchmark_permitted": false,
+      "exact_device_execution_status": "PENDING"
+    }
   }
 }

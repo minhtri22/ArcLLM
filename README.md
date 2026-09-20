@@ -131,3 +131,10 @@ SA0 is complete at the specification/causal level with status `SA0_SPECIFICATION
 The primary successor mechanism is refined to **SA-H1a: decode-specialized batch-1 packed Q4_K/Q6_K GEMM/dataflow**. QKV and gate+up fusion remain secondary enablers; fusion-only and direct Event-Ledger transfer are explicitly rejected as primary explanations.
 
 The current ArcLLM architecture remains closed and no successor kernel or target-model execution is authorized. The next permitted step is an **SA0-CAP zero-science exact-device Vulkan capability preflight** with no model load.
+
+
+### SA0-CAP
+
+The zero-science exact-device capability probe is now **implementation-static-locked**. It performs Vulkan physical-device queries only and cannot load the model, create shader modules/pipelines or submit compute dispatches.
+
+Run the target-local preflight and return `results/sa0_capability_return_to_chatgpt.zip` for independent adjudication. SA1-P remains closed until that evidence is accepted.

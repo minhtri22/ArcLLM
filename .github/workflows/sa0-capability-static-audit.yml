@@ -1,0 +1,31 @@
+name: SA0 Capability Static Audit
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/sa0-capability-static-audit.yml"
+      - "src/sa0_capability_probe.cpp"
+      - "tools/build_sa0_cap.ps1"
+      - "run_sa0_capability_preflight.ps1"
+      - "tests/test_sa0_capability_package.py"
+      - "config/sa0_capability_preflight_v0.1.json"
+      - "docs/SA0_CAPABILITY_PREFLIGHT_IMPLEMENTATION.md"
+      - "manifest.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-only:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: SA0-CAP zero-science static contract
+        shell: pwsh
+        run: py -3 tests/test_sa0_capability_package.py
