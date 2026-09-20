@@ -2,7 +2,7 @@
   "phase": "SA0-DECODE-ARCHITECTURE-CAUSAL-CAPABILITY-QUALIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "SA0_CAP_PROBE_IMPLEMENTATION_STATIC_LOCKED",
+  "status": "SA0_CAP_READY_FOR_TARGET_LOCAL_ZERO_SCIENCE",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Run only the SA0-CAP zero-science exact-device capability preflight and return results/sa0_capability_return_to_chatgpt.zip. SA1-P, successor kernel implementation and model execution remain closed.",
+  "next_on_success": "Run py -3 tests/test_sa0_capability_package.py, then run run_sa0_capability_preflight.ps1 on the exact Core Ultra 7 258V + Arc 140V target. Return results/sa0_capability_return_to_chatgpt.zip. SA1-P remains blocked pending independent adjudication.",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -491,7 +491,7 @@
     "next_step": "SA0_SPECIFICATION_ONLY_CAUSAL_CAPABILITY_QUALIFICATION"
   },
   "sa0": {
-    "status": "SA0_CAP_PROBE_IMPLEMENTATION_STATIC_LOCKED",
+    "status": "SA0_CAP_READY_FOR_TARGET_LOCAL_ZERO_SCIENCE",
     "document": "docs/SA0_DECODE_ARCHITECTURE_CAUSAL_CAPABILITY_QUALIFICATION.md",
     "contract": "config/sa0_decode_architecture_qualification_v0.1.json",
     "qa_artifact": "artifacts/SA0/SA0_SPECIFICATION_QA_v0.1.json",
@@ -505,7 +505,7 @@
     "target_model_execution_authorized": false,
     "next_step": "SA0-CAP",
     "capability_probe": {
-      "status": "IMPLEMENTATION_STATIC_LOCKED",
+      "status": "STATIC_AUDIT_PASS_READY_FOR_TARGET_LOCAL",
       "contract": "config/sa0_capability_preflight_v0.1.json",
       "implementation_doc": "docs/SA0_CAPABILITY_PREFLIGHT_IMPLEMENTATION.md",
       "source": "src/sa0_capability_probe.cpp",
@@ -517,7 +517,9 @@
       "shader_execution_permitted": false,
       "successor_kernel_implementation_permitted": false,
       "target_benchmark_permitted": false,
-      "exact_device_execution_status": "PENDING"
+      "exact_device_execution_status": "READY_NOT_RUN",
+      "static_audit": "artifacts/SA0/SA0_CAP_IMPLEMENTATION_STATIC_AUDIT_v0.1.json",
+      "github_ci": "F0_BEFORE_STEPS"
     }
   }
 }

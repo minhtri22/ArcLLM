@@ -1,0 +1,27 @@
+{
+  "schema": "arcllm.sa0.capability.github_ci_f0.v0.1",
+  "date": "2026-09-21",
+  "implementation_commit": "1a530292566896e83431b9e910249af19a562110",
+  "runs": [
+    {
+      "workflow": "SA0 Capability Static Audit",
+      "run_id": 35527283508,
+      "job_id": 106121541974,
+      "conclusion": "failure",
+      "steps": null
+    },
+    {
+      "workflow": "Q2 Implementation Audit",
+      "run_id": 35527283630,
+      "job_id": 106121542416,
+      "conclusion": "failure",
+      "steps": null
+    }
+  ],
+  "classification": "F0_GITHUB_ACTIONS_BEFORE_STEPS",
+  "logs_available": false,
+  "scientific_attempt_consumed": false,
+  "capability_query_executed": false,
+  "interpretation": "Both jobs ended before any observable workflow step and produced no usable job log. They do not constitute source/test/compile evidence and do not authorize repair based on outcome speculation.",
+  "authoritative_next_path": "Target-local Windows static QA + BuildOnly + exact-device zero-science capability preflight."
+}

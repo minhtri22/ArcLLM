@@ -1,0 +1,43 @@
+{
+  "schema": "arcllm.sa0.capability.implementation_static_audit.v0.1",
+  "date": "2026-09-21",
+  "audited_commit": "1a530292566896e83431b9e910249af19a562110",
+  "result": "PASS_CONNECTOR_EQUIVALENT_STATIC_AUDIT",
+  "exact_blobs": {
+    "capability_probe": "7314988c0ca32f2a7d192f8a75d92490dd82d9fa",
+    "build_runner": "8d0cce69fbf91e5cfa3dae0de9f92d611aebca29",
+    "preflight_runner": "07dee855503ff5b85081d4b44e2084fe784191ee",
+    "static_test": "1e5843ea4f11ed5e2f260ff06d30da748402af7a",
+    "contract": "674d8c548eeca19beb4427b8ba944ec974c4134f",
+    "implementation_doc": "6d7c38d8cfdc5dcb27997ed98f4f60477c4e3def",
+    "workflow": "8de8aee39c80c53eab12b5748864edbd05c2f514"
+  },
+  "verified": {
+    "parent_sa0_binding": true,
+    "zero_science_contract": true,
+    "no_logical_device_creation": true,
+    "no_shader_module_creation": true,
+    "no_compute_pipeline_creation": true,
+    "no_dispatch_or_queue_submit": true,
+    "no_gguf_or_model_path": true,
+    "physical_device_queries_present": true,
+    "subgroup_queries_present": true,
+    "cooperative_matrix_query_present": true,
+    "build_compiles_no_shader": true,
+    "preflight_calls_no_q2_q3_or_model_resolver": true,
+    "exact_cpu_gpu_driver_gate_present": true,
+    "evidence_packaging_present": true,
+    "current_architecture_remains_closed": true,
+    "successor_implementation_authorized": false,
+    "target_model_execution_authorized": false
+  },
+  "execution_state": {
+    "target_local_build": "PENDING",
+    "exact_device_query": "NOT_RUN",
+    "model_load": "NOT_RUN",
+    "shader_execution": "NOT_RUN",
+    "target_benchmark": "NOT_RUN",
+    "sa1_preregistration": "BLOCKED"
+  },
+  "next": "Run target-local static test + BuildOnly + zero-science capability preflight. Return results/sa0_capability_return_to_chatgpt.zip for independent adjudication."
+}
