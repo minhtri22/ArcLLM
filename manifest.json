@@ -2,7 +2,7 @@
   "phase": "Q3-NO-PRACTICAL-ADVANTAGE-CONFIRMATORY",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "Q3_IMPLEMENTATION_STATIC_LOCKED",
+  "status": "Q3_EXECUTION_AUTHORIZED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "Q3_REGIME_ADVANTAGE_FINAL_CONFIRMATION",
@@ -84,7 +84,7 @@
     "evidence_manifest_sha256": "89B22986B6BF5F4776413BD13D0F3CDAEF8B13B9EAA1B11000D9027F0F8F9548"
   },
   "implementation_permitted": true,
-  "target_run_permitted": false,
+  "target_run_permitted": true,
   "historical": {
     "p8g": "FAIL",
     "p8g1": "H-AMPLIFICATION",
@@ -96,10 +96,10 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Run target-local Q3 zero-measurement preflight and return results/q3_preflight_return_to_chatgpt.zip for independent adjudication. Do not run Session A/B before a later governance-only Q3 execution authorization.",
+  "next_on_success": "Execute exactly Session A and Session B as separate PowerShell invocations using run_q3.ps1, then package once with package_q3.ps1 and return results/q3_return_to_chatgpt.zip for final independent adjudication. No reruns, tuning, workload changes, or NEXUS input.",
   "implementation_commit_pending": false,
   "q2_permitted": true,
-  "q3_permitted": false,
+  "q3_permitted": true,
   "implementation_review": "STATIC_PASS",
   "pre_execution_clarification": "v0.1a: 5 generated tokens total; residency wording aligned to P8-B proven envelope",
   "build_audit": {
@@ -376,7 +376,7 @@
   },
   "q3": {
     "title": "bounded no-practical-advantage fresh confirmation",
-    "status": "Q3_IMPLEMENTATION_STATIC_LOCKED",
+    "status": "Q3_EXECUTION_AUTHORIZED",
     "design_file": "docs/Q3_NO_PRACTICAL_ADVANTAGE_CONFIRMATORY_DESIGN.md",
     "machine_contract": "config/q3_confirmatory_design.json",
     "parent_q2_classification": "Q2_MATCHED_CHARACTERIZATION_COMPLETE",
@@ -390,7 +390,7 @@
     "arcllm_tuning_permitted": false,
     "workload_search_permitted": false,
     "nexus_input_permitted": false,
-    "execution_permitted": false,
+    "execution_permitted": true,
     "implementation_permitted": true,
     "practical_effect_thresholds": {
       "speed_or_latency_minimum_relative_improvement": 0.1,
@@ -420,14 +420,27 @@
       "reuses_frozen_q2_runtime_path": true
     },
     "preflight": {
-      "status": "READY_FOR_TARGET_LOCAL_ZERO_MEASUREMENT",
+      "status": "PASS_ADJUDICATED",
       "execution_authorization_required": true,
-      "execution_authorization_committed": false,
+      "execution_authorization_committed": true,
       "output_lock": "results/q3_preflight_lock.json",
       "return_bundle": "results/q3_preflight_return_to_chatgpt.zip",
       "decode_permitted": false,
-      "measured_attempts_permitted": 0
+      "measured_attempts_permitted": 0,
+      "authoritative_bundle_sha256": "0807785D6C6250E291BB3005E177A4E6F37C3DBF0CD9D174857AC287C76E58EB",
+      "authoritative_lock_sha256": "9105FA31E44029A63A316C13743F2FBB172D20F2C1022C091D70F25CFEDDF76E",
+      "implementation_commit": "032688ee1b188f5ef23c3b3d02466cbf2391eb96",
+      "adjudication": "PASS"
     },
-    "execution_authorization_file": "config/q3_execution_authorization.json"
+    "execution_authorization_file": "config/q3_execution_authorization.json",
+    "execution_authorization": {
+      "file": "config/q3_execution_authorization.json",
+      "decision": "Q3_EXECUTION_AUTHORIZED",
+      "preflight_implementation_commit": "032688ee1b188f5ef23c3b3d02466cbf2391eb96",
+      "preflight_bundle_sha256": "0807785D6C6250E291BB3005E177A4E6F37C3DBF0CD9D174857AC287C76E58EB",
+      "preflight_lock_sha256": "9105FA31E44029A63A316C13743F2FBB172D20F2C1022C091D70F25CFEDDF76E",
+      "measured_attempts_before_authorization": 0,
+      "sessions_before_authorization": 0
+    }
   }
 }
