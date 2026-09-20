@@ -690,3 +690,18 @@ P8-G5 replays the exact frozen P8-G4 cohort only for retrospective causal attrib
 P0 must reproduce P8-G4 R1 state/local metrics and four D2 failures. P1 requires exact local-term reconstruction under 1e-5/1e-7. P2 prospectively requires production-matched GPU-vs-R0 residual <=1e-4 max_abs and <=1e-6 RMSE on every seed. P3 uses the unchanged 5% P8-G4 dominance threshold on the R0 production-semantic decomposition.
 Classification is locked to H-R1-ORACLE-SEMANTIC-MISMATCH, H-RATIO-SENSITIVITY, H-PRODUCTION-LOCAL-RESIDUAL, or ATTRIBUTION-INVALID.
 Decision: P8-G5 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION. No threshold relaxation and no replacement correctness gate. P8-H and full inference remain blocked.
+
+
+## 2026-09-20 — P8-G5 implementation + static-QA lock / READY_TO_RUN
+Implementation follows the frozen production-semantic local-error attribution contract without shader, model-weight, cohort, historical-threshold or prior-verdict changes.
+The exact P8-G4 cohort IDs {17,29,43,61} and input formula are reused. This is retrospective attribution only; it is not fresh confirmation and cannot establish generalization.
+GPU execution is unchanged from P8-G4: one prepared 58-dispatch prefix / one submit per seed through L3 SwiGLU, followed by one prepared production P7-G Q4_K tiled16 down dispatch / one submit on X_GPU. No CPU teacher forcing, no layer4+, decode, generation or performance path is introduced.
+A joint CPU oracle decodes each focus Q4_K weight once and updates R0 and R1 outputs for both X_CPU and X_GPU in the exact k=0..18943 order. R0 uses float product + float accumulator + float output. R1 uses the same float product but double accumulator + float output. Up to eight threads split independent output coordinates only.
+P0 hard-codes the authoritative P8-G4 R1 E_state/E_local max/RMS and local/state ratios for all four seeds. Reproduction tolerances are max_abs metric 1e-6, RMSE metric 1e-7 and ratio relative tolerance 0.1%; all four R1 D2 outcomes must reproduce FAIL.
+P1 decomposes the P8-G4 local term as E_prod=GPU-R0 plus E_oracle=R0-R1 and requires reconstruction closure <=1e-5 max_abs / <=1e-7 RMSE.
+P2 compares GPU down(X_GPU) against production-matched R0 down(X_GPU) under the preregistered diagnostic gate <=1e-4 max_abs / <=1e-6 RMSE.
+P3 recomputes state/local/total under R0 semantics, requires closure <=1e-5 / <=1e-7 and applies the unchanged P8-G4 5% local/state threshold on both max and RMS.
+Classification priority is statically locked: invalid structural/P0/P1/P3-closure -> ATTRIBUTION-INVALID; any P2 fail -> H-PRODUCTION-LOCAL-RESIDUAL; otherwise all P3 dominance pass -> H-R1-ORACLE-SEMANTIC-MISMATCH; else H-RATIO-SENSITIVITY.
+Static QA locks exact parent hashes/semantics, cohort/formula reuse, R0/R1 arithmetic markers, P0 constants/tolerances, P1/P2/P3 gates, classification order, two GPU execute call-sites, pinned 11-shader provenance, build source/executable and immutable governance.
+No P8-G5 target attribution experiment was run as part of this implementation/static-QA lock.
+Decision: P8-G5 READY_TO_RUN only after this commit is pulled. Historical P8-G/P8-G1/P8-G2/P8-G3/P8-G4 outcomes remain frozen. replacement_gate_defined=false. P8-H and full inference remain forbidden.

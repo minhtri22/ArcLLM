@@ -1,7 +1,7 @@
 {
   "phase": "P8-G5",
   "date": "2026-09-20",
-  "status": "DESIGN_FROZEN",
+  "status": "READY_TO_RUN",
   "title": "production-semantic local-error attribution",
   "parent": "P8-G4 H-LOCAL-ERROR-NONNEGLIGIBLE",
   "target": {
@@ -79,7 +79,7 @@
     "replacement_gate_definition_permitted": false
   },
   "implementation_permitted": true,
-  "target_run_permitted": false,
+  "target_run_permitted": true,
   "p8g_verdict_frozen": "FAIL",
   "p8g1_classification_frozen": "H-AMPLIFICATION",
   "p8g2_classification_frozen": "H-NONLINEAR/UNEXPLAINED",
@@ -88,5 +88,50 @@
   "p8h_blocked": true,
   "full_inference_forbidden": true,
   "next_on_completion": "adjudicate P8-G5 production-semantic local-error attribution",
-  "implementation_commit_pending": true
+  "implementation_commit_pending": false,
+  "implementation": {
+    "cohort_ids": [
+      17,
+      29,
+      43,
+      61
+    ],
+    "retrospective_attribution_only": true,
+    "input_formula_reused_exactly": true,
+    "prefix_scope": "L0-L2 full; L3 through SwiGLU",
+    "prefix_dispatches_per_seed": 58,
+    "prefix_submits_per_seed": 1,
+    "local_down_dispatches_per_seed": 1,
+    "local_down_submits_per_seed": 1,
+    "prepared_chains_reused_across_seeds": true,
+    "shader_count": 11,
+    "r0_r1_oracles_cpu_only": true,
+    "joint_weight_decode": true,
+    "within_dot_term_order": "k=0..18943 preserved",
+    "cpu_workers_max": 8,
+    "r0": "float weight + float product + float accumulator + float output",
+    "r1": "same float weight/product + double accumulator + float output",
+    "p0": {
+      "metric_max_abs_tolerance": 0.000001,
+      "metric_rmse_tolerance": 1e-7,
+      "ratio_relative_tolerance": 0.001,
+      "all_r1_d2_must_reproduce_fail": true
+    },
+    "p1_closure": {
+      "max_abs": 0.00001,
+      "rmse": 1e-7
+    },
+    "p2_production_matched_local_gate": {
+      "max_abs": 0.0001,
+      "rmse": 0.000001
+    },
+    "p3_closure": {
+      "max_abs": 0.00001,
+      "rmse": 1e-7
+    },
+    "p3_state_dominance_ratio_max": 0.05,
+    "replacement_gate_definition_permitted": false,
+    "p8g_verdict_change_permitted": false,
+    "target_experiment_run_in_lock_commit": false
+  }
 }
