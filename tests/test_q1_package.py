@@ -1,5 +1,5 @@
 from pathlib import Path
-import json, re
+import hashlib, json, re
 
 ROOT=Path(__file__).resolve().parents[1]
 def text(p): return (ROOT/p).read_text(encoding="utf-8")
@@ -12,6 +12,17 @@ runner=text("run_q1.ps1")
 contract=text("docs/P8_Q1_END_TO_END_CONTRACT.md")
 impl=text("docs/P8_Q1_IMPLEMENTATION.md")
 manifest=json.loads(text("manifest.json"))
+
+parent_hashes={
+    "inputs/p8g6_shader_provenance.authoritative.raw":"1490475D0D7EAA0498FEEA5CD0A37460C4881FFFF676A7C912E0E113E2CAAC84",
+    "inputs/p8g6_fresh_production_semantic_results.authoritative.raw":"0526D3F1400080AF6B68D1D44CBD2AF897671B727EA924EC0D0C953C16FDD259",
+    "inputs/p8g6_summary.authoritative.raw":"13C36E5EB14D08F60C3DC9277F7A21EE4033DB50D84806839DE62B3E9F7EE303",
+}
+for rel, expected in parent_hashes.items():
+    p=ROOT/rel
+    assert p.is_file(), rel
+    actual=hashlib.sha256(p.read_bytes()).hexdigest().upper()
+    assert actual==expected, (rel,actual,expected)
 
 assert "H=3584" in src and "LAYERS=28" in src and "VOC=152064" in src
 assert "QH=28" in src and "KVH=4" in src and "FFN=18944" in src and "MAXCTX=4096" in src

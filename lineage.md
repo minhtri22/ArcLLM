@@ -792,3 +792,15 @@ Passed steps: static package contract; pinned 16-shader compile; native Windows 
 BuildOnly artifact: id 10597263511, digest sha256:77eeb69b9d3f076f40287f7722680aba254280c0521f252cc6739d492f3005cc.
 No target model was downloaded or executed in BuildOnly.
 Decision: Q1 implementation/package is TARGET-RUN READY. Q2/Q3 remain closed; next evidence must be the exact Q1 end-to-end target run.
+
+
+## 2026-09-20 — Q1 parent-evidence packaging repair before target execution
+The first local Q1 invocation at HEAD faa7e4d450a3774ce9a0281ad026d4fef855dcb4 stopped fail-closed before shader compilation/native model execution with "Q1 parent result SHA mismatch".
+This is not Q1 scientific evidence and not Q1_EXECUTION_NOT_ESTABLISHED: the model path was resolved, but target execution never started.
+Audit against the original user-uploaded P8-G6 artifacts found:
+- shader provenance original SHA256 = 1490475D0D7EAA0498FEEA5CD0A37460C4881FFFF676A7C912E0E113E2CAAC84, repo blob already correct;
+- summary original SHA256 = 13C36E5EB14D08F60C3DC9277F7A21EE4033DB50D84806839DE62B3E9F7EE303, repo blob already correct;
+- fresh production-semantic result original SHA256 = 0526D3F1400080AF6B68D1D44CBD2AF897671B727EA924EC0D0C953C16FDD259, while the committed raw result bytes were not byte-identical.
+Repair is evidence-packaging only: replace inputs/p8g6_fresh_production_semantic_results.authoritative.raw with the exact original uploaded bytes. Q1 source, shader, graph, input, dispatch census, gates and contract are unchanged.
+Static QA is strengthened to recompute SHA256 of all three authoritative P8-G6 inputs before BuildOnly/target execution.
+Decision: rerun Windows BuildOnly after this repair. Target execution remains blocked until BuildOnly PASS on the repaired commit.
