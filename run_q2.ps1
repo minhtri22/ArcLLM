@@ -19,17 +19,30 @@ $BaselineRelease="v0.4.1"
 
 $Head=(& git -C $Here rev-parse HEAD).Trim()
 if($LASTEXITCODE -ne 0 -or -not $Head){throw "Q2 cannot resolve ArcLLM implementation commit"}
+$PreflightLockPath=Join-Path $ResultsRoot "q2_preflight_lock.json"
+if(-not(Test-Path $PreflightLockPath)){throw "Q2 measurement blocked: q2_preflight_lock.json missing"}
+$PF=Get-Content $PreflightLockPath -Raw -Encoding UTF8|ConvertFrom-Json
+if([string]$PF.schema -ne "arcllm.q2.preflight_lock.v1"){throw "Q2 measurement blocked: invalid preflight schema"}
+if([string]$PF.implementation_commit -ne $Head){throw "Q2 measurement blocked: preflight HEAD mismatch"}
+if([string]$PF.static_qa -ne "PASS" -or [string]$PF.arcllm_build -ne "PASS" -or [string]$PF.baseline_build_api -ne "PASS" -or [string]$PF.baseline_runtime_qualification -ne "PASS"){throw "Q2 measurement blocked: preflight qualification incomplete"}
+if([bool]$PF.measurements_executed -or [int]$PF.measured_attempts -ne 0 -or [bool]$PF.q3_started){throw "Q2 measurement blocked: preflight lock is not zero-measurement clean"}
 $Critical=@(
  "src/q2_benchmark.cpp","baseline/q2_llama_adapter.cpp","baseline/CMakeLists.txt",
  "tools/q2_resource_sampler.py","tools/q2_gpu_sampler.ps1","tools/summarize_q2.py",
  "tools/compile_q2_shaders.ps1","tools/build_q2.ps1","tools/qualify_q2_baseline.ps1",
- "run_q2.ps1","tests/test_q2_package.py","config/q2_workloads.json",
+ "run_q2_preflight.ps1","run_q2.ps1","tests/test_q2_package.py","config/q2_workloads.json",
  "docs/Q2_MATCHED_BENCHMARK_CONTRACT.md","docs/Q2_IMPLEMENTATION.md","manifest.json"
 )
 & git -C $Here diff --quiet HEAD -- @Critical
 if($LASTEXITCODE -ne 0){throw "Q2 critical working-tree files differ from HEAD"}
 & git -C $Here diff --cached --quiet HEAD -- @Critical
 if($LASTEXITCODE -ne 0){throw "Q2 critical index files differ from HEAD"}
+foreach($P in $PF.critical_file_sha256.PSObject.Properties){
+  $Path=Join-Path $Here $P.Name
+  if(-not(Test-Path $Path)){throw "Q2 measurement blocked: preflight critical file missing: $($P.Name)"}
+  $Now=(Get-FileHash $Path -Algorithm SHA256).Hash.ToUpperInvariant()
+  if($Now -ne ([string]$P.Value).ToUpperInvariant()){throw "Q2 measurement blocked: critical file drift since preflight: $($P.Name)"}
+}
 
 $Q1Archive=Join-Path $Here "inputs\q1_return_to_chatgpt.authoritative.zip"
 if(-not(Test-Path $Q1Archive)){throw "Q2 authoritative Q1 archive missing"}
@@ -44,6 +57,7 @@ $mf=Get-Item $ModelPath
 if($mf.Length -ne $ExpectedModelBytes){throw "Q2 model size mismatch"}
 $ModelHash=(Get-FileHash $ModelPath -Algorithm SHA256).Hash.ToUpperInvariant()
 if($ModelHash -ne $ExpectedModelHash){throw "Q2 model SHA mismatch"}
+if($ModelHash -ne ([string]$PF.target_sha256).ToUpperInvariant() -or $mf.Length -ne [int64]$PF.target_size_bytes){throw "Q2 measurement blocked: target differs from preflight"}
 
 if(-not $BaselineExe){$BaselineExe=Join-Path $Here "artifacts\q2_baseline\q2_llama_adapter.exe"}
 if(-not $BaselineQualification){$BaselineQualification=Join-Path $Here "results\q2_baseline_qualification.json"}
@@ -54,6 +68,11 @@ if([string]$BQ.commit -ne $BaselineCommit -or [string]$BQ.release -ne $BaselineR
 if(-not [bool]$BQ.raw_token_adapter -or [bool]$BQ.tokenizer_path_used -or [bool]$BQ.target_model_executed){throw "Q2 baseline qualification semantics mismatch"}
 $BaselineExeHash=(Get-FileHash $BaselineExe -Algorithm SHA256).Hash.ToUpperInvariant()
 if($BaselineExeHash -ne ([string]$BQ.adapter_sha256).ToUpperInvariant()){throw "Q2 baseline executable SHA mismatch"}
+if($BaselineExeHash -ne ([string]$PF.baseline_exe_sha256).ToUpperInvariant()){throw "Q2 measurement blocked: baseline executable differs from preflight"}
+if([string]$PF.baseline_commit -ne $BaselineCommit -or [string]$PF.baseline_release -ne $BaselineRelease){throw "Q2 measurement blocked: baseline pin differs from preflight"}
+foreach($RQ in @($PF.runtime_qualifications)){
+  if([string]$RQ.status -ne "QUALIFIED" -or -not[bool]$RQ.full_offload -or [bool]$RQ.decode_executed -or [int]$RQ.measured_attempts -ne 0){throw "Q2 measurement blocked: baseline runtime qualification invalid"}
+}
 
 py -3 (Join-Path $Here "tests\test_q2_package.py")
 if($LASTEXITCODE -ne 0){throw "Q2 static contract failed"}

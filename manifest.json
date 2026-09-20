@@ -2,7 +2,7 @@
   "phase": "Q2-MATCHED-BENCHMARK",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "IMPLEMENTATION_CANDIDATE",
+  "status": "IMPLEMENTATION_STATIC_LOCKED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "Q2_PERFORMANCE_RESOURCE_ENVELOPE",
@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Windows Q2 implementation/build/API qualification PASS -> freeze implementation lock -> authorize exact 20 measured attempts",
+  "next_on_success": "Run target-local run_q2_preflight.ps1 (zero measured attempts) -> adjudicate preflight evidence -> commit final Q2 execution lock -> only then authorize 20 measured attempts",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -154,7 +154,7 @@
   },
   "q2": {
     "title": "matched performance / resource characterization",
-    "status": "IMPLEMENTATION_CANDIDATE",
+    "status": "IMPLEMENTATION_STATIC_LOCKED",
     "baseline": {
       "repository": "ggml-org/llama.cpp",
       "release": "v0.4.1",
@@ -212,10 +212,50 @@
       "target_model_executed_during_lock": false
     },
     "baseline_qualification": {
-      "status": "PENDING_WINDOWS_CI",
-      "target_model_executed": false
+      "status": "LOCAL_ZERO_MEASUREMENT_PREFLIGHT_REQUIRED",
+      "build_api_qualification_required": true,
+      "runtime_qualification_required": true,
+      "target_model_load_permitted_in_preflight": true,
+      "decode_permitted_in_preflight": false,
+      "measured_attempts_permitted_in_preflight": 0
     },
     "implementation_lock_pending": true,
-    "twenty_attempt_measurement_started": false
+    "twenty_attempt_measurement_started": false,
+    "local_preflight_permitted": true,
+    "measurement_run_permitted": false,
+    "static_qa": "CONNECTOR_EQUIVALENT_PASS",
+    "github_ci": {
+      "status": "INFRASTRUCTURE_NO_STEPS",
+      "runs": [
+        35487793657,
+        35487864134,
+        35487956962
+      ],
+      "scientific_role": "none",
+      "compile_evidence_available": false
+    },
+    "baseline_source_api_qualification": {
+      "status": "PASS",
+      "exact_commit": "391fac16460f15233a7740550d858ac96df3419d",
+      "llama_h_git_blob": "3ab935939c6d183e5862aba93f346691e658403b",
+      "llama_model_cpp_git_blob": "3b2536283c5712de811f82cdef6390f7499b95d4",
+      "upstream_vulkan_workflow_git_blob": "21d2a773531f81849a430880b18ce6f27dfb73fa",
+      "raw_batch_api": true,
+      "decode_api": true,
+      "f32_kv_context": true,
+      "memory_clear_api": true,
+      "greedy_sampler": true,
+      "n_gpu_layers": true,
+      "full_offload_log": true,
+      "upstream_windows_vulkan_sdk": "1.4.357.0"
+    },
+    "preflight": {
+      "script": "run_q2_preflight.ps1",
+      "output_lock": "results/q2_preflight_lock.json",
+      "return_bundle": "results/q2_preflight_return_to_chatgpt.zip",
+      "permitted": true,
+      "measurements_executed": false,
+      "measured_attempts": 0
+    }
   }
 }

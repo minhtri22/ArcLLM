@@ -108,6 +108,6 @@ Frozen workloads:
 
 Q2 is characterization only. It cannot declare an advantage. Q3 remains blocked.
 
-Status: **Q2 IMPLEMENTATION_CANDIDATE / MEASUREMENT BLOCKED**. Harness, pinned raw-token llama.cpp adapter and 100 ms resource sampler are implemented. Windows static/build/API qualification must PASS before the implementation lock can authorize the 20 measured attempts.
+Status: **Q2 IMPLEMENTATION_STATIC_LOCKED / LOCAL PREFLIGHT REQUIRED**. GitHub Q2 CI is unavailable before job steps, so target-local zero-measurement preflight is now the authoritative build/runtime qualification gate. The 20 measured attempts remain code-blocked until `q2_preflight_lock.json` is returned, adjudicated and a final execution lock is committed.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.

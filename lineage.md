@@ -854,3 +854,14 @@ Windows resource sampler records working set/private bytes and CPU from Win32 AP
 Runner hard-locks cell order Arc W-S -> baseline W-S -> baseline W-C -> Arc W-C, one warmup + five measured attempts each, and verifies exact model/Q1 archive/hardware/driver/baseline executable before measurements.
 Summarizer emits median/min/max/MAD and descriptive ratios only; it cannot declare a winner or open Q3.
 Decision: Q2 remains IMPLEMENTATION_CANDIDATE. No Q2 measured attempt is authorized until Windows BuildOnly + pinned baseline build/API qualification PASS.
+
+
+## 2026-09-20 — Q2 implementation STATIC_LOCK / local zero-measurement preflight required
+Three Q2 GitHub Actions runs (35487793657, 35487864134, 35487956962) terminated before exposing any job step. They provide no compile/package evidence and are classified as infrastructure failures, not scientific or implementation failures.
+Q2 package was therefore hardened for an authoritative target-local preflight instead of treating absent CI as PASS.
+Baseline adapter now supports --qualify-only. It loads the exact 7B model and frozen F32-KV context, captures llama.cpp runtime logs, requires Vulkan evidence and the upstream "offloaded X/X layers to GPU" report, materializes exact W-S/W-C raw-token prompts, and exits before any llama_decode call. Qualification evidence explicitly records decode_executed=false and measured_attempts=0.
+Pinned llama.cpp source/API compatibility was independently checked at commit 391fac16460f15233a7740550d858ac96df3419d: llama.h blob 3ab935939c6d183e5862aba93f346691e658403b, llama-model.cpp blob 3b2536283c5712de811f82cdef6390f7499b95d4, upstream Vulkan workflow blob 21d2a773531f81849a430880b18ce6f27dfb73fa. Required raw batch/decode/F32-KV/memory-clear/greedy/GPU-offload APIs and full-offload log are present; upstream Windows Vulkan SDK is 1.4.357.0.
+Baseline build qualification script now pins/bootstraps Vulkan SDK 1.4.357.0, exact tag+commit, clean source, Visual Studio 2022 x64 build and executable SHA.
+GPU sampler now accepts both Windows GPU Engine Compute and 3D instances and resource parser handles UTF-8 BOM safely.
+run_q2_preflight.ps1 now performs exact-model/static/shader/ArcLLM-build/baseline-build/runtime-qualification checks and writes a SHA-bound q2_preflight_lock.json with zero measurements. run_q2.ps1 refuses all 20 attempts unless that lock matches HEAD, critical-file hashes, model bytes and baseline executable, and both W-S/W-C runtime qualifications are full-offload PASS.
+Decision: IMPLEMENTATION_STATIC_LOCKED. Local preflight is permitted; Q2 measured run remains forbidden. Q3 remains blocked.

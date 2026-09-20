@@ -1,6 +1,7 @@
 #include "llama.h"
 #include <algorithm>
 #include <chrono>
+#include <cctype>
 #include <cmath>
 #include <cstdint>
 #include <cstdio>
@@ -9,11 +10,20 @@
 #include <iomanip>
 #include <iostream>
 #include <limits>
+#include <mutex>
+#include <regex>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
+static std::mutex g_log_mu;
+static std::string g_log;
+static void q2_log_callback(enum ggml_log_level,const char * text,void *){
+    if(!text)return;
+    {std::lock_guard<std::mutex> lk(g_log_mu);g_log+=text;}
+    std::cerr<<text<<std::flush;
+}
 static uint64_t fnv1a64(const void * data,size_t n){
     const uint8_t * p=reinterpret_cast<const uint8_t*>(data);
     uint64_t h=1469598103934665603ull;
@@ -50,6 +60,7 @@ static std::vector<llama_token> frozen_prompt(const std::string&w){
 int main(int argc,char ** argv){
     std::string model_path,workload,out="q2_baseline_cell.json";
     int warmups=1,measured=5;
+    bool qualify_only=false;
     try{
         for(int i=1;i<argc;++i){
             std::string a=argv[i];
@@ -59,6 +70,7 @@ int main(int argc,char ** argv){
             else if(a=="--warmups")warmups=std::stoi(need("--warmups"));
             else if(a=="--measured")measured=std::stoi(need("--measured"));
             else if(a=="--out")out=need("--out");
+            else if(a=="--qualify-only")qualify_only=true;
         }
         if(model_path.empty()||workload.empty())throw std::runtime_error("Q2 baseline required arguments missing");
         if(warmups!=1||measured!=5)throw std::runtime_error("Q2 baseline frozen repetition count mismatch");
@@ -66,7 +78,9 @@ int main(int argc,char ** argv){
         const std::string prompt_hash=hex64(fnv1a64(prompt.data(),prompt.size()*sizeof(llama_token)));
 
         auto setup0=std::chrono::steady_clock::now();
+        llama_log_set(q2_log_callback,nullptr);
         ggml_backend_load_all();
+        llama_backend_init();
 
         llama_model_params mp=llama_model_default_params();
         mp.n_gpu_layers=-1;
@@ -93,6 +107,32 @@ int main(int argc,char ** argv){
         if(!ctx)throw std::runtime_error("llama_init_from_model failed");
         if(llama_n_ctx(ctx)!=4096u||llama_n_batch(ctx)!=256u||llama_n_ubatch(ctx)!=256u)
             throw std::runtime_error("Q2 baseline resolved context mismatch");
+
+        std::string runtime_log;
+        {std::lock_guard<std::mutex> lk(g_log_mu);runtime_log=g_log;}
+        std::string runtime_lower=runtime_log;std::transform(runtime_lower.begin(),runtime_lower.end(),runtime_lower.begin(),[](unsigned char c){return char(std::tolower(c));});
+        const bool vulkan_log=runtime_lower.find("vulkan")!=std::string::npos;
+        std::smatch off_match;
+        const std::regex off_re("offloaded[ ]+([0-9]+)/([0-9]+)[ ]+layers[ ]+to[ ]+GPU");
+        const bool offload_reported=std::regex_search(runtime_log,off_match,off_re);
+        const int off_num=offload_reported?std::stoi(off_match[1].str()):-1;
+        const int off_den=offload_reported?std::stoi(off_match[2].str()):-1;
+        const bool full_offload=offload_reported&&off_num==off_den&&off_num>0;
+
+        if(qualify_only){
+            std::ofstream q(out,std::ios::binary);if(!q)throw std::runtime_error("cannot write Q2 baseline runtime qualification JSON");
+            q<<"{\n  \"schema\":\"arcllm.q2.baseline_runtime_qualification.v1\",\n";
+            q<<"  \"status\":\""<<((vulkan_log&&full_offload)?"QUALIFIED":"NOT_MATCHED")<<"\",\n";
+            q<<"  \"baseline_release\":\"v0.4.1\",\"baseline_commit\":\"391fac16460f15233a7740550d858ac96df3419d\",\n";
+            q<<"  \"workload\":\""<<workload<<"\",\"prompt_tokens\":"<<prompt.size()<<",\"prompt_hash_fnv1a64\":\""<<prompt_hash<<"\",\n";
+            q<<"  \"raw_token_input\":true,\"tokenizer_used\":false,\"chat_template_used\":false,\n";
+            q<<"  \"resolved\":{\"n_ctx\":"<<llama_n_ctx(ctx)<<",\"n_batch\":"<<llama_n_batch(ctx)<<",\"n_ubatch\":"<<llama_n_ubatch(ctx)<<",\"threads\":8,\"threads_batch\":8,\"n_gpu_layers_requested\":-1,\"kv_k\":\"F32\",\"kv_v\":\"F32\",\"vocab\":"<<n_vocab<<",\"layers\":"<<llama_model_n_layer(model)<<"},\n";
+            q<<"  \"runtime\":{\"vulkan_log_present\":"<<(vulkan_log?"true":"false")<<",\"offload_reported\":"<<(offload_reported?"true":"false")<<",\"offloaded_layers\":"<<off_num<<",\"offloaded_layers_total\":"<<off_den<<",\"full_offload\":"<<(full_offload?"true":"false")<<"},\n";
+            q<<"  \"decode_executed\":false,\"measured_attempts\":0,\"runtime_log\":\""<<esc(runtime_log)<<"\"\n}\n";
+            q.close();
+            llama_free(ctx);llama_model_free(model);llama_backend_free();
+            return (vulkan_log&&full_offload)?0:3;
+        }
 
         auto sp=llama_sampler_chain_default_params();
         sp.no_perf=false;
@@ -172,6 +212,7 @@ int main(int argc,char ** argv){
         llama_sampler_free(smpl);
         llama_free(ctx);
         llama_model_free(model);
+        llama_backend_free();
         return 0;
     }catch(const std::exception&e){
         std::ofstream o(out,std::ios::binary);

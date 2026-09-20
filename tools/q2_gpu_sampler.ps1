@@ -5,13 +5,14 @@ param(
   [int]$SampleMilliseconds=100
 )
 $ErrorActionPreference="Stop"
-$engine="\GPU Engine(*pid_${ProcessId}*engtype_Compute*)\Utilization Percentage"
+$engineCompute="\GPU Engine(*pid_${ProcessId}*engtype_Compute*)\Utilization Percentage"
+$engine3D="\GPU Engine(*pid_${ProcessId}*engtype_3D*)\Utilization Percentage"
 $dedicated="\GPU Process Memory(pid_${ProcessId}_*)\Dedicated Usage"
 $shared="\GPU Process Memory(pid_${ProcessId}_*)\Shared Usage"
 try {
   while(-not (Test-Path $StopPath)){
     try {
-      $s=Get-Counter -Counter @($engine,$dedicated,$shared) -ErrorAction Stop
+      $s=Get-Counter -Counter @($engineCompute,$engine3D,$dedicated,$shared) -ErrorAction Stop
       $eng=@($s.CounterSamples|Where-Object {$_.Path -like "*GPU Engine*"}|ForEach-Object {[double]$_.CookedValue})
       $ded=@($s.CounterSamples|Where-Object {$_.Path -like "*Dedicated Usage*"}|ForEach-Object {[double]$_.CookedValue})
       $shr=@($s.CounterSamples|Where-Object {$_.Path -like "*Shared Usage*"}|ForEach-Object {[double]$_.CookedValue})

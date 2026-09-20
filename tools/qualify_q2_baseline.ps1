@@ -1,6 +1,7 @@
 param(
   [string]$LlamaDir,
-  [string]$BuildDir
+  [string]$BuildDir,
+  [bool]$BootstrapVulkanSdk=$true
 )
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Here=Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -8,9 +9,33 @@ $Root=Split-Path -Parent $Here
 $PinnedCommit="391fac16460f15233a7740550d858ac96df3419d"
 $PinnedRelease="v0.4.1"
 $RepoUrl="https://github.com/ggml-org/llama.cpp.git"
+$VulkanVersion="1.4.357.0"
+$VulkanHome="C:\VulkanSDK\$VulkanVersion"
+$InstallerSha=$null
 if(-not $LlamaDir){$LlamaDir=Join-Path $Root "third_party\llama.cpp-q2"}
 if(-not $BuildDir){$BuildDir=Join-Path $Root "build\q2_baseline"}
 
+if(-not $env:VULKAN_SDK -or -not(Test-Path (Join-Path $env:VULKAN_SDK "Bin\glslc.exe"))){
+  if(Test-Path (Join-Path $VulkanHome "Bin\glslc.exe")){
+    $env:VULKAN_SDK=$VulkanHome
+  }elseif($BootstrapVulkanSdk){
+    $Installer=Join-Path $env:TEMP ("VulkanSDK-"+$VulkanVersion+".exe")
+    $Url="https://sdk.lunarg.com/sdk/download/$VulkanVersion/windows/vulkansdk-windows-X64-$VulkanVersion.exe"
+    Invoke-WebRequest -UseBasicParsing -Uri $Url -OutFile $Installer
+    $InstallerSha=(Get-FileHash $Installer -Algorithm SHA256).Hash.ToUpperInvariant()
+    & $Installer --accept-licenses --default-answer --confirm-command install
+    if($LASTEXITCODE -ne 0){throw "Q2 Vulkan SDK install failed"}
+    if(-not(Test-Path (Join-Path $VulkanHome "Bin\glslc.exe"))){throw "Q2 pinned Vulkan SDK not found after install"}
+    $env:VULKAN_SDK=$VulkanHome
+  }else{throw "Q2 baseline qualification requires Vulkan SDK 1.4.357.0"}
+}
+if((Split-Path -Leaf $env:VULKAN_SDK) -ne $VulkanVersion){
+  if(Test-Path (Join-Path $VulkanHome "Bin\glslc.exe")){$env:VULKAN_SDK=$VulkanHome}else{throw "Q2 Vulkan SDK version mismatch; expected 1.4.357.0"}
+}
+$glslc=Join-Path $env:VULKAN_SDK "Bin\glslc.exe"
+if(-not(Test-Path $glslc)){throw "Q2 baseline Vulkan SDK missing glslc"}
+
+if(-not(Get-Command cmake.exe -ErrorAction SilentlyContinue)){throw "Q2 baseline qualification requires cmake.exe"}
 if(-not(Test-Path (Join-Path $LlamaDir ".git"))){
   New-Item -ItemType Directory -Force -Path (Split-Path -Parent $LlamaDir)|Out-Null
   git clone --filter=blob:none --no-checkout $RepoUrl $LlamaDir
@@ -28,22 +53,14 @@ if($Head -ne $PinnedCommit -or $TagCommit -ne $PinnedCommit){throw "Q2 baseline 
 $Dirty=((git -C $LlamaDir status --porcelain)|Out-String)
 if($Dirty.Trim()){throw "Q2 baseline source tree is dirty"}
 
-if(-not $env:VULKAN_SDK){throw "Q2 baseline qualification requires VULKAN_SDK"}
-$glslc=Join-Path $env:VULKAN_SDK "Bin\glslc.exe"
-if(-not(Test-Path $glslc)){$glslc=Join-Path $env:VULKAN_SDK "bin\glslc.exe"}
-if(-not(Test-Path $glslc)){throw "Q2 baseline Vulkan SDK missing glslc"}
-
 if(Test-Path $BuildDir){Remove-Item -Recurse -Force $BuildDir}
-cmake -S (Join-Path $Root "baseline") -B $BuildDir -G "Ninja Multi-Config" "-DLLAMA_CPP_DIR=$LlamaDir"
+cmake -S (Join-Path $Root "baseline") -B $BuildDir -G "Visual Studio 17 2022" -A x64 "-DLLAMA_CPP_DIR=$LlamaDir"
 if($LASTEXITCODE -ne 0){throw "Q2 baseline CMake configure failed"}
-cmake --build $BuildDir --config Release --target q2_llama_adapter
+cmake --build $BuildDir --config Release --target q2_llama_adapter -- /m
 if($LASTEXITCODE -ne 0){throw "Q2 baseline native/Vulkan build failed"}
 
-$Candidates=@(
-  (Join-Path $BuildDir "Release\q2_llama_adapter.exe"),
-  (Join-Path $BuildDir "q2_llama_adapter.exe")
-)
-$Exe=$Candidates|Where-Object {Test-Path $_}|Select-Object -First 1
+$Exe=Get-ChildItem $BuildDir -Recurse -Filter q2_llama_adapter.exe|Where-Object {$_.FullName -match "\\Release\\"}|Select-Object -First 1 -ExpandProperty FullName
+if(-not $Exe){$Exe=Get-ChildItem $BuildDir -Recurse -Filter q2_llama_adapter.exe|Select-Object -First 1 -ExpandProperty FullName}
 if(-not $Exe){throw "Q2 baseline adapter executable missing"}
 
 $OutDir=Join-Path $Root "artifacts\q2_baseline"
@@ -51,10 +68,10 @@ New-Item -ItemType Directory -Force -Path $OutDir|Out-Null
 $OutExe=Join-Path $OutDir "q2_llama_adapter.exe"
 Copy-Item -Force $Exe $OutExe
 $ExeHash=(Get-FileHash $OutExe -Algorithm SHA256).Hash.ToUpperInvariant()
-
+$CMakeVersion=((cmake --version|Select-Object -First 1)|Out-String).Trim()
 $Results=Join-Path $Root "results";New-Item -ItemType Directory -Force -Path $Results|Out-Null
 $Q=[ordered]@{
-  schema="arcllm.q2.baseline_qualification.v1"
+  schema="arcllm.q2.baseline_qualification.v2"
   repository="ggml-org/llama.cpp"
   release=$PinnedRelease
   commit=$PinnedCommit
@@ -62,6 +79,10 @@ $Q=[ordered]@{
   source_clean=$true
   build_backend="Vulkan"
   vulkan_sdk=$env:VULKAN_SDK
+  vulkan_sdk_version=$VulkanVersion
+  vulkan_installer_sha256=$InstallerSha
+  cmake=$CMakeVersion
+  generator="Visual Studio 17 2022 x64"
   build_shared_libs=$false
   ggml_native=$false
   ggml_backend_dl=$false

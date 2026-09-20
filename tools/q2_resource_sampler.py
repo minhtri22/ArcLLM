@@ -136,7 +136,7 @@ def main():
     rc=proc.wait()
     gpu_samples=[];gpu_error=gpu_launch_error
     if gpu_raw.exists():
-        for line in gpu_raw.read_text(encoding="utf-8",errors="replace").splitlines():
+        for line in gpu_raw.read_text(encoding="utf-8-sig",errors="replace").splitlines():
             try:
                 row=json.loads(line)
                 if row.get("valid"):gpu_samples.append(row)

@@ -10,7 +10,7 @@ required=[
  "baseline/q2_llama_adapter.cpp","baseline/CMakeLists.txt",
  "tools/q2_resource_sampler.py","tools/q2_gpu_sampler.ps1","tools/summarize_q2.py",
  "tools/compile_q2_shaders.ps1","tools/build_q2.ps1","tools/qualify_q2_baseline.ps1",
- "run_q2.ps1","manifest.json","inputs/q1_return_to_chatgpt.authoritative.zip",
+ "run_q2_preflight.ps1","run_q2.ps1","manifest.json","inputs/q1_return_to_chatgpt.authoritative.zip",
 ]
 for p in required: assert (ROOT/p).is_file(),p
 
@@ -64,6 +64,12 @@ for x in [
 assert "llama_tokenize(" not in base
 assert "llama_vocab_is_eog" not in base
 assert "common_sampler" not in base
+assert "--qualify-only" in base
+assert "llama_log_set(q2_log_callback" in base
+assert "arcllm.q2.baseline_runtime_qualification.v1" in base
+assert "full_offload" in base and "offloaded[ ]+([0-9]+)/([0-9]+)" in base
+assert '"decode_executed\\":false' in base
+assert base.index("if(qualify_only)") < base.index("auto run_one")
 
 cmake=txt("baseline/CMakeLists.txt")
 assert "BUILD_SHARED_LIBS OFF" in cmake
@@ -79,6 +85,10 @@ assert "source tree is dirty" in qual
 assert "VULKAN_SDK" in qual and "glslc.exe" in qual
 assert "target_model_executed=$false" in qual
 assert 'qualification="BUILD_API_QUALIFIED"' in qual
+assert 'VulkanVersion="1.4.357.0"' in qual
+assert 'Visual Studio 17 2022' in qual
+assert 'vulkan_installer_sha256' in qual
+assert 'arcllm.q2.baseline_qualification.v2' in qual
 
 sampler=txt("tools/q2_resource_sampler.py")
 assert "GetProcessMemoryInfo" in sampler and "GetProcessTimes" in sampler
@@ -89,6 +99,8 @@ assert "raw_process_samples" in sampler and "raw_gpu_samples" in sampler
 gpu=txt("tools/q2_gpu_sampler.ps1")
 assert "GPU Engine" in gpu and "GPU Process Memory" in gpu
 assert "SampleMilliseconds=100" in gpu
+assert "engtype_Compute" in gpu and "engtype_3D" in gpu
+assert 'encoding="utf-8-sig"' in sampler
 
 summ=txt("tools/summarize_q2.py")
 for x in ['"median"','"min"','"max"','"mad"','descriptive_only_no_winner','"winner_declared":False','"expected_measured_attempts":20']:
@@ -103,6 +115,15 @@ assert "-ne 16" in compile_ps
 build_ps=txt("tools/build_q2.ps1")
 assert "q2_benchmark.cpp" in build_ps and "arcllm_q2.exe" in build_ps
 
+pre=txt("run_q2_preflight.ps1")
+assert "--qualify-only" in pre
+assert "q2_preflight_lock.json" in pre
+assert "ZERO MEASURED ATTEMPTS" in pre
+assert "measurements_executed=$false" in pre and "measured_attempts=0" in pre
+assert "full_offload" in pre
+assert "critical_file_sha256" in pre
+assert "q2_preflight_return_to_chatgpt.zip" in pre
+
 runner=txt("run_q2.ps1")
 for h in [
  "DFB3E86C4F51D06290A2AE1ED1479C96F35AE0D329CFA5E2B7D50289DC641B43",
@@ -115,6 +136,11 @@ assert '"--warmups","1","--measured","5"' in runner
 assert "q2_resource_sampler.py" in runner and "summarize_q2.py" in runner
 assert "q2_return_to_chatgpt.zip" in runner
 assert "q3_started=$false" in runner
+assert "q2_preflight_lock.json missing" in runner
+assert "preflight HEAD mismatch" in runner
+assert "critical file drift since preflight" in runner
+assert "target differs from preflight" in runner
+assert "baseline executable differs from preflight" in runner
 
 m=json.loads(txt("manifest.json"))
 assert m["phase"]=="Q2-MATCHED-BENCHMARK"
@@ -126,5 +152,9 @@ assert m["q2"]["advantage_claim_permitted"] is False
 assert m["q3_permitted"] is False
 assert m["target_run_permitted"] is False
 assert m["q2"]["target_run_permitted"] is False
+assert m["status"]=="IMPLEMENTATION_STATIC_LOCKED"
+assert m["q2"]["status"]=="IMPLEMENTATION_STATIC_LOCKED"
+assert m["q2"]["local_preflight_permitted"] is True
+assert m["q2"]["measurement_run_permitted"] is False
 
 print("ArcLLM Q2 static package: PASS")

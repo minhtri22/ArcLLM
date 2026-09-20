@@ -1,7 +1,7 @@
 # ArcLLM Q2 Implementation — matched benchmark harness
 
 Date: 2026-09-20
-Status: IMPLEMENTATION_CANDIDATE / NO Q2 MEASUREMENTS
+Status: IMPLEMENTATION_STATIC_LOCKED / LOCAL ZERO-MEASUREMENT PREFLIGHT REQUIRED
 
 ## Purpose
 
@@ -140,8 +140,64 @@ The implementation lock is not complete until Windows CI passes:
 
 No target model is downloaded or executed in this CI gate.
 
+## Local zero-measurement preflight
+
+GitHub Actions Q2 runs 35487793657, 35487864134 and 35487956962 all terminated before exposing any job step. They are therefore infrastructure failures, not compile/package evidence.
+
+Because Windows CI cannot currently supply build evidence, the authoritative gate is target-local preflight:
+
+`run_q2_preflight.ps1`
+
+The preflight:
+- verifies exact HEAD/critical-file cleanliness;
+- verifies the exact Q1 archive and exact 7B SHA/size;
+- runs Q2 static QA;
+- compiles the unchanged 16 ArcLLM production shaders;
+- builds `arcllm_q2.exe`;
+- builds exact llama.cpp v0.4.1 commit `391fac16460f15233a7740550d858ac96df3419d`;
+- pins Vulkan SDK 1.4.357.0, bootstrapping it if absent;
+- runs baseline W-S and W-C with `--qualify-only`;
+- requires raw-token semantics, F32 K/V, Vulkan runtime evidence and llama.cpp's own full-offload report;
+- requires `decode_executed=false` and `measured_attempts=0`;
+- writes `results/q2_preflight_lock.json`;
+- packages `results/q2_preflight_return_to_chatgpt.zip`.
+
+The measurement runner `run_q2.ps1` refuses to run unless the preflight lock:
+- matches the current HEAD;
+- matches SHA256 of every critical implementation file;
+- matches the exact model and baseline executable;
+- contains PASS for static QA, ArcLLM build, baseline build/API qualification and baseline runtime qualification;
+- proves zero prior measured attempts.
+
+## Baseline source/API qualification
+
+Source/API compatibility is statically qualified against the exact pinned upstream commit:
+- `include/llama.h` Git blob `3ab935939c6d183e5862aba93f346691e658403b`;
+- `src/llama-model.cpp` Git blob `3b2536283c5712de811f82cdef6390f7499b95d4`;
+- upstream Vulkan workflow blob `21d2a773531f81849a430880b18ce6f27dfb73fa`.
+
+Confirmed APIs/semantics:
+- `llama_batch_get_one`;
+- `llama_decode`;
+- F32 K/V context fields;
+- `llama_memory_clear`;
+- greedy sampler;
+- `n_gpu_layers`;
+- upstream log `offloaded %d/%d layers to GPU`;
+- upstream Windows Vulkan SDK version 1.4.357.0.
+
+This is source/API qualification only. Binary/runtime qualification remains a preflight requirement.
+
+## GPU sampler hardening
+
+Windows GPU sampling now probes both `engtype_Compute` and `engtype_3D` for the child PID, because Intel Arc workloads can be surfaced under either class. GPU data remains conditional. PowerShell UTF-8 BOM on JSONL is handled with `utf-8-sig`.
+
 ## Current authorization
 
-Q2 target measurement remains forbidden while this document is in IMPLEMENTATION_CANDIDATE state.
+Q2 implementation is **STATIC_LOCKED**.
+
+Permitted next action: target-local `run_q2_preflight.ps1`, which executes zero measured attempts.
+
+The 20 measured attempts remain forbidden until the returned preflight evidence is independently adjudicated and the final Q2 execution lock is committed.
 
 Q3 remains blocked.
