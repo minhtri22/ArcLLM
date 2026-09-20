@@ -85,7 +85,7 @@ if(-not(Test-Path (Join-Path $LlamaDir ".git"))){
 }
 git -C $LlamaDir fetch --force --depth 1 origin $PinnedCommit
 if($LASTEXITCODE -ne 0){throw "Q2 baseline commit fetch failed"}
-git -C $LlamaDir fetch --force --depth 1 origin "refs/tags/$PinnedRelease:refs/tags/$PinnedRelease"
+git -C $LlamaDir fetch --force --depth 1 origin "refs/tags/${PinnedRelease}:refs/tags/${PinnedRelease}"
 if($LASTEXITCODE -ne 0){throw "Q2 baseline tag fetch failed"}
 git -C $LlamaDir checkout --detach $PinnedCommit
 if($LASTEXITCODE -ne 0){throw "Q2 baseline checkout failed"}

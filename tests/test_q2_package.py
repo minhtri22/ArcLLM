@@ -81,6 +81,8 @@ assert "target_link_libraries(q2_llama_adapter PRIVATE llama)" in cmake
 qual=txt("tools/qualify_q2_baseline.ps1")
 assert 'PinnedCommit="391fac16460f15233a7740550d858ac96df3419d"' in qual
 assert 'PinnedRelease="v0.4.1"' in qual
+assert 'refs/tags/${PinnedRelease}:refs/tags/${PinnedRelease}' in qual
+assert 'refs/tags/$PinnedRelease:refs/tags/$PinnedRelease' not in qual
 assert "TagCommit -ne $PinnedCommit" in qual
 assert "source tree is dirty" in qual
 assert "VULKAN_SDK" in qual and "glslc.exe" in qual

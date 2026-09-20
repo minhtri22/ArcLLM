@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Pull portable Vulkan bootstrap repair -> rerun run_q2_preflight.ps1 from zero measurements -> return q2_preflight_return_to_chatgpt.zip for independent adjudication",
+  "next_on_success": "Pull tag-refspec interpolation repair -> rerun run_q2_preflight.ps1 from zero measurements -> return q2_preflight_return_to_chatgpt.zip for independent adjudication",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -274,12 +274,15 @@
         "run metadata + measured evidence manifest SHA chain"
       ],
       "last_local_attempt": {
-        "head_sha": "56d425be480ff19b8f1f5306dec028fb4a854c76",
+        "head_sha": "f05af34975b9cb6628e170dcee7aa0521a9c51e9",
         "result": "BLOCKED_PACKAGING_BEFORE_BASELINE_BUILD",
-        "cause": "Vulkan SDK ordinary unattended install required Administrator elevation and rolled back",
+        "cause": "PowerShell parsed colon-adjacent $PinnedRelease in git tag refspec as scoped-variable syntax, producing refs/tags//tags/v0.4.1",
         "static_package": "PASS",
         "arcllm_shader_compile": "PASS",
         "arcllm_native_build": "PASS",
+        "portable_vulkan_bootstrap": "PASS_OR_CACHE_REUSED",
+        "baseline_source_commit_fetch": "PASS",
+        "baseline_tag_fetch": "FAIL_BEFORE_CHECKOUT",
         "baseline_build_api": "NOT_REACHED",
         "baseline_runtime_qualification": "NOT_REACHED",
         "llama_decode_executed": false,
@@ -297,7 +300,8 @@
           "Include/vulkan/vulkan.h",
           "Lib/vulkan-1.lib"
         ]
-      }
+      },
+      "tag_fetch_refspec": "refs/tags/${PinnedRelease}:refs/tags/${PinnedRelease}"
     },
     "execution_authorization_required": true,
     "execution_authorization_committed": false,

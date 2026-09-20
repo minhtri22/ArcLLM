@@ -901,3 +901,11 @@ Decision: rerun the same zero-measurement preflight after pulling this packaging
 
 ## 2026-09-20 — Q2 portable toolchain workspace hygiene
 Added .q2_toolchains/ to .gitignore so the repo-local Vulkan SDK copy used by zero-measurement preflight cannot pollute git status or be accidentally staged. This is workspace hygiene only; no Q2 implementation, model, workload, baseline configuration, metric, gate or authorization changed.
+
+
+## 2026-09-20 — Q2 local preflight attempt #2 blocked by PowerShell tag-refspec interpolation
+Target-local preflight after the portable Vulkan bootstrap repair again passed ArcLLM native build. The llama.cpp exact commit fetch also succeeded, then the script stopped fail-closed before checkout/build because PowerShell interpreted the colon-adjacent variable in "refs/tags/$PinnedRelease:refs/tags/$PinnedRelease" as scoped-variable syntax, yielding the invalid refspec "refs/tags//tags/v0.4.1".
+This is a packaging/script defect only. It is not a llama.cpp source, Vulkan runtime, ArcLLM runtime, model, or Q2 measurement failure. Baseline checkout/build/API qualification was not reached; baseline runtime qualification was not reached; llama_decode remained unexecuted; measured attempts remained 0; Q3 remained closed.
+Bounded repair: brace the PowerShell variable on both sides of the refspec colon: "refs/tags/${PinnedRelease}:refs/tags/${PinnedRelease}". Static QA now asserts the corrected exact string and forbids the unbraced form.
+No model, workload, baseline commit/tag, Vulkan configuration, timing, metric, cell order, threshold, science contract or authorization state changed.
+Decision: rerun the same zero-measurement preflight from the repaired HEAD. Twenty measured attempts remain blocked.
