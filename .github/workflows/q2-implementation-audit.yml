@@ -1,0 +1,89 @@
+name: Q2 Implementation Audit
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/q2-implementation-audit.yml"
+      - "src/q2_benchmark.cpp"
+      - "baseline/**"
+      - "tools/q2_*"
+      - "tools/summarize_q2.py"
+      - "tools/compile_q2_shaders.ps1"
+      - "tools/build_q2.ps1"
+      - "tools/qualify_q2_baseline.ps1"
+      - "run_q2.ps1"
+      - "tests/test_q2_package.py"
+      - "config/q2_workloads.json"
+      - "docs/Q2_MATCHED_BENCHMARK_CONTRACT.md"
+      - "docs/Q2_IMPLEMENTATION.md"
+      - "manifest.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  q2-implementation-audit:
+    runs-on: windows-2025
+    timeout-minutes: 90
+    env:
+      VULKAN_VERSION: "1.4.357.0"
+    steps:
+      - name: Checkout ArcLLM
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Q2 static package contract
+        shell: pwsh
+        run: py -3 tests/test_q2_package.py
+
+      - name: Compile ArcLLM Q2 shaders
+        shell: pwsh
+        run: powershell.exe -ExecutionPolicy Bypass -File tools\compile_q2_shaders.ps1
+
+      - name: Build ArcLLM Q2 native harness
+        shell: pwsh
+        run: powershell.exe -ExecutionPolicy Bypass -File tools\build_q2.ps1
+
+      - name: Install Vulkan SDK
+        shell: pwsh
+        run: |
+          curl.exe -o $env:RUNNER_TEMP/VulkanSDK-Installer.exe -L "https://sdk.lunarg.com/sdk/download/${env:VULKAN_VERSION}/windows/vulkansdk-windows-X64-${env:VULKAN_VERSION}.exe"
+          & "$env:RUNNER_TEMP\VulkanSDK-Installer.exe" --accept-licenses --default-answer --confirm-command install
+          Add-Content $env:GITHUB_ENV "VULKAN_SDK=C:\VulkanSDK\${env:VULKAN_VERSION}"
+          Add-Content $env:GITHUB_PATH "C:\VulkanSDK\${env:VULKAN_VERSION}\bin"
+
+      - name: Install Ninja
+        shell: pwsh
+        run: choco install ninja -y --no-progress
+
+      - name: Build/API qualify exact llama.cpp baseline
+        shell: pwsh
+        run: powershell.exe -ExecutionPolicy Bypass -File tools\qualify_q2_baseline.ps1
+
+      - name: Assert qualification semantics
+        shell: pwsh
+        run: |
+          $q=Get-Content results\q2_baseline_qualification.json -Raw|ConvertFrom-Json
+          if($q.commit -ne "391fac16460f15233a7740550d858ac96df3419d"){throw "baseline commit mismatch"}
+          if($q.release -ne "v0.4.1"){throw "baseline release mismatch"}
+          if($q.qualification -ne "BUILD_API_QUALIFIED"){throw "baseline not qualified"}
+          if($q.target_model_executed){throw "target model must not execute in qualification"}
+          if(-not(Test-Path artifacts\q2_baseline\q2_llama_adapter.exe)){throw "baseline adapter missing"}
+
+      - name: Upload Q2 lock evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: q2-implementation-lock-${{ github.sha }}
+          if-no-files-found: warn
+          path: |
+            results/q2_arcllm_shader_provenance.json
+            results/q2_baseline_qualification.json
+            arcllm_q2.exe
+            artifacts/q2_baseline/q2_llama_adapter.exe

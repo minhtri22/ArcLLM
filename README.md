@@ -108,6 +108,6 @@ Frozen workloads:
 
 Q2 is characterization only. It cannot declare an advantage. Q3 remains blocked.
 
-Status: **Q2 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION**. No Q2 measurement is permitted before implementation + baseline qualification + static QA lock.
+Status: **Q2 IMPLEMENTATION_CANDIDATE / MEASUREMENT BLOCKED**. Harness, pinned raw-token llama.cpp adapter and 100 ms resource sampler are implemented. Windows static/build/API qualification must PASS before the implementation lock can authorize the 20 measured attempts.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.

@@ -1,0 +1,156 @@
+param(
+  [string]$ModelPath,
+  [string]$OllamaModelsRoot,
+  [string]$BaselineExe,
+  [string]$BaselineQualification,
+  [string]$SessionDir
+)
+$ErrorActionPreference="Stop";Set-StrictMode -Version Latest
+$Here=Split-Path -Parent $MyInvocation.MyCommand.Path
+$ResultsRoot=Join-Path $Here "results";New-Item -ItemType Directory -Force -Path $ResultsRoot|Out-Null
+if(-not $SessionDir){$SessionDir=Join-Path $ResultsRoot ("q2_"+(Get-Date).ToUniversalTime().ToString("yyyyMMdd-HHmmss"))}
+New-Item -ItemType Directory -Force -Path $SessionDir|Out-Null
+
+$ExpectedModelHash="60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463"
+$ExpectedModelBytes=[int64]4683074048
+$ExpectedQ1Archive="DFB3E86C4F51D06290A2AE1ED1479C96F35AE0D329CFA5E2B7D50289DC641B43"
+$BaselineCommit="391fac16460f15233a7740550d858ac96df3419d"
+$BaselineRelease="v0.4.1"
+
+$Head=(& git -C $Here rev-parse HEAD).Trim()
+if($LASTEXITCODE -ne 0 -or -not $Head){throw "Q2 cannot resolve ArcLLM implementation commit"}
+$Critical=@(
+ "src/q2_benchmark.cpp","baseline/q2_llama_adapter.cpp","baseline/CMakeLists.txt",
+ "tools/q2_resource_sampler.py","tools/q2_gpu_sampler.ps1","tools/summarize_q2.py",
+ "tools/compile_q2_shaders.ps1","tools/build_q2.ps1","tools/qualify_q2_baseline.ps1",
+ "run_q2.ps1","tests/test_q2_package.py","config/q2_workloads.json",
+ "docs/Q2_MATCHED_BENCHMARK_CONTRACT.md","docs/Q2_IMPLEMENTATION.md","manifest.json"
+)
+& git -C $Here diff --quiet HEAD -- @Critical
+if($LASTEXITCODE -ne 0){throw "Q2 critical working-tree files differ from HEAD"}
+& git -C $Here diff --cached --quiet HEAD -- @Critical
+if($LASTEXITCODE -ne 0){throw "Q2 critical index files differ from HEAD"}
+
+$Q1Archive=Join-Path $Here "inputs\q1_return_to_chatgpt.authoritative.zip"
+if(-not(Test-Path $Q1Archive)){throw "Q2 authoritative Q1 archive missing"}
+if((Get-FileHash $Q1Archive -Algorithm SHA256).Hash.ToUpperInvariant() -ne $ExpectedQ1Archive){throw "Q2 Q1 archive SHA mismatch"}
+
+if(-not $ModelPath){
+  $Resolved=@(& (Join-Path $Here "tools\resolve_p8_target.ps1") -OllamaModelsRoot $OllamaModelsRoot)
+  if($Resolved.Count -lt 1){throw "Q2 model resolver returned no path"}
+  $ModelPath=[string]$Resolved[-1]
+}
+$mf=Get-Item $ModelPath
+if($mf.Length -ne $ExpectedModelBytes){throw "Q2 model size mismatch"}
+$ModelHash=(Get-FileHash $ModelPath -Algorithm SHA256).Hash.ToUpperInvariant()
+if($ModelHash -ne $ExpectedModelHash){throw "Q2 model SHA mismatch"}
+
+if(-not $BaselineExe){$BaselineExe=Join-Path $Here "artifacts\q2_baseline\q2_llama_adapter.exe"}
+if(-not $BaselineQualification){$BaselineQualification=Join-Path $Here "results\q2_baseline_qualification.json"}
+if(-not(Test-Path $BaselineExe)){throw "Q2 qualified baseline executable missing"}
+if(-not(Test-Path $BaselineQualification)){throw "Q2 baseline qualification JSON missing"}
+$BQ=Get-Content $BaselineQualification -Raw -Encoding UTF8|ConvertFrom-Json
+if([string]$BQ.commit -ne $BaselineCommit -or [string]$BQ.release -ne $BaselineRelease -or [string]$BQ.qualification -ne "BUILD_API_QUALIFIED"){throw "Q2 baseline qualification pin mismatch"}
+if(-not [bool]$BQ.raw_token_adapter -or [bool]$BQ.tokenizer_path_used -or [bool]$BQ.target_model_executed){throw "Q2 baseline qualification semantics mismatch"}
+$BaselineExeHash=(Get-FileHash $BaselineExe -Algorithm SHA256).Hash.ToUpperInvariant()
+if($BaselineExeHash -ne ([string]$BQ.adapter_sha256).ToUpperInvariant()){throw "Q2 baseline executable SHA mismatch"}
+
+py -3 (Join-Path $Here "tests\test_q2_package.py")
+if($LASTEXITCODE -ne 0){throw "Q2 static contract failed"}
+powershell.exe -ExecutionPolicy Bypass -File (Join-Path $Here "tools\compile_q2_shaders.ps1")
+if($LASTEXITCODE -ne 0){throw "Q2 ArcLLM shader compile failed"}
+powershell.exe -ExecutionPolicy Bypass -File (Join-Path $Here "tools\build_q2.ps1")
+if($LASTEXITCODE -ne 0){throw "Q2 ArcLLM native build failed"}
+
+$OS=Get-CimInstance Win32_OperatingSystem
+$CPU=@(Get-CimInstance Win32_Processor|Select-Object Name,Manufacturer,NumberOfCores,NumberOfLogicalProcessors)
+$GPU=@(Get-CimInstance Win32_VideoController|Select-Object Name,DriverVersion,AdapterRAM,VideoProcessor)
+$TargetGPU=@($GPU|Where-Object {$_.Name -like "*Arc*140V*"})
+if($TargetGPU.Count -lt 1){throw "Q2 target Arc 140V GPU not found"}
+if(@($TargetGPU|Where-Object {$_.DriverVersion -eq "32.0.101.8860"}).Count -lt 1){throw "Q2 frozen Intel GPU driver mismatch"}
+if(@($CPU|Where-Object {$_.Name -like "*Ultra 7 258V*"}).Count -lt 1){throw "Q2 frozen CPU mismatch"}
+$PowerScheme=((powercfg /GETACTIVESCHEME 2>&1)|Out-String).Trim()
+$Battery=@()
+try{$Battery=@(Get-CimInstance -Namespace root\wmi -Class BatteryStatus -ErrorAction Stop|Select-Object PowerOnline,Charging,RemainingCapacity)}catch{}
+if($Battery.Count -gt 0 -and @($Battery|Where-Object {-not $_.PowerOnline}).Count -gt 0){throw "Q2 requires AC power / PowerOnline=true"}
+
+$Workloads=Join-Path $Here "config\q2_workloads.json"
+$WorkloadsHash=(Get-FileHash $Workloads -Algorithm SHA256).Hash.ToUpperInvariant()
+$Env=[ordered]@{
+ schema="arcllm.q2.environment.v1"
+ captured_utc=(Get-Date).ToUniversalTime().ToString("o")
+ implementation_commit=$Head
+ os=[ordered]@{caption=$OS.Caption;version=$OS.Version;build_number=$OS.BuildNumber;architecture=$OS.OSArchitecture}
+ cpu=$CPU
+ gpu=$GPU
+ power_scheme=$PowerScheme
+ battery=$Battery
+ model_path=$ModelPath
+ model_sha256=$ModelHash
+ model_size_bytes=$mf.Length
+ q1_archive_sha256=$ExpectedQ1Archive
+ q2_workloads_sha256=$WorkloadsHash
+ baseline=[ordered]@{release=$BaselineRelease;commit=$BaselineCommit;adapter_sha256=$BaselineExeHash;qualification_path=(Resolve-Path $BaselineQualification).Path}
+ llm_process_snapshot=@(Get-Process -ErrorAction SilentlyContinue|Where-Object {$_.ProcessName -match "ollama|llama|arcllm"}|Select-Object ProcessName,Id,CPU,WorkingSet64)
+}
+$EnvPath=Join-Path $SessionDir "q2_environment.json"
+[IO.File]::WriteAllText($EnvPath,($Env|ConvertTo-Json -Depth 12),(New-Object Text.UTF8Encoding($false)))
+
+$Sampler=Join-Path $Here "tools\q2_resource_sampler.py"
+$GpuSampler=Join-Path $Here "tools\q2_gpu_sampler.ps1"
+$ArcExe=Join-Path $Here "arcllm_q2.exe"
+
+function Invoke-Q2Cell([string]$Key,[string]$System,[string]$Workload,[string]$Exe,[string[]]$ChildArgs){
+  $Result=Join-Path $SessionDir ("q2_"+$Key+"_result.json")
+  $Trace=Join-Path $SessionDir ("q2_"+$Key+"_resources.json")
+  $Log=Join-Path $SessionDir ("q2_"+$Key+".log")
+  $Args=@("-3",$Sampler,"--system",$System,"--workload",$Workload,"--trace",$Trace,"--log",$Log,"--gpu-script",$GpuSampler,"--sample-ms","100","--",$Exe)
+  $Args += $ChildArgs
+  $Args += @("--workload",$Workload,"--warmups","1","--measured","5","--out",$Result)
+  Write-Host ""
+  Write-Host "Q2 cell $Key : $System $Workload"
+  & py @Args
+  $Code=$LASTEXITCODE
+  if(-not(Test-Path $Trace)){throw "Q2 resource trace missing for $Key"}
+  if(-not(Test-Path $Result)){
+    $Fail=[ordered]@{schema="arcllm.q2.cell_failure.v1";system=$System;workload=$Workload;process_exit_code=$Code;error="child result JSON missing"}
+    [IO.File]::WriteAllText($Result,($Fail|ConvertTo-Json -Depth 6),(New-Object Text.UTF8Encoding($false)))
+  }
+  return $Code
+}
+
+$CellExit=[ordered]@{}
+# Frozen order: W-S Arc -> baseline; W-C baseline -> Arc.
+$CellExit.arcllm_ws=Invoke-Q2Cell "arcllm_ws" "ArcLLM" "W-S" $ArcExe @("--model",$ModelPath,"--shader-dir",(Join-Path $Here "compiled_shaders"),"--implementation-commit",$Head)
+$CellExit.baseline_ws=Invoke-Q2Cell "baseline_ws" "llama.cpp" "W-S" $BaselineExe @("--model",$ModelPath)
+$CellExit.baseline_wc=Invoke-Q2Cell "baseline_wc" "llama.cpp" "W-C" $BaselineExe @("--model",$ModelPath)
+$CellExit.arcllm_wc=Invoke-Q2Cell "arcllm_wc" "ArcLLM" "W-C" $ArcExe @("--model",$ModelPath,"--shader-dir",(Join-Path $Here "compiled_shaders"),"--implementation-commit",$Head)
+
+$QualCopy=Join-Path $SessionDir "q2_baseline_qualification.json"
+Copy-Item -Force $BaselineQualification $QualCopy
+$ShaderProv=Join-Path $Here "results\q2_arcllm_shader_provenance.json"
+if(Test-Path $ShaderProv){Copy-Item -Force $ShaderProv (Join-Path $SessionDir "q2_arcllm_shader_provenance.json")}
+
+py -3 (Join-Path $Here "tools\summarize_q2.py") --results-dir $SessionDir --contract (Join-Path $Here "docs\Q2_MATCHED_BENCHMARK_CONTRACT.md") --workloads $Workloads --environment $EnvPath --baseline-qualification $QualCopy --implementation-commit $Head --model-sha256 $ModelHash
+if($LASTEXITCODE -ne 0){throw "Q2 summarizer failed"}
+
+$RunMeta=[ordered]@{
+ schema="arcllm.q2.run_meta.v1"
+ implementation_commit=$Head
+ execution_order=@("arcllm_ws","baseline_ws","baseline_wc","arcllm_wc")
+ cell_exit_codes=$CellExit
+ warmups_per_cell=1
+ measured_attempts_per_cell=5
+ expected_measured_attempts=20
+ advantage_adjudicated=$false
+ q3_started=$false
+}
+[IO.File]::WriteAllText((Join-Path $SessionDir "q2_run_meta.json"),($RunMeta|ConvertTo-Json -Depth 8),(New-Object Text.UTF8Encoding($false)))
+
+$Bundle=Join-Path $SessionDir "q2_return_to_chatgpt.zip"
+$Pack=@(Get-ChildItem -File $SessionDir|Where-Object {$_.Name -ne "q2_return_to_chatgpt.zip"}|Select-Object -ExpandProperty FullName)
+Compress-Archive -Path $Pack -DestinationPath $Bundle -Force
+Write-Host ""
+Write-Host "Q2 session: $SessionDir"
+Write-Host "Return bundle: $Bundle"
+Write-Host "Q2 remains characterization-only; no Q3 decision is made by this runner."

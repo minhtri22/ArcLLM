@@ -2,7 +2,7 @@
   "phase": "Q2-MATCHED-BENCHMARK",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "DESIGN_FROZEN",
+  "status": "IMPLEMENTATION_CANDIDATE",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "Q2_PERFORMANCE_RESOURCE_ENVELOPE",
@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "implement Q2 harness + baseline qualification + static QA; freeze execution lock before any Q2 measurement",
+  "next_on_success": "Windows Q2 implementation/build/API qualification PASS -> freeze implementation lock -> authorize exact 20 measured attempts",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -154,7 +154,7 @@
   },
   "q2": {
     "title": "matched performance / resource characterization",
-    "status": "DESIGN_FROZEN",
+    "status": "IMPLEMENTATION_CANDIDATE",
     "baseline": {
       "repository": "ggml-org/llama.cpp",
       "release": "v0.4.1",
@@ -191,6 +191,31 @@
       "Q2_BASELINE_NOT_MATCHED",
       "Q2_RUNTIME_INCOMPLETE",
       "Q2_MEASUREMENT_INVALID"
-    ]
+    ],
+    "implementation": {
+      "arc_harness": "src/q2_benchmark.cpp",
+      "max_prompt_tokens": 256,
+      "output_tokens": 32,
+      "cached_decode_steps": 31,
+      "prefill_dispatches": 441,
+      "decode_dispatches_per_step": 469,
+      "model_load_once_per_cell": true,
+      "warmups_per_cell": 1,
+      "measured_attempts_per_cell": 5,
+      "resource_sample_interval_ms": 100,
+      "mandatory_sampler": "Win32 GetProcessMemoryInfo + GetProcessTimes",
+      "gpu_sampler": "conditional Windows GPU Engine / GPU Process Memory counters",
+      "baseline_adapter": "baseline/q2_llama_adapter.cpp",
+      "baseline_api": "raw llama_batch + llama_decode; no tokenizer",
+      "baseline_vulkan_sdk": "1.4.357.0",
+      "summarizer": "descriptive median/min/max/MAD only",
+      "target_model_executed_during_lock": false
+    },
+    "baseline_qualification": {
+      "status": "PENDING_WINDOWS_CI",
+      "target_model_executed": false
+    },
+    "implementation_lock_pending": true,
+    "twenty_attempt_measurement_started": false
   }
 }

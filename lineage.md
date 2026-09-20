@@ -844,3 +844,13 @@ Two workloads are frozen: W-S prompt 4 / output 32; W-C prompt 256 / output 32 w
 Q2 collects TTFT, decode throughput, end-to-end latency, RAM/CPU resource metrics, GPU process memory/utilization where valid Windows counters are available, stability/error rate, plus ArcLLM architecture movement counters.
 Q2 is characterization only and cannot declare advantage. Q3 remains blocked.
 Decision: Q2 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION. No Q2 measurement may run before implementation + baseline qualification + static QA lock.
+
+
+## 2026-09-20 — Q2 implementation candidate / measurement still blocked
+Implemented the frozen Q2 matched-characterization design without executing the target model.
+ArcLLM harness generalizes only prompt extent (4/256), output count (32) and measurement instrumentation while retaining the Q1 production graph, 441/469 dispatch census, all 28 layers, segmented endpoints and GPU-resident FP32 KV.
+Pinned llama.cpp baseline adapter uses raw token IDs directly through llama_batch_get_one/llama_decode at v0.4.1 commit 391fac16460f15233a7740550d858ac96df3419d; tokenizer/chat paths are absent. Frozen context is 4096, batch/ubatch 256, threads 8, F32 K/V, n_gpu_layers=-1, greedy, no EOS stop/speculative decode.
+Windows resource sampler records working set/private bytes and CPU from Win32 APIs at 100 ms target cadence, and conditionally attempts GPU Engine/GPU Process Memory counters with explicit unavailable/error evidence.
+Runner hard-locks cell order Arc W-S -> baseline W-S -> baseline W-C -> Arc W-C, one warmup + five measured attempts each, and verifies exact model/Q1 archive/hardware/driver/baseline executable before measurements.
+Summarizer emits median/min/max/MAD and descriptive ratios only; it cannot declare a winner or open Q3.
+Decision: Q2 remains IMPLEMENTATION_CANDIDATE. No Q2 measured attempt is authorized until Windows BuildOnly + pinned baseline build/API qualification PASS.
