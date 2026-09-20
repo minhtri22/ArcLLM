@@ -1,7 +1,7 @@
 {
   "phase": "P8-G4",
   "date": "2026-09-20",
-  "status": "DESIGN_FROZEN",
+  "status": "READY_TO_RUN",
   "title": "fresh-cohort compositional error decomposition",
   "parent": "P8-G3 H-FP32-ACCUMULATION",
   "target": {
@@ -74,7 +74,7 @@
     "replacement_gate_definition_permitted": false
   },
   "implementation_permitted": true,
-  "target_run_permitted": false,
+  "target_run_permitted": true,
   "p8g_verdict_frozen": "FAIL",
   "p8g1_classification_frozen": "H-AMPLIFICATION",
   "p8g2_classification_frozen": "H-NONLINEAR/UNEXPLAINED",
@@ -82,5 +82,39 @@
   "p8h_blocked": true,
   "full_inference_forbidden": true,
   "next_on_completion": "adjudicate P8-G4 fresh-cohort compositional decomposition",
-  "implementation_commit_pending": true
+  "implementation_commit_pending": false,
+  "implementation": {
+    "fresh_input_ids": [
+      17,
+      29,
+      43,
+      61
+    ],
+    "input_formula": "0.13*sin((i+11+37*s)*0.009)+0.04*cos((i+5+19*s)*0.017)+0.02*sin((i+3+23*s)*0.0043)",
+    "original_input_excluded": true,
+    "prefix_scope": "L0-L2 full; L3 through SwiGLU",
+    "prefix_dispatches_per_seed": 58,
+    "prefix_submits_per_seed": 1,
+    "local_down_dispatches_per_seed": 1,
+    "local_down_submits_per_seed": 1,
+    "prepared_chains_reused_across_seeds": true,
+    "shader_count": 11,
+    "r1_oracle_cpu_only": true,
+    "r1_oracle": "float decoded weight + float product + double accumulator + float output",
+    "r1_cpu_workers_max": 8,
+    "cpu_l3_down_disabled": true,
+    "decomposition_closure": {
+      "max_abs": 0.00001,
+      "rmse": 1e-7
+    },
+    "local_historical_gate": {
+      "max_abs": 0.02,
+      "rmse": 0.005
+    },
+    "local_to_state_ratio_max": 0.05,
+    "historical_total_gate_decision_role": "descriptive_only",
+    "replacement_gate_definition_permitted": false,
+    "p8g_verdict_change_permitted": false,
+    "target_experiment_run_in_lock_commit": false
+  }
 }

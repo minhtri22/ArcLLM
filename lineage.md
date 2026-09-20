@@ -659,3 +659,18 @@ Each seed executes only layers0..3 through L3 SwiGLU using the frozen 58-dispatc
 Per seed: E_state=R1_down(X_GPU)-R1_down(X_CPU), E_local=GPU_down(X_GPU)-R1_down(X_GPU), E_total=GPU_down(X_GPU)-R1_down(X_CPU). Decomposition closure must pass 1e-5 / 1e-7. Same-input local error must pass historical 0.02 / 0.005. Prospective dominance requires local/state <=5% on both max and RMS.
 Historical total-error pass/fail is recorded descriptively only and is excluded from P8-G4 adjudication.
 Decision: P8-G4 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION. No replacement correctness gate is defined. P8-H and full inference remain blocked.
+
+
+## 2026-09-20 — P8-G4 implementation + static-QA lock / READY_TO_RUN
+Implementation follows the frozen fresh-cohort compositional-decomposition contract without shader, model-weight, sequence-length, historical-gate or prior-verdict changes.
+Fresh cohort is exactly IDs {17,29,43,61} with the preregistered trigonometric input formula. The original P8-G input formula is absent from the P8-G4 source and static QA forbids its reintroduction.
+One frozen prefix chain is prepared once and reused for all four seeds. Per seed GPU scope is exactly L0-L2 full plus L3 through SwiGLU: 58 dispatches / one submit, direct GPU handoff, no CPU state injection and no layer4+. Input buffer memory is host-visible/coherent and receives each fresh x_s by memcpy before prefix execution.
+CPU reference L0-L2 executes fully; L3 explicitly stops after SwiGLU. The inherited FP32 L3 down call is disabled to keep the CPU reference scope exact and avoid unnecessary 18,944x3,584 work.
+The R1 oracle independently implements the P8-G3-qualified arithmetic on blk.3.ffn_down.weight: Q4_K weight decoded to float, product rounded as float, double sequential accumulator, final output cast to float. X_CPU and X_GPU are evaluated together while each Q4_K weight is decoded once. Up to eight worker threads split independent output coordinates only; within-dot k=0..18943 order is unchanged.
+A second prepared chain contains exactly one production p7g_ffn_q4k_tiled16 down dispatch on the actual X_GPU buffer. Per seed it executes exactly one dispatch / one submit. No CPU teacher-forced vector is uploaded to this chain.
+Per seed decomposition is E_state=Y_CG-Y_CC, E_local=Y_GG-Y_CG, E_total=Y_GG-Y_CC and E_reconstructed=E_state+E_local. D0 closure remains 1e-5 / 1e-7. D1 local same-input correctness uses historical 0.02 / 0.005. D2 preregistered mechanistic dominance requires local/state<=5% on both max and RMS.
+D3 historical total-error 0.02/0.005 is recorded descriptively only. Static QA verifies seed_pass is exactly D0&&D1&&D2 and that D3 does not appear in the cohort classification branch.
+Cohort classification is locked to H-COMPOSITIONAL-SEPARATION-REPLICATED, H-HETEROGENEOUS-SEPARATION, H-LOCAL-ERROR-NONNEGLIGIBLE, or DECOMPOSITION-INVALID. Structural/execution invariant failure or any D0 failure forces DECOMPOSITION-INVALID.
+Static QA additionally locks exact P8-G3 parent hashes/semantics, fresh IDs/formula, build source/executable, pinned 11-shader provenance, one prefix + one local GPU execute call site, prepared-chain reuse, governance fields and no layer4+/embedding/LM-head/decode path.
+No fresh-cohort target experiment was run as part of this implementation/static-QA lock.
+Decision: P8-G4 READY_TO_RUN only after this commit is pulled. P8-G/P8-G1/P8-G2/P8-G3 historical outcomes remain frozen. replacement_gate_defined=false. P8-H and full inference remain forbidden.

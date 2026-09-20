@@ -20,7 +20,7 @@ Frozen model SHA256:
 
 ## Status
 
-P0-P7 are CLOSED. **P8-G is frozen FAIL. P8-G1=H-AMPLIFICATION. P8-G2=H-NONLINEAR/UNEXPLAINED. P8-G3=H-FP32-ACCUMULATION. P8-G4 fresh-cohort compositional decomposition is DESIGN_FROZEN / READY_FOR_IMPLEMENTATION.**
+P0-P7 are CLOSED. **P8-G is frozen FAIL. P8-G1=H-AMPLIFICATION. P8-G2=H-NONLINEAR/UNEXPLAINED. P8-G3=H-FP32-ACCUMULATION. P8-G4 fresh-cohort compositional decomposition is READY TO RUN.**
 
 The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
 
@@ -77,14 +77,27 @@ P8-G3 reproduced R0 exactly. Both closure and alpha-linearity first pass at R1: 
 
 This result does not erase P8-G's historical FAIL and does not by itself justify a replacement correctness gate.
 
-P8-G4 is **DESIGN_FROZEN / READY_FOR_IMPLEMENTATION**. Contract: `docs/P8G4_CONTRACT.md`.
+P8-G4 implementation + static QA are locked and **READY TO RUN**. Contract: `docs/P8G4_CONTRACT.md`.
 
-P8-G4 prospectively tests four fresh deterministic inputs, still only through L3, and decomposes total down-projection error into:
-- propagated upstream state drift;
-- same-input local GPU operator error.
+Run only after pulling the implementation-lock commit:
 
-The P8-G3-qualified R1 arithmetic is used only as a diagnostic CPU oracle. The mechanistic replication gate requires local operator error to be <=5% of state-drift error on both max and RMS for all four fresh inputs, with exact decomposition closure.
+```powershell
+py -3 .\tests\test_p8g4_package.py
+powershell.exe -ExecutionPolicy Bypass -File .\run_p8g4.ps1
+```
 
-No replacement gate is defined. P8-H and full inference remain blocked.
+Expected evidence:
+
+```text
+results\p8g4_shader_provenance.json
+results\p8g4_fresh_compositional_results.json
+results\p8g4_summary.json
+```
+
+P8-G4 uses the four preregistered fresh IDs {17,29,43,61}. For every seed the same prepared 58-dispatch prefix is reused, followed by one production P7-G Q4_K local-down dispatch. The P8-G3-qualified R1 arithmetic is CPU-only and never injected into the GPU prefix.
+
+D3 historical total-error pass/fail remains descriptive only and is statically excluded from seed/cohort adjudication.
+
+No fresh-cohort target experiment was run in the implementation-lock commit. No replacement gate is defined. P8-H and full inference remain blocked.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.
