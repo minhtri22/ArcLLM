@@ -1,0 +1,25 @@
+{
+    "schema":  "arcllm.p8g5.summary.v1",
+    "target_sha256":  "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "target_size_bytes":  4683074048,
+    "process_exit_code":  0,
+    "status":  "COMPLETE",
+    "diagnostic_valid":  true,
+    "classification":  "H-R1-ORACLE-SEMANTIC-MISMATCH",
+    "cohort_ids":  [
+                       17,
+                       29,
+                       43,
+                       61
+                   ],
+    "retrospective_attribution_only":  true,
+    "p8g_verdict_frozen":  "FAIL",
+    "p8g1_classification_frozen":  "H-AMPLIFICATION",
+    "p8g2_classification_frozen":  "H-NONLINEAR/UNEXPLAINED",
+    "p8g3_classification_frozen":  "H-FP32-ACCUMULATION",
+    "p8g4_classification_frozen":  "H-LOCAL-ERROR-NONNEGLIGIBLE",
+    "replacement_gate_defined":  false,
+    "p8h_permitted":  false,
+    "full_inference_permitted":  false,
+    "next_step":  "adjudicate P8-G5 production-semantic local-error attribution"
+}

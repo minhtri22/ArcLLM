@@ -705,3 +705,21 @@ Classification priority is statically locked: invalid structural/P0/P1/P3-closur
 Static QA locks exact parent hashes/semantics, cohort/formula reuse, R0/R1 arithmetic markers, P0 constants/tolerances, P1/P2/P3 gates, classification order, two GPU execute call-sites, pinned 11-shader provenance, build source/executable and immutable governance.
 No P8-G5 target attribution experiment was run as part of this implementation/static-QA lock.
 Decision: P8-G5 READY_TO_RUN only after this commit is pulled. Historical P8-G/P8-G1/P8-G2/P8-G3/P8-G4 outcomes remain frozen. replacement_gate_defined=false. P8-H and full inference remain forbidden.
+
+
+## 2026-09-20 — P8-G5 COMPLETE / H-R1-ORACLE-SEMANTIC-MISMATCH frozen
+Authoritative evidence SHA256: shader provenance 6483D82540EC31F3CE058B51FC48C9BABFED9983F7F59A090D9AE14917176F9A; production-semantic attribution 64565C94AD2D9EF85D1DFF8CE972FD263C2C1B4A28A28B5F6830F6EB9AD6E096; summary 1732663E0A9CF90848D54487E2C2D031EB1A5C2A90808A34ABB1C06D57995751.
+Validity: COMPLETE, diagnostic_valid=true, exact target/focus/binding PASS, retrospective cohort {17,29,43,61}, all executions 58/1 prefix + 1/1 local-down, no layer4+.
+P0 reproduces the frozen P8-G4 R1 state/local metrics and all four D2_R1 failures. P1 reconstruction passes exactly on all four seeds. P2 production GPU vs R0 passes all four seeds under 1e-4 / 1e-6. P3 R0 decomposition closure and unchanged 5% dominance pass all four seeds.
+Production residuals are only 3.0517578125e-05 to 6.103515625e-05 max_abs and 4.70945215263808e-07 to 8.94539287055447e-07 RMS. The R0->R1 oracle shift is much larger and explains the P8-G4 local term.
+Under R0 semantics local/state ratios are seed17 0.001899/0.002070, seed29 0.007905/0.004534, seed43 0.002703/0.003013, seed61 0.001866/0.001863, all far below 0.05.
+Decision: P8-G5 H-R1-ORACLE-SEMANTIC-MISMATCH is FROZEN. P8-G4 remains H-LOCAL-ERROR-NONNEGLIGIBLE under its historical R1-based protocol; no historical verdict is rewritten. replacement_gate_defined=false. P8-H and full inference remain forbidden.
+
+## 2026-09-20 — P8-G6 fresh production-semantic separation confirmation design frozen
+P8-G5 is retrospective attribution only, so a fresh prospective confirmation is required before any correctness-metric qualification.
+Fresh cohort is fixed before target evidence: IDs {73,89,107,131}, disjoint from P8-G4/P8-G5 {17,29,43,61}, using the same deterministic input family.
+Primary comparator is R0 production-semantic arithmetic: float Q4_K decode, float product, sequential float accumulator, float output. R1 remains a side diagnostic only and is excluded from adjudication.
+Per fresh seed GPU scope remains 58-dispatch direct prefix / one submit through L3 SwiGLU plus one production local-down dispatch / one submit. No layer4+.
+C1 requires GPU-vs-R0 <=1e-4 max_abs / <=1e-6 RMSE. C2 requires R0 decomposition closure <=1e-5 / <=1e-7. C3 retains the unchanged 5% local/state criterion on both max and RMS. No denominator flooring or threshold relaxation is permitted.
+Classification is locked to H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED, H-FRESH-RATIO-SENSITIVITY, H-FRESH-PRODUCTION-LOCAL-RESIDUAL, or CONFIRMATION-INVALID.
+Decision: P8-G6 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION. No replacement correctness gate. P8-H and full inference remain blocked.
