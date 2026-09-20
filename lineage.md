@@ -815,3 +815,12 @@ The original uploaded p8g6_fresh_production_semantic_results.json was re-read di
 The corrected repository blob is exactly 0124c3378614c3e0f4cef1a58fa43b90217d343c.
 Shader and summary repository blobs already matched the original uploaded Git blobs and require no byte change.
 Decision: rerun BuildOnly with SHA256 guards active. Target model execution remains blocked until PASS.
+
+
+## 2026-09-20 — Q1 target-run authorization after exact parent repair
+The corrected P8-G6 result blob is exact: Git blob 0124c3378614c3e0f4cef1a58fa43b90217d343c, SHA256 0526D3F1400080AF6B68D1D44CBD2AF897671B727EA924EC0D0C953C16FDD259, 5987 bytes.
+A connector-side equivalent audit of every static-package assertion passes on commit c769dcc937f857085dc7dd62da44de45af539266, including all parent blobs and Q1 graph/gate invariants.
+GitHub BuildOnly run 35486456429 failed twice before exposing any job step or log; this is treated as GitHub runner/infrastructure failure, not package evidence.
+The last successful Windows BuildOnly remains run 35485109178 on commit 1e95f7def19c3ca6bf486d36d4fe756a13076b48. Compare from that commit to c769dcc937f857085dc7dd62da44de45af539266 changes only README.md, lineage.md, manifest.json, tests/test_q1_package.py, and the repaired P8-G6 raw result. Q1 source, shaders, shader compiler script, native build script and run_q1.ps1 are unchanged.
+The local Q1 runner itself still fail-closes through static package QA, exact parent SHA checks, pinned 16-shader compilation and native Windows build before the model executable is launched.
+Decision: Q1 TARGET-RUN READY again. Q2/Q3 remain closed.

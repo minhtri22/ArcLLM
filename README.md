@@ -108,6 +108,6 @@ Q1 freezes a real full-model compute run:
 
 Tokenizer/API and performance comparison are intentionally outside Q1.
 
-Status: **Q1 IMPLEMENTATION_LOCKED / EXACT PARENT-EVIDENCE BLOB RESTORED / BUILDONLY PENDING**. The first local Q1 invocation stopped fail-closed before target execution because the committed P8-G6 result raw was not byte-identical to the original uploaded artifact. The exact original bytes are being restored and static QA now verifies all three parent SHA256 values. Q2/Q3 remain closed.
+Status: **Q1 IMPLEMENTATION_LOCKED / TARGET-RUN READY**. Exact P8-G6 parent bytes are restored. GitHub BuildOnly retry failed before any job step, but the last successful Windows BuildOnly covers unchanged Q1 source/shaders/build scripts; the local runner repeats static QA + shader compile + native build before target execution. The first local Q1 invocation stopped fail-closed before target execution because the committed P8-G6 result raw was not byte-identical to the original uploaded artifact. The exact original bytes are being restored and static QA now verifies all three parent SHA256 values. Q2/Q3 remain closed.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.

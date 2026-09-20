@@ -77,7 +77,7 @@
     "usable_vulkan_budget_bytes": 16374562816
   },
   "implementation_permitted": true,
-  "target_run_permitted": false,
+  "target_run_permitted": true,
   "historical": {
     "p8g": "FAIL",
     "p8g1": "H-AMPLIFICATION",
@@ -88,7 +88,7 @@
     "p8g6": "H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED"
   },
   "full_inference_general_permitted": false,
-  "q1_end_to_end_target_run_permitted": false,
+  "q1_end_to_end_target_run_permitted": true,
   "next_on_success": "Q2 frozen matched performance/resource benchmark",
   "implementation_commit_pending": false,
   "q2_permitted": false,
@@ -111,9 +111,9 @@
     "executable_exists": "PASS",
     "target_model_executed": false
   },
-  "target_run_ready": false,
+  "target_run_ready": true,
   "parent_evidence_packaging_repair": {
-    "status": "EXACT_BLOB_RESTORED_PENDING_BUILDONLY",
+    "status": "EXACT_BLOB_RESTORED",
     "initial_failed_local_head": "faa7e4d450a3774ce9a0281ad026d4fef855dcb4",
     "first_repair_commit": "5590eb8a4d0413f4e4ff1a892393ee15b3bd87e0",
     "target_execution_started": false,
@@ -124,6 +124,25 @@
     "q1_science_changed": false
   },
   "build_audit_after_parent_repair": {
-    "status": "PENDING_EXACT_BLOB"
+    "github_workflow_run_id": 35486456429,
+    "attempts": 2,
+    "github_job_steps_observed": 0,
+    "conclusion": "INFRASTRUCTURE_NO_STEPS",
+    "package_static_equivalent_audit": "PASS",
+    "executable_source_drift_since_last_windows_buildonly_pass": false,
+    "last_windows_buildonly_pass": {
+      "commit": "1e95f7def19c3ca6bf486d36d4fe756a13076b48",
+      "workflow_run_id": 35485109178,
+      "status": "PASS"
+    },
+    "changed_files_since_last_windows_buildonly_pass": [
+      "README.md",
+      "inputs/p8g6_fresh_production_semantic_results.authoritative.raw",
+      "lineage.md",
+      "manifest.json",
+      "tests/test_q1_package.py"
+    ],
+    "source_shader_build_runner_unchanged": true,
+    "local_runner_preflight_required": true
   }
 }
