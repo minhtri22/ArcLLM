@@ -1,7 +1,7 @@
 # ArcLLM Q2 Contract — matched performance / resource characterization
 
 Date: 2026-09-20
-Status: DESIGN_FROZEN
+Status: DESIGN_FROZEN / BASELINE_IDENTITY_CORRECTED_PRE_MEASUREMENT
 
 ## Scientific role
 
@@ -65,12 +65,16 @@ Q2 implementation may generalize buffer sizes, sequence length, decode-count and
 
 It MUST NOT tune or replace production kernels before Q2 outcome.
 
+### Pre-measurement identity amendment
+
+Before any Q2 measured attempt, zero-measurement preflight proved that the originally paired commit `391fac16460f15233a7740550d858ac96df3419d` does not equal the annotated release tag `v0.4.1`. The annotated tag object `29aaf1c27faa48292357cea2120d94114a545006` dereferences to commit `b29c606e28a01b1bc8c1351026a0fa6e616bf6c4`. Because the study intent is an exact stable `v0.4.1` baseline, the source pin is corrected to the tag commit. This amendment is provenance correction, not performance-driven tuning; no Q2 measurement existed when it was made.
+
 ### B — matched baseline
 
 Baseline:
 - repository: `ggml-org/llama.cpp`;
 - release: `v0.4.1`;
-- source commit: `391fac16460f15233a7740550d858ac96df3419d`;
+- source commit: `b29c606e28a01b1bc8c1351026a0fa6e616bf6c4`;
 - backend: Vulkan;
 - exact same GGUF bytes;
 - one sequence;

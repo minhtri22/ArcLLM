@@ -43,11 +43,19 @@ Primary timing is measured inside the model process:
 - decode: 31 cached steps through token #32;
 - e2e: prefill start through token #32.
 
+## Baseline identity correction before any measurements
+
+The original Q2 draft paired release `v0.4.1` with commit `391fac16460f15233a7740550d858ac96df3419d`. Target-local preflight exposed that this pair is inconsistent: the annotated Git tag `v0.4.1` dereferences to `b29c606e28a01b1bc8c1351026a0fa6e616bf6c4`, while `391fac16460f15233a7740550d858ac96df3419d` is five commits after that tag. No Q2 measured attempt had executed.
+
+The release identity is therefore corrected pre-measurement to the annotated tag commit `b29c606e28a01b1bc8c1351026a0fa6e616bf6c4`. Upstream `include/llama.h` and `src/llama-model.cpp` are byte-identical between the erroneous post-tag commit and the true release-tag commit; the intervening changes are CI/CMake/API-ABI tooling plus qwen4exp-specific code, not the Qwen2.5 model path. The baseline build additionally sets `LLAMA_BUILD_IS_DEV=OFF`, matching upstream release-tag guidance.
+
+This correction changes baseline provenance only; the GGUF, workloads, runtime parameters, offload policy, timing definitions, metrics, gates and authorization state remain frozen.
+
 ## Baseline adapter
 
 `baseline/q2_llama_adapter.cpp` binds directly to llama.cpp's public library API at:
 - release `v0.4.1`;
-- commit `391fac16460f15233a7740550d858ac96df3419d`.
+- commit `b29c606e28a01b1bc8c1351026a0fa6e616bf6c4`.
 
 It does not call llama tokenizer/chat APIs.
 
@@ -155,7 +163,7 @@ The preflight:
 - runs Q2 static QA;
 - compiles the unchanged 16 ArcLLM production shaders;
 - builds `arcllm_q2.exe`;
-- builds exact llama.cpp v0.4.1 commit `391fac16460f15233a7740550d858ac96df3419d`;
+- builds exact llama.cpp v0.4.1 commit `b29c606e28a01b1bc8c1351026a0fa6e616bf6c4`;
 - pins Vulkan SDK 1.4.357.0, bootstrapping it if absent;
 - runs baseline W-S and W-C with `--qualify-only`;
 - requires raw-token semantics, F32 K/V, Vulkan runtime evidence and llama.cpp's own full-offload report;

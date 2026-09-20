@@ -91,7 +91,7 @@ Q2 contract: `docs/Q2_MATCHED_BENCHMARK_CONTRACT.md`.
 
 Frozen baseline:
 - `ggml-org/llama.cpp` v0.4.1;
-- commit `391fac16460f15233a7740550d858ac96df3419d`;
+- commit `b29c606e28a01b1bc8c1351026a0fa6e616bf6c4`;
 - Vulkan;
 - exact same GGUF;
 - raw token input;

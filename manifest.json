@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Pull tag-refspec interpolation repair -> rerun run_q2_preflight.ps1 from zero measurements -> return q2_preflight_return_to_chatgpt.zip for independent adjudication",
+  "next_on_success": "Pull corrected v0.4.1 annotated-tag baseline identity -> rerun zero-measurement preflight -> return q2_preflight_return_to_chatgpt.zip for independent adjudication",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -158,7 +158,7 @@
     "baseline": {
       "repository": "ggml-org/llama.cpp",
       "release": "v0.4.1",
-      "commit": "391fac16460f15233a7740550d858ac96df3419d",
+      "commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
       "backend": "Vulkan",
       "cpu_threads": 8,
       "n_ctx": 4096,
@@ -166,7 +166,10 @@
       "n_ubatch": 256,
       "kv_k": "F32",
       "kv_v": "F32",
-      "gpu_offload": "all requested"
+      "gpu_offload": "all requested",
+      "annotated_tag_object_sha": "29aaf1c27faa48292357cea2120d94114a545006",
+      "identity_source": "annotated_git_tag_v0.4.1",
+      "release_build_is_dev": false
     },
     "workloads": {
       "W_S": {
@@ -237,11 +240,11 @@
       "compile_evidence_available": false
     },
     "baseline_source_api_qualification": {
-      "status": "PASS",
-      "exact_commit": "391fac16460f15233a7740550d858ac96df3419d",
+      "status": "PASS_AT_CORRECTED_RELEASE_TAG",
+      "exact_commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
       "llama_h_git_blob": "3ab935939c6d183e5862aba93f346691e658403b",
       "llama_model_cpp_git_blob": "3b2536283c5712de811f82cdef6390f7499b95d4",
-      "upstream_vulkan_workflow_git_blob": "21d2a773531f81849a430880b18ce6f27dfb73fa",
+      "upstream_vulkan_workflow_git_blob": "9b77c2d97d80870180c8b27261277ed4190dcffa",
       "raw_batch_api": true,
       "decode_api": true,
       "f32_kv_context": true,
@@ -249,7 +252,9 @@
       "greedy_sampler": true,
       "n_gpu_layers": true,
       "full_offload_log": true,
-      "upstream_windows_vulkan_sdk": "1.4.357.0"
+      "upstream_windows_vulkan_sdk": "1.4.357.0",
+      "annotated_tag_object_sha": "29aaf1c27faa48292357cea2120d94114a545006",
+      "upstream_vulkan_sdk_version": "1.4.357.0"
     },
     "preflight": {
       "script": "run_q2_preflight.ps1",
@@ -274,15 +279,11 @@
         "run metadata + measured evidence manifest SHA chain"
       ],
       "last_local_attempt": {
-        "head_sha": "f05af34975b9cb6628e170dcee7aa0521a9c51e9",
-        "result": "BLOCKED_PACKAGING_BEFORE_BASELINE_BUILD",
-        "cause": "PowerShell parsed colon-adjacent $PinnedRelease in git tag refspec as scoped-variable syntax, producing refs/tags//tags/v0.4.1",
-        "static_package": "PASS",
-        "arcllm_shader_compile": "PASS",
+        "head_sha": "844552ace71f554a8f486d3257cc66757d3102f8",
+        "result": "BLOCKED_BY_BASELINE_IDENTITY_CONTRADICTION_BEFORE_BASELINE_BUILD",
+        "cause": "annotated tag v0.4.1 dereferenced to b29c606e28a01b1bc8c1351026a0fa6e616bf6c4 while frozen draft incorrectly paired release v0.4.1 with post-tag commit 391fac16460f15233a7740550d858ac96df3419d",
         "arcllm_native_build": "PASS",
-        "portable_vulkan_bootstrap": "PASS_OR_CACHE_REUSED",
-        "baseline_source_commit_fetch": "PASS",
-        "baseline_tag_fetch": "FAIL_BEFORE_CHECKOUT",
+        "baseline_checkout": "POST_TAG_COMMIT_CHECKED_OUT_THEN_GATE_STOPPED",
         "baseline_build_api": "NOT_REACHED",
         "baseline_runtime_qualification": "NOT_REACHED",
         "llama_decode_executed": false,
@@ -306,6 +307,21 @@
     "execution_authorization_required": true,
     "execution_authorization_committed": false,
     "preflight_adjudication_required": true,
-    "vulkan_sdk_installer_sha256": "81F474711E9042F4CD22B31B2F7A8870DB2E428B21586FB43DD80150BE97310D"
+    "vulkan_sdk_installer_sha256": "81F474711E9042F4CD22B31B2F7A8870DB2E428B21586FB43DD80150BE97310D",
+    "baseline_identity_correction": {
+      "status": "CORRECTED_PRE_MEASUREMENT",
+      "erroneous_prior_commit": "391fac16460f15233a7740550d858ac96df3419d",
+      "corrected_release_tag_commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+      "annotated_tag_object_sha": "29aaf1c27faa48292357cea2120d94114a545006",
+      "upstream_compare": {
+        "relation": "corrected tag commit is ancestor; erroneous prior pin is 5 commits after v0.4.1",
+        "commits_between": 5,
+        "llama_h_blob_same": true,
+        "llama_model_cpp_blob_same": true,
+        "qwen2_5_runtime_path_change_detected": false
+      },
+      "measured_attempts_at_correction": 0,
+      "q3_started": false
+    }
   }
 }

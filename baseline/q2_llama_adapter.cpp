@@ -136,7 +136,7 @@ int main(int argc,char ** argv){
             std::ofstream q(out,std::ios::binary);if(!q)throw std::runtime_error("cannot write Q2 baseline runtime qualification JSON");
             q<<"{\n  \"schema\":\"arcllm.q2.baseline_runtime_qualification.v1\",\n";
             q<<"  \"status\":\""<<((vulkan_log&&full_offload)?"QUALIFIED":"NOT_MATCHED")<<"\",\n";
-            q<<"  \"baseline_release\":\"v0.4.1\",\"baseline_commit\":\"391fac16460f15233a7740550d858ac96df3419d\",\n";
+            q<<"  \"baseline_release\":\"v0.4.1\",\"baseline_commit\":\"b29c606e28a01b1bc8c1351026a0fa6e616bf6c4\",\n";
             q<<"  \"workload\":\""<<workload<<"\",\"prompt_tokens\":"<<prompt.size()<<",\"prompt_hash_fnv1a64\":\""<<prompt_hash<<"\",\n";
             q<<"  \"raw_token_input\":true,\"tokenizer_used\":false,\"chat_template_used\":false,\n";
             q<<"  \"resolved\":{\"n_ctx\":"<<llama_n_ctx(ctx)<<",\"n_batch\":"<<llama_n_batch(ctx)<<",\"n_ubatch\":"<<llama_n_ubatch(ctx)<<",\"threads\":8,\"threads_batch\":8,\"n_gpu_layers_requested\":-1,\"kv_k\":\"F32\",\"kv_v\":\"F32\",\"vocab\":"<<n_vocab<<",\"layers\":"<<llama_model_n_layer(model)<<"},\n";
@@ -200,7 +200,7 @@ int main(int argc,char ** argv){
         std::ofstream o(out,std::ios::binary);if(!o)throw std::runtime_error("cannot write Q2 baseline JSON");
         o<<std::setprecision(15);
         o<<"{\n  \"schema\":\"arcllm.q2.llama_baseline_cell.v1\",\n";
-        o<<"  \"system\":\"llama.cpp\",\"baseline_release\":\"v0.4.1\",\"baseline_commit\":\"391fac16460f15233a7740550d858ac96df3419d\",\"backend_requested\":\"Vulkan\",\n";
+        o<<"  \"system\":\"llama.cpp\",\"baseline_release\":\"v0.4.1\",\"baseline_commit\":\"b29c606e28a01b1bc8c1351026a0fa6e616bf6c4\",\"backend_requested\":\"Vulkan\",\n";
         o<<"  \"workload\":\""<<workload<<"\",\"prompt_tokens\":"<<prompt.size()<<",\"output_tokens\":32,\"prompt_hash_fnv1a64\":\""<<prompt_hash<<"\",\n";
         o<<"  \"resolved\":{\"n_ctx\":"<<llama_n_ctx(ctx)<<",\"n_batch\":"<<llama_n_batch(ctx)<<",\"n_ubatch\":"<<llama_n_ubatch(ctx)<<",\"threads\":8,\"threads_batch\":8,\"n_gpu_layers_requested\":-1,\"kv_k\":\"F32\",\"kv_v\":\"F32\",\"offload_kqv\":true,\"vocab\":"<<n_vocab<<",\"layers\":"<<llama_model_n_layer(model)<<"},\n";
         o<<"  \"model_desc\":\""<<esc(desc)<<"\",\"setup_ms_descriptive\":"<<setup_ms<<",\n";

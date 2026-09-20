@@ -6,7 +6,7 @@ param(
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Here=Split-Path -Parent $MyInvocation.MyCommand.Path
 $Root=Split-Path -Parent $Here
-$PinnedCommit="391fac16460f15233a7740550d858ac96df3419d"
+$PinnedCommit="b29c606e28a01b1bc8c1351026a0fa6e616bf6c4"
 $PinnedRelease="v0.4.1"
 $RepoUrl="https://github.com/ggml-org/llama.cpp.git"
 $VulkanVersion="1.4.357.0"
@@ -90,8 +90,10 @@ if($LASTEXITCODE -ne 0){throw "Q2 baseline tag fetch failed"}
 git -C $LlamaDir checkout --detach $PinnedCommit
 if($LASTEXITCODE -ne 0){throw "Q2 baseline checkout failed"}
 $Head=(git -C $LlamaDir rev-parse HEAD).Trim()
+$TagObject=(git -C $LlamaDir rev-parse $PinnedRelease).Trim()
 $TagCommit=(git -C $LlamaDir rev-list -n 1 $PinnedRelease).Trim()
-if($Head -ne $PinnedCommit -or $TagCommit -ne $PinnedCommit){throw "Q2 baseline pin mismatch"}
+$ExpectedTagObject="29aaf1c27faa48292357cea2120d94114a545006"
+if($Head -ne $PinnedCommit -or $TagCommit -ne $PinnedCommit -or $TagObject -ne $ExpectedTagObject){throw "Q2 baseline release tag/commit identity mismatch"}
 $Dirty=((git -C $LlamaDir status --porcelain)|Out-String)
 if($Dirty.Trim()){throw "Q2 baseline source tree is dirty"}
 
@@ -117,6 +119,9 @@ $Q=[ordered]@{
   repository="ggml-org/llama.cpp"
   release=$PinnedRelease
   commit=$PinnedCommit
+  annotated_tag_object_sha=$TagObject
+  annotated_tag_commit_sha=$TagCommit
+  release_build_is_dev=$false
   source_head=$Head
   source_clean=$true
   build_backend="Vulkan"

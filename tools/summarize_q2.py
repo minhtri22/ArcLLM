@@ -103,7 +103,7 @@ def main():
 
     qual=json.loads(Path(a.baseline_qualification).read_text(encoding="utf-8"))
     baseline_build_qualified=(
-        qual.get("commit")=="391fac16460f15233a7740550d858ac96df3419d" and
+        qual.get("commit")=="b29c606e28a01b1bc8c1351026a0fa6e616bf6c4" and
         qual.get("release")=="v0.4.1" and qual.get("qualification")=="BUILD_API_QUALIFIED" and
         qual.get("raw_token_adapter") is True and qual.get("target_model_executed") is False
     )

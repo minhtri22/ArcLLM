@@ -18,7 +18,7 @@ assert hashlib.sha256((ROOT/"inputs/q1_return_to_chatgpt.authoritative.zip").rea
 
 contract=txt("docs/Q2_MATCHED_BENCHMARK_CONTRACT.md")
 assert "Status: DESIGN_FROZEN" in contract
-assert "391fac16460f15233a7740550d858ac96df3419d" in contract and "v0.4.1" in contract
+assert "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4" in contract and "v0.4.1" in contract
 assert "Q2 must not define a winner." in contract
 assert "1 complete warmup inference" in contract and "5 measured inference attempts" in contract
 assert "W-S" in contract and "W-C" in contract
@@ -53,7 +53,7 @@ assert "p8c_embedding_q4k_segmented_probe.spv" in main
 
 base=txt("baseline/q2_llama_adapter.cpp")
 for x in [
- "391fac16460f15233a7740550d858ac96df3419d","v0.4.1",
+ "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4","v0.4.1",
  "llama_batch_get_one(in.data()","mp.n_gpu_layers=-1",
  "cp.n_ctx=4096","cp.n_batch=256","cp.n_ubatch=256",
  "cp.n_threads=8","cp.n_threads_batch=8","cp.type_k=GGML_TYPE_F32","cp.type_v=GGML_TYPE_F32",
@@ -76,14 +76,18 @@ cmake=txt("baseline/CMakeLists.txt")
 assert "BUILD_SHARED_LIBS OFF" in cmake
 assert "GGML_VULKAN ON" in cmake
 assert "GGML_BACKEND_DL OFF" in cmake
+assert "LLAMA_BUILD_IS_DEV OFF" in cmake
 assert "target_link_libraries(q2_llama_adapter PRIVATE llama)" in cmake
 
 qual=txt("tools/qualify_q2_baseline.ps1")
-assert 'PinnedCommit="391fac16460f15233a7740550d858ac96df3419d"' in qual
+assert 'PinnedCommit="b29c606e28a01b1bc8c1351026a0fa6e616bf6c4"' in qual
 assert 'PinnedRelease="v0.4.1"' in qual
 assert 'refs/tags/${PinnedRelease}:refs/tags/${PinnedRelease}' in qual
 assert 'refs/tags/$PinnedRelease:refs/tags/$PinnedRelease' not in qual
-assert "TagCommit -ne $PinnedCommit" in qual
+assert 'ExpectedTagObject="29aaf1c27faa48292357cea2120d94114a545006"' in qual
+assert 'release tag/commit identity mismatch' in qual
+assert 'annotated_tag_object_sha=$TagObject' in qual and 'annotated_tag_commit_sha=$TagCommit' in qual
+assert 'release_build_is_dev=$false' in qual
 assert "source tree is dirty" in qual
 assert "VULKAN_SDK" in qual and "glslc.exe" in qual
 assert "target_model_executed=$false" in qual
@@ -148,7 +152,7 @@ runner=txt("run_q2.ps1")
 for h in [
  "DFB3E86C4F51D06290A2AE1ED1479C96F35AE0D329CFA5E2B7D50289DC641B43",
  "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
- "391fac16460f15233a7740550d858ac96df3419d","32.0.101.8860"
+ "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4","32.0.101.8860"
 ]: assert h in runner,h
 order=[runner.index("$CellExit.arcllm_ws"),runner.index("$CellExit.baseline_ws"),runner.index("$CellExit.baseline_wc"),runner.index("$CellExit.arcllm_wc")]
 assert order==sorted(order)
@@ -174,7 +178,7 @@ assert "--preflight-lock" in runner and "--execution-authorization" in runner
 m=json.loads(txt("manifest.json"))
 assert m["phase"]=="Q2-MATCHED-BENCHMARK"
 assert m["q1"]["verdict"]=="Q1_FEASIBILITY_ESTABLISHED"
-assert m["q2"]["baseline"]["commit"]=="391fac16460f15233a7740550d858ac96df3419d"
+assert m["q2"]["baseline"]["commit"]=="b29c606e28a01b1bc8c1351026a0fa6e616bf6c4"
 assert m["q2"]["warmups_per_cell"]==1 and m["q2"]["measured_attempts_per_cell"]==5
 assert m["q2"]["total_measured_attempts"]==20
 assert m["q2"]["advantage_claim_permitted"] is False

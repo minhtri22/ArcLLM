@@ -14,7 +14,7 @@ New-Item -ItemType Directory -Force -Path $SessionDir|Out-Null
 $ExpectedModelHash="60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463"
 $ExpectedModelBytes=[int64]4683074048
 $ExpectedQ1Archive="DFB3E86C4F51D06290A2AE1ED1479C96F35AE0D329CFA5E2B7D50289DC641B43"
-$BaselineCommit="391fac16460f15233a7740550d858ac96df3419d"
+$BaselineCommit="b29c606e28a01b1bc8c1351026a0fa6e616bf6c4"
 $BaselineRelease="v0.4.1"
 
 $Head=(& git -C $Here rev-parse HEAD).Trim()
