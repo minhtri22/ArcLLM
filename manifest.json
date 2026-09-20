@@ -1,120 +1,92 @@
 {
-  "phase": "P8-G4",
+  "phase": "P8-G5",
   "date": "2026-09-20",
-  "status": "READY_TO_RUN",
-  "title": "fresh-cohort compositional error decomposition",
-  "parent": "P8-G3 H-FP32-ACCUMULATION",
+  "status": "DESIGN_FROZEN",
+  "title": "production-semantic local-error attribution",
+  "parent": "P8-G4 H-LOCAL-ERROR-NONNEGLIGIBLE",
   "target": {
     "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
     "size_bytes": 4683074048
   },
-  "authoritative_p8g3": {
-    "shader_provenance_sha256": "C10D0DB9444E584CDC76D939F5D134EC1229BD600CF3EED181C9D08505E955E8",
-    "arithmetic_precision_sha256": "B0ADAAF9790018467C721599C2147AF7A6C0F69F0967B5C25F77631095571835",
-    "summary_sha256": "EF494284E7BFBED541380267EDB197CF53F9EBB7E86040A83546735F84209C4D",
+  "authoritative_p8g4": {
+    "shader_provenance_sha256": "1C146FCDD60D14A782512687865AC403D6DEE5C72FC125F8A74C5D4A920D5C7C",
+    "fresh_compositional_sha256": "9255B70BA50DF316B7D8BA04CB6696DA9FB2CB97D82F7A559DCF166F7E76E757",
+    "summary_sha256": "6347545710333A3CF9856399DF040E57A6C140E3463C1E50E5A8A432AF82FFD0",
     "status": "COMPLETE",
     "diagnostic_valid": true,
-    "classification": "H-FP32-ACCUMULATION",
-    "closure_earliest_pass": "R1",
-    "alpha_earliest_pass": "R1",
-    "r0_closure": {
-      "max_abs": 0.000383861362934113,
-      "rmse": 0.00000558059885929576,
-      "pass": false
-    },
-    "r1_closure": {
-      "max_abs": 0.0000132623827084899,
-      "rmse": 2.76852946947452e-7,
-      "pass": true
-    },
-    "r2_closure": {
-      "max_abs": 3.839948324591e-12,
-      "rmse": 4.91078806241683e-14,
-      "pass": true
-    },
-    "r3_closure": {
-      "max_abs": 3.839948324591e-12,
-      "rmse": 4.84615771723039e-14,
-      "pass": true
+    "classification": "H-LOCAL-ERROR-NONNEGLIGIBLE",
+    "seed_pass_count": 0,
+    "all_d0_pass": true,
+    "structural_valid": true,
+    "d2_ratios": {
+      "17": {
+        "max": 0.0467289719626168,
+        "rms": 0.0539959165053624
+      },
+      "29": {
+        "max": 0.377049180327869,
+        "rms": 0.175281903700474
+      },
+      "43": {
+        "max": 0.0329218106995885,
+        "rms": 0.0640244987353183
+      },
+      "61": {
+        "max": 0.0617977528089888,
+        "rms": 0.0523069533336445
+      }
     }
   },
-  "p8g4": {
-    "fresh_input_ids": [
+  "source_fact": {
+    "production_shader": "p7g_ffn_q4k_tiled16.comp",
+    "production_accumulator": "float",
+    "production_product": "float",
+    "production_k_order": "sequential k0+=32, kk=0..31",
+    "p8g4_local_oracle": "R1 double accumulator"
+  },
+  "p8g5": {
+    "cohort_ids": [
       17,
       29,
       43,
       61
     ],
-    "input_formula": "0.13*sin((i+11+37*s)*0.009)+0.04*cos((i+5+19*s)*0.017)+0.02*sin((i+3+23*s)*0.0043)",
-    "layers": [
-      0,
-      1,
-      2,
-      3
-    ],
-    "seq": 4,
-    "pos": 0,
-    "prefix_dispatches_per_seed": 58,
-    "prefix_submits_per_seed": 1,
-    "local_down_dispatches_per_seed": 1,
-    "local_down_submits_per_seed": 1,
-    "diagnostic_oracle": "R1: float product + double accumulator + float output",
-    "closure_max_abs": 0.00001,
-    "closure_rmse": 1e-7,
-    "local_historical_max_abs": 0.02,
-    "local_historical_rmse": 0.005,
-    "local_to_state_ratio_max": 0.05,
-    "historical_total_gate_decision_role": "descriptive_only",
+    "retrospective_attribution_only": true,
+    "r0_oracle": "float weight decode + float product + float sequential accumulator + float output",
+    "r1_oracle": "float weight decode + float product + double sequential accumulator + float output",
+    "p0_metric_max_abs_tolerance": 0.000001,
+    "p0_metric_rmse_tolerance": 1e-7,
+    "p0_ratio_relative_tolerance": 0.001,
+    "local_reconstruction_closure": {
+      "max_abs": 0.00001,
+      "rmse": 1e-7
+    },
+    "production_matched_local_gate": {
+      "max_abs": 0.0001,
+      "rmse": 0.000001
+    },
+    "r0_decomposition_closure": {
+      "max_abs": 0.00001,
+      "rmse": 1e-7
+    },
+    "state_dominance_ratio_max": 0.05,
     "classifications": [
-      "H-COMPOSITIONAL-SEPARATION-REPLICATED",
-      "H-HETEROGENEOUS-SEPARATION",
-      "H-LOCAL-ERROR-NONNEGLIGIBLE",
-      "DECOMPOSITION-INVALID"
+      "H-R1-ORACLE-SEMANTIC-MISMATCH",
+      "H-RATIO-SENSITIVITY",
+      "H-PRODUCTION-LOCAL-RESIDUAL",
+      "ATTRIBUTION-INVALID"
     ],
     "replacement_gate_definition_permitted": false
   },
   "implementation_permitted": true,
-  "target_run_permitted": true,
+  "target_run_permitted": false,
   "p8g_verdict_frozen": "FAIL",
   "p8g1_classification_frozen": "H-AMPLIFICATION",
   "p8g2_classification_frozen": "H-NONLINEAR/UNEXPLAINED",
   "p8g3_classification_frozen": "H-FP32-ACCUMULATION",
+  "p8g4_classification_frozen": "H-LOCAL-ERROR-NONNEGLIGIBLE",
   "p8h_blocked": true,
   "full_inference_forbidden": true,
-  "next_on_completion": "adjudicate P8-G4 fresh-cohort compositional decomposition",
-  "implementation_commit_pending": false,
-  "implementation": {
-    "fresh_input_ids": [
-      17,
-      29,
-      43,
-      61
-    ],
-    "input_formula": "0.13*sin((i+11+37*s)*0.009)+0.04*cos((i+5+19*s)*0.017)+0.02*sin((i+3+23*s)*0.0043)",
-    "original_input_excluded": true,
-    "prefix_scope": "L0-L2 full; L3 through SwiGLU",
-    "prefix_dispatches_per_seed": 58,
-    "prefix_submits_per_seed": 1,
-    "local_down_dispatches_per_seed": 1,
-    "local_down_submits_per_seed": 1,
-    "prepared_chains_reused_across_seeds": true,
-    "shader_count": 11,
-    "r1_oracle_cpu_only": true,
-    "r1_oracle": "float decoded weight + float product + double accumulator + float output",
-    "r1_cpu_workers_max": 8,
-    "cpu_l3_down_disabled": true,
-    "decomposition_closure": {
-      "max_abs": 0.00001,
-      "rmse": 1e-7
-    },
-    "local_historical_gate": {
-      "max_abs": 0.02,
-      "rmse": 0.005
-    },
-    "local_to_state_ratio_max": 0.05,
-    "historical_total_gate_decision_role": "descriptive_only",
-    "replacement_gate_definition_permitted": false,
-    "p8g_verdict_change_permitted": false,
-    "target_experiment_run_in_lock_commit": false
-  }
+  "next_on_completion": "adjudicate P8-G5 production-semantic local-error attribution",
+  "implementation_commit_pending": true
 }

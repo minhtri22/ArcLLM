@@ -20,7 +20,7 @@ Frozen model SHA256:
 
 ## Status
 
-P0-P7 are CLOSED. **P8-G is frozen FAIL. P8-G1=H-AMPLIFICATION. P8-G2=H-NONLINEAR/UNEXPLAINED. P8-G3=H-FP32-ACCUMULATION. P8-G4 fresh-cohort compositional decomposition is READY TO RUN.**
+P0-P7 are CLOSED. **P8-G is frozen FAIL. P8-G1=H-AMPLIFICATION. P8-G2=H-NONLINEAR/UNEXPLAINED. P8-G3=H-FP32-ACCUMULATION. P8-G4=H-LOCAL-ERROR-NONNEGLIGIBLE. P8-G5 production-semantic local-error attribution is DESIGN_FROZEN / READY_FOR_IMPLEMENTATION.**
 
 The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
 
@@ -37,7 +37,7 @@ P4  One decoder layer                               CLOSED
 P5  Full decoder residency                          CLOSED
 P6  GPU-resident KV + generation                    CLOSED
 P7  Q4_K_M production path                          CLOSED
-P8  7B memory-planned runtime                       ACTIVE (P8-G4 fresh-cohort decomposition)
+P8  7B memory-planned runtime                       ACTIVE (P8-G5 local-oracle attribution)
 P9  Local OpenAI-compatible API                     PLANNED
 P10 Activation/output-aware Q4 research              DEFERRED
 ```
@@ -65,39 +65,26 @@ P8-G remains frozen FAIL under its original 0.02 / 0.005 gate.
 
 Frozen causal chain:
 - P8-G1: **H-AMPLIFICATION**
-- P8-G2: **H-NONLINEAR/UNEXPLAINED** under its preregistered FP32 closure/linearity criteria
+- P8-G2: **H-NONLINEAR/UNEXPLAINED**
 - P8-G3: **H-FP32-ACCUMULATION**
+- P8-G4: **H-LOCAL-ERROR-NONNEGLIGIBLE**
 
-Authoritative P8-G3 SHA256:
-- shader provenance: `C10D0DB9444E584CDC76D939F5D134EC1229BD600CF3EED181C9D08505E955E8`
-- arithmetic-precision result: `B0ADAAF9790018467C721599C2147AF7A6C0F69F0967B5C25F77631095571835`
-- summary: `EF494284E7BFBED541380267EDB197CF53F9EBB7E86040A83546735F84209C4D`
+Authoritative P8-G4 SHA256:
+- shader provenance: `1C146FCDD60D14A782512687865AC403D6DEE5C72FC125F8A74C5D4A920D5C7C`
+- fresh compositional result: `9255B70BA50DF316B7D8BA04CB6696DA9FB2CB97D82F7A559DCF166F7E76E757`
+- summary: `6347545710333A3CF9856399DF040E57A6C140E3463C1E50E5A8A432AF82FFD0`
 
-P8-G3 reproduced R0 exactly. Both closure and alpha-linearity first pass at R1: float product + double accumulator + float output. R1 closure is max_abs ~= 1.326e-5 / RMSE ~= 2.769e-7; R2/R3 reduce closure to about 3.84e-12 / 4.9e-14. Therefore sequential FP32 accumulation is sufficient to explain the P8-G2 A2/A4 misses.
+P8-G4 is structurally valid: all four D0 closures pass and all four same-input D1 historical local gates pass. However all four preregistered 5% D2 tests fail, so the frozen cohort classification is H-LOCAL-ERROR-NONNEGLIGIBLE.
 
-This result does not erase P8-G's historical FAIL and does not by itself justify a replacement correctness gate.
+The production P7-G shader source uses float products and sequential float accumulation, matching R0 arithmetic rather than the R1 double-accumulator diagnostic oracle used by P8-G4. Therefore P8-G4's E_local_R1 mixes actual production-kernel residual with the R0->R1 arithmetic-oracle shift.
 
-P8-G4 implementation + static QA are locked and **READY TO RUN**. Contract: `docs/P8G4_CONTRACT.md`.
+P8-G5 is **DESIGN_FROZEN / READY_FOR_IMPLEMENTATION**. Contract: `docs/P8G5_CONTRACT.md`.
 
-Run only after pulling the implementation-lock commit:
+P8-G5 replays the already frozen P8-G4 cohort only for retrospective causal attribution. It computes both R0 and R1 CPU down outputs on X_CPU/X_GPU and separates:
+- production residual = GPU - R0;
+- oracle precision shift = R0 - R1;
+- P8-G4 local term = GPU - R1.
 
-```powershell
-py -3 .\tests\test_p8g4_package.py
-powershell.exe -ExecutionPolicy Bypass -File .\run_p8g4.ps1
-```
-
-Expected evidence:
-
-```text
-results\p8g4_shader_provenance.json
-results\p8g4_fresh_compositional_results.json
-results\p8g4_summary.json
-```
-
-P8-G4 uses the four preregistered fresh IDs {17,29,43,61}. For every seed the same prepared 58-dispatch prefix is reused, followed by one production P7-G Q4_K local-down dispatch. The P8-G3-qualified R1 arithmetic is CPU-only and never injected into the GPU prefix.
-
-D3 historical total-error pass/fail remains descriptive only and is statically excluded from seed/cohort adjudication.
-
-No fresh-cohort target experiment was run in the implementation-lock commit. No replacement gate is defined. P8-H and full inference remain blocked.
+The P8-G4 5% threshold is unchanged. No replacement correctness gate is defined. P8-H and full inference remain blocked.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.

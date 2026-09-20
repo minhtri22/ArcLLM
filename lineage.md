@@ -674,3 +674,19 @@ Cohort classification is locked to H-COMPOSITIONAL-SEPARATION-REPLICATED, H-HETE
 Static QA additionally locks exact P8-G3 parent hashes/semantics, fresh IDs/formula, build source/executable, pinned 11-shader provenance, one prefix + one local GPU execute call site, prepared-chain reuse, governance fields and no layer4+/embedding/LM-head/decode path.
 No fresh-cohort target experiment was run as part of this implementation/static-QA lock.
 Decision: P8-G4 READY_TO_RUN only after this commit is pulled. P8-G/P8-G1/P8-G2/P8-G3 historical outcomes remain frozen. replacement_gate_defined=false. P8-H and full inference remain forbidden.
+
+
+## 2026-09-20 — P8-G4 COMPLETE / H-LOCAL-ERROR-NONNEGLIGIBLE frozen
+Authoritative evidence SHA256: shader provenance 1C146FCDD60D14A782512687865AC403D6DEE5C72FC125F8A74C5D4A920D5C7C; fresh compositional result 9255B70BA50DF316B7D8BA04CB6696DA9FB2CB97D82F7A559DCF166F7E76E757; summary 6347545710333A3CF9856399DF040E57A6C140E3463C1E50E5A8A432AF82FFD0.
+Validity: COMPLETE, diagnostic_valid=true, exact focus/binding PASS, fresh IDs {17,29,43,61}, all per-seed prefix executions 58/1 and local-down executions 1/1, no layer4+.
+All 4/4 D0 decomposition closures PASS and all 4/4 D1 same-input historical local gates PASS. D2 fails 4/4: seed17 local/state=0.04673 max / 0.053996 RMS; seed29=0.37705 / 0.17528; seed43=0.03292 / 0.06402; seed61=0.06180 / 0.05231. Therefore preregistered P8-G4 cohort verdict is H-LOCAL-ERROR-NONNEGLIGIBLE with seed_pass_count=0.
+D3 historical total-error outcomes remain descriptive only: seeds 29 and 61 pass, 17 and 43 fail. They do not participate in adjudication.
+Decision: P8-G4 H-LOCAL-ERROR-NONNEGLIGIBLE is FROZEN. The 5% D2 threshold is not changed. Prior P8-G/P8-G1/P8-G2/P8-G3 outcomes remain frozen. replacement_gate_defined=false. P8-H and full inference remain forbidden.
+
+## 2026-09-20 — P8-G5 production-semantic local-error attribution design frozen
+Source audit of p7g_ffn_q4k_tiled16.comp shows production down arithmetic uses float dequantized weights, float products and float sequential accumulators acc_a/acc_b, traversing k in order via k0+=32 and kk=0..31. This is semantically aligned with R0 rather than the R1 double-accumulator oracle used in P8-G4.
+Therefore P8-G4 E_local_R1=GPU-R1 potentially mixes actual production residual with the R0->R1 oracle precision shift.
+P8-G5 replays the exact frozen P8-G4 cohort only for retrospective causal attribution. It computes R0 and R1 down outputs for X_CPU/X_GPU and production GPU down(X_GPU), then decomposes E_local_R1 into E_prod=GPU-R0 and E_oracle=R0-R1.
+P0 must reproduce P8-G4 R1 state/local metrics and four D2 failures. P1 requires exact local-term reconstruction under 1e-5/1e-7. P2 prospectively requires production-matched GPU-vs-R0 residual <=1e-4 max_abs and <=1e-6 RMSE on every seed. P3 uses the unchanged 5% P8-G4 dominance threshold on the R0 production-semantic decomposition.
+Classification is locked to H-R1-ORACLE-SEMANTIC-MISMATCH, H-RATIO-SENSITIVITY, H-PRODUCTION-LOCAL-RESIDUAL, or ATTRIBUTION-INVALID.
+Decision: P8-G5 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION. No threshold relaxation and no replacement correctness gate. P8-H and full inference remain blocked.
