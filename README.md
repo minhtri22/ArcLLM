@@ -108,6 +108,6 @@ Frozen workloads:
 
 Q2 is characterization only. It cannot declare an advantage. Q3 remains blocked.
 
-Status: **Q3 IMPLEMENTATION STATIC LOCKED / EXECUTION CLOSED**. The frozen Q3 runner, two-session enforcement, zero-measurement preflight, deterministic threshold adjudicator and evidence packager are implemented. Q3 still cannot execute measured attempts until target-local preflight is returned and independently authorized. NEXUS remains excluded.
+Status: **FINAL — FEASIBLE_NO_DEMONSTRATED_ADVANTAGE**. Q1 established real 7B end-to-end feasibility, Q2 completed matched characterization, and Q3 completed two fresh sessions / 40 measured attempts without reproducing any preregistered practical regime advantage. The current ArcLLM architecture line is closed. Any future architecture work requires a separate post-verdict intervention review; NEXUS may only seed a new hypothesis after mechanistic mapping.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.

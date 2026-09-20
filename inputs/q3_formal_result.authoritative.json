@@ -1,0 +1,213 @@
+{
+  "schema": "arcllm.q3.formal_result.v1",
+  "date": "2026-09-20",
+  "verdict": "FEASIBLE_NO_DEMONSTRATED_ADVANTAGE",
+  "q1_feasibility_established": true,
+  "q2_matched_characterization_complete": true,
+  "q3_confirmatory_complete": true,
+  "current_architecture_line_closed": true,
+  "H_NPA_falsified": false,
+  "regime_advantage_supported": false,
+  "unresolved": false,
+  "implementation_commit": "032688ee1b188f5ef23c3b3d02466cbf2391eb96",
+  "execution_authorization_commit": "ae1e5b76d0b09081d514264990a3790c26bcf051",
+  "returned_bundle_sha256": "8E19970779A96A68073F6F274A44FC41E6A0DDDB71156181FB23FB2BFC02DC15",
+  "returned_bundle_bytes": 257323,
+  "evidence_manifest_sha256": "36CC5966E7C7EE5EB15A6FDFDF38FEF7C885B20D27726FA91D42AFCD8D93ED0B",
+  "adjudication_candidate_sha256": "986A6BD43F91289AD4F1B02232FEC77036E647FF89ECFF377062F56CBA826D88",
+  "design_sha256": "6FA611161AF6D461BA46567AAE624B92764CD5F66848C1A32EAC99A9415B5573",
+  "preflight_lock_sha256": "9105FA31E44029A63A316C13743F2FBB172D20F2C1022C091D70F25CFEDDF76E",
+  "execution_authorization_sha256": "F47481E19F9EDD42544F4C4F2B3DB064708BCC2650833409DC84AA1FEECE129A",
+  "session_identity": {
+    "A": {
+      "runner_process_id": 40168,
+      "order": [
+        "arcllm_ws",
+        "baseline_ws",
+        "baseline_wc",
+        "arcllm_wc"
+      ],
+      "session_meta_sha256": "F4076354FC0A16BE3AB64EF4CAF1654DD186B35A81CD8936D8D0B48F4A3AE825",
+      "environment_sha256": "613A80DA0246411CC646F0AA821FCCFBB529ECDCB01D2199AEC4E61F3E8A60FB",
+      "session_complete_sha256": "D51922C9C2E58B429233C8832F65185F12010F9EACC80DB5E3F34C658B3DCE4E"
+    },
+    "B": {
+      "runner_process_id": 51840,
+      "order": [
+        "baseline_ws",
+        "arcllm_ws",
+        "arcllm_wc",
+        "baseline_wc"
+      ],
+      "session_meta_sha256": "8762565AA6A58A56B486F5C444613BDFED7C90B285B7B42ECAC1B7AFF071C1D7",
+      "environment_sha256": "6649BD6715FE426C5FCE075BCB21EE38E2112AE8E6F46529E12FF77C8C21BC32",
+      "session_complete_sha256": "1B47B7F328D02FDAA92ED66922DDB09530427923E42CA61F0535F4E98E28E7A5"
+    }
+  },
+  "evidence_validity": {
+    "evidence_manifest_integrity": true,
+    "manifest_file_hash_mismatches": 0,
+    "fresh_sessions": 2,
+    "separate_runner_processes": true,
+    "measured_attempts_expected": 40,
+    "measured_attempts_recorded": 40,
+    "successful_attempts": 40,
+    "failed_attempts": 0,
+    "warmups_successful": 8,
+    "exact_session_orders": true,
+    "exact_model_identity": true,
+    "exact_baseline_identity": true,
+    "exact_prompt_hashes": true,
+    "mandatory_timing_valid": true,
+    "mandatory_ram_cpu_valid": true,
+    "session_complete_hashes_valid": true,
+    "environment_matched": true,
+    "ac_online_both_sessions": true,
+    "same_gpu_driver": true,
+    "same_power_scheme": true,
+    "architecture_tuned": false,
+    "workload_search_used": false,
+    "nexus_used": false,
+    "candidate_evidence_errors": []
+  },
+  "thresholds": {
+    "primary_benefit": {
+      "TTFT_arc_over_baseline_max": 0.9,
+      "decode_tps_arc_over_baseline_min": 1.1,
+      "E2E_arc_over_baseline_max": 0.9,
+      "working_set_arc_over_baseline_max": 0.85
+    },
+    "blocking_harm": {
+      "TTFT_arc_over_baseline_max": 1.1,
+      "decode_tps_arc_over_baseline_min": 0.9,
+      "E2E_arc_over_baseline_max": 1.1,
+      "working_set_arc_over_baseline_max": 1.1
+    }
+  },
+  "sessions": {
+    "A": {
+      "W-S": {
+        "ArcLLM": {
+          "ttft_ms_median": 1285.7053,
+          "decode_tps_median": 0.334781437641452,
+          "e2e_ms_median": 93847.033,
+          "working_set_peak_bytes_median": 10005856256,
+          "private_bytes_peak_median": 5343641600,
+          "cpu_mean_percent_median": 0.0087342955951255
+        },
+        "baseline": {
+          "ttft_ms_median": 103.5054,
+          "decode_tps_median": 13.5372053932925,
+          "e2e_ms_median": 2393.4952,
+          "working_set_peak_bytes_median": 5449539584,
+          "private_bytes_peak_median": 5506613248,
+          "cpu_mean_percent_median": 3.1936930065948586
+        },
+        "ratios_arc_over_baseline": {
+          "TTFT": 12.421625345151076,
+          "DECODE": 0.024730468949472516,
+          "E2E": 39.20920041953708,
+          "WORKING_SET": 1.8360920407620256,
+          "PRIVATE_BYTES": 0.9704043773077415,
+          "CPU_MEAN": 0.002734857601243921
+        },
+        "blocking_harm_guard": false,
+        "primary_benefit_dimensions_passed": []
+      },
+      "W-C": {
+        "ArcLLM": {
+          "ttft_ms_median": 13948.921,
+          "decode_tps_median": 0.297081904938778,
+          "e2e_ms_median": 118612.2527,
+          "working_set_peak_bytes_median": 10005008384,
+          "private_bytes_peak_median": 5343793152,
+          "cpu_mean_percent_median": 0.009441593243669411
+        },
+        "baseline": {
+          "ttft_ms_median": 1516.5974,
+          "decode_tps_median": 13.6786145099036,
+          "e2e_ms_median": 3782.912,
+          "working_set_peak_bytes_median": 5470461952,
+          "private_bytes_peak_median": 5527719936,
+          "cpu_mean_percent_median": 2.8746878137894987
+        },
+        "ratios_arc_over_baseline": {
+          "TTFT": 9.197510822582183,
+          "DECODE": 0.02171871315795065,
+          "E2E": 31.354748061810586,
+          "WORKING_SET": 1.8289147190471127,
+          "PRIVATE_BYTES": 0.9667264647758016,
+          "CPU_MEAN": 0.003284389072921008
+        },
+        "blocking_harm_guard": false,
+        "primary_benefit_dimensions_passed": []
+      }
+    },
+    "B": {
+      "W-S": {
+        "ArcLLM": {
+          "ttft_ms_median": 1033.24,
+          "decode_tps_median": 0.327063921685147,
+          "e2e_ms_median": 95815.9378,
+          "working_set_peak_bytes_median": 10006081536,
+          "private_bytes_peak_median": 5343879168,
+          "cpu_mean_percent_median": 0.009572044832532772
+        },
+        "baseline": {
+          "ttft_ms_median": 69.8069,
+          "decode_tps_median": 18.5754388117855,
+          "e2e_ms_median": 1741.8353,
+          "working_set_peak_bytes_median": 5449527296,
+          "private_bytes_peak_median": 5506621440,
+          "cpu_mean_percent_median": 3.194900544327683
+        },
+        "ratios_arc_over_baseline": {
+          "TTFT": 14.801402153655298,
+          "DECODE": 0.01760733218736323,
+          "E2E": 55.00860948219387,
+          "WORKING_SET": 1.836137520284475,
+          "PRIVATE_BYTES": 0.9704460759154709,
+          "CPU_MEAN": 0.0029960384367917967
+        },
+        "blocking_harm_guard": false,
+        "primary_benefit_dimensions_passed": []
+      },
+      "W-C": {
+        "ArcLLM": {
+          "ttft_ms_median": 14278.2552,
+          "decode_tps_median": 0.317842721801896,
+          "e2e_ms_median": 111557.9577,
+          "working_set_peak_bytes_median": 10006003712,
+          "private_bytes_peak_median": 5343801344,
+          "cpu_mean_percent_median": 0.012003297070432305
+        },
+        "baseline": {
+          "ttft_ms_median": 1486.4862,
+          "decode_tps_median": 11.3507926588053,
+          "e2e_ms_median": 4217.5785,
+          "working_set_peak_bytes_median": 5470355456,
+          "private_bytes_peak_median": 5527449600,
+          "cpu_mean_percent_median": 1.108664377139535
+        },
+        "ratios_arc_over_baseline": {
+          "TTFT": 9.605373531217444,
+          "DECODE": 0.02800180845126544,
+          "E2E": 26.450712820164465,
+          "WORKING_SET": 1.8291322734842042,
+          "PRIVATE_BYTES": 0.9667752274032494,
+          "CPU_MEAN": 0.010826808651868126
+        },
+        "blocking_harm_guard": false,
+        "primary_benefit_dimensions_passed": []
+      }
+    }
+  },
+  "reproduced_primary_advantages": [],
+  "supporting_only_observations": [
+    "Private-bytes medians are approximately 2.95%-3.33% lower for ArcLLM across the four session/workload comparisons.",
+    "ArcLLM process CPU mean is far lower than baseline in the recorded traces.",
+    "Neither private bytes nor CPU utilization is permitted to establish Q3 advantage under the frozen design."
+  ],
+  "stop_rule_applied": "FEASIBLE_NO_DEMONSTRATED_ADVANTAGE closes the current ArcLLM architecture line. No iterative tuning, workload search, or Q3 extension is permitted.",
+  "next_scientific_boundary": "Only a separate post-verdict Architecture Intervention Review may consider independently established NEXUS findings as hypothesis sources. Such findings are not transferable ArcLLM evidence and any successor architecture requires a new frozen hypothesis, falsification condition, resource budget, and stop condition."
+}

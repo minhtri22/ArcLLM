@@ -1,11 +1,11 @@
 {
-  "phase": "Q3-NO-PRACTICAL-ADVANTAGE-CONFIRMATORY",
+  "phase": "FINAL-VALIDATION-VERDICT",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "Q3_EXECUTION_AUTHORIZED",
+  "status": "FEASIBLE_NO_DEMONSTRATED_ADVANTAGE",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
-  "serves": "Q3_REGIME_ADVANTAGE_FINAL_CONFIRMATION",
+  "serves": "FINAL_ARCLLM_VALIDATION",
   "parent": "P8-G6 H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED",
   "authoritative_p8g6": {
     "shader_provenance_sha256": "1490475D0D7EAA0498FEEA5CD0A37460C4881FFFF676A7C912E0E113E2CAAC84",
@@ -83,8 +83,8 @@
     "summary_sha256": "36BFB413BCE31A1A6E2B77F96071162809B48FC7F566D61B34C779D90388AC95",
     "evidence_manifest_sha256": "89B22986B6BF5F4776413BD13D0F3CDAEF8B13B9EAA1B11000D9027F0F8F9548"
   },
-  "implementation_permitted": true,
-  "target_run_permitted": true,
+  "implementation_permitted": false,
+  "target_run_permitted": false,
   "historical": {
     "p8g": "FAIL",
     "p8g1": "H-AMPLIFICATION",
@@ -96,10 +96,10 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Execute exactly Session A and Session B as separate PowerShell invocations using run_q3.ps1, then package once with package_q3.ps1 and return results/q3_return_to_chatgpt.zip for final independent adjudication. No reruns, tuning, workload changes, or NEXUS input.",
+  "next_on_success": "Current ArcLLM architecture line is closed. Optional next step is a separate post-verdict Architecture Intervention Review; NEXUS findings may be considered only as hypothesis sources after explicit mechanistic mapping, never as transferred ArcLLM evidence.",
   "implementation_commit_pending": false,
   "q2_permitted": true,
-  "q3_permitted": true,
+  "q3_permitted": false,
   "implementation_review": "STATIC_PASS",
   "pre_execution_clarification": "v0.1a: 5 generated tokens total; residency wording aligned to P8-B proven envelope",
   "build_audit": {
@@ -376,7 +376,7 @@
   },
   "q3": {
     "title": "bounded no-practical-advantage fresh confirmation",
-    "status": "Q3_EXECUTION_AUTHORIZED",
+    "status": "FEASIBLE_NO_DEMONSTRATED_ADVANTAGE",
     "design_file": "docs/Q3_NO_PRACTICAL_ADVANTAGE_CONFIRMATORY_DESIGN.md",
     "machine_contract": "config/q3_confirmatory_design.json",
     "parent_q2_classification": "Q2_MATCHED_CHARACTERIZATION_COMPLETE",
@@ -390,8 +390,8 @@
     "arcllm_tuning_permitted": false,
     "workload_search_permitted": false,
     "nexus_input_permitted": false,
-    "execution_permitted": true,
-    "implementation_permitted": true,
+    "execution_permitted": false,
+    "implementation_permitted": false,
     "practical_effect_thresholds": {
       "speed_or_latency_minimum_relative_improvement": 0.1,
       "working_set_minimum_relative_improvement": 0.15,
@@ -440,7 +440,39 @@
       "preflight_bundle_sha256": "0807785D6C6250E291BB3005E177A4E6F37C3DBF0CD9D174857AC287C76E58EB",
       "preflight_lock_sha256": "9105FA31E44029A63A316C13743F2FBB172D20F2C1022C091D70F25CFEDDF76E",
       "measured_attempts_before_authorization": 0,
-      "sessions_before_authorization": 0
-    }
+      "sessions_before_authorization": 0,
+      "measurement_consumed": true
+    },
+    "final_verdict": "FEASIBLE_NO_DEMONSTRATED_ADVANTAGE",
+    "H_NPA_falsified": false,
+    "regime_advantage_supported": false,
+    "current_architecture_line_closed": true,
+    "adjudication": {
+      "verdict": "FEASIBLE_NO_DEMONSTRATED_ADVANTAGE",
+      "returned_bundle_sha256": "8E19970779A96A68073F6F274A44FC41E6A0DDDB71156181FB23FB2BFC02DC15",
+      "returned_bundle_bytes": 257323,
+      "evidence_manifest_sha256": "36CC5966E7C7EE5EB15A6FDFDF38FEF7C885B20D27726FA91D42AFCD8D93ED0B",
+      "adjudication_candidate_sha256": "986A6BD43F91289AD4F1B02232FEC77036E647FF89ECFF377062F56CBA826D88",
+      "measured_attempts_recorded": 40,
+      "successful_attempts": 40,
+      "failed_attempts": 0,
+      "fresh_sessions": 2,
+      "separate_runner_processes": true,
+      "evidence_errors": 0,
+      "H_NPA_falsified": false,
+      "reproduced_primary_advantages": [],
+      "current_architecture_line_closed": true,
+      "nexus_used": false
+    },
+    "formal_result_file": "inputs/q3_formal_result.authoritative.json",
+    "adjudication_document": "docs/Q3_ADJUDICATION.md"
+  },
+  "final_verdict": {
+    "verdict": "FEASIBLE_NO_DEMONSTRATED_ADVANTAGE",
+    "document": "docs/ARC_LLM_FINAL_VERDICT.md",
+    "q1": "Q1_FEASIBILITY_ESTABLISHED",
+    "q2": "Q2_MATCHED_CHARACTERIZATION_COMPLETE",
+    "q3": "FEASIBLE_NO_DEMONSTRATED_ADVANTAGE",
+    "current_architecture_line_closed": true
   }
 }
