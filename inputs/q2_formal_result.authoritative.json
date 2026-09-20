@@ -1,0 +1,111 @@
+{
+  "schema": "arcllm.q2.formal_result.v1",
+  "date": "2026-09-20",
+  "classification": "Q2_MATCHED_CHARACTERIZATION_COMPLETE",
+  "characterization_only": true,
+  "winner_declared": false,
+  "advantage_adjudicated": false,
+  "q3_started": false,
+  "implementation_commit": "43afd71161c4dc8c766c09c3b55d5eca48352bde",
+  "execution_authorization_commit": "8dca75dd5e0fba74fa75ccb3330313c9690f7f63",
+  "returned_bundle_sha256": "A802BFA44FE7FEE5723B11E90013B23E1B0F42E51DA877E5889557326726F730",
+  "returned_bundle_bytes": 144915,
+  "evidence_manifest_sha256": "559B58ED1E262EBA72D5F162540800D61539B7E98351CB65C22277808265FE95",
+  "summary_sha256": "719576899733C78A9FA128E8F7E57FCE06104287F983A8CCE94D9B7673854381",
+  "descriptive_comparison_sha256": "DE6465B33487EFD0B0827A06568F4D6C34FC30F48EE3E1F5450CE5AB786A4811",
+  "run_meta_sha256": "BB01B1497AF50FA2F27D1EA8AB7658B50220B2A3D348AD0704D7C881A5E38974",
+  "environment_sha256": "7FDB7B43CC85FFFBBBC764628F8583FE674DB2DD9A50F8D3609D49CBFA3B1DF1",
+  "preflight_lock_sha256": "3973BE933EE27E93803171856189B0406D56F35E6745E8520CD3EFE030153BEB",
+  "execution_authorization_sha256": "248886131ACC5AA144329977E45AE91304C8DB408316908AB571165F70586450",
+  "target": {
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "size_bytes": 4683074048
+  },
+  "baseline": {
+    "repository": "ggml-org/llama.cpp",
+    "release": "v0.4.1",
+    "commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+    "backend": "Vulkan",
+    "full_offload": "29/29",
+    "exact_raw_token_workloads": true,
+    "f32_kv": true
+  },
+  "measured_attempts_expected": 20,
+  "measured_attempts_recorded": 20,
+  "successful_attempts": 20,
+  "failed_attempts": 0,
+  "cells": {
+    "ArcLLM/W-S": {
+      "attempts": 5,
+      "successes": 5,
+      "ttft_ms_median": 918.2652,
+      "decode_tps_median": 0.318444967889216,
+      "e2e_ms_median": 98285.231,
+      "working_set_peak_bytes_median": 10017341440,
+      "private_bytes_peak_median": 5346062336
+    },
+    "llama.cpp/W-S": {
+      "attempts": 5,
+      "successes": 5,
+      "ttft_ms_median": 100.3183,
+      "decode_tps_median": 12.7448884055516,
+      "e2e_ms_median": 2535.8675,
+      "working_set_peak_bytes_median": 5467303936,
+      "private_bytes_peak_median": 5518123008
+    },
+    "llama.cpp/W-C": {
+      "attempts": 5,
+      "successes": 5,
+      "ttft_ms_median": 1423.482,
+      "decode_tps_median": 13.0354313958281,
+      "e2e_ms_median": 3803.0286,
+      "working_set_peak_bytes_median": 5481332736,
+      "private_bytes_peak_median": 5529026560
+    },
+    "ArcLLM/W-C": {
+      "attempts": 5,
+      "successes": 5,
+      "ttft_ms_median": 14706.4248,
+      "decode_tps_median": 0.399006323918158,
+      "e2e_ms_median": 91043.7294,
+      "working_set_peak_bytes_median": 10006102016,
+      "private_bytes_peak_median": 5343809536
+    }
+  },
+  "descriptive_ratios": {
+    "W-S": {
+      "ttft_arc_over_baseline": 9.153516357434288,
+      "decode_tps_arc_over_baseline": 0.024986093071674383,
+      "e2e_arc_over_baseline": 38.7580309302438,
+      "working_set_arc_over_baseline": 1.832226917921982,
+      "private_bytes_arc_over_baseline": 0.968818985776404
+    },
+    "W-C": {
+      "ttft_arc_over_baseline": 10.331303662427766,
+      "decode_tps_arc_over_baseline": 0.03060936855882324,
+      "e2e_arc_over_baseline": 23.93979614037086,
+      "working_set_arc_over_baseline": 1.8254870663629787,
+      "private_bytes_arc_over_baseline": 0.9665009704710118
+    }
+  },
+  "validity": {
+    "exact_model_input_runtime_invariants_preserved": true,
+    "intended_workloads_executed": true,
+    "five_measured_attempts_per_cell": true,
+    "minimum_success_gate_passed": true,
+    "primary_timing_valid": true,
+    "mandatory_ram_cpu_valid": true,
+    "baseline_matching_passed": true,
+    "evidence_manifest_integrity_passed": true
+  },
+  "limitations": [
+    "Windows per-process GPU Engine peak counter exceeded 100% for some ArcLLM samples; GPU utilization is treated as conditional/unreliable and is not used for Q2 validity or any advantage claim.",
+    "q2_run_meta.cell_exit_codes captured child stdout plus trailing numeric exit code instead of a scalar; all four resource traces independently record process_exit_code=0 and all result/log artifacts show successful completion, so this metadata-shape defect is recoverable and does not invalidate the frozen measurements.",
+    "The environment snapshot contained idle Ollama processes; no evidence in the frozen per-process traces or logs indicates concurrent inference, and measured resource accounting is bound to the benchmark child PIDs."
+  ],
+  "post_q2_observation": {
+    "decision_role": "Q3_DESIGN_INPUT_ONLY",
+    "statement": "Across the two frozen regimes, Q2 does not expose a plausible practical advantage on primary latency/throughput or working-set memory. ArcLLM shows only a small (~3%) private-bytes reduction and much lower measured CPU utilization while primary performance and working-set metrics move strongly in the opposite direction. This is descriptive Q3 design input, not a Q2 winner declaration."
+  },
+  "next_scientific_step": "Freeze a Q3 no-practical-advantage confirmatory design with explicit practical-effect thresholds and fresh reproduction. Do not tune ArcLLM between Q2 observation and Q3 design lock."
+}

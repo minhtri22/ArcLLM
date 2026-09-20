@@ -108,6 +108,6 @@ Frozen workloads:
 
 Q2 is characterization only. It cannot declare an advantage. Q3 remains blocked.
 
-Status: **Q2 IMPLEMENTATION_STATIC_LOCKED / LOCAL PREFLIGHT REQUIRED**. GitHub Q2 CI is unavailable before job steps, so target-local zero-measurement preflight is now the authoritative build/runtime qualification gate. The 20 measured attempts remain code-blocked until `q2_preflight_lock.json` is returned, adjudicated and a final execution lock is committed.
+Status: **Q2 CLOSED — Q2_MATCHED_CHARACTERIZATION_COMPLETE**. The frozen matched characterization completed 20/20 successful measured attempts. Q2 remains descriptive and declares no winner. Q3 execution is still closed; the next step is a no-practical-advantage confirmatory design lock with explicit practical-effect thresholds and fresh reproduction.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.

@@ -944,3 +944,11 @@ Exact target SHA/size and authoritative Q1 archive hash PASS. Baseline is exact 
 ArcLLM executable, baseline executable, 16-source/16-SPIR-V shader provenance and all 19 implementation-critical hashes are bound. Repository-vs-Windows hash review confirmed the apparent SHA differences on selected PowerShell files are exactly LF-versus-CRLF checkout normalization; reconstructed CRLF hashes equal the preflight lock and no implementation drift exists.
 Environment PASS: Windows 10.0.26200 build 26200, Core Ultra 7 258V, Arc 140V driver 32.0.101.8860, Balanced power scheme, system AC Online via GetSystemPowerStatus. Preflight remained zero-measurement and Q3 remained closed.
 Decision: Q2_MEASUREMENT_AUTHORIZED. A governance-only authorization commit may open exactly the frozen four cells × five measured attempts. No advantage verdict is permitted; Q3 remains closed until returned Q2 evidence is independently adjudicated.
+
+
+## 2026-09-20 — Q2 formally closed: Q2_MATCHED_CHARACTERIZATION_COMPLETE
+Authoritative returned measurement bundle SHA256 A802BFA44FE7FEE5723B11E90013B23E1B0F42E51DA877E5889557326726F730; evidence manifest SHA256 559B58ED1E262EBA72D5F162540800D61539B7E98351CB65C22277808265FE95; summary SHA256 719576899733C78A9FA128E8F7E57FCE06104287F983A8CCE94D9B7673854381.
+All four frozen cells contain 5/5 successful measured attempts (20/20 total). Exact target/input/runtime invariants, pinned llama.cpp v0.4.1 baseline, Vulkan full offload, primary timing, mandatory RAM/CPU traces and authorization chain PASS.
+Descriptive medians show ArcLLM/baseline ratios W-S: TTFT 9.154x, decode TPS 0.02499x, E2E 38.758x, working set 1.832x, private bytes 0.9688x; W-C: TTFT 10.331x, decode TPS 0.03061x, E2E 23.940x, working set 1.825x, private bytes 0.9665x. Q2 does not declare a winner.
+Two non-fatal evidence notes are frozen: Windows GPU Engine peak >100% for some ArcLLM samples, so GPU peak is unreliable/conditional; q2_run_meta.cell_exit_codes contains stdout plus trailing 0, while each resource trace independently records process_exit_code=0 and all result/log artifacts PASS.
+Decision: Q2_MATCHED_CHARACTERIZATION_COMPLETE. Q2 closed. No tuning is permitted before Q3 design lock. Q3 execution remains closed; next is a predeclared no-practical-advantage confirmatory design with fresh reproduction.

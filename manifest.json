@@ -2,7 +2,7 @@
   "phase": "Q2-MATCHED-BENCHMARK",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "Q2_MEASUREMENT_AUTHORIZED",
+  "status": "Q2_MATCHED_CHARACTERIZATION_COMPLETE",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "Q2_PERFORMANCE_RESOURCE_ENVELOPE",
@@ -84,7 +84,7 @@
     "evidence_manifest_sha256": "89B22986B6BF5F4776413BD13D0F3CDAEF8B13B9EAA1B11000D9027F0F8F9548"
   },
   "implementation_permitted": true,
-  "target_run_permitted": true,
+  "target_run_permitted": false,
   "historical": {
     "p8g": "FAIL",
     "p8g1": "H-AMPLIFICATION",
@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Pull final Q2 execution authorization and run run_q2.ps1 exactly once to execute the frozen 20-attempt matched characterization; return q2_return_to_chatgpt.zip for adjudication. Q3 remains closed.",
+  "next_on_success": "Freeze Q3 no-practical-advantage confirmatory design with explicit practical-effect thresholds and fresh reproduction; no ArcLLM tuning before Q3 design lock.",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -154,7 +154,7 @@
   },
   "q2": {
     "title": "matched performance / resource characterization",
-    "status": "Q2_MEASUREMENT_AUTHORIZED",
+    "status": "Q2_MATCHED_CHARACTERIZATION_COMPLETE",
     "baseline": {
       "repository": "ggml-org/llama.cpp",
       "release": "v0.4.1",
@@ -186,7 +186,7 @@
     "measured_attempts_per_cell": 5,
     "measured_cells": 4,
     "total_measured_attempts": 20,
-    "target_run_permitted": true,
+    "target_run_permitted": false,
     "implementation_permitted": true,
     "advantage_claim_permitted": false,
     "classifications": [
@@ -225,9 +225,9 @@
       "measured_attempts_permitted_in_preflight": 0
     },
     "implementation_lock_pending": false,
-    "twenty_attempt_measurement_started": false,
+    "twenty_attempt_measurement_started": true,
     "local_preflight_permitted": true,
-    "measurement_run_permitted": true,
+    "measurement_run_permitted": false,
     "static_qa": "CONNECTOR_EQUIVALENT_PASS",
     "github_ci": {
       "status": "INFRASTRUCTURE_NO_STEPS",
@@ -263,7 +263,7 @@
       "permitted": true,
       "measurements_executed": false,
       "measured_attempts": 0,
-      "status": "PASS_ADJUDICATED",
+      "status": "PASS_ADJUDICATED_AND_CONSUMED",
       "final_execution_authorization_file": "config/q2_execution_authorization.json",
       "artifact_binding": [
         "ArcLLM executable SHA256",
@@ -323,7 +323,7 @@
       "authoritative_lock_sha256": "3973BE933EE27E93803171856189B0406D56F35E6745E8520CD3EFE030153BEB",
       "implementation_commit": "43afd71161c4dc8c766c09c3b55d5eca48352bde",
       "adjudication": "PASS",
-      "execution_authorized": true
+      "execution_authorized": false
     },
     "execution_authorization_required": true,
     "execution_authorization_committed": true,
@@ -351,7 +351,27 @@
       "preflight_bundle_sha256": "631B5C0B01AF30B7005CFC17705A7529A1C718FB5F1C9F2958B1E14E258D699D",
       "preflight_lock_sha256": "3973BE933EE27E93803171856189B0406D56F35E6745E8520CD3EFE030153BEB",
       "measured_attempts_before_authorization": 0,
+      "q3_started": false,
+      "measurement_consumed": true
+    },
+    "twenty_attempt_measurement_completed": true,
+    "adjudication": {
+      "classification": "Q2_MATCHED_CHARACTERIZATION_COMPLETE",
+      "returned_bundle_sha256": "A802BFA44FE7FEE5723B11E90013B23E1B0F42E51DA877E5889557326726F730",
+      "evidence_manifest_sha256": "559B58ED1E262EBA72D5F162540800D61539B7E98351CB65C22277808265FE95",
+      "summary_sha256": "719576899733C78A9FA128E8F7E57FCE06104287F983A8CCE94D9B7673854381",
+      "measured_attempts_recorded": 20,
+      "successful_attempts": 20,
+      "failed_attempts": 0,
+      "mandatory_resource_measurements_valid": true,
+      "baseline_matched": true,
+      "gpu_peak_counter_reliable": false,
+      "run_meta_exit_code_shape_defect": "RECOVERABLE_METADATA_ONLY",
+      "winner_declared": false,
+      "advantage_adjudicated": false,
       "q3_started": false
-    }
+    },
+    "formal_result_file": "inputs/q2_formal_result.authoritative.json",
+    "adjudication_document": "docs/Q2_ADJUDICATION.md"
   }
 }
