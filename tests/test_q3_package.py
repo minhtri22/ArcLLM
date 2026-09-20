@@ -44,12 +44,15 @@ assert "merge-base --is-ancestor" in runner
 assert "critical file drift" in runner and "frozen Q2 runtime path changed" in runner
 assert "& py @Args | Out-Host" in runner and "return [int]$Code" in runner
 assert "runner_process_id=$PID" in runner
+assert "execution_authorization_sha256=$AuthorizationHash" in runner
+assert "authorization Q2-runtime binding mismatch" in runner and "authorization compiled-shader binding mismatch" in runner
+assert runner.index("New-Item -ItemType Directory -Path $SessionDir") > runner.index("Q3 power scheme drift since preflight")
 assert "compile_q2_shaders.ps1" not in runner and "build_q2.ps1" not in runner and "qualify_q2_baseline.ps1" not in runner
 assert "NEXUS" not in runner
 
 pre=txt("run_q3_preflight.ps1")
 assert "q3_execution_authorization.json" in pre and "requires execution authorization to remain absent" in pre
-assert "q3_session_"+'$S' in pre
+assert '("q3_session_"+$S)' in pre
 assert "Q3_IMPLEMENTATION_STATIC_LOCKED" in pre
 assert "GetSystemPowerStatus" in pre and "ACLineStatus=1" in pre
 assert "config\\q2_execution_authorization.json" in pre
@@ -60,22 +63,25 @@ assert "--qualify-only" in pre
 assert "decode_executed" in pre and "measured_attempts -ne 0" in pre
 assert "q3_preflight_lock.json" in pre and "q3_preflight_return_to_chatgpt.zip" in pre
 assert "q3_execution_authorized=$false" in pre and "measurements_executed=$false" in pre and "measured_attempts=0" in pre
-assert "run_q3.ps1" in pre and "& "+'$Here+"\\run_q3.ps1"' not in pre
+assert "run_q3.ps1" in pre and "Invoke-Q3Cell" not in pre
 assert "NEXUS" not in pre
 
 adj=txt("tools/adjudicate_q3.py")
-for s in ["REGIME_ADVANTAGE_SUPPORTED","FEASIBLE_NO_DEMONSTRATED_ADVANTAGE","UNRESOLVED","same"]:
+for s in ["REGIME_ADVANTAGE_SUPPORTED","FEASIBLE_NO_DEMONSTRATED_ADVANTAGE","UNRESOLVED"]:
     assert s in adj
 assert '("TTFT","DECODE","E2E","WORKING_SET")' in adj
 assert "private_bytes_can_establish_advantage" in adj and "False" in adj
 assert "cpu_utilization_can_establish_advantage" in adj and "gpu_counter_can_establish_advantage" in adj
 assert "runner_process_id" in adj and "sessions_not_separate_runner_processes" in adj
+assert "complete_hash_mismatch" in adj and "authorization_hash_binding" in adj
+assert "baseline_runtime_config" in adj and "arcllm_runtime_config" in adj and 'warm.get("success") is not True' in adj
+assert 'session_eval["A"][wl]["dimension_pass"][dim] and session_eval["B"][wl]["dimension_pass"][dim]' in adj
 assert 'len(attempts)!=5' in adj and 'len(summaries)!=5' in adj
 assert "reproduced_primary_advantages" in adj
 
 pkg=txt("tools/package_q3_evidence.py")
 assert "q3.evidence_manifest.v1" in pkg and "expected_measured_attempts" in pkg
-assert "session_A/" in pkg and "session_B/" in pkg
+assert '("session_A",Path(a.session_a))' in pkg and '("session_B",Path(a.session_b))' in pkg
 assert "q3_adjudication_candidate.json" in pkg and "q3_preflight_lock.json" in pkg and "q3_execution_authorization.json" in pkg
 packps=txt("package_q3.ps1")
 assert "q3_session_A" in packps and "q3_session_B" in packps and "q3_return_to_chatgpt.zip" in packps

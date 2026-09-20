@@ -12,7 +12,6 @@ $ResultsRoot=Join-Path $Here "results"
 New-Item -ItemType Directory -Force -Path $ResultsRoot|Out-Null
 $SessionDir=Join-Path $ResultsRoot ("q3_session_"+$Session)
 if(Test-Path $SessionDir){throw "Q3 session $Session already exists; frozen sessions cannot be silently rerun or overwritten"}
-New-Item -ItemType Directory -Path $SessionDir|Out-Null
 
 $ExpectedModelHash="60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463"
 $ExpectedModelBytes=[int64]4683074048
@@ -37,6 +36,7 @@ if($LASTEXITCODE -ne 0){throw "Q3 blocked: execution authorization is not commit
 & git -C $Here diff --quiet HEAD -- "config/q3_execution_authorization.json"
 if($LASTEXITCODE -ne 0){throw "Q3 blocked: execution authorization differs from committed HEAD"}
 $Auth=Get-Content $AuthorizationPath -Raw -Encoding UTF8|ConvertFrom-Json
+$AuthorizationHash=(Get-FileHash $AuthorizationPath -Algorithm SHA256).Hash.ToUpperInvariant()
 $PreflightLockHash=(Get-FileHash $PreflightLockPath -Algorithm SHA256).Hash.ToUpperInvariant()
 if([string]$Auth.schema -ne "arcllm.q3.execution_authorization.v1" -or -not[bool]$Auth.authorized -or [string]$Auth.decision -ne "Q3_EXECUTION_AUTHORIZED"){throw "Q3 blocked: invalid execution authorization"}
 if([string]$Auth.preflight_implementation_commit -ne $ImplementationCommit -or ([string]$Auth.preflight_lock_sha256).ToUpperInvariant() -ne $PreflightLockHash){throw "Q3 blocked: authorization does not bind this preflight"}
@@ -71,6 +71,8 @@ foreach($P in $PF.q2_frozen_runtime_file_sha256.PSObject.Properties){
   $Path=Join-Path $Here $P.Name
   $Now=(Get-FileHash $Path -Algorithm SHA256).Hash.ToUpperInvariant()
   if($Now -ne ([string]$P.Value).ToUpperInvariant()){throw "Q3 blocked: frozen Q2 runtime path changed: $($P.Name)"}
+  $A=$Auth.q2_frozen_runtime_file_sha256.PSObject.Properties[$P.Name]
+  if($null -eq $A -or ([string]$A.Value).ToUpperInvariant() -ne ([string]$P.Value).ToUpperInvariant()){throw "Q3 blocked: authorization Q2-runtime binding mismatch: $($P.Name)"}
 }
 
 if(-not $ModelPath){
@@ -96,7 +98,11 @@ if($ProvHash -ne ([string]$PF.shader_provenance_sha256).ToUpperInvariant() -or $
 foreach($P in $PF.compiled_shader_sha256.PSObject.Properties){
   $Path=Join-Path $Here ("compiled_shaders\"+$P.Name)
   if(-not(Test-Path $Path) -or (Get-FileHash $Path -Algorithm SHA256).Hash.ToUpperInvariant() -ne ([string]$P.Value).ToUpperInvariant()){throw "Q3 compiled shader drift: $($P.Name)"}
+  $A=$Auth.compiled_shader_sha256.PSObject.Properties[$P.Name]
+  if($null -eq $A -or ([string]$A.Value).ToUpperInvariant() -ne ([string]$P.Value).ToUpperInvariant()){throw "Q3 authorization compiled-shader binding mismatch: $($P.Name)"}
 }
+py -3 (Join-Path $Here "tests\test_q3_package.py")
+if($LASTEXITCODE -ne 0){throw "Q3 static package failed in authorized state"}
 
 $OS=Get-CimInstance Win32_OperatingSystem
 $CPU=@(Get-CimInstance Win32_Processor|Select-Object Name,Manufacturer,NumberOfCores,NumberOfLogicalProcessors)
@@ -127,10 +133,13 @@ if($AcLineStatus -ne 1){throw "Q3 requires ACLineStatus=1; observed $AcLineStatu
 if([string]$OS.Version -ne [string]$PF.hardware.os_version -or [string]$OS.BuildNumber -ne [string]$PF.hardware.os_build){throw "Q3 OS drift since preflight"}
 if($PowerScheme -ne [string]$PF.hardware.power_scheme){throw "Q3 power scheme drift since preflight"}
 
+# Create the immutable session directory only after every gate has passed.
+New-Item -ItemType Directory -Path $SessionDir|Out-Null
+
 $Environment=[ordered]@{
  schema="arcllm.q3.environment.v1";session=$Session;captured_utc=(Get-Date).ToUniversalTime().ToString("o")
  runner_process_id=$PID;implementation_commit=$ImplementationCommit;execution_authorization_commit=$Head
- preflight_lock_sha256=$PreflightLockHash;design_sha256=$DesignHash
+ preflight_lock_sha256=$PreflightLockHash;execution_authorization_sha256=$AuthorizationHash;design_sha256=$DesignHash
  os=[ordered]@{caption=$OS.Caption;version=$OS.Version;build_number=$OS.BuildNumber;architecture=$OS.OSArchitecture}
  cpu=$CPU;gpu=$GPU;power_scheme=$PowerScheme
  system_power=[ordered]@{source="GetSystemPowerStatus";ac_line_status=$AcLineStatus;ac_line_status_text="Online"}
@@ -183,7 +192,7 @@ $Meta=[ordered]@{
  started_from_fresh_session_dir=$true;execution_order=$Order;cell_exit_codes=$CellExit
  warmups_per_cell=1;measured_attempts_per_cell=5;expected_measured_attempts=20
  implementation_commit=$ImplementationCommit;execution_authorization_commit=$Head
- preflight_lock_sha256=$PreflightLockHash;design_sha256=$DesignHash
+ preflight_lock_sha256=$PreflightLockHash;execution_authorization_sha256=$AuthorizationHash;design_sha256=$DesignHash
  q3_candidate_adjudicated=$false
 }
 $MetaPath=Join-Path $SessionDir "q3_session_meta.json"

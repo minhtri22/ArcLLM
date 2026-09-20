@@ -969,3 +969,9 @@ Q3 uses two mandatory separate PowerShell invocations: run_q3.ps1 -Session A and
 The measured runner never rebuilds artifacts. It requires a later committed q3_execution_authorization.json and binds preflight lock, design SHA, Q3 critical hashes, Q2 frozen runtime hashes, exact model, Arc/baseline executables, shader provenance and SPIR-V.
 Added deterministic threshold adjudicator and evidence packager. The adjudicator can emit only a candidate verdict; final independent adjudication remains external. Primary advantage dimensions are restricted to TTFT/decode/E2E/working-set; private bytes, CPU and GPU counters cannot establish advantage.
 Decision: Q3_IMPLEMENTATION_STATIC_LOCKED. Q3 execution remains closed. Next: target-local zero-decode/zero-measurement preflight only.
+
+
+## 2026-09-20 — Q3 post-commit package hardening before target preflight
+Static review of the first Q3 implementation commit found three evidence-layer defects before any target execution: several regression-test literals did not match the actual source form; run_q3.ps1 created the fixed session directory before authorization gates, which could leave a false session marker after a blocked invocation; and session evidence did not directly bind the SHA256 of q3_execution_authorization.json.
+Repair: session directory creation now occurs only after all authorization/artifact/environment gates pass. Runner records execution-authorization SHA in environment and session metadata, and verifies authorization copies of Q2-frozen runtime hashes and compiled-shader hashes. Candidate adjudicator now validates session-complete file hashes, warmup success, exact model/baseline/runtime invariants, scalar process exit codes, authorization SHA binding and distinct session runner PIDs.
+No model execution, Q3 attempt, architecture/kernel/workload/threshold or NEXUS boundary changed. Prior Q3 implementation commit is superseded before preflight.
