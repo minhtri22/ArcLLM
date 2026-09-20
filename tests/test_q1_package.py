@@ -1,3 +1,4 @@
+# Parent evidence bytes are provenance-critical.
 from pathlib import Path
 import hashlib, json, re
 

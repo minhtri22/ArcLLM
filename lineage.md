@@ -804,3 +804,14 @@ Audit against the original user-uploaded P8-G6 artifacts found:
 Repair is evidence-packaging only: replace inputs/p8g6_fresh_production_semantic_results.authoritative.raw with the exact original uploaded bytes. Q1 source, shader, graph, input, dispatch census, gates and contract are unchanged.
 Static QA is strengthened to recompute SHA256 of all three authoritative P8-G6 inputs before BuildOnly/target execution.
 Decision: rerun Windows BuildOnly after this repair. Target execution remains blocked until BuildOnly PASS on the repaired commit.
+
+
+## 2026-09-20 — Q1 parent-evidence repair corrected to exact original Git blob
+The first repair commit 5590eb8a4d0413f4e4ff1a892393ee15b3bd87e0 still failed BuildOnly because its replacement result blob was not byte-identical to the original upload. No target model execution occurred.
+The original uploaded p8g6_fresh_production_semantic_results.json was re-read directly from conversation file storage and reconstructed with its required trailing LF. Independent Git-blob calculation on the original bytes gives:
+- original file bytes = 5987;
+- SHA256 = 0526D3F1400080AF6B68D1D44CBD2AF897671B727EA924EC0D0C953C16FDD259;
+- Git blob SHA1 = 0124c3378614c3e0f4cef1a58fa43b90217d343c.
+The corrected repository blob is exactly 0124c3378614c3e0f4cef1a58fa43b90217d343c.
+Shader and summary repository blobs already matched the original uploaded Git blobs and require no byte change.
+Decision: rerun BuildOnly with SHA256 guards active. Target model execution remains blocked until PASS.

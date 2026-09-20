@@ -113,15 +113,17 @@
   },
   "target_run_ready": false,
   "parent_evidence_packaging_repair": {
-    "status": "REPAIRED_PENDING_BUILDONLY",
-    "failed_local_head": "faa7e4d450a3774ce9a0281ad026d4fef855dcb4",
+    "status": "EXACT_BLOB_RESTORED_PENDING_BUILDONLY",
+    "initial_failed_local_head": "faa7e4d450a3774ce9a0281ad026d4fef855dcb4",
+    "first_repair_commit": "5590eb8a4d0413f4e4ff1a892393ee15b3bd87e0",
     "target_execution_started": false,
-    "cause": "committed P8-G6 result raw was not byte-identical to original uploaded artifact",
     "repaired_file": "inputs/p8g6_fresh_production_semantic_results.authoritative.raw",
     "expected_sha256": "0526D3F1400080AF6B68D1D44CBD2AF897671B727EA924EC0D0C953C16FDD259",
+    "exact_git_blob_sha": "0124c3378614c3e0f4cef1a58fa43b90217d343c",
+    "original_size_bytes": 5987,
     "q1_science_changed": false
   },
   "build_audit_after_parent_repair": {
-    "status": "PENDING"
+    "status": "PENDING_EXACT_BLOB"
   }
 }
