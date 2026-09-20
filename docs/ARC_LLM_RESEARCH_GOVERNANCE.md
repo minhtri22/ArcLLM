@@ -444,7 +444,106 @@ Sau khi bottleneck được giải quyết, phải quay lại chuỗi chính.
 
 ---
 
-## 17. Nguyên tắc cao nhất
+## 17. Deferred Investigation Registry — ghi nhận nhưng không sa đà
+
+Trong quá trình thực hiện Q1, Q2, Q3, nếu phát hiện một hiện tượng, anomaly, câu hỏi kỹ thuật hoặc hypothesis đáng chú ý nhưng **chưa phải blocker trực tiếp** của chuỗi validation chính, agent không được tự mở investigation sâu, benchmark mới, architecture experiment mới hoặc phase mới.
+
+Phát hiện đó phải được ghi vào:
+
+`docs/ARC_LLM_DEFERRED_INVESTIGATIONS.md`
+
+Mục đích của registry là **không làm mất phát hiện**, nhưng tách việc ghi nhận khỏi quyết định đầu tư thời gian nghiên cứu.
+
+### 17.1. Khi nào phải defer
+
+Mặc định defer nếu phát hiện:
+
+- thú vị về mặt kỹ thuật nhưng chưa chặn Q1, Q2 hoặc Q3;
+- có thể giải thích một chi tiết nhưng không làm thay đổi adjudication hiện tại;
+- cần thêm benchmark/microbenchmark mới chỉ để hiểu sâu hơn;
+- gợi ý một optimization mới nhưng end-to-end bottleneck chưa chứng minh cần optimization đó;
+- gợi ý một architecture alternative nhưng chưa thỏa sáu điều kiện mở architecture experiment;
+- có khả năng ảnh hưởng generalization hoặc productization nhưng chưa ảnh hưởng claim validation hiện tại.
+
+### 17.2. Ngoại lệ được xem xét ngay
+
+Một deferred item chỉ được promote trước khi chuỗi chính kết thúc nếu evidence mới cho thấy item đó:
+
+1. trực tiếp chặn Q1, Q2 hoặc Q3; hoặc
+2. có khả năng làm invalid một frozen experiment/evidence đang dùng để adjudicate; hoặc
+3. là implementation/measurement defect khiến frozen design không thực thi hoặc không được đo đúng.
+
+Promotion phải được ghi rõ trong registry với:
+
+- evidence mới;
+- Q1/Q2/Q3 bị chặn;
+- lý do không thể tiếp tục chuỗi chính nếu chưa xử lý;
+- hypothesis cụ thể;
+- falsification condition;
+- stop condition.
+
+Không được promote chỉ vì item “đáng tìm hiểu”.
+
+### 17.3. Nội dung tối thiểu của mỗi item
+
+Mỗi item phải ghi:
+
+- ID;
+- ngày phát hiện;
+- source/commit/evidence liên quan;
+- observation;
+- câu hỏi chưa rõ;
+- vì sao defer;
+- Q1/Q2/Q3 hoặc final claim có thể bị tác động;
+- mức tác động sơ bộ nếu có, nhưng không được coi là verdict;
+- điều kiện hoặc evidence nào sẽ khiến item đáng được promote;
+- trạng thái hiện tại.
+
+Không cần hoàn thiện root cause khi tạo item.
+
+### 17.4. Không được dùng registry để kéo dài validation
+
+Deferred item:
+
+- không được chặn final adjudication nếu không ảnh hưởng tính hợp lệ của evidence;
+- không được tự tạo phase;
+- không được tạo “todo research queue” phải hoàn thành trước verdict;
+- không được dùng để chuyển một kết quả negative thành UNRESOLVED nếu evidence đã đủ;
+- không được tune hoặc investigate chỉ để tìm cách đảo outcome.
+
+### 17.5. Post-verdict impact review
+
+Sau khi ArcLLM hoàn tất chuỗi validation chính và đã có final adjudication, mới mở registry để review toàn bộ deferred items.
+
+Review phải đánh giá **khả năng tác động trước khi bỏ thời gian investigate sâu hoặc mở chứng minh mới**.
+
+Tối thiểu xem xét:
+
+- item có khả năng làm thay đổi final verdict hay chỉ giải thích thêm;
+- item có làm thay đổi limitation hoặc phạm vi claim hay không;
+- item có giá trị trực tiếp cho engineering/productization hay không;
+- item có mở ra một regime advantage độc lập có cơ sở hay không;
+- chi phí implementation/experiment so với giá trị kỳ vọng;
+- evidence hiện có có đủ mạnh để biện minh cho một study mới hay không.
+
+Sau impact review, mỗi item chỉ được nhận một trong các disposition:
+
+- **ARCHIVE_NO_ACTION** — ghi nhận, không tiếp tục;
+- **ENGINEERING_FOLLOWUP** — hữu ích cho productization/cleanup nhưng không phải research claim mới;
+- **DEFER_FURTHER** — chưa đủ cơ sở hoặc chưa đáng chi phí;
+- **RESEARCH_REOPEN_CANDIDATE** — có khả năng tác động đủ lớn để xem xét một study mới.
+
+`RESEARCH_REOPEN_CANDIDATE` **không tự động cho phép chạy experiment**. Trước khi mở study mới vẫn phải freeze hypothesis, causal rationale, success/failure conditions, resource budget, falsification và stop condition theo governance hiện hành.
+
+### 17.6. Nguyên tắc
+
+> **Ghi nhận sớm, điều tra muộn; chỉ điều tra sâu khi khả năng tác động biện minh được chi phí.**
+
+Registry tồn tại để bảo toàn tri thức mà không làm mất điểm hội tụ của ArcLLM.
+
+---
+
+## 18. Nguyên tắc cao nhất
 
 ArcLLM không được đánh giá bằng số phase đã hoàn thành.
 

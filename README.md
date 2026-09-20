@@ -6,6 +6,8 @@ ArcLLM is an experimental native Vulkan Compute runtime for GGUF LLM inference o
 
 **ArcLLM now operates under a mandatory convergence policy:** `docs/ARC_LLM_RESEARCH_GOVERNANCE.md`.
 
+Deferred technical findings that do not block Q1/Q2/Q3 are recorded in the append-only `docs/ARC_LLM_DEFERRED_INVESTIGATIONS.md`; they do not automatically open research work. The registry is reviewed for impact only after the main validation/final adjudication, unless an item becomes a direct blocker or evidence-integrity defect.
+
 This governance is higher priority than P8/P9 roadmaps for all future research decisions. ArcLLM must converge through **Q1 Feasibility → Q2 Performance/Resource Envelope → Q3 Regime Advantage → fresh reproduction → final adjudication**.
 
 The already-frozen P8-G6 experiment remains governed by its existing contract and implementation lock `7da34af2241091459b50905bfc008c7c6ba623ef`; the new governance does not retroactively change its metrics, thresholds or adjudication.

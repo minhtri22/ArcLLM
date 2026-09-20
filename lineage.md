@@ -747,3 +747,12 @@ Phase proliferation, outcome-driven tuning, weak baselines and microbenchmark su
 Stop rules STOP-A through STOP-D and final verdict set {FEASIBILITY_NOT_ESTABLISHED, FEASIBLE_NO_DEMONSTRATED_ADVANTAGE, REGIME_ADVANTAGE_SUPPORTED, UNRESOLVED} are now project governance.
 Transition rule: the already frozen P8-G6 contract/metrics remain immutable and P8-G6 is still adjudicated under experiment-lock commit 7da34af2241091459b50905bfc008c7c6ba623ef. Governance applies to all planning after P8-G6 adjudication and does not retroactively rewrite historical P8 evidence.
 No source, shader, runner, static test or manifest content changed in this governance commit.
+
+
+## 2026-09-20 — Deferred-investigation governance added
+Added an append-only deferred-investigation mechanism to prevent technically interesting findings from expanding the ArcLLM research tree before the central validation converges.
+New registry: docs/ARC_LLM_DEFERRED_INVESTIGATIONS.md.
+Default rule: a finding that does not directly block Q1/Q2/Q3 or invalidate active evidence is recorded as DEFERRED and is not investigated deeply, benchmarked further, or promoted into a new phase/study during the main validation path.
+Early promotion is allowed only when new evidence establishes a direct Q1/Q2/Q3 blocker, a frozen-evidence integrity problem, or an implementation/measurement defect that prevents correct execution of a frozen study. Promotion requires explicit evidence, causal hypothesis, falsification and stop condition.
+After final adjudication, the full registry is reviewed for impact before any additional investigation budget is spent. Dispositions are ARCHIVE_NO_ACTION, ENGINEERING_FOLLOWUP, DEFER_FURTHER or RESEARCH_REOPEN_CANDIDATE. RESEARCH_REOPEN_CANDIDATE still requires a separately frozen study before execution.
+No P8-G6 source, shader, runner, static test, manifest, metrics, threshold or target-run permission changed.
