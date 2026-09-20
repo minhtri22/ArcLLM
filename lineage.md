@@ -737,3 +737,13 @@ Classification priority is statically locked: structural/C0/C2 failure -> CONFIR
 Static QA locks exact P8-G5 parent hashes/semantics, fresh-cohort disjointness, unchanged input formula, R0/R1 arithmetic markers, C1/C2/C3 gates, R1 exclusion from decision metrics, two GPU execute call-sites, pinned 11-shader provenance, build source/executable and immutable governance.
 No P8-G6 target experiment was run as part of this implementation/static-QA lock.
 Decision: P8-G6 READY_TO_RUN only after this commit is pulled. Historical P8-G through P8-G5 outcomes remain frozen. replacement_gate_defined=false. P8-H and full inference remain forbidden.
+
+
+## 2026-09-20 — ArcLLM research-convergence governance activated
+Added docs/ARC_LLM_RESEARCH_GOVERNANCE.md as the project-level research governance with priority above future P8/P9 roadmaps and phase plans.
+Central objective is now mandatory convergence to a falsifiable final verdict through Q1 real-model end-to-end feasibility, Q2 frozen performance/resource envelope, Q3 matched-baseline regime advantage, fresh reproduction and final adjudication.
+New architecture experiments require all six convergence conditions: real-model execution, end-to-end identified bottleneck, direct Q1/Q2/Q3 blockage, explicit causal hypothesis, falsification condition and stop condition.
+Phase proliferation, outcome-driven tuning, weak baselines and microbenchmark substitution for real-model evidence are explicitly prohibited.
+Stop rules STOP-A through STOP-D and final verdict set {FEASIBILITY_NOT_ESTABLISHED, FEASIBLE_NO_DEMONSTRATED_ADVANTAGE, REGIME_ADVANTAGE_SUPPORTED, UNRESOLVED} are now project governance.
+Transition rule: the already frozen P8-G6 contract/metrics remain immutable and P8-G6 is still adjudicated under experiment-lock commit 7da34af2241091459b50905bfc008c7c6ba623ef. Governance applies to all planning after P8-G6 adjudication and does not retroactively rewrite historical P8 evidence.
+No source, shader, runner, static test or manifest content changed in this governance commit.
