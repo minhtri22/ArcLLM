@@ -97,7 +97,19 @@
   "pre_execution_clarification": "v0.1a: 5 generated tokens total; residency wording aligned to P8-B proven envelope",
   "build_audit": {
     "platform": "windows-latest",
-    "scope": "static test + pinned shader compile + native build only",
-    "status": "PENDING"
-  }
+    "scope": "static test + pinned 16-shader compile + native build only; no model execution",
+    "status": "PASS",
+    "workflow": "Q1 BuildOnly Audit",
+    "workflow_run_id": 35485109178,
+    "workflow_run_number": 2,
+    "head_sha": "1e95f7def19c3ca6bf486d36d4fe756a13076b48",
+    "artifact_id": 10597263511,
+    "artifact_digest_sha256": "77eeb69b9d3f076f40287f7722680aba254280c0521f252cc6739d492f3005cc",
+    "static_contract": "PASS",
+    "shader_compile": "PASS",
+    "native_windows_build": "PASS",
+    "executable_exists": "PASS",
+    "target_model_executed": false
+  },
+  "target_run_ready": true
 }

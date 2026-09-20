@@ -781,3 +781,14 @@ Clarification 2: Q1 records requested residency and requires it to remain inside
 Implementation composes the P8 segmented resolver/endpoints with the frozen P7 production prefill/decode graph. One new integration shader computes chunked full-vocabulary segmented Q6_K output rows; no weight re-encoding or merged >256 MiB allocation is introduced.
 Static review locks: exact 7B target; [1,133151,133152,152062] input; 28 layers; 441 prefill dispatches; four 469-dispatch decode steps; full 152064 logits; greedy feedback; A/B reset repeat; no CPU model-math fallback; no teacher forcing; exact P8-G6 parent hashes; F3 evidence packaging before final classification.
 Decision: Q1 IMPLEMENTATION_LOCKED / TARGET RUN AUTHORIZED. Q2 and Q3 remain closed.
+
+
+## 2026-09-20 — Q1 Windows BuildOnly audit
+BuildOnly workflow was added as infrastructure QA only; it does not execute the frozen 7B model and is not Q1 scientific evidence.
+Run #1 / workflow run 35484999941: FAIL at static package contract before shader compile or native build. Root cause was a test-only source-representation assertion: the Python test searched for unescaped JSON text while the C++ source necessarily stores escaped quotes inside a string literal. No executable semantics, model contract, shader or gate failed.
+Bounded repair: commit 1e95f7def19c3ca6bf486d36d4fe756a13076b48 changes only the two affected static assertions.
+Run #2 / workflow run 35485109178 on commit 1e95f7def19c3ca6bf486d36d4fe756a13076b48: PASS.
+Passed steps: static package contract; pinned 16-shader compile; native Windows C++ build; executable existence.
+BuildOnly artifact: id 10597263511, digest sha256:77eeb69b9d3f076f40287f7722680aba254280c0521f252cc6739d492f3005cc.
+No target model was downloaded or executed in BuildOnly.
+Decision: Q1 implementation/package is TARGET-RUN READY. Q2/Q3 remain closed; next evidence must be the exact Q1 end-to-end target run.

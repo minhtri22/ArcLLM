@@ -108,6 +108,6 @@ Q1 freezes a real full-model compute run:
 
 Tokenizer/API and performance comparison are intentionally outside Q1.
 
-Status: **Q1 IMPLEMENTATION_LOCKED / TARGET RUN AUTHORIZED** after static semantic/package review. The target run remains Q1-only; Q2/Q3 are not opened.
+Status: **Q1 IMPLEMENTATION_LOCKED / TARGET-RUN READY**. Windows BuildOnly run `35485109178` PASSed static contract, pinned 16-shader compilation, native build and executable existence on commit `1e95f7def19c3ca6bf486d36d4fe756a13076b48`. No model was executed in BuildOnly. Q2/Q3 remain closed.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.
