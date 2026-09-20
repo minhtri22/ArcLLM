@@ -1,128 +1,85 @@
 {
-  "phase": "P8-G6",
+  "phase": "Q1-END-TO-END",
+  "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "READY_TO_RUN",
-  "title": "fresh production-semantic separation confirmation",
-  "parent": "P8-G5 H-R1-ORACLE-SEMANTIC-MISMATCH",
-  "target": {
-    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
-    "size_bytes": 4683074048
-  },
-  "authoritative_p8g5": {
-    "shader_provenance_sha256": "6483D82540EC31F3CE058B51FC48C9BABFED9983F7F59A090D9AE14917176F9A",
-    "production_semantic_attribution_sha256": "64565C94AD2D9EF85D1DFF8CE972FD263C2C1B4A28A28B5F6830F6EB9AD6E096",
-    "summary_sha256": "1732663E0A9CF90848D54487E2C2D031EB1A5C2A90808A34ABB1C06D57995751",
+  "status": "DESIGN_FROZEN",
+  "title": "real-model end-to-end 7B feasibility",
+  "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
+  "serves": "Q1_FEASIBILITY",
+  "parent": "P8-G6 H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED",
+  "authoritative_p8g6": {
+    "shader_provenance_sha256": "1490475D0D7EAA0498FEEA5CD0A37460C4881FFFF676A7C912E0E113E2CAAC84",
+    "fresh_production_semantic_sha256": "0526D3F1400080AF6B68D1D44CBD2AF897671B727EA924EC0D0C953C16FDD259",
+    "summary_sha256": "13C36E5EB14D08F60C3DC9277F7A21EE4033DB50D84806839DE62B3E9F7EE303",
     "status": "COMPLETE",
     "diagnostic_valid": true,
-    "classification": "H-R1-ORACLE-SEMANTIC-MISMATCH",
-    "all_p0": true,
-    "all_p1": true,
-    "all_p2": true,
-    "all_p3_closure": true,
-    "all_p3_dominance": true,
-    "retrospective_attribution_only": true
+    "classification": "H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED",
+    "all_c0": true,
+    "all_c1": true,
+    "all_c2": true,
+    "all_c3": true,
+    "structural_valid": true
   },
-  "p8g6": {
-    "fresh_cohort_ids": [
-      73,
-      89,
-      107,
-      131
-    ],
-    "previous_cohort_ids": [
-      17,
-      29,
-      43,
-      61
-    ],
-    "input_formula": "0.13*sin((i+11+37*s)*0.009)+0.04*cos((i+5+19*s)*0.017)+0.02*sin((i+3+23*s)*0.0043)",
-    "fresh_confirmation": true,
-    "primary_oracle": "R0 production-semantic float accumulator",
-    "r1_decision_role": "descriptive_only",
-    "layers": [
-      0,
+  "target": {
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "size_bytes": 4683074048,
+    "architecture": "qwen2",
+    "layers": 28,
+    "hidden": 3584,
+    "q_heads": 28,
+    "kv_heads": 4,
+    "head_dim": 128,
+    "ffn": 18944,
+    "vocab": 152064,
+    "kv_capacity": 4096
+  },
+  "q1": {
+    "execution_boundary": "pretokenized token IDs -> full model -> autoregressive generated token IDs",
+    "input_token_ids": [
       1,
-      2,
-      3
+      133151,
+      133152,
+      152062
     ],
-    "seq": 4,
-    "pos": 0,
-    "prefix_dispatches_per_seed": 58,
-    "prefix_submits_per_seed": 1,
-    "local_down_dispatches_per_seed": 1,
-    "local_down_submits_per_seed": 1,
-    "local_equivalence_gate": {
-      "max_abs": 0.0001,
-      "rmse": 0.000001
-    },
-    "decomposition_closure": {
-      "max_abs": 0.00001,
-      "rmse": 1e-7
-    },
-    "state_dominance_ratio_max": 0.05,
+    "prefill_seq": 4,
+    "decode_tokens": 4,
+    "decode_positions": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "sampler": "greedy_argmax",
+    "independent_executions": 2,
+    "tokenizer_in_scope": false,
+    "api_in_scope": false,
+    "prefill_dispatches": 441,
+    "decode_dispatches_per_step": 469,
+    "cpu_model_math_fallback_permitted": false,
+    "cpu_teacher_forcing_permitted": false,
+    "max_vulkan_allocation_bytes": 16374562816,
     "classifications": [
-      "H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED",
-      "H-FRESH-RATIO-SENSITIVITY",
-      "H-FRESH-PRODUCTION-LOCAL-RESIDUAL",
-      "CONFIRMATION-INVALID"
+      "Q1_FEASIBILITY_ESTABLISHED",
+      "Q1_REPRODUCIBILITY_FAILURE",
+      "Q1_EXECUTION_NOT_ESTABLISHED",
+      "Q1_INVALID"
     ],
-    "replacement_gate_definition_permitted": false
+    "performance_gate_defined": false,
+    "matched_baseline_required_for_q1": false
   },
   "implementation_permitted": true,
-  "target_run_permitted": true,
-  "p8g_verdict_frozen": "FAIL",
-  "p8g1_classification_frozen": "H-AMPLIFICATION",
-  "p8g2_classification_frozen": "H-NONLINEAR/UNEXPLAINED",
-  "p8g3_classification_frozen": "H-FP32-ACCUMULATION",
-  "p8g4_classification_frozen": "H-LOCAL-ERROR-NONNEGLIGIBLE",
-  "p8g5_classification_frozen": "H-R1-ORACLE-SEMANTIC-MISMATCH",
-  "p8h_blocked": true,
-  "full_inference_forbidden": true,
-  "next_on_completion": "adjudicate P8-G6 fresh production-semantic separation confirmation",
-  "implementation_commit_pending": false,
-  "implementation": {
-    "fresh_cohort_ids": [
-      73,
-      89,
-      107,
-      131
-    ],
-    "previous_cohort_ids_metadata_only": [
-      17,
-      29,
-      43,
-      61
-    ],
-    "input_formula_reused_exactly": true,
-    "prefix_scope": "L0-L2 full; L3 through SwiGLU",
-    "prefix_dispatches_per_seed": 58,
-    "prefix_submits_per_seed": 1,
-    "local_down_dispatches_per_seed": 1,
-    "local_down_submits_per_seed": 1,
-    "prepared_chains_reused_across_seeds": true,
-    "shader_count": 11,
-    "joint_r0_r1_oracle_cpu_only": true,
-    "joint_weight_decode": true,
-    "within_dot_term_order": "k=0..18943 preserved",
-    "cpu_workers_max": 8,
-    "r0_primary": true,
-    "r0": "float weight + float product + float accumulator + float output",
-    "r1": "same float weight/product + double accumulator + float output",
-    "r1_decision_role": "descriptive_only",
-    "c0_requires_r1_finite": true,
-    "c1_local_equivalence": {
-      "max_abs": 0.0001,
-      "rmse": 0.000001
-    },
-    "c2_decomposition_closure": {
-      "max_abs": 0.00001,
-      "rmse": 1e-7
-    },
-    "c3_state_dominance_ratio_max": 0.05,
-    "denominator_flooring": false,
-    "posthoc_normalization": false,
-    "replacement_gate_definition_permitted": false,
-    "p8g_verdict_change_permitted": false,
-    "target_experiment_run_in_lock_commit": false
-  }
+  "target_run_permitted": false,
+  "historical": {
+    "p8g": "FAIL",
+    "p8g1": "H-AMPLIFICATION",
+    "p8g2": "H-NONLINEAR/UNEXPLAINED",
+    "p8g3": "H-FP32-ACCUMULATION",
+    "p8g4": "H-LOCAL-ERROR-NONNEGLIGIBLE",
+    "p8g5": "H-R1-ORACLE-SEMANTIC-MISMATCH",
+    "p8g6": "H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED"
+  },
+  "full_inference_general_permitted": false,
+  "q1_end_to_end_target_run_permitted": false,
+  "next_on_success": "Q2 frozen matched performance/resource benchmark",
+  "implementation_commit_pending": true
 }

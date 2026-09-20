@@ -71,48 +71,43 @@ Rules:
 
 ## Current run
 
-P8-G remains frozen FAIL under its original 0.02 / 0.005 gate.
+ArcLLM is now on the governance main path: **Q1 real-model end-to-end feasibility**.
 
-Frozen causal chain:
+P8-G6 is frozen **H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED** on a fresh 4-seed cohort. All C0/C1/C2/C3 gates pass 4/4. This closes the bounded L3 FFN-down production-semantic blocker; it does not itself establish whole-model inference.
+
+Authoritative P8-G6 SHA256:
+- shader provenance: `1490475D0D7EAA0498FEEA5CD0A37460C4881FFFF676A7C912E0E113E2CAAC84`
+- fresh production-semantic result: `0526D3F1400080AF6B68D1D44CBD2AF897671B727EA924EC0D0C953C16FDD259`
+- summary: `13C36E5EB14D08F60C3DC9277F7A21EE4033DB50D84806839DE62B3E9F7EE303`
+
+Frozen causal history remains unchanged:
+- P8-G: **FAIL**
 - P8-G1: **H-AMPLIFICATION**
 - P8-G2: **H-NONLINEAR/UNEXPLAINED**
 - P8-G3: **H-FP32-ACCUMULATION**
 - P8-G4: **H-LOCAL-ERROR-NONNEGLIGIBLE**
 - P8-G5: **H-R1-ORACLE-SEMANTIC-MISMATCH**
+- P8-G6: **H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED**
 
-Authoritative P8-G5 SHA256:
-- shader provenance: `6483D82540EC31F3CE058B51FC48C9BABFED9983F7F59A090D9AE14917176F9A`
-- production-semantic attribution: `64565C94AD2D9EF85D1DFF8CE972FD263C2C1B4A28A28B5F6830F6EB9AD6E096`
-- summary: `1732663E0A9CF90848D54487E2C2D031EB1A5C2A90808A34ABB1C06D57995751`
+The project-level convergence governance supersedes the pre-governance suggestion to open another subsystem correctness-metric study. The next main-path question is Q1.
 
-P8-G5 is COMPLETE and diagnostic-valid. All P0/P1/P2/P3 closure/dominance checks pass, and classification is H-R1-ORACLE-SEMANTIC-MISMATCH. Production-matched R0 local residuals remain inside 1e-4 / 1e-6 on all four retrospective seeds, while the R0->R1 oracle shift accounts for most of the P8-G4 local term. Under R0 semantics the local/state ratios fall well below 5% for all four seeds.
+Q1 contract: `docs/P8_Q1_END_TO_END_CONTRACT.md`.
 
-P8-G5 is retrospective attribution only and does not establish generalization.
+Q1 freezes a real full-model compute run:
+- exact frozen 7B target;
+- pretokenized input IDs `[1,133151,133152,152062]`;
+- segmented embedding;
+- all 28 decoder layers;
+- GPU-resident KV;
+- final norm;
+- full 152064-logit segmented LM head;
+- greedy argmax;
+- exactly four autoregressive decode tokens;
+- two independent reset executions A/B;
+- inherited production graph census 441 prefill dispatches / 469 dispatches per decode step.
 
-P8-G6 implementation + static QA are locked and **READY TO RUN**. Contract: `docs/P8G6_CONTRACT.md`.
+Tokenizer/API and performance comparison are intentionally outside Q1.
 
-Run only after pulling the implementation-lock commit:
-
-```powershell
-py -3 .\tests\test_p8g6_package.py
-powershell.exe -ExecutionPolicy Bypass -File .\run_p8g6.ps1
-```
-
-Expected evidence:
-
-```text
-results\p8g6_shader_provenance.json
-results\p8g6_fresh_production_semantic_results.json
-results\p8g6_summary.json
-```
-
-The executable runs only fresh IDs {73,89,107,131}. R0 is the primary comparator for C1/C2/C3. R1 is emitted as descriptive-only diagnostics and is statically excluded from those decision metrics and from classification, except for its preregistered finite-output check in C0.
-
-Frozen gates remain unchanged:
-- local GPU vs R0: max_abs <=1e-4 / RMSE <=1e-6;
-- R0 compositional closure: max_abs <=1e-5 / RMSE <=1e-7;
-- local/state dominance: <=5% on both max and RMS.
-
-No fresh target experiment was run in the implementation-lock commit. No replacement correctness gate is defined. P8-H and full inference remain blocked.
+Status: **Q1 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION**. No end-to-end target run is permitted before implementation + static QA lock.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.

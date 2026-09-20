@@ -756,3 +756,19 @@ Default rule: a finding that does not directly block Q1/Q2/Q3 or invalidate acti
 Early promotion is allowed only when new evidence establishes a direct Q1/Q2/Q3 blocker, a frozen-evidence integrity problem, or an implementation/measurement defect that prevents correct execution of a frozen study. Promotion requires explicit evidence, causal hypothesis, falsification and stop condition.
 After final adjudication, the full registry is reviewed for impact before any additional investigation budget is spent. Dispositions are ARCHIVE_NO_ACTION, ENGINEERING_FOLLOWUP, DEFER_FURTHER or RESEARCH_REOPEN_CANDIDATE. RESEARCH_REOPEN_CANDIDATE still requires a separately frozen study before execution.
 No P8-G6 source, shader, runner, static test, manifest, metrics, threshold or target-run permission changed.
+
+
+## 2026-09-20 — P8-G6 COMPLETE / H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED frozen
+Authoritative byte-exact evidence SHA256: shader provenance 1490475D0D7EAA0498FEEA5CD0A37460C4881FFFF676A7C912E0E113E2CAAC84; fresh production-semantic result 0526D3F1400080AF6B68D1D44CBD2AF897671B727EA924EC0D0C953C16FDD259; summary 13C36E5EB14D08F60C3DC9277F7A21EE4033DB50D84806839DE62B3E9F7EE303.
+P8-G6 status COMPLETE, diagnostic_valid=true, structural_valid=true. Fresh cohort {73,89,107,131} is disjoint from {17,29,43,61}; R0 remains primary and R1 descriptive-only.
+All C0/C1/C2/C3 gates PASS 4/4. Per-seed production local R0 max_abs is 3.0517578125e-05 to 6.103515625e-05 and RMSE is 6.0679760680854e-07 to 9.11221665979798e-07, all within frozen 1e-4/1e-6. R0 decomposition closure is exact in the recorded metrics. Fresh local/state ratios are all far below 5%.
+Decision: P8-G6 classification H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED is FROZEN. Historical P8-G through P8-G5 outcomes remain unchanged.
+
+## 2026-09-20 — Post-P8-G6 governance transition to Q1
+The pre-governance P8-G6 contract suggested a separate correctness-metric qualification after a positive confirmation. That future-planning suggestion is superseded by the subsequently activated project governance; P8-G6 evidence and classification are not changed.
+Governance requires immediate return to Q1 -> Q2 -> Q3. P8-G6 has resolved the bounded L3 FFN-down production-semantic blocker and does not justify another subsystem micro/metric study before real-model execution.
+Frozen Q1 contract: docs/P8_Q1_END_TO_END_CONTRACT.md.
+Q1 execution boundary is pretokenized token IDs through full 28-layer model and four autoregressive greedy decode tokens. Tokenizer/API is excluded to avoid adding an unrelated P9 dependency.
+Frozen input token IDs are [1,133151,133152,152062], deliberately crossing the segmented embedding boundary. Two independent reset executions A/B are required.
+Inherited P7 production graph census is frozen as 441 prefill dispatches and 469 dispatches per cached decode step. Full segmented embedding/output, all 28 layers, GPU-resident KV, final norm, full 152064 logits and greedy feedback must execute with no CPU model-math fallback or teacher forcing.
+Decision: Q1 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION. No Q1 target run is permitted until implementation + static QA are locked. On Q1 PASS, next is Q2 matched performance/resource benchmark; no further subsystem study is allowed unless Q1 identifies a direct blocker under governance.
