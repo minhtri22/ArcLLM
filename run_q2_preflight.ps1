@@ -15,16 +15,19 @@ $PinnedRelease="v0.4.1"
 
 $Head=(& git -C $Here rev-parse HEAD).Trim()
 if($LASTEXITCODE -ne 0 -or -not $Head){throw "Q2 preflight cannot resolve HEAD"}
-$Critical=@(
- "src/q2_benchmark.cpp","baseline/q2_llama_adapter.cpp","baseline/CMakeLists.txt",
+$ImplementationCritical=@(
+ "src/q2_benchmark.cpp","src/p8c_segmented_access_correctness.cpp","src/gguf.cpp","src/gguf.h","src/tensor_store.cpp","src/tensor_store.h",
+ "baseline/q2_llama_adapter.cpp","baseline/CMakeLists.txt",
  "tools/q2_resource_sampler.py","tools/q2_gpu_sampler.ps1","tools/summarize_q2.py",
  "tools/compile_q2_shaders.ps1","tools/build_q2.ps1","tools/qualify_q2_baseline.ps1",
  "run_q2_preflight.ps1","run_q2.ps1","tests/test_q2_package.py","config/q2_workloads.json",
- "docs/Q2_MATCHED_BENCHMARK_CONTRACT.md","docs/Q2_IMPLEMENTATION.md","manifest.json"
+ "docs/Q2_MATCHED_BENCHMARK_CONTRACT.md"
 )
-& git -C $Here diff --quiet HEAD -- @Critical
+$GovernanceFiles=@("docs/Q2_IMPLEMENTATION.md","manifest.json","lineage.md",".github/workflows/q2-implementation-audit.yml")
+$CleanFiles=@($ImplementationCritical+$GovernanceFiles)
+& git -C $Here diff --quiet HEAD -- @CleanFiles
 if($LASTEXITCODE -ne 0){throw "Q2 preflight blocked: critical working-tree files differ from HEAD"}
-& git -C $Here diff --cached --quiet HEAD -- @Critical
+& git -C $Here diff --cached --quiet HEAD -- @CleanFiles
 if($LASTEXITCODE -ne 0){throw "Q2 preflight blocked: critical index files differ from HEAD"}
 
 $Q1Archive=Join-Path $Here "inputs\q1_return_to_chatgpt.authoritative.zip"
@@ -76,8 +79,10 @@ foreach($W in @("W-S","W-C")){
   if(-not[bool]$Obj.runtime.vulkan_log_present -or -not[bool]$Obj.runtime.full_offload){throw "Q2 baseline runtime is not Vulkan full-offload matched for $W"}
   if([int]$Obj.resolved.n_ctx -ne 4096 -or [int]$Obj.resolved.n_batch -ne 256 -or [int]$Obj.resolved.n_ubatch -ne 256 -or [string]$Obj.resolved.kv_k -ne "F32" -or [string]$Obj.resolved.kv_v -ne "F32"){throw "Q2 baseline resolved context mismatch for $W"}
   $ExpectedPrompt=if($W -eq "W-S"){4}else{256}
+  $ExpectedPromptHash=if($W -eq "W-S"){"93833ffb49890aba"}else{"5973d0cfd8ad6313"}
   if([int]$Obj.prompt_tokens -ne $ExpectedPrompt){throw "Q2 baseline prompt length mismatch for $W"}
-  $RuntimeRows += [ordered]@{workload=$W;path=(Resolve-Path $Out).Path;sha256=(Get-FileHash $Out -Algorithm SHA256).Hash.ToUpperInvariant();status=$Obj.status;vulkan_log_present=[bool]$Obj.runtime.vulkan_log_present;full_offload=[bool]$Obj.runtime.full_offload;offloaded_layers=[int]$Obj.runtime.offloaded_layers;offloaded_layers_total=[int]$Obj.runtime.offloaded_layers_total;decode_executed=[bool]$Obj.decode_executed;measured_attempts=[int]$Obj.measured_attempts}
+  if(([string]$Obj.prompt_hash_fnv1a64).ToLowerInvariant() -ne $ExpectedPromptHash){throw "Q2 baseline exact raw-token materialization mismatch for $W"}
+  $RuntimeRows += [ordered]@{workload=$W;path=(Resolve-Path $Out).Path;sha256=(Get-FileHash $Out -Algorithm SHA256).Hash.ToUpperInvariant();status=$Obj.status;prompt_hash_fnv1a64=[string]$Obj.prompt_hash_fnv1a64;vulkan_log_present=[bool]$Obj.runtime.vulkan_log_present;full_offload=[bool]$Obj.runtime.full_offload;offloaded_layers=[int]$Obj.runtime.offloaded_layers;offloaded_layers_total=[int]$Obj.runtime.offloaded_layers_total;decode_executed=[bool]$Obj.decode_executed;measured_attempts=[int]$Obj.measured_attempts}
 }
 
 $OS=Get-CimInstance Win32_OperatingSystem
@@ -87,12 +92,30 @@ if(@($CPU|Where-Object {$_.Name -like "*Ultra 7 258V*"}).Count -lt 1){throw "Q2 
 $Arc=@($GPU|Where-Object {$_.Name -like "*Arc*140V*"})
 if($Arc.Count -lt 1){throw "Q2 preflight Arc 140V not found"}
 if(@($Arc|Where-Object {$_.DriverVersion -eq "32.0.101.8860"}).Count -lt 1){throw "Q2 preflight frozen Intel GPU driver mismatch"}
+$PowerScheme=((powercfg /GETACTIVESCHEME 2>&1)|Out-String).Trim()
+$Battery=@()
+try{$Battery=@(Get-CimInstance -Namespace root\wmi -Class BatteryStatus -ErrorAction Stop|Select-Object PowerOnline,Charging,RemainingCapacity)}catch{}
+if($Battery.Count -gt 0 -and @($Battery|Where-Object {-not $_.PowerOnline}).Count -gt 0){throw "Q2 preflight requires AC power / PowerOnline=true"}
+$AcPowerOnline=if($Battery.Count -gt 0){$true}else{$null}
 
 $CriticalHashes=[ordered]@{}
-foreach($Rel in $Critical){$P=Join-Path $Here $Rel;$CriticalHashes[$Rel]=(Get-FileHash $P -Algorithm SHA256).Hash.ToUpperInvariant()}
+foreach($Rel in $ImplementationCritical){$P=Join-Path $Here $Rel;$CriticalHashes[$Rel]=(Get-FileHash $P -Algorithm SHA256).Hash.ToUpperInvariant()}
 $ArcExe=Join-Path $Here "arcllm_q2.exe"
 $ShaderProv=Join-Path $Results "q2_arcllm_shader_provenance.json"
 if(-not(Test-Path $ArcExe) -or -not(Test-Path $ShaderProv)){throw "Q2 preflight ArcLLM build artifacts missing"}
+$Prov=Get-Content $ShaderProv -Raw -Encoding UTF8|ConvertFrom-Json
+if([string]$Prov.schema -ne "arcllm.q2.arcllm_shader_provenance.v1" -or [int]$Prov.shader_count -ne 16){throw "Q2 preflight shader provenance invalid"}
+$ShaderSourceHashes=[ordered]@{};$CompiledShaderHashes=[ordered]@{}
+foreach($Item in @($Prov.compiled)){
+  $Src=Join-Path $Here ("shaders\"+[string]$Item.source)
+  $Spv=Join-Path $Here ("compiled_shaders\"+[string]$Item.spv)
+  if(-not(Test-Path $Src) -or -not(Test-Path $Spv)){throw "Q2 preflight shader artifact missing"}
+  $SrcHash=(Get-FileHash $Src -Algorithm SHA256).Hash.ToUpperInvariant()
+  $SpvHash=(Get-FileHash $Spv -Algorithm SHA256).Hash.ToUpperInvariant()
+  if($SrcHash -ne ([string]$Item.source_sha256).ToUpperInvariant() -or $SpvHash -ne ([string]$Item.spv_sha256).ToUpperInvariant()){throw "Q2 preflight shader provenance/hash mismatch"}
+  $ShaderSourceHashes[[string]$Item.source]=$SrcHash
+  $CompiledShaderHashes[[string]$Item.spv]=$SpvHash
+}
 $Lock=[ordered]@{
  schema="arcllm.q2.preflight_lock.v1"
  implementation_commit=$Head
@@ -105,13 +128,17 @@ $Lock=[ordered]@{
  baseline_exe_sha256=$BaselineExeHash
  arcllm_exe_sha256=(Get-FileHash $ArcExe -Algorithm SHA256).Hash.ToUpperInvariant()
  shader_provenance_sha256=(Get-FileHash $ShaderProv -Algorithm SHA256).Hash.ToUpperInvariant()
+ shader_source_sha256=$ShaderSourceHashes
+ compiled_shader_sha256=$CompiledShaderHashes
  static_qa="PASS"
  arcllm_build="PASS"
  baseline_build_api="PASS"
  baseline_runtime_qualification="PASS"
  runtime_qualifications=$RuntimeRows
- hardware=[ordered]@{os_caption=$OS.Caption;os_version=$OS.Version;os_build=$OS.BuildNumber;cpu=$CPU;gpu=$GPU}
+ hardware=[ordered]@{os_caption=$OS.Caption;os_version=$OS.Version;os_build=$OS.BuildNumber;cpu=$CPU;gpu=$GPU;power_scheme=$PowerScheme;battery=$Battery;ac_power_online=$AcPowerOnline}
  critical_file_sha256=$CriticalHashes
+ measurement_authorization_required=$true
+ measurement_authorized=$false
  measurements_executed=$false
  measured_attempts=0
  q3_started=$false

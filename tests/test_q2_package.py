@@ -57,13 +57,14 @@ for x in [
  "llama_batch_get_one(in.data()","mp.n_gpu_layers=-1",
  "cp.n_ctx=4096","cp.n_batch=256","cp.n_ubatch=256",
  "cp.n_threads=8","cp.n_threads_batch=8","cp.type_k=GGML_TYPE_F32","cp.type_v=GGML_TYPE_F32",
- "llama_sampler_init_greedy","llama_memory_clear","di<31","i<5",
+ "q2_greedy_finite","llama_memory_clear","di<31","i<5",
  '"raw_token_input\\":true','"tokenizer_used\\":false','"eos_early_stop\\":false',
  '"speculative_decoding\\":false','"advantage_claimed\\":false'
 ]: assert x in base,x
 assert "llama_tokenize(" not in base
 assert "llama_vocab_is_eog" not in base
 assert "common_sampler" not in base
+assert "llama_sampler_sample" not in base and "llama_sampler_init_greedy" not in base
 assert "--qualify-only" in base
 assert "llama_log_set(q2_log_callback" in base
 assert "arcllm.q2.baseline_runtime_qualification.v1" in base
@@ -87,7 +88,9 @@ assert "target_model_executed=$false" in qual
 assert 'qualification="BUILD_API_QUALIFIED"' in qual
 assert 'VulkanVersion="1.4.357.0"' in qual
 assert 'Visual Studio 17 2022' in qual
-assert 'vulkan_installer_sha256' in qual
+assert '81F474711E9042F4CD22B31B2F7A8870DB2E428B21586FB43DD80150BE97310D' in qual
+assert 'Vulkan SDK installer SHA mismatch' in qual
+assert 'vulkan_installer_sha256_expected' in qual and 'vulkan_installer_sha256_observed' in qual
 assert 'arcllm.q2.baseline_qualification.v2' in qual
 
 sampler=txt("tools/q2_resource_sampler.py")
@@ -100,6 +103,8 @@ gpu=txt("tools/q2_gpu_sampler.ps1")
 assert "GPU Engine" in gpu and "GPU Process Memory" in gpu
 assert "SampleMilliseconds=100" in gpu
 assert "engtype_Compute" in gpu and "engtype_3D" in gpu
+assert "Read-CounterValues" in gpu and 'source="max(Compute,3D)"' in gpu
+assert 'Get-Counter -Counter @(' not in gpu
 assert 'encoding="utf-8-sig"' in sampler
 
 summ=txt("tools/summarize_q2.py")
@@ -121,7 +126,12 @@ assert "q2_preflight_lock.json" in pre
 assert "ZERO MEASURED ATTEMPTS" in pre
 assert "measurements_executed=$false" in pre and "measured_attempts=0" in pre
 assert "full_offload" in pre
+assert "93833ffb49890aba" in pre and "5973d0cfd8ad6313" in pre
 assert "critical_file_sha256" in pre
+assert "src/p8c_segmented_access_correctness.cpp" in pre and "src/gguf.cpp" in pre and "src/tensor_store.cpp" in pre
+assert "shader_source_sha256" in pre and "compiled_shader_sha256" in pre
+assert "power_scheme=$PowerScheme" in pre and "ac_power_online=$AcPowerOnline" in pre
+assert "measurement_authorized=$false" in pre
 assert "q2_preflight_return_to_chatgpt.zip" in pre
 
 runner=txt("run_q2.ps1")
@@ -137,10 +147,19 @@ assert "q2_resource_sampler.py" in runner and "summarize_q2.py" in runner
 assert "q2_return_to_chatgpt.zip" in runner
 assert "q3_started=$false" in runner
 assert "q2_preflight_lock.json missing" in runner
-assert "preflight HEAD mismatch" in runner
+assert "q2_execution_authorization.json missing" in runner
+assert "Q2_MEASUREMENT_AUTHORIZED" in runner
+assert "merge-base --is-ancestor" in runner
 assert "critical file drift since preflight" in runner
 assert "target differs from preflight" in runner
 assert "baseline executable differs from preflight" in runner
+assert "ArcLLM executable differs from qualified/authorized artifact" in runner
+assert "compiled shader drift since preflight" in runner
+assert "active power scheme drift since preflight" in runner
+runner_after_static=runner.split('py -3 (Join-Path $Here "tests\\test_q2_package.py")',1)[1]
+assert 'tools\\compile_q2_shaders.ps1' not in runner_after_static
+assert 'tools\\build_q2.ps1' not in runner_after_static
+assert "--preflight-lock" in runner and "--execution-authorization" in runner
 
 m=json.loads(txt("manifest.json"))
 assert m["phase"]=="Q2-MATCHED-BENCHMARK"
@@ -156,5 +175,8 @@ assert m["status"]=="IMPLEMENTATION_STATIC_LOCKED"
 assert m["q2"]["status"]=="IMPLEMENTATION_STATIC_LOCKED"
 assert m["q2"]["local_preflight_permitted"] is True
 assert m["q2"]["measurement_run_permitted"] is False
+assert m["q2"]["execution_authorization_required"] is True
+assert m["q2"]["execution_authorization_committed"] is False
+assert not (ROOT/"config/q2_execution_authorization.json").exists()
 
 print("ArcLLM Q2 static package: PASS")

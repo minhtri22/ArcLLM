@@ -25,6 +25,8 @@ def main():
     ap.add_argument("--workloads",required=True)
     ap.add_argument("--environment",required=True)
     ap.add_argument("--baseline-qualification",required=True)
+    ap.add_argument("--preflight-lock",required=True)
+    ap.add_argument("--execution-authorization",required=True)
     ap.add_argument("--implementation-commit",required=True)
     ap.add_argument("--model-sha256",required=True)
     a=ap.parse_args()
@@ -105,10 +107,24 @@ def main():
         qual.get("release")=="v0.4.1" and qual.get("qualification")=="BUILD_API_QUALIFIED" and
         qual.get("raw_token_adapter") is True and qual.get("target_model_executed") is False
     )
+    pf=json.loads(Path(a.preflight_lock).read_text(encoding="utf-8"))
+    auth=json.loads(Path(a.execution_authorization).read_text(encoding="utf-8"))
+    runtime_quals=pf.get("runtime_qualifications",[])
+    baseline_runtime_qualified=(
+        pf.get("baseline_runtime_qualification")=="PASS" and len(runtime_quals)==2 and
+        {x.get("workload") for x in runtime_quals}=={"W-S","W-C"} and
+        all(x.get("status")=="QUALIFIED" and x.get("full_offload") is True and x.get("decode_executed") is False and x.get("measured_attempts")==0 for x in runtime_quals)
+    )
+    authorization_bound=(
+        auth.get("schema")=="arcllm.q2.execution_authorization.v1" and auth.get("authorized") is True and
+        auth.get("decision")=="Q2_MEASUREMENT_AUTHORIZED" and auth.get("preflight_implementation_commit")==a.implementation_commit and
+        str(auth.get("target_sha256","")).upper()==a.model_sha256.upper()
+    )
     candidate="Q2_EVIDENCE_READY_FOR_ADJUDICATION"
     if not mandatory_valid:candidate="Q2_MEASUREMENT_INVALID"
     elif not runtime_cells_complete:candidate="Q2_RUNTIME_INCOMPLETE"
-    elif not baseline_build_qualified:candidate="Q2_BASELINE_NOT_MATCHED"
+    elif not baseline_build_qualified or not baseline_runtime_qualified:candidate="Q2_BASELINE_NOT_MATCHED"
+    elif not authorization_bound:candidate="Q2_MEASUREMENT_INVALID"
 
     summary={
         "schema":"arcllm.q2.summary.v1",
@@ -118,7 +134,8 @@ def main():
         "mandatory_resource_measurements_valid":mandatory_valid,
         "runtime_cells_complete":runtime_cells_complete,
         "baseline_build_api_qualified":baseline_build_qualified,
-        "baseline_runtime_match_requires_log_adjudication":True,
+        "baseline_runtime_qualified":baseline_runtime_qualified,
+        "measurement_authorization_bound":authorization_bound,
         "candidate_classification":candidate,
         "advantage_adjudicated":False,
         "winner_declared":False,
@@ -131,8 +148,9 @@ def main():
 
     artifact_paths=[
         Path(a.contract),Path(a.workloads),Path(a.environment),Path(a.baseline_qualification),
-        summary_path,comparison_path
+        Path(a.preflight_lock),Path(a.execution_authorization),summary_path,comparison_path
     ]
+    artifact_paths += sorted(rd.glob("q2_baseline_runtime_qualification_*.json"))
     for key,_,_ in CELLS:
         artifact_paths += [rd/f"q2_{key}_result.json",rd/f"q2_{key}_resources.json",rd/f"q2_{key}.log"]
     manifest={

@@ -10,6 +10,7 @@ $PinnedCommit="391fac16460f15233a7740550d858ac96df3419d"
 $PinnedRelease="v0.4.1"
 $RepoUrl="https://github.com/ggml-org/llama.cpp.git"
 $VulkanVersion="1.4.357.0"
+$ExpectedVulkanInstallerSha="81F474711E9042F4CD22B31B2F7A8870DB2E428B21586FB43DD80150BE97310D"
 $VulkanHome="C:\VulkanSDK\$VulkanVersion"
 $InstallerSha=$null
 if(-not $LlamaDir){$LlamaDir=Join-Path $Root "third_party\llama.cpp-q2"}
@@ -23,6 +24,7 @@ if(-not $env:VULKAN_SDK -or -not(Test-Path (Join-Path $env:VULKAN_SDK "Bin\glslc
     $Url="https://sdk.lunarg.com/sdk/download/$VulkanVersion/windows/vulkansdk-windows-X64-$VulkanVersion.exe"
     Invoke-WebRequest -UseBasicParsing -Uri $Url -OutFile $Installer
     $InstallerSha=(Get-FileHash $Installer -Algorithm SHA256).Hash.ToUpperInvariant()
+    if($InstallerSha -ne $ExpectedVulkanInstallerSha){throw "Q2 Vulkan SDK installer SHA mismatch"}
     & $Installer --accept-licenses --default-answer --confirm-command install
     if($LASTEXITCODE -ne 0){throw "Q2 Vulkan SDK install failed"}
     if(-not(Test-Path (Join-Path $VulkanHome "Bin\glslc.exe"))){throw "Q2 pinned Vulkan SDK not found after install"}
@@ -88,7 +90,8 @@ $Q=[ordered]@{
   build_backend="Vulkan"
   vulkan_sdk=$env:VULKAN_SDK
   vulkan_sdk_version=$VulkanVersion
-  vulkan_installer_sha256=$InstallerSha
+  vulkan_installer_sha256_expected=$ExpectedVulkanInstallerSha
+  vulkan_installer_sha256_observed=$InstallerSha
   cmake=$CMakeVersion
   generator="Visual Studio 17 2022 x64"
   build_shared_libs=$false

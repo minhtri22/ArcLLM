@@ -62,7 +62,8 @@ Frozen baseline configuration:
 - `n_threads_batch=8`;
 - K/V cache F32;
 - KQV offload enabled;
-- greedy sampler;
+- greedy argmax via one direct full-vocabulary finite+argmax scan;
+- no llama.cpp sampler-chain copy/second host scan inside primary timing;
 - no EOS early stop;
 - no speculative decode;
 - one sequence.
@@ -162,12 +163,9 @@ The preflight:
 - writes `results/q2_preflight_lock.json`;
 - packages `results/q2_preflight_return_to_chatgpt.zip`.
 
-The measurement runner `run_q2.ps1` refuses to run unless the preflight lock:
-- matches the current HEAD;
-- matches SHA256 of every critical implementation file;
-- matches the exact model and baseline executable;
-- contains PASS for static QA, ArcLLM build, baseline build/API qualification and baseline runtime qualification;
-- proves zero prior measured attempts.
+The measurement runner `run_q2.ps1` has two independent gates. First it requires the returned preflight lock to bind the exact implementation-critical source set, target model, ArcLLM executable, baseline executable, shader provenance, all 16 shader source/SPIR-V hashes, OS build, power scheme and AC state. Second it requires a later **committed** `config/q2_execution_authorization.json` created only after independent adjudication of that returned preflight evidence.
+
+The final authorization must bind the preflight-lock SHA256 and the same executable/shader/source hashes. A later governance-only authorization commit may advance `main`, but all implementation-critical hashes must still equal the preflight commit. The measurement runner does **not** rebuild ArcLLM or shaders after preflight; it executes only the exact artifacts qualified and authorized by hash.
 
 ## Baseline source/API qualification
 
@@ -190,14 +188,16 @@ This is source/API qualification only. Binary/runtime qualification remains a pr
 
 ## GPU sampler hardening
 
-Windows GPU sampling now probes both `engtype_Compute` and `engtype_3D` for the child PID, because Intel Arc workloads can be surfaced under either class. GPU data remains conditional. PowerShell UTF-8 BOM on JSONL is handled with `utf-8-sig`.
+Windows GPU sampling now probes `engtype_Compute` and `engtype_3D` independently for the child PID, because Intel Arc workloads can be surfaced under either class. Missing one class no longer invalidates the other; if both are present, the sampler uses the larger class aggregate instead of summing them and double-counting an aliased workload. GPU data remains conditional. PowerShell UTF-8 BOM on JSONL is handled with `utf-8-sig`.
+
+The pinned Vulkan SDK 1.4.357.0 bootstrap verifies the official Windows x64 installer SHA256 `81F474711E9042F4CD22B31B2F7A8870DB2E428B21586FB43DD80150BE97310D` before installation.
 
 ## Current authorization
 
 Q2 implementation is **STATIC_LOCKED**.
 
-Permitted next action: target-local `run_q2_preflight.ps1`, which executes zero measured attempts.
+Permitted next action: target-local `run_q2_preflight.ps1`, which executes zero `llama_decode` calls and zero measured attempts.
 
-The 20 measured attempts remain forbidden until the returned preflight evidence is independently adjudicated and the final Q2 execution lock is committed.
+The 20 measured attempts remain mechanically blocked after preflight: `run_q2.ps1` also requires the separately committed final authorization file and manifest authorization. Therefore a successful local preflight alone cannot start measurement.
 
 Q3 remains blocked.

@@ -36,10 +36,19 @@ static std::string hex64(uint64_t v){
 static std::string esc(const std::string&s){
     std::string o;for(char c:s){if(c=='\\'||c=='"'){o+='\\';o+=c;}else if(c=='\n')o+="\\n";else if(c=='\r')o+="\\r";else o+=c;}return o;
 }
-static bool logits_finite(const float * p,int32_t n){
-    if(!p)return false;
-    for(int32_t i=0;i<n;++i)if(!std::isfinite(p[i]))return false;
-    return true;
+struct Q2GreedyScan{llama_token token=0;bool finite=false;};
+static Q2GreedyScan q2_greedy_finite(const float * p,int32_t n){
+    Q2GreedyScan r;
+    if(!p||n<=0)return r;
+    float best=-std::numeric_limits<float>::infinity();
+    bool have=false,all_finite=true;
+    for(int32_t i=0;i<n;++i){
+        const float v=p[i];
+        if(!std::isfinite(v)){all_finite=false;continue;}
+        if(!have||v>best){best=v;r.token=llama_token(i);have=true;}
+    }
+    r.finite=all_finite&&have;
+    return r;
 }
 struct Attempt{
     int index=-1;bool warmup=false,success=false,final_logits_finite=false;
@@ -134,16 +143,9 @@ int main(int argc,char ** argv){
             return (vulkan_log&&full_offload)?0:3;
         }
 
-        auto sp=llama_sampler_chain_default_params();
-        sp.no_perf=false;
-        llama_sampler * smpl=llama_sampler_chain_init(sp);
-        if(!smpl)throw std::runtime_error("llama sampler chain init failed");
-        llama_sampler_chain_add(smpl,llama_sampler_init_greedy());
-
         auto run_one=[&](int index,bool warmup)->Attempt{
             Attempt a;a.index=index;a.warmup=warmup;
             llama_memory_clear(llama_get_memory(ctx),true);
-            llama_sampler_reset(smpl);
             const std::string kind=warmup?"WARMUP":"ATTEMPT";
             std::cout<<"Q2_"<<kind<<"_BEGIN|llama.cpp|"<<workload<<"|"<<index<<"\n"<<std::flush;
             try{
@@ -153,8 +155,9 @@ int main(int argc,char ** argv){
                 int rc=llama_decode(ctx,batch);
                 if(rc!=0)throw std::runtime_error("llama_decode prefill rc="+std::to_string(rc));
                 float * logits=llama_get_logits_ith(ctx,-1);
-                if(!logits_finite(logits,n_vocab))throw std::runtime_error("baseline prefill logits non-finite");
-                llama_token next=llama_sampler_sample(smpl,ctx,-1);
+                const Q2GreedyScan prefill_scan=q2_greedy_finite(logits,n_vocab);
+                if(!prefill_scan.finite)throw std::runtime_error("baseline prefill logits non-finite");
+                llama_token next=prefill_scan.token;
                 auto t1=std::chrono::steady_clock::now();
                 a.ttft_ms=std::chrono::duration<double,std::milli>(t1-t0).count();
                 a.generated.push_back(next);
@@ -165,8 +168,9 @@ int main(int argc,char ** argv){
                     rc=llama_decode(ctx,batch);
                     if(rc!=0)throw std::runtime_error("llama_decode cached rc="+std::to_string(rc));
                     logits=llama_get_logits_ith(ctx,-1);
-                    if(!logits_finite(logits,n_vocab))throw std::runtime_error("baseline decode logits non-finite");
-                    next=llama_sampler_sample(smpl,ctx,-1);
+                    const Q2GreedyScan decode_scan=q2_greedy_finite(logits,n_vocab);
+                    if(!decode_scan.finite)throw std::runtime_error("baseline decode logits non-finite");
+                    next=decode_scan.token;
                     a.generated.push_back(next);
                 }
                 auto td1=std::chrono::steady_clock::now();
@@ -174,7 +178,7 @@ int main(int argc,char ** argv){
                 a.e2e_ms=std::chrono::duration<double,std::milli>(td1-t0).count();
                 a.decode_tps=31.0/(a.decode_ms/1000.0);
                 logits=llama_get_logits_ith(ctx,-1);
-                a.final_logits_finite=logits_finite(logits,n_vocab);
+                a.final_logits_finite=true;
                 a.final_logits_hash=hex64(fnv1a64(logits,size_t(n_vocab)*sizeof(float)));
                 a.generated_hash=hex64(fnv1a64(a.generated.data(),a.generated.size()*sizeof(llama_token)));
                 a.success=a.final_logits_finite&&a.generated.size()==32u;
@@ -209,7 +213,6 @@ int main(int argc,char ** argv){
         o<<"],\n  \"governance\":{\"raw_token_input\":true,\"tokenizer_used\":false,\"chat_template_used\":false,\"eos_early_stop\":false,\"speculative_decoding\":false,\"q2_characterization_only\":true,\"advantage_claimed\":false}\n}\n";
         o.close();
 
-        llama_sampler_free(smpl);
         llama_free(ctx);
         llama_model_free(model);
         llama_backend_free();

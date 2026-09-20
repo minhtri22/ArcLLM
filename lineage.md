@@ -869,3 +869,11 @@ Decision: IMPLEMENTATION_STATIC_LOCKED. Local preflight is permitted; Q2 measure
 
 ## 2026-09-20 — Q2 local preflight tooling hardening
 Baseline qualifier now resolves CMake from PATH or the installed Visual Studio 2022 CMake bundle via vswhere. This is packaging/tooling hardening only; baseline pin, Vulkan backend, workloads, timing definitions, gates and Q2 authorization are unchanged. No target model or measured attempt was executed.
+
+
+## 2026-09-20 — Q2 independent audit correction before target-local preflight
+Independent re-audit of static-lock commit df33d95bbe32a3cf43fd9eb05f831ddec2f324cb found measurement authorization and artifact-binding gaps: successful preflight alone could reach the 20-attempt runner, and the runner rebuilt ArcLLM/shaders without proving the measured binaries matched preflight hashes. It also found a baseline timing asymmetry where logits were scanned for finiteness and then copied/scanned again by llama_sampler_sample, while ArcLLM used one direct full-vocabulary scan.
+Correction: measurement now requires a separate committed config/q2_execution_authorization.json after independent preflight adjudication; runner accepts a later governance-only commit only when every implementation-critical hash remains preflight-identical. Runner no longer rebuilds ArcLLM/shaders and instead verifies exact Arc executable, baseline executable, shader provenance, 16 source hashes and 16 SPIR-V hashes.
+Baseline greedy selection now uses one direct finite+argmax pass over llama.cpp logits, preserving greedy semantics while removing the extra host copy/second scan from primary timing. Target-local preflight additionally binds exact raw-prompt hashes, OS build, power scheme, AC state, and complete implementation dependencies.
+GPU counter probing now tolerates either Compute or 3D availability without summing aliased classes. Vulkan SDK 1.4.357.0 bootstrap now verifies the official Windows x64 installer SHA256 before execution.
+Decision: static package repaired; local preflight may be attempted only after this commit is pulled. Twenty measured attempts remain blocked. Q3 remains closed.
