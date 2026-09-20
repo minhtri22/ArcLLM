@@ -2,7 +2,7 @@
   "phase": "Q2-MATCHED-BENCHMARK",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "IMPLEMENTATION_STATIC_LOCKED",
+  "status": "Q2_MEASUREMENT_AUTHORIZED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "Q2_PERFORMANCE_RESOURCE_ENVELOPE",
@@ -84,7 +84,7 @@
     "evidence_manifest_sha256": "89B22986B6BF5F4776413BD13D0F3CDAEF8B13B9EAA1B11000D9027F0F8F9548"
   },
   "implementation_permitted": true,
-  "target_run_permitted": false,
+  "target_run_permitted": true,
   "historical": {
     "p8g": "FAIL",
     "p8g1": "H-AMPLIFICATION",
@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Connect AC until Windows reports system AC Online -> pull fail-fast preflight ordering -> rerun zero-measurement preflight -> return q2_preflight_return_to_chatgpt.zip",
+  "next_on_success": "Pull final Q2 execution authorization and run run_q2.ps1 exactly once to execute the frozen 20-attempt matched characterization; return q2_return_to_chatgpt.zip for adjudication. Q3 remains closed.",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -154,7 +154,7 @@
   },
   "q2": {
     "title": "matched performance / resource characterization",
-    "status": "IMPLEMENTATION_STATIC_LOCKED",
+    "status": "Q2_MEASUREMENT_AUTHORIZED",
     "baseline": {
       "repository": "ggml-org/llama.cpp",
       "release": "v0.4.1",
@@ -186,7 +186,7 @@
     "measured_attempts_per_cell": 5,
     "measured_cells": 4,
     "total_measured_attempts": 20,
-    "target_run_permitted": false,
+    "target_run_permitted": true,
     "implementation_permitted": true,
     "advantage_claim_permitted": false,
     "classifications": [
@@ -217,17 +217,17 @@
       "measured_runner_rebuilds_preflight_artifacts": false
     },
     "baseline_qualification": {
-      "status": "LOCAL_ZERO_MEASUREMENT_PREFLIGHT_REQUIRED",
+      "status": "PASS",
       "build_api_qualification_required": true,
       "runtime_qualification_required": true,
       "target_model_load_permitted_in_preflight": true,
       "decode_permitted_in_preflight": false,
       "measured_attempts_permitted_in_preflight": 0
     },
-    "implementation_lock_pending": true,
+    "implementation_lock_pending": false,
     "twenty_attempt_measurement_started": false,
     "local_preflight_permitted": true,
-    "measurement_run_permitted": false,
+    "measurement_run_permitted": true,
     "static_qa": "CONNECTOR_EQUIVALENT_PASS",
     "github_ci": {
       "status": "INFRASTRUCTURE_NO_STEPS",
@@ -263,7 +263,7 @@
       "permitted": true,
       "measurements_executed": false,
       "measured_attempts": 0,
-      "status": "READY_FOR_TARGET_LOCAL_ZERO_MEASUREMENT",
+      "status": "PASS_ADJUDICATED",
       "final_execution_authorization_file": "config/q2_execution_authorization.json",
       "artifact_binding": [
         "ArcLLM executable SHA256",
@@ -318,11 +318,16 @@
         "unknown_status": 255,
         "per_battery_wmi_role": "descriptive_only"
       },
-      "environment_gate_order": "FAIL_FAST_BEFORE_MODEL_HASH_BUILD_OR_RUNTIME_QUALIFICATION"
+      "environment_gate_order": "FAIL_FAST_BEFORE_MODEL_HASH_BUILD_OR_RUNTIME_QUALIFICATION",
+      "authoritative_bundle_sha256": "631B5C0B01AF30B7005CFC17705A7529A1C718FB5F1C9F2958B1E14E258D699D",
+      "authoritative_lock_sha256": "3973BE933EE27E93803171856189B0406D56F35E6745E8520CD3EFE030153BEB",
+      "implementation_commit": "43afd71161c4dc8c766c09c3b55d5eca48352bde",
+      "adjudication": "PASS",
+      "execution_authorized": true
     },
     "execution_authorization_required": true,
-    "execution_authorization_committed": false,
-    "preflight_adjudication_required": true,
+    "execution_authorization_committed": true,
+    "preflight_adjudication_required": false,
     "vulkan_sdk_installer_sha256": "81F474711E9042F4CD22B31B2F7A8870DB2E428B21586FB43DD80150BE97310D",
     "baseline_identity_correction": {
       "status": "CORRECTED_PRE_MEASUREMENT",
@@ -337,6 +342,15 @@
         "qwen2_5_runtime_path_change_detected": false
       },
       "measured_attempts_at_correction": 0,
+      "q3_started": false
+    },
+    "execution_authorization": {
+      "file": "config/q2_execution_authorization.json",
+      "decision": "Q2_MEASUREMENT_AUTHORIZED",
+      "preflight_implementation_commit": "43afd71161c4dc8c766c09c3b55d5eca48352bde",
+      "preflight_bundle_sha256": "631B5C0B01AF30B7005CFC17705A7529A1C718FB5F1C9F2958B1E14E258D699D",
+      "preflight_lock_sha256": "3973BE933EE27E93803171856189B0406D56F35E6745E8520CD3EFE030153BEB",
+      "measured_attempts_before_authorization": 0,
       "q3_started": false
     }
   }

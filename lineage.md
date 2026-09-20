@@ -936,3 +936,11 @@ No environmental criterion is relaxed: ACLineStatus must still equal 1, frozen C
 
 ## 2026-09-20 — Q2 fail-fast static-order guard corrected
 Post-commit source QA found the new regression assertion searched for the first textual occurrence of "qualify_q2_baseline.ps1", which appears earlier inside the ImplementationCritical filename list and therefore did not represent execution order. The runtime script ordering itself was correct. Static QA now compares GetSystemPowerStatus against the actual baseline invocation construction "$QualArgs=@(" instead. No runtime behavior or scientific contract changed.
+
+
+## 2026-09-20 — Q2 zero-measurement preflight PASS / measurement authorization opened
+Authoritative returned preflight bundle SHA256: 631B5C0B01AF30B7005CFC17705A7529A1C718FB5F1C9F2958B1E14E258D699D. Preflight lock SHA256: 3973BE933EE27E93803171856189B0406D56F35E6745E8520CD3EFE030153BEB. Implementation commit: 43afd71161c4dc8c766c09c3b55d5eca48352bde.
+Exact target SHA/size and authoritative Q1 archive hash PASS. Baseline is exact llama.cpp v0.4.1 annotated-tag commit b29c606e28a01b1bc8c1351026a0fa6e616bf6c4; build/API qualification PASS. W-S and W-C runtime qualifications both PASS with exact prompt hashes 93833ffb49890aba / 5973d0cfd8ad6313, Vulkan full offload 29/29, F32 KV configuration, decode_executed=false and measured_attempts=0.
+ArcLLM executable, baseline executable, 16-source/16-SPIR-V shader provenance and all 19 implementation-critical hashes are bound. Repository-vs-Windows hash review confirmed the apparent SHA differences on selected PowerShell files are exactly LF-versus-CRLF checkout normalization; reconstructed CRLF hashes equal the preflight lock and no implementation drift exists.
+Environment PASS: Windows 10.0.26200 build 26200, Core Ultra 7 258V, Arc 140V driver 32.0.101.8860, Balanced power scheme, system AC Online via GetSystemPowerStatus. Preflight remained zero-measurement and Q3 remained closed.
+Decision: Q2_MEASUREMENT_AUTHORIZED. A governance-only authorization commit may open exactly the frozen four cells × five measured attempts. No advantage verdict is permitted; Q3 remains closed until returned Q2 evidence is independently adjudicated.
