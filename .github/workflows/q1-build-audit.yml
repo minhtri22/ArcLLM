@@ -1,0 +1,59 @@
+name: Q1 BuildOnly Audit
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/q1-build-audit.yml"
+      - "src/q1_end_to_end.cpp"
+      - "shaders/p8q1_lmhead_q6k_segmented_chunk.comp"
+      - "tools/compile_q1_shaders.ps1"
+      - "tools/build_q1.ps1"
+      - "tests/test_q1_package.py"
+      - "docs/P8_Q1_END_TO_END_CONTRACT.md"
+      - "docs/P8_Q1_IMPLEMENTATION.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  q1-buildonly:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact commit
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Static package contract
+        shell: pwsh
+        run: py -3 tests/test_q1_package.py
+
+      - name: Compile pinned Q1 shaders
+        shell: pwsh
+        run: powershell.exe -ExecutionPolicy Bypass -File tools\compile_q1_shaders.ps1
+
+      - name: Native Windows build
+        shell: pwsh
+        run: powershell.exe -ExecutionPolicy Bypass -File tools\build_q1.ps1
+
+      - name: Assert executable exists
+        shell: pwsh
+        run: |
+          if (-not (Test-Path .\arcllm_q1.exe)) { throw "arcllm_q1.exe missing" }
+          Get-Item .\arcllm_q1.exe | Select-Object Name,Length,LastWriteTime
+
+      - name: Upload BuildOnly evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: q1-buildonly-${{ github.sha }}
+          if-no-files-found: warn
+          path: |
+            results/q1_shader_provenance.json
+            arcllm_q1.exe

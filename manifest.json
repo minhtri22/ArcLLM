@@ -56,7 +56,6 @@
     "decode_dispatches_per_step": 469,
     "cpu_model_math_fallback_permitted": false,
     "cpu_teacher_forcing_permitted": false,
-    "max_vulkan_allocation_bytes": 16374562816,
     "classifications": [
       "Q1_FEASIBILITY_ESTABLISHED",
       "Q1_REPRODUCIBILITY_FAILURE",
@@ -74,7 +73,8 @@
       7,
       8
     ],
-    "residency_gate": "requested Q1 residency <= P8-B proven envelope and <= 15.25 GiB usable budget"
+    "residency_gate": "requested Q1 residency <= P8-B proven envelope and <= 15.25 GiB usable budget",
+    "usable_vulkan_budget_bytes": 16374562816
   },
   "implementation_permitted": true,
   "target_run_permitted": true,
@@ -94,5 +94,10 @@
   "q2_permitted": false,
   "q3_permitted": false,
   "implementation_review": "STATIC_PASS",
-  "pre_execution_clarification": "v0.1a: 5 generated tokens total; residency wording aligned to P8-B proven envelope"
+  "pre_execution_clarification": "v0.1a: 5 generated tokens total; residency wording aligned to P8-B proven envelope",
+  "build_audit": {
+    "platform": "windows-latest",
+    "scope": "static test + pinned shader compile + native build only",
+    "status": "PENDING"
+  }
 }
