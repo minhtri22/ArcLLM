@@ -51,7 +51,9 @@ for required in [
 ]:
     req(required in r,f"preflight missing guard: {required}")
 
-req(man["status"]=="SA0_CAP_PROBE_IMPLEMENTATION_STATIC_LOCKED","manifest status")
+req(man["status"]=="SA0_CAP_READY_FOR_TARGET_LOCAL_ZERO_SCIENCE","manifest ready status")
+req(man["sa0"]["status"]=="SA0_CAP_READY_FOR_TARGET_LOCAL_ZERO_SCIENCE","SA0 ready status")
+req(man["sa0"]["capability_probe"]["status"]=="STATIC_AUDIT_PASS_READY_FOR_TARGET_LOCAL","capability probe ready status")
 req(man["implementation_permitted"] is False,"successor implementation remains closed")
 req(man["target_run_permitted"] is False,"target remains closed")
 req(man["q3_permitted"] is False,"Q3 remains closed")
