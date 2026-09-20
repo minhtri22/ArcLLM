@@ -1,8 +1,8 @@
 {
-  "phase": "FINAL-VALIDATION-VERDICT",
+  "phase": "POST-VERDICT-ARCHITECTURE-INTERVENTION-REVIEW",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "FEASIBLE_NO_DEMONSTRATED_ADVANTAGE",
+  "status": "POST_VERDICT_INTERVENTION_REVIEW_COMPLETE",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Current ArcLLM architecture line is closed. Optional next step is a separate post-verdict Architecture Intervention Review; NEXUS findings may be considered only as hypothesis sources after explicit mechanistic mapping, never as transferred ArcLLM evidence.",
+  "next_on_success": "Open SA0 specification-only causal/capability qualification for the selected Decode-Specialized Packed-Quant Executor candidate. Do not create kernels or execute target measurements until SA0 is frozen and independently reviewed.",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -474,5 +474,20 @@
     "q2": "Q2_MATCHED_CHARACTERIZATION_COMPLETE",
     "q3": "FEASIBLE_NO_DEMONSTRATED_ADVANTAGE",
     "current_architecture_line_closed": true
+  },
+  "post_verdict_architecture_review": {
+    "status": "COMPLETE_SPECIFICATION_ONLY",
+    "review_file": "docs/POST_VERDICT_ARCHITECTURE_INTERVENTION_REVIEW.md",
+    "evidence_register": "docs/ARC_LLM_SUCCESSOR_EVIDENCE_REGISTER.md",
+    "candidate_file": "config/successor_architecture_candidate_v0.1.json",
+    "nexus_reviewed": true,
+    "external_publications_reviewed": true,
+    "current_architecture_line_closed": true,
+    "selected_candidate": "SA-H1",
+    "selected_candidate_name": "Decode-Specialized Packed-Quant Executor",
+    "research_reopen_candidate": true,
+    "successor_implementation_authorized": false,
+    "target_execution_authorized": false,
+    "next_step": "SA0_SPECIFICATION_ONLY_CAUSAL_CAPABILITY_QUALIFICATION"
   }
 }

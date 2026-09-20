@@ -111,3 +111,14 @@ Q2 is characterization only. It cannot declare an advantage. Q3 remains blocked.
 Status: **FINAL — FEASIBLE_NO_DEMONSTRATED_ADVANTAGE**. Q1 established real 7B end-to-end feasibility, Q2 completed matched characterization, and Q3 completed two fresh sessions / 40 measured attempts without reproducing any preregistered practical regime advantage. The current ArcLLM architecture line is closed. Any future architecture work requires a separate post-verdict intervention review; NEXUS may only seed a new hypothesis after mechanistic mapping.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.
+
+
+## Post-verdict successor review
+
+The current ArcLLM architecture remains **CLOSED** at `FEASIBLE_NO_DEMONSTRATED_ADVANTAGE`.
+
+A specification-only post-verdict review of ArcLLM evidence, NEXUS findings and external publications selected one bounded **research reopen candidate**:
+
+`SA-H1 — Decode-Specialized Packed-Quant Executor`.
+
+This is not an implementation authorization. The next allowed step is SA0 causal/capability qualification only; no new kernel or target measurement is permitted yet. See `docs/POST_VERDICT_ARCHITECTURE_INTERVENTION_REVIEW.md`.

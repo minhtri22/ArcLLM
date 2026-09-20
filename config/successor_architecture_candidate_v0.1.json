@@ -1,0 +1,95 @@
+{
+  "schema": "arcllm.post_verdict.successor_candidate.v0.1",
+  "date": "2026-09-20",
+  "status": "SPECIFICATION_ONLY_RESEARCH_REOPEN_CANDIDATE",
+  "parent_verdict": "FEASIBLE_NO_DEMONSTRATED_ADVANTAGE",
+  "parent_closeout_commit": "bb054423aaa8118e5b768a42f90ebd604debc2fd",
+  "current_architecture_line_closed": true,
+  "current_architecture_implementation_permitted": false,
+  "candidate_id": "SA-H1",
+  "name": "Decode-Specialized Packed-Quant Executor",
+  "selected": true,
+  "implementation_authorized": false,
+  "target_execution_authorized": false,
+  "claim": "The validated ArcLLM decode deficit is causally consistent with generic batch-1 packed-quant GEMM/dataflow under-utilization and separately materialized projection boundaries. A successor decode architecture that co-designs work partitioning, packed-weight/dequant pipelining and safe projection fusion may materially reduce exact-model decode GPU time.",
+  "evidence_basis": {
+    "arcllm": {
+      "q3_decode_ratio_arc_over_baseline_range": [
+        0.01760733218736323,
+        0.02800180845126544
+      ],
+      "q3_e2e_ratio_arc_over_baseline_range": [
+        26.450712820164465,
+        55.00860948219387
+      ],
+      "q3_working_set_ratio_range": [
+        1.8289147190471127,
+        1.836137520284475
+      ],
+      "decode_dispatches_per_token": 469,
+      "layer_count": 28,
+      "layer_ops_per_decode": 16,
+      "gemm_projection_dispatches_per_token": 196,
+      "submits_per_decode_token": 1,
+      "decode_path_uses_generic_batch1_q4_q6_gemm": true,
+      "prefill_has_tiled_and_fused_paths": true
+    },
+    "nexus": {
+      "r4c_stable_scan_high_payload_pass": true,
+      "r4c_qualifying_regime": "N=100000,D=64,active=5%",
+      "event_ledger_l4_confirmed": true,
+      "direct_event_ledger_transfer_to_dense_qwen": false,
+      "ld64_semantic_layout_codesign_supported": true,
+      "ld64_2_performance_state": "UNRESOLVED_DO_NOT_USE_AS_POSITIVE_EVIDENCE"
+    },
+    "literature": [
+      "FlashDecoding++: flat-GEMM utilization, double buffering, adaptive dataflow",
+      "MARLIN: low-batch quantized matmul scheduling/pipelining",
+      "QServe: dequantization/layout/register co-design",
+      "FlashAttention/2: IO-aware work partitioning",
+      "DeepSpeed Inference: transformer kernel/dataflow co-design"
+    ]
+  },
+  "allowed_mechanisms": [
+    "decode-only batch-1 Q4_K/Q6_K kernel dataflow",
+    "hardware-capability-backed asynchronous/double-buffered packed-weight pipeline",
+    "QKV projection fusion if exact semantics preserved",
+    "decode gate+up fusion if exact semantics preserved",
+    "LM-head dispatch/layout reduction if segmented exactness preserved"
+  ],
+  "forbidden_in_candidate": [
+    "NEXUS code or PASS transfer",
+    "event-ledger sparse operator skipping for dense Qwen",
+    "MoE conversion",
+    "activation pruning",
+    "approximate attention",
+    "precision-contract change",
+    "threshold mutation after measurements",
+    "implementation before SA0 qualification"
+  ],
+  "deferred_candidates": {
+    "event_ledger_operator_scheduler": "DEFER_FURTHER_CAUSAL_MISMATCH",
+    "sparse_neuron_or_moe": "DEFER_FURTHER_MODEL_CONTRACT_CHANGE",
+    "attention_only_rewrite": "DEFER_FURTHER_NO_DOMINANCE_EVIDENCE",
+    "kv_paging_compression": "DEFER_FURTHER_ROOT_CAUSE_UNPROVEN",
+    "single_copy_weight_residency": "DIAGNOSTIC_ENGINEERING_CANDIDATE_AFTER_RESIDENCY_ATTRIBUTION",
+    "w4a8_or_kv4_quantization": "DEFER_FURTHER_PRECISION_CONTRACT_CHANGE"
+  },
+  "next_step": {
+    "id": "SA0",
+    "name": "Decode Architecture Causal/Capability Qualification",
+    "type": "SPECIFICATION_ONLY",
+    "implementation_permitted": false,
+    "target_measurement_permitted": false,
+    "required_outputs": [
+      "Intel Arc Vulkan capability matrix",
+      "decode operator/dispatch and byte-movement census",
+      "flat-GEMM bottleneck cost model",
+      "fusion legality and semantic-boundary matrix",
+      "best-case end-to-end upper-bound analysis",
+      "falsification and stop conditions",
+      "finite successor roadmap"
+    ],
+    "stop_if": "Best-case capability/cost model cannot plausibly move a material fraction of the Q3 E2E gap without changing exact-model semantics."
+  }
+}
