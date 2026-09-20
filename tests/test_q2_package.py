@@ -151,6 +151,9 @@ assert 'Where-Object {-not $_.PowerOnline}' not in pre
 assert "power_scheme=$PowerScheme" in pre
 assert "measurement_authorized=$false" in pre
 assert "q2_preflight_return_to_chatgpt.zip" in pre
+assert pre.index("$OS=Get-CimInstance Win32_OperatingSystem") < pre.index("$Q1Archive=Join-Path")
+assert pre.index("GetSystemPowerStatus") < pre.index("tests\\test_q2_package.py")
+assert pre.index("GetSystemPowerStatus") < pre.index("qualify_q2_baseline.ps1")
 
 runner=txt("run_q2.ps1")
 for h in [

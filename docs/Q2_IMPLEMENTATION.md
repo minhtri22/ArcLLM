@@ -88,6 +88,8 @@ Both preflight and measurement runner now require system-level `ACLineStatus=1 (
 
 This is a measurement-method correction, not a relaxation: AC power remains mandatory.
 
+Preflight orders this environment gate before model hashing, shader/native builds, baseline compilation, or target-model loading. An offline/unknown power state therefore fails fast without consuming a full baseline qualification cycle.
+
 ## Resource sampler
 
 `tools/q2_resource_sampler.py` launches each benchmark cell and samples at a 100 ms target interval.

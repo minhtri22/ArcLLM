@@ -30,6 +30,54 @@ if($LASTEXITCODE -ne 0){throw "Q2 preflight blocked: critical working-tree files
 & git -C $Here diff --cached --quiet HEAD -- @CleanFiles
 if($LASTEXITCODE -ne 0){throw "Q2 preflight blocked: critical index files differ from HEAD"}
 
+# Fail-fast environment qualification before model hashing, builds, or baseline model loading.
+$OS=Get-CimInstance Win32_OperatingSystem
+$CPU=@(Get-CimInstance Win32_Processor|Select-Object Name,Manufacturer,NumberOfCores,NumberOfLogicalProcessors)
+$GPU=@(Get-CimInstance Win32_VideoController|Select-Object Name,DriverVersion,AdapterRAM,VideoProcessor)
+if(@($CPU|Where-Object {$_.Name -like "*Ultra 7 258V*"}).Count -lt 1){throw "Q2 preflight frozen CPU mismatch"}
+$Arc=@($GPU|Where-Object {$_.Name -like "*Arc*140V*"})
+if($Arc.Count -lt 1){throw "Q2 preflight Arc 140V not found"}
+if(@($Arc|Where-Object {$_.DriverVersion -eq "32.0.101.8860"}).Count -lt 1){throw "Q2 preflight frozen Intel GPU driver mismatch"}
+$PowerScheme=((powercfg /GETACTIVESCHEME 2>&1)|Out-String).Trim()
+$PowerStatusType=@"
+using System;
+using System.Runtime.InteropServices;
+public static class ArcLlmQ2Power {
+  [StructLayout(LayoutKind.Sequential)]
+  public struct SYSTEM_POWER_STATUS {
+    public byte ACLineStatus;
+    public byte BatteryFlag;
+    public byte BatteryLifePercent;
+    public byte SystemStatusFlag;
+    public uint BatteryLifeTime;
+    public uint BatteryFullLifeTime;
+  }
+  [DllImport("kernel32.dll", SetLastError=true)]
+  [return: MarshalAs(UnmanagedType.Bool)]
+  public static extern bool GetSystemPowerStatus(out SYSTEM_POWER_STATUS s);
+}
+"@
+if(-not ("ArcLlmQ2Power" -as [type])){Add-Type -TypeDefinition $PowerStatusType}
+$SystemPower=New-Object "ArcLlmQ2Power+SYSTEM_POWER_STATUS"
+if(-not [ArcLlmQ2Power]::GetSystemPowerStatus([ref]$SystemPower)){throw "Q2 cannot query system AC power status"}
+$AcLineStatus=[int]$SystemPower.ACLineStatus
+if($AcLineStatus -eq 0){throw "Q2 requires AC power: GetSystemPowerStatus reports Offline"}
+if($AcLineStatus -eq 255){throw "Q2 requires known AC power state: GetSystemPowerStatus reports Unknown"}
+if($AcLineStatus -ne 1){throw "Q2 invalid ACLineStatus=$AcLineStatus"}
+$AcPowerOnline=$true
+$SystemPowerEvidence=[ordered]@{
+  source="GetSystemPowerStatus"
+  ac_line_status=$AcLineStatus
+  ac_line_status_text="Online"
+  battery_flag=[int]$SystemPower.BatteryFlag
+  battery_life_percent=[int]$SystemPower.BatteryLifePercent
+  system_status_flag=[int]$SystemPower.SystemStatusFlag
+  battery_life_time=[uint32]$SystemPower.BatteryLifeTime
+  battery_full_life_time=[uint32]$SystemPower.BatteryFullLifeTime
+}
+$Battery=@()
+try{$Battery=@(Get-CimInstance -Namespace root\wmi -Class BatteryStatus -ErrorAction Stop|Select-Object PowerOnline,Charging,Discharging,RemainingCapacity)}catch{}
+
 $Q1Archive=Join-Path $Here "inputs\q1_return_to_chatgpt.authoritative.zip"
 if(-not(Test-Path $Q1Archive)){throw "Q2 Q1 archive missing"}
 if((Get-FileHash $Q1Archive -Algorithm SHA256).Hash.ToUpperInvariant() -ne $ExpectedQ1Archive){throw "Q2 Q1 archive SHA mismatch"}
@@ -84,53 +132,6 @@ foreach($W in @("W-S","W-C")){
   if(([string]$Obj.prompt_hash_fnv1a64).ToLowerInvariant() -ne $ExpectedPromptHash){throw "Q2 baseline exact raw-token materialization mismatch for $W"}
   $RuntimeRows += [ordered]@{workload=$W;path=(Resolve-Path $Out).Path;sha256=(Get-FileHash $Out -Algorithm SHA256).Hash.ToUpperInvariant();status=$Obj.status;prompt_hash_fnv1a64=[string]$Obj.prompt_hash_fnv1a64;vulkan_log_present=[bool]$Obj.runtime.vulkan_log_present;full_offload=[bool]$Obj.runtime.full_offload;offloaded_layers=[int]$Obj.runtime.offloaded_layers;offloaded_layers_total=[int]$Obj.runtime.offloaded_layers_total;decode_executed=[bool]$Obj.decode_executed;measured_attempts=[int]$Obj.measured_attempts}
 }
-
-$OS=Get-CimInstance Win32_OperatingSystem
-$CPU=@(Get-CimInstance Win32_Processor|Select-Object Name,Manufacturer,NumberOfCores,NumberOfLogicalProcessors)
-$GPU=@(Get-CimInstance Win32_VideoController|Select-Object Name,DriverVersion,AdapterRAM,VideoProcessor)
-if(@($CPU|Where-Object {$_.Name -like "*Ultra 7 258V*"}).Count -lt 1){throw "Q2 preflight frozen CPU mismatch"}
-$Arc=@($GPU|Where-Object {$_.Name -like "*Arc*140V*"})
-if($Arc.Count -lt 1){throw "Q2 preflight Arc 140V not found"}
-if(@($Arc|Where-Object {$_.DriverVersion -eq "32.0.101.8860"}).Count -lt 1){throw "Q2 preflight frozen Intel GPU driver mismatch"}
-$PowerScheme=((powercfg /GETACTIVESCHEME 2>&1)|Out-String).Trim()
-$PowerStatusType=@"
-using System;
-using System.Runtime.InteropServices;
-public static class ArcLlmQ2Power {
-  [StructLayout(LayoutKind.Sequential)]
-  public struct SYSTEM_POWER_STATUS {
-    public byte ACLineStatus;
-    public byte BatteryFlag;
-    public byte BatteryLifePercent;
-    public byte SystemStatusFlag;
-    public uint BatteryLifeTime;
-    public uint BatteryFullLifeTime;
-  }
-  [DllImport("kernel32.dll", SetLastError=true)]
-  [return: MarshalAs(UnmanagedType.Bool)]
-  public static extern bool GetSystemPowerStatus(out SYSTEM_POWER_STATUS s);
-}
-"@
-if(-not ("ArcLlmQ2Power" -as [type])){Add-Type -TypeDefinition $PowerStatusType}
-$SystemPower=New-Object "ArcLlmQ2Power+SYSTEM_POWER_STATUS"
-if(-not [ArcLlmQ2Power]::GetSystemPowerStatus([ref]$SystemPower)){throw "Q2 cannot query system AC power status"}
-$AcLineStatus=[int]$SystemPower.ACLineStatus
-if($AcLineStatus -eq 0){throw "Q2 requires AC power: GetSystemPowerStatus reports Offline"}
-if($AcLineStatus -eq 255){throw "Q2 requires known AC power state: GetSystemPowerStatus reports Unknown"}
-if($AcLineStatus -ne 1){throw "Q2 invalid ACLineStatus=$AcLineStatus"}
-$AcPowerOnline=$true
-$SystemPowerEvidence=[ordered]@{
-  source="GetSystemPowerStatus"
-  ac_line_status=$AcLineStatus
-  ac_line_status_text="Online"
-  battery_flag=[int]$SystemPower.BatteryFlag
-  battery_life_percent=[int]$SystemPower.BatteryLifePercent
-  system_status_flag=[int]$SystemPower.SystemStatusFlag
-  battery_life_time=[uint32]$SystemPower.BatteryLifeTime
-  battery_full_life_time=[uint32]$SystemPower.BatteryFullLifeTime
-}
-$Battery=@()
-try{$Battery=@(Get-CimInstance -Namespace root\wmi -Class BatteryStatus -ErrorAction Stop|Select-Object PowerOnline,Charging,Discharging,RemainingCapacity)}catch{}
 
 $CriticalHashes=[ordered]@{}
 foreach($Rel in $ImplementationCritical){$P=Join-Path $Here $Rel;$CriticalHashes[$Rel]=(Get-FileHash $P -Algorithm SHA256).Hash.ToUpperInvariant()}

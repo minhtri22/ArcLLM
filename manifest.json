@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Pull system-level AC gate correction -> rerun zero-measurement preflight -> return q2_preflight_return_to_chatgpt.zip for independent adjudication",
+  "next_on_success": "Connect AC until Windows reports system AC Online -> pull fail-fast preflight ordering -> rerun zero-measurement preflight -> return q2_preflight_return_to_chatgpt.zip",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -295,7 +295,8 @@
           "measured_attempts": 0
         },
         "preflight_lock_written": false,
-        "q3_started": false
+        "q3_started": false,
+        "fail_fast_improvement": "Environment gate moved before expensive model/build/runtime steps; no Q2 science or threshold changed"
       },
       "vulkan_bootstrap": {
         "version": "1.4.357.0",
@@ -316,7 +317,8 @@
         "offline_status": 0,
         "unknown_status": 255,
         "per_battery_wmi_role": "descriptive_only"
-      }
+      },
+      "environment_gate_order": "FAIL_FAST_BEFORE_MODEL_HASH_BUILD_OR_RUNTIME_QUALIFICATION"
     },
     "execution_authorization_required": true,
     "execution_authorization_committed": false,

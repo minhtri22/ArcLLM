@@ -926,3 +926,9 @@ The preflight then stopped because the environment gate treated root\wmi Battery
 Correction: preflight and measurement runner now require GetSystemPowerStatus ACLineStatus=1. Offline (0) and Unknown (255) fail closed. Per-battery BatteryStatus remains recorded only as descriptive evidence and cannot override the system-level AC result. Active Windows power scheme matching remains mandatory.
 This does not relax the environmental control, alter model/runtime settings, or permit any measurement. Because run_q2_preflight.ps1 and run_q2.ps1 are implementation-critical, the prior partial qualification is not authoritative for execution authorization and must be rerun from the corrected HEAD.
 Decision: zero measured attempts; Q3 closed; rerun full preflight.
+
+
+## 2026-09-20 — Q2 preflight environment gate moved to fail-fast position
+The system-level AC gate correctly reported Offline on the target and therefore blocked Q2. Review of run_q2_preflight.ps1 found the environment gate was ordered after shader/native build and both baseline qualify-only model loads, causing unnecessary repeated 7B load cost when an environmental prerequisite was already false.
+Bounded repair: move OS/CPU/GPU/driver/power-scheme/GetSystemPowerStatus qualification immediately after critical Git cleanliness checks, before Q1 archive/model hashing, static QA, shader compile, ArcLLM build, baseline build, or baseline model loading.
+No environmental criterion is relaxed: ACLineStatus must still equal 1, frozen CPU/GPU/driver remain mandatory, and power-scheme evidence is still bound into the preflight lock. Zero measurements remain mandatory; Q3 remains closed.
