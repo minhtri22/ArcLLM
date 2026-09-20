@@ -824,3 +824,23 @@ GitHub BuildOnly run 35486456429 failed twice before exposing any job step or lo
 The last successful Windows BuildOnly remains run 35485109178 on commit 1e95f7def19c3ca6bf486d36d4fe756a13076b48. Compare from that commit to c769dcc937f857085dc7dd62da44de45af539266 changes only README.md, lineage.md, manifest.json, tests/test_q1_package.py, and the repaired P8-G6 raw result. Q1 source, shaders, shader compiler script, native build script and run_q1.ps1 are unchanged.
 The local Q1 runner itself still fail-closes through static package QA, exact parent SHA checks, pinned 16-shader compilation and native Windows build before the model executable is launched.
 Decision: Q1 TARGET-RUN READY again. Q2/Q3 remain closed.
+
+
+## 2026-09-20 — Q1 COMPLETE / Q1_FEASIBILITY_ESTABLISHED
+Authoritative Q1 target execution commit: ec83bf42727f799e31d3900a7545e2642b3b90eb.
+Exact target SHA256 60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463, 4,683,074,048 bytes.
+F0 PASS A/B; F1 PASS A/B; F2 exact repeat PASS; F3 evidence complete PASS.
+Both independent executions generated [128275,128301,128275,128301,128275]. Per-step logits hashes and final normalized hidden hashes are also identical across A/B.
+Frozen production census was observed exactly: 441 prefill dispatches and 469 dispatches for each of four cached decode steps. No CPU model-math fallback and no teacher forcing.
+Binding/residency: 19 arenas, 341 pieces, two segmented logical tensors; requested residency 5,149,055,000 bytes inside the frozen P8-B envelope and usable budget.
+Authoritative returned Q1 archive SHA256: DFB3E86C4F51D06290A2AE1ED1479C96F35AE0D329CFA5E2B7D50289DC641B43.
+Raw result SHA256 FAD892B25C3A82F62C0CC8060F413792B8B0B73F78A7C3B4CF969E19753E63FA; final summary SHA256 36BFB413BCE31A1A6E2B77F96071162809B48FC7F566D61B34C779D90388AC95; evidence manifest SHA256 89B22986B6BF5F4776413BD13D0F3CDAEF8B13B9EAA1B11000D9027F0F8F9548.
+Decision: Q1 CLOSED as Q1_FEASIBILITY_ESTABLISHED. Q1 timings remain descriptive and are prohibited from serving as Q2/Q3 performance evidence.
+
+## 2026-09-20 — Q2 matched benchmark DESIGN_FROZEN
+Q2 is opened directly by governance after Q1 PASS; no subsystem phase is inserted.
+Matched baseline frozen to ggml-org/llama.cpp release v0.4.1, commit 391fac16460f15233a7740550d858ac96df3419d, Vulkan, exact same GGUF bytes, raw token input, F32 KV, 8 CPU threads, context 4096, batch/ubatch 256, all layers requested for GPU offload.
+Two workloads are frozen: W-S prompt 4 / output 32; W-C prompt 256 / output 32 with deterministic raw-token formula. Each system x workload cell uses one warmup and five measured attempts.
+Q2 collects TTFT, decode throughput, end-to-end latency, RAM/CPU resource metrics, GPU process memory/utilization where valid Windows counters are available, stability/error rate, plus ArcLLM architecture movement counters.
+Q2 is characterization only and cannot declare advantage. Q3 remains blocked.
+Decision: Q2 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION. No Q2 measurement may run before implementation + baseline qualification + static QA lock.

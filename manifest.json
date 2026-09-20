@@ -1,11 +1,11 @@
 {
-  "phase": "Q1-END-TO-END",
+  "phase": "Q2-MATCHED-BENCHMARK",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "IMPLEMENTATION_LOCKED",
+  "status": "DESIGN_FROZEN",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
-  "serves": "Q1_FEASIBILITY",
+  "serves": "Q2_PERFORMANCE_RESOURCE_ENVELOPE",
   "parent": "P8-G6 H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED",
   "authoritative_p8g6": {
     "shader_provenance_sha256": "1490475D0D7EAA0498FEEA5CD0A37460C4881FFFF676A7C912E0E113E2CAAC84",
@@ -74,10 +74,17 @@
       8
     ],
     "residency_gate": "requested Q1 residency <= P8-B proven envelope and <= 15.25 GiB usable budget",
-    "usable_vulkan_budget_bytes": 16374562816
+    "usable_vulkan_budget_bytes": 16374562816,
+    "status": "CLOSED",
+    "verdict": "Q1_FEASIBILITY_ESTABLISHED",
+    "implementation_commit": "ec83bf42727f799e31d3900a7545e2642b3b90eb",
+    "evidence_archive_sha256": "DFB3E86C4F51D06290A2AE1ED1479C96F35AE0D329CFA5E2B7D50289DC641B43",
+    "raw_result_sha256": "FAD892B25C3A82F62C0CC8060F413792B8B0B73F78A7C3B4CF969E19753E63FA",
+    "summary_sha256": "36BFB413BCE31A1A6E2B77F96071162809B48FC7F566D61B34C779D90388AC95",
+    "evidence_manifest_sha256": "89B22986B6BF5F4776413BD13D0F3CDAEF8B13B9EAA1B11000D9027F0F8F9548"
   },
   "implementation_permitted": true,
-  "target_run_permitted": true,
+  "target_run_permitted": false,
   "historical": {
     "p8g": "FAIL",
     "p8g1": "H-AMPLIFICATION",
@@ -88,10 +95,10 @@
     "p8g6": "H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED"
   },
   "full_inference_general_permitted": false,
-  "q1_end_to_end_target_run_permitted": true,
-  "next_on_success": "Q2 frozen matched performance/resource benchmark",
+  "q1_end_to_end_target_run_permitted": false,
+  "next_on_success": "implement Q2 harness + baseline qualification + static QA; freeze execution lock before any Q2 measurement",
   "implementation_commit_pending": false,
-  "q2_permitted": false,
+  "q2_permitted": true,
   "q3_permitted": false,
   "implementation_review": "STATIC_PASS",
   "pre_execution_clarification": "v0.1a: 5 generated tokens total; residency wording aligned to P8-B proven envelope",
@@ -111,7 +118,7 @@
     "executable_exists": "PASS",
     "target_model_executed": false
   },
-  "target_run_ready": true,
+  "target_run_ready": false,
   "parent_evidence_packaging_repair": {
     "status": "EXACT_BLOB_RESTORED",
     "initial_failed_local_head": "faa7e4d450a3774ce9a0281ad026d4fef855dcb4",
@@ -144,5 +151,46 @@
     ],
     "source_shader_build_runner_unchanged": true,
     "local_runner_preflight_required": true
+  },
+  "q2": {
+    "title": "matched performance / resource characterization",
+    "status": "DESIGN_FROZEN",
+    "baseline": {
+      "repository": "ggml-org/llama.cpp",
+      "release": "v0.4.1",
+      "commit": "391fac16460f15233a7740550d858ac96df3419d",
+      "backend": "Vulkan",
+      "cpu_threads": 8,
+      "n_ctx": 4096,
+      "n_batch": 256,
+      "n_ubatch": 256,
+      "kv_k": "F32",
+      "kv_v": "F32",
+      "gpu_offload": "all requested"
+    },
+    "workloads": {
+      "W_S": {
+        "prompt_tokens": 4,
+        "output_tokens": 32
+      },
+      "W_C": {
+        "prompt_tokens": 256,
+        "output_tokens": 32,
+        "formula": "first 4 = Q1 IDs; i>=4: 1 + ((104729 + 7919*i) mod 152063)"
+      }
+    },
+    "warmups_per_cell": 1,
+    "measured_attempts_per_cell": 5,
+    "measured_cells": 4,
+    "total_measured_attempts": 20,
+    "target_run_permitted": false,
+    "implementation_permitted": true,
+    "advantage_claim_permitted": false,
+    "classifications": [
+      "Q2_MATCHED_CHARACTERIZATION_COMPLETE",
+      "Q2_BASELINE_NOT_MATCHED",
+      "Q2_RUNTIME_INCOMPLETE",
+      "Q2_MEASUREMENT_INVALID"
+    ]
   }
 }

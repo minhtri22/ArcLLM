@@ -71,43 +71,43 @@ Rules:
 
 ## Current run
 
-ArcLLM is now on the governance main path: **Q1 real-model end-to-end feasibility**.
+**Q1 is CLOSED: Q1_FEASIBILITY_ESTABLISHED.**
 
-P8-G6 is frozen **H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED** on a fresh 4-seed cohort. All C0/C1/C2/C3 gates pass 4/4. This closes the bounded L3 FFN-down production-semantic blocker; it does not itself establish whole-model inference.
+The exact frozen Qwen2.5-Coder 7B model completed full 28-layer prefill + autoregressive cached decode on the target Intel Arc runtime. F0/F1 passed for both independent executions, F2 exact repeat passed, and the returned F3 evidence package is complete.
 
-Authoritative P8-G6 SHA256:
-- shader provenance: `1490475D0D7EAA0498FEEA5CD0A37460C4881FFFF676A7C912E0E113E2CAAC84`
-- fresh production-semantic result: `0526D3F1400080AF6B68D1D44CBD2AF897671B727EA924EC0D0C953C16FDD259`
-- summary: `13C36E5EB14D08F60C3DC9277F7A21EE4033DB50D84806839DE62B3E9F7EE303`
+Authoritative Q1 evidence:
+- implementation: `ec83bf42727f799e31d3900a7545e2642b3b90eb`;
+- returned evidence archive SHA256: `DFB3E86C4F51D06290A2AE1ED1479C96F35AE0D329CFA5E2B7D50289DC641B43`;
+- raw result SHA256: `FAD892B25C3A82F62C0CC8060F413792B8B0B73F78A7C3B4CF969E19753E63FA`;
+- final summary SHA256: `36BFB413BCE31A1A6E2B77F96071162809B48FC7F566D61B34C779D90388AC95`.
 
-Frozen causal history remains unchanged:
-- P8-G: **FAIL**
-- P8-G1: **H-AMPLIFICATION**
-- P8-G2: **H-NONLINEAR/UNEXPLAINED**
-- P8-G3: **H-FP32-ACCUMULATION**
-- P8-G4: **H-LOCAL-ERROR-NONNEGLIGIBLE**
-- P8-G5: **H-R1-ORACLE-SEMANTIC-MISMATCH**
-- P8-G6: **H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED**
+Both A/B executions generated `[128275,128301,128275,128301,128275]`, with identical per-step logits and final-hidden hashes.
 
-The project-level convergence governance supersedes the pre-governance suggestion to open another subsystem correctness-metric study. The next main-path question is Q1.
+Q1 performance timings remain descriptive only.
 
-Q1 contract: `docs/P8_Q1_END_TO_END_CONTRACT.md`.
+The project is now on **Q2 — matched performance/resource characterization**.
 
-Q1 freezes a real full-model compute run:
-- exact frozen 7B target;
-- pretokenized input IDs `[1,133151,133152,152062]`;
-- segmented embedding;
-- all 28 decoder layers;
-- GPU-resident KV;
-- final norm;
-- full 152064-logit segmented LM head;
-- greedy argmax;
-- one token from prefill logits plus four cached-decode steps = exactly five generated token IDs;
-- two independent reset executions A/B;
-- inherited production graph census 441 prefill dispatches / 469 dispatches per decode step.
+Q2 contract: `docs/Q2_MATCHED_BENCHMARK_CONTRACT.md`.
 
-Tokenizer/API and performance comparison are intentionally outside Q1.
+Frozen baseline:
+- `ggml-org/llama.cpp` v0.4.1;
+- commit `391fac16460f15233a7740550d858ac96df3419d`;
+- Vulkan;
+- exact same GGUF;
+- raw token input;
+- F32 KV;
+- context 4096;
+- 8 CPU threads;
+- batch/ubatch 256;
+- all layers requested for GPU offload.
 
-Status: **Q1 IMPLEMENTATION_LOCKED / TARGET-RUN READY**. Exact P8-G6 parent bytes are restored. GitHub BuildOnly retry failed before any job step, but the last successful Windows BuildOnly covers unchanged Q1 source/shaders/build scripts; the local runner repeats static QA + shader compile + native build before target execution. The first local Q1 invocation stopped fail-closed before target execution because the committed P8-G6 result raw was not byte-identical to the original uploaded artifact. The exact original bytes are being restored and static QA now verifies all three parent SHA256 values. Q2/Q3 remain closed.
+Frozen workloads:
+- W-S: prompt 4, output 32;
+- W-C: prompt 256, output 32;
+- one warmup + five measured attempts per system/workload cell.
+
+Q2 is characterization only. It cannot declare an advantage. Q3 remains blocked.
+
+Status: **Q2 DESIGN_FROZEN / READY_FOR_IMPLEMENTATION**. No Q2 measurement is permitted before implementation + baseline qualification + static QA lock.
 
 Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.
