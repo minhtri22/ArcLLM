@@ -25,7 +25,7 @@ permissions:
 
 jobs:
   q2-implementation-audit:
-    runs-on: windows-2025
+    runs-on: windows-latest
     timeout-minutes: 90
     env:
       VULKAN_VERSION: "1.4.357.0"
