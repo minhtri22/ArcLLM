@@ -961,3 +961,11 @@ Primary threshold: >=10% TTFT/decode/E2E improvement or >=15% working-set reduct
 If no candidate passes, final verdict is FEASIBLE_NO_DEMONSTRATED_ADVANTAGE and the current ArcLLM architecture line closes. No Q3-A/Q3-B search/tuning is permitted.
 NEXUS is explicitly excluded from Q3. Only after a negative final ArcLLM verdict may a separate Architecture Intervention Review use independently established NEXUS findings as hypothesis sources; they cannot be transferred as ArcLLM evidence.
 Q3 execution remains closed. Next: implement runner + zero-measurement qualification only.
+
+
+## 2026-09-20 — Q3 implementation static lock / zero-measurement preflight package
+Implemented Q3 without changing the ArcLLM inference architecture, kernels, workloads or pinned baseline. The Q3 preflight verifies every Q2 implementation-critical worktree SHA against the committed Q2 execution authorization before rebuild/qualification; any runtime or instrumentation drift fails closed.
+Q3 uses two mandatory separate PowerShell invocations: run_q3.ps1 -Session A and -Session B. Fixed session directories refuse overwrite/rerun, runner PID is recorded, and counterbalanced orders are code-enforced. Each session contains 20 measured attempts; total remains the frozen 40.
+The measured runner never rebuilds artifacts. It requires a later committed q3_execution_authorization.json and binds preflight lock, design SHA, Q3 critical hashes, Q2 frozen runtime hashes, exact model, Arc/baseline executables, shader provenance and SPIR-V.
+Added deterministic threshold adjudicator and evidence packager. The adjudicator can emit only a candidate verdict; final independent adjudication remains external. Primary advantage dimensions are restricted to TTFT/decode/E2E/working-set; private bytes, CPU and GPU counters cannot establish advantage.
+Decision: Q3_IMPLEMENTATION_STATIC_LOCKED. Q3 execution remains closed. Next: target-local zero-decode/zero-measurement preflight only.

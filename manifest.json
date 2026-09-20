@@ -2,7 +2,7 @@
   "phase": "Q3-NO-PRACTICAL-ADVANTAGE-CONFIRMATORY",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "Q3_DESIGN_FROZEN_EXECUTION_CLOSED",
+  "status": "Q3_IMPLEMENTATION_STATIC_LOCKED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "Q3_REGIME_ADVANTAGE_FINAL_CONFIRMATION",
@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Implement Q3 runner and zero-measurement preflight exactly from the frozen Q3 contract; no ArcLLM tuning, no NEXUS integration, no 40-attempt execution before independent implementation/preflight adjudication.",
+  "next_on_success": "Run target-local Q3 zero-measurement preflight and return results/q3_preflight_return_to_chatgpt.zip for independent adjudication. Do not run Session A/B before a later governance-only Q3 execution authorization.",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -376,7 +376,7 @@
   },
   "q3": {
     "title": "bounded no-practical-advantage fresh confirmation",
-    "status": "DESIGN_FROZEN_EXECUTION_CLOSED",
+    "status": "Q3_IMPLEMENTATION_STATIC_LOCKED",
     "design_file": "docs/Q3_NO_PRACTICAL_ADVANTAGE_CONFIRMATORY_DESIGN.md",
     "machine_contract": "config/q3_confirmatory_design.json",
     "parent_q2_classification": "Q2_MATCHED_CHARACTERIZATION_COMPLETE",
@@ -403,6 +403,31 @@
       "UNRESOLVED"
     ],
     "negative_stop_rule": "FEASIBLE_NO_DEMONSTRATED_ADVANTAGE closes the current ArcLLM architecture line",
-    "post_negative_nexus_boundary": "NEXUS may be considered only in a separate post-verdict Architecture Intervention Review as a hypothesis source"
+    "post_negative_nexus_boundary": "NEXUS may be considered only in a separate post-verdict Architecture Intervention Review as a hypothesis source",
+    "implementation": {
+      "runner": "run_q3.ps1",
+      "preflight": "run_q3_preflight.ps1",
+      "packager": "package_q3.ps1",
+      "adjudicator": "tools/adjudicate_q3.py",
+      "evidence_packager": "tools/package_q3_evidence.py",
+      "static_qa": "tests/test_q3_package.py",
+      "session_directories": [
+        "results/q3_session_A",
+        "results/q3_session_B"
+      ],
+      "separate_process_sessions_enforced": true,
+      "measured_artifact_rebuild_permitted": false,
+      "reuses_frozen_q2_runtime_path": true
+    },
+    "preflight": {
+      "status": "READY_FOR_TARGET_LOCAL_ZERO_MEASUREMENT",
+      "execution_authorization_required": true,
+      "execution_authorization_committed": false,
+      "output_lock": "results/q3_preflight_lock.json",
+      "return_bundle": "results/q3_preflight_return_to_chatgpt.zip",
+      "decode_permitted": false,
+      "measured_attempts_permitted": 0
+    },
+    "execution_authorization_file": "config/q3_execution_authorization.json"
   }
 }
