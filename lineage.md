@@ -897,3 +897,7 @@ This is not Q2 scientific evidence and not a baseline/runtime failure: llama.cpp
 Bounded repair: keep the exact Vulkan SDK version and installer SHA256, but bootstrap with LunarG-supported copy_only=1 plus --root into repo-local .q2_toolchains/VulkanSDK/1.4.357.0. This avoids registry/system-PATH mutation and Administrator elevation. Qualification now validates glslc.exe, vulkan.h and vulkan-1.lib before CMake configuration and records the bootstrap mode.
 No model, workload, llama.cpp commit, Vulkan backend, CPU threads, F32 KV, offload policy, timing definition, resource metric, cell order, threshold or authorization gate changed.
 Decision: rerun the same zero-measurement preflight after pulling this packaging repair. Twenty measured attempts remain blocked. Q3 remains closed.
+
+
+## 2026-09-20 — Q2 portable toolchain workspace hygiene
+Added .q2_toolchains/ to .gitignore so the repo-local Vulkan SDK copy used by zero-measurement preflight cannot pollute git status or be accidentally staged. This is workspace hygiene only; no Q2 implementation, model, workload, baseline configuration, metric, gate or authorization changed.
