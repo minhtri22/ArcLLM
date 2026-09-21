@@ -28,6 +28,17 @@ struct Fixture {
     FixtureSpec spec;
     std::vector<uint8_t> packed;
     std::vector<float> x;
+    std::vector<int8_t> expected_q;
+    std::vector<int8_t> expected_scale;
+    uint16_t expected_d_bits = 0x3C00u;
+};
+
+struct SemanticInvariant {
+    bool pass = true;
+    uint64_t total_elements = 0;
+    uint64_t q_mismatches = 0;
+    uint64_t scale_mismatches = 0;
+    uint64_t d_mismatches = 0;
 };
 
 constexpr uint64_t kForbiddenSa1Seeds[4] = {
@@ -154,6 +165,8 @@ inline Fixture generate_fixture(const FixtureSpec& spec) {
     const size_t row_bytes = size_t(blocks) * kQ6BlockBytes;
     f.packed.assign(row_bytes * spec.rows, 0u);
     f.x.resize(spec.n);
+    f.expected_q.resize(size_t(spec.n) * spec.rows);
+    f.expected_scale.resize(size_t(spec.rows) * blocks * 16u);
 
     uint64_t s = spec.seed ^ 0x513643425F465831ull;
     for (uint32_t r = 0; r < spec.rows; ++r) {
@@ -162,19 +175,57 @@ inline Fixture generate_fixture(const FixtureSpec& spec) {
             for (uint32_t slot = 0; slot < 16u; ++slot) {
                 const int sc = choose_scale(spec.stratum, slot + ib * 17u + r * 31u, s);
                 block[192u + slot] = uint8_t(int8_t(sc));
+                f.expected_scale[(size_t(r) * blocks + ib) * 16u + slot] = int8_t(sc);
             }
             // d = 1.0 in binary16. Conditioning is expressed by q/scale/x, not by searching d.
-            put_u16_le(block + 208u, 0x3C00u);
+            put_u16_le(block + 208u, f.expected_d_bits);
             for (uint32_t k = 0; k < 256u; ++k) {
                 const uint32_t global_k = ib * 256u + k;
                 const int q = choose_q(spec.stratum, global_k + r * 13u, s);
                 set_q6_code(block, k, uint32_t(q + 32));
+                f.expected_q[size_t(r) * spec.n + global_k] = int8_t(q);
             }
         }
     }
     for (uint32_t k = 0; k < spec.n; ++k)
         f.x[k] = choose_x(spec.stratum, k, s);
     return f;
+}
+
+
+inline SemanticInvariant verify_semantic_invariant(const Fixture& f) {
+    validate_fixture_spec(f.spec);
+    const uint32_t blocks = f.spec.n / kQ6ValuesPerBlock;
+    const size_t row_bytes = size_t(blocks) * kQ6BlockBytes;
+    if (f.expected_q.size() != size_t(f.spec.n) * f.spec.rows)
+        throw std::invalid_argument("semantic expected_q shape");
+    if (f.expected_scale.size() != size_t(f.spec.rows) * blocks * 16u)
+        throw std::invalid_argument("semantic expected_scale shape");
+
+    SemanticInvariant out;
+    for (uint32_t r = 0; r < f.spec.rows; ++r) {
+        for (uint32_t ib = 0; ib < blocks; ++ib) {
+            const uint8_t* block =
+                f.packed.data() + size_t(r) * row_bytes + size_t(ib) * kQ6BlockBytes;
+            if (load_u16_le(block + 208u) != f.expected_d_bits)
+                ++out.d_mismatches;
+            for (uint32_t k = 0; k < kQ6ValuesPerBlock; ++k) {
+                const CanonicalQ6Element decoded = decode_q6_element(block, k);
+                const uint32_t global_k = ib * kQ6ValuesPerBlock + k;
+                const int expected_q = int(f.expected_q[size_t(r) * f.spec.n + global_k]);
+                const uint32_t slot = scale_slot_for_k(k);
+                const int expected_scale =
+                    int(f.expected_scale[(size_t(r) * blocks + ib) * 16u + slot]);
+                if (decoded.q != expected_q) ++out.q_mismatches;
+                if (decoded.scale != expected_scale) ++out.scale_mismatches;
+                ++out.total_elements;
+            }
+        }
+    }
+    out.pass = out.q_mismatches == 0u &&
+               out.scale_mismatches == 0u &&
+               out.d_mismatches == 0u;
+    return out;
 }
 
 inline const char* stratum_name(ConditioningStratum s) {
