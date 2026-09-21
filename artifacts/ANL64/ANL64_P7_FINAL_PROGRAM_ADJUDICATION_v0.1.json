@@ -1,0 +1,125 @@
+{
+  "schema": "arcllm.anl64.p7.final_program_adjudication.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ANL64",
+  "final_status": "ANL64_PROGRAM_CLOSED_VALID_NEGATIVE_TTFT_BLOCKED",
+  "research_question": "Can a control-plane/data-plane separated exact-model runtime combine ArcLLM quant-specific execution with transfer-admissible NEXUS/Event-Ledger/Ledger64 representation/planning to produce material end-to-end improvement without changing model semantics?",
+  "answer_under_preregistered_contract": "NOT_ESTABLISHED",
+  "terminal_reason": "Semantic preservation and material decode/E2E gains were demonstrated, but the preregistered TTFT blocking guard failed in 3 of 4 fresh matched comparisons.",
+  "stage_results": {
+    "P0": "COMPLETE",
+    "P1": "PASS_PRIOR_ART_TRANSFER_GOVERNANCE",
+    "P2": "PASS_ARCHITECTURE_UPPER_BOUND_MATERIAL",
+    "P3": "PASS_ZERO_SCIENCE_LOCAL_COMPATIBILITY",
+    "P4": "PASS_IMPLEMENTATION_AND_BUILDONLY",
+    "P5": "P5_INTEGRATION_PASS",
+    "P6": "P6_NO_MATERIAL_E2E_BENEFIT_VALID_NEGATIVE",
+    "P7": "COMPLETE_TERMINAL"
+  },
+  "preserved_positive_evidence": {
+    "exact_model_semantics_preserved": {
+      "supported": true,
+      "basis": "P5 exact 32-token equality and P6 semantic guard across all fresh measured attempts"
+    },
+    "planner_and_region64_integration": {
+      "supported": true,
+      "plan_nodes": 469,
+      "quant_linear_nodes": 215,
+      "fixed_q4_fast_nodes": 140,
+      "regions": 24104,
+      "fixed_q4_regions": 19936,
+      "metadata_bytes": 593504,
+      "plan_hash_fnv1a64": "04f3f884c0fc4fcc"
+    },
+    "q4_fast_component_transfer": {
+      "supported": true,
+      "inherited_sa1_q4_component_gain_approx_geomean": "~3.14x",
+      "p6_decode_candidate_over_reference_range": [
+        1.2227960092444075,
+        3.200164950615819
+      ]
+    },
+    "fresh_e2e_latency_effect": {
+      "supported": true,
+      "p6_e2e_candidate_over_reference_range": [
+        0.3983710097225027,
+        0.8765249913257487
+      ],
+      "all_four_primary_e2e_cells_pass": true
+    }
+  },
+  "blocking_evidence": {
+    "ttft_guard": {
+      "threshold_max": 1.1,
+      "ratios": {
+        "A/W-S": 1.5738049944651404,
+        "A/W-C": 1.3365230320477248,
+        "B/W-S": 1.3085366365782283,
+        "B/W-C": 1.067730868171253
+      },
+      "failed_cells": 3,
+      "required_cells": 4,
+      "blocks_overall_claim": true
+    }
+  },
+  "claim_boundary": {
+    "supported": [
+      "The frozen ANL64 successor preserves the tested greedy-output semantics relative to the exact safe ArcLLM reference on W-S and W-C.",
+      "The frozen Q4_FAST decode substitutions produce material decode-throughput improvement relative to the exact safe ArcLLM reference on all four fresh matched P6 comparisons.",
+      "Those substitutions propagate to material E2E latency reduction relative to the exact safe ArcLLM reference on all four fresh matched P6 comparisons.",
+      "The Ledger64-style immutable plan is compatible with this exact-model runtime and remains structurally stable across tested workloads."
+    ],
+    "not_supported": [
+      "ANL64 satisfies the preregistered overall practical-materiality criterion.",
+      "ANL64 has no material TTFT harm.",
+      "ANL64 is faster or better than llama.cpp or any external runtime.",
+      "NEXUS/Ledger64 control-plane logic independently caused the observed performance gain.",
+      "The observed result generalizes beyond the exact tested model, Intel Arc 140V target, frozen workloads, and frozen executors."
+    ]
+  },
+  "nexus_ledger64_attribution": {
+    "compatibility_and_plan_authority_demonstrated": true,
+    "independent_performance_causal_effect_isolated": false,
+    "reason": "P6 contrasts the complete frozen successor against the safe ArcLLM reference; it does not include an ablation that removes Ledger64 planning while retaining the same executor substitutions.",
+    "no_independent_nexus_performance_claim": true
+  },
+  "p6_evidence": {
+    "formal_adjudication": "artifacts/ANL64/ANL64_P6_FORMAL_ADJUDICATION_v0.1.json",
+    "formal_adjudication_blob": "56dd01850238e4131d357303d3888fd1826f6eb9",
+    "document": "docs/research/arcllm-nexus-ledger64/P6_FORMAL_ADJUDICATION.md",
+    "document_blob": "65a32fd47d92e76a1ab9ab6ec6564c35a57df8e5",
+    "bundle_sha256": "4C91C295F98E9A5267135F1D4693E147AB7FBDDD54564A8EAC9CFB85F67F4BE1"
+  },
+  "governance_closure": {
+    "current_program_reopen_permitted": false,
+    "threshold_revision_permitted": false,
+    "workload_search_permitted": false,
+    "executor_tuning_as_p6_rescue_permitted": false,
+    "prefill_ttft_tuning_inside_program_permitted": false,
+    "p6_rerun_permitted": false,
+    "p7_additional_science_permitted": false,
+    "lineage_closed_after_final_append": true
+  },
+  "future_work_boundary": {
+    "allowed_only_as_new_independent_program": true,
+    "candidate_question": "What mechanism causes the reproducible TTFT regression in the frozen ANL64 successor, and can a separately preregistered architecture remove it without sacrificing the demonstrated decode/E2E gains?",
+    "requirements": [
+      "fresh branch",
+      "fresh lineage.md",
+      "ORIGIN binding this terminal P7 artifact",
+      "independent prior-art/source review",
+      "new hypothesis and falsification gates justified without using threshold tuning to rescue P6",
+      "fresh data and no reuse of P6 timing as confirmatory evidence"
+    ],
+    "current_next_experiment": "NONE"
+  },
+  "final_authorization": {
+    "implementation": false,
+    "target_execution": false,
+    "scientific_measurement": false,
+    "p6": false,
+    "p7": false,
+    "successor_program": false
+  },
+  "next": "NONE_PROGRAM_TERMINAL"
+}
