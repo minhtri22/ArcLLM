@@ -1,0 +1,79 @@
+{
+  "schema": "arcllm.anl64.p5.execution_lock.v0.1",
+  "date": "2026-09-21",
+  "status": "P5_EXECUTION_LOCKED_NOT_YET_RUN",
+  "authorization": {
+    "path": "config/anl64_p5_execution_authorization_v0.1.json",
+    "blob": "4662ad4bdb5e517f08fa878b41bb824a1cdf8252",
+    "decision": "P5_BOUNDED_SEMANTIC_INTEGRATION_EXECUTION_AUTHORIZED"
+  },
+  "exact_git_blobs": {
+    "config/anl64_p5_execution_authorization_v0.1.json": "4662ad4bdb5e517f08fa878b41bb824a1cdf8252",
+    "config/anl64_p5_integration_validation_spec_v0.1.json": "8f9d8984985a17541cd3dbbfb3f7cd04c84cf3c9",
+    "docs/research/arcllm-nexus-ledger64/P5_INTEGRATION_VALIDATION_SPEC.md": "4339819a0956ca84b60ead2f6bd4184c196716ab",
+    "artifacts/ANL64/ANL64_P5_SPECIFICATION_QA_v0.1.json": "94c7f5448a6e71dee4e362ca974e4bd1947a694b",
+    "artifacts/ANL64/ANL64_P5_RUNNER_STATIC_QA_v0.1.json": "3cc0e661b22bda4c76d2d58a16e81fda9e05bc16",
+    "tools/extract_anl64_p5_semantics.py": "495c9bdab5a74edc176553334ce26acdf24b044a",
+    "tests/test_anl64_p5_package.py": "63ff914f398b036c52e819d219f95625cb0d018b",
+    "artifacts/ANL64/ANL64_P4_BUILDONLY_ADJUDICATION_v0.1.json": "e9039de1af496cf724a390e8180ae7d97e99f091",
+    "src/anl64_runtime.cpp": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+    "src/anl64_plan.hpp": "157be15c63363ba2d55093af829ca68be9107e27",
+    "shaders/sa1_q4k_subgroup_splitk.comp": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "src/q2_benchmark.cpp": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "src/gguf.cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
+    "src/gguf.h": "d71d22cc1db54a9643ecafa6d3b616a96221c726",
+    "src/tensor_store.cpp": "0eb52588d30620bfeb323e62c8546e7191a006d6",
+    "src/tensor_store.h": "fdc8788b72da4c0f9464aabdaa48e680d153fc5d",
+    "tools/compile_q2_shaders.ps1": "a7e08a196ee6c6bf94f460ef4d710175a1b85166",
+    "tools/build_q2.ps1": "18325b0a2b3c319f304724397cfe8dfb6d17377f",
+    "shaders/p7_q4k_gemm_2d.comp": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a",
+    "shaders/p7_q6k_gemm_2d.comp": "a0de99f972db6cd202606aad95fb9eab223639e6"
+  },
+  "runner_git_blob": "5b03752a2a3924ceaa63b034e01d780e0fff4f75",
+  "historical_safe_reference": {
+    "implementation_commit": "43afd71161c4dc8c766c09c3b55d5eca48352bde",
+    "all_runtime_support_blobs_identical": true,
+    "all_16_shader_source_blobs_identical": true
+  },
+  "exact_artifacts": {
+    "candidate_executable_sha256": "1F45DA9D8CACE3CF78FE31B7B7041B6027CB41E180F7FC99E50E1127EA4F5451",
+    "candidate_q4_fast_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+    "candidate_q4_safe_spv_sha256": "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A",
+    "candidate_q6_safe_spv_sha256": "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67"
+  },
+  "frozen_collection": {
+    "order": [
+      "ARC_SAFE_REFERENCE/W-S",
+      "ANL64_P4_LOCKED/W-S",
+      "ARC_SAFE_REFERENCE/W-C",
+      "ANL64_P4_LOCKED/W-C"
+    ],
+    "warmups_per_cell": 1,
+    "measured_attempts_per_cell": 5,
+    "measured_attempts_total": 20,
+    "semantic_fields_only": true,
+    "performance_adjudication": false,
+    "timing_spent_for_p6": true
+  },
+  "mutation_policy": {
+    "production_source_mutation_permitted": false,
+    "shader_mutation_permitted": false,
+    "specification_mutation_permitted": false,
+    "threshold_mutation_permitted": false,
+    "workload_mutation_permitted": false
+  },
+  "rerun_policy": {
+    "selective_rerun_permitted": false,
+    "infrastructure_repair_budget": 1,
+    "after_valid_infrastructure_repair": "FULL_FROZEN_P5_REPLAY_ONLY",
+    "second_f0": "P5_STOP_INFRASTRUCTURE_UNSTABLE"
+  },
+  "execution_scope": {
+    "target_model_load": true,
+    "gpu_dispatch": true,
+    "semantic_validation": true,
+    "performance_adjudication": false,
+    "p6": false
+  },
+  "next": "EXECUTE_EXACTLY_ONE_FROZEN_P5_SEMANTIC_INTEGRATION_COLLECTION"
+}
