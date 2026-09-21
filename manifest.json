@@ -2,7 +2,7 @@
   "phase": "Q6CB-1-SPECIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "Q6CB2_FROZEN_IDENTIFICATION_AUTHORIZED_RUNNER_LOCKED_NOT_YET_EXECUTED",
+  "status": "Q6CB2_AUTHORIZED_AFTER_ONE_BOUNDED_F0_REPAIR_NOT_YET_EXECUTED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -610,7 +610,7 @@
     "end_to_end_applicability": "NOT_TESTED"
   },
   "q6cb1": {
-    "status": "Q6CB2_FROZEN_IDENTIFICATION_AUTHORIZED_RUNNER_LOCKED_NOT_YET_EXECUTED",
+    "status": "Q6CB2_AUTHORIZED_AFTER_ONE_BOUNDED_F0_REPAIR_NOT_YET_EXECUTED",
     "branch": "research/q6-correctness-boundary",
     "program": "docs/Q6CB1_Q6_CORRECTNESS_BOUNDARY_PROGRAM.md",
     "contract": "config/q6cb1_specification_v0.1.json",
@@ -639,7 +639,7 @@
     "target_model_load_permitted": false,
     "sa1_rerun_permitted": false,
     "execution_authorization_file": "config/q6cb2_execution_authorization.json",
-    "next": "PULL_AND_RUN_ONLY_RUN_Q6CB2_IDENTIFICATION_PS1_ON_LOCKED_TARGET",
+    "next": "PULL_AND_RUN_ONLY_REPAIRED_RUN_Q6CB2_IDENTIFICATION_PS1_ON_LOCKED_TARGET",
     "zero_science_qa": "PASS",
     "qa_artifact": "artifacts/Q6CB/Q6CB1_SPECIFICATION_QA_v0.1.json",
     "qa_document": "docs/Q6CB1_SPECIFICATION_QA.md",
@@ -749,10 +749,10 @@
     "q6cb3_execution_authorized": false,
     "execution_authorization": {
       "decision": "Q6CB2_FROZEN_IDENTIFICATION_AUTHORIZED",
-      "revision": 2,
+      "revision": 3,
       "file": "config/q6cb2_execution_authorization.json",
-      "git_blob": "9c9a577665346c43629a21b1b2b95ac56b83a42d",
-      "commit": "f6cddd5359761c21b6ac9e5037b794600487e395",
+      "git_blob": "a90e0194ee02e266119f526658482539c8261ef4",
+      "commit": "6cda2fb3e891c54f8a226f5e0d303e16e40310ef",
       "scope": "Q6CB2_IDENTIFICATION_ONLY",
       "fixture_count": 30,
       "valid_partition_execution_count": 1,
@@ -762,10 +762,28 @@
     },
     "execution_runner": {
       "path": "run_q6cb2_identification.ps1",
-      "git_blob": "fa82d7023d0f94de2572df852f0d3a2f9dab6c91",
-      "implementation_commit": "90f1cea3fe73d2f956f0e1df4c350c72d32498ef",
-      "static_qa": "PASS_ZERO_SCIENCE_RUNNER_STATIC_QA",
+      "git_blob": "35179043cbb2657e285944625a91aa74fc9f141f",
+      "implementation_commit": "df1ca199a66fb4380f991b3c29d3f1d949939eec",
+      "static_qa": "PASS_ZERO_SCIENCE_RUNNER_STATIC_QA_AFTER_BOUNDED_F0_REPAIR",
       "static_qa_artifact": "artifacts/Q6CB/Q6CB2_RUNNER_STATIC_QA_v0.1.json"
+    },
+    "bounded_f0_repair": {
+      "stage": "Q6CB-2",
+      "trigger": "VULKANINFO_EXECUTABLE_ABSENT_PRE_SCIENCE",
+      "scientific_fixture_generated": false,
+      "q6cb_harness_launched": false,
+      "consumed": 1,
+      "max": 1,
+      "science_changed": false,
+      "further_same_stage_infrastructure_repair_permitted": false,
+      "on_next_f0": "STOP_INFRASTRUCTURE_UNSTABLE"
+    },
+    "environment_probe": {
+      "source": "src/sa0_capability_probe.cpp",
+      "source_git_blob": "7314988c0ca32f2a7d192f8a75d92490dd82d9fa",
+      "build_tool": "tools/build_sa0_cap.ps1",
+      "build_tool_git_blob": "8d0cce69fbf91e5cfa3dae0de9f92d611aebca29",
+      "role": "ZERO_SCIENCE_TARGET_ENVIRONMENT_QUERY_ONLY"
     }
   }
 }
