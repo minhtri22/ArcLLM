@@ -174,7 +174,7 @@ for both workloads in both sessions.
 
 ### H-NULL
 
-Supported only if the parent-like contrast is non-material everywhere:
+Supported only if **no H-DPIPE, H-PRECOND, or H-STATE-INTERACTION gate passes** and the parent-like contrast is non-material everywhere:
 
 ```text
 QF / SF < 1.10
