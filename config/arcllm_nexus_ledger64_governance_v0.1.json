@@ -3,7 +3,7 @@
   "date": "2026-09-21",
   "program_id": "ANL64",
   "branch": "research/arcllm-nexus-ledger64",
-  "status": "P6_EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
+  "status": "P6_INTERRUPTED_RECOVERY_REPLAY_AUTHORIZED_AND_LOCKED",
   "lineage": {
     "path": "programs/arcllm_nexus_ledger64/lineage.md",
     "policy": "APPEND_ONLY",
@@ -63,7 +63,7 @@
   "target_execution_authorized": true,
   "scientific_measurement_authorized": true,
   "rescue_by_renaming": false,
-  "next": "EXECUTE_EXACTLY_ONE_FROZEN_P6_MATCHED_E2E_COLLECTION",
+  "next": "RUN_RECOVER_ANL64_P6_AFTER_INTERRUPTION_PS1_ONCE",
   "stage_state": {
     "P0": "COMPLETE",
     "P1": "COMPLETE",
@@ -71,7 +71,7 @@
     "P3": "COMPLETE_PASS",
     "P4": "COMPLETE_PASS",
     "P5": "COMPLETE_PASS",
-    "P6": "EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
+    "P6": "INTERRUPTED_RECOVERY_REPLAY_AUTHORIZED_AND_LOCKED",
     "P7": "BLOCKED"
   },
   "p1_qa": {
@@ -104,7 +104,8 @@
     "p5_performance_adjudication": false,
     "p6": false,
     "p6_specification": false,
-    "p6_execution": true
+    "p6_execution": false,
+    "p6_recovery_replay": true
   },
   "p3": {
     "result": "P3_PASS_P4_BOUNDED_IMPLEMENTATION_ELIGIBLE",
@@ -188,9 +189,27 @@
     "execution_lock": "config/anl64_p6_execution_lock_v0.1.json",
     "execution_lock_blob": "eb11fc2c898846442d628acf69e6bc27241cd74e",
     "reconciliation": "artifacts/ANL64/ANL64_P6_DUPLICATE_SPEC_RECONCILIATION_v0.1.json",
-    "execution_authorized": true,
+    "execution_authorized": false,
     "performance_measurement": true,
     "p7_authorized": false,
-    "comparison": "ANL64_P4_LOCKED_vs_ARC_SAFE_REFERENCE"
+    "comparison": "ANL64_P4_LOCKED_vs_ARC_SAFE_REFERENCE",
+    "recovery": {
+      "adjudication": "artifacts/ANL64/ANL64_P6_INTERRUPTION_F0_ADJUDICATION_v0.1.json",
+      "adjudication_blob": "e70556520938cd5d6ae149d3bbc666434ba5404f",
+      "authorization": "config/anl64_p6_recovery_replay_authorization_v0.1.json",
+      "authorization_blob": "9d8675cba9ee34a18712a7bf8b7655f073a765bf",
+      "static_qa": "artifacts/ANL64/ANL64_P6_RECOVERY_STATIC_QA_v0.1.json",
+      "static_qa_blob": "ffce6456c573ae97da6fac820949bc6635d4b79d",
+      "lock": "config/anl64_p6_recovery_replay_lock_v0.1.json",
+      "lock_blob": "8dd8adfabeb803be24e8ef6db3778566b5f32ac0",
+      "runner": "recover_anl64_p6_after_interruption.ps1",
+      "runner_blob": "20d220d6357454cc7de38338eba7f6fce53c20a0",
+      "repair_budget_consumed": 1,
+      "repair_budget_max": 1,
+      "repair_remaining": 0,
+      "partial_evidence_status": "SPENT_NON_ADMISSIBLE",
+      "direct_p6_runner_forbidden": true,
+      "next_f0": "P6_STOP_INFRASTRUCTURE_UNSTABLE"
+    }
   }
 }
