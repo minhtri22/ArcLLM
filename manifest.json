@@ -1,8 +1,8 @@
 {
-  "phase": "ANL64-P5-SEMANTIC-EXECUTION",
+  "phase": "ANL64-P5-FROZEN-SEMANTIC-EXECUTION",
   "track": "P8 7B runtime",
   "date": "2026-09-21",
-  "status": "ANL64_P5_EXECUTION_AUTHORIZED_LOCKED_NOT_YET_RUN",
+  "status": "ANL64_P5_EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -822,7 +822,7 @@
     "anl64_performance_adjudication": false,
     "anl64_p6": false
   },
-  "next": "ANL64_EXECUTE_ONE_FROZEN_P5_SEMANTIC_INTEGRATION_COLLECTION",
+  "next": "ANL64_EXECUTE_EXACTLY_ONE_FROZEN_P5_SEMANTIC_INTEGRATION_COLLECTION",
   "anl64": {
     "program_id": "ANL64",
     "branch": "research/arcllm-nexus-ledger64",
@@ -875,7 +875,7 @@
       "P2": "COMPLETE_PASS",
       "P3": "COMPLETE_PASS",
       "P4": "COMPLETE_PASS",
-      "P5": "EXECUTION_AUTHORIZED_LOCKED_NOT_YET_RUN",
+      "P5": "EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
       "P6": "BLOCKED",
       "P7": "BLOCKED"
     },
