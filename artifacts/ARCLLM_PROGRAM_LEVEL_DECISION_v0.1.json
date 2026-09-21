@@ -1,0 +1,125 @@
+{
+  "schema": "arcllm.program_level_decision.v0.1",
+  "date": "2026-09-21",
+  "decision": "STOP_CURRENT_SUCCESSOR_LINE",
+  "successor_line": "SA-H1_DECODE_SPECIALIZED_PACKED_QUANT_EXECUTOR",
+  "return_to_end_to_end_validation": false,
+  "evidence_basis": {
+    "legacy_architecture": {
+      "verdict": "FEASIBLE_NO_DEMONSTRATED_ADVANTAGE",
+      "current_architecture_line_closed": true,
+      "evidence": "docs/ARC_LLM_FINAL_VERDICT.md",
+      "evidence_blob": "94f6f1b5dc4f2a03885523964912e0773fb360b8"
+    },
+    "post_verdict_successor": {
+      "candidate": "SA-H1",
+      "candidate_name": "Decode-Specialized Packed-Quant Executor",
+      "status_at_selection": "SPECIFICATION_ONLY_RESEARCH_REOPEN_CANDIDATE",
+      "implementation_authorized": false,
+      "target_execution_authorized": false,
+      "candidate_contract": "config/successor_architecture_candidate_v0.1.json",
+      "candidate_blob": "178c24e7c455c173b50802be03270eabab9c2431"
+    },
+    "sa0": {
+      "result": "SA0_CAP_PASS",
+      "interpretation": "Exact target capabilities establish implementability options, not performance advantage or end-to-end admission.",
+      "adjudication": "artifacts/SA0/SA0_CAP_ADJUDICATION_v0.1.json",
+      "adjudication_blob": "9092a5cff7950dfa56874bc86197259d5dfb7700"
+    },
+    "sa1": {
+      "closeout": "SA1_CLOSED_ASYMMETRIC_Q4_PASS_Q6_CORRECTNESS_FAIL",
+      "closeout_blob": "83b30549410ce89e8d5047685c8bcbddc87983ee",
+      "q4": {
+        "result": "Q4_STAGE_PASS",
+        "component_scope_only": true,
+        "end_to_end_claim": false,
+        "process_A_geomean_speedup": 3.1371499895364643,
+        "process_B_geomean_speedup": 3.147501200588043
+      },
+      "q6": {
+        "result": "Q6_STAGE_FAIL_CORRECTNESS",
+        "same_mechanism_and_geometry_as_q4": true,
+        "performance_measurement": "NOT_RUN",
+        "target_model": "NOT_RUN"
+      },
+      "synthesis": {
+        "q4_mechanism_efficacy": "SUPPORTED_WITHIN_FROZEN_COMPONENT_SCOPE",
+        "unchanged_cross_quant_generality": "FALSIFIED_WITHIN_SA1",
+        "end_to_end_applicability": "NOT_TESTED"
+      }
+    },
+    "exact_successor_scope": {
+      "q4_q6_both_preregistered": true,
+      "reason": "The exact 7B decode graph has legal packed Q4_K/Q6_K V/down paths; both quant families were preregistered specifically to prevent selecting only the favorable type after measurement.",
+      "source": "config/sa1p_component_study_preregistration_v0.1.json",
+      "source_blob": "4256a2e6bda4fa35b48cb4051ff26e18eef5dc96"
+    },
+    "q6cb": {
+      "result": "STOP_INFRASTRUCTURE_UNSTABLE",
+      "valid_scientific_fixture_count": 0,
+      "causal_result": "NONE",
+      "f1_f6_adjudicated": false,
+      "adjudication": "artifacts/Q6CB/Q6CB2_F0_ADJUDICATION_v0.1.json"
+    },
+    "governance": {
+      "contract": "config/q6cb_termination_goal_alignment_v0.1.json",
+      "contract_blob": "72e27750320c68676e63639ebb6edde318fe5e55",
+      "successor_gate_requires_supported_causal_result": true,
+      "successor_interventions_max": 1,
+      "return_to_e2e_only_after_successor_correctness_and_component_value": true,
+      "additional_q6cb_mechanism_programs": 0,
+      "q6cb5_permitted": false
+    }
+  },
+  "decision_logic": [
+    {
+      "question": "Is the validated legacy ArcLLM architecture eligible to return to E2E validation?",
+      "answer": false,
+      "reason": "It already completed E2E validation and closed FEASIBLE_NO_DEMONSTRATED_ADVANTAGE."
+    },
+    {
+      "question": "Does SA-H1 have a complete correctness-qualified component path over its preregistered Q4_K/Q6_K scope?",
+      "answer": false,
+      "reason": "Q4 passed but unchanged Q6 failed correctness."
+    },
+    {
+      "question": "Did Q6CB provide a supported causal mechanism that can unlock the one permitted successor intervention?",
+      "answer": false,
+      "reason": "Q6CB terminated on infrastructure before valid scientific collection; no causal result exists."
+    },
+    {
+      "question": "Are the preregistered prerequisites for RETURN_TO_END_TO_END_VALIDATION satisfied?",
+      "answer": false,
+      "reason": "No supported Q6CB causal result, no authorized successor intervention, no valid successor correctness attempt, and no successor component-value program exist."
+    },
+    {
+      "question": "Can Q4 component PASS alone justify model integration or E2E return?",
+      "answer": false,
+      "reason": "SA1 explicitly denies an E2E claim and forbids target-model integration from SA1; using only favorable Q4 evidence would violate the preregistered cross-quant scope."
+    }
+  ],
+  "preserved_positive_evidence": {
+    "q4_component_result": "VALID_AND_REUSABLE_AS_BOUNDED_COMPONENT_EVIDENCE",
+    "sa0_target_capability": "VALID",
+    "legacy_e2e_feasibility": "VALID",
+    "note": "Stopping SA-H1 does not erase these results; it only denies promotion to an end-to-end successor claim."
+  },
+  "closed_paths": {
+    "q6cb_continuation": true,
+    "q6cb_rename_rescue": true,
+    "sa1_q6_rescue": true,
+    "sa1_target_model_integration": true,
+    "q3_reopen": true,
+    "sa_h1_end_to_end_validation": true,
+    "si1_from_q6cb": true,
+    "q6cb3": true
+  },
+  "program_state": {
+    "legacy_line": "CLOSED_FEASIBLE_NO_DEMONSTRATED_ADVANTAGE",
+    "current_successor_line": "CLOSED_NO_END_TO_END_ADMISSION",
+    "q6cb": "TERMINAL_STOP_INFRASTRUCTURE_UNSTABLE",
+    "end_to_end_validation_authorized": false
+  },
+  "scientific_interpretation": "The current SA-H1 successor line produced a strong bounded Q4 component result but did not establish a correctness-qualified, causally actionable Q4/Q6 successor architecture. Q6CB infrastructure termination supplies no evidence for or against the causal hypotheses. Therefore the evidence does not justify model-level promotion.",
+  "next": "NO_FURTHER_EXECUTION_ON_CURRENT_SUCCESSOR_LINE"
+}
