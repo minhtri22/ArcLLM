@@ -1,0 +1,64 @@
+{
+  "schema": "arcllm.q6cb1.execution_contract_lock.v0.1",
+  "date": "2026-09-21",
+  "status": "Q6CB_EXECUTION_CONTRACT_LOCKED_EXECUTION_CLOSED",
+  "contract": {
+    "path": "config/q6cb1_execution_contract_v0.1.json",
+    "git_blob": "c2a541dda5bc01ed473644f8c9f232cfc788e953"
+  },
+  "contract_document": {
+    "path": "docs/Q6CB1_EXECUTION_CONTRACT.md",
+    "git_blob": "c24cb9ca183b23d6f5299faaf361cccabe20b99a"
+  },
+  "zero_science_qa": {
+    "result": "PASS_ZERO_SCIENCE_EXECUTION_CONTRACT_QA",
+    "artifact": "artifacts/Q6CB/Q6CB1_EXECUTION_CONTRACT_QA_v0.1.json",
+    "artifact_git_blob": "42a03543bec398ef6083cd7c1fbf11db47ebac83",
+    "document": "docs/Q6CB1_EXECUTION_CONTRACT_QA.md",
+    "document_git_blob": "8d95dc2cab9afe17cb963b01ad6d49305d77b80c",
+    "qa_commit": "41af6791b47354646bbe5d1211d41c7518c6dd3b"
+  },
+  "parent_implementation_evidence_lock": {
+    "commit": "237a4174b409bf2e2200fa96fe1a7dbccfa76bab",
+    "implementation_mutation_permitted": false
+  },
+  "fixture_identity": {
+    "identification_fixtures": 30,
+    "confirmatory_fixtures": 30,
+    "seed_schedule_sha256": "C6C47227DA52D41F485A21319DEAB81514A6A7555D0EFAD8113D75F304BA273E",
+    "partitions_frozen_before_first_execution": true
+  },
+  "scientific_rules_locked": {
+    "numeric_tolerances": true,
+    "group_aggregation": true,
+    "F0": true,
+    "F1": true,
+    "H_RTCI": true,
+    "H_PDI": true,
+    "H_DSA": true,
+    "H_SEM": true,
+    "identification_gate": true,
+    "confirmatory_gate": true,
+    "terminal_adjudication": true,
+    "evidence_schema": true,
+    "device_environment_contract": true
+  },
+  "mutation_after_lock": {
+    "fixture_or_seed_change_permitted": false,
+    "threshold_change_permitted": false,
+    "mechanism_rule_change_permitted": false,
+    "implementation_change_permitted": false,
+    "selective_fixture_replay_permitted": false
+  },
+  "authorization": {
+    "q6cb2_identification_authorized": false,
+    "q6cb3_confirmatory_authorized": false,
+    "fresh_fixture_generation": false,
+    "scientific_cpu_execution": false,
+    "scientific_gpu_execution": false,
+    "performance_timing": false,
+    "target_model_load": false,
+    "execution_authorization_file": null
+  },
+  "next": "EXPLICIT_AUTHORIZATION_GATE_FOR_Q6CB2_FROZEN_IDENTIFICATION_COLLECTION_ONLY"
+}
