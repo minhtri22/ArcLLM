@@ -1,7 +1,7 @@
 {
-  "schema": "arcllm.q6cb2.execution_authorization.v0.3",
+  "schema": "arcllm.q6cb2.execution_authorization.v0.4",
   "date": "2026-09-21",
-  "decision": "Q6CB2_FROZEN_IDENTIFICATION_AUTHORIZED",
+  "decision": "Q6CB2_EXECUTION_REVOKED_STOP_INFRASTRUCTURE_UNSTABLE",
   "authorization_marker": "Q6CB1_SCIENTIFIC_EXECUTION_AUTHORIZED",
   "scope": "Q6CB2_IDENTIFICATION_ONLY",
   "authorization_parent_head": "7d2de054d1b5544167dde0766c8a016261f83db0",
@@ -428,12 +428,12 @@
     "subgroup_arithmetic_required": true
   },
   "authorization": {
-    "fresh_fixture_generation": true,
-    "scientific_cpu_execution": true,
-    "scientific_gpu_execution": true,
+    "fresh_fixture_generation": false,
+    "scientific_cpu_execution": false,
+    "scientific_gpu_execution": false,
     "performance_timing": false,
     "target_model_load": false,
-    "q6cb2_identification": true,
+    "q6cb2_identification": false,
     "q6cb3_confirmatory": false,
     "successor_intervention": false,
     "q3_reopen": false
@@ -458,8 +458,8 @@
     "authorization_file": null,
     "rule": "Only post-Q6CB2 independent adjudication may determine eligibility; separate explicit authorization required."
   },
-  "next": "PULL_AND_RUN_ONLY_REPAIRED_RUN_Q6CB2_IDENTIFICATION_PS1_ON_LOCKED_TARGET",
-  "authorization_revision": 3,
+  "next": "NO_FURTHER_Q6CB_EXECUTION_PROGRAM_LEVEL_ARCLLM_DECISION_ONLY",
+  "authorization_revision": 4,
   "supersedes_unconsumed_authorization": {
     "commit": "f6cddd5359761c21b6ac9e5037b794600487e395",
     "git_blob": "9c9a577665346c43629a21b1b2b95ac56b83a42d",
@@ -491,6 +491,16 @@
     "trigger": "VULKANINFO_EXECUTABLE_ABSENT_BEFORE_ANY_SCIENTIFIC_FIXTURE",
     "science_changed": false,
     "further_same_stage_infrastructure_repair_permitted": false,
-    "on_next_f0": "STOP_INFRASTRUCTURE_UNSTABLE"
+    "on_next_f0": "STOP_INFRASTRUCTURE_UNSTABLE_ALREADY_TRIGGERED"
+  },
+  "terminal_closure": {
+    "decision": "STOP_INFRASTRUCTURE_UNSTABLE",
+    "adjudication_artifact": "artifacts/Q6CB/Q6CB2_F0_ADJUDICATION_v0.1.json",
+    "adjudication_document": "docs/Q6CB2_F0_ADJUDICATION.md",
+    "second_f0_same_stage": true,
+    "repair_budget_consumed_before_second_f0": true,
+    "scientific_fixture_count": 0,
+    "scientific_adjudication_performed": false,
+    "authorization_revoked": true
   }
 }
