@@ -1232,3 +1232,10 @@ No Q6CB-2 fixture has yet been executed at this authorization record point.
 A single operator entrypoint, `run_q6cb2_identification.ps1`, was added and zero-science static QA passed. The Q6CB-2 authorization was reissued as revision 2 before any Q6CB-2 execution and now binds the exact runner Git blob `fa82d7023d0f94de2572df852f0d3a2f9dab6c91`.
 The runner fail-closes on contract/source/runtime provenance, validates the exact 30-fixture identification schedule and target identity, prevents overwrite/selective replay, executes only the frozen Q6CB-2 partition, and packages provenance without adjudicating scientific outcomes.
 Q6CB-3 remains unauthorized. No Q6CB-2 fixture has been executed at this lineage point.
+
+
+## 2026-09-21 — Q6CB-2 pre-science F0 repaired within bounded allowance
+The first Q6CB-2 runner invocation failed closed during environment preflight because the portable Vulkan SDK did not contain `vulkaninfo.exe`. No scientific fixture was generated, the Q6CB causal harness was not launched, and no outcome was observed.
+One infrastructure-only repair was applied: the runner now uses the already-frozen zero-science SA0 Vulkan capability probe, with exact source/build-tool blobs bound by authorization revision 3. Q6CB fixtures, seeds, thresholds, mechanism rules, causal harness and shaders are unchanged.
+The single Q6CB-2 infrastructure repair allowance is now consumed (1/1). Any subsequent F0 in this stage requires `STOP_INFRASTRUCTURE_UNSTABLE`; no second repair is permitted.
+Q6CB-3 remains unauthorized.
