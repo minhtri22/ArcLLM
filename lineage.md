@@ -1053,3 +1053,11 @@ Independent QA of preregistration commit `e98650ec3b2e0f0c8fa3168f3d97aed8ea5998
 Worst-case four-bank Q6-down weight allocation is 222,781,440 bytes (~212.46 MiB), within the frozen 256 MiB per-cell process cap. One mechanism remains frozen: subgroup-32 split-K per output row. Cooperative matrix/fusion/staging/geometry search remain forbidden.
 Implementation lock now authorizes only SA1-K1 engineering: exactly one Q4 candidate shader at `shaders/sa1_q4k_subgroup_splitk.comp`, one component harness and bounded SA1 build/preflight/adjudication tooling. Q6 implementation remains blocked until independent valid Q4 PASS.
 Important: the lock does NOT authorize component measurement, target-model inference or Q3. SA1-K1 must first undergo static QA and zero-measurement preflight, followed by separate execution authorization.
+
+
+## 2026-09-21 — SA1-K1 exact locked implementation
+Implemented the first successor kernel under SA1-P lock, Q4 only. Exactly one new shader was added: `shaders/sa1_q4k_subgroup_splitk.comp`.
+Mechanism matches the frozen lock: local_size 128, required subgroup size 32 at Vulkan pipeline creation, full-subgroup flag, four subgroups/workgroup, one subgroup/output row, K stride 32, direct packed Q4_K dequant, FP32 partial accumulation, subgroupAdd reduction, lane-0 store. No shared memory, scratch, staging, fusion, cooperative matrix or variant search.
+Added a standalone synthetic component harness. Preflight mode executes correctness only on banks 0/3 across all five Q4 shape cells with no timestamp query, no performance sample and no model load. Measurement mode contains the frozen future A/B protocol but requires a separate authorization file that does not exist at implementation time.
+Added pinned compile/build tooling, fail-closed local preflight, future measurement runner and adjudicator. Existing P7/Q2/Q3 production files are untouched.
+Status: SA1K1_IMPLEMENTED_AWAITING_STATIC_QA. Component measurement, Q6 implementation, target-model execution and Q3 remain forbidden.

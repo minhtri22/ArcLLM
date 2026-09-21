@@ -1,8 +1,8 @@
 {
-  "phase": "SA1-P-COMPONENT-STUDY-PREREGISTRATION",
+  "phase": "SA1-K1-IMPLEMENTATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "SA1P_LOCK_PASS_SA1K1_IMPLEMENTATION_AUTHORIZED",
+  "status": "SA1K1_IMPLEMENTED_AWAITING_STATIC_QA",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Implement only SA1-K1 Q4 subgroup-32 split-K component path under the implementation lock. No component measurement until static QA + zero-measurement preflight + separate execution authorization.",
+  "next_on_success": "Independent static audit of exact SA1-K1 implementation. If PASS, run exact-device zero-measurement correctness preflight and return bundle. Measurement remains forbidden.",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -526,7 +526,7 @@
     }
   },
   "sa1": {
-    "status": "SA1P_LOCK_PASS_SA1K1_IMPLEMENTATION_AUTHORIZED",
+    "status": "SA1K1_IMPLEMENTED_AWAITING_STATIC_QA",
     "preregistration": "docs/SA1P_DECODE_PACKED_QUANT_COMPONENT_STUDY.md",
     "contract": "config/sa1p_component_study_preregistration_v0.1.json",
     "primary_mechanism": "SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW",
@@ -540,6 +540,20 @@
     "qa": "artifacts/SA1/SA1P_INDEPENDENT_QA_v0.1.json",
     "qa_document": "docs/SA1P_INDEPENDENT_QA.md",
     "implementation_lock": "config/sa1p_implementation_lock_v0.1.json",
-    "implementation_scope": "SA1-K1_ALLOWLIST_ONLY"
+    "implementation_scope": "SA1-K1_ALLOWLIST_ONLY",
+    "k1": {
+      "status": "IMPLEMENTED_AWAITING_STATIC_QA",
+      "contract": "config/sa1_k1_implementation_contract_v0.1.json",
+      "shader": "shaders/sa1_q4k_subgroup_splitk.comp",
+      "harness": "src/sa1_component_benchmark.cpp",
+      "compiler": "tools/compile_sa1_component.ps1",
+      "builder": "tools/build_sa1_component.ps1",
+      "preflight": "run_sa1_component_preflight.ps1",
+      "measured_runner": "run_sa1_component_q4.ps1",
+      "adjudicator": "tools/adjudicate_sa1_component.py",
+      "static_qa": "tests/test_sa1_component_package.py",
+      "candidate_variants": 1,
+      "measurement_authorized": false
+    }
   }
 }

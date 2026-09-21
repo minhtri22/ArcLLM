@@ -1,0 +1,60 @@
+{
+  "schema": "arcllm.sa1.k1.implementation_contract.v0.1",
+  "date": "2026-09-21",
+  "status": "SA1K1_IMPLEMENTED_AWAITING_STATIC_AND_TARGET_PREFLIGHT",
+  "parent_implementation_lock_commit": "60b0fdf91ffe859c918055afa9e3b1071142f6c4",
+  "primary_mechanism": "SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW",
+  "candidate_shader": "shaders/sa1_q4k_subgroup_splitk.comp",
+  "candidate_variants": 1,
+  "geometry": {
+    "local_size": [
+      128,
+      1,
+      1
+    ],
+    "required_subgroup_size": 32,
+    "require_full_subgroups": true,
+    "subgroups_per_workgroup": 4,
+    "rows_per_workgroup": 4,
+    "shared_memory_bytes": 0,
+    "extra_global_scratch_bytes": 0
+  },
+  "baseline": {
+    "source": "shaders/p7_q4k_gemm_2d.comp",
+    "git_blob": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a",
+    "spirv_sha256": "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A"
+  },
+  "compiler": {
+    "name": "glslang",
+    "release": "16.5.0",
+    "asset_sha256": "06B71298B750268C127F2EE7AE0EF7525E2068120C6C8A3A08B2F58CA6F325CE",
+    "target_env": "vulkan1.2"
+  },
+  "preflight": {
+    "correctness_only": true,
+    "correctness_banks": [
+      0,
+      3
+    ],
+    "gpu_dispatch_permitted": true,
+    "timestamp_queries_permitted": false,
+    "performance_samples_permitted": 0,
+    "model_load_permitted": false,
+    "performance_gate_evaluation_permitted": false
+  },
+  "future_measurement": {
+    "implemented_but_execution_locked": true,
+    "warmups_per_arm_per_cell": 10,
+    "measured_pairs_per_cell_per_process": 30,
+    "processes": [
+      "A",
+      "B"
+    ],
+    "authorization_file": "config/sa1_q4_execution_authorization.json"
+  },
+  "measurement_permitted": false,
+  "target_model_execution_permitted": false,
+  "q6_implementation_permitted": false,
+  "q3_reopen_permitted": false,
+  "next": "Independent static QA, then exact-device zero-measurement correctness preflight. No measurement until returned bundle is independently adjudicated and a separate execution authorization is committed."
+}

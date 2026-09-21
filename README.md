@@ -159,3 +159,10 @@ No SA1 kernel, harness or measurement is authorized until independent QA passes 
 SA1-P independent QA passed and the implementation lock is frozen. Only **SA1-K1 Q4** implementation is now permitted under a finite allowlist: one subgroup-32 split-K candidate shader plus the component harness/tooling required to qualify it.
 
 Q6 implementation, component measurement, target-model inference and Q3 remain blocked.
+
+
+### SA1-K1 implementation
+
+The first successor implementation now exists under the SA1-P lock: one Q4_K subgroup-32 split-K shader plus an isolated synthetic component harness.
+
+Measurement is still **not authorized**. The next gate is independent static audit followed by the exact-device correctness-only zero-measurement preflight.
