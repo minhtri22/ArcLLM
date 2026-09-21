@@ -1210,3 +1210,11 @@ Static-equivalent QA is `PASS_STATIC_EQUIVALENT_QA`. The exact implementation/ev
 The mandatory five-question goal-alignment check passed: the next stage directly serves the frozen causal question, is required to distinguish declared terminal outcomes, remains inside the hard budget, preserves prior evidence, and remains scientifically justified under a negative result. No drift was detected.
 Decision: `CONTINUE_WITHIN_LOCK_TO_EXECUTION_CONTRACT_DESIGN_ONLY`.
 Fresh fixture execution, CPU/GPU scientific execution, timing and target-model loading remain forbidden. No execution authorization exists. The only next permitted stage is specification-only design and freeze of the execution contract.
+
+
+## 2026-09-21 — Q6CB execution contract locked; Q6CB-2 closed
+Execution-contract specification completed under the locked Q6CB-1 implementation. The frozen design binds two fresh K-length shapes, five conditioning strata, three independent seeds per shape/stratum, and separate 30-fixture identification and 30-fixture confirmatory partitions.
+Zero-science QA result: `PASS_ZERO_SCIENCE_EXECUTION_CONTRACT_QA`.
+The exact execution contract is bound by `config/q6cb1_execution_contract_lock_v0.1.json`; fixture/seed identities, numerical tolerances, F0/F1 and H-RTCI/H-PDI/H-DSA/H-SEM rules, evidence schema and target runtime identities are now immutable.
+No fresh fixture was generated or executed, no CPU/GPU scientific execution occurred, no timing or target-model load occurred, and no execution authorization exists.
+Q6CB-2 remains closed. The only next admissible gate is explicit authorization for the single frozen Q6CB-2 identification collection.
