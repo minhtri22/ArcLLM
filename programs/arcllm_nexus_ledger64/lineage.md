@@ -111,3 +111,48 @@ Current authorization:
 - scientific performance measurement: BLOCKED.
 
 Next: P3 must prove local expressibility/compatibility of the frozen planner + STATIC_ROW_REGION64_PLAN + guaranteed Q4_FAST integration contract without adding repack/copy/online search or changing numerical/model semantics.
+
+
+## 2026-09-21 — P3 COMPLETE / PASS / P4 AUTHORIZATION GATE OPEN
+
+P3 tested only local integration compatibility of the frozen P2 architecture. It consumed no new scientific data, executed no target-model inference, submitted no fresh GPU workload, and performed no performance measurement.
+
+Per the no-duplicate-proof rule, P3 reused exact closed target evidence rather than rerunning already-established capability/correctness checks:
+- SA0 exact Arc 140V capability PASS on driver 32.0.101.8860;
+- subgroup size 32, subgroup arithmetic, subgroup-size control and computeFullSubgroups available;
+- exact inherited Q4 candidate shader blob `56999d88dc1bef6486e7e1908982f6de4b0f9f6a`;
+- exact candidate BuildOnly/zero-measurement correctness PASS on the same target/driver.
+
+P3 established source-level integration compatibility:
+- baseline and Q4_FAST share identical W/X/B/Y storage bindings;
+- push-constant semantics match Q2 `PCGemm`: n, rows, batch, row_bytes, add_bias, w_base_bytes, bias_base;
+- decoder tensors are already bound as single slices in existing persistent arenas;
+- Q4_FAST can use the same arena buffer plus byte base directly;
+- no repack, predequant copy, extra weight buffer, scratch allocation or offline conversion is required.
+
+One compatibility restriction was discovered and frozen:
+- inherited Q4_FAST indexes `X[k]` and `Y[row]`, so it is admitted only for decode `batch=1`;
+- prefill/multi-token execution remains on the existing safe path.
+
+Exact fixed-Q4 mapping:
+- 140 guaranteed Q4_FAST PlanNodes (Q/K/O/gate/up across 28 layers);
+- 19,936 Region64 descriptors;
+- each Region64 corresponds to exactly 16 Q4_FAST workgroups;
+- all exact admitted row counts divide both 64 and 4; no tail Region64/workgroup exists.
+
+Ledger64 remains model-load-time control metadata only. There is no dynamic frontier, per-token region reconstruction, region sort/scan, Event-Ledger hot-path dispatch or extra queue submit.
+
+Frozen P3 blobs:
+- compatibility contract: `374d8f50206757a7b5c5fe5b76a7acb177653b8e`
+- P3 document: `d46eb2ee13c7b54bee85a29d7462ec22ba75d6d7`
+- P3 zero-science QA: `ec576a35344d6da2f4c66e6c042a3f4fa340aa0c`
+
+P3 result: `P3_PASS_P4_BOUNDED_IMPLEMENTATION_ELIGIBLE`.
+
+Current authorization:
+- P4 authorization gate: OPEN.
+- P4 implementation: NOT AUTHORIZED.
+- target-model inference: BLOCKED.
+- scientific performance measurement: BLOCKED.
+
+Next: explicit P4 bounded implementation authorization must freeze the exact implementation allowlist, production file mutations, Region64 descriptor scope, 140-node Q4_FAST substitution scope, metadata budget, BuildOnly/correctness gates and no-rescue exclusions before any production source is changed.
