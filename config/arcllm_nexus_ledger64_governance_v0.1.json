@@ -3,7 +3,7 @@
   "date": "2026-09-21",
   "program_id": "ANL64",
   "branch": "research/arcllm-nexus-ledger64",
-  "status": "P5_COMPLETE_PASS_P6_SPECIFICATION_AUTHORIZED",
+  "status": "P6_EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
   "lineage": {
     "path": "programs/arcllm_nexus_ledger64/lineage.md",
     "policy": "APPEND_ONLY",
@@ -60,10 +60,10 @@
     "P7_FINAL_ADJUDICATION"
   ],
   "implementation_authorized": false,
-  "target_execution_authorized": false,
-  "scientific_measurement_authorized": false,
+  "target_execution_authorized": true,
+  "scientific_measurement_authorized": true,
   "rescue_by_renaming": false,
-  "next": "P6_MATCHED_END_TO_END_CONFIRMATION_SPECIFICATION_ONLY",
+  "next": "EXECUTE_EXACTLY_ONE_FROZEN_P6_MATCHED_E2E_COLLECTION",
   "stage_state": {
     "P0": "COMPLETE",
     "P1": "COMPLETE",
@@ -71,7 +71,7 @@
     "P3": "COMPLETE_PASS",
     "P4": "COMPLETE_PASS",
     "P5": "COMPLETE_PASS",
-    "P6": "SPECIFICATION_AUTHORIZED_EXECUTION_BLOCKED",
+    "P6": "EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
     "P7": "BLOCKED"
   },
   "p1_qa": {
@@ -94,7 +94,7 @@
     "p3_zero_science_compatibility": false,
     "p4_authorization_gate": false,
     "p4_implementation": false,
-    "target_model_inference": false,
+    "target_model_inference": true,
     "scientific_performance_measurement": true,
     "p4_buildonly": false,
     "p5_specification": false,
@@ -103,8 +103,8 @@
     "p5_semantic_execution": false,
     "p5_performance_adjudication": false,
     "p6": false,
-    "p6_specification": true,
-    "p6_execution": false
+    "p6_specification": false,
+    "p6_execution": true
   },
   "p3": {
     "result": "P3_PASS_P4_BOUNDED_IMPLEMENTATION_ELIGIBLE",
@@ -169,7 +169,7 @@
     "adjudication_document": "docs/research/arcllm-nexus-ledger64/P5_INTEGRATION_ADJUDICATION.md",
     "adjudication_document_blob": "67623e539867c4d1b61f97a80d56d06f87050748"
   },
-  "scientific_measurement_scope": "NONE_P6_SPECIFICATION_ONLY",
+  "scientific_measurement_scope": "P6_FRESH_MATCHED_E2E_SUCCESSOR_VS_SAFE_REFERENCE_ONLY",
   "p6": {
     "specification": "config/anl64_p6_matched_e2e_spec_v0.1.json",
     "specification_blob": "c7e1753ef9079010ce1768ba924e4f996f5e9b35",
@@ -187,17 +187,10 @@
     "runner_static_qa_blob": "c8476a9af378754e76319ea23e686b8b94e2f30b",
     "execution_lock": "config/anl64_p6_execution_lock_v0.1.json",
     "execution_lock_blob": "eb11fc2c898846442d628acf69e6bc27241cd74e",
-    "result": null,
-    "comparison": "ANL64_P4_LOCKED_vs_ARC_SAFE_REFERENCE",
-    "decode_threshold": 1.1,
-    "e2e_threshold": 0.9,
-    "ttft_blocking_threshold": 1.1,
-    "sessions": [
-      "A",
-      "B"
-    ],
-    "measured_attempts_total": 40,
-    "p5_timing_reuse": false,
-    "p7_authorized": false
+    "reconciliation": "artifacts/ANL64/ANL64_P6_DUPLICATE_SPEC_RECONCILIATION_v0.1.json",
+    "execution_authorized": true,
+    "performance_measurement": true,
+    "p7_authorized": false,
+    "comparison": "ANL64_P4_LOCKED_vs_ARC_SAFE_REFERENCE"
   }
 }
