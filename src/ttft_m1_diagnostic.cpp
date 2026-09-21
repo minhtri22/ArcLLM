@@ -558,7 +558,7 @@ int main(int argc,char**argv){
         return 0;
     }catch(const std::exception&e){
         std::ofstream o(out,std::ios::binary);
-        if(o)o<<"{\n  \"schema\":\"arcllm.q2.arcllm_cell.v1\",\n  \"status\":\"ERROR\",\n  \"error\":\""<<p8g_escape(e.what())<<"\"\n}\n";
+        if(o)o<<"{\n  \"schema\":\"arcllm.ttft_m1.diagnostic_cell.v0.1\",\n  \"status\":\"ERROR\",\n  \"error\":\""<<p8g_escape(e.what())<<"\"\n}\n";
         std::cerr<<"TTFT M1 diagnostic error: "<<e.what()<<"\n";return 2;
     }
 }
