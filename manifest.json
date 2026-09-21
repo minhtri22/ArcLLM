@@ -2,7 +2,7 @@
   "phase": "Q6CB-1-SPECIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "Q6CB1_IMPLEMENTATION_SEMANTIC_INVARIANT_REPAIR_REBUILD_PENDING",
+  "status": "Q6CB1_BUILDONLY_PASS_STATIC_TEST_FIX_RERUN_PENDING",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -610,7 +610,7 @@
     "end_to_end_applicability": "NOT_TESTED"
   },
   "q6cb1": {
-    "status": "Q6CB1_IMPLEMENTATION_SEMANTIC_INVARIANT_REPAIR_REBUILD_PENDING",
+    "status": "Q6CB1_BUILDONLY_PASS_STATIC_TEST_FIX_RERUN_PENDING",
     "branch": "research/q6-correctness-boundary",
     "program": "docs/Q6CB1_Q6_CORRECTNESS_BOUNDARY_PROGRAM.md",
     "contract": "config/q6cb1_specification_v0.1.json",
@@ -639,7 +639,7 @@
     "target_model_load_permitted": false,
     "sa1_rerun_permitted": false,
     "execution_authorization_file": null,
-    "next": "RERUN_STATIC_UNIT_AND_TARGET_LOCAL_BUILDONLY_ON_REPAIRED_EXACT_HEAD",
+    "next": "RERUN_STATIC_UNIT_TEST_ONLY_ON_HEAD_54D1F9D4_NO_REBUILD_REQUIRED",
     "zero_science_qa": "PASS",
     "qa_artifact": "artifacts/Q6CB/Q6CB1_SPECIFICATION_QA_v0.1.json",
     "qa_document": "docs/Q6CB1_SPECIFICATION_QA.md",
@@ -658,7 +658,7 @@
     "implementation_authorization_commit": "d81ce5988df078ee3b7efe7a8009257af1b658f2",
     "implementation_lock": "config/q6cb1_implementation_lock_v0.1.json",
     "implementation_scope_commit": "42277644207197934be2ca57b26a59fde510fd40",
-    "buildonly_status": "PRIOR_BUILDONLY_INVALIDATED_BY_PRELOCK_IMPLEMENTATION_REPAIR",
+    "buildonly_status": "PASS_TARGET_LOCAL_BUILD_CRITICAL_BLOBS",
     "source_blobs": {
       "canonical_reference": "6e4283b8a91606c868573c5250e06d803c442c74",
       "fixture_generator": "34f1e71355448244dd09dab67e27c0cad4808826",
@@ -679,6 +679,29 @@
         "d_bits"
       ],
       "observed_science": false
+    },
+    "build_evidence": {
+      "build_head": "6ba51a9d968cd0ed46f808b2f241cd8a50b7e118",
+      "shader_compile": "PASS",
+      "native_build": "PASS",
+      "executable_launched": false,
+      "scientific_execution": false,
+      "gpu_dispatch": false,
+      "performance_timing": false,
+      "model_loaded": false,
+      "glslang_release": "16.5.0",
+      "glslang_asset_sha256": "06B71298B750268C127F2EE7AE0EF7525E2068120C6C8A3A08B2F58CA6F325CE",
+      "packed_spv_sha256": "CE326D6CFB6474D3B255D0530FE3BE789BACC8B1540A709223EF7F06E1C49B61",
+      "expanded_spv_sha256": "73F35157417A2BB28E0BBB97D1F9CFE4AD7C54C0DFED599DEA0E4EE53F5AA6D2",
+      "executable_sha256": "83E2A04C83418258EB2BB77E4350D3661766EFDBB140E754AE704805D62A1AA9",
+      "sdk_header_sha256": "2D1A6F00BFDCDDBE1C68BF5F574A0FC4CF95C4BE9EAE683123B6DB8AF9D1A1DE"
+    },
+    "static_test": {
+      "prior_result": "FALSE_NEGATIVE_ESCAPED_SOURCE_LITERAL_ASSERTION",
+      "repair_commit": "54d1f9d4f0dfc0994e4d072366a1101c3a5ef753",
+      "science_changed": false,
+      "build_critical_blobs_changed": false,
+      "rerun_required": true
     }
   }
 }
