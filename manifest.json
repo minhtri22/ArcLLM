@@ -1,8 +1,8 @@
 {
-  "phase": "ANL64-P6-INTERRUPTION-RECOVERY-REPLAY",
+  "phase": "ANL64-P7-TERMINAL",
   "track": "P8 7B runtime",
   "date": "2026-09-21",
-  "status": "ANL64_P6_INTERRUPTED_RECOVERY_REPLAY_AUTHORIZED_AND_LOCKED",
+  "status": "ANL64_PROGRAM_CLOSED_VALID_NEGATIVE_TTFT_BLOCKED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -84,7 +84,7 @@
     "evidence_manifest_sha256": "89B22986B6BF5F4776413BD13D0F3CDAEF8B13B9EAA1B11000D9027F0F8F9548"
   },
   "implementation_permitted": false,
-  "target_run_permitted": true,
+  "target_run_permitted": false,
   "historical": {
     "p8g": "FAIL",
     "p8g1": "H-AMPLIFICATION",
@@ -810,8 +810,8 @@
     "end_to_end_successor_validation": false,
     "anl64_p2_design": false,
     "anl64_implementation": false,
-    "anl64_target_execution": true,
-    "anl64_scientific_measurement": true,
+    "anl64_target_execution": false,
+    "anl64_scientific_measurement": false,
     "anl64_p3_zero_science_compatibility": false,
     "anl64_p4_authorization_gate": false,
     "anl64_p4_buildonly": false,
@@ -823,9 +823,9 @@
     "anl64_p6": false,
     "anl64_p6_specification": false,
     "anl64_p6_execution": false,
-    "anl64_p6_recovery_replay": true
+    "anl64_p6_recovery_replay": false
   },
-  "next": "ANL64_RUN_RECOVER_P6_AFTER_INTERRUPTION_PS1_ONCE",
+  "next": "NONE_ANL64_PROGRAM_TERMINAL",
   "anl64": {
     "program_id": "ANL64",
     "branch": "research/arcllm-nexus-ledger64",
@@ -833,7 +833,10 @@
     "lineage": {
       "path": "programs/arcllm_nexus_ledger64/lineage.md",
       "policy": "APPEND_ONLY",
-      "closes_with_program": true
+      "closes_with_program": true,
+      "closed": true,
+      "closed_at_stage": "P7_FINAL_ADJUDICATION",
+      "further_append_permitted": false
     },
     "origin": {
       "path": "docs/research/arcllm-nexus-ledger64/ORIGIN.md",
@@ -879,16 +882,16 @@
       "P3": "COMPLETE_PASS",
       "P4": "COMPLETE_PASS",
       "P5": "COMPLETE_PASS",
-      "P6": "INTERRUPTED_RECOVERY_REPLAY_AUTHORIZED_AND_LOCKED",
-      "P7": "BLOCKED"
+      "P6": "COMPLETE_VALID_NEGATIVE",
+      "P7": "COMPLETE_TERMINAL"
     },
     "authorization": {
       "p2_design": false,
       "p3_zero_science_compatibility": false,
       "p4_authorization_gate": false,
       "implementation": false,
-      "target_execution": true,
-      "scientific_measurement": true,
+      "target_execution": false,
+      "scientific_measurement": false,
       "p4_buildonly": false,
       "p5_specification": false,
       "p5_execution": false,
@@ -898,9 +901,9 @@
       "p6": false,
       "p6_specification": false,
       "p6_execution": false,
-      "p6_recovery_replay": true
+      "p6_recovery_replay": false
     },
-    "next": "RUN_RECOVER_ANL64_P6_AFTER_INTERRUPTION_PS1_ONCE",
+    "next": "NONE_PROGRAM_TERMINAL",
     "p2": {
       "result": "P2_PASS_OPEN_P3_ZERO_SCIENCE_COMPATIBILITY",
       "contract": "config/anl64_p2_architecture_contract_v0.1.json",
@@ -996,7 +999,7 @@
       "execution_lock": "config/anl64_p6_execution_lock_v0.1.json",
       "execution_lock_blob": "eb11fc2c898846442d628acf69e6bc27241cd74e",
       "reconciliation": "artifacts/ANL64/ANL64_P6_DUPLICATE_SPEC_RECONCILIATION_v0.1.json",
-      "result": null,
+      "result": "P6_NO_MATERIAL_E2E_BENEFIT",
       "comparison": "ANL64_P4_LOCKED_vs_ARC_SAFE_REFERENCE",
       "decode_threshold": 1.1,
       "e2e_threshold": 0.9,
@@ -1022,8 +1025,19 @@
         "repair_budget_consumed": 1,
         "repair_remaining": 0,
         "partial_evidence_status": "SPENT_NON_ADMISSIBLE"
-      }
+      },
+      "formal_adjudication": "artifacts/ANL64/ANL64_P6_FORMAL_ADJUDICATION_v0.1.json",
+      "formal_adjudication_blob": "56dd01850238e4131d357303d3888fd1826f6eb9",
+      "bundle_sha256": "4C91C295F98E9A5267135F1D4693E147AB7FBDDD54564A8EAC9CFB85F67F4BE1"
     },
-    "current_scientific_measurement_scope": "P6_FRESH_MATCHED_E2E_SUCCESSOR_VS_SAFE_REFERENCE_ONLY"
+    "current_scientific_measurement_scope": "P6_FRESH_MATCHED_E2E_SUCCESSOR_VS_SAFE_REFERENCE_ONLY",
+    "p7": {
+      "result": "ANL64_PROGRAM_CLOSED_VALID_NEGATIVE_TTFT_BLOCKED",
+      "adjudication": "artifacts/ANL64/ANL64_P7_FINAL_PROGRAM_ADJUDICATION_v0.1.json",
+      "adjudication_blob": "79df1758f23f724890eb302907c0b2d3045df735",
+      "document": "docs/research/arcllm-nexus-ledger64/P7_FINAL_PROGRAM_ADJUDICATION.md",
+      "document_blob": "dd0ab0389251e77ccc2d654e77a897781426be34",
+      "research_question_answer": "NOT_ESTABLISHED"
+    }
   }
 }
