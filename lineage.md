@@ -1120,3 +1120,8 @@ Mechanism/geometry are unchanged from Q4: local_size=128, required subgroup=32 a
 Extended the existing component harness minimally with a Q6 mode containing only the two preregistered cells and CPU/reference fixture support for the frozen 210-byte Q6_K block layout. Q4 mode remains the default and the Q4 candidate shader is immutable.
 Compile/native-build artifacts for Q6 are isolated under `artifacts/SA1_K2/build`. Q6 correctness preflight is banks 0/3 only and zero-measurement. Future Q6 timing is fail-closed behind a separate authorization file that does not exist.
 Status: SA1_K2_Q6_IMPLEMENTED_AWAITING_STATIC_QA. No Q6 measurement, model execution or Q3 reopen.
+
+
+## 2026-09-21 — SA1-K2 pre-static test assertion repair
+Before shader compile/native build/GPU execution, connector static audit of implementation commit `ad3fc9ace60cc7882a6d737efe39726d46e7f725` found one regression-test-only defect: the Q6 build-stage isolation assertion searched for a concatenated runtime path string rather than the literal PowerShell construction expression.
+Repaired only `tests/test_sa1_component_package.py` to assert the actual `"artifacts\\SA1_"+$Stage+"\\build"` construction. Q6 shader, harness, fixture/reference semantics, compile/build scripts, preflight gates and all frozen Q4/Q6 scientific contracts are unchanged. No execution attempt consumed.

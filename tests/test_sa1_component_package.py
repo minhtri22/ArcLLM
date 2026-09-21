@@ -35,7 +35,7 @@ req("--quant q6 --mode preflight" in pre and "-Stage K2" in pre,"Q6 preflight pa
 req("timestamp_queries-ne0" in pre and "measured_pairs-ne0" in pre and "performance_gate_evaluated" in pre,"zero-measurement guards")
 req("SA1 Q6 execution authorization missing; measurement forbidden" in runq6 and "SA1_Q6_EXECUTION_AUTHORIZED" in runq6,"Q6 measurement fail-closed")
 req('ValidateSet("K1","K2")' in compile_ps and "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67" in compile_ps,"Q6 compile frozen baseline")
-req('ValidateSet("K1","K2")' in build_ps and "SA1_"+'$Stage'+"\\build" in build_ps,"Q6 build stage isolation")
+req('ValidateSet("K1","K2")' in build_ps and '"artifacts\\SA1_"+$Stage+"\\build"' in build_ps,"Q6 build stage isolation")
 for ps in [pre,runq6,compile_ps,build_ps]:
     req(not re.search(r"\b(?:Test-Path|Get-Content|Get-FileHash|Remove-Item|Compress-Archive)\$[A-Za-z_]",ps),"PowerShell cmdlet/variable tokenization")
 req(man["sa1"]["q6_implementation_permitted"] is True and man["sa1"]["component_measurement_permitted"] is False,"manifest Q6 implementation-only gate")
