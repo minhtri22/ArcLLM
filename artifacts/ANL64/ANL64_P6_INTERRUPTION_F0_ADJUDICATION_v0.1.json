@@ -1,0 +1,65 @@
+{
+  "schema": "arcllm.anl64.p6.interruption_f0_adjudication.v0.1",
+  "date": "2026-09-21",
+  "result": "P6_F0_OPERATOR_INTERRUPTION_VALID_INFRASTRUCTURE_REPAIR",
+  "scientific_classification": "NO_P6_SCIENTIFIC_ADJUDICATION",
+  "operator_incident": "Operator reported that the terminal running P6 was accidentally closed.",
+  "forensic_observation": {
+    "results_root_exists": true,
+    "p6_preflight_exists": true,
+    "p6_preflight_sha256": "CCC993AE10EC0919EB4B1DF71E2A5018DCD75CA135A11C2DB2BB7392A4644C58",
+    "session_A_directory_exists": true,
+    "session_A_environment_exists": true,
+    "session_A_environment_sha256": "06623EC6482BF0F2FC6A6638D1AC79AB3CD4B48398AA433D806FCFEEC3E1C540",
+    "session_A_meta_exists": false,
+    "session_A_reference_W_S_exists": true,
+    "session_A_reference_W_S_sha256": "7525B5457084BD885D1E386D41A3CDF34F8C5CDFA7B2C495A5597DE17BE602E9",
+    "session_A_reference_W_S_measured_attempts": 5,
+    "session_A_candidate_W_S_exists": false,
+    "session_A_reference_W_C_exists": false,
+    "session_A_candidate_W_C_exists": false,
+    "session_B_directory_exists": false,
+    "complete_cells": 1,
+    "expected_cells": 8,
+    "complete_measured_attempts": 5,
+    "expected_measured_attempts": 40,
+    "matched_candidate_reference_comparisons_available": 0
+  },
+  "interpretation": {
+    "scientific_failure": false,
+    "performance_verdict_permitted": false,
+    "partial_reference_timing_admissible": false,
+    "partial_attempt_status": "SPENT_NON_ADMISSIBLE",
+    "reason": "The collection ended before any matched candidate/reference comparison existed. The known external terminal closure is an orchestration interruption, not evidence about the candidate architecture."
+  },
+  "canonical_lock": {
+    "execution_lock_blob": "eb11fc2c898846442d628acf69e6bc27241cd74e",
+    "runner_blob": "40c4941b1764fdd7a1f83be554e39fda1764151c",
+    "authorization_blob": "491ce5d3dbb0b983925f238b2a292c146b5cda89",
+    "adjudicator_blob": "d6a295f252960389302fe35b81dbec16ae08b416",
+    "unchanged": true
+  },
+  "repair_accounting": {
+    "repair_class": "INFRASTRUCTURE_ORCHESTRATION_OPERATOR_INTERRUPTION",
+    "repair_budget_max": 1,
+    "repair_consumed": 1,
+    "repair_remaining": 0,
+    "permitted_action": "ARCHIVE_PARTIAL_ATTEMPT_THEN_FULL_FROZEN_P6_REPLAY_ONLY",
+    "selective_cell_salvage": false,
+    "selective_session_salvage": false,
+    "threshold_or_spec_change": false,
+    "production_or_shader_change": false,
+    "on_next_F0": "P6_STOP_INFRASTRUCTURE_UNSTABLE"
+  },
+  "required_recovery": {
+    "preserve_partial_evidence": true,
+    "delete_partial_evidence": false,
+    "archive_within_results_parent": true,
+    "verify_observed_partial_hashes_before_archive": true,
+    "full_session_A_replay": true,
+    "full_session_B_replay": true,
+    "fresh_results_root_required": true,
+    "canonical_runner_required": true
+  },
+  "next": "RUN_ONE_COMMITTED_P6_RECOVERY_AND_FULL_REPLAY_WRAPPER"
+}
