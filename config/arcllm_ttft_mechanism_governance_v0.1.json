@@ -3,7 +3,7 @@
   "date": "2026-09-22",
   "program_id": "ARCLLM_TTFT_M1",
   "branch": "research/arcllm-ttft-mechanism",
-  "status": "P0_ORIGIN_AND_GOVERNANCE_OPEN",
+  "status": "P4_COMPLETE_P5_ZERO_SCIENCE_QA_PENDING",
   "parent": {
     "terminal_program": "ANL64",
     "terminal_head": "0e40b3affe4f6add9ce23921687b2659017c95d3",
@@ -38,20 +38,24 @@
     "P3_CAUSAL_DECOMPOSITION_SPECIFICATION",
     "P4_FALSIFICATION_AND_STOP_CONTRACT",
     "P5_ZERO_SCIENCE_PROGRAM_QA",
-    "P6_BOUNDED_IMPLEMENTATION_AUTHORIZATION_IF_QA_PASS",
-    "P7_FRESH_IDENTIFICATION_EXECUTION_IF_AUTHORIZED",
-    "P8_CONFIRMATORY_OR_TERMINAL_ADJUDICATION"
+    "P6_BOUNDED_DIAGNOSTIC_IMPLEMENTATION_AND_BUILDONLY",
+    "P7_FRESH_MECHANISM_IDENTIFICATION_AND_ADJUDICATION",
+    "P8_SINGLE_MECHANISM_INTERVENTION_SPEC_AND_QA_IF_IDENTIFIED",
+    "P9_BOUNDED_INTERVENTION_IMPLEMENTATION_AND_FRESH_CONFIRMATION_IF_AUTHORIZED",
+    "P10_FINAL_PROGRAM_ADJUDICATION"
   ],
   "stage_state": {
-    "P0": "OPEN",
-    "P1": "BLOCKED",
-    "P2": "BLOCKED",
-    "P3": "BLOCKED",
-    "P4": "BLOCKED",
-    "P5": "BLOCKED",
+    "P0": "COMPLETE",
+    "P1": "COMPLETE",
+    "P2": "COMPLETE",
+    "P3": "COMPLETE",
+    "P4": "COMPLETE",
+    "P5": "OPEN",
     "P6": "BLOCKED",
     "P7": "BLOCKED",
-    "P8": "BLOCKED"
+    "P8": "BLOCKED",
+    "P9": "BLOCKED",
+    "P10": "BLOCKED"
   },
   "lineage": {
     "path": "programs/arcllm_ttft_mechanism/lineage.md",
@@ -61,7 +65,7 @@
     "reuse_parent_lineage": false
   },
   "authorization": {
-    "prior_art_research": true,
+    "prior_art_research": false,
     "repository_read_only_analysis": true,
     "specification_only": true,
     "implementation": false,
@@ -75,5 +79,29 @@
     "No implementation before prior-art/source review, local path mapping, causal decomposition, falsification gates, and zero-science QA all pass.",
     "A valid negative result is terminal evidence, not an invitation to tune to PASS."
   ],
-  "next": "COMPLETE_P0_THEN_P1_PRIOR_ART_AND_SOURCE_REVIEW"
+  "next": "P5_ZERO_SCIENCE_PROGRAM_QA",
+  "p1": {
+    "register": "config/arcllm_ttft_prior_art_register_v0.1.json",
+    "register_blob": "92682f51f97c9af87ce408629ff7c6f45d3468ac",
+    "review": "docs/research/arcllm-ttft-mechanism/PRIOR_ART_REVIEW.md",
+    "review_blob": "69a5cf641ca33d36a40f1694111d97a8298000d3"
+  },
+  "p2": {
+    "mapping": "docs/research/arcllm-ttft-mechanism/TTFT_PATH_MAPPING.md",
+    "mapping_blob": "7c57e7d789cd2672cb9fe9342df5a18065dc46bf",
+    "hypotheses": "config/arcllm_ttft_hypotheses_v0.1.json",
+    "hypotheses_blob": "559cf3a60789074045ac0c3f30c4982b99800707"
+  },
+  "p3": {
+    "contract": "config/arcllm_ttft_causal_decomposition_v0.1.json",
+    "contract_blob": "66b6ca2bf1da1e05ddc416bf8f9d73074e8f3fdb",
+    "document": "docs/research/arcllm-ttft-mechanism/CAUSAL_DECOMPOSITION.md",
+    "document_blob": "ae33e94c8af15361e6ed5dcf804958ec9b3bab41"
+  },
+  "p4": {
+    "contract": "config/arcllm_ttft_falsification_contract_v0.1.json",
+    "contract_blob": "fb856b27385278878114316ebd667b97fb38ba59",
+    "document": "docs/research/arcllm-ttft-mechanism/FALSIFICATION_AND_STOP.md",
+    "document_blob": "010c9ff3af0561998fd14949a84a8e6e8775ec04"
+  }
 }
