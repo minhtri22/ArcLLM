@@ -1,0 +1,138 @@
+{
+  "schema": "arcllm.sa1.k1.q4_adjudication.v0.1",
+  "date": "2026-09-21",
+  "result": "Q4_STAGE_PASS",
+  "parent_execution_authorization_commit": "4be3bd2cbefb38612267eabdad6b5133e6d733df",
+  "parent_execution_authorization_blob": "11a9463fb7ad67924f3e74b7ec62f7882daecab0",
+  "input_results": {
+    "A": {
+      "filename": "sa1_k1_q4_process_A.json",
+      "sha256": "1EB9F0907E542B51B8195BFA7F26B46BC729FC86C563EE6501A3738A606BB625",
+      "process": "A",
+      "status": "MEASUREMENT_COMPLETE_NOT_ADJUDICATED",
+      "cells": 5,
+      "samples_per_arm_per_cell": 30,
+      "measured_pairs": 150,
+      "timed_dispatches_expected": 300,
+      "timestamp_values_expected": 600
+    },
+    "B": {
+      "filename": "sa1_k1_q4_process_B.json",
+      "sha256": "ACF7CE9AB6B28841A5E3516933DB792C6CD7CE0A5647FC9D4BCE060A3F9A2421",
+      "process": "B",
+      "status": "MEASUREMENT_COMPLETE_NOT_ADJUDICATED",
+      "cells": 5,
+      "samples_per_arm_per_cell": 30,
+      "measured_pairs": 150,
+      "timed_dispatches_expected": 300,
+      "timestamp_values_expected": 600
+    }
+  },
+  "protocol_validation": {
+    "schema_match": true,
+    "mode_measure": true,
+    "exact_device": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "timestamp_period_ns": 52.0833320617676,
+    "default_subgroup_size": 32,
+    "required_subgroup_size": 32,
+    "candidate_local_size": 128,
+    "model_loaded": false,
+    "process_A_forward_cell_order": true,
+    "process_B_reverse_cell_order": true,
+    "all_sample_counts_exact": true,
+    "no_outlier_deletion": true,
+    "process_pooling": false
+  },
+  "frozen_gate": {
+    "speedup_definition": "median_baseline_gpu_ns / median_candidate_gpu_ns",
+    "per_process_geometric_mean_speedup_min": 1.5,
+    "every_cell_speedup_min": 1.1,
+    "must_pass_independently_in": [
+      "A",
+      "B"
+    ]
+  },
+  "process_A": {
+    "cells": {
+      "Q4_H3584_R3584_BIAS": {
+        "baseline_median_ns": 856588,
+        "candidate_median_ns": 516197.5,
+        "speedup": 1.6594191176826698
+      },
+      "Q4_H3584_R3584_NOBIAS": {
+        "baseline_median_ns": 863072.5,
+        "candidate_median_ns": 518515,
+        "speedup": 1.6645082591631872
+      },
+      "Q4_H3584_R512_BIAS": {
+        "baseline_median_ns": 765338,
+        "candidate_median_ns": 99088,
+        "speedup": 7.723821249798159
+      },
+      "Q4_H3584_R18944_NOBIAS": {
+        "baseline_median_ns": 13912915.5,
+        "candidate_median_ns": 2608463,
+        "speedup": 5.333759957492209
+      },
+      "Q4_H18944_R3584_NOBIAS": {
+        "baseline_median_ns": 7105988.5,
+        "candidate_median_ns": 2661067,
+        "speedup": 2.6703530952057952
+      }
+    },
+    "geometric_mean_speedup": 3.1371499895364643,
+    "minimum_cell_speedup": 1.6594191176826698,
+    "geomean_gate_pass": true,
+    "every_cell_gate_pass": true,
+    "pass": true
+  },
+  "process_B": {
+    "cells": {
+      "Q4_H3584_R3584_BIAS": {
+        "baseline_median_ns": 861952.5,
+        "candidate_median_ns": 514921,
+        "speedup": 1.673950955583478
+      },
+      "Q4_H3584_R3584_NOBIAS": {
+        "baseline_median_ns": 860155.5,
+        "candidate_median_ns": 514609,
+        "speedup": 1.67147387628277
+      },
+      "Q4_H3584_R512_BIAS": {
+        "baseline_median_ns": 765442,
+        "candidate_median_ns": 101536,
+        "speedup": 7.5386266939804605
+      },
+      "Q4_H3584_R18944_NOBIAS": {
+        "baseline_median_ns": 14328411,
+        "candidate_median_ns": 2603124.5,
+        "speedup": 5.504312605870369
+      },
+      "Q4_H18944_R3584_NOBIAS": {
+        "baseline_median_ns": 7092499.5,
+        "candidate_median_ns": 2665676.5,
+        "speedup": 2.660675254480429
+      }
+    },
+    "geometric_mean_speedup": 3.147501200588043,
+    "minimum_cell_speedup": 1.67147387628277,
+    "geomean_gate_pass": true,
+    "every_cell_gate_pass": true,
+    "pass": true
+  },
+  "robustness_notes": [
+    "All 30 samples per arm per cell were retained exactly as returned; no spike or outlier was deleted.",
+    "Several baseline and candidate cells contain visible long-tail samples, but preregistered medians are used without censoring.",
+    "Process A and B independently exceed both the aggregate and every-cell gates."
+  ],
+  "decision": {
+    "classification": "Q4_STAGE_PASS",
+    "sa1_h1_q4_component_effect_supported": true,
+    "q4_measurement_consumed": true,
+    "q4_retry_permitted": false,
+    "q6_same_mechanism_implementation_lock_permitted": true,
+    "q6_measurement_permitted": false,
+    "target_model_execution_permitted": false,
+    "q3_reopen_permitted": false
+  }
+}

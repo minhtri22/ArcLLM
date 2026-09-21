@@ -181,3 +181,10 @@ The implementation evidence is now locked. Q4 performance measurement is still p
 ### SA1-K1 Q4 execution authorization
 
 The correctness-only preflight evidence is independently locked. Exactly one Q4 component measurement Process A and one Process B are now authorized under the frozen executable and SPIR-V hashes. No Q6 implementation or target-model run is authorized.
+
+
+### SA1-K1 Q4 measured result
+
+SA1-K1 Q4 is **Q4_STAGE_PASS**. Independent A/B geometric-mean component speedups are approximately 3.137x and 3.148x, and every frozen Q4 shape clears the 1.10x cell floor. No timing samples were deleted.
+
+This closes Q4 and permits the preregistered same-mechanism Q6 implementation stage to be locked. It is not an end-to-end model-speed claim.
