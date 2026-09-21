@@ -1,11 +1,11 @@
 {
-  "phase": "ANL64-P7-TERMINAL",
-  "track": "P8 7B runtime",
+  "phase": "ARCLLM-TTFT-M1-P5-ZERO-SCIENCE-QA",
+  "track": "ArcLLM TTFT causal mechanism",
   "date": "2026-09-22",
-  "status": "ANL64_PROGRAM_CLOSED_VALID_NEGATIVE_TTFT_BLOCKED",
-  "title": "real-model end-to-end 7B feasibility",
+  "status": "TTFT_M1_P4_COMPLETE_P5_QA_PENDING",
+  "title": "independent TTFT mechanism identification after terminal ANL64",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
-  "serves": "FINAL_ARCLLM_VALIDATION",
+  "serves": "ARCLLM_TTFT_M1",
   "parent": "P8-G6 H-PRODUCTION-SEMANTIC-SEPARATION-CONFIRMED",
   "authoritative_p8g6": {
     "shader_provenance_sha256": "1490475D0D7EAA0498FEEA5CD0A37460C4881FFFF676A7C912E0E113E2CAAC84",
@@ -823,9 +823,14 @@
     "anl64_p6": false,
     "anl64_p6_specification": false,
     "anl64_p6_execution": false,
-    "anl64_p6_recovery_replay": false
+    "anl64_p6_recovery_replay": false,
+    "ttft_m1_implementation": false,
+    "ttft_m1_build": false,
+    "ttft_m1_target_execution": false,
+    "ttft_m1_gpu_dispatch": false,
+    "ttft_m1_performance_measurement": false
   },
-  "next": "NONE_ANL64_PROGRAM_TERMINAL",
+  "next": "TTFT_M1_P5_ZERO_SCIENCE_PROGRAM_QA",
   "anl64": {
     "program_id": "ANL64",
     "branch": "research/arcllm-nexus-ledger64",
@@ -1041,5 +1046,65 @@
       "document_blob": "dd0ab0389251e77ccc2d654e77a897781426be34",
       "research_question_answer": "NOT_ESTABLISHED"
     }
+  },
+  "ttft_m1": {
+    "program_id": "ARCLLM_TTFT_M1",
+    "branch": "research/arcllm-ttft-mechanism",
+    "parent_terminal_program": "ANL64",
+    "parent_terminal_head": "0e40b3affe4f6add9ce23921687b2659017c95d3",
+    "parent_p7_blob": "79df1758f23f724890eb302907c0b2d3045df735",
+    "origin": {
+      "path": "docs/research/arcllm-ttft-mechanism/ORIGIN.md",
+      "blob": "5ada1c12bebb0ce45ebaaff4bbb7dbf5aa7c2cb2"
+    },
+    "governance": {
+      "path": "config/arcllm_ttft_mechanism_governance_v0.1.json",
+      "blob": "9840c57e1c66f0c99158152c49508f17d5bcc8b1",
+      "status": "P4_COMPLETE_P5_ZERO_SCIENCE_QA_PENDING"
+    },
+    "lineage": {
+      "path": "programs/arcllm_ttft_mechanism/lineage.md",
+      "blob": "743472e98ad9abce5349ef86cb52ae0909f8f194",
+      "policy": "APPEND_ONLY_WITHIN_THIS_PROGRAM",
+      "closed": false
+    },
+    "stage_state": {
+      "P0": "COMPLETE",
+      "P1": "COMPLETE",
+      "P2": "COMPLETE",
+      "P3": "COMPLETE",
+      "P4": "COMPLETE",
+      "P5": "OPEN",
+      "P6": "BLOCKED",
+      "P7": "BLOCKED",
+      "P8": "BLOCKED",
+      "P9": "BLOCKED",
+      "P10": "BLOCKED"
+    },
+    "p1": {
+      "register_blob": "92682f51f97c9af87ce408629ff7c6f45d3468ac",
+      "review_blob": "69a5cf641ca33d36a40f1694111d97a8298000d3"
+    },
+    "p2": {
+      "mapping_blob": "7c57e7d789cd2672cb9fe9342df5a18065dc46bf",
+      "hypotheses_blob": "559cf3a60789074045ac0c3f30c4982b99800707"
+    },
+    "p3": {
+      "contract_blob": "66b6ca2bf1da1e05ddc416bf8f9d73074e8f3fdb",
+      "document_blob": "ae33e94c8af15361e6ed5dcf804958ec9b3bab41"
+    },
+    "p4": {
+      "contract_blob": "fb856b27385278878114316ebd667b97fb38ba59",
+      "document_blob": "010c9ff3af0561998fd14949a84a8e6e8775ec04"
+    },
+    "authorization": {
+      "specification_only": true,
+      "implementation": false,
+      "build": false,
+      "target_execution": false,
+      "gpu_dispatch": false,
+      "performance_measurement": false
+    },
+    "next": "P5_ZERO_SCIENCE_PROGRAM_QA"
   }
 }
