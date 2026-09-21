@@ -1,0 +1,83 @@
+{
+  "schema": "arcllm.q6cb1.specification_qa.v0.1",
+  "date": "2026-09-21",
+  "program_id": "Q6CB-1",
+  "audited_branch": "research/q6-correctness-boundary",
+  "base_sa1_closeout_commit": "3352dbc841a06f1cab8e70f9d8353d683c411ccc",
+  "audited_specification_head": "af36dbc5382d3d0b1ec009f1562230ffb68456a3",
+  "result": "PASS_ZERO_SCIENCE_SPECIFICATION_QA",
+  "classification": "SPECIFICATION_VALID_EXECUTION_CLOSED",
+  "delta_audit": {
+    "commits_after_base": 4,
+    "changed_files": [
+      "config/q6cb1_specification_v0.1.json",
+      "docs/Q6CB1_Q6_CORRECTNESS_BOUNDARY_PROGRAM.md",
+      "lineage.md",
+      "manifest.json"
+    ],
+    "shader_files_changed": 0,
+    "native_source_files_changed": 0,
+    "powershell_runner_files_changed": 0,
+    "scientific_execution_code_changed": false,
+    "execution_authorization_created": false
+  },
+  "sa1_immutability": {
+    "candidate_shader_blob_base": "0fdc0c8f195872396a653b38ee2283156fbaeaa0",
+    "candidate_shader_blob_audited_head": "0fdc0c8f195872396a653b38ee2283156fbaeaa0",
+    "candidate_shader_immutable": true,
+    "sa1_closeout_blob_base": "83b30549410ce89e8d5047685c8bcbddc87983ee",
+    "sa1_closeout_blob_audited_head": "83b30549410ce89e8d5047685c8bcbddc87983ee",
+    "sa1_closeout_immutable": true,
+    "q6_adjudication_blob_base": "a2419af5a98ec931424bda46de840d3495e0bc38",
+    "q6_adjudication_blob_audited_head": "a2419af5a98ec931424bda46de840d3495e0bc38",
+    "q6_adjudication_immutable": true
+  },
+  "scientific_design_checks": {
+    "origin_explicit": true,
+    "non_rescue_boundary_explicit": true,
+    "sa1_reclassification_forbidden": true,
+    "research_question_bounded_to_correctness_mechanism": true,
+    "reduction_topology_not_assumed_causal": true,
+    "competing_hypotheses_present": true,
+    "no_stable_boundary_null_alternative_present": true,
+    "causal_arms_defined": true,
+    "required_causal_contrasts_defined": true,
+    "semantic_invariant_required": true,
+    "conditioning_strata_required": true,
+    "fresh_data_exclusions_explicit": true,
+    "sa1_cells_excluded_from_fresh_primary_confirmatory_data": true,
+    "sa1_banks_0_3_excluded": true,
+    "identification_and_confirmatory_partitions_freeze_before_first_execution": true,
+    "posthoc_failure_mining_forbidden": true,
+    "threshold_selection_after_outcome_forbidden": true,
+    "multifactor_outcome_allowed": true,
+    "unresolved_outcome_allowed": true,
+    "boundary_not_reproduced_outcome_allowed": true,
+    "falsification_gates_present": true,
+    "finite_roadmap_present": true,
+    "performance_objective_absent": true,
+    "target_model_objective_absent": true,
+    "optimization_objective_absent": true
+  },
+  "governance_checks": {
+    "serves_known_sa1_q6_correctness_blocker": true,
+    "does_not_reopen_closed_sa1_verdict": true,
+    "does_not_substitute_for_end_to_end_arcllm_evidence": true,
+    "freeze_before_run_required": true,
+    "no_tune_to_pass": true,
+    "f0_distinguished_from_scientific_negative": true
+  },
+  "authorization_after_qa": {
+    "specification_complete": true,
+    "zero_science_qa_complete": true,
+    "causal_harness_implementation_automatically_authorized": false,
+    "fresh_fixture_execution_authorized": false,
+    "scientific_cpu_execution_authorized": false,
+    "scientific_gpu_execution_authorized": false,
+    "performance_timing_authorized": false,
+    "target_model_load_authorized": false,
+    "sa1_rerun_authorized": false
+  },
+  "decision": "Q6CB-0_COMPLETE",
+  "next": "EXPLICIT_AUTHORIZATION_GATE_FOR_Q6CB1_CAUSAL_HARNESS_IMPLEMENTATION_LOCK_ONLY"
+}
