@@ -1,8 +1,8 @@
 {
-  "phase": "ANL64-P5-EXECUTION-AUTHORIZATION-GATE",
+  "phase": "ANL64-P5-SEMANTIC-EXECUTION",
   "track": "P8 7B runtime",
   "date": "2026-09-21",
-  "status": "ANL64_P5_SPECIFICATION_QA_PASS_EXECUTION_GATE_OPEN",
+  "status": "ANL64_P5_EXECUTION_AUTHORIZED_LOCKED_NOT_YET_RUN",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -84,7 +84,7 @@
     "evidence_manifest_sha256": "89B22986B6BF5F4776413BD13D0F3CDAEF8B13B9EAA1B11000D9027F0F8F9548"
   },
   "implementation_permitted": false,
-  "target_run_permitted": false,
+  "target_run_permitted": true,
   "historical": {
     "p8g": "FAIL",
     "p8g1": "H-AMPLIFICATION",
@@ -810,16 +810,19 @@
     "end_to_end_successor_validation": false,
     "anl64_p2_design": false,
     "anl64_implementation": false,
-    "anl64_target_execution": false,
-    "anl64_scientific_measurement": false,
+    "anl64_target_execution": true,
+    "anl64_scientific_measurement": true,
     "anl64_p3_zero_science_compatibility": false,
     "anl64_p4_authorization_gate": false,
     "anl64_p4_buildonly": false,
     "anl64_p5_specification": false,
-    "anl64_p5_execution": false,
-    "anl64_p5_execution_authorization_gate": true
+    "anl64_p5_execution": true,
+    "anl64_p5_execution_authorization_gate": false,
+    "anl64_scientific_semantic_execution": true,
+    "anl64_performance_adjudication": false,
+    "anl64_p6": false
   },
-  "next": "ANL64_EXPLICIT_P5_EXECUTION_AUTHORIZATION_GATE",
+  "next": "ANL64_EXECUTE_ONE_FROZEN_P5_SEMANTIC_INTEGRATION_COLLECTION",
   "anl64": {
     "program_id": "ANL64",
     "branch": "research/arcllm-nexus-ledger64",
@@ -872,7 +875,7 @@
       "P2": "COMPLETE_PASS",
       "P3": "COMPLETE_PASS",
       "P4": "COMPLETE_PASS",
-      "P5": "SPECIFICATION_QA_PASS_EXECUTION_AUTHORIZATION_GATE_OPEN",
+      "P5": "EXECUTION_AUTHORIZED_LOCKED_NOT_YET_RUN",
       "P6": "BLOCKED",
       "P7": "BLOCKED"
     },
@@ -881,14 +884,17 @@
       "p3_zero_science_compatibility": false,
       "p4_authorization_gate": false,
       "implementation": false,
-      "target_execution": false,
-      "scientific_measurement": false,
+      "target_execution": true,
+      "scientific_measurement": true,
       "p4_buildonly": false,
       "p5_specification": false,
-      "p5_execution": false,
-      "p5_execution_authorization_gate": true
+      "p5_execution": true,
+      "p5_execution_authorization_gate": false,
+      "scientific_semantic_execution": true,
+      "performance_adjudication": false,
+      "p6": false
     },
-    "next": "EXPLICIT_P5_EXECUTION_AUTHORIZATION_GATE",
+    "next": "EXECUTE_EXACTLY_ONE_FROZEN_P5_SEMANTIC_INTEGRATION_COLLECTION",
     "p2": {
       "result": "P2_PASS_OPEN_P3_ZERO_SCIENCE_COMPATIBILITY",
       "contract": "config/anl64_p2_architecture_contract_v0.1.json",
@@ -950,8 +956,18 @@
       "qa": "artifacts/ANL64/ANL64_P5_SPECIFICATION_QA_v0.1.json",
       "qa_blob": "94c7f5448a6e71dee4e362ca974e4bd1947a694b",
       "result": "PASS_ZERO_SCIENCE_P5_SPECIFICATION_QA",
-      "execution": false,
-      "performance_adjudication": false
+      "execution": true,
+      "performance_adjudication": false,
+      "execution_authorization": "config/anl64_p5_execution_authorization_v0.1.json",
+      "execution_authorization_blob": "4662ad4bdb5e517f08fa878b41bb824a1cdf8252",
+      "runner": "run_anl64_p5_integration.ps1",
+      "runner_blob": "5b03752a2a3924ceaa63b034e01d780e0fff4f75",
+      "semantic_extractor": "tools/extract_anl64_p5_semantics.py",
+      "semantic_extractor_blob": "495c9bdab5a74edc176553334ce26acdf24b044a",
+      "runner_static_qa": "artifacts/ANL64/ANL64_P5_RUNNER_STATIC_QA_v0.1.json",
+      "runner_static_qa_blob": "3cc0e661b22bda4c76d2d58a16e81fda9e05bc16",
+      "execution_lock": "config/anl64_p5_execution_lock_v0.1.json",
+      "execution_lock_blob": "b7fc7c707fd10008805eff0e7e7b7b38c345c81d"
     }
   }
 }
