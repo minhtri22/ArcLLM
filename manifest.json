@@ -2,7 +2,7 @@
   "phase": "SA1-K2-Q6-IMPLEMENTATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "SA1_K2_Q6_STATIC_QA_PASS_READY_FOR_ZERO_MEASUREMENT_PREFLIGHT",
+  "status": "SA1_K2_Q6_CORRECTNESS_FAIL_OBSERVED_EVIDENCE_PACKAGING_READY",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Run exact-target SA1-K2 static test + pinned Q6 shader compile + native BuildOnly + correctness-only banks 0/3 zero-measurement preflight. Return the bundle for independent adjudication. Do not run Q6 A/B timing.",
+  "next_on_success": "Package the already-produced Q6 correctness failure artifacts with run_sa1_component_preflight.ps1 -Quant Q6 -PackageFailedExisting. Do not rerun Q6 correctness and do not run Q6 performance.",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -526,13 +526,13 @@
     }
   },
   "sa1": {
-    "status": "SA1_K2_Q6_STATIC_QA_PASS_READY_FOR_ZERO_MEASUREMENT_PREFLIGHT",
+    "status": "SA1_K2_Q6_CORRECTNESS_FAIL_OBSERVED_EVIDENCE_PACKAGING_READY",
     "preregistration": "docs/SA1P_DECODE_PACKED_QUANT_COMPONENT_STUDY.md",
     "contract": "config/sa1p_component_study_preregistration_v0.1.json",
     "primary_mechanism": "SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW",
     "cooperative_matrix_disposition": "DEFERRED_NOT_IN_SA1",
     "q4_implementation_permitted": true,
-    "q6_implementation_permitted": true,
+    "q6_implementation_permitted": false,
     "component_measurement_permitted": false,
     "target_model_execution_permitted": false,
     "q3_reopen_permitted": false,
@@ -576,7 +576,7 @@
       "q6_implementation_lock_permitted": true
     },
     "k2": {
-      "status": "STATIC_AUDIT_PASS_READY_FOR_TARGET_PREFLIGHT",
+      "status": "CORRECTNESS_FAIL_OBSERVED_PENDING_EVIDENCE_ADJUDICATION",
       "implementation_lock": "config/sa1_k2_q6_implementation_lock_v0.1.json",
       "prerequisite_q4_result": "Q4_STAGE_PASS",
       "candidate_shader": "shaders/sa1_q6k_subgroup_splitk.comp",
@@ -588,9 +588,11 @@
       "preflight": "run_sa1_component_preflight.ps1 -Quant Q6",
       "measured_runner": "run_sa1_component_q6.ps1",
       "static_audit": "artifacts/SA1/SA1K2_Q6_STATIC_AUDIT_v0.1.json",
-      "compile_status": "PENDING_TARGET_LOCAL",
-      "native_build_status": "PENDING_TARGET_LOCAL",
-      "zero_measurement_preflight_status": "NOT_RUN"
+      "compile_status": "PASS_OBSERVED_TARGET_LOCAL",
+      "native_build_status": "PASS_OBSERVED_TARGET_LOCAL",
+      "zero_measurement_preflight_status": "FAIL_CANDIDATE_CPU",
+      "failure_packaging": "run_sa1_component_preflight.ps1 -Quant Q6 -PackageFailedExisting",
+      "rerun_authorized": false
     }
   }
 }

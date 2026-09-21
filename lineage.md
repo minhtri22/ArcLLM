@@ -1132,3 +1132,10 @@ Audited exact repaired Q6 implementation commit `53195e7951fd740da32add7182657c2
 No Q6 execution-authorization file exists. Q6 measurement/model/Q3 remain closed.
 No GitHub Actions workflow run is associated with this commit, so shader compile, native Windows BuildOnly and exact-device GPU correctness preflight are explicitly NOT RUN and cannot be inferred from static review.
 Decision: `PASS_CONNECTOR_EQUIVALENT_STATIC_AUDIT`; ready for exact-target Q6 compile/BuildOnly + zero-measurement correctness preflight.
+
+
+## 2026-09-21 — SA1-K2 Q6 correctness preflight FAIL observed; stop rule engaged
+Exact target-local run at `b87f3bccee3809cedb2d88ab77c9885406348a87` reported `SA1_K2_STATIC_QA_PASS`, frozen Q6 baseline/candidate shader compile PASS and native BuildOnly PASS, then stopped at `correctness gate failed: candidate_cpu`.
+The harness evaluates `baseline_cpu` before `candidate_cpu`; reaching the candidate failure therefore means the baseline-vs-CPU gate had already passed for the active case while the same-mechanism Q6 candidate violated at least one frozen correctness condition (finite, max_abs <= 0.02, RMSE <= 0.005).
+Static post-failure audit found no byte-layout/indexing implementation defect: P7 Q6 baseline, candidate Q6 shader and CPU reference share the same 210-byte block semantics; the intended algorithmic difference is split-K/subgroup FP32 accumulation order. Under the preregistered rule `Any correctness gate failure => scientific FAIL for that stage; no performance rescue`, the Q6 extension is stop-closed. No threshold mutation, alternate geometry, reduction-order rescue, Q6 timing or target-model run is authorized.
+Because the error path wrote a compact ERROR JSON rather than the full metric record, added packaging-only `-PackageFailedExisting` recovery. It binds the already-produced raw error/build/SPIR-V/executable artifacts to execution commit `b87f3bc...` and performs no compile/build/GPU rerun.

@@ -1,9 +1,61 @@
-param([string]$VulkanSdkRoot,[switch]$PackageExisting,[ValidateSet("Q4","Q6")][string]$Quant="Q4")
+param([string]$VulkanSdkRoot,[switch]$PackageExisting,[switch]$PackageFailedExisting,[ValidateSet("Q4","Q6")][string]$Quant="Q4")
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Root=Split-Path -Parent $MyInvocation.MyCommand.Path;$Results=Join-Path $Root "results";$BuildDir=Join-Path $Root "artifacts\SA1_K1\build"
 New-Item -ItemType Directory -Force $Results,$BuildDir|Out-Null
 if($Quant-eq"Q6"){
  if($PackageExisting){throw "SA1-K2 Q6 PackageExisting is not authorized before a first valid preflight artifact set exists"}
+ if($PackageFailedExisting){
+  $ExecutionCommit="b87f3bccee3809cedb2d88ab77c9885406348a87"
+  $BuildDir=Join-Path $Root "artifacts\SA1_K2\build";New-Item -ItemType Directory -Force $BuildDir|Out-Null
+  $Raw=Join-Path $Results "sa1_k2_q6_preflight_raw.json"
+  $ShaderBuild=Join-Path $BuildDir "shader_build.json"
+  $NativeBuild=Join-Path $BuildDir "native_build.json"
+  $Exe=Join-Path $BuildDir "sa1_component_benchmark.exe"
+  $Base=Join-Path $BuildDir "p7_q6k_gemm_2d.spv"
+  $Cand=Join-Path $BuildDir "sa1_q6k_subgroup_splitk.spv"
+  $Required=@($Raw,$ShaderBuild,$NativeBuild,$Exe,$Base,$Cand)
+  foreach($P in $Required){if(-not(Test-Path $P)){throw "SA1-K2 failure packaging missing existing artifact: $P"}}
+  $R=Get-Content $Raw -Raw -Encoding UTF8|ConvertFrom-Json
+  if([string]$R.status-ne"ERROR"-or[string]$R.error-ne"correctness gate failed: candidate_cpu"){throw "SA1-K2 failure packaging raw error mismatch"}
+  $NB=Get-Content $NativeBuild -Raw -Encoding UTF8|ConvertFrom-Json
+  if([string]$NB.git_head-ne$ExecutionCommit){throw "SA1-K2 failure packaging native-build execution commit mismatch"}
+  $ExpectedShader=(& git -C $Root rev-parse ($ExecutionCommit+":shaders/sa1_q6k_subgroup_splitk.comp")).Trim()
+  $CurrentShader=(& git -C $Root rev-parse "HEAD:shaders/sa1_q6k_subgroup_splitk.comp").Trim()
+  $ExpectedHarness=(& git -C $Root rev-parse ($ExecutionCommit+":src/sa1_component_benchmark.cpp")).Trim()
+  $CurrentHarness=(& git -C $Root rev-parse "HEAD:src/sa1_component_benchmark.cpp").Trim()
+  if($ExpectedShader-ne$CurrentShader-or$ExpectedHarness-ne$CurrentHarness){throw "SA1-K2 failure packaging blocked: executed shader/harness drift"}
+  function Get-Sa1K2FailureSha256([string]$P){(Get-FileHash -Algorithm SHA256 -LiteralPath $P).Hash.ToUpperInvariant()}
+  $Evidence=[ordered]@{
+   schema="arcllm.sa1.k2.q6.correctness_failure_evidence.v0.1"
+   status="Q6_CORRECTNESS_FAIL_PENDING_INDEPENDENT_ADJUDICATION"
+   created_utc=(Get-Date).ToUniversalTime().ToString("o")
+   scientific_execution_commit=$ExecutionCommit
+   packaging_commit=((& git -C $Root rev-parse HEAD).Trim())
+   failure_stage="ZERO_MEASUREMENT_CORRECTNESS_PREFLIGHT"
+   failure_label="candidate_cpu"
+   raw_error=[ordered]@{status=[string]$R.status;error=[string]$R.error}
+   observed_build=[ordered]@{shader_compile="PASS";native_build="PASS"}
+   zero_measurement=[ordered]@{performance_measurement=$false;performance_timing_not_authorized=$true;target_model_loaded=$false}
+   hashes=[ordered]@{
+    raw_sha256=(Get-Sa1K2FailureSha256 $Raw)
+    shader_build_sha256=(Get-Sa1K2FailureSha256 $ShaderBuild)
+    native_build_sha256=(Get-Sa1K2FailureSha256 $NativeBuild)
+    executable_sha256=(Get-Sa1K2FailureSha256 $Exe)
+    baseline_spv_sha256=(Get-Sa1K2FailureSha256 $Base)
+    candidate_spv_sha256=(Get-Sa1K2FailureSha256 $Cand)
+   }
+   next="Return bundle for independent FAIL adjudication. Do not rerun Q6 preflight and do not run Q6 measurement."
+  }
+  $EvidencePath=Join-Path $Results "sa1_k2_q6_correctness_failure_evidence.json"
+  [IO.File]::WriteAllText($EvidencePath,($Evidence|ConvertTo-Json -Depth 12),(New-Object Text.UTF8Encoding($false)))
+  $Zip=Join-Path $Results "sa1_k2_q6_failure_return_to_chatgpt.zip";if(Test-Path $Zip){Remove-Item -Force $Zip}
+  Compress-Archive -Path @($Raw,$EvidencePath,$ShaderBuild,$NativeBuild,$Exe,$Base,$Cand,(Join-Path $Root "shaders\sa1_q6k_subgroup_splitk.comp"),(Join-Path $Root "config\sa1_k2_q6_implementation_lock_v0.1.json"),(Join-Path $Root "config\sa1_k2_q6_implementation_contract_v0.1.json")) -DestinationPath $Zip -Force
+  Write-Host "SA1-K2 Q6 FAILURE EVIDENCE PACKAGED"
+  Write-Host "bundle=$Zip"
+  Write-Host "SHA256=$(Get-Sa1K2FailureSha256 $Zip)"
+  Write-Host "NO Q6 RERUN OR PERFORMANCE MEASUREMENT AUTHORIZED"
+  exit 0
+ }
  $BuildDir=Join-Path $Root "artifacts\SA1_K2\build";New-Item -ItemType Directory -Force $BuildDir|Out-Null
  $Q6LockPath=Join-Path $Root "config\sa1_k2_q6_implementation_lock_v0.1.json"
  $Q6ContractPath=Join-Path $Root "config\sa1_k2_q6_implementation_contract_v0.1.json"
