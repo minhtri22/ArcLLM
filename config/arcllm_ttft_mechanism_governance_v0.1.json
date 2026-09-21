@@ -3,7 +3,7 @@
   "date": "2026-09-22",
   "program_id": "ARCLLM_TTFT_M1",
   "branch": "research/arcllm-ttft-mechanism",
-  "status": "P6_DIAGNOSTIC_IMPLEMENTATION_AUTHORIZED_BUILDONLY_ONLY",
+  "status": "P6_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
   "parent": {
     "terminal_program": "ANL64",
     "terminal_head": "0e40b3affe4f6add9ce23921687b2659017c95d3",
@@ -51,7 +51,7 @@
     "P3": "COMPLETE",
     "P4": "COMPLETE",
     "P5": "COMPLETE_PASS",
-    "P6": "IMPLEMENTATION_AUTHORIZED_BUILDONLY_ONLY",
+    "P6": "IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
     "P7": "BLOCKED",
     "P8": "BLOCKED",
     "P9": "BLOCKED",
@@ -69,7 +69,7 @@
     "prior_art_research": false,
     "repository_read_only_analysis": false,
     "specification_only": false,
-    "implementation": true,
+    "implementation": false,
     "target_model_execution": false,
     "gpu_dispatch": false,
     "performance_measurement": false,
@@ -82,7 +82,7 @@
     "No implementation before prior-art/source review, local path mapping, causal decomposition, falsification gates, and zero-science QA all pass.",
     "A valid negative result is terminal evidence, not an invitation to tune to PASS."
   ],
-  "next": "P6_IMPLEMENT_EXACT_ALLOWLIST_THEN_STATIC_QA_AND_BUILDONLY",
+  "next": "RUN_COMMITTED_RUN_TTFT_M1_P6_BUILDONLY_PS1_AND_RETURN_BUNDLE",
   "p1": {
     "register": "config/arcllm_ttft_prior_art_register_v0.1.json",
     "register_blob": "92682f51f97c9af87ce408629ff7c6f45d3468ac",
@@ -118,11 +118,17 @@
   "p6": {
     "implementation_authorization": "config/arcllm_ttft_m1_p6_implementation_authorization_v0.1.json",
     "implementation_authorization_blob": "03bf0f7ab3d2067c6aa1a9a04c8d6fc9072baaa7",
-    "implementation": true,
+    "implementation": false,
     "buildonly": true,
     "target_execution": false,
     "gpu_dispatch": false,
-    "timing": false
+    "timing": false,
+    "implementation_lock": "config/arcllm_ttft_m1_p6_implementation_lock_v0.1.json",
+    "implementation_lock_blob": "b9f3e9b40bd99268ae7d0d4035b53055a007bec8",
+    "runner": "run_ttft_m1_p6_buildonly.ps1",
+    "runner_blob": "ed32620591aeeb3942efcc220ec6a0bfec7d124b",
+    "static_qa": "artifacts/TTFT_M1/TTFT_M1_P6_STATIC_QA_v0.1.json",
+    "static_qa_blob": "5174b0d0bc4cf80bca31ea005a3ee55d9ac0ab09"
   },
   "reconciliation": {
     "artifact": "artifacts/TTFT_M1/TTFT_M1_DUPLICATE_SPEC_RECONCILIATION_v0.1.json",
