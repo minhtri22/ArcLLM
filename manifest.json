@@ -1,8 +1,8 @@
 {
-  "phase": "ANL64-P5-FROZEN-SEMANTIC-EXECUTION",
+  "phase": "ANL64-P6-SPECIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-21",
-  "status": "ANL64_P5_EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
+  "status": "ANL64_P5_COMPLETE_PASS_P6_SPECIFICATION_AUTHORIZED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -810,19 +810,21 @@
     "end_to_end_successor_validation": false,
     "anl64_p2_design": false,
     "anl64_implementation": false,
-    "anl64_target_execution": true,
-    "anl64_scientific_measurement": true,
+    "anl64_target_execution": false,
+    "anl64_scientific_measurement": false,
     "anl64_p3_zero_science_compatibility": false,
     "anl64_p4_authorization_gate": false,
     "anl64_p4_buildonly": false,
     "anl64_p5_specification": false,
-    "anl64_p5_execution": true,
+    "anl64_p5_execution": false,
     "anl64_p5_execution_authorization_gate": false,
     "anl64_scientific_semantic_execution": true,
     "anl64_performance_adjudication": false,
-    "anl64_p6": false
+    "anl64_p6": false,
+    "anl64_p6_specification": true,
+    "anl64_p6_execution": false
   },
-  "next": "ANL64_EXECUTE_EXACTLY_ONE_FROZEN_P5_SEMANTIC_INTEGRATION_COLLECTION",
+  "next": "ANL64_P6_MATCHED_END_TO_END_CONFIRMATION_SPECIFICATION_ONLY",
   "anl64": {
     "program_id": "ANL64",
     "branch": "research/arcllm-nexus-ledger64",
@@ -875,8 +877,8 @@
       "P2": "COMPLETE_PASS",
       "P3": "COMPLETE_PASS",
       "P4": "COMPLETE_PASS",
-      "P5": "EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
-      "P6": "BLOCKED",
+      "P5": "COMPLETE_PASS",
+      "P6": "SPECIFICATION_AUTHORIZED_EXECUTION_BLOCKED",
       "P7": "BLOCKED"
     },
     "authorization": {
@@ -888,13 +890,15 @@
       "scientific_measurement": true,
       "p4_buildonly": false,
       "p5_specification": false,
-      "p5_execution": true,
+      "p5_execution": false,
       "p5_execution_authorization_gate": false,
       "scientific_semantic_execution": true,
       "performance_adjudication": false,
-      "p6": false
+      "p6": false,
+      "p6_specification": true,
+      "p6_execution": false
     },
-    "next": "EXECUTE_EXACTLY_ONE_FROZEN_P5_SEMANTIC_INTEGRATION_COLLECTION",
+    "next": "P6_MATCHED_END_TO_END_CONFIRMATION_SPECIFICATION_ONLY",
     "p2": {
       "result": "P2_PASS_OPEN_P3_ZERO_SCIENCE_COMPATIBILITY",
       "contract": "config/anl64_p2_architecture_contract_v0.1.json",
@@ -955,7 +959,7 @@
       "document_blob": "4339819a0956ca84b60ead2f6bd4184c196716ab",
       "qa": "artifacts/ANL64/ANL64_P5_SPECIFICATION_QA_v0.1.json",
       "qa_blob": "94c7f5448a6e71dee4e362ca974e4bd1947a694b",
-      "result": "PASS_ZERO_SCIENCE_P5_SPECIFICATION_QA",
+      "result": "P5_INTEGRATION_PASS",
       "execution": true,
       "performance_adjudication": false,
       "execution_authorization": "config/anl64_p5_execution_authorization_v0.1.json",
@@ -967,7 +971,10 @@
       "runner_static_qa": "artifacts/ANL64/ANL64_P5_RUNNER_STATIC_QA_v0.1.json",
       "runner_static_qa_blob": "3cc0e661b22bda4c76d2d58a16e81fda9e05bc16",
       "execution_lock": "config/anl64_p5_execution_lock_v0.1.json",
-      "execution_lock_blob": "b7fc7c707fd10008805eff0e7e7b7b38c345c81d"
+      "execution_lock_blob": "b7fc7c707fd10008805eff0e7e7b7b38c345c81d",
+      "adjudication": "artifacts/ANL64/ANL64_P5_INTEGRATION_ADJUDICATION_v0.1.json",
+      "adjudication_blob": "cada882bd886d96a71c73c40a6e243e3a51ebde0",
+      "bundle_sha256": "44A3DE02CBFC25F9548E56D3C7A9F85E1247AD948C77029185E06C9EA9E0B73D"
     }
   }
 }
