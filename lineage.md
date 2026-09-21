@@ -1218,3 +1218,11 @@ Zero-science QA result: `PASS_ZERO_SCIENCE_EXECUTION_CONTRACT_QA`.
 The exact execution contract is bound by `config/q6cb1_execution_contract_lock_v0.1.json`; fixture/seed identities, numerical tolerances, F0/F1 and H-RTCI/H-PDI/H-DSA/H-SEM rules, evidence schema and target runtime identities are now immutable.
 No fresh fixture was generated or executed, no CPU/GPU scientific execution occurred, no timing or target-model load occurred, and no execution authorization exists.
 Q6CB-2 remains closed. The only next admissible gate is explicit authorization for the single frozen Q6CB-2 identification collection.
+
+
+## 2026-09-21 — Q6CB-2 frozen identification authorized
+The explicit authorization gate was passed only after the execution contract and zero-science QA were locked.
+Authorization file: `config/q6cb2_execution_authorization.json`, commit `a20bd784413f40b8d3e590f70c358a9936318590`.
+Scope is exactly one frozen Q6CB-2 identification partition: 30 fixtures in canonical order, using the locked executable and two locked SPIR-V artifacts. Fixture/seed substitution, selective valid-fixture replay, threshold/rule changes, implementation changes, timing and target-model loading remain forbidden.
+Q6CB-3 remains unauthorized and ineligible until independent Q6CB-2 adjudication determines otherwise.
+No Q6CB-2 fixture has yet been executed at this authorization record point.
