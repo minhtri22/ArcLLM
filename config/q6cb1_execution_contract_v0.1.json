@@ -194,8 +194,8 @@
     "delta_per_fixture": "delta=S*2^-20",
     "material_contrast_floor": "RMSE(A,B) >= 4*delta",
     "excess_error_ratio_floor": "RMSE(A,R64) >= 2*max(RMSE(B,R64),delta)",
-    "excess_ratio_min": 2.0,
-    "material_contrast_delta_multiple": 4.0,
+    "excess_ratio_min": 2,
+    "material_contrast_delta_multiple": 4,
     "rtci_interaction_ratio_min": 1.5,
     "per_fixture_material_excess_definition": "finite vectors AND RMSE(A,B)>=4*delta AND RMSE(A,R64)>=2*max(RMSE(B,R64),delta)",
     "same_rules_all_strata_shapes_partitions": true,
@@ -377,8 +377,6 @@
   },
   "device_environment_contract": {
     "hard_required": {
-      "os": "Microsoft Windows 11 Home Single Language",
-      "os_version": "10.0.26200",
       "cpu": "Intel(R) Core(TM) Ultra 7 258V",
       "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
       "intel_vendor_id": 32902,
@@ -389,16 +387,24 @@
       "compute_subgroup": true,
       "subgroup_size": 32,
       "subgroup_basic_required": true,
-      "subgroup_arithmetic_required": true,
-      "ac_power": "ONLINE",
-      "power_scheme": "Balanced"
+      "subgroup_arithmetic_required": true
+    },
+    "artifact_identity_hard_required": {
+      "executable_sha256": "83E2A04C83418258EB2BB77E4350D3661766EFDBB140E754AE704805D62A1AA9",
+      "packed_spv_sha256": "CE326D6CFB6474D3B255D0530FE3BE789BACC8B1540A709223EF7F06E1C49B61",
+      "expanded_spv_sha256": "73F35157417A2BB28E0BBB97D1F9CFE4AD7C54C0DFED599DEA0E4EE53F5AA6D2"
     },
     "descriptive_record": [
+      "Windows product and OS build/version",
       "Vulkan loader version",
       "Vulkan device API exact version",
+      "AC/battery state",
+      "power scheme",
       "available memory heap/type census"
     ],
+    "rationale": "Correctness-only mechanism study: hard-gate identities that can change CPU/GPU arithmetic, shader execution semantics or binary provenance; record non-timing OS/power state descriptively to avoid non-causal F0.",
     "identification_confirmatory_driver_must_match": true,
+    "identification_confirmatory_cpu_gpu_must_match": true,
     "target_model_load": false,
     "performance_timing": false
   },
