@@ -4,7 +4,7 @@
   "decision": "P6_SINGLE_INFRASTRUCTURE_REPAIR_FULL_REPLAY_AUTHORIZED",
   "trigger_adjudication": {
     "path": "artifacts/ANL64/ANL64_P6_INTERRUPTION_F0_ADJUDICATION_v0.1.json",
-    "blob": "b4d6eb0c8342f1aa5973073c7a1e9b2e25a630f4"
+    "blob": "e70556520938cd5d6ae149d3bbc666434ba5404f"
   },
   "canonical_execution": {
     "execution_lock": "config/anl64_p6_execution_lock_v0.1.json",
