@@ -1,0 +1,58 @@
+{
+  "schema": "arcllm.anl64.p4.static_qa.v0.1",
+  "date": "2026-09-21",
+  "result": "PASS_CONNECTOR_EQUIVALENT_STATIC_QA_BUILDONLY_PENDING",
+  "scientific_execution": false,
+  "target_model_inference": false,
+  "gpu_dispatch": false,
+  "performance_measurement": false,
+  "implementation": {
+    "plan_blob": "157be15c63363ba2d55093af829ca68be9107e27",
+    "runtime_blob": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+    "compile_tool_blob": "b7cb2449460a0c6cd44c2046a2a475addea9cd3f",
+    "build_tool_blob": "b64dae3db704847644f374a0745b816470f0bc86",
+    "static_test_blob": "ff4bf09c51de4df97818670e6330bd5a66cd8f58"
+  },
+  "immutable_parent_blobs": {
+    "q2_runtime": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "q4_safe_shader": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a",
+    "q4_fast_shader": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a"
+  },
+  "checks": {
+    "legacy_blobs_unchanged": true,
+    "planner_469_nodes": true,
+    "planner_215_quant_nodes": true,
+    "planner_140_fixed_q4_fast_nodes": true,
+    "planner_24104_regions": true,
+    "planner_19936_fixed_q4_regions": true,
+    "planner_2mib_hard_budget": true,
+    "q4_fast_total_source_sites": 5,
+    "q4_fast_prefill_sites": 0,
+    "q4_fast_decode_sites": 5,
+    "q4_fast_roles_exact": [
+      "q_proj",
+      "k_proj",
+      "o_proj",
+      "ffn_gate",
+      "ffn_up"
+    ],
+    "v_proj_safe": true,
+    "ffn_down_safe": true,
+    "runtime_schema_anl64": true,
+    "shader_build_entries": 17,
+    "inherited_q4_fast_source_reused_unchanged": true,
+    "native_build_does_not_launch_executable": true,
+    "target_execution_authorized": false,
+    "scientific_measurement_authorized": false
+  },
+  "local_required_next": {
+    "static_python_test": true,
+    "shader_buildonly": true,
+    "native_buildonly": true,
+    "executable_launch": false,
+    "model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false
+  },
+  "next": "RUN_ONE_COMMITTED_P4_BUILDONLY_RUNNER_ON_WINDOWS_TARGET"
+}
