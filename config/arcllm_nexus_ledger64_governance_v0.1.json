@@ -63,7 +63,7 @@
   "target_execution_authorized": false,
   "scientific_measurement_authorized": false,
   "rescue_by_renaming": false,
-  "next": "RUN_COMMITTED_RUN_ANL64_P4_BUILDONLY_PS1_AND_RETURN_BUNDLE",
+  "next": "RERUN_COMMITTED_RUN_ANL64_P4_BUILDONLY_PS1_FROM_STEP_1",
   "stage_state": {
     "P0": "COMPLETE",
     "P1": "COMPLETE",
@@ -116,10 +116,18 @@
     "buildonly_authorized": true,
     "target_model_inference": false,
     "scientific_performance_measurement": false,
-    "implementation_lock": "config/anl64_p4_implementation_lock_v0.1.json",
-    "implementation_lock_blob": "2e561928d8c0319371860accc1fe03b6b9e7d658",
+    "implementation_lock": "config/anl64_p4_implementation_lock_v0.2.json",
+    "implementation_lock_blob": "95155fee1a453f1b6276e94d6356df65613e9c85",
     "runner": "run_anl64_p4_buildonly.ps1",
-    "runner_blob": "8a1539053a4d4ec25b7e27d0f7cd6c118d1024e0",
-    "static_qa": "PASS_CONNECTOR_EQUIVALENT_STATIC_QA_BUILDONLY_PENDING"
+    "runner_blob": "f62470b22abb5ab8fd1f6877235bbd92cc299955",
+    "static_qa": "PASS_CONNECTOR_EQUIVALENT_STATIC_QA_AFTER_BOUNDED_STATE_ASSERTION_REPAIR",
+    "static_qa_artifact": "artifacts/ANL64/ANL64_P4_STATIC_QA_v0.2.json",
+    "buildonly_repair": {
+      "consumed": 1,
+      "max": 1,
+      "classification": "BUILDONLY_STATIC_QA_FALSE_NEGATIVE_NO_SCIENCE_CONSUMED",
+      "artifact": "artifacts/ANL64/ANL64_P4_BUILDONLY_PREFLIGHT_ADJUDICATION_v0.1.json",
+      "further_repair_permitted": false
+    }
   }
 }
