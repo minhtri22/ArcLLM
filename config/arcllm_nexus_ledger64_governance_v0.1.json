@@ -3,7 +3,7 @@
   "date": "2026-09-21",
   "program_id": "ANL64",
   "branch": "research/arcllm-nexus-ledger64",
-  "status": "SPECIFICATION_ONLY_PRIOR_ART_STAGE",
+  "status": "P2_ARCHITECTURE_DESIGN_AUTHORIZED_IMPLEMENTATION_BLOCKED",
   "lineage": {
     "path": "programs/arcllm_nexus_ledger64/lineage.md",
     "policy": "APPEND_ONLY",
@@ -63,5 +63,19 @@
   "target_execution_authorized": false,
   "scientific_measurement_authorized": false,
   "rescue_by_renaming": false,
-  "next": "COMPLETE_P1_PRIOR_ART_AND_SOURCE_TRANSFER_REVIEW"
+  "next": "P2_ARCHITECTURE_SPEC_AND_E2E_UPPER_BOUND_ONLY",
+  "stage_state": {
+    "P0": "COMPLETE",
+    "P1": "COMPLETE",
+    "P2": "DESIGN_AUTHORIZED",
+    "P3": "BLOCKED",
+    "P4": "BLOCKED",
+    "P5": "BLOCKED",
+    "P6": "BLOCKED",
+    "P7": "BLOCKED"
+  },
+  "p1_qa": {
+    "result": "PASS_ZERO_SCIENCE_PRIOR_ART_TRANSFER_QA",
+    "artifact": "artifacts/ANL64/ANL64_P1_ZERO_SCIENCE_QA_v0.1.json"
+  }
 }
