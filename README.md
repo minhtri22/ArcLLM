@@ -201,3 +201,20 @@ Exactly one Q6_K subgroup-32 split-K candidate is now implemented with the same 
 
 
 SA1-K2 Q6 has passed independent static-equivalent QA. Exact Windows shader compile, native BuildOnly and Arc 140V correctness-only preflight are still pending; Q6 performance timing remains forbidden.
+
+
+### SA1-K2 Q6 adjudication
+
+Independent evidence adjudication classifies SA1-K2 as **Q6_STAGE_FAIL_CORRECTNESS**. The returned failure bundle is bound to scientific execution commit `b87f3bc...`; the frozen P7 Q6 baseline SPIR-V hash matches exactly, the Q6 candidate/lock/contract provenance matches the executed state, and no F0 invalidation was found. The fail-fast harness reached `candidate_cpu` only after `baseline_cpu` passed for the active case. Exact max-abs/RMSE magnitude was not retained and was not rerun.
+
+Q6 performance timing was never authorized or executed, measured pairs remain zero, and no target model was loaded.
+
+### SA1 final closeout
+
+SA1 is formally closed as **SA1_CLOSED_ASYMMETRIC_Q4_PASS_Q6_CORRECTNESS_FAIL**.
+
+- Q4_K: the frozen subgroup-32 split-K component mechanism passed correctness and produced reproducible component speedups (A geomean ~3.137x; B ~3.148x).
+- Q6_K: the unchanged mechanism/geometry failed the frozen numerical correctness contract before timing.
+- End-to-end applicability: not tested.
+
+The next scientifically valid action is not another SA1 kernel. Any investigation of the Q6 boundary must start as a new, independently preregistered specification-only research program.
