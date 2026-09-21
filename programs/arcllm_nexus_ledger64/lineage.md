@@ -57,3 +57,57 @@ Current authorization:
 - target execution / scientific measurement: BLOCKED.
 
 Next: freeze the exact P2 architecture mapping, executor table, Ledger64 role, static/E2E upper-bound model, falsification and stop conditions before any code implementation.
+
+
+## 2026-09-21 — P2 COMPLETE / PASS / P3 ZERO-SCIENCE OPEN
+
+P2 froze the exact ANL64 architecture mapping and independently recomputed the upper-bound model from historical ArcLLM evidence only. No implementation, target-model inference, GPU dispatch, or fresh scientific measurement occurred.
+
+Ledger64 mapping:
+- one lane = one logical output row of a quantized linear PlanNode;
+- one region = 64 contiguous output rows;
+- exact admitted target rows are all multiples of 64, so masks are full;
+- no dynamic sparse frontier, no Event-Ledger hot-path queue, no per-token discovery/sort/repack.
+
+Exact control-plane census:
+- 21,728 decoder quant-linear regions;
+- 2,376 LM-head regions;
+- 24,104 total quant-linear regions;
+- 19,936 regions belong to the guaranteed Q4 Q/K/O/gate/up families.
+
+The planner is model-load-only and immutable. Decode preserves the existing prepared-chain property of 469 GPU dispatches and one queue submit per token. The ANL64 control plane adds zero per-token planner GPU dispatches and zero extra queue submits.
+
+Initial residency remains unchanged:
+- weights: 4,677,120,000 B;
+- KV: 469,762,048 B;
+- working: 200,888,324 B;
+- total: 5,347,770,372 B.
+No weight duplication, predequant cache, repack, streaming or explicit prefetch intervention is admitted in the initial architecture.
+
+The P2 static metadata upper bound is 1,602,688 B with a hard 2 MiB budget.
+
+Upper-bound materiality used only the five projection families guaranteed Q4_K in every layer (Q/K/O/gate/up). For each exact shape P2 took the smaller process-A/process-B SA1 baseline-minus-candidate median saving. The resulting conservative cross-process component substitution proxy is 670,817,252 ns per decode token across 28 layers.
+
+Applied only as an optimistic substitution bound to historical Q3 cells, while all Q6/attention/LM-head/other costs are held unchanged, the projected E2E ratios are:
+- A/W-S: 0.7784124426
+- A/W-C: 0.8246780215
+- B/W-S: 0.7829658062
+- B/W-C: 0.8135916501
+
+All are below the already-frozen historical materiality threshold 0.90. The worst historical cell would require approximately 57.04% of the standalone fixed-Q4 saving to survive integration to reach 0.90. These are feasibility bounds, not ANL64 performance claims.
+
+Frozen P2 blobs:
+- architecture contract: `e7d00d6d1deb516347fd8919e2ed27eeeaeb84a6`
+- architecture/upper-bound document: `6c9dbc3d9919ee50b822a2ffac4cedb41c62bc35`
+- P2 zero-science QA: `91884d476f3d14f9c56aa735cc11f4bcf6dd1f4f`
+- post-P2 governance: `e646891dda9be02e53592f8ce054955e69521105`
+
+P2 result: `P2_PASS_OPEN_P3_ZERO_SCIENCE_COMPATIBILITY`.
+
+Current authorization:
+- P3 zero-science local compatibility: AUTHORIZED.
+- P4 implementation: BLOCKED.
+- target-model inference: BLOCKED.
+- scientific performance measurement: BLOCKED.
+
+Next: P3 must prove local expressibility/compatibility of the frozen planner + STATIC_ROW_REGION64_PLAN + guaranteed Q4_FAST integration contract without adding repack/copy/online search or changing numerical/model semantics.
