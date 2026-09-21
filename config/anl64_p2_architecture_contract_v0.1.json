@@ -1,0 +1,301 @@
+{
+  "schema": "arcllm.anl64.p2.architecture_contract.v0.1",
+  "date": "2026-09-21",
+  "status": "P2_ARCHITECTURE_AND_UPPER_BOUND_CANDIDATE",
+  "mode": "ZERO_SCIENCE_SPECIFICATION_ONLY",
+  "evidence_bindings": {
+    "q2_graph": {
+      "path": "src/q2_benchmark.cpp",
+      "blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663"
+    },
+    "q3_result": {
+      "path": "inputs/q3_formal_result.authoritative.json",
+      "blob": "06faac573838b1789e6ef007cd0a9ce11b5e1915"
+    },
+    "sa1_prereg": {
+      "path": "config/sa1p_component_study_preregistration_v0.1.json",
+      "blob": "4256a2e6bda4fa35b48cb4051ff26e18eef5dc96"
+    },
+    "sa1_q4": {
+      "path": "artifacts/SA1/SA1K1_Q4_ADJUDICATION_v0.1.json",
+      "blob": "f4bda3a8f5b6133c7a0f118c48e153fe1ea04866"
+    },
+    "transfer_contract": {
+      "path": "docs/research/arcllm-nexus-ledger64/TRANSFER_ADMISSIBILITY.md",
+      "blob": "210add63ea86c5c99ee4bc77c7461e244544a541"
+    },
+    "p1_qa": {
+      "path": "artifacts/ANL64/ANL64_P1_ZERO_SCIENCE_QA_v0.1.json",
+      "blob": "8d622f022e0ebdd05825afe72b4fa5461f13285e"
+    }
+  },
+  "exact_model": {
+    "layers": 28,
+    "hidden": 3584,
+    "kv": 512,
+    "ffn": 18944,
+    "vocab": 152064,
+    "decode_dispatches_per_token": 469,
+    "queue_submits_per_token": 1,
+    "quant_linear_dispatches_per_token": 215,
+    "decoder_projection_dispatches_per_token": 196,
+    "lm_head_segment_dispatches_per_token": 19
+  },
+  "ledger64_mapping": {
+    "name": "STATIC_ROW_REGION64_PLAN",
+    "role": "CONTROL_PLANE_REPRESENTATION_ONLY",
+    "region_width_rows": 64,
+    "lane_meaning": "one logical output row of a quantized linear PlanNode",
+    "region_meaning": "64 contiguous logical output rows belonging to one quantized linear PlanNode",
+    "region_index_rule": "row_base = region_index * 64 within the PlanNode",
+    "lane_index_rule": "logical_output_row = row_base + lane",
+    "active_mask_semantics": "uint64 lane validity mask; for the exact target's admitted projection/LM-head shapes every region is full and mask is 0xffffffffffffffff",
+    "dynamic_sparse_frontier": false,
+    "event_ledger_hot_path_queue": false,
+    "per_token_region_discovery": false,
+    "per_token_sort": false,
+    "payload_repack": false,
+    "full_N_scan": false,
+    "full_R_scan": false,
+    "rationale": "The exact dense decode graph has no active-operator frontier. Ledger64 is therefore transferred only as a direct region/lane planning representation, not as a sparse execution claim.",
+    "exact_region_counts": {
+      "q_proj_per_layer": 56,
+      "k_proj_per_layer": 8,
+      "v_proj_per_layer": 8,
+      "o_proj_per_layer": 56,
+      "gate_proj_per_layer": 296,
+      "up_proj_per_layer": 296,
+      "down_proj_per_layer": 56,
+      "all_decoder_quant_regions_per_layer": 776,
+      "all_decoder_quant_regions": 21728,
+      "fixed_q4_regions_per_layer": 712,
+      "fixed_q4_regions": 19936,
+      "lm_head_regions": 2376,
+      "total_quant_linear_regions": 24104
+    },
+    "metadata_budget": {
+      "max_bytes_per_region_descriptor": 64,
+      "max_bytes_per_plan_node": 128,
+      "plan_nodes_max": 469,
+      "calculated_upper_bytes": 1602688,
+      "hard_budget_bytes": 2097152,
+      "residency_fraction_percent_max": 0.039220092,
+      "note": "Hard budget includes region descriptors and all PlanNode descriptors; implementation may use less."
+    }
+  },
+  "planner_semantics": {
+    "construction_time": "MODEL_LOAD_ONLY",
+    "immutable_after_build": true,
+    "plan_hash_required": true,
+    "inputs": [
+      "exact GGUF tensor metadata",
+      "exact tensor role",
+      "quant type",
+      "shape",
+      "existing buffer/arena binding",
+      "exact device capability record"
+    ],
+    "online_autotuning": false,
+    "performance_search": false,
+    "per_token_executor_selection": false,
+    "dependency_order": "identical logical operator dependency order to frozen Q2 decode graph",
+    "prepared_chain_policy": "compile/bind the selected executor graph once; decode remains one queue submit per token",
+    "dynamic_per_token_values": [
+      "token id",
+      "decode position",
+      "existing push-constant values only"
+    ],
+    "control_plane_gpu_dispatches_per_token": 0,
+    "control_plane_extra_queue_submits_per_token": 0
+  },
+  "executor_table": [
+    {
+      "id": "Q4_FAST_FIXED",
+      "applicability": [
+        "Q4_K q_proj 3584x3584+bias",
+        "Q4_K k_proj 3584x512+bias",
+        "Q4_K o_proj 3584x3584",
+        "Q4_K gate_proj 3584x18944",
+        "Q4_K up_proj 3584x18944"
+      ],
+      "layers": "all 28",
+      "mechanism": "subgroup32 split-K per output row seeded by closed SA1 Q4 component evidence",
+      "provenance": "INHERITED_MECHANISM_LOCAL_INTEGRATION_REQUIRED",
+      "fallback": "existing p7_q4k_gemm_2d semantics-preserving path",
+      "included_in_p2_upper_bound": true
+    },
+    {
+      "id": "Q4_FAST_CONDITIONAL",
+      "applicability": [
+        "v_proj when exact tensor type is Q4_K",
+        "down_proj when exact tensor type is Q4_K"
+      ],
+      "mechanism": "same Q4_FAST family only if P3 mapping/compatibility admits the exact shape",
+      "provenance": "INHERITED_MECHANISM_LOCAL_INTEGRATION_REQUIRED",
+      "fallback": "existing Q4 safe path",
+      "included_in_p2_upper_bound": false
+    },
+    {
+      "id": "Q6_SAFE",
+      "applicability": [
+        "v_proj when Q6_K",
+        "down_proj when Q6_K",
+        "segmented Q6_K LM head"
+      ],
+      "mechanism": "existing correctness-preserving Q6 path",
+      "provenance": "INHERITED",
+      "optimization_claim": false,
+      "included_in_p2_upper_bound": false
+    },
+    {
+      "id": "EMBED_SAFE",
+      "applicability": [
+        "Q4_K token embedding"
+      ],
+      "mechanism": "existing segmented embedding path",
+      "provenance": "INHERITED",
+      "included_in_p2_upper_bound": false
+    },
+    {
+      "id": "NONLINEAR_SAFE",
+      "applicability": [
+        "RMSNorm",
+        "RoPE",
+        "KV store",
+        "cached GQA",
+        "residual",
+        "SwiGLU",
+        "output norm"
+      ],
+      "mechanism": "existing exact path",
+      "provenance": "INHERITED",
+      "included_in_p2_upper_bound": false
+    }
+  ],
+  "residency_prefetch_authority": {
+    "weights": "retain existing 19 persistent weight arenas",
+    "frozen_weight_bytes": 4677120000,
+    "kv_bytes": 469762048,
+    "working_bytes": 200888324,
+    "current_total_resident_bytes": 5347770372,
+    "usable_budget_bytes": 16374562816,
+    "existing_headroom_bytes": 11026792444,
+    "additional_weight_copy_bytes": 0,
+    "predequant_cache_bytes": 0,
+    "per_token_weight_copy_bytes": 0,
+    "explicit_prefetch_pass": "FORBIDDEN_IN_INITIAL_ARCHITECTURE",
+    "offline_repack": "FORBIDDEN_IN_INITIAL_ARCHITECTURE",
+    "note": "P2 intentionally leaves residency/prefetch unchanged because the model is already fully resident and no prior evidence identifies streaming as the first causal intervention."
+  },
+  "static_cost_model": {
+    "packed_weight_bytes": {
+      "fixed_q4_per_layer": 91865088,
+      "fixed_q4_all_layers": 2572222464,
+      "variable_v_down_all_q4_lower_decoder_projection_total": 3670474752,
+      "variable_v_down_all_q6_upper_decoder_projection_total": 4173840384,
+      "q6_lm_head": 447068160,
+      "fixed_q4_share_of_projection_plus_lm_bytes_range": [
+        0.5566486416,
+        0.6246983988
+      ],
+      "interpretation": "packed-byte coverage proxy only; not GPU-time attribution"
+    },
+    "fixed_q4_component_proxy": {
+      "method": "For each fixed Q4 shape, take the smaller observed SA1 A/B baseline-minus-candidate median saving; sum Q,K,O,gate,up; multiply by 28 layers.",
+      "per_shape_cross_process_min_saving_ns": {
+        "q_proj": 340390.5,
+        "k_proj": 663906,
+        "o_proj": 344557.5,
+        "gate_proj": 11304452.5,
+        "up_proj": 11304452.5
+      },
+      "per_layer_saving_ns": 23957759,
+      "all_layers_saving_ns_per_decode_token": 670817252,
+      "all_layers_saving_ms_per_decode_token": 670.817252,
+      "assumption": "optimistic substitution bound: standalone component savings transfer one-for-one into the integrated prepared decode chain; all non-Q4-fixed costs remain unchanged"
+    }
+  },
+  "e2e_upper_bound": {
+    "materiality_threshold_source": "reuse frozen Q3 primary E2E benefit threshold",
+    "e2e_arc_over_baseline_target_max": 0.9,
+    "baseline_comparison_role": "threshold provenance only; P2 does not claim ANL64 beats llama.cpp",
+    "model": "historical ArcLLM Q3 E2E minus 31 * 670.817252 ms fixed-Q4 substitution saving; TTFT and every other cost unchanged",
+    "cells": [
+      {
+        "id": "A_W-S",
+        "current_decode_tps": 0.334781437641452,
+        "current_sec_per_decode_token": 2.987023435484,
+        "projected_sec_per_decode_token": 2.316206183484,
+        "projected_decode_speedup": 1.289618971,
+        "projected_decode_tps": 0.431740493,
+        "current_e2e_ms": 93847.033,
+        "projected_e2e_ratio": 0.778412443,
+        "required_transfer_fraction_for_0_90": 0.451288877
+      },
+      {
+        "id": "A_W-C",
+        "current_decode_tps": 0.297081904938778,
+        "current_sec_per_decode_token": 3.366075090323,
+        "projected_sec_per_decode_token": 2.695257838323,
+        "projected_decode_speedup": 1.24888797,
+        "projected_decode_tps": 0.371022017,
+        "current_e2e_ms": 118612.2527,
+        "projected_e2e_ratio": 0.824678022,
+        "required_transfer_fraction_for_0_90": 0.570379144
+      },
+      {
+        "id": "B_W-S",
+        "current_decode_tps": 0.327063921685147,
+        "current_sec_per_decode_token": 3.057506296774,
+        "projected_sec_per_decode_token": 2.386689044774,
+        "projected_decode_speedup": 1.281066046,
+        "projected_decode_tps": 0.418990485,
+        "current_e2e_ms": 95815.9378,
+        "projected_e2e_ratio": 0.782965806,
+        "required_transfer_fraction_for_0_90": 0.460756889
+      },
+      {
+        "id": "B_W-C",
+        "current_decode_tps": 0.317842721801896,
+        "current_sec_per_decode_token": 3.146210158065,
+        "projected_sec_per_decode_token": 2.475392906065,
+        "projected_decode_speedup": 1.270994253,
+        "projected_decode_tps": 0.403976273,
+        "current_e2e_ms": 111557.9577,
+        "projected_e2e_ratio": 0.81359165,
+        "required_transfer_fraction_for_0_90": 0.536456656
+      }
+    ],
+    "all_cells_below_materiality_threshold": true,
+    "max_required_transfer_fraction": 0.570379144,
+    "interpretation": "P2 establishes enough theoretical headroom to justify compatibility work. These are not ANL64 performance predictions or measurements."
+  },
+  "falsification_and_stop": [
+    "If P3 cannot map the guaranteed Q4 Q/K/O/gate/up nodes to Q4_FAST while preserving exact tensor/buffer/base-offset semantics without payload repack or predequant copy, STOP_ANL64_ARCHITECTURE.",
+    "If P3 requires per-token planner discovery, sort, full graph scan, an extra control-plane GPU dispatch, or an extra queue submit solely to choose executors, STOP_ANL64_ARCHITECTURE.",
+    "If P3 exact-device capability no longer supports the subgroup32 arithmetic contract required by the inherited Q4 mechanism on the bound driver, STOP_Q4_FAST_PATH_AND_REEVALUATE_PROGRAM; do not silently substitute a new mechanism.",
+    "If any P4/P5 exact integration correctness check fails for a guaranteed fixed-Q4 node, no performance rescue is permitted.",
+    "If implementation exceeds the 2 MiB static plan-metadata budget or duplicates/reformats resident weights in the initial architecture, it violates P2 and cannot proceed.",
+    "If later fresh component-integration evidence cannot plausibly satisfy the frozen material E2E target without assuming unmeasured gains in Q6/attention/other ops, STOP before P6.",
+    "No fusion, Q6 optimization, quantization change, sparse operator skipping, prefetch mechanism, or online autotuning may be introduced as a rescue inside this P2 architecture."
+  ],
+  "p2_gate": {
+    "exact_mapping_complete": true,
+    "natural_ledger64_mapping_identified": true,
+    "planner_has_zero_per_token_discovery": true,
+    "executor_table_complete": true,
+    "residency_authority_complete": true,
+    "cost_model_uses_only_existing_evidence": true,
+    "upper_bound_uses_only_guaranteed_fixed_q4_improvement_and_leaves_other_paths_unchanged": true,
+    "upper_bound_material_in_all_four_historical_cells": true,
+    "implementation_required_to_establish_local_effect": true,
+    "decision": "P2_PASS_OPEN_P3_ZERO_SCIENCE_COMPATIBILITY"
+  },
+  "authorization": {
+    "p3_zero_science_compatibility": true,
+    "p4_implementation": false,
+    "target_model_inference": false,
+    "scientific_performance_measurement": false
+  },
+  "next": "P3_ZERO_SCIENCE_LOCAL_COMPATIBILITY_ONLY"
+}
