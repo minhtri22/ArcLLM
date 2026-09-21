@@ -1,7 +1,7 @@
 {
   "phase": "ANL64-P7-TERMINAL",
   "track": "P8 7B runtime",
-  "date": "2026-09-21",
+  "date": "2026-09-22",
   "status": "ANL64_PROGRAM_CLOSED_VALID_NEGATIVE_TTFT_BLOCKED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
@@ -836,7 +836,9 @@
       "closes_with_program": true,
       "closed": true,
       "closed_at_stage": "P7_FINAL_ADJUDICATION",
-      "further_append_permitted": false
+      "further_append_permitted": false,
+      "final_blob": "8ae08b06e901e464169264730936f2fa299af941",
+      "final_append_commit": "3cc3c07fbd24ec035c719ea2538af97dd8d85f67"
     },
     "origin": {
       "path": "docs/research/arcllm-nexus-ledger64/ORIGIN.md",
@@ -844,8 +846,8 @@
     },
     "governance": {
       "path": "config/arcllm_nexus_ledger64_governance_v0.1.json",
-      "status": "P6_EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
-      "blob": "3b177a32e85744433a4a69613d04463deb75edfb"
+      "status": "ANL64_PROGRAM_CLOSED_VALID_NEGATIVE_TTFT_BLOCKED",
+      "blob": "cf90bd486d8fef8727bc464ae3d3b5b65c7a6792"
     },
     "prior_art": {
       "register": "config/arcllm_nexus_ledger64_prior_art_register_v0.1.json",
@@ -1030,7 +1032,7 @@
       "formal_adjudication_blob": "56dd01850238e4131d357303d3888fd1826f6eb9",
       "bundle_sha256": "4C91C295F98E9A5267135F1D4693E147AB7FBDDD54564A8EAC9CFB85F67F4BE1"
     },
-    "current_scientific_measurement_scope": "P6_FRESH_MATCHED_E2E_SUCCESSOR_VS_SAFE_REFERENCE_ONLY",
+    "current_scientific_measurement_scope": "NONE_PROGRAM_TERMINAL",
     "p7": {
       "result": "ANL64_PROGRAM_CLOSED_VALID_NEGATIVE_TTFT_BLOCKED",
       "adjudication": "artifacts/ANL64/ANL64_P7_FINAL_PROGRAM_ADJUDICATION_v0.1.json",
