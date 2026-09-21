@@ -1073,3 +1073,9 @@ Audited exact repaired implementation commit `2f163873723b6d5bdf70cc7f8385d2bfd3
 The Vulkan required-subgroup-size structure and full-subgroup flag are valid for compute, and frozen local_size_x=128 is a multiple of required subgroup size 32. This is API/structural validation only.
 Decision: `PASS_CONNECTOR_EQUIVALENT_STATIC_AUDIT`. Native shader compile, C++ BuildOnly and exact-device correctness preflight remain NOT RUN and cannot be inferred from static review.
 Status: READY_FOR_ZERO_MEASUREMENT_PREFLIGHT. Measurement, Q6, target-model execution and Q3 remain forbidden.
+
+
+## 2026-09-21 — SA1-K1 preflight packaging F0 after compile/build/correctness PASS
+Target-local invocation at `b45c2cee60e99e4b7700ff032489e77df9fbd3c3` reported static QA PASS, candidate/baseline shader compile PASS and native BuildOnly PASS. It then reached post-preflight packaging and failed while evaluating `H $Raw`: Windows PowerShell resolved the one-letter helper name `H` through the built-in alias `h -> Get-History`, attempting to parse the JSON path as a history Id.
+Because the failure occurs after the script has invoked the correctness-only component executable and passed its status/zero-measurement guards, this is classified `F0_POWERSHELL_HASH_HELPER_ALIAS_COLLISION_AFTER_VALID_ZERO_MEASUREMENT_PREFLIGHT`, not a shader/build/correctness scientific failure. No timestamp query, measured pair, performance gate, model load, Q6 implementation or Q3 execution occurred.
+Repair: rename SHA helper to `Get-Sha256` in preflight and future measured runner; add static guard against one-letter `H`; add `-PackageExisting` recovery mode that verifies the existing native-build execution commit and unchanged candidate/harness blobs, then packages existing raw/build/SPIR-V/executable evidence without recompiling, rebuilding or redispatching GPU correctness.
