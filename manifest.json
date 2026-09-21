@@ -1,8 +1,8 @@
 {
-  "phase": "ARCLLM-TTFT-M1-P6-DIAGNOSTIC-IMPLEMENTATION",
+  "phase": "ARCLLM-TTFT-M1-P6-BUILDONLY-PENDING",
   "track": "ArcLLM TTFT causal mechanism",
   "date": "2026-09-22",
-  "status": "TTFT_M1_P6_DIAGNOSTIC_IMPLEMENTATION_AUTHORIZED_BUILDONLY_ONLY",
+  "status": "TTFT_M1_P6_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
   "title": "independent TTFT mechanism identification after terminal ANL64",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "ARCLLM_TTFT_M1",
@@ -83,7 +83,7 @@
     "summary_sha256": "36BFB413BCE31A1A6E2B77F96071162809B48FC7F566D61B34C779D90388AC95",
     "evidence_manifest_sha256": "89B22986B6BF5F4776413BD13D0F3CDAEF8B13B9EAA1B11000D9027F0F8F9548"
   },
-  "implementation_permitted": true,
+  "implementation_permitted": false,
   "target_run_permitted": false,
   "historical": {
     "p8g": "FAIL",
@@ -831,7 +831,7 @@
     "ttft_m1_performance_measurement": false,
     "ttft_m1_p6_authorization_gate": true
   },
-  "next": "TTFT_M1_P6_IMPLEMENT_EXACT_ALLOWLIST_THEN_STATIC_QA_AND_BUILDONLY",
+  "next": "TTFT_M1_RUN_P6_BUILDONLY_PS1_AND_RETURN_BUNDLE",
   "anl64": {
     "program_id": "ANL64",
     "branch": "research/arcllm-nexus-ledger64",
@@ -1076,7 +1076,7 @@
       "P3": "COMPLETE",
       "P4": "COMPLETE",
       "P5": "COMPLETE_PASS",
-      "P6": "IMPLEMENTATION_AUTHORIZED_BUILDONLY_ONLY",
+      "P6": "IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
       "P7": "BLOCKED",
       "P8": "BLOCKED",
       "P9": "BLOCKED",
@@ -1101,13 +1101,13 @@
     "authorization": {
       "p6_authorization_gate": false,
       "specification_only": false,
-      "implementation": true,
+      "implementation": false,
       "build": true,
       "target_execution": false,
       "gpu_dispatch": false,
       "performance_measurement": false
     },
-    "next": "P6_IMPLEMENT_EXACT_ALLOWLIST_THEN_STATIC_QA_AND_BUILDONLY",
+    "next": "RUN_COMMITTED_RUN_TTFT_M1_P6_BUILDONLY_PS1_AND_RETURN_BUNDLE",
     "p5": {
       "result": "PASS_ZERO_SCIENCE_TTFT_M1_PROGRAM_QA",
       "artifact": "artifacts/TTFT_M1/TTFT_M1_P5_ZERO_SCIENCE_QA_v0.1.json",
@@ -1119,10 +1119,16 @@
     "p6": {
       "implementation_authorization": "config/arcllm_ttft_m1_p6_implementation_authorization_v0.1.json",
       "implementation_authorization_blob": "03bf0f7ab3d2067c6aa1a9a04c8d6fc9072baaa7",
-      "implementation": true,
+      "implementation": false,
       "buildonly": true,
       "target_execution": false,
-      "timing": false
+      "timing": false,
+      "implementation_lock": "config/arcllm_ttft_m1_p6_implementation_lock_v0.1.json",
+      "implementation_lock_blob": "b9f3e9b40bd99268ae7d0d4035b53055a007bec8",
+      "runner": "run_ttft_m1_p6_buildonly.ps1",
+      "runner_blob": "ed32620591aeeb3942efcc220ec6a0bfec7d124b",
+      "static_qa": "artifacts/TTFT_M1/TTFT_M1_P6_STATIC_QA_v0.1.json",
+      "static_qa_blob": "5174b0d0bc4cf80bca31ea005a3ee55d9ac0ab09"
     },
     "reconciliation": {
       "artifact": "artifacts/TTFT_M1/TTFT_M1_DUPLICATE_SPEC_RECONCILIATION_v0.1.json",
