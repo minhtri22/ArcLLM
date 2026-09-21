@@ -1,8 +1,8 @@
 {
-  "phase": "ANL64-P6-FROZEN-MATCHED-E2E-EXECUTION",
+  "phase": "ANL64-P6-SPECIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-21",
-  "status": "ANL64_P6_EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
+  "status": "ANL64_P5_COMPLETE_PASS_P6_SPECIFICATION_AUTHORIZED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -810,8 +810,8 @@
     "end_to_end_successor_validation": false,
     "anl64_p2_design": false,
     "anl64_implementation": false,
-    "anl64_target_execution": true,
-    "anl64_scientific_measurement": true,
+    "anl64_target_execution": false,
+    "anl64_scientific_measurement": false,
     "anl64_p3_zero_science_compatibility": false,
     "anl64_p4_authorization_gate": false,
     "anl64_p4_buildonly": false,
@@ -821,10 +821,10 @@
     "anl64_scientific_semantic_execution": false,
     "anl64_performance_adjudication": false,
     "anl64_p6": false,
-    "anl64_p6_specification": false,
-    "anl64_p6_execution": true
+    "anl64_p6_specification": true,
+    "anl64_p6_execution": false
   },
-  "next": "ANL64_EXECUTE_EXACTLY_ONE_FROZEN_P6_MATCHED_E2E_COLLECTION",
+  "next": "ANL64_P6_MATCHED_END_TO_END_CONFIRMATION_SPECIFICATION_ONLY",
   "anl64": {
     "program_id": "ANL64",
     "branch": "research/arcllm-nexus-ledger64",
@@ -878,7 +878,7 @@
       "P3": "COMPLETE_PASS",
       "P4": "COMPLETE_PASS",
       "P5": "COMPLETE_PASS",
-      "P6": "EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
+      "P6": "SPECIFICATION_AUTHORIZED_EXECUTION_BLOCKED",
       "P7": "BLOCKED"
     },
     "authorization": {
@@ -886,8 +886,8 @@
       "p3_zero_science_compatibility": false,
       "p4_authorization_gate": false,
       "implementation": false,
-      "target_execution": true,
-      "scientific_measurement": true,
+      "target_execution": false,
+      "scientific_measurement": false,
       "p4_buildonly": false,
       "p5_specification": false,
       "p5_execution": false,
@@ -895,10 +895,10 @@
       "scientific_semantic_execution": false,
       "performance_adjudication": false,
       "p6": false,
-      "p6_specification": false,
-      "p6_execution": true
+      "p6_specification": true,
+      "p6_execution": false
     },
-    "next": "EXECUTE_EXACTLY_ONE_FROZEN_P6_MATCHED_E2E_COLLECTION",
+    "next": "P6_MATCHED_END_TO_END_CONFIRMATION_SPECIFICATION_ONLY",
     "p2": {
       "result": "P2_PASS_OPEN_P3_ZERO_SCIENCE_COMPATIBILITY",
       "contract": "config/anl64_p2_architecture_contract_v0.1.json",
