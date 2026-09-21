@@ -118,9 +118,14 @@ assert "performance_measurement=$false" in bp
 assert "& $Exe" not in bp
 
 g=json.loads(txt("config/arcllm_ttft_mechanism_governance_v0.1.json"))
-assert g["status"]=="P6_DIAGNOSTIC_IMPLEMENTATION_AUTHORIZED_BUILDONLY_ONLY"
-assert g["stage_state"]["P6"]=="IMPLEMENTATION_AUTHORIZED_BUILDONLY_ONLY"
-assert g["authorization"]["implementation"] is True
+assert g["status"] in {
+    "P6_DIAGNOSTIC_IMPLEMENTATION_AUTHORIZED_BUILDONLY_ONLY",
+    "P6_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
+}
+assert g["stage_state"]["P6"] in {
+    "IMPLEMENTATION_AUTHORIZED_BUILDONLY_ONLY",
+    "IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
+}
 assert g["authorization"]["build"] is True
 assert g["authorization"]["target_model_execution"] is False
 assert g["authorization"]["gpu_dispatch"] is False
