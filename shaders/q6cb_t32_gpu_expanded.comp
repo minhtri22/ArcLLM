@@ -1,0 +1,29 @@
+#version 450
+#extension GL_KHR_shader_subgroup_basic : require
+#extension GL_KHR_shader_subgroup_arithmetic : require
+
+layout(local_size_x = 128, local_size_y = 1, local_size_z = 1) in;
+layout(std430, binding = 0) readonly buffer WBuf { float w[]; } W;
+layout(std430, binding = 1) readonly buffer XBuf { float x[]; } X;
+layout(std430, binding = 2) writeonly buffer YBuf { float y[]; } Y;
+
+layout(push_constant) uniform PC {
+    uint n;
+    uint rows;
+    uint row_bytes_unused;
+} pc;
+
+void main() {
+    uint subgroup = gl_SubgroupID;
+    uint lane = gl_SubgroupInvocationID;
+    uint row = gl_WorkGroupID.x * 4u + subgroup;
+    if (row >= pc.rows) return;
+
+    uint row_base = row * pc.n;
+    float partial = 0.0f;
+    for (uint k = lane; k < pc.n; k += 32u)
+        partial += W.w[row_base + k] * X.x[k];
+
+    float sum = subgroupAdd(partial);
+    if (lane == 0u) Y.y[row] = sum;
+}
