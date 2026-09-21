@@ -2,7 +2,7 @@
   "phase": "Q6CB-1-SPECIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "Q6CB_EXECUTION_CONTRACT_LOCKED_Q6CB2_AUTHORIZATION_CLOSED",
+  "status": "Q6CB2_FROZEN_IDENTIFICATION_AUTHORIZED_NOT_YET_EXECUTED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -610,7 +610,7 @@
     "end_to_end_applicability": "NOT_TESTED"
   },
   "q6cb1": {
-    "status": "Q6CB_EXECUTION_CONTRACT_LOCKED_Q6CB2_AUTHORIZATION_CLOSED",
+    "status": "Q6CB2_FROZEN_IDENTIFICATION_AUTHORIZED_NOT_YET_EXECUTED",
     "branch": "research/q6-correctness-boundary",
     "program": "docs/Q6CB1_Q6_CORRECTNESS_BOUNDARY_PROGRAM.md",
     "contract": "config/q6cb1_specification_v0.1.json",
@@ -632,14 +632,14 @@
       3
     ],
     "causal_harness_implementation_permitted": false,
-    "fresh_fixture_execution_permitted": false,
-    "scientific_cpu_execution_permitted": false,
-    "scientific_gpu_execution_permitted": false,
+    "fresh_fixture_execution_permitted": true,
+    "scientific_cpu_execution_permitted": true,
+    "scientific_gpu_execution_permitted": true,
     "performance_timing_permitted": false,
     "target_model_load_permitted": false,
     "sa1_rerun_permitted": false,
-    "execution_authorization_file": null,
-    "next": "EXPLICIT_AUTHORIZATION_GATE_FOR_Q6CB2_FROZEN_IDENTIFICATION_COLLECTION_ONLY",
+    "execution_authorization_file": "config/q6cb2_execution_authorization.json",
+    "next": "EXECUTE_EXACTLY_ONE_FROZEN_Q6CB2_IDENTIFICATION_PARTITION_ON_LOCKED_TARGET",
     "zero_science_qa": "PASS",
     "qa_artifact": "artifacts/Q6CB/Q6CB1_SPECIFICATION_QA_v0.1.json",
     "qa_document": "docs/Q6CB1_SPECIFICATION_QA.md",
@@ -736,7 +736,7 @@
       "strata": 5,
       "replicates_per_shape_stratum": 3,
       "seed_schedule_sha256": "C6C47227DA52D41F485A21319DEAB81514A6A7555D0EFAD8113D75F304BA273E",
-      "authorized": false
+      "authorized": true
     },
     "confirmatory_partition": {
       "fixtures": 30,
@@ -745,7 +745,16 @@
       "authorized": false,
       "gate": "F1 boundary reproduced AND >=1 preregistered identification mechanism candidate"
     },
-    "q6cb2_execution_authorized": false,
-    "q6cb3_execution_authorized": false
+    "q6cb2_execution_authorized": true,
+    "q6cb3_execution_authorized": false,
+    "execution_authorization": {
+      "decision": "Q6CB2_FROZEN_IDENTIFICATION_AUTHORIZED",
+      "file": "config/q6cb2_execution_authorization.json",
+      "commit": "a20bd784413f40b8d3e590f70c358a9936318590",
+      "scope": "Q6CB2_IDENTIFICATION_ONLY",
+      "fixture_count": 30,
+      "valid_partition_execution_count": 1,
+      "q6cb3_authorized": false
+    }
   }
 }
