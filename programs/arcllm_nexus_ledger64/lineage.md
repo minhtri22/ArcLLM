@@ -266,3 +266,41 @@ Final repaired BuildOnly bindings:
 - implementation lock v0.2 blob: `60b1428ad0f919df4fb3a993ccc289f5d5a003c2`.
 
 These values supersede the intermediate repair-package blob values in the immediately preceding lineage entry. The scientific/production blobs listed there remain unchanged.
+
+
+## 2026-09-21 — P4 FORMAL CLOSE / PASS / P5 SPECIFICATION OPEN
+
+The returned P4 BuildOnly bundle was independently inspected and hashed.
+
+Returned bundle:
+- SHA256 `F336519DF14EAEC95F43A5CFC7680C9309F6560B6A60BCEEBA949A41ECEAACE2`;
+- exact run HEAD `aa284326a9322a14888967fa4a9a9dc626f2286a`;
+- seven expected evidence members only.
+
+The bundled authorization, implementation lock v0.2, static QA v0.2 and repair adjudication independently reproduce the exact Git blobs bound by the run. Native-build source blobs match the run-head repository.
+
+Shader BuildOnly:
+- 17/17 shaders compiled with pinned glslang 16.5.0 / Vulkan 1.2;
+- Q4_FAST SPIR-V exactly reproduced `B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569`;
+- Q4-safe SPIR-V exactly reproduced `2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A`.
+
+Native BuildOnly:
+- PASS;
+- executable SHA256 `1F45DA9D8CACE3CF78FE31B7B7041B6027CB41E180F7FC99E50E1127EA4F5451`;
+- executable bytes 449024;
+- executable was not launched.
+
+Zero-science boundary remained intact:
+- model loaded: false;
+- GPU dispatch: false;
+- performance measurement: false;
+- scientific outcome: false.
+
+P4 final result:
+`P4_IMPLEMENTATION_AND_BUILDONLY_CLOSED_PASS`.
+
+Frozen adjudication:
+- artifact blob `e9039de1af496cf724a390e8180ae7d97e99f091`;
+- document blob `cee15c55121f318366749debb6741374c5e1d32b`.
+
+P5 is now opened for specification only. No target execution, correctness run, or performance measurement is yet authorized.
