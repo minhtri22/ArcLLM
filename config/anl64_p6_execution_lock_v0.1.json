@@ -1,0 +1,85 @@
+{
+  "schema": "arcllm.anl64.p6.execution_lock.v0.1",
+  "date": "2026-09-21",
+  "status": "P6_EXECUTION_LOCKED_NOT_YET_RUN",
+  "authorization": {
+    "path": "config/anl64_p6_execution_authorization_v0.1.json",
+    "blob": "491ce5d3dbb0b983925f238b2a292c146b5cda89",
+    "decision": "P6_MATCHED_E2E_EXECUTION_AUTHORIZED"
+  },
+  "exact_git_blobs": {
+    "config/anl64_p6_execution_authorization_v0.1.json": "491ce5d3dbb0b983925f238b2a292c146b5cda89",
+    "config/anl64_p6_matched_e2e_spec_v0.1.json": "c7e1753ef9079010ce1768ba924e4f996f5e9b35",
+    "docs/research/arcllm-nexus-ledger64/P6_MATCHED_E2E_SPEC.md": "2ceaae5f2f80c4daae8888b3d36c1febea3ca76c",
+    "artifacts/ANL64/ANL64_P6_SPECIFICATION_QA_v0.1.json": "57e73ff0675a6cfd57dc6d395f452104ac57571d",
+    "artifacts/ANL64/ANL64_P6_RUNNER_STATIC_QA_v0.1.json": "c8476a9af378754e76319ea23e686b8b94e2f30b",
+    "tools/adjudicate_anl64_p6.py": "d6a295f252960389302fe35b81dbec16ae08b416",
+    "tests/test_anl64_p6_package.py": "11f8d670d754234857b89bdeebfd17335c2dec45",
+    "artifacts/ANL64/ANL64_P5_INTEGRATION_ADJUDICATION_v0.1.json": "cada882bd886d96a71c73c40a6e243e3a51ebde0",
+    "src/anl64_runtime.cpp": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+    "src/anl64_plan.hpp": "157be15c63363ba2d55093af829ca68be9107e27",
+    "src/q2_benchmark.cpp": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "src/gguf.cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
+    "src/gguf.h": "d71d22cc1db54a9643ecafa6d3b616a96221c726",
+    "src/tensor_store.cpp": "0eb52588d30620bfeb323e62c8546e7191a006d6",
+    "src/tensor_store.h": "fdc8788b72da4c0f9464aabdaa48e680d153fc5d",
+    "tools/compile_q2_shaders.ps1": "a7e08a196ee6c6bf94f460ef4d710175a1b85166",
+    "tools/build_q2.ps1": "18325b0a2b3c319f304724397cfe8dfb6d17377f",
+    "shaders/p7_q4k_gemm_2d.comp": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a",
+    "shaders/p7_q6k_gemm_2d.comp": "a0de99f972db6cd202606aad95fb9eab223639e6",
+    "shaders/sa1_q4k_subgroup_splitk.comp": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a"
+  },
+  "runner_git_blob": "40c4941b1764fdd7a1f83be554e39fda1764151c",
+  "frozen_collection": {
+    "sessions": [
+      "A",
+      "B"
+    ],
+    "separate_runner_processes": true,
+    "session_A_order": [
+      "ARC_SAFE_REFERENCE/W-S",
+      "ANL64_P4_LOCKED/W-S",
+      "ANL64_P4_LOCKED/W-C",
+      "ARC_SAFE_REFERENCE/W-C"
+    ],
+    "session_B_order": [
+      "ANL64_P4_LOCKED/W-S",
+      "ARC_SAFE_REFERENCE/W-S",
+      "ARC_SAFE_REFERENCE/W-C",
+      "ANL64_P4_LOCKED/W-C"
+    ],
+    "warmups_per_cell": 1,
+    "measured_attempts_per_cell": 5,
+    "total_measured_attempts": 40,
+    "decode_threshold": 1.1,
+    "e2e_threshold": 0.9,
+    "ttft_blocking_threshold": 1.1
+  },
+  "freshness": {
+    "p5_timing_reuse": false,
+    "all_p6_timing_fresh": true,
+    "rebuild_between_sessions": false,
+    "selective_rerun": false
+  },
+  "mutation_policy": {
+    "production_source": false,
+    "shader": false,
+    "spec": false,
+    "threshold": false,
+    "workload": false,
+    "session_order": false,
+    "repetition_count": false
+  },
+  "infrastructure_policy": {
+    "repair_budget": 1,
+    "after_valid_repair": "FULL_FROZEN_P6_REPLAY_ONLY",
+    "second_f0": "P6_STOP_INFRASTRUCTURE_UNSTABLE"
+  },
+  "execution_scope": {
+    "target_model_load": true,
+    "gpu_dispatch": true,
+    "performance_measurement": true,
+    "p7": false
+  },
+  "next": "EXECUTE_EXACTLY_ONE_FROZEN_P6_MATCHED_E2E_COLLECTION"
+}
