@@ -1,0 +1,39 @@
+{
+  "schema": "arcllm.q6cb1.implementation_authorization.v0.1",
+  "date": "2026-09-21",
+  "decision": "Q6CB1_CAUSAL_HARNESS_IMPLEMENTATION_AUTHORIZED",
+  "authorized_by": "explicit_user_authorization",
+  "parent_branch_head": "146307bbf896697a618f756e02d506b6d30a7af0",
+  "prerequisites": {
+    "q6cb0_specification_qa": "PASS_ZERO_SCIENCE_SPECIFICATION_QA",
+    "termination_governance_qa": "PASS_ZERO_SCIENCE_TERMINATION_GOVERNANCE_QA",
+    "sa1_closed": true,
+    "stop_drift_binding": true
+  },
+  "scope": "IMPLEMENTATION_AND_BUILDONLY_EVIDENCE_ONLY",
+  "permitted": {
+    "freeze_exact_implementation_allowlist": true,
+    "implement_five_causal_arms": true,
+    "implement_independent_canonical_q6_reference": true,
+    "implement_deterministic_fixture_generator": true,
+    "implement_unit_and_static_invariant_tests": true,
+    "implement_shader_compile_tooling": true,
+    "implement_native_buildonly_tooling": true,
+    "perform_static_equivalent_qa": true,
+    "freeze_exact_implementation_lock": true,
+    "update_manifest_lineage_docs": true
+  },
+  "forbidden": {
+    "fresh_fixture_execution": true,
+    "scientific_cpu_execution": true,
+    "scientific_gpu_dispatch": true,
+    "performance_timing": true,
+    "target_model_load": true,
+    "sa1_rerun": true,
+    "sa1_source_mutation": true,
+    "threshold_selection": true,
+    "execution_contract_design_before_implementation_lock": true,
+    "execution_authorization_creation": true
+  },
+  "next": "FREEZE_Q6CB1_IMPLEMENTATION_ALLOWLIST"
+}
