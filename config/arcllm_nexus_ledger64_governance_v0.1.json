@@ -3,7 +3,7 @@
   "date": "2026-09-21",
   "program_id": "ANL64",
   "branch": "research/arcllm-nexus-ledger64",
-  "status": "P5_EXECUTION_AUTHORIZED_LOCKED_NOT_YET_RUN",
+  "status": "P5_EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
   "lineage": {
     "path": "programs/arcllm_nexus_ledger64/lineage.md",
     "policy": "APPEND_ONLY",
@@ -70,7 +70,7 @@
     "P2": "COMPLETE_PASS",
     "P3": "COMPLETE_PASS",
     "P4": "COMPLETE_PASS",
-    "P5": "EXECUTION_AUTHORIZED_LOCKED_NOT_YET_RUN",
+    "P5": "EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
     "P6": "BLOCKED",
     "P7": "BLOCKED"
   },
@@ -94,7 +94,7 @@
     "p3_zero_science_compatibility": false,
     "p4_authorization_gate": false,
     "p4_implementation": false,
-    "target_model_inference": false,
+    "target_model_inference": true,
     "scientific_performance_measurement": false,
     "p4_buildonly": false,
     "p5_specification": false,
@@ -160,7 +160,8 @@
     "runner_static_qa": "artifacts/ANL64/ANL64_P5_RUNNER_STATIC_QA_v0.1.json",
     "runner_static_qa_blob": "3cc0e661b22bda4c76d2d58a16e81fda9e05bc16",
     "execution_lock": "config/anl64_p5_execution_lock_v0.1.json",
-    "execution_lock_blob": "b7fc7c707fd10008805eff0e7e7b7b38c345c81d"
+    "execution_lock_blob": "b7fc7c707fd10008805eff0e7e7b7b38c345c81d",
+    "p6_authorized": false
   },
   "scientific_measurement_scope": "P5_SEMANTIC_INTEGRATION_ONLY_PERFORMANCE_ADJUDICATION_FORBIDDEN"
 }
