@@ -2,7 +2,7 @@
   "phase": "Q6CB-1-SPECIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "Q6CB1_SPECIFICATION_ONLY_EXECUTION_CLOSED",
+  "status": "Q6CB1_SPECIFICATION_QA_PASS_EXECUTION_CLOSED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -610,7 +610,7 @@
     "end_to_end_applicability": "NOT_TESTED"
   },
   "q6cb1": {
-    "status": "SPECIFICATION_ONLY_AWAITING_ZERO_SCIENCE_QA",
+    "status": "Q6CB0_COMPLETE_SPECIFICATION_QA_PASS_EXECUTION_CLOSED",
     "branch": "research/q6-correctness-boundary",
     "program": "docs/Q6CB1_Q6_CORRECTNESS_BOUNDARY_PROGRAM.md",
     "contract": "config/q6cb1_specification_v0.1.json",
@@ -639,6 +639,10 @@
     "target_model_load_permitted": false,
     "sa1_rerun_permitted": false,
     "execution_authorization_file": null,
-    "next": "ZERO_SCIENCE_SPECIFICATION_QA"
+    "next": "EXPLICIT_AUTHORIZATION_GATE_FOR_Q6CB1_CAUSAL_HARNESS_IMPLEMENTATION_LOCK_ONLY",
+    "zero_science_qa": "PASS",
+    "qa_artifact": "artifacts/Q6CB/Q6CB1_SPECIFICATION_QA_v0.1.json",
+    "qa_document": "docs/Q6CB1_SPECIFICATION_QA.md",
+    "qa_commit": "bf86e8ffddf81ed17559f300d1f95c33a59643c5"
   }
 }
