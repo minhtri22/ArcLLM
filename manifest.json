@@ -831,7 +831,7 @@
     },
     "governance": {
       "path": "config/arcllm_nexus_ledger64_governance_v0.1.json",
-      "status": "P3_ZERO_SCIENCE_COMPATIBILITY_AUTHORIZED_IMPLEMENTATION_BLOCKED",
+      "status": "P3_PASS_P4_AUTHORIZATION_GATE_OPEN_IMPLEMENTATION_BLOCKED",
       "blob": "c3c81ec9a314868af868e72fee21466afbddda21"
     },
     "prior_art": {
