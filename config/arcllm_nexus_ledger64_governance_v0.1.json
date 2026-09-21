@@ -3,12 +3,15 @@
   "date": "2026-09-21",
   "program_id": "ANL64",
   "branch": "research/arcllm-nexus-ledger64",
-  "status": "P6_INTERRUPTED_RECOVERY_REPLAY_AUTHORIZED_AND_LOCKED",
+  "status": "ANL64_PROGRAM_CLOSED_VALID_NEGATIVE_TTFT_BLOCKED",
   "lineage": {
     "path": "programs/arcllm_nexus_ledger64/lineage.md",
     "policy": "APPEND_ONLY",
     "closes_with_program": true,
-    "reuse_by_successor": false
+    "reuse_by_successor": false,
+    "closed": true,
+    "closed_at_stage": "P7_FINAL_ADJUDICATION",
+    "further_append_permitted": false
   },
   "parent": {
     "arcllm_terminal_head": "d76295cbb3da116eed28f2f6b5f77ce89f5bce2e",
@@ -60,10 +63,10 @@
     "P7_FINAL_ADJUDICATION"
   ],
   "implementation_authorized": false,
-  "target_execution_authorized": true,
-  "scientific_measurement_authorized": true,
+  "target_execution_authorized": false,
+  "scientific_measurement_authorized": false,
   "rescue_by_renaming": false,
-  "next": "RUN_RECOVER_ANL64_P6_AFTER_INTERRUPTION_PS1_ONCE",
+  "next": "NONE_PROGRAM_TERMINAL",
   "stage_state": {
     "P0": "COMPLETE",
     "P1": "COMPLETE",
@@ -71,8 +74,8 @@
     "P3": "COMPLETE_PASS",
     "P4": "COMPLETE_PASS",
     "P5": "COMPLETE_PASS",
-    "P6": "INTERRUPTED_RECOVERY_REPLAY_AUTHORIZED_AND_LOCKED",
-    "P7": "BLOCKED"
+    "P6": "COMPLETE_VALID_NEGATIVE",
+    "P7": "COMPLETE_TERMINAL"
   },
   "p1_qa": {
     "result": "PASS_ZERO_SCIENCE_PRIOR_ART_TRANSFER_QA",
@@ -94,8 +97,8 @@
     "p3_zero_science_compatibility": false,
     "p4_authorization_gate": false,
     "p4_implementation": false,
-    "target_model_inference": true,
-    "scientific_performance_measurement": true,
+    "target_model_inference": false,
+    "scientific_performance_measurement": false,
     "p4_buildonly": false,
     "p5_specification": false,
     "p5_execution": false,
@@ -105,7 +108,7 @@
     "p6": false,
     "p6_specification": false,
     "p6_execution": false,
-    "p6_recovery_replay": true
+    "p6_recovery_replay": false
   },
   "p3": {
     "result": "P3_PASS_P4_BOUNDED_IMPLEMENTATION_ELIGIBLE",
@@ -170,7 +173,7 @@
     "adjudication_document": "docs/research/arcllm-nexus-ledger64/P5_INTEGRATION_ADJUDICATION.md",
     "adjudication_document_blob": "67623e539867c4d1b61f97a80d56d06f87050748"
   },
-  "scientific_measurement_scope": "P6_FRESH_MATCHED_E2E_SUCCESSOR_VS_SAFE_REFERENCE_ONLY",
+  "scientific_measurement_scope": "NONE_PROGRAM_TERMINAL",
   "p6": {
     "specification": "config/anl64_p6_matched_e2e_spec_v0.1.json",
     "specification_blob": "c7e1753ef9079010ce1768ba924e4f996f5e9b35",
@@ -190,7 +193,7 @@
     "execution_lock_blob": "eb11fc2c898846442d628acf69e6bc27241cd74e",
     "reconciliation": "artifacts/ANL64/ANL64_P6_DUPLICATE_SPEC_RECONCILIATION_v0.1.json",
     "execution_authorized": false,
-    "performance_measurement": true,
+    "performance_measurement": false,
     "p7_authorized": false,
     "comparison": "ANL64_P4_LOCKED_vs_ARC_SAFE_REFERENCE",
     "recovery": {
@@ -210,6 +213,22 @@
       "partial_evidence_status": "SPENT_NON_ADMISSIBLE",
       "direct_p6_runner_forbidden": true,
       "next_f0": "P6_STOP_INFRASTRUCTURE_UNSTABLE"
-    }
+    },
+    "result": "P6_NO_MATERIAL_E2E_BENEFIT",
+    "formal_adjudication": "artifacts/ANL64/ANL64_P6_FORMAL_ADJUDICATION_v0.1.json",
+    "formal_adjudication_blob": "56dd01850238e4131d357303d3888fd1826f6eb9",
+    "formal_adjudication_document": "docs/research/arcllm-nexus-ledger64/P6_FORMAL_ADJUDICATION.md",
+    "formal_adjudication_document_blob": "65a32fd47d92e76a1ab9ab6ec6564c35a57df8e5",
+    "bundle_sha256": "4C91C295F98E9A5267135F1D4693E147AB7FBDDD54564A8EAC9CFB85F67F4BE1"
+  },
+  "p7": {
+    "result": "ANL64_PROGRAM_CLOSED_VALID_NEGATIVE_TTFT_BLOCKED",
+    "adjudication": "artifacts/ANL64/ANL64_P7_FINAL_PROGRAM_ADJUDICATION_v0.1.json",
+    "adjudication_blob": "79df1758f23f724890eb302907c0b2d3045df735",
+    "document": "docs/research/arcllm-nexus-ledger64/P7_FINAL_PROGRAM_ADJUDICATION.md",
+    "document_blob": "dd0ab0389251e77ccc2d654e77a897781426be34",
+    "research_question_answer": "NOT_ESTABLISHED",
+    "current_program_reopen_permitted": false,
+    "successor_program_authorized": false
   }
 }
