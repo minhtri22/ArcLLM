@@ -842,7 +842,7 @@
     "governance": {
       "path": "config/arcllm_nexus_ledger64_governance_v0.1.json",
       "status": "P6_EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
-      "blob": "7dcdb8567656b0e3f1ca0f724d6fd876007de263"
+      "blob": "3b177a32e85744433a4a69613d04463deb75edfb"
     },
     "prior_art": {
       "register": "config/arcllm_nexus_ledger64_prior_art_register_v0.1.json",
