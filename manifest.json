@@ -832,7 +832,7 @@
     "governance": {
       "path": "config/arcllm_nexus_ledger64_governance_v0.1.json",
       "status": "P3_ZERO_SCIENCE_COMPATIBILITY_AUTHORIZED_IMPLEMENTATION_BLOCKED",
-      "blob": "e646891dda9be02e53592f8ce054955e69521105"
+      "blob": "c3c81ec9a314868af868e72fee21466afbddda21"
     },
     "prior_art": {
       "register": "config/arcllm_nexus_ledger64_prior_art_register_v0.1.json",
