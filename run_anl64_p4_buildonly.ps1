@@ -3,7 +3,7 @@ Set-StrictMode -Version Latest
 
 $Root=Split-Path -Parent $MyInvocation.MyCommand.Path
 $AuthPath=Join-Path $Root "config\anl64_p4_implementation_authorization_v0.1.json"
-$LockPath=Join-Path $Root "config\anl64_p4_implementation_lock_v0.1.json"
+$LockPath=Join-Path $Root "config\anl64_p4_implementation_lock_v0.2.json"
 $BuildDir=Join-Path $Root "artifacts\ANL64\P4"
 $ResultsDir=Join-Path $Root "results\anl64_p4_buildonly"
 $Bundle=Join-Path $Root "results\anl64_p4_buildonly_return_to_chatgpt.zip"
@@ -133,7 +133,8 @@ Copy-Item $ProvPath (Join-Path $ResultsDir "shader_provenance.json")
 Copy-Item $NativePath (Join-Path $ResultsDir "native_build.json")
 Copy-Item $AuthPath (Join-Path $ResultsDir "anl64_p4_implementation_authorization_v0.1.json")
 Copy-Item $LockPath (Join-Path $ResultsDir "anl64_p4_implementation_lock_v0.1.json")
-Copy-Item (Join-Path $Root "artifacts\ANL64\ANL64_P4_STATIC_QA_v0.1.json") (Join-Path $ResultsDir "ANL64_P4_STATIC_QA_v0.1.json")
+Copy-Item (Join-Path $Root "artifacts\ANL64\ANL64_P4_STATIC_QA_v0.2.json") (Join-Path $ResultsDir "ANL64_P4_STATIC_QA_v0.2.json")
+Copy-Item (Join-Path $Root "artifacts\ANL64\ANL64_P4_BUILDONLY_PREFLIGHT_ADJUDICATION_v0.1.json") (Join-Path $ResultsDir "ANL64_P4_BUILDONLY_PREFLIGHT_ADJUDICATION_v0.1.json")
 
 Compress-Archive -Path (Join-Path $ResultsDir "*") -DestinationPath $Bundle -CompressionLevel Optimal
 $BundleHash=Sha256 $Bundle
