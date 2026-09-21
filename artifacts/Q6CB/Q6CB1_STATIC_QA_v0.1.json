@@ -70,6 +70,31 @@
     "target_model_load": false,
     "execution_authorization_file": null
   },
-  "decision": "Q6CB1_IMPLEMENTATION_STATIC_QUALIFICATION_PASS",
-  "next": "FREEZE_FINAL_IMPLEMENTATION_EVIDENCE_LOCK_THEN_GOAL_ALIGNMENT_CHECK"
+  "decision": "Q6CB1_IMPLEMENTATION_LOCKED_GOAL_ALIGNMENT_PASS",
+  "next": "DESIGN_AND_FREEZE_EXECUTION_CONTRACT_SPECIFICATION_ONLY",
+  "goal_alignment": {
+    "checked_after_implementation_evidence_lock": true,
+    "implementation_evidence_lock_commit": "237a4174b409bf2e2200fa96fe1a7dbccfa76bab",
+    "original_goal": "Identify within one finite preregistered causal program whether the Q6_K correctness boundary has a reproducible causal mechanism among the frozen competing families.",
+    "current_question": "Freeze an execution contract that can distinguish the preregistered Q6CB terminal outcomes using the already locked causal harness without changing hypotheses or implementation.",
+    "checks": {
+      "DIRECTLY_REDUCES_UNCERTAINTY_FOR_FROZEN_CAUSAL_QUESTION_OR_ONE_INTERVENTION": true,
+      "REQUIRED_TO_DISTINGUISH_DECLARED_TERMINAL_OUTCOMES": true,
+      "WITHIN_HARD_BUDGET": true,
+      "PRESERVES_PRIOR_EVIDENCE": true,
+      "JUSTIFIED_EVEN_IF_NEGATIVE": true
+    },
+    "budget_remaining": {
+      "mechanism_programs_remaining": 0,
+      "fresh_identification_collections_remaining": 1,
+      "fresh_confirmatory_collections_remaining_max": 1,
+      "successor_interventions_remaining_max": 1,
+      "additional_mechanism_programs_permitted": 0,
+      "si2_permitted": false
+    },
+    "negative_outcome_accepted_as_final_evidence": true,
+    "drift_detected": false,
+    "decision": "CONTINUE_WITHIN_LOCK_TO_EXECUTION_CONTRACT_DESIGN_ONLY",
+    "execution_authorized": false
+  }
 }
