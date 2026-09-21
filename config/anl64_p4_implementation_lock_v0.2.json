@@ -1,0 +1,49 @@
+{
+  "schema": "arcllm.anl64.p4.implementation_lock.v0.2",
+  "date": "2026-09-21",
+  "status": "P4_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
+  "supersedes_for_buildonly_only": "config/anl64_p4_implementation_lock_v0.1.json",
+  "parent_lock_blob": "2e561928d8c0319371860accc1fe03b6b9e7d658",
+  "repair_adjudication": {
+    "path": "artifacts/ANL64/ANL64_P4_BUILDONLY_PREFLIGHT_ADJUDICATION_v0.1.json",
+    "blob": "c50f9bb906293827c7657838a86d2d64a2a8a099",
+    "result": "BUILDONLY_STATIC_QA_FALSE_NEGATIVE_NO_SCIENCE_CONSUMED"
+  },
+  "authorization": {
+    "path": "config/anl64_p4_implementation_authorization_v0.1.json",
+    "git_blob": "c0a9c77d09c7da98103fc949ede182f117bd6329",
+    "decision": "P4_BOUNDED_IMPLEMENTATION_AUTHORIZED"
+  },
+  "exact_git_blobs": {
+    "src/anl64_plan.hpp": "157be15c63363ba2d55093af829ca68be9107e27",
+    "src/anl64_runtime.cpp": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+    "tools/compile_anl64_p4_shaders.ps1": "b7cb2449460a0c6cd44c2046a2a475addea9cd3f",
+    "tools/build_anl64_p4.ps1": "b64dae3db704847644f374a0745b816470f0bc86",
+    "tests/test_anl64_p4_package.py": "90ff3060f7fd809d8ea5d6159898a27e19874d6a",
+    "artifacts/ANL64/ANL64_P4_STATIC_QA_v0.2.json": "c3faaf04ef7f91adadd9dce93b95cf6d6cebe3ba",
+    "artifacts/ANL64/ANL64_P4_BUILDONLY_PREFLIGHT_ADJUDICATION_v0.1.json": "c50f9bb906293827c7657838a86d2d64a2a8a099",
+    "docs/research/arcllm-nexus-ledger64/P4_IMPLEMENTATION.md": "d925308dd9dbe6ebd86827055285682e0958f98c",
+    "config/anl64_p4_implementation_authorization_v0.1.json": "c0a9c77d09c7da98103fc949ede182f117bd6329"
+  },
+  "runner_git_blob": "f62470b22abb5ab8fd1f6877235bbd92cc299955",
+  "immutable_parent_blobs": {
+    "src/q2_benchmark.cpp": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "shaders/p7_q4k_gemm_2d.comp": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a",
+    "shaders/sa1_q4k_subgroup_splitk.comp": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a"
+  },
+  "mutation_policy": {
+    "production_implementation_mutation_permitted": false,
+    "shader_mutation_permitted": false,
+    "legacy_runtime_mutation_permitted": false,
+    "further_buildonly_repair_permitted": false
+  },
+  "execution_scope": {
+    "buildonly": true,
+    "executable_launch": false,
+    "target_model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "p5": false
+  },
+  "next": "RERUN_COMMITTED_RUN_ANL64_P4_BUILDONLY_PS1_FROM_STEP_1"
+}
