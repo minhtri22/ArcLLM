@@ -92,7 +92,16 @@ for forbidden in [
 cp=txt("tools/compile_ttft_m1_p6_shaders.ps1")
 assert '$SafeDir=Join-Path $Base "shaders_safe"' in cp
 assert '$FastDir=Join-Path $Base "shaders_q4fast"' in cp
-assert cp.count('"p7_') + cp.count('"p8') >= 16
+common_names=[
+    "p7_rmsnorm_seq.comp","p7c_ffn_q4k_tiled.comp","p7c_ffn_q6k_tiled.comp",
+    "p7_rope_seq.comp","p7_kv_store.comp","p7_attention_prefill_online.comp",
+    "p7_attention_kv_online.comp","p7_add.comp","p7l_ffn_q4k_gateup_fused.comp",
+    "p7_swiglu.comp","p7g_ffn_q4k_tiled16.comp","p7g_ffn_q6k_tiled16.comp",
+    "p7_q4k_gemm_2d.comp","p7_q6k_gemm_2d.comp",
+    "p8c_embedding_q4k_segmented_probe.comp","p8q1_lmhead_q6k_segmented_chunk.comp",
+]
+assert len(common_names)==16
+assert all(f'"{name}"' in cp for name in common_names)
 assert 'common_prefill_artifacts_exact_match=$AllCommonMatch' in cp
 assert 'H_ART_FALSIFIED_STATIC' in cp
 assert 'H_ART_SUPPORTED_STATIC_STOP_TIMING' in cp
