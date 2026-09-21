@@ -1,0 +1,95 @@
+{
+  "schema": "arcllm.sa1.k2.q6_adjudication.v0.1",
+  "date": "2026-09-21",
+  "result": "Q6_STAGE_FAIL_CORRECTNESS",
+  "classification": "SA1_K2_Q6_CORRECTNESS_FAIL",
+  "prerequisite": {
+    "q4_result": "Q4_STAGE_PASS",
+    "q4_adjudication_commit": "accd26471e4abd5bbe9981d49121068e116cc62c"
+  },
+  "evidence_bundle": {
+    "filename": "sa1_k2_q6_failure_return_to_chatgpt.zip",
+    "sha256": "B4D6A6F7CF4ADE32EFFD9408754216CF3ED8FCABC2065F1A94D253CBA0933E95",
+    "entry_count": 10,
+    "scientific_execution_commit": "b87f3bccee3809cedb2d88ab77c9885406348a87",
+    "packaging_commit": "8e783119ff6268d26d9c2e8405e0cb5f2faec182"
+  },
+  "entry_sha256": {
+    "sa1_k2_q6_preflight_raw.json": "3E583FD978CE2BDB261EE76B7B27A55C39B94F1DE5F98D3276C41FD4AD101CC3",
+    "sa1_k2_q6_correctness_failure_evidence.json": "D331F9C0B5A245806D8CE793F1F0B81BDA727ECF67CF63D2A2AB370C6170C3A3",
+    "shader_build.json": "B288E5CB00E64832B209125E99DCEACCDE90AC3FA7B6BAF7ED7D68525C73EA59",
+    "native_build.json": "A61CEA28CDE9DCF90F73EAD54C7F91C1B51F94FE40DC6D44650FEC9DC77E6E87",
+    "sa1_component_benchmark.exe": "DA5D66BA43B0063DB878A08FB03B47D86AA92DFD01D056B99ED54E70F602325D",
+    "p7_q6k_gemm_2d.spv": "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67",
+    "sa1_q6k_subgroup_splitk.spv": "AD47E9E7A86BBB385BD2BC9610EC218AC52F4B7B48EC4579A3354CFBAA659020",
+    "sa1_q6k_subgroup_splitk.comp": "4A074E180DBBFC19BA783B81084283085E9ECF90C356D2FFCDB42522F78BC0E0",
+    "sa1_k2_q6_implementation_lock_v0.1.json": "DF75F5B72E9AB2BF38D5B82ED66D06677C7B84BF9AE8CE8082B4680A97BB22EF",
+    "sa1_k2_q6_implementation_contract_v0.1.json": "C57FBC1DABB679E8DDC01E8DEE20605736F8EBCC1F3B72D485639E42542F4F0D"
+  },
+  "provenance": {
+    "candidate_source_git_blob": "0fdc0c8f195872396a653b38ee2283156fbaeaa0",
+    "component_harness_git_blob": "0e51a39d49f11f5cdbcda64c94439b8e645bbca8",
+    "implementation_lock_git_blob": "66b720b55e0b3873c2c6b07a300cd3e5adc31c74",
+    "implementation_contract_git_blob": "a7efc35a2bc70e4bbbd15751dfc6a6a29b4486a2",
+    "baseline_source_git_blob": "a0de99f972db6cd202606aad95fb9eab223639e6",
+    "baseline_spirv_sha256_frozen": "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67"
+  },
+  "independent_checks": {
+    "zip_readable": true,
+    "all_entries_rehashed": true,
+    "recorded_internal_hashes_match_recomputed_files": true,
+    "baseline_spirv_matches_frozen_hash": true,
+    "candidate_source_blob_matches_scientific_commit": true,
+    "implementation_lock_matches_scientific_commit": true,
+    "implementation_contract_matches_scientific_commit": true,
+    "native_build_git_head_matches_scientific_execution_commit": true,
+    "scientific_to_packaging_delta_changes_no_shader_or_harness": true,
+    "failure_packaging_path_is_reuse_only_before_compile_build_gpu_path": true,
+    "raw_error_exact_match": true,
+    "harness_order_baseline_cpu_before_candidate_cpu": true,
+    "f0_invalidation_found": false
+  },
+  "build": {
+    "shader_compile": "PASS",
+    "native_build": "PASS",
+    "compiler": "glslang.exe",
+    "compiler_release": "16.5.0",
+    "target_env": "vulkan1.2",
+    "executable_sha256": "DA5D66BA43B0063DB878A08FB03B47D86AA92DFD01D056B99ED54E70F602325D",
+    "candidate_spirv_sha256": "AD47E9E7A86BBB385BD2BC9610EC218AC52F4B7B48EC4579A3354CFBAA659020"
+  },
+  "correctness": {
+    "gate": {
+      "all_outputs_finite": true,
+      "max_abs_max": 0.02,
+      "rmse_max": 0.005
+    },
+    "baseline_cpu": "PASS_REACHED_BEFORE_CANDIDATE_CHECK_FOR_ACTIVE_CASE",
+    "candidate_cpu": "FAIL",
+    "candidate_baseline": "NOT_ADJUDICABLE_FROM_RETAINED_ERROR_AFTER_FAIL_FAST",
+    "raw_status": "ERROR",
+    "raw_error": "correctness gate failed: candidate_cpu",
+    "threshold_breached": true,
+    "failure_metric_magnitude": "NOT_RETAINED_BY_FAIL_FAST_HARNESS",
+    "exact_violated_dimension": "UNKNOWN_MAX_ABS_AND_OR_RMSE_AND_OR_FINITE"
+  },
+  "execution_boundary": {
+    "q6_performance_measurement": "NOT_RUN",
+    "q6_measured_pairs": 0,
+    "q6_performance_authorization": false,
+    "target_model_loaded": false,
+    "q3_reopened": false
+  },
+  "decision": {
+    "q6_stage_closed": true,
+    "q6_implementation_permitted": false,
+    "q6_measurement_permitted": false,
+    "q6_rerun_permitted": false,
+    "target_model_execution_permitted": false,
+    "q3_reopen_permitted": false,
+    "performance_rescue_permitted": false,
+    "threshold_mutation_permitted": false
+  },
+  "interpretation": "The unchanged SA1 subgroup-32 split-K mechanism/geometry that passed Q4_K violated the frozen Q6_K numerical correctness contract before any performance measurement. This falsifies cross-quant generality of the unchanged mechanism within SA1, but does not establish Q6 performance.",
+  "next": "Formal SA1 synthesis/closeout. Do not optimize, rerun, time Q6, or integrate the target model inside SA1."
+}
