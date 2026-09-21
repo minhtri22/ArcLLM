@@ -2,7 +2,7 @@
   "phase": "Q6CB-1-SPECIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "Q6CB2_FROZEN_IDENTIFICATION_AUTHORIZED_NOT_YET_EXECUTED",
+  "status": "Q6CB2_FROZEN_IDENTIFICATION_AUTHORIZED_RUNNER_LOCKED_NOT_YET_EXECUTED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -610,7 +610,7 @@
     "end_to_end_applicability": "NOT_TESTED"
   },
   "q6cb1": {
-    "status": "Q6CB2_FROZEN_IDENTIFICATION_AUTHORIZED_NOT_YET_EXECUTED",
+    "status": "Q6CB2_FROZEN_IDENTIFICATION_AUTHORIZED_RUNNER_LOCKED_NOT_YET_EXECUTED",
     "branch": "research/q6-correctness-boundary",
     "program": "docs/Q6CB1_Q6_CORRECTNESS_BOUNDARY_PROGRAM.md",
     "contract": "config/q6cb1_specification_v0.1.json",
@@ -639,7 +639,7 @@
     "target_model_load_permitted": false,
     "sa1_rerun_permitted": false,
     "execution_authorization_file": "config/q6cb2_execution_authorization.json",
-    "next": "EXECUTE_EXACTLY_ONE_FROZEN_Q6CB2_IDENTIFICATION_PARTITION_ON_LOCKED_TARGET",
+    "next": "PULL_AND_RUN_ONLY_RUN_Q6CB2_IDENTIFICATION_PS1_ON_LOCKED_TARGET",
     "zero_science_qa": "PASS",
     "qa_artifact": "artifacts/Q6CB/Q6CB1_SPECIFICATION_QA_v0.1.json",
     "qa_document": "docs/Q6CB1_SPECIFICATION_QA.md",
@@ -749,12 +749,23 @@
     "q6cb3_execution_authorized": false,
     "execution_authorization": {
       "decision": "Q6CB2_FROZEN_IDENTIFICATION_AUTHORIZED",
+      "revision": 2,
       "file": "config/q6cb2_execution_authorization.json",
-      "commit": "a20bd784413f40b8d3e590f70c358a9936318590",
+      "git_blob": "9c9a577665346c43629a21b1b2b95ac56b83a42d",
+      "commit": "f6cddd5359761c21b6ac9e5037b794600487e395",
       "scope": "Q6CB2_IDENTIFICATION_ONLY",
       "fixture_count": 30,
       "valid_partition_execution_count": 1,
+      "authorized_entrypoint": "run_q6cb2_identification.ps1",
+      "direct_manual_harness_invocation_permitted": false,
       "q6cb3_authorized": false
+    },
+    "execution_runner": {
+      "path": "run_q6cb2_identification.ps1",
+      "git_blob": "fa82d7023d0f94de2572df852f0d3a2f9dab6c91",
+      "implementation_commit": "90f1cea3fe73d2f956f0e1df4c350c72d32498ef",
+      "static_qa": "PASS_ZERO_SCIENCE_RUNNER_STATIC_QA",
+      "static_qa_artifact": "artifacts/Q6CB/Q6CB2_RUNNER_STATIC_QA_v0.1.json"
     }
   }
 }
