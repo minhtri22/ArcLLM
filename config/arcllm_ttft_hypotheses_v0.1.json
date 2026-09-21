@@ -1,0 +1,111 @@
+{
+  "schema": "arcllm.ttft_m1.mechanism_hypotheses.v0.1",
+  "date": "2026-09-22",
+  "status": "P2_HYPOTHESES_FROZEN_EXECUTION_BLOCKED",
+  "source_bindings": {
+    "safe_reference_runtime_blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "anl64_runtime_blob": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+    "anl64_plan_blob": "157be15c63363ba2d55093af829ca68be9107e27",
+    "shared_vulkan_runtime_blob": "8432ca554b36a2167429b640c5ec6779cf2b3e6b",
+    "p1_prior_art_register_blob": "92682f51f97c9af87ce408629ff7c6f45d3468ac",
+    "p1_review_blob": "69a5cf641ca33d36a40f1694111d97a8298000d3"
+  },
+  "measurement_boundary": {
+    "excludes": [
+      "GGUF/model read",
+      "TensorStore inspection",
+      "ANL64 plan construction",
+      "VkRuntime initialization",
+      "prefill/decode graph construction",
+      "prepare_chain(prefill)",
+      "prepare_chain(decode)",
+      "reset_execution"
+    ],
+    "includes": [
+      "prefill execute_prepared command-pool/buffer/fence lifecycle",
+      "441 prefill dispatches and barriers",
+      "queue submit + fence wait",
+      "CPU full-vocabulary q2_top2"
+    ],
+    "ttft_definition": "t1-t0 from immediately before execute_prepared(prefill) to immediately after q2_top2"
+  },
+  "static_findings": {
+    "build_prefill_source_exact_equal": true,
+    "prefill_dispatches_both": 441,
+    "q4_fast_used_in_prefill": false,
+    "q4_fast_used_in_candidate_decode": true,
+    "planner_direct_ttft_explanation_rejected": true,
+    "pipeline_creation_direct_ttft_explanation_rejected": true
+  },
+  "hypotheses": [
+    {
+      "id": "H-ART",
+      "mechanism": "PREFILL_BINARY_ARTIFACT_DIVERGENCE",
+      "status": "OPEN_STATIC_FIRST",
+      "prediction": "At least one common prefill SPIR-V binary differs candidate vs safe reference.",
+      "primary_test": "SHA256 all common prefill SPIR-V artifacts.",
+      "falsification": "All common prefill SPIR-V SHA256 values match exactly.",
+      "execution_needed": false
+    },
+    {
+      "id": "H-DPIPE",
+      "mechanism": "PREPARED_DECODE_PIPELINE_STATE_INTERACTION",
+      "status": "OPEN",
+      "prediction": "With identical prefill-only conditioning, preparing the Q4_FAST decode pipeline set causes >=10% TTFT increase versus preparing the safe decode pipeline set, reproducibly in both workloads.",
+      "causal_factor": "decode_pipeline_set SAFE vs Q4_FAST",
+      "execution_needed": true
+    },
+    {
+      "id": "H-PRECOND",
+      "mechanism": "FULL_INFERENCE_WARMUP_PRECONDITIONING",
+      "status": "OPEN",
+      "prediction": "Within a fixed decode-pipeline set, FULL_INFERENCE conditioning causes >=10% TTFT increase versus PREFILL_ONLY conditioning, reproducibly in both workloads.",
+      "causal_factor": "conditioning PREFILL_ONLY vs FULL_INFERENCE",
+      "execution_needed": true
+    },
+    {
+      "id": "H-INTERACT",
+      "mechanism": "DECODE_STATE_X_MEASURED_COMMAND_LIFECYCLE_INTERACTION",
+      "status": "CONDITIONAL",
+      "prediction": "The combined Q4FAST+FULL cell shows material harm not attributable to either preregistered main effect alone.",
+      "execution_needed": true,
+      "restriction": "Cannot be invoked as a post-hoc free-form explanation; only the preregistered factorial interaction rule may support it."
+    },
+    {
+      "id": "H-NULL",
+      "mechanism": "NO_STABLE_MATERIAL_TTFT_MECHANISM",
+      "status": "OPEN",
+      "prediction": "No H-DPIPE/H-PRECOND/H-INTERACT gate reproduces after H-ART is controlled.",
+      "execution_needed": true
+    }
+  ],
+  "explicitly_rejected": [
+    {
+      "id": "R-P1",
+      "claim": "ANL64 planner CPU construction directly inflates measured TTFT",
+      "reason": "outside t0-t1"
+    },
+    {
+      "id": "R-P2",
+      "claim": "Q4_FAST runs during prefill",
+      "reason": "exact-equal prefill source; Q4_FAST decode-only"
+    },
+    {
+      "id": "R-P3",
+      "claim": "multi-request scheduler contention explains parent cells",
+      "reason": "not present in isolated P6 cell design"
+    }
+  ],
+  "threshold_provenance": {
+    "material_ratio": 1.1,
+    "source": "Pre-existing ArcLLM/ANL64 practical materiality convention; reused prospectively for new mechanism identification.",
+    "not_derived_from_parent_effect_magnitude": true
+  },
+  "authorization": {
+    "implementation": false,
+    "target_model_execution": false,
+    "gpu_dispatch": false,
+    "timing": false
+  },
+  "next": "P3_CAUSAL_DECOMPOSITION_SPECIFICATION"
+}
