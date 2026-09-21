@@ -1,0 +1,177 @@
+{
+  "schema": "arcllm.anl64.p6.matched_e2e_confirmation_spec.v0.1",
+  "date": "2026-09-21",
+  "status": "P6_SPECIFICATION_FROZEN_EXECUTION_BLOCKED",
+  "scientific_question": "Does the semantically validated ANL64 successor produce a reproducible material end-to-end improvement over the exact frozen safe ArcLLM reference on the target Intel Arc 140V system?",
+  "claim_boundary": {
+    "comparison": "ANL64_P4_LOCKED vs ARC_SAFE_REFERENCE",
+    "external_llama_cpp_advantage_claimed": false,
+    "note": "P6 confirms successor intervention effect relative to the exact safe ArcLLM reference. It does not establish competitive advantage against llama.cpp or another external runtime."
+  },
+  "prerequisites": {
+    "p5_verdict": "P5_INTEGRATION_PASS",
+    "p5_adjudication_blob": "cada882bd886d96a71c73c40a6e243e3a51ebde0",
+    "p5_timing_reusable": false,
+    "fresh_p6_execution_required": true,
+    "p2_upper_bound_contract_blob": "e7d00d6d1deb516347fd8919e2ed27eeeaeb84a6",
+    "historical_q3_result_blob": "06faac573838b1789e6ef007cd0a9ce11b5e1915"
+  },
+  "frozen_systems": {
+    "candidate": {
+      "name": "ANL64_P4_LOCKED",
+      "runtime_blob": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+      "plan_blob": "157be15c63363ba2d55093af829ca68be9107e27",
+      "executable_sha256": "1F45DA9D8CACE3CF78FE31B7B7041B6027CB41E180F7FC99E50E1127EA4F5451",
+      "q4_fast_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+      "fixed_q4_fast_nodes": 140,
+      "fixed_q4_regions": 19936
+    },
+    "reference": {
+      "name": "ARC_SAFE_REFERENCE",
+      "historical_implementation_commit": "43afd71161c4dc8c766c09c3b55d5eca48352bde",
+      "runtime_blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+      "q4_safe_spv_sha256": "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A",
+      "q6_safe_spv_sha256": "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67"
+    }
+  },
+  "exact_target": {
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "model_bytes": 4683074048,
+    "cpu": "Intel(R) Core(TM) Ultra 7 258V",
+    "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "driver": "32.0.101.8860",
+    "ac_power_required": true,
+    "power_scheme_required": "Balanced"
+  },
+  "workloads": [
+    {
+      "id": "W-S",
+      "prompt_tokens": 4,
+      "output_tokens": 32,
+      "prompt_hash_fnv1a64": "93833ffb49890aba"
+    },
+    {
+      "id": "W-C",
+      "prompt_tokens": 256,
+      "output_tokens": 32,
+      "prompt_rule": "first 4 frozen IDs then 1 + ((104729 + 7919*i) mod 152063)"
+    }
+  ],
+  "fresh_execution_design": {
+    "sessions": [
+      "A",
+      "B"
+    ],
+    "separate_runner_processes_required": true,
+    "session_A_order": [
+      "ARC_SAFE_REFERENCE/W-S",
+      "ANL64_P4_LOCKED/W-S",
+      "ANL64_P4_LOCKED/W-C",
+      "ARC_SAFE_REFERENCE/W-C"
+    ],
+    "session_B_order": [
+      "ANL64_P4_LOCKED/W-S",
+      "ARC_SAFE_REFERENCE/W-S",
+      "ARC_SAFE_REFERENCE/W-C",
+      "ANL64_P4_LOCKED/W-C"
+    ],
+    "warmups_per_cell_per_session": 1,
+    "measured_attempts_per_cell_per_session": 5,
+    "measured_attempts_total": 40,
+    "artifact_rebuild_during_measurement": false,
+    "online_tuning": false,
+    "workload_search": false,
+    "selective_rerun": false
+  },
+  "metrics": {
+    "primary": [
+      "decode_tps_median",
+      "e2e_ms_median"
+    ],
+    "blocking_guard": [
+      "ttft_ms_median"
+    ],
+    "semantic_guard": [
+      "generated_token_ids",
+      "final_logits_finite",
+      "dispatch_census_pass",
+      "candidate_plan_identity"
+    ],
+    "not_in_scope": [
+      "P5 timing",
+      "working-set benefit",
+      "private-bytes benefit",
+      "CPU utilization benefit",
+      "GPU counter benefit",
+      "llama.cpp competitive advantage"
+    ]
+  },
+  "thresholds": {
+    "provenance": "10% materiality magnitude frozen before P6, inherited from the already-established Q3/P2 practical-materiality convention but applied to the successor-vs-safe-reference causal contrast.",
+    "decode_tps_candidate_over_reference_min": 1.1,
+    "e2e_ms_candidate_over_reference_max": 0.9,
+    "ttft_ms_candidate_over_reference_blocking_max": 1.1,
+    "token_mismatch_tolerance": 0
+  },
+  "primary_gate": {
+    "rule": "P6 PASS requires BOTH decode and E2E material-benefit thresholds to pass for W-S and W-C in BOTH independent sessions A and B.",
+    "comparisons_required": 4,
+    "decode_benefit_comparisons_required": 4,
+    "e2e_benefit_comparisons_required": 4,
+    "ttft_blocking_guard_comparisons_required": 4,
+    "semantic_guard_required_all_attempts": true
+  },
+  "semantic_guard": {
+    "candidate_plan": {
+      "nodes": 469,
+      "quant_linear_nodes": 215,
+      "fixed_q4_fast_nodes": 140,
+      "regions": 24104,
+      "fixed_q4_regions": 19936,
+      "metadata_bytes_max": 2097152,
+      "plan_hash_fnv1a64": "04f3f884c0fc4fcc"
+    },
+    "paired_generated_sequence_rule": "Within each session/workload, candidate and reference measured attempts must have exact 32-token greedy sequence equality at matched attempt index.",
+    "all_attempts_success": true,
+    "all_final_logits_finite": true,
+    "all_dispatch_census_pass": true
+  },
+  "adjudication_order": [
+    "F0_PROVENANCE_AND_FRESHNESS",
+    "F1_SEMANTIC_AND_STRUCTURAL_GUARD",
+    "F2_SESSION_VALIDITY_AND_COUNTERBALANCE",
+    "F3_DECODE_MATERIAL_BENEFIT",
+    "F4_E2E_MATERIAL_BENEFIT",
+    "F5_TTFT_BLOCKING_HARM",
+    "FINAL_CLASSIFICATION"
+  ],
+  "classifications": [
+    "P6_MATCHED_E2E_PASS",
+    "P6_NO_MATERIAL_E2E_BENEFIT",
+    "P6_SEMANTIC_OR_STRUCTURAL_FAIL",
+    "P6_INVALID_F0",
+    "P6_STOP_INFRASTRUCTURE_UNSTABLE"
+  ],
+  "stop_rules": [
+    "Any fresh semantic mismatch or structural plan mismatch => P6_SEMANTIC_OR_STRUCTURAL_FAIL; do not use performance outcomes.",
+    "If either decode or E2E material threshold fails in any required session/workload comparison, classify P6_NO_MATERIAL_E2E_BENEFIT.",
+    "If TTFT blocking guard fails in any required comparison, classify P6_NO_MATERIAL_E2E_BENEFIT even if decode/E2E pass.",
+    "No threshold, workload, executor, Q6 path, fusion, repack, prefetch, quantization, session order or repetition count may be changed after P6 execution starts.",
+    "P5 raw timings are permanently inadmissible for P6.",
+    "P6 PASS does not establish llama.cpp competitive advantage."
+  ],
+  "infrastructure_policy": {
+    "repair_budget": 1,
+    "repair_scope": "orchestration/infrastructure only; no runtime/shader/spec/threshold/workload/session mutation",
+    "partial_execution_repair_rule": "after a valid infrastructure-only repair, replay the entire frozen P6 collection from zero; no cell/session salvage",
+    "second_f0": "P6_STOP_INFRASTRUCTURE_UNSTABLE"
+  },
+  "authorization": {
+    "p6_execution": false,
+    "target_model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "p7": false
+  },
+  "next": "ZERO_SCIENCE_P6_SPECIFICATION_QA_THEN_EXPLICIT_P6_EXECUTION_AUTHORIZATION_GATE"
+}
