@@ -1,0 +1,100 @@
+{
+  "schema": "arcllm.anl64.p4.buildonly_adjudication.v0.1",
+  "date": "2026-09-21",
+  "result": "P4_BUILDONLY_PASS",
+  "returned_bundle": {
+    "filename": "anl64_p4_buildonly_return_to_chatgpt.zip",
+    "sha256": "F336519DF14EAEC95F43A5CFC7680C9309F6560B6A60BCEEBA949A41ECEAACE2",
+    "bytes": 9722,
+    "member_count": 7,
+    "members": [
+      "ANL64_P4_BUILDONLY_PREFLIGHT_ADJUDICATION_v0.1.json",
+      "anl64_p4_implementation_authorization_v0.1.json",
+      "anl64_p4_implementation_lock_v0.2.json",
+      "ANL64_P4_STATIC_QA_v0.2.json",
+      "native_build.json",
+      "P4_BUILDONLY_RESULT.json",
+      "shader_provenance.json"
+    ]
+  },
+  "run_identity": {
+    "git_head": "aa284326a9322a14888967fa4a9a9dc626f2286a",
+    "authorization_blob": "c0a9c77d09c7da98103fc949ede182f117bd6329",
+    "implementation_lock_blob": "60b1428ad0f919df4fb3a993ccc289f5d5a003c2",
+    "runner_blob": "f33179a96f83868acc77e808a6fa508311e2fd7e",
+    "static_qa_blob": "c3faaf04ef7f91adadd9dce93b95cf6d6cebe3ba",
+    "preflight_repair_adjudication_blob": "c50f9bb906293827c7657838a86d2d64a2a8a099"
+  },
+  "bundle_git_blob_recheck": {
+    "authorization": true,
+    "implementation_lock_v0_2": true,
+    "static_qa_v0_2": true,
+    "preflight_repair_adjudication": true
+  },
+  "source_identity": {
+    "planner_blob": "157be15c63363ba2d55093af829ca68be9107e27",
+    "runtime_blob": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+    "gguf_blob": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
+    "tensor_store_blob": "0eb52588d30620bfeb323e62c8546e7191a006d6",
+    "legacy_q2_blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "q4_safe_source_blob": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a",
+    "q4_fast_source_blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "exact_run_head_repo_match": true
+  },
+  "shader_build": {
+    "compiler": "glslang.exe",
+    "compiler_release": "16.5.0",
+    "compiler_asset_sha256": "06B71298B750268C127F2EE7AE0EF7525E2068120C6C8A3A08B2F58CA6F325CE",
+    "target_env": "vulkan1.2",
+    "shader_count": 17,
+    "q4_fast_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+    "q4_fast_matches_closed_sa1": true,
+    "q4_safe_spv_sha256": "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A",
+    "q4_safe_matches_frozen": true,
+    "q6_safe_spv_sha256": "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67"
+  },
+  "native_build": {
+    "result": "PASS",
+    "executable_sha256": "1F45DA9D8CACE3CF78FE31B7B7041B6027CB41E180F7FC99E50E1127EA4F5451",
+    "executable_bytes": 449024,
+    "source_blobs_match_repo": true,
+    "binary_bytes_in_return_bundle": false,
+    "independent_binary_identity_note": "The return bundle does not contain the executable. Identity is accepted transitively because the exact verified runner required the file to exist, recomputed its SHA256, compared it to native_build.json, and only then packaged the evidence; P4 is BuildOnly and no executable launch was authorized."
+  },
+  "environment": {
+    "os": "Microsoft Windows 11 Home Single Language",
+    "os_version": "10.0.26200",
+    "os_build": "26200",
+    "cpu": "Intel(R) Core(TM) Ultra 7 258V",
+    "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "driver": "32.0.101.8860",
+    "exact_target_match": true
+  },
+  "zero_science": {
+    "static_test": "PASS",
+    "shader_build": "PASS",
+    "native_build": "PASS",
+    "executable_launched": false,
+    "model_loaded": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "scientific_outcome": false
+  },
+  "repair_accounting": {
+    "bounded_repair_consumed": 1,
+    "bounded_repair_max": 1,
+    "repair_class": "STALE_GOVERNANCE_STATE_ASSERTION",
+    "production_changed": false,
+    "science_changed": false,
+    "further_p4_buildonly_repair_permitted": false
+  },
+  "adjudication": {
+    "p4": "PASS",
+    "classification": "P4_IMPLEMENTATION_AND_BUILDONLY_CLOSED_PASS",
+    "implementation_source_mutation_closed": true,
+    "p5_specification_eligible": true,
+    "p5_execution_authorized": false,
+    "performance_claim": false
+  },
+  "next": "P5_COMPONENT_INTEGRATION_VALIDATION_SPECIFICATION_ONLY"
+}
