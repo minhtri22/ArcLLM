@@ -1,0 +1,125 @@
+{
+  "schema": "arcllm.q6cb1.execution_contract_qa.v0.1",
+  "date": "2026-09-21",
+  "result": "PASS_ZERO_SCIENCE_EXECUTION_CONTRACT_QA",
+  "classification": "EXECUTION_CONTRACT_VALID_EXECUTION_CLOSED",
+  "audited_contract": {
+    "path": "config/q6cb1_execution_contract_v0.1.json",
+    "git_blob": "c2a541dda5bc01ed473644f8c9f232cfc788e953",
+    "document": "docs/Q6CB1_EXECUTION_CONTRACT.md"
+  },
+  "parent_state": {
+    "implementation_evidence_lock_commit": "237a4174b409bf2e2200fa96fe1a7dbccfa76bab",
+    "goal_alignment_head": "7a34a371a86b4bd6d75e8d4efe8e6712c264ea65",
+    "goal_alignment": "PASS",
+    "implementation_mutation_permitted": false
+  },
+  "repository_delta": {
+    "base": "7a34a371a86b4bd6d75e8d4efe8e6712c264ea65",
+    "audited_head": "20a2245a312522b1aa21bcc793ce3a6345a46dfb",
+    "ahead_by": 4,
+    "changed_files": [
+      "config/q6cb1_execution_contract_v0.1.json",
+      "docs/Q6CB1_EXECUTION_CONTRACT.md"
+    ],
+    "science_source_changed": false,
+    "shader_changed": false,
+    "runner_created": false,
+    "execution_authorization_created": false
+  },
+  "implementation_identity_checks": {
+    "canonical_reference_blob": "6e4283b8a91606c868573c5250e06d803c442c74",
+    "fixture_generator_blob": "34f1e71355448244dd09dab67e27c0cad4808826",
+    "causal_harness_blob": "8f9d0d260348d3a6282ed5730b2e06179912b704",
+    "gpu_packed_blob": "502fdecc5d2d6462f1fbff0f2927c8ad7792202f",
+    "gpu_expanded_blob": "44ac2c4a4792b93b6a3406bafdf51a1f68b4e721",
+    "matches_implementation_evidence_lock": true
+  },
+  "fixture_design_checks": {
+    "shape_count": 2,
+    "shapes": [
+      "K4096_R64",
+      "K16384_R64"
+    ],
+    "both_n_multiple_of_256": true,
+    "rows_per_fixture": 64,
+    "exact_sa1_q6_cell_reuse": false,
+    "conditioning_strata_count": 5,
+    "replicates_per_shape_stratum": 3,
+    "identification_fixture_count": 30,
+    "confirmatory_fixture_count": 30,
+    "total_fixture_identities_frozen": 60
+  },
+  "seed_checks": {
+    "derivation": "SHA256(label UTF-8), first 8 digest bytes interpreted little-endian uint64",
+    "identification_seed_count": 30,
+    "confirmatory_seed_count": 30,
+    "total_seed_count": 60,
+    "unique_seed_count": 60,
+    "duplicate_seed_count": 0,
+    "forbidden_sa1_seed_hits": 0,
+    "canonical_schedule_sha256_independently_recomputed": "C6C47227DA52D41F485A21319DEAB81514A6A7555D0EFAD8113D75F304BA273E",
+    "stored_schedule_sha256_matches": true
+  },
+  "numerical_rule_checks": {
+    "sa1_absolute_threshold_reused": false,
+    "reference_scale": "max(RMS(R64),1.0)",
+    "relative_floor": "2^-20",
+    "contrast_floor": "4*delta",
+    "excess_error_ratio_min": 2.0,
+    "rtci_interaction_ratio_min": 1.5,
+    "same_rule_all_shapes_strata_partitions": true,
+    "outlier_deletion": false,
+    "threshold_adaptation_after_data": false
+  },
+  "causal_identifiability_checks": {
+    "F1_boundary_rule_frozen": true,
+    "H_RTCI_rule_frozen": true,
+    "H_PDI_rule_frozen": true,
+    "H_DSA_rule_frozen": true,
+    "H_SEM_rule_frozen": true,
+    "semantic_invariant_required_for_PDI": true,
+    "multifactor_allowed": true,
+    "unresolved_allowed": true,
+    "confirmatory_only_candidate_promotion_forbidden": true,
+    "identification_confirmatory_pooling_forbidden": true
+  },
+  "finite_governance_checks": {
+    "identification_collections": 1,
+    "confirmatory_collections_max": 1,
+    "q6cb4_terminal": true,
+    "q6cb5_permitted": false,
+    "additional_mechanism_programs": 0,
+    "si2_permitted": false,
+    "negative_result_is_valid_terminal_evidence": true
+  },
+  "f0_checks": {
+    "scientific_negative": false,
+    "selective_valid_fixture_rerun_forbidden": true,
+    "bounded_repairs_per_stage_max": 1,
+    "repair_may_change_science": false,
+    "repair_requires_entire_partition_replay": true,
+    "second_f0": "STOP_INFRASTRUCTURE_UNSTABLE"
+  },
+  "environment_checks": {
+    "hard_gate_limited_to_causal_runtime_identities": true,
+    "cpu_gpu_driver_subgroup_bound": true,
+    "exact_executable_spirv_hashes_bound": true,
+    "os_power_timing_state_descriptive_only": true,
+    "target_model_load_permitted": false,
+    "performance_timing_scientifically_used": false
+  },
+  "authorization_checks": {
+    "fresh_fixture_generation": false,
+    "scientific_cpu_execution": false,
+    "scientific_gpu_execution": false,
+    "performance_timing": false,
+    "target_model_load": false,
+    "execution_authorization_creation": false,
+    "q6cb2_authorized": false,
+    "q6cb3_authorized": false
+  },
+  "fresh_science_observed": false,
+  "decision": "LOCK_EXECUTION_CONTRACT_KEEP_Q6CB2_CLOSED",
+  "next": "EXPLICIT_AUTHORIZATION_GATE_FOR_Q6CB2_FROZEN_IDENTIFICATION_COLLECTION_ONLY"
+}
