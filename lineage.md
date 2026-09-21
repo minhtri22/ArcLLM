@@ -1085,3 +1085,11 @@ Repair: rename SHA helper to `Get-Sha256` in preflight and future measured runne
 Packaging-only recovery at `7a24368569da4f4edaac2a8cc728130d6c0d0b8a` successfully entered recovery mode and therefore did not recompile, rebuild or redispatch GPU work. It then failed before ZIP creation because `Test-Path$Zip` was tokenized as an unknown command rather than `Test-Path $Zip`.
 Classified `F0_POWERSHELL_CMDLET_VARIABLE_TOKENIZATION_DURING_PACKAGING`. Exact scan of the SA1 preflight, measured runner, compiler and builder found no other command-variable concatenation in the checked cmdlet set.
 Repair is packaging/test/governance only: insert the missing whitespace and add a static regression guard. Candidate shader, component harness, raw correctness evidence, compiled SPIR-V and native executable are unchanged; no scientific attempt is consumed.
+
+
+## 2026-09-21 — SA1-K1 zero-measurement preflight adjudication PASS / evidence lock
+Returned bundle SHA256 `37366F785BB391E38E04A8FD0D631850C0DE62F13E2BACEA7FEA2A8363E14D02`, 10 entries. Independent rehash verified all preflight-lock bindings: raw correctness, shader/native build manifests, executable, baseline SPIR-V and candidate SPIR-V. Frozen baseline SPIR-V exactly reproduces the Q2 hash.
+Scientific execution commit remains `b45c2cee60e99e4b7700ff032489e77df9fbd3c3`; final packaging commit is `e2d0b025418d43ad634f3323d873f7da5527d495`. Candidate shader/harness/baseline/contract/parent-lock blobs are identical across both. Packaging recovery had two F0 defects; the returned lock field names only the first, while lineage binds both. Neither recovery reran compile/build/GPU correctness.
+Correctness PASS across 5 Q4 cells × banks 0/3. Worst candidate-vs-CPU was max_abs 0.013916015625, RMSE 0.00269372814522; worst candidate-vs-baseline max_abs 0.014404296875, RMSE 0.00270290781691, all below frozen 0.02/0.005 gates.
+Zero-measurement invariants PASS: model_loaded=false, performance_measurement=false, timestamp_queries=0, measured_pairs=0, performance_gate_evaluated=false.
+Decision: `SA1_K1_ZERO_MEASUREMENT_PREFLIGHT_PASS`; implementation evidence locked. Q4 execution authorization may now be created only as a separate commit. Q6/model/Q3 remain blocked.

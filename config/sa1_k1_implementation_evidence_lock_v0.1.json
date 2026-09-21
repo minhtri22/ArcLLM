@@ -1,0 +1,42 @@
+{
+  "schema": "arcllm.sa1.k1.implementation_evidence_lock.v0.1",
+  "date": "2026-09-21",
+  "status": "SA1_K1_EVIDENCE_LOCK_PASS",
+  "adjudication_result": "SA1_K1_ZERO_MEASUREMENT_PREFLIGHT_PASS",
+  "adjudication_artifact": "artifacts/SA1/SA1K1_PREFLIGHT_ADJUDICATION_v0.1.json",
+  "returned_bundle_sha256": "37366F785BB391E38E04A8FD0D631850C0DE62F13E2BACEA7FEA2A8363E14D02",
+  "preflight_lock_sha256": "A0B7A718D42FC6A41661560E48D987B00A4B90A8EAB2F31B3D552701B768DD45",
+  "scientific_execution_commit": "b45c2cee60e99e4b7700ff032489e77df9fbd3c3",
+  "frozen_tooling_commit": "e2d0b025418d43ad634f3323d873f7da5527d495",
+  "parent_implementation_lock_commit": "60b0fdf91ffe859c918055afa9e3b1071142f6c4",
+  "candidate_shader_blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+  "component_harness_blob": "3a7c7a80ff8e23aa4443499efa5aa5c71ffd5557",
+  "executable_sha256": "AC9936429F464C2AD30BFBB842DF916A74FA834BB2BA3ED56F723CEFA9122E2C",
+  "baseline_spv_sha256": "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A",
+  "candidate_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+  "frozen_measurement_protocol": {
+    "processes": [
+      "A",
+      "B"
+    ],
+    "cells": 5,
+    "warmups_per_arm_per_cell": 10,
+    "measured_pairs_per_cell_per_process": 30,
+    "timed_dispatches_per_process": 300,
+    "timestamp_values_per_process": 600,
+    "process_A_cell_order": "forward",
+    "process_B_cell_order": "reverse",
+    "alternating_within_pair_order": true,
+    "outlier_deletion": false,
+    "process_pooling": false,
+    "geomean_speedup_min": 1.5,
+    "every_cell_speedup_min": 1.1
+  },
+  "execution_scope": {
+    "q4_component_measurement_may_be_authorized_separately": true,
+    "q6_implementation": false,
+    "target_model_execution": false,
+    "q3_reopen": false
+  },
+  "next": "Create a separate SA1 Q4 execution authorization bound to this evidence lock. Do not modify candidate mechanism, binaries, thresholds, shape matrix, or measured protocol."
+}

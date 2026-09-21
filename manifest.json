@@ -2,7 +2,7 @@
   "phase": "SA1-K1-IMPLEMENTATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "SA1K1_PREFLIGHT_PACKAGING_F0_RECOVERY_READY_R2",
+  "status": "SA1K1_PREFLIGHT_PASS_EVIDENCE_LOCKED_AUTHORIZATION_PENDING",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Pull packaging tokenization repair and rerun run_sa1_component_preflight.ps1 -PackageExisting. It must package existing evidence only; no compile/build/GPU redispatch.",
+  "next_on_success": "Create a separate SA1 Q4 component-measurement execution authorization bound to the SA1-K1 evidence lock. Measurement has not yet been consumed.",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -526,7 +526,7 @@
     }
   },
   "sa1": {
-    "status": "SA1K1_PREFLIGHT_PACKAGING_F0_RECOVERY_READY_R2",
+    "status": "SA1K1_PREFLIGHT_PASS_EVIDENCE_LOCKED_AUTHORIZATION_PENDING",
     "preregistration": "docs/SA1P_DECODE_PACKED_QUANT_COMPONENT_STUDY.md",
     "contract": "config/sa1p_component_study_preregistration_v0.1.json",
     "primary_mechanism": "SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW",
@@ -542,7 +542,7 @@
     "implementation_lock": "config/sa1p_implementation_lock_v0.1.json",
     "implementation_scope": "SA1-K1_ALLOWLIST_ONLY",
     "k1": {
-      "status": "PREFLIGHT_EXECUTED_PACKAGING_F0_RECOVERY_READY_R2",
+      "status": "ZERO_MEASUREMENT_PREFLIGHT_PASS_EVIDENCE_LOCKED",
       "contract": "config/sa1_k1_implementation_contract_v0.1.json",
       "shader": "shaders/sa1_q4k_subgroup_splitk.comp",
       "harness": "src/sa1_component_benchmark.cpp",
@@ -556,9 +556,13 @@
       "measurement_authorized": false,
       "static_audit": "artifacts/SA1/SA1K1_STATIC_AUDIT_v0.1.json",
       "compile_status": "PASS_OBSERVED_TARGET_LOCAL",
-      "zero_measurement_preflight_status": "CORRECTNESS_PASS_OBSERVED_PACKAGING_F0",
+      "zero_measurement_preflight_status": "PASS_ADJUDICATED",
       "native_build_status": "PASS_OBSERVED_TARGET_LOCAL",
-      "packaging_recovery": "run_sa1_component_preflight.ps1 -PackageExisting"
+      "packaging_recovery": "run_sa1_component_preflight.ps1 -PackageExisting",
+      "returned_bundle_sha256": "37366F785BB391E38E04A8FD0D631850C0DE62F13E2BACEA7FEA2A8363E14D02",
+      "preflight_lock_sha256": "A0B7A718D42FC6A41661560E48D987B00A4B90A8EAB2F31B3D552701B768DD45",
+      "adjudication": "artifacts/SA1/SA1K1_PREFLIGHT_ADJUDICATION_v0.1.json",
+      "evidence_lock": "config/sa1_k1_implementation_evidence_lock_v0.1.json"
     }
   }
 }

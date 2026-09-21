@@ -169,3 +169,10 @@ Measurement is still **not authorized**. The next gate is independent static aud
 
 
 SA1-K1 has passed an independent static-equivalent audit. Native compile/build and correctness-only preflight are still pending on the exact Arc 140V target; measured Q4 execution remains blocked.
+
+
+### SA1-K1 preflight adjudicated
+
+The Q4 subgroup-32 candidate passed exact-device compile/build and correctness-only preflight on the Arc 140V. Ten correctness cases passed the frozen numerical gates, with zero timestamp queries and zero measured pairs.
+
+The implementation evidence is now locked. Q4 performance measurement is still pending a separate execution-authorization commit; Q6/model/Q3 remain blocked.

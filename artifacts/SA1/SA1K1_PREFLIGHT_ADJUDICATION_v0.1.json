@@ -1,0 +1,109 @@
+{
+  "schema": "arcllm.sa1.k1.preflight_adjudication.v0.1",
+  "date": "2026-09-21",
+  "result": "SA1_K1_ZERO_MEASUREMENT_PREFLIGHT_PASS",
+  "returned_bundle": {
+    "filename": "sa1_k1_preflight_return_to_chatgpt.zip",
+    "sha256": "37366F785BB391E38E04A8FD0D631850C0DE62F13E2BACEA7FEA2A8363E14D02",
+    "entries": 10
+  },
+  "provenance": {
+    "scientific_execution_commit": "b45c2cee60e99e4b7700ff032489e77df9fbd3c3",
+    "packaging_commit": "e2d0b025418d43ad634f3323d873f7da5527d495",
+    "parent_implementation_lock_commit": "60b0fdf91ffe859c918055afa9e3b1071142f6c4",
+    "packaging_recovery": true,
+    "observed_packaging_f0_chain": [
+      "F0_POWERSHELL_HASH_HELPER_ALIAS_COLLISION_AFTER_VALID_ZERO_MEASUREMENT_PREFLIGHT",
+      "F0_POWERSHELL_CMDLET_VARIABLE_TOKENIZATION_DURING_PACKAGING"
+    ],
+    "lock_recovery_reason_field_complete": false,
+    "provenance_note": "The returned lock records the first packaging F0 only. The second packaging F0 is bound by the final packaging commit and append-only lineage. Both occurred after the same valid zero-measurement raw/build artifacts existed; recovery performed no compile, build, or GPU redispatch."
+  },
+  "exact_git_bindings": {
+    "candidate_shader_blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "component_harness_blob": "3a7c7a80ff8e23aa4443499efa5aa5c71ffd5557",
+    "baseline_q4_shader_blob": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a",
+    "implementation_contract_blob": "3d8948fc1cb62b6260763ca34abe7bc1b3dec8dc",
+    "parent_implementation_lock_blob": "7d79316640dfa5b698ec68a5b770a7dc0903a3c6",
+    "identical_between_execution_and_packaging_commits": true
+  },
+  "integrity": {
+    "raw_sha256": "54D0A4DAA66C57200D946A8E971DD24450D47BF42386ABAA014AFC5AC29FEB5E",
+    "preflight_lock_sha256": "A0B7A718D42FC6A41661560E48D987B00A4B90A8EAB2F31B3D552701B768DD45",
+    "shader_build_sha256": "DB72053E4A38BA1AD971C03CC0D960A56D0E94C96C3E5C27E8094B5CA650E17D",
+    "native_build_sha256": "246FD0AE071C0DC688E89CDF388FC5AA6D027379233FECF4DDD5F7E872843056",
+    "executable_sha256": "AC9936429F464C2AD30BFBB842DF916A74FA834BB2BA3ED56F723CEFA9122E2C",
+    "baseline_spv_sha256": "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A",
+    "candidate_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+    "candidate_source_sha256": "204D478B6045D8C4B67B9EA5046FDF6764A3293F6D86662D0FAF4EA35D2220B0",
+    "all_lock_hashes_recomputed_match": true,
+    "executable_hash_matches_native_build": true,
+    "baseline_spv_reproduces_frozen_q2_hash": true,
+    "candidate_source_git_blob_matches_shader_build": true
+  },
+  "compiler_build": {
+    "glslang_release": "16.5.0",
+    "glslang_asset_sha256": "06B71298B750268C127F2EE7AE0EF7525E2068120C6C8A3A08B2F58CA6F325CE",
+    "target_env": "vulkan1.2",
+    "native_build_git_head": "b45c2cee60e99e4b7700ff032489e77df9fbd3c3",
+    "native_source_blob": "3a7c7a80ff8e23aa4443499efa5aa5c71ffd5557",
+    "vulkan_sdk": "1.4.357.0",
+    "shader_compile": "PASS",
+    "native_build": "PASS"
+  },
+  "environment": {
+    "os": "Microsoft Windows 11 Home Single Language",
+    "os_version": "10.0.26200",
+    "cpu": "Intel(R) Core(TM) Ultra 7 258V",
+    "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "driver": "32.0.101.8860",
+    "power_scheme": "Balanced",
+    "ac_line_status": 1,
+    "timestamp_period_ns": 52.0833320617676,
+    "default_subgroup_size": 32,
+    "required_subgroup_size": 32,
+    "candidate_local_size": 128
+  },
+  "zero_measurement": {
+    "model_loaded": false,
+    "performance_measurement": false,
+    "timestamp_queries": 0,
+    "measured_pairs": 0,
+    "performance_gate_evaluated": false
+  },
+  "correctness": {
+    "cells": 5,
+    "banks_per_cell": [
+      0,
+      3
+    ],
+    "cases": 10,
+    "all_finite": true,
+    "max_abs_gate": 0.02,
+    "rmse_gate": 0.005,
+    "all_baseline_vs_cpu_pass": true,
+    "all_candidate_vs_cpu_pass": true,
+    "all_candidate_vs_baseline_pass": true,
+    "worst_candidate_vs_cpu": {
+      "cell": "Q4_H18944_R3584_NOBIAS",
+      "bank": 3,
+      "max_abs": 0.013916015625,
+      "rmse": 0.00269372814522
+    },
+    "worst_candidate_vs_baseline": {
+      "cell": "Q4_H18944_R3584_NOBIAS",
+      "bank": 3,
+      "max_abs": 0.014404296875,
+      "rmse": 0.00270290781691
+    }
+  },
+  "decision": {
+    "preflight": "PASS",
+    "implementation_evidence_lock_permitted": true,
+    "q4_execution_authorization_permitted": true,
+    "q4_measurement_not_yet_consumed": true,
+    "q6_implementation_permitted": false,
+    "target_model_execution_permitted": false,
+    "q3_reopen_permitted": false
+  }
+}
