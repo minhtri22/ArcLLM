@@ -1,0 +1,255 @@
+{
+  "schema": "arcllm.anl64.prior_art_register.v0.1",
+  "date": "2026-09-21",
+  "status": "P1_REVIEWED_SOURCE_PINNED",
+  "policy": "External evidence can remove the need to re-prove an established mechanism, but cannot establish Intel Arc/Vulkan compatibility or ANL64 performance.",
+  "internal_sources": [
+    {
+      "id": "ARC_LEGACY_FINAL",
+      "project": "ArcLLM",
+      "path": "docs/ARC_LLM_FINAL_VERDICT.md",
+      "blob": "94f6f1b5dc4f2a03885523964912e0773fb360b8",
+      "class": [
+        "SOURCE_VERIFIED",
+        "TRANSFERABLE_INVARIANT"
+      ],
+      "inherited_claims": [
+        "exact-model E2E feasibility established",
+        "legacy architecture no demonstrated practical advantage"
+      ],
+      "local_retest_required": false
+    },
+    {
+      "id": "ARC_SA1_CLOSEOUT",
+      "project": "ArcLLM",
+      "path": "artifacts/SA1/SA1_CLOSEOUT_v0.1.json",
+      "blob": "83b30549410ce89e8d5047685c8bcbddc87983ee",
+      "class": [
+        "SOURCE_VERIFIED",
+        "TRANSFERABLE_INVARIANT"
+      ],
+      "inherited_claims": [
+        "Q4 subgroup32 split-K component efficacy supported in frozen scope",
+        "unchanged Q4-to-Q6 mechanism generality falsified within SA1",
+        "E2E applicability not tested"
+      ],
+      "local_retest_required": "Only new composition/effect claims require fresh evidence; historical Q4 PASS itself is immutable."
+    },
+    {
+      "id": "NEXUS_EL_L4",
+      "project": "NEXUS",
+      "branch": "research/h2-event-ledger-d64-layout",
+      "path": "artifacts/H2_EVENT_LEDGER/L4/EL_L4_FORMAL_ADJUDICATION.json",
+      "blob": "af3cce47905fd94a7109e462c6b128a05dc028b2",
+      "class": [
+        "SOURCE_VERIFIED",
+        "TRANSFERABLE_INVARIANT",
+        "LOCAL_COMPATIBILITY_REQUIRED"
+      ],
+      "inherited_claims": [
+        "direct authoritative frontier maintenance can remove full-N discovery cost in tested NEXUS regimes",
+        "fresh E2E confirmation exists in tested sparse regimes"
+      ],
+      "forbidden_transfer": [
+        "do not claim dense LLM speedup",
+        "do not copy EL-L4 ratios into ANL64"
+      ]
+    },
+    {
+      "id": "NEXUS_LD64_0",
+      "project": "NEXUS",
+      "branch": "research/h2-event-ledger-d64-layout",
+      "path": "artifacts/H2_EVENT_LEDGER_D64/LD64_0_QUALIFICATION_RESULT.json",
+      "blob": "26c3d2a107622cc633d640d954f0a21523108ff3",
+      "class": [
+        "SOURCE_VERIFIED",
+        "TRANSFERABLE_INVARIANT"
+      ],
+      "inherited_claims": [
+        "region queue + 64-bit mask can preserve authority without full-N/full-R scan, K sort, or payload repack",
+        "D64 region/lane indexing can be directly executable"
+      ]
+    },
+    {
+      "id": "NEXUS_LD64_1",
+      "project": "NEXUS",
+      "branch": "research/h2-event-ledger-d64-layout",
+      "path": "artifacts/H2_EVENT_LEDGER_D64/LD64_1_FORMAL_ADJUDICATION.json",
+      "blob": "ba641d1a5353a36272c66ddd3ebb3cb1f4245ce1",
+      "class": [
+        "SOURCE_VERIFIED",
+        "TRANSFERABLE_INVARIANT"
+      ],
+      "inherited_claims": [
+        "QE/QA/RE/RA tested logical semantics equivalent within frozen tolerance",
+        "region representation preserved activation authority",
+        "AoSoA indexing preserved canonical outputs"
+      ]
+    },
+    {
+      "id": "NEXUS_LD64_2",
+      "project": "NEXUS",
+      "branch": "research/h2-event-ledger-d64-layout",
+      "path": "artifacts/H2_EVENT_LEDGER_D64/LD64_2_MEASUREMENT_SANITY_POSTMORTEM.json",
+      "blob": "7de95b80e2d58f0ecdb82ba801ca10e0fcf97bd9",
+      "class": [
+        "SOURCE_VERIFIED",
+        "NOT_TRANSFERABLE"
+      ],
+      "inherited_claims": [
+        "LD64-2 performance scientific adjudication remains UNRESOLVED",
+        "host/E2E and GPU update-stage timing tails were localized but root cause not proven"
+      ],
+      "forbidden_transfer": [
+        "no Ledger64 performance PASS",
+        "no target speedup expectation"
+      ]
+    }
+  ],
+  "external_sources": [
+    {
+      "id": "FLASHDECODING_PP",
+      "type": "paper",
+      "title": "FlashDecoding++: Faster Large Language Model Inference on GPUs",
+      "url": "https://arxiv.org/abs/2311.01282",
+      "class": [
+        "EXTERNALLY_ESTABLISHED",
+        "TRANSFERABLE_INVARIANT",
+        "LOCAL_COMPATIBILITY_REQUIRED",
+        "LOCAL_EFFECT_REQUIRED"
+      ],
+      "relevant_claims": [
+        "flat GEMM under-utilization is shape-dependent",
+        "static dataflow can lose performance across shapes/hardware",
+        "double buffering and hardware-adaptive dataflow are useful design mechanisms"
+      ],
+      "local_boundary": "Published NVIDIA/AMD results are not Intel Arc/Vulkan performance evidence."
+    },
+    {
+      "id": "FLASHINFER",
+      "type": "paper_and_source",
+      "paper": "https://proceedings.mlsys.org/paper_files/paper/2025/hash/dbf02b21d77409a2db30e56866a8ab3a-Abstract-Conference.html",
+      "repo": "flashinfer-ai/flashinfer",
+      "pinned_commit": "6870e3fff46b1e768ad423ea48d286e6f3e250fe",
+      "source_path": "README.md",
+      "source_blob": "e345ea74f6f7c84dda8a5ad99bbc9fa97c35b228",
+      "license": "Apache-2.0",
+      "license_blob": "ba557f2bb968c1334057e4c0c567bd4a4fe76380",
+      "class": [
+        "EXTERNALLY_ESTABLISHED",
+        "SOURCE_VERIFIED",
+        "TRANSFERABLE_INVARIANT",
+        "LOCAL_COMPATIBILITY_REQUIRED",
+        "LOCAL_EFFECT_REQUIRED"
+      ],
+      "relevant_claims": [
+        "inference systems benefit from workload-specific optimized kernels",
+        "multiple backend selection is an established architecture pattern",
+        "attention systems can separate planning/scheduling from execution"
+      ],
+      "local_boundary": "CUDA backend/source cannot be treated as Vulkan-compatible code."
+    },
+    {
+      "id": "MARLIN",
+      "type": "source",
+      "repo": "IST-DASLab/marlin",
+      "pinned_commit": "1f25790bdd49fba53106164a24666dade68d7c90",
+      "source_path": "README.md",
+      "source_blob": "ae24af61fed1ede9f06ca8f3b3b2985a1d93f12a",
+      "license": "Apache-2.0",
+      "license_blob": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+      "class": [
+        "SOURCE_VERIFIED",
+        "TRANSFERABLE_INVARIANT",
+        "LOCAL_COMPATIBILITY_REQUIRED",
+        "LOCAL_EFFECT_REQUIRED"
+      ],
+      "relevant_claims": [
+        "weight-only quant kernels require load/dequant/compute pipeline co-design",
+        "offline layout reshaping can improve access patterns",
+        "double buffering and asynchronous loads are established implementation techniques",
+        "work partitioning should depend on matrix geometry"
+      ],
+      "local_boundary": "CUDA tensor-core implementation is not portable evidence for Intel Vulkan."
+    },
+    {
+      "id": "QSERVE_OMNISERVE",
+      "type": "paper_and_source",
+      "paper": "https://arxiv.org/abs/2405.04532",
+      "repo": "mit-han-lab/omniserve",
+      "pinned_commit": "02b2925aa6fa3b92b06316a1524b7f38922cd9c8",
+      "source_path": "README.md",
+      "source_blob": "53cc13dcf7c74d1f2350459437bcbd6419b4a6ea",
+      "license": "Apache-2.0",
+      "license_blob": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+      "class": [
+        "EXTERNALLY_ESTABLISHED",
+        "SOURCE_VERIFIED",
+        "TRANSFERABLE_INVARIANT",
+        "LOCAL_COMPATIBILITY_REQUIRED",
+        "LOCAL_EFFECT_REQUIRED"
+      ],
+      "relevant_claims": [
+        "low-bit inference efficiency depends on dequantization/layout/system co-design",
+        "runtime dequantization overhead can dominate naive low-bit paths"
+      ],
+      "local_boundary": "W4A8KV4 changes the precision contract; ANL64 may inherit mechanisms, not that quantization scheme or its accuracy/performance claim."
+    },
+    {
+      "id": "LLAMA_CPP_VULKAN",
+      "type": "source",
+      "repo": "ggml-org/llama.cpp",
+      "pinned_commit": "e0dff58475bc9ed68eedcb265ee998f2fcabb3b1",
+      "source_path": "ggml/src/ggml-vulkan/vulkan-shaders/mul_mat_vec.comp",
+      "source_blob": "5a9d0e778fdf3866ac77d576cd218d307507afae",
+      "license": "MIT",
+      "license_blob": "e7dca554bcb802f98408383a864404e3aa4eacca",
+      "class": [
+        "SOURCE_VERIFIED",
+        "TRANSFERABLE_INVARIANT",
+        "LOCAL_COMPATIBILITY_REQUIRED",
+        "LOCAL_EFFECT_REQUIRED"
+      ],
+      "relevant_claims": [
+        "production Vulkan LLM runtimes use quant-aware dequant paths and geometry-dependent vectorized kernels",
+        "Vulkan is a viable exact-model target for K-quant execution"
+      ],
+      "local_boundary": "Source is a comparison/reference implementation; ANL64 must not assume its internal choices are optimal for the frozen Arc 140V workload."
+    },
+    {
+      "id": "VLLM_FUSIONS",
+      "type": "source",
+      "repo": "vllm-project/vllm",
+      "pinned_commit": "04c1f4a407962a37d01b573f3a2aba91dd2ed3a9",
+      "source_path": "docs/design/fusions.md",
+      "source_blob": "002984c113a138ebb517a78193d4f16c4a41bf3d",
+      "license": "Apache-2.0",
+      "license_blob": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+      "class": [
+        "SOURCE_VERIFIED",
+        "TRANSFERABLE_INVARIANT",
+        "LOCAL_COMPATIBILITY_REQUIRED",
+        "LOCAL_EFFECT_REQUIRED"
+      ],
+      "relevant_claims": [
+        "fusion profitability is workload/token-count/hardware dependent",
+        "fusion can be selected conditionally rather than universally"
+      ],
+      "local_boundary": "Most documented fusion backends are CUDA/ROCm-specific and cannot be copied as Intel Vulkan effect evidence."
+    }
+  ],
+  "implementation_provenance_labels": [
+    "INHERITED",
+    "ADAPTED",
+    "REIMPLEMENTED_FROM_PAPER",
+    "INSPIRED_ONLY"
+  ],
+  "p1_conclusion": {
+    "universal_kernel_strategy_supported": false,
+    "heterogeneous_executor_strategy_supported_as_architecture_hypothesis": true,
+    "ledger64_control_plane_transfer_supported_as_semantic_hypothesis": true,
+    "ledger64_dense_llm_performance_supported": false,
+    "implementation_authorized": false
+  },
+  "next": "WRITE_TRANSFER_ADMISSIBILITY_AND_ARCHITECTURE_PREIMPLEMENTATION_SPEC"
+}
