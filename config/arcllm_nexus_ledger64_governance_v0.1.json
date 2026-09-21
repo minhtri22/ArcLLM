@@ -3,7 +3,7 @@
   "date": "2026-09-21",
   "program_id": "ANL64",
   "branch": "research/arcllm-nexus-ledger64",
-  "status": "P5_EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
+  "status": "P5_COMPLETE_PASS_P6_SPECIFICATION_AUTHORIZED",
   "lineage": {
     "path": "programs/arcllm_nexus_ledger64/lineage.md",
     "policy": "APPEND_ONLY",
@@ -60,18 +60,18 @@
     "P7_FINAL_ADJUDICATION"
   ],
   "implementation_authorized": false,
-  "target_execution_authorized": true,
-  "scientific_measurement_authorized": true,
+  "target_execution_authorized": false,
+  "scientific_measurement_authorized": false,
   "rescue_by_renaming": false,
-  "next": "EXECUTE_EXACTLY_ONE_FROZEN_P5_SEMANTIC_INTEGRATION_COLLECTION",
+  "next": "P6_MATCHED_END_TO_END_CONFIRMATION_SPECIFICATION_ONLY",
   "stage_state": {
     "P0": "COMPLETE",
     "P1": "COMPLETE",
     "P2": "COMPLETE_PASS",
     "P3": "COMPLETE_PASS",
     "P4": "COMPLETE_PASS",
-    "P5": "EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
-    "P6": "BLOCKED",
+    "P5": "COMPLETE_PASS",
+    "P6": "SPECIFICATION_AUTHORIZED_EXECUTION_BLOCKED",
     "P7": "BLOCKED"
   },
   "p1_qa": {
@@ -94,15 +94,17 @@
     "p3_zero_science_compatibility": false,
     "p4_authorization_gate": false,
     "p4_implementation": false,
-    "target_model_inference": true,
+    "target_model_inference": false,
     "scientific_performance_measurement": false,
     "p4_buildonly": false,
     "p5_specification": false,
-    "p5_execution": true,
+    "p5_execution": false,
     "p5_execution_authorization_gate": false,
-    "p5_semantic_execution": true,
+    "p5_semantic_execution": false,
     "p5_performance_adjudication": false,
-    "p6": false
+    "p6": false,
+    "p6_specification": true,
+    "p6_execution": false
   },
   "p3": {
     "result": "P3_PASS_P4_BOUNDED_IMPLEMENTATION_ELIGIBLE",
@@ -148,8 +150,8 @@
     "document_blob": "4339819a0956ca84b60ead2f6bd4184c196716ab",
     "qa": "artifacts/ANL64/ANL64_P5_SPECIFICATION_QA_v0.1.json",
     "qa_blob": "94c7f5448a6e71dee4e362ca974e4bd1947a694b",
-    "result": "PASS_ZERO_SCIENCE_P5_SPECIFICATION_QA",
-    "execution_authorized": true,
+    "result": "P5_INTEGRATION_PASS",
+    "execution_authorized": false,
     "performance_adjudication": false,
     "execution_authorization": "config/anl64_p5_execution_authorization_v0.1.json",
     "execution_authorization_blob": "4662ad4bdb5e517f08fa878b41bb824a1cdf8252",
@@ -161,7 +163,11 @@
     "runner_static_qa_blob": "3cc0e661b22bda4c76d2d58a16e81fda9e05bc16",
     "execution_lock": "config/anl64_p5_execution_lock_v0.1.json",
     "execution_lock_blob": "b7fc7c707fd10008805eff0e7e7b7b38c345c81d",
-    "p6_authorized": false
+    "p6_authorized": false,
+    "adjudication": "artifacts/ANL64/ANL64_P5_INTEGRATION_ADJUDICATION_v0.1.json",
+    "adjudication_blob": "cada882bd886d96a71c73c40a6e243e3a51ebde0",
+    "adjudication_document": "docs/research/arcllm-nexus-ledger64/P5_INTEGRATION_ADJUDICATION.md",
+    "adjudication_document_blob": "67623e539867c4d1b61f97a80d56d06f87050748"
   },
   "scientific_measurement_scope": "P5_SEMANTIC_INTEGRATION_ONLY_PERFORMANCE_ADJUDICATION_FORBIDDEN"
 }
