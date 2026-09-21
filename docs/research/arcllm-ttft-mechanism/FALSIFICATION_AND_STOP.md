@@ -29,9 +29,11 @@ All causal support gates use the already-existing prospective magnitude `1.10`. 
 
 **State interaction:** `QF/SF >= 1.10` and `(QF/SF)/(QP/SP) >= 1.10` in both workloads and both sessions.
 
-**H-NULL:** after H-ART is falsified, `QF/SF < 1.10` everywhere supports `H_NULL_NO_STABLE_MATERIAL_TTFT_HARM`.
+**H-NULL:** after H-ART is falsified, only if no H-DPIPE/H-PRECOND/state-interaction gate passes and `QF/SF < 1.10` everywhere may the study support `H_NULL_NO_STABLE_MATERIAL_TTFT_HARM`.
 
 **Stable but unexplained:** if parent-like `QF/SF >= 1.10` everywhere but no registered mechanism passes, classify `UNRESOLVED_STABLE_TTFT_HARM` and stop. No post-hoc hypothesis is added.
+
+**Mixed reproduction:** if parent-like `QF/SF` is material in only a subset of required workload/session comparisons and no registered mechanism has a fully replicated support gate, classify `HISTORICAL_HARM_NOT_STABLY_REPRODUCED` and stop without intervention.
 
 ## Semantic and structural invalidation
 
