@@ -1,0 +1,79 @@
+{
+  "schema": "arcllm.ttft_m1.governance.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M1",
+  "branch": "research/arcllm-ttft-mechanism",
+  "status": "P0_ORIGIN_AND_GOVERNANCE_OPEN",
+  "parent": {
+    "terminal_program": "ANL64",
+    "terminal_head": "0e40b3affe4f6add9ce23921687b2659017c95d3",
+    "p6_formal_adjudication_blob": "56dd01850238e4131d357303d3888fd1826f6eb9",
+    "p7_final_adjudication_blob": "79df1758f23f724890eb302907c0b2d3045df735",
+    "p7_document_blob": "dd0ab0389251e77ccc2d654e77a897781426be34",
+    "terminal_lineage_blob": "8ae08b06e901e464169264730936f2fa299af941",
+    "terminal_governance_blob": "cf90bd486d8fef8727bc464ae3d3b5b65c7a6792"
+  },
+  "research_question": "What mechanism causes the reproducible TTFT regression observed in the frozen ANL64 successor, and can a separately preregistered architecture remove that mechanism without sacrificing the already-demonstrated semantic correctness and decode/E2E gains?",
+  "independence": {
+    "new_program": true,
+    "anl64_rescue": false,
+    "parent_reopen": false,
+    "parent_lineage_append": false,
+    "p6_rerun_as_rescue": false,
+    "p6_threshold_revision": false,
+    "p6_timing_as_confirmatory_data": false
+  },
+  "evidence_policy": {
+    "parent_p6_timing_role": "HISTORICAL_HYPOTHESIS_GENERATION_ONLY",
+    "fresh_data_required_for_local_effect_claim": true,
+    "prior_art_before_intervention_design": true,
+    "paper_and_source_review_required": true,
+    "exact_source_commit_or_tag_pin_when_available": true,
+    "local_compatibility_not_inferred_from_external_results": true
+  },
+  "finite_stages": [
+    "P0_ORIGIN_AND_GOVERNANCE",
+    "P1_PRIOR_ART_AND_SOURCE_REVIEW",
+    "P2_TTFT_PATH_AND_MECHANISM_HYPOTHESES",
+    "P3_CAUSAL_DECOMPOSITION_SPECIFICATION",
+    "P4_FALSIFICATION_AND_STOP_CONTRACT",
+    "P5_ZERO_SCIENCE_PROGRAM_QA",
+    "P6_BOUNDED_IMPLEMENTATION_AUTHORIZATION_IF_QA_PASS",
+    "P7_FRESH_IDENTIFICATION_EXECUTION_IF_AUTHORIZED",
+    "P8_CONFIRMATORY_OR_TERMINAL_ADJUDICATION"
+  ],
+  "stage_state": {
+    "P0": "OPEN",
+    "P1": "BLOCKED",
+    "P2": "BLOCKED",
+    "P3": "BLOCKED",
+    "P4": "BLOCKED",
+    "P5": "BLOCKED",
+    "P6": "BLOCKED",
+    "P7": "BLOCKED",
+    "P8": "BLOCKED"
+  },
+  "lineage": {
+    "path": "programs/arcllm_ttft_mechanism/lineage.md",
+    "policy": "APPEND_ONLY_WITHIN_THIS_PROGRAM",
+    "fresh": true,
+    "closed": false,
+    "reuse_parent_lineage": false
+  },
+  "authorization": {
+    "prior_art_research": true,
+    "repository_read_only_analysis": true,
+    "specification_only": true,
+    "implementation": false,
+    "target_model_execution": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false
+  },
+  "stop_rules": [
+    "STOP_DRIFT if work ceases to identify or remove a TTFT mechanism while preserving demonstrated decode/E2E gains.",
+    "No hypothesis may be selected because it is easiest to make pass.",
+    "No implementation before prior-art/source review, local path mapping, causal decomposition, falsification gates, and zero-science QA all pass.",
+    "A valid negative result is terminal evidence, not an invitation to tune to PASS."
+  ],
+  "next": "COMPLETE_P0_THEN_P1_PRIOR_ART_AND_SOURCE_REVIEW"
+}
