@@ -587,3 +587,57 @@ Current state restored to:
 
 Next:
 `EXECUTE_EXACTLY_ONE_FROZEN_P6_MATCHED_E2E_COLLECTION`.
+
+
+## 2026-09-21 — P6 OPERATOR INTERRUPTION / SINGLE INFRASTRUCTURE REPAIR AUTHORIZED
+
+The first canonical P6 execution was externally interrupted when the operator accidentally closed the terminal.
+
+A read-only forensic inspection found:
+- canonical P6 preflight exists;
+- Session A directory exists;
+- Session A environment exists;
+- exactly one scientific cell exists: `ARC_SAFE_REFERENCE/W-S`;
+- that cell contains exactly five measured attempts;
+- Session A candidate W-S does not exist;
+- Session A W-C cells do not exist;
+- Session A meta does not exist;
+- Session B does not exist;
+- complete matched candidate/reference comparisons: 0;
+- total measured attempts present: 5 / 40.
+
+Frozen partial evidence fingerprints:
+- preflight SHA256 `CCC993AE10EC0919EB4B1DF71E2A5018DCD75CA135A11C2DB2BB7392A4644C58`;
+- Session A environment SHA256 `06623EC6482BF0F2FC6A6638D1AC79AB3CD4B48398AA433D806FCFEEC3E1C540`;
+- reference W-S SHA256 `7525B5457084BD885D1E386D41A3CDF34F8C5CDFA7B2C495A5597DE17BE602E9`.
+
+Because no matched comparison existed, the partial reference timing is classified `SPENT_NON_ADMISSIBLE`. No P6 performance or architecture verdict is permitted from the interrupted attempt.
+
+The canonical P6 infrastructure policy permits one infrastructure-only repair followed only by a **full frozen replay**. That budget is now consumed 1/1.
+
+Recovery package:
+- interruption adjudication blob `e70556520938cd5d6ae149d3bbc666434ba5404f`;
+- recovery authorization blob `9d8675cba9ee34a18712a7bf8b7655f073a765bf`;
+- recovery static QA blob `ffce6456c573ae97da6fac820949bc6635d4b79d`;
+- recovery runner blob `20d220d6357454cc7de38338eba7f6fce53c20a0`;
+- recovery lock blob `8dd8adfabeb803be24e8ef6db3778566b5f32ac0`.
+
+The recovery wrapper must:
+1. verify the exact partial hashes and exact missing-file shape;
+2. move the entire interrupted results directory to `results/anl64_p6_confirmatory_interrupted_attempt1`;
+3. re-verify preserved hashes;
+4. mark the archived attempt spent/non-admissible;
+5. invoke the unchanged canonical P6 runner for a complete A+B replay from the beginning.
+
+Selective cell/session salvage is forbidden. The canonical P6 spec, runner, adjudicator, thresholds, workloads, runtime and shaders remain unchanged.
+
+Current state:
+`P6_INTERRUPTED_RECOVERY_REPLAY_AUTHORIZED_AND_LOCKED`.
+
+Repair budget remaining: `0`.
+
+If the recovery replay encounters another F0/infrastructure failure:
+`P6_STOP_INFRASTRUCTURE_UNSTABLE`.
+
+Next:
+`RUN_RECOVER_ANL64_P6_AFTER_INTERRUPTION_PS1_ONCE`.
