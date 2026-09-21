@@ -1,0 +1,181 @@
+{
+  "schema": "arcllm.ttft_m1.causal_decomposition.v0.1",
+  "date": "2026-09-22",
+  "status": "P3_CAUSAL_DESIGN_FROZEN_EXECUTION_BLOCKED",
+  "question": "Which pre-t0 state factor causally changes the latency of an otherwise identical prefill execution?",
+  "prerequisites": {
+    "p1_register_blob": "92682f51f97c9af87ce408629ff7c6f45d3468ac",
+    "p1_review_blob": "69a5cf641ca33d36a40f1694111d97a8298000d3",
+    "p2_path_mapping_blob": "7c57e7d789cd2672cb9fe9342df5a18065dc46bf",
+    "p2_hypotheses_blob": "559cf3a60789074045ac0c3f30c4982b99800707"
+  },
+  "diagnostic_harness_boundary": {
+    "one_binary_required": true,
+    "exact_prefill_compute_for_all_arms": true,
+    "prefill_source_base_blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "candidate_decode_source_base_blob": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+    "production_source_mutation": false,
+    "diagnostic_only": true,
+    "allowed_changes": [
+      "factor-controlled decode-pipeline preparation SAFE or Q4FAST",
+      "factor-controlled conditioning PREFILL_ONLY or FULL_INFERENCE",
+      "timing instrumentation around existing execute_prepared and q2_top2 boundaries",
+      "static SHA256 census for all common prefill SPIR-V artifacts",
+      "diagnostic JSON emission"
+    ],
+    "forbidden_changes": [
+      "prefill shader or launch geometry",
+      "Q4_FAST algorithm",
+      "safe decode algorithm",
+      "model weights or quantization",
+      "prompt/workload tokens",
+      "sampling",
+      "thresholds",
+      "production ANL64 runtime"
+    ]
+  },
+  "factors": {
+    "D_decode_pipeline_set": {
+      "levels": [
+        "SAFE",
+        "Q4FAST"
+      ],
+      "definition": "Which decode pipeline set is prepared before the measured prefill. The prefill chain is identical in both levels."
+    },
+    "C_conditioning": {
+      "levels": [
+        "PREFILL_ONLY",
+        "FULL_INFERENCE"
+      ],
+      "definition": "Immediately before each measured prefill, execute either one exact prefill-only conditioning pass or one full 32-token inference using the selected decode pipeline set; then reset model execution buffers identically before measurement."
+    }
+  },
+  "arms": [
+    {
+      "id": "SP",
+      "decode_pipeline_set": "SAFE",
+      "conditioning": "PREFILL_ONLY"
+    },
+    {
+      "id": "SF",
+      "decode_pipeline_set": "SAFE",
+      "conditioning": "FULL_INFERENCE"
+    },
+    {
+      "id": "QP",
+      "decode_pipeline_set": "Q4FAST",
+      "conditioning": "PREFILL_ONLY"
+    },
+    {
+      "id": "QF",
+      "decode_pipeline_set": "Q4FAST",
+      "conditioning": "FULL_INFERENCE"
+    }
+  ],
+  "workloads": {
+    "W-S": {
+      "prompt_tokens": 4,
+      "output_tokens_for_full_conditioning": 32
+    },
+    "W-C": {
+      "prompt_tokens": 256,
+      "output_tokens_for_full_conditioning": 32
+    },
+    "frozen_from_parent": true
+  },
+  "fresh_design": {
+    "independent_sessions": 2,
+    "separate_processes": true,
+    "session_orders": {
+      "A": [
+        "SP/W-S",
+        "QP/W-S",
+        "QF/W-S",
+        "SF/W-S",
+        "SF/W-C",
+        "QF/W-C",
+        "QP/W-C",
+        "SP/W-C"
+      ],
+      "B": [
+        "SF/W-S",
+        "QF/W-S",
+        "QP/W-S",
+        "SP/W-S",
+        "SP/W-C",
+        "QP/W-C",
+        "QF/W-C",
+        "SF/W-C"
+      ]
+    },
+    "measured_attempts_per_arm_workload_session": 5,
+    "conditioning_immediately_before_each_measured_attempt": true,
+    "measured_ttft_observations_total": 80,
+    "parent_p6_observations_reused": 0,
+    "selective_rerun": false
+  },
+  "per_attempt_sequence": [
+    "reset_execution",
+    "execute frozen conditioning according to arm; conditioning timing is not a primary outcome",
+    "reset_execution identically",
+    "t0",
+    "execute exact common prefill chain",
+    "CPU q2_top2",
+    "t1",
+    "record TTFT and decomposition telemetry"
+  ],
+  "endpoints": {
+    "primary": "ttft_ms",
+    "secondary_decomposition": [
+      "prefill_execute_wall_ms",
+      "submit_wait_ms",
+      "host_record_and_lifecycle_ms = prefill_execute_wall_ms - submit_wait_ms",
+      "top2_ms"
+    ],
+    "secondary_role": "mechanism localization only; cannot override primary gate",
+    "semantic_guard": [
+      "success",
+      "final_logits_finite",
+      "dispatch_count == 441",
+      "submit_count == 1",
+      "exact first-token equality across all four arms for matched workload/session/attempt"
+    ]
+  },
+  "contrasts": {
+    "H_DPIPE": "median(QP.ttft_ms) / median(SP.ttft_ms)",
+    "H_PRECOND_SAFE": "median(SF.ttft_ms) / median(SP.ttft_ms)",
+    "H_PRECOND_Q4FAST": "median(QF.ttft_ms) / median(QP.ttft_ms)",
+    "PARENT_LIKE": "median(QF.ttft_ms) / median(SF.ttft_ms)",
+    "INTERACTION": "(median(QF)/median(SF)) / (median(QP)/median(SP))"
+  },
+  "threshold": {
+    "material_ratio": 1.1,
+    "provenance": "pre-existing ArcLLM/ANL64 materiality convention; frozen prospectively",
+    "no_parent_effect_size_calibration": true
+  },
+  "admissible_inference": {
+    "H_DPIPE_SUPPORTED": "H_DPIPE >=1.10 independently in W-S and W-C in both sessions.",
+    "H_PRECOND_SUPPORTED": "H_PRECOND_Q4FAST >=1.10 while H_PRECOND_SAFE <1.10 independently in W-S and W-C in both sessions.",
+    "H_STATE_INTERACTION_SUPPORTED": "PARENT_LIKE >=1.10 and INTERACTION >=1.10 independently in W-S and W-C in both sessions.",
+    "H_NULL_SUPPORTED": "PARENT_LIKE <1.10 independently in W-S and W-C in both sessions after H-ART is falsified.",
+    "UNRESOLVED_STABLE_HARM": "PARENT_LIKE >=1.10 reproducibly but none of H_DPIPE/H_PRECOND/H_STATE_INTERACTION support rules pass."
+  },
+  "static_H_ART_gate": {
+    "must_precede_any_timing": true,
+    "common_prefill_spv_sha256_exact_match_required_to_continue_factorial": true,
+    "on_mismatch": "STOP_TIMING_AND_CLASSIFY_H_ART_SUPPORTED_STATIC; open only a new artifact-normalization intervention specification, not factorial timing."
+  },
+  "observability_boundary": {
+    "command_lifecycle_is_measured_component": true,
+    "command_lifecycle_causal_claim_permitted": false,
+    "reason": "No command-lifecycle intervention exists in the 2x2 design. A component delta can localize time but cannot establish command-pool policy as cause."
+  },
+  "authorization": {
+    "harness_implementation": false,
+    "buildonly": false,
+    "target_execution": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false
+  },
+  "next": "P4_FALSIFICATION_AND_STOP_CONTRACT"
+}
