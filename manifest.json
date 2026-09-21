@@ -2,7 +2,7 @@
   "phase": "Q6CB-1-SPECIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "Q6CB_TERMINATION_GOVERNANCE_BINDING_EXECUTION_CLOSED",
+  "status": "Q6CB1_IMPLEMENTATION_AUTHORIZED_EXECUTION_CLOSED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -610,7 +610,7 @@
     "end_to_end_applicability": "NOT_TESTED"
   },
   "q6cb1": {
-    "status": "Q6CB0_COMPLETE_SPECIFICATION_QA_PASS_EXECUTION_CLOSED",
+    "status": "Q6CB1_IMPLEMENTATION_IN_PROGRESS_EXECUTION_CLOSED",
     "branch": "research/q6-correctness-boundary",
     "program": "docs/Q6CB1_Q6_CORRECTNESS_BOUNDARY_PROGRAM.md",
     "contract": "config/q6cb1_specification_v0.1.json",
@@ -631,7 +631,7 @@
       0,
       3
     ],
-    "causal_harness_implementation_permitted": false,
+    "causal_harness_implementation_permitted": true,
     "fresh_fixture_execution_permitted": false,
     "scientific_cpu_execution_permitted": false,
     "scientific_gpu_execution_permitted": false,
@@ -639,7 +639,7 @@
     "target_model_load_permitted": false,
     "sa1_rerun_permitted": false,
     "execution_authorization_file": null,
-    "next": "EXPLICIT_AUTHORIZATION_GATE_FOR_Q6CB1_CAUSAL_HARNESS_IMPLEMENTATION_LOCK_ONLY",
+    "next": "COMPLETE_IMPLEMENTATION_STATIC_TESTS_THEN_TARGET_LOCAL_COMPILE_BUILDONLY",
     "zero_science_qa": "PASS",
     "qa_artifact": "artifacts/Q6CB/Q6CB1_SPECIFICATION_QA_v0.1.json",
     "qa_document": "docs/Q6CB1_SPECIFICATION_QA.md",
@@ -653,6 +653,11 @@
     "q6cb5_permitted": false,
     "successor_interventions_max": 1,
     "si2_permitted": false,
-    "stop_drift_binding": true
+    "stop_drift_binding": true,
+    "implementation_authorization": "config/q6cb1_implementation_authorization_v0.1.json",
+    "implementation_authorization_commit": "d81ce5988df078ee3b7efe7a8009257af1b658f2",
+    "implementation_lock": "config/q6cb1_implementation_lock_v0.1.json",
+    "implementation_scope_commit": "42277644207197934be2ca57b26a59fde510fd40",
+    "buildonly_status": "PENDING_TARGET_LOCAL"
   }
 }
