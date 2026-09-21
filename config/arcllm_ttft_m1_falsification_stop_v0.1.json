@@ -1,0 +1,85 @@
+{
+  "schema": "arcllm.ttft_m1.falsification_stop_contract.v0.1",
+  "date": "2026-09-22",
+  "status": "FROZEN_SPECIFICATION_ONLY",
+  "general_rules": [
+    "No hypothesis is supported by direction alone; a predeclared precision/equivalence design must be frozen before fresh execution.",
+    "Parent P6 timings cannot be included in estimates, confidence intervals, thresholds, or stopping decisions.",
+    "No outcome-dependent arm removal, workload change, cooldown choice, warmup count change, or endpoint substitution.",
+    "If the decomposition cannot distinguish mechanisms, terminate as MECHANISM_NOT_IDENTIFIED.",
+    "A valid negative is terminal evidence for the tested mechanism."
+  ],
+  "gates": {
+    "F0_PROVENANCE_AND_TIMER_IDENTITY": {
+      "pass_requires": [
+        "exact frozen parent source blobs",
+        "new harness modifications limited to instrumentation/conditioning controls",
+        "prefill shaders and math unchanged",
+        "Q4_FAST shader unchanged",
+        "TTFT timer semantics explicitly mapped to decomposed endpoints",
+        "fresh seeds/order generated after design freeze"
+      ],
+      "fail": "STOP_INVALID_PROVENANCE"
+    },
+    "F1_MEASUREMENT_IDENTIFIABILITY": {
+      "pass_requires": [
+        "GPU timestamp query path available on exact Vulkan target",
+        "CPU total/record-submit/submit-wait/top2 endpoints individually observable",
+        "semantic and dispatch guards observable",
+        "shared-footprint D0 can prepare both decode chains without changing prefill graph"
+      ],
+      "fail": "STOP_MECHANISM_NOT_IDENTIFIABLE"
+    },
+    "F2_H1_EXECUTED_CARRYOVER": {
+      "support_requires": "Under shared prepared footprint, FAST_CONDITIONED and SAFE_CONDITIONED show a stable fresh difference in the preregistered TTFT component endpoint, with precision criterion defined before execution.",
+      "reject_if": "Difference falls inside preregistered equivalence region or direction is inconsistent under required repetitions/order blocks."
+    },
+    "F3_H2_RESOURCE_FOOTPRINT": {
+      "support_requires": "FAST_ONLY_PREPARED and SAFE_ONLY_PREPARED differ under no-decode conditioning with preregistered precision.",
+      "reject_if": "Difference is equivalent under the preregistered equivalence region."
+    },
+    "F4_HOST_VS_GPU_LOCALIZATION": {
+      "H3_host_support": "CPU-observed regression is present while GPU timestamped prefill is equivalent; residual host/driver path accounts for the difference.",
+      "H4_gpu_support": "GPU timestamped prefill itself shows the preregistered regression under D0 shared-footprint conditioning.",
+      "unresolved": "Both move together without sufficient precision to localize -> MECHANISM_NOT_IDENTIFIED."
+    },
+    "F5_H5_ORDER_DVFS_ALTERNATIVE": {
+      "support_requires": "D0/D1 mechanism-specific contrasts are equivalent while neutral counterbalanced fresh processes reproduce order/state dependence.",
+      "reject_if": "D0 within-process shared-footprint contrast supports executed-decode carryover independent of process order."
+    },
+    "F6_PRESERVATION": {
+      "pass_requires": [
+        "generated token hash remains exact for frozen workload",
+        "all logits finite",
+        "dispatch census unchanged",
+        "candidate plan identity unchanged",
+        "no change to Q4_FAST or prefill math"
+      ],
+      "fail": "STOP_SEMANTIC_OR_ARCHITECTURAL_DRIFT"
+    }
+  },
+  "terminal_classifications": [
+    "MECHANISM_H1_EXECUTED_CARRYOVER_SUPPORTED",
+    "MECHANISM_H2_RESOURCE_FOOTPRINT_SUPPORTED",
+    "MECHANISM_H3_HOST_PATH_SUPPORTED",
+    "MECHANISM_H4_GPU_PREFILL_STATE_SUPPORTED",
+    "MECHANISM_H5_ORDER_DVFS_SUPPORTED",
+    "MECHANISM_MULTIFACTOR_SUPPORTED",
+    "MECHANISM_NOT_IDENTIFIED",
+    "STOP_INVALID_PROVENANCE",
+    "STOP_MECHANISM_NOT_IDENTIFIABLE",
+    "STOP_SEMANTIC_OR_ARCHITECTURAL_DRIFT",
+    "STOP_INFRASTRUCTURE_UNSTABLE"
+  ],
+  "intervention_boundary": {
+    "removal_intervention_not_authorized_by_identification_only": true,
+    "if_mechanism_supported": "Open a separate bounded intervention specification inside this new program only if the intervention is uniquely tied to the supported mechanism and preserves Q4_FAST/decode semantics.",
+    "if_not_identified": "No optimization or generic TTFT tuning is permitted."
+  },
+  "infrastructure_policy": {
+    "repair_budget_per_execution_stage": 1,
+    "repair_scope": "infrastructure/instrumentation only; no hypothesis/endpoint/equivalence/workload change",
+    "second_F0": "STOP_INFRASTRUCTURE_UNSTABLE"
+  },
+  "next": "P5_ZERO_SCIENCE_PROGRAM_QA"
+}
