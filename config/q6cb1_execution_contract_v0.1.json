@@ -1,0 +1,424 @@
+{
+  "schema": "arcllm.q6cb1.execution_contract.v0.1",
+  "date": "2026-09-21",
+  "status": "FROZEN_CANDIDATE_AWAITING_ZERO_SCIENCE_QA",
+  "program": "Q6CB-1",
+  "stage_scope": "Q6CB2_IDENTIFICATION_AND_CONDITIONAL_Q6CB3_CONFIRMATORY",
+  "parent_implementation_evidence_lock_commit": "237a4174b409bf2e2200fa96fe1a7dbccfa76bab",
+  "parent_goal_alignment_head": "7a34a371a86b4bd6d75e8d4efe8e6712c264ea65",
+  "purpose": "Freeze all fresh-data identities, numerical decision rules, causal classifications, evidence requirements and target environment before any Q6CB scientific fixture is generated or executed.",
+  "authorization": {
+    "contract_specification_write": true,
+    "zero_science_qa": true,
+    "fresh_fixture_generation": false,
+    "scientific_cpu_execution": false,
+    "scientific_gpu_execution": false,
+    "performance_timing": false,
+    "target_model_load": false,
+    "execution_authorization_creation": false
+  },
+  "locked_implementation": {
+    "canonical_reference_blob": "6e4283b8a91606c868573c5250e06d803c442c74",
+    "fixture_generator_blob": "34f1e71355448244dd09dab67e27c0cad4808826",
+    "causal_harness_blob": "8f9d0d260348d3a6282ed5730b2e06179912b704",
+    "gpu_packed_blob": "502fdecc5d2d6462f1fbff0f2927c8ad7792202f",
+    "gpu_expanded_blob": "44ac2c4a4792b93b6a3406bafdf51a1f68b4e721",
+    "compile_tool_blob": "d1cfddeeda2a2e9c7bbd14c4f7a5a78ec7407c95",
+    "build_tool_blob": "dcf078f6054ad1cb6cf1a789deb9e007de36c077",
+    "packed_spv_sha256": "CE326D6CFB6474D3B255D0530FE3BE789BACC8B1540A709223EF7F06E1C49B61",
+    "expanded_spv_sha256": "73F35157417A2BB28E0BBB97D1F9CFE4AD7C54C0DFED599DEA0E4EE53F5AA6D2",
+    "executable_sha256": "83E2A04C83418258EB2BB77E4350D3661766EFDBB140E754AE704805D62A1AA9",
+    "implementation_mutation_permitted": false
+  },
+  "fixture_generator_usage": {
+    "generator": "src/q6cb_fixture_generator.hpp::generate_fixture",
+    "one_harness_process_per_fixture": true,
+    "one_valid_observation_per_fixture": true,
+    "fixture_search": false,
+    "adaptive_regeneration": false,
+    "selective_rerun_of_valid_fixture": false,
+    "d_bits": "0x3C00",
+    "q6_values_per_block": 256,
+    "q6_block_bytes": 210,
+    "rows_per_fixture": 64,
+    "shape_order": [
+      {
+        "id": "K4096_R64",
+        "n": 4096,
+        "rows": 64,
+        "rationale": "fresh short/intermediate accumulation length; multiple of 256; not an SA1 Q6 cell"
+      },
+      {
+        "id": "K16384_R64",
+        "n": 16384,
+        "rows": 64,
+        "rationale": "fresh long accumulation length; multiple of 256; not an SA1 Q6 cell"
+      }
+    ],
+    "conditioning_strata_order": [
+      "LOW_CANCELLATION_BOUNDED_RANGE",
+      "HIGH_CANCELLATION",
+      "SCALE_HETEROGENEITY",
+      "MIXED_SIGN_HIGH_DYNAMIC_RANGE",
+      "NEUTRAL_RANDOM_CONTROL"
+    ],
+    "stress_strata": [
+      "HIGH_CANCELLATION",
+      "SCALE_HETEROGENEITY",
+      "MIXED_SIGN_HIGH_DYNAMIC_RANGE"
+    ],
+    "control_strata_for_rtci_interaction": [
+      "LOW_CANCELLATION_BOUNDED_RANGE",
+      "NEUTRAL_RANDOM_CONTROL"
+    ],
+    "replicates_per_shape_stratum": 3,
+    "enumeration_order": "shape_order outer, conditioning_strata_order middle, replicate 1..3 inner",
+    "exact_sa1_cells_excluded": [
+      "Q6_H3584_R512_BIAS",
+      "Q6_H18944_R3584_NOBIAS"
+    ],
+    "sa1_seed_reuse_forbidden": true
+  },
+  "seed_derivation": {
+    "hash": "SHA-256",
+    "label_template": "ArcLLM|Q6CB1|v0.1|{PARTITION}|{SHAPE_ID}|{STRATUM}|R{REPLICATE}",
+    "utf8": true,
+    "seed_rule": "interpret digest bytes 0..7 as unsigned little-endian uint64",
+    "harness_seed_argument_format": "0x%016X",
+    "partition_labels": {
+      "identification": "IDENTIFICATION",
+      "confirmatory": "CONFIRMATORY"
+    },
+    "forbidden_sa1_seeds": [
+      "0x5341315046495831",
+      "0x5341315046495832",
+      "0x5341315046495833",
+      "0x5341315046495834"
+    ],
+    "seed_schedule_canonical_line": "{PARTITION}|{SHAPE_ID}|{STRATUM}|{REPLICATE}|{SEED_HEX_UPPER}",
+    "seed_schedule_canonical_newline_terminated": true,
+    "seed_schedule_sha256": "C6C47227DA52D41F485A21319DEAB81514A6A7555D0EFAD8113D75F304BA273E",
+    "identification_seed_hex_ordered": [
+      "0x29BA0E8E6CD41601",
+      "0x3CC37E4B7E502FFB",
+      "0x5E77FD9E2618CBC9",
+      "0x857985F39D014623",
+      "0xB0AC0C2814E99019",
+      "0x2686E13062F76520",
+      "0xE96B1A01C7E37B6D",
+      "0xD26CF654276239FA",
+      "0x24891158ECEE7A64",
+      "0x0DF2598DE230D7D5",
+      "0x955CE78FAF983ABC",
+      "0x395A678FF87786F2",
+      "0xCCB0407260E9771C",
+      "0x287690DB47735608",
+      "0x380A1DC9FB5A797C",
+      "0xCCC288E6D59C1E97",
+      "0x767D241F2EADD16D",
+      "0x5EE55810DCF1BEDF",
+      "0x1A1F114106F1704C",
+      "0x7A6E17FE8C134EAE",
+      "0x29CDA50FA68F31DA",
+      "0x0FED19BEAB927733",
+      "0x40330E0CB98E578F",
+      "0x997C6A1D7CA80079",
+      "0x3DBCE693425DE876",
+      "0x086B2ADAC4F4485B",
+      "0x3E824A658FD5A7C3",
+      "0x25D51E209F1B0A7D",
+      "0xBBE5D3F0A939287C",
+      "0x4159A3CBAA3A5413"
+    ],
+    "confirmatory_seed_hex_ordered": [
+      "0x4D62089D8D5A70B7",
+      "0xF3B55F457458AEC3",
+      "0x64D9F690E147D8C1",
+      "0xC99D80E648043DE9",
+      "0x0D8E1224B555A682",
+      "0x18D8278EC50E20B4",
+      "0x5E66737CE8C9D8AC",
+      "0x475CF3409C1FA8C1",
+      "0x716A1D43E4278AF6",
+      "0x428CF0DC0331C2D7",
+      "0xB6A82AF3BA242C1D",
+      "0xBC4845D490469766",
+      "0xB4A935EFBD3427F1",
+      "0x54E9964CDEDAFA43",
+      "0x6C34D0D8A3B68E13",
+      "0x7964311BAFBC512E",
+      "0x30DE1441C1BA04F4",
+      "0x2D3CC0EB61AE79BD",
+      "0xDB53AF3751A807D6",
+      "0x138A64152A95F2AA",
+      "0x59E07FBC24B746C8",
+      "0x64E38877F56C6E78",
+      "0xF3B5E67C064CFD86",
+      "0x6DB746358DF09777",
+      "0x96F50F61F2CA17F0",
+      "0xA15D8D7EDE02F8B6",
+      "0x39570D34F8CAF8EA",
+      "0x8EFC0AC2EBF506EE",
+      "0xF64ED0D08073F3E1",
+      "0x84707AB57AAC1548"
+    ],
+    "derived_seed_count": 60,
+    "duplicate_seeds_permitted": false,
+    "collision_with_forbidden_sa1_seed_permitted": false
+  },
+  "partitions": {
+    "identification": {
+      "stage": "Q6CB-2",
+      "fixtures": 30,
+      "row_observations": 1920,
+      "composition": "2 shapes x 5 strata x 3 replicates",
+      "execution_count": 1,
+      "currently_authorized": false
+    },
+    "confirmatory": {
+      "stage": "Q6CB-3",
+      "fixtures": 30,
+      "row_observations": 1920,
+      "composition": "2 shapes x 5 strata x 3 replicates",
+      "execution_count_max": 1,
+      "currently_authorized": false,
+      "eligible_only_if": "Q6CB-2 reproduces F1 boundary and yields one or more preregistered mechanism candidates"
+    },
+    "partitions_frozen_before_first_fresh_execution": true
+  },
+  "numerical_contract": {
+    "fp32_unit_roundoff": 5.960464477539063e-8,
+    "reference_scale_per_fixture": "S=max(RMS(R64),1.0)",
+    "relative_noise_floor": 9.5367431640625e-7,
+    "relative_noise_floor_exact": "2^-20",
+    "delta_per_fixture": "delta=S*2^-20",
+    "material_contrast_floor": "RMSE(A,B) >= 4*delta",
+    "excess_error_ratio_floor": "RMSE(A,R64) >= 2*max(RMSE(B,R64),delta)",
+    "excess_ratio_min": 2.0,
+    "material_contrast_delta_multiple": 4.0,
+    "rtci_interaction_ratio_min": 1.5,
+    "per_fixture_material_excess_definition": "finite vectors AND RMSE(A,B)>=4*delta AND RMSE(A,R64)>=2*max(RMSE(B,R64),delta)",
+    "same_rules_all_strata_shapes_partitions": true,
+    "sa1_absolute_correctness_thresholds_reused": false,
+    "threshold_mutation_after_outcome": false,
+    "outlier_deletion": false
+  },
+  "derived_per_fixture_metrics": {
+    "E_S32": "RMSE(S32,R64)",
+    "E_T32CPU": "RMSE(T32_CPU,R64)",
+    "E_GPU_PACKED": "RMSE(T32_GPU_PACKED,R64)",
+    "E_GPU_EXPANDED": "RMSE(T32_GPU_EXPANDED,R64)",
+    "D_BOUNDARY": "RMSE(T32_GPU_PACKED,S32)",
+    "D_TOPOLOGY_CPU": "RMSE(T32_CPU,S32)",
+    "D_TOPOLOGY_GPU_EXPANDED": "RMSE(T32_GPU_EXPANDED,S32)",
+    "D_DEVICE": "RMSE(T32_GPU_EXPANDED,T32_CPU)",
+    "D_PACKED_PATH": "RMSE(T32_GPU_PACKED,T32_GPU_EXPANDED)",
+    "R_BOUNDARY": "E_GPU_PACKED/max(E_S32,delta)",
+    "R_TOPOLOGY_CPU": "E_T32CPU/max(E_S32,delta)",
+    "R_TOPOLOGY_GPU_EXPANDED": "E_GPU_EXPANDED/max(E_S32,delta)",
+    "R_DEVICE": "E_GPU_EXPANDED/max(E_T32CPU,delta)",
+    "R_PACKED_PATH": "E_GPU_PACKED/max(E_GPU_EXPANDED,delta)"
+  },
+  "group_aggregation": {
+    "group_key": "partition + shape + stratum",
+    "replicates_per_group": 3,
+    "group_signature_pass": "at least 2 of 3 replicates satisfy the corresponding per-fixture signature",
+    "no_pooling_across_shapes_for_primary_gate": true,
+    "no_pooling_identification_with_confirmatory": true
+  },
+  "falsification_and_mechanism_rules": {
+    "F0_INVALID_EXECUTION_OR_PROVENANCE": {
+      "evaluated_first": true,
+      "invalid_if_any": [
+        "locked source/blob/SPIR-V/executable identity mismatch",
+        "seed/fixture schedule mismatch",
+        "wrong fixture count/order/partition",
+        "target device or hard environment mismatch",
+        "required subgroup size/basic/arithmetic support mismatch",
+        "missing/corrupt/unparseable evidence",
+        "selective rerun or post-outcome fixture substitution",
+        "execution without the future explicit stage authorization"
+      ],
+      "scientific_negative": false,
+      "bounded_repair": "maximum one governance-permitted infrastructure-only repair for the affected stage; then rerun the entire frozen partition, never selected fixtures",
+      "second_f0_same_stage": "STOP_INFRASTRUCTURE_UNSTABLE"
+    },
+    "F1_BOUNDARY_EXISTENCE": {
+      "per_fixture_signature": "material_excess(T32_GPU_PACKED,S32)",
+      "partition_pass_all_required": [
+        "at least 2 of 5 strata group-pass within K4096_R64",
+        "at least 2 of 5 strata group-pass within K16384_R64",
+        "the two shapes share at least one group-passing stress stratum"
+      ],
+      "if_fail_identification": "BOUNDARY_NOT_REPRODUCED",
+      "if_fail_confirmatory": "BOUNDARY_NOT_REPRODUCED"
+    },
+    "F2_H_RTCI": {
+      "cpu_topology_signature": "material_excess(T32_CPU,S32)",
+      "expanded_gpu_persistence_signature": "material_excess(T32_GPU_EXPANDED,S32)",
+      "required_groups": [
+        "HIGH_CANCELLATION group-pass for both signatures in both shapes",
+        "SCALE_HETEROGENEITY group-pass for both signatures in both shapes"
+      ],
+      "interaction_test": "for each shape independently, median R_TOPOLOGY_CPU over HIGH_CANCELLATION + SCALE_HETEROGENEITY replicates divided by max(median R_TOPOLOGY_CPU over LOW_CANCELLATION_BOUNDED_RANGE + NEUTRAL_RANDOM_CONTROL replicates,1.0) >= 1.5",
+      "candidate_if_all_required": true
+    },
+    "F3_H_PDI": {
+      "semantic_invariant_required": "all fixtures used for the candidate have q_mismatches=0, scale_mismatches=0, d_mismatches=0",
+      "per_fixture_signature": "material_excess(T32_GPU_PACKED,T32_GPU_EXPANDED)",
+      "partition_candidate_all_required": [
+        "at least 2 of 5 strata group-pass within each shape",
+        "the two shapes share at least one group-passing stress stratum"
+      ]
+    },
+    "F4_H_DSA": {
+      "per_fixture_signature": "material_excess(T32_GPU_EXPANDED,T32_CPU)",
+      "partition_candidate_all_required": [
+        "at least 2 of 5 strata group-pass within each shape",
+        "the two shapes share at least one group-passing stress stratum"
+      ]
+    },
+    "F5_H_SEM": {
+      "mismatch_classes": [
+        "q_mismatches",
+        "scale_mismatches",
+        "d_mismatches"
+      ],
+      "group_signature_pass": "the same mismatch class is nonzero in at least 2 of 3 replicates",
+      "partition_candidate_all_required": [
+        "at least one stratum has a semantic mismatch group-pass in K4096_R64",
+        "the same mismatch class and at least one same stratum group-pass in K16384_R64"
+      ]
+    },
+    "F6_MULTIFACTOR_OR_UNRESOLVED": {
+      "multiple_candidates_same_partition": "retain all candidates; do not select a winner",
+      "boundary_exists_no_candidate_identification": "UNRESOLVED_MECHANISM",
+      "boundary_exists_no_confirmed_identification_candidate": "UNRESOLVED_MECHANISM"
+    }
+  },
+  "identification_adjudication": {
+    "order": [
+      "F0",
+      "F1",
+      "F2",
+      "F3",
+      "F4",
+      "F5",
+      "F6"
+    ],
+    "on_F0": "INVALID_F0_NO_SCIENTIFIC_ADJUDICATION",
+    "on_F1_fail": "BOUNDARY_NOT_REPRODUCED_AND_CLOSE_Q6CB",
+    "on_F1_pass_and_zero_mechanism_candidates": "UNRESOLVED_MECHANISM_AND_CLOSE_Q6CB",
+    "on_F1_pass_and_one_or_more_candidates": "CONFIRMATORY_ELIGIBLE_AWAITING_SEPARATE_EXPLICIT_Q6CB3_AUTHORIZATION",
+    "candidate_set_frozen_from_identification_for_confirmation": true
+  },
+  "confirmatory_adjudication": {
+    "confirmatory_uses_same_metrics_thresholds_group_rules": true,
+    "new_confirmatory_only_candidate_can_be_promoted": false,
+    "on_F0": "INVALID_F0_NO_SCIENTIFIC_ADJUDICATION",
+    "on_F1_fail": "BOUNDARY_NOT_REPRODUCED",
+    "supported_set": "intersection(identification_candidate_set, confirmatory_candidate_set)",
+    "if_supported_set_size_0": "UNRESOLVED_MECHANISM",
+    "if_supported_set_size_1": {
+      "H-RTCI": "H_RTCI_SUPPORTED",
+      "H-PDI": "H_PDI_SUPPORTED",
+      "H-DSA": "H_DSA_SUPPORTED",
+      "H-SEM": "H_SEM_SUPPORTED"
+    },
+    "if_supported_set_size_gt_1": "MULTIFACTOR",
+    "all_outcomes_terminal_at_Q6CB4": true
+  },
+  "evidence_schema": {
+    "per_fixture_required": [
+      "harness raw JSON arcllm.q6cb1.causal_observation.v0.1",
+      "partition",
+      "canonical fixture ordinal",
+      "fixture_id",
+      "shape_id",
+      "n",
+      "rows",
+      "stratum",
+      "replicate",
+      "seed_label",
+      "seed_hex",
+      "seed_label_sha256",
+      "process_exit_code",
+      "raw_file_sha256",
+      "packed_fnv64",
+      "x_fnv64",
+      "semantic_invariant",
+      "five raw arm vectors",
+      "descriptive raw harness metrics"
+    ],
+    "partition_manifest_required": [
+      "contract Git blob and SHA-256",
+      "implementation evidence-lock commit",
+      "exact executable SHA-256",
+      "both SPIR-V SHA-256",
+      "environment record",
+      "all 30 fixture identities in canonical order",
+      "all raw result SHA-256 values",
+      "no-rerun declaration",
+      "execution start/end timestamps descriptive only",
+      "outcome inspection declaration"
+    ],
+    "adjudication_required": [
+      "all derived per-fixture metrics",
+      "all per-fixture material-excess booleans",
+      "all 20 shape-stratum group results",
+      "F0 result",
+      "F1 result",
+      "F2/F3/F4/F5 candidate booleans",
+      "identification candidate set or confirmatory supported set",
+      "terminal or next-gate decision"
+    ],
+    "timing_fields_scientifically_used": false,
+    "performance_claim_permitted": false
+  },
+  "device_environment_contract": {
+    "hard_required": {
+      "os": "Microsoft Windows 11 Home Single Language",
+      "os_version": "10.0.26200",
+      "cpu": "Intel(R) Core(TM) Ultra 7 258V",
+      "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+      "intel_vendor_id": 32902,
+      "windows_driver": "32.0.101.8860",
+      "vulkan_driver_info": "101.8860",
+      "minimum_vulkan_device_api": "1.2",
+      "compute_queue": true,
+      "compute_subgroup": true,
+      "subgroup_size": 32,
+      "subgroup_basic_required": true,
+      "subgroup_arithmetic_required": true,
+      "ac_power": "ONLINE",
+      "power_scheme": "Balanced"
+    },
+    "descriptive_record": [
+      "Vulkan loader version",
+      "Vulkan device API exact version",
+      "available memory heap/type census"
+    ],
+    "identification_confirmatory_driver_must_match": true,
+    "target_model_load": false,
+    "performance_timing": false
+  },
+  "one_shot_execution_policy": {
+    "valid_fixture_may_be_executed_once_per_partition": true,
+    "valid_partition_may_be_consumed_once": true,
+    "partial_outcome_inspection_before_partition_completion": false,
+    "selective_fixture_replay": false,
+    "threshold_or_rule_change_after_any_fresh_result": false,
+    "fixture_or_seed_change_after_any_fresh_result": false,
+    "implementation_change_after_any_fresh_result": false
+  },
+  "stop_and_governance": {
+    "q6cb4_terminal": true,
+    "q6cb5_permitted": false,
+    "additional_mechanism_program_permitted": false,
+    "si2_permitted": false,
+    "negative_result_is_valid_scientific_value": true,
+    "default_after_terminal_adjudication": "STOP",
+    "no_result_here_authorizes_optimization": true
+  },
+  "next": "INDEPENDENT_ZERO_SCIENCE_QA_OF_EXECUTION_CONTRACT_ONLY"
+}
