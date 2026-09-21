@@ -154,15 +154,40 @@ $GpuRows = @(
 Require ($GpuRows.Count -ge 1) "Intel Arc 140V not found"
 Require ($GpuRows.DriverVersion -contains $Auth.hard_environment_contract.windows_driver) "GPU driver mismatch"
 
-$VulkanInfo = Join-Path $Root ".q2_toolchains\VulkanSDK\1.4.357.0\Bin\vulkaninfo.exe"
-Require (Test-Path $VulkanInfo -PathType Leaf) "vulkaninfo.exe unavailable"
-$VulkanText = (& $VulkanInfo 2>&1 | Out-String)
-Require ($LASTEXITCODE -eq 0) "vulkaninfo failed"
-Require ($VulkanText -match "Arc.*140V") "Vulkan target GPU mismatch"
-Require ($VulkanText -match "driverInfo\s*=\s*101\.8860") "Vulkan driverInfo mismatch"
-Require ($VulkanText -match "subgroupSize\s*=\s*32") "Vulkan subgroup size 32 not observed"
-Require ($VulkanText -match "VK_SUBGROUP_FEATURE_BASIC_BIT") "Vulkan subgroup BASIC capability not observed"
-Require ($VulkanText -match "VK_SUBGROUP_FEATURE_ARITHMETIC_BIT") "Vulkan subgroup ARITHMETIC capability not observed"
+# Q6CB-2 bounded infrastructure repair: use the already frozen SA0 Vulkan
+# capability probe instead of assuming portable SDK contains vulkaninfo.exe.
+Require ($null -ne $Auth.environment_probe) "authorization does not bind environment probe"
+Require ((GitBlob "src/sa0_capability_probe.cpp") -eq $Auth.environment_probe.source_git_blob) "SA0 capability probe source blob mismatch"
+Require ((GitBlob "tools/build_sa0_cap.ps1") -eq $Auth.environment_probe.build_tool_git_blob) "SA0 capability build tool blob mismatch"
+
+$ProbeBuild = Join-Path $Root "tools\build_sa0_cap.ps1"
+$ProbeExe = Join-Path $Root "artifacts\SA0_CAP\arcllm_sa0_cap.exe"
+$ProbeRaw = Join-Path $Root "artifacts\SA0_CAP\q6cb2_environment_probe.json"
+
+& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ProbeBuild
+Require ($LASTEXITCODE -eq 0) "SA0 capability probe BuildOnly failed"
+Require (Test-Path $ProbeExe -PathType Leaf) "SA0 capability probe executable missing"
+
+if (Test-Path $ProbeRaw) { Remove-Item -Force $ProbeRaw }
+& $ProbeExe --device-substring "Arc 140V" --out $ProbeRaw
+Require ($LASTEXITCODE -eq 0) "SA0 capability probe execution failed"
+Require (Test-Path $ProbeRaw -PathType Leaf) "SA0 capability probe output missing"
+
+$Cap = Get-Content $ProbeRaw -Raw -Encoding UTF8 | ConvertFrom-Json
+Require ($Cap.status -eq "PASS_QUERY") "SA0 capability probe did not PASS_QUERY"
+Require ($Cap.scientific_workload -eq "NOT_RUN") "environment probe scientific-workload invariant violated"
+Require ([bool]$Cap.model_loaded -eq $false) "environment probe model-load invariant violated"
+Require ([int]$Cap.shader_modules_created -eq 0) "environment probe created shader modules"
+Require ([int]$Cap.compute_pipelines_created -eq 0) "environment probe created compute pipelines"
+Require ([int]$Cap.dispatches_submitted -eq 0) "environment probe submitted GPU dispatches"
+Require ([int64]$Cap.device.vendor_id -eq [int64]$Auth.hard_environment_contract.intel_vendor_id) "Vulkan vendor id mismatch"
+Require ([string]$Cap.device.name -match "Arc.*140V") "Vulkan target GPU mismatch"
+Require ([string]$Cap.device.driver_info -eq [string]$Auth.hard_environment_contract.vulkan_driver_info) "Vulkan driverInfo mismatch"
+Require ([string]$Cap.device.api_version.text -ge [string]$Auth.hard_environment_contract.minimum_vulkan_device_api) "Vulkan device API below contract minimum"
+Require ([bool]$Cap.subgroup.compute_stage_supported) "compute-stage subgroup support missing"
+Require ([int]$Cap.subgroup.size -eq [int]$Auth.hard_environment_contract.subgroup_size) "Vulkan subgroup size mismatch"
+Require ([bool]$Cap.subgroup.basic) "Vulkan subgroup BASIC capability missing"
+Require ([bool]$Cap.subgroup.arithmetic) "Vulkan subgroup ARITHMETIC capability missing"
 
 Require (-not (Test-Path $OutDir)) "result directory already exists; partition may already be consumed"
 Require (-not (Test-Path $Bundle)) "return bundle already exists; partition may already be consumed"
@@ -171,7 +196,7 @@ Write-Host "Q6CB2_PREFLIGHT_PASS"
 Write-Host "Scientific execution is now starting: exact frozen 30-fixture identification partition."
 
 New-Item -ItemType Directory -Path $RawDir -Force | Out-Null
-$VulkanText | Set-Content (Join-Path $OutDir "vulkaninfo.txt") -Encoding UTF8
+Copy-Item $ProbeRaw (Join-Path $OutDir "environment_probe.json")
 $StartUtc = [DateTime]::UtcNow.ToString("o")
 
 foreach ($f in @($Auth.identification_partition.fixtures)) {
@@ -275,6 +300,14 @@ $PartitionManifest = [ordered]@{
         power_scheme = $PowerScheme
         battery = $Battery
         vulkan_driver_required = $Auth.hard_environment_contract.vulkan_driver_info
+        vulkan_probe_source_git_blob = $Auth.environment_probe.source_git_blob
+        vulkan_probe_build_tool_git_blob = $Auth.environment_probe.build_tool_git_blob
+        vulkan_device_name = [string]$Cap.device.name
+        vulkan_device_api = [string]$Cap.device.api_version.text
+        vulkan_driver_info = [string]$Cap.device.driver_info
+        subgroup_size = [int]$Cap.subgroup.size
+        subgroup_basic = [bool]$Cap.subgroup.basic
+        subgroup_arithmetic = [bool]$Cap.subgroup.arithmetic
     }
     collection = [ordered]@{
         start_utc = $StartUtc
