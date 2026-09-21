@@ -2,7 +2,7 @@
   "phase": "Q6CB-1-SPECIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "STOP_INFRASTRUCTURE_UNSTABLE_Q6CB_TERMINAL",
+  "status": "ARCLLM_CURRENT_SUCCESSOR_LINE_CLOSED_NO_E2E_ADMISSION",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -485,10 +485,10 @@
     "current_architecture_line_closed": true,
     "selected_candidate": "SA-H1",
     "selected_candidate_name": "Decode-Specialized Packed-Quant Executor",
-    "research_reopen_candidate": true,
+    "research_reopen_candidate": false,
     "successor_implementation_authorized": false,
     "target_execution_authorized": false,
-    "next_step": "SA0_SPECIFICATION_ONLY_CAUSAL_CAPABILITY_QUALIFICATION"
+    "next_step": "CLOSED_BY_PROGRAM_LEVEL_DECISION"
   },
   "sa0": {
     "status": "SA0_COMPLETE",
@@ -503,7 +503,7 @@
     "event_ledger_direct_transfer": "REJECTED",
     "successor_implementation_authorized": false,
     "target_model_execution_authorized": false,
-    "next_step": "SA1-P",
+    "next_step": "CLOSED_WITH_SUCCESSOR_LINE",
     "capability_probe": {
       "status": "PASS_ADJUDICATED",
       "contract": "config/sa0_capability_preflight_v0.1.json",
@@ -536,7 +536,7 @@
     "component_measurement_permitted": false,
     "target_model_execution_permitted": false,
     "q3_reopen_permitted": false,
-    "next": "NEW_PROGRAM_SPECIFICATION_ONLY_Q6_CORRECTNESS_BOUNDARY_MECHANISM_STUDY",
+    "next": "CLOSED_NO_SUCCESSOR_PROMOTION",
     "qa": "artifacts/SA1/SA1P_INDEPENDENT_QA_v0.1.json",
     "qa_document": "docs/SA1P_INDEPENDENT_QA.md",
     "implementation_lock": "config/sa1p_implementation_lock_v0.1.json",
@@ -573,7 +573,8 @@
       "process_B_sha256": "ACF7CE9AB6B28841A5E3516933DB792C6CD7CE0A5647FC9D4BCE060A3F9A2421",
       "process_A_geomean_speedup": 3.1371499895364643,
       "process_B_geomean_speedup": 3.147501200588043,
-      "q6_implementation_lock_permitted": false
+      "q6_implementation_lock_permitted": false,
+      "target_model_execution_permitted": false
     },
     "k2": {
       "status": "Q6_STAGE_FAIL_CORRECTNESS_CLOSED",
@@ -607,7 +608,8 @@
     "closeout": "artifacts/SA1/SA1_CLOSEOUT_v0.1.json",
     "closeout_document": "docs/SA1_CLOSEOUT.md",
     "closeout_result": "SA1_CLOSED_ASYMMETRIC_Q4_PASS_Q6_CORRECTNESS_FAIL",
-    "end_to_end_applicability": "NOT_TESTED"
+    "end_to_end_applicability": "NOT_TESTED",
+    "q4_component_evidence_preserved": true
   },
   "q6cb1": {
     "status": "STOP_INFRASTRUCTURE_UNSTABLE_Q6CB_TERMINAL",
@@ -639,7 +641,7 @@
     "target_model_load_permitted": false,
     "sa1_rerun_permitted": false,
     "execution_authorization_file": "config/q6cb2_execution_authorization.json",
-    "next": "PROGRAM_LEVEL_ARCLLM_DECISION_Q6CB_INFRASTRUCTURE_TERMINATED_NO_CAUSAL_RESULT",
+    "next": "CLOSED_NO_FURTHER_Q6CB_OR_SUCCESSOR_PROMOTION",
     "zero_science_qa": "PASS",
     "qa_artifact": "artifacts/Q6CB/Q6CB1_SPECIFICATION_QA_v0.1.json",
     "qa_document": "docs/Q6CB1_SPECIFICATION_QA.md",
@@ -788,5 +790,24 @@
       "scientific_adjudication_performed": false,
       "f1_f6_adjudicated": false
     }
-  }
+  },
+  "program_level_decision": {
+    "decision": "STOP_CURRENT_SUCCESSOR_LINE",
+    "artifact": "artifacts/ARCLLM_PROGRAM_LEVEL_DECISION_v0.1.json",
+    "document": "docs/ARCLLM_PROGRAM_LEVEL_DECISION.md",
+    "return_to_end_to_end_validation": false,
+    "legacy_line": "CLOSED_FEASIBLE_NO_DEMONSTRATED_ADVANTAGE",
+    "current_successor_line": "CLOSED_NO_END_TO_END_ADMISSION",
+    "q6cb": "CLOSED_STOP_INFRASTRUCTURE_UNSTABLE",
+    "current_next_experiment": "NONE"
+  },
+  "current_authorization": {
+    "legacy_q3_reopen": false,
+    "sa_h1_implementation": false,
+    "sa_h1_target_execution": false,
+    "q6cb_execution": false,
+    "q6cb3_execution": false,
+    "end_to_end_successor_validation": false
+  },
+  "next": "NONE_CURRENT_SUCCESSOR_LINE_TERMINAL"
 }
