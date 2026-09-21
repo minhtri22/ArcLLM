@@ -1,0 +1,102 @@
+{
+  "schema": "arcllm.sa1p.implementation_lock.v0.1",
+  "date": "2026-09-21",
+  "status": "SA1P_LOCK_PASS_SA1K1_IMPLEMENTATION_AUTHORIZED",
+  "preregistration_commit": "e98650ec3b2e0f0c8fa3168f3d97aed8ea599896",
+  "preregistration_contract_blob": "4256a2e6bda4fa35b48cb4051ff26e18eef5dc96",
+  "preregistration_document_blob": "9bc60ec1db974f6f6fe9e54de6e9e5d23233006d",
+  "qa_result": "PASS",
+  "parent_sa0_result": "SA0_CAP_PASS",
+  "frozen_primary_mechanism": "SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW",
+  "frozen_candidate_geometry": {
+    "quant": "Q4_K",
+    "local_size": [
+      128,
+      1,
+      1
+    ],
+    "required_subgroup_size": 32,
+    "require_full_subgroups": true,
+    "subgroups_per_workgroup": 4,
+    "rows_per_workgroup": 4,
+    "direct_packed_dequant": true,
+    "fp32_partial_accumulation": true,
+    "subgroup_arithmetic_reduction": true,
+    "shared_memory_bytes": 0,
+    "extra_global_scratch_bytes": 0
+  },
+  "frozen_baseline": {
+    "q4_source_git_blob": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a",
+    "q4_spirv_sha256": "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A",
+    "q6_source_git_blob": "a0de99f972db6cd202606aad95fb9eab223639e6",
+    "q6_spirv_sha256": "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67",
+    "compiler": "glslang 16.5.0",
+    "compiler_asset_sha256": "06B71298B750268C127F2EE7AE0EF7525E2068120C6C8A3A08B2F58CA6F325CE",
+    "target_env": "vulkan1.2"
+  },
+  "frozen_gates": {
+    "correctness": {
+      "max_abs_max": 0.02,
+      "rmse_max": 0.005,
+      "finite": true
+    },
+    "q4_per_process_geometric_mean_speedup_min": 1.5,
+    "q4_every_cell_speedup_min": 1.1,
+    "processes": [
+      "A",
+      "B"
+    ],
+    "warmups_per_arm_per_cell": 10,
+    "measured_pairs_per_cell_per_process": 30,
+    "outlier_deletion": false,
+    "process_pooling": false
+  },
+  "implementation_authorization": {
+    "stage": "SA1-K1",
+    "q4_candidate_shader_write": true,
+    "q4_component_harness_write": true,
+    "compile_build_preflight_tooling_write": true,
+    "q4_candidate_measurement": false,
+    "target_model_execution": false,
+    "q6_candidate_shader_write": false,
+    "q3_reopen": false
+  },
+  "exact_allowlist": [
+    "shaders/sa1_q4k_subgroup_splitk.comp",
+    "src/sa1_component_benchmark.cpp",
+    "tools/compile_sa1_component.ps1",
+    "tools/build_sa1_component.ps1",
+    "run_sa1_component_preflight.ps1",
+    "run_sa1_component_q4.ps1",
+    "tools/adjudicate_sa1_component.py",
+    "tests/test_sa1_component_package.py",
+    "config/sa1_*",
+    "docs/SA1*",
+    "artifacts/SA1/**",
+    "results/sa1_*",
+    "manifest.json",
+    "lineage.md",
+    "README.md"
+  ],
+  "immutable_during_sa1_k1": [
+    "shaders/p7_q4k_gemm_2d.comp",
+    "shaders/p7_q6k_gemm_2d.comp",
+    "src/q2_benchmark.cpp",
+    "Q2/Q3 baseline and execution contracts",
+    "target model/quantization",
+    "all non-SA1 production shaders"
+  ],
+  "forbidden_in_implementation": [
+    "second Q4 candidate variant",
+    "local-size or subgroup-size alternatives",
+    "cooperative matrix",
+    "FP16/INT8 staging",
+    "pre-dequantization cache",
+    "fusion",
+    "existing baseline shader edits",
+    "target-model inference",
+    "Q3 execution",
+    "Q6 implementation before independent Q4 PASS"
+  ],
+  "next_gate": "Implement SA1-K1 exactly once under this allowlist, then static QA + zero-measurement preflight. Candidate measurement remains forbidden until a separate execution authorization is committed."
+}

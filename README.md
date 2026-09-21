@@ -152,3 +152,10 @@ SA0 is complete. The next permitted work is **SA1-P specification-only component
 SA1-P is now a **specification-only preregistration candidate**. The single frozen mechanism is subgroup-32 split-K per output row for batch-1 direct-packed Q4_K/Q6_K GEMM. Cooperative matrix/fusion/tile search are out of scope.
 
 No SA1 kernel, harness or measurement is authorized until independent QA passes and an implementation lock is committed.
+
+
+### SA1-P locked
+
+SA1-P independent QA passed and the implementation lock is frozen. Only **SA1-K1 Q4** implementation is now permitted under a finite allowlist: one subgroup-32 split-K candidate shader plus the component harness/tooling required to qualify it.
+
+Q6 implementation, component measurement, target-model inference and Q3 remain blocked.

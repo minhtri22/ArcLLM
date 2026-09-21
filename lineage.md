@@ -1046,3 +1046,10 @@ Frozen timing: exact Arc 140V/Q3 driver, GPU timestamps, two processes A/B, forw
 Frozen correctness: finite, max_abs<=0.02, RMSE<=0.005 against CPU and baseline.
 Frozen materiality gate: Q4 five-cell geometric-mean speedup>=1.50x independently in A/B and every cell>=1.10x; valid Q4 FAIL stops SA1 and blocks Q6. Q6 future extension uses the same 1.50x aggregate / 1.10x floor and same mechanism.
 Status: SA1P_PREREGISTRATION_CANDIDATE_AWAITING_INDEPENDENT_QA. Candidate code and measurement remain forbidden.
+
+
+## 2026-09-21 — SA1-P independent QA PASS / implementation lock
+Independent QA of preregistration commit `e98650ec3b2e0f0c8fa3168f3d97aed8ea599896` PASS. Recomputed 7/7 exact shape cells, row bytes and packed weight bytes; verified Q4/Q6 baseline Git blobs and Q2 SPIR-V hashes; verified specification-only delta and all execution gates closed.
+Worst-case four-bank Q6-down weight allocation is 222,781,440 bytes (~212.46 MiB), within the frozen 256 MiB per-cell process cap. One mechanism remains frozen: subgroup-32 split-K per output row. Cooperative matrix/fusion/staging/geometry search remain forbidden.
+Implementation lock now authorizes only SA1-K1 engineering: exactly one Q4 candidate shader at `shaders/sa1_q4k_subgroup_splitk.comp`, one component harness and bounded SA1 build/preflight/adjudication tooling. Q6 implementation remains blocked until independent valid Q4 PASS.
+Important: the lock does NOT authorize component measurement, target-model inference or Q3. SA1-K1 must first undergo static QA and zero-measurement preflight, followed by separate execution authorization.

@@ -2,7 +2,7 @@
   "phase": "SA1-P-COMPONENT-STUDY-PREREGISTRATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "SA1P_PREREGISTRATION_CANDIDATE_AWAITING_INDEPENDENT_QA",
+  "status": "SA1P_LOCK_PASS_SA1K1_IMPLEMENTATION_AUTHORIZED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Independent QA of SA1-P specification. Only if QA PASS may a governance-only implementation lock authorize SA1-K1 Q4 kernel implementation; no measurement or model execution yet.",
+  "next_on_success": "Implement only SA1-K1 Q4 subgroup-32 split-K component path under the implementation lock. No component measurement until static QA + zero-measurement preflight + separate execution authorization.",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -526,16 +526,20 @@
     }
   },
   "sa1": {
-    "status": "PREREGISTRATION_CANDIDATE_AWAITING_INDEPENDENT_QA",
+    "status": "SA1P_LOCK_PASS_SA1K1_IMPLEMENTATION_AUTHORIZED",
     "preregistration": "docs/SA1P_DECODE_PACKED_QUANT_COMPONENT_STUDY.md",
     "contract": "config/sa1p_component_study_preregistration_v0.1.json",
     "primary_mechanism": "SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW",
     "cooperative_matrix_disposition": "DEFERRED_NOT_IN_SA1",
-    "q4_implementation_permitted": false,
+    "q4_implementation_permitted": true,
     "q6_implementation_permitted": false,
     "component_measurement_permitted": false,
     "target_model_execution_permitted": false,
     "q3_reopen_permitted": false,
-    "next": "INDEPENDENT_QA_THEN_IMPLEMENTATION_LOCK"
+    "next": "SA1-K1_IMPLEMENTATION_THEN_STATIC_QA_ZERO_MEASUREMENT_PREFLIGHT",
+    "qa": "artifacts/SA1/SA1P_INDEPENDENT_QA_v0.1.json",
+    "qa_document": "docs/SA1P_INDEPENDENT_QA.md",
+    "implementation_lock": "config/sa1p_implementation_lock_v0.1.json",
+    "implementation_scope": "SA1-K1_ALLOWLIST_ONLY"
   }
 }
