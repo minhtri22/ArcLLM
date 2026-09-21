@@ -3,7 +3,7 @@
   "date": "2026-09-21",
   "program_id": "ANL64",
   "branch": "research/arcllm-nexus-ledger64",
-  "status": "P4_BOUNDED_IMPLEMENTATION_AUTHORIZED",
+  "status": "P4_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
   "lineage": {
     "path": "programs/arcllm_nexus_ledger64/lineage.md",
     "policy": "APPEND_ONLY",
@@ -59,17 +59,17 @@
     "P6_MATCHED_END_TO_END_CONFIRMATION",
     "P7_FINAL_ADJUDICATION"
   ],
-  "implementation_authorized": true,
+  "implementation_authorized": false,
   "target_execution_authorized": false,
   "scientific_measurement_authorized": false,
   "rescue_by_renaming": false,
-  "next": "P4_IMPLEMENT_EXACT_ALLOWLIST_THEN_STATIC_QA_AND_TARGET_LOCAL_BUILDONLY",
+  "next": "RUN_COMMITTED_RUN_ANL64_P4_BUILDONLY_PS1_AND_RETURN_BUNDLE",
   "stage_state": {
     "P0": "COMPLETE",
     "P1": "COMPLETE",
     "P2": "COMPLETE_PASS",
     "P3": "COMPLETE_PASS",
-    "P4": "IMPLEMENTATION_AUTHORIZED",
+    "P4": "IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
     "P5": "BLOCKED",
     "P6": "BLOCKED",
     "P7": "BLOCKED"
@@ -93,9 +93,10 @@
     "p2_design": false,
     "p3_zero_science_compatibility": false,
     "p4_authorization_gate": false,
-    "p4_implementation": true,
+    "p4_implementation": false,
     "target_model_inference": false,
-    "scientific_performance_measurement": false
+    "scientific_performance_measurement": false,
+    "p4_buildonly": true
   },
   "p3": {
     "result": "P3_PASS_P4_BOUNDED_IMPLEMENTATION_ELIGIBLE",
@@ -111,9 +112,14 @@
     "authorization": "config/anl64_p4_implementation_authorization_v0.1.json",
     "authorization_blob": "c0a9c77d09c7da98103fc949ede182f117bd6329",
     "decision": "P4_BOUNDED_IMPLEMENTATION_AUTHORIZED",
-    "implementation_authorized": true,
+    "implementation_authorized": false,
     "buildonly_authorized": true,
     "target_model_inference": false,
-    "scientific_performance_measurement": false
+    "scientific_performance_measurement": false,
+    "implementation_lock": "config/anl64_p4_implementation_lock_v0.1.json",
+    "implementation_lock_blob": "2e561928d8c0319371860accc1fe03b6b9e7d658",
+    "runner": "run_anl64_p4_buildonly.ps1",
+    "runner_blob": "8a1539053a4d4ec25b7e27d0f7cd6c118d1024e0",
+    "static_qa": "PASS_CONNECTOR_EQUIVALENT_STATIC_QA_BUILDONLY_PENDING"
   }
 }
