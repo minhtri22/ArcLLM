@@ -1,8 +1,8 @@
 {
-  "phase": "Q6CB-1-SPECIFICATION",
+  "phase": "ANL64-P2-ARCHITECTURE-DESIGN",
   "track": "P8 7B runtime",
-  "date": "2026-09-20",
-  "status": "ARCLLM_CURRENT_SUCCESSOR_LINE_CLOSED_NO_E2E_ADMISSION",
+  "date": "2026-09-21",
+  "status": "ANL64_P2_DESIGN_AUTHORIZED_IMPLEMENTATION_BLOCKED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -807,7 +807,76 @@
     "sa_h1_target_execution": false,
     "q6cb_execution": false,
     "q6cb3_execution": false,
-    "end_to_end_successor_validation": false
+    "end_to_end_successor_validation": false,
+    "anl64_p2_design": true,
+    "anl64_implementation": false,
+    "anl64_target_execution": false,
+    "anl64_scientific_measurement": false
   },
-  "next": "NONE_CURRENT_SUCCESSOR_LINE_TERMINAL"
+  "next": "ANL64_P2_ARCHITECTURE_SPEC_AND_E2E_UPPER_BOUND_ONLY",
+  "anl64": {
+    "program_id": "ANL64",
+    "branch": "research/arcllm-nexus-ledger64",
+    "parent_terminal_head": "d76295cbb3da116eed28f2f6b5f77ce89f5bce2e",
+    "lineage": {
+      "path": "programs/arcllm_nexus_ledger64/lineage.md",
+      "policy": "APPEND_ONLY",
+      "closes_with_program": true
+    },
+    "origin": {
+      "path": "docs/research/arcllm-nexus-ledger64/ORIGIN.md",
+      "blob": "a16455ff6429922e8184489a6c8f92edf6a632ba"
+    },
+    "governance": {
+      "path": "config/arcllm_nexus_ledger64_governance_v0.1.json",
+      "blob": "0180771d63596d6c0e0e437aa94f1c36105597a6",
+      "status": "P2_ARCHITECTURE_DESIGN_AUTHORIZED_IMPLEMENTATION_BLOCKED"
+    },
+    "prior_art": {
+      "register": "config/arcllm_nexus_ledger64_prior_art_register_v0.1.json",
+      "register_blob": "057569ce027b02b47bab29bd8afb40b4ab78cd93",
+      "review": "docs/research/arcllm-nexus-ledger64/PRIOR_ART_REVIEW.md",
+      "review_blob": "83a4b3a93232d200b00aaf914aaa820907d8085b",
+      "status": "COMPLETE"
+    },
+    "transfer": {
+      "path": "docs/research/arcllm-nexus-ledger64/TRANSFER_ADMISSIBILITY.md",
+      "blob": "210add63ea86c5c99ee4bc77c7461e244544a541",
+      "status": "BINDING_BEFORE_IMPLEMENTATION"
+    },
+    "architecture_preimplementation": {
+      "path": "docs/research/arcllm-nexus-ledger64/ARCHITECTURE_PREIMPLEMENTATION.md",
+      "blob": "d9bce32a2ea62a27b55603fd1afbc555e43b5b56",
+      "architecture_family": "ArcLLM + NEXUS / Ledger64",
+      "status": "P2_DESIGN_INPUT"
+    },
+    "p1_qa": {
+      "result": "PASS_ZERO_SCIENCE_PRIOR_ART_TRANSFER_QA",
+      "artifact": "artifacts/ANL64/ANL64_P1_ZERO_SCIENCE_QA_v0.1.json",
+      "blob": "8d622f022e0ebdd05825afe72b4fa5461f13285e"
+    },
+    "architecture_boundary": {
+      "nexus_ledger64": "CONTROL_PLANE_CANDIDATE_ONLY",
+      "arcllm": "EXACT_MODEL_HETEROGENEOUS_VULKAN_DATA_PLANE",
+      "ledger64_dense_llm_performance_claim": false
+    },
+    "stage_state": {
+      "P0": "COMPLETE",
+      "P1": "COMPLETE",
+      "P2": "DESIGN_AUTHORIZED",
+      "P3": "BLOCKED",
+      "P4": "BLOCKED",
+      "P5": "BLOCKED",
+      "P6": "BLOCKED",
+      "P7": "BLOCKED"
+    },
+    "authorization": {
+      "p2_design": true,
+      "local_compatibility_execution": false,
+      "implementation": false,
+      "target_execution": false,
+      "scientific_measurement": false
+    },
+    "next": "P2_ARCHITECTURE_SPEC_AND_E2E_UPPER_BOUND_ONLY"
+  }
 }
