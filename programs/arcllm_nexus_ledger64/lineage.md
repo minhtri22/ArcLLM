@@ -344,3 +344,47 @@ QA result:
 `PASS_ZERO_SCIENCE_P5_SPECIFICATION_QA`.
 
 P5 execution is still blocked. The next gate is explicit P5 execution authorization.
+
+
+## 2026-09-21 — P5 EXECUTION AUTHORIZED / FROZEN SEMANTIC COLLECTION LOCKED
+
+After P5 zero-science specification QA PASS, a separate execution authorization gate was completed.
+
+The safe reference path was independently checked against historical Q2 implementation commit `43afd71161c4dc8c766c09c3b55d5eca48352bde`. The Q2 runtime/support sources, compile/build tools, and all 16 shader source blobs are identical to that historical implementation. P5 therefore uses an exact frozen safe ArcLLM reference, not a reconstructed approximation.
+
+P5 execution authorization:
+- blob `4662ad4bdb5e517f08fa878b41bb824a1cdf8252`;
+- decision `P5_BOUNDED_SEMANTIC_INTEGRATION_EXECUTION_AUTHORIZED`.
+
+Semantic-only extractor:
+- path `tools/extract_anl64_p5_semantics.py`;
+- blob `495c9bdab5a74edc176553334ce26acdf24b044a`;
+- copies only success/finite/dispatch/token/hash/plan fields;
+- does not extract TTFT, decode latency, decode throughput, E2E latency or setup timing.
+
+One-shot runner:
+- path `run_anl64_p5_integration.ps1`;
+- blob `5b03752a2a3924ceaa63b034e01d780e0fff4f75`;
+- exact order: reference/W-S → candidate/W-S → reference/W-C → candidate/W-C;
+- one warmup + five measured attempts per cell;
+- selective rerun forbidden;
+- raw timing fields may exist only because the locked production binaries emit them, but they are quarantined and spent for P6.
+
+P5 runner static QA:
+- artifact blob `3cc0e661b22bda4c76d2d58a16e81fda9e05bc16`;
+- result `PASS_ZERO_SCIENCE_P5_RUNNER_STATIC_QA`.
+
+P5 execution lock:
+- path `config/anl64_p5_execution_lock_v0.1.json`;
+- blob `b7fc7c707fd10008805eff0e7e7b7b38c345c81d`;
+- status `P5_EXECUTION_LOCKED_NOT_YET_RUN`.
+
+Current authorization:
+- P5 target model load: AUTHORIZED;
+- P5 GPU semantic execution: AUTHORIZED;
+- P5 semantic validation: AUTHORIZED;
+- performance adjudication: FORBIDDEN;
+- production/shader/spec/threshold/workload mutation: FORBIDDEN;
+- P6: FORBIDDEN.
+
+Next: execute exactly one frozen P5 semantic-integration collection using the committed runner and return the bundle for independent F0 → F1 → F2 → F3 → F4 adjudication.
