@@ -89,9 +89,19 @@ assert "performance_measurement=$false" in build_ps
 assert "& $Exe" not in build_ps
 
 m=json.loads(txt("manifest.json"))
-assert m["anl64"]["stage_state"]["P4"]=="IMPLEMENTATION_AUTHORIZED"
-assert m["anl64"]["authorization"]["implementation"] is True
+assert m["status"]=="ANL64_P4_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING"
+assert m["anl64"]["stage_state"]["P4"]=="IMPLEMENTATION_LOCKED_BUILDONLY_PENDING"
+assert m["anl64"]["authorization"]["implementation"] is False
+assert m["anl64"]["authorization"]["p4_buildonly"] is True
 assert m["anl64"]["authorization"]["target_execution"] is False
 assert m["anl64"]["authorization"]["scientific_measurement"] is False
+
+g=json.loads(txt("config/arcllm_nexus_ledger64_governance_v0.1.json"))
+assert g["status"]=="P4_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING"
+assert g["stage_state"]["P4"]=="IMPLEMENTATION_LOCKED_BUILDONLY_PENDING"
+assert g["authorization"]["p4_implementation"] is False
+assert g["authorization"]["p4_buildonly"] is True
+assert g["target_execution_authorized"] is False
+assert g["scientific_measurement_authorized"] is False
 
 print("ANL64 P4 static package: PASS")
