@@ -1,11 +1,11 @@
 {
-  "schema": "arcllm.q6cb2.runner_static_qa.v0.1",
+  "schema": "arcllm.q6cb2.runner_static_qa.v0.2",
   "date": "2026-09-21",
-  "result": "PASS_ZERO_SCIENCE_RUNNER_STATIC_QA",
+  "result": "PASS_ZERO_SCIENCE_RUNNER_STATIC_QA_AFTER_BOUNDED_F0_REPAIR",
   "runner": {
     "path": "run_q6cb2_identification.ps1",
-    "git_blob": "fa82d7023d0f94de2572df852f0d3a2f9dab6c91",
-    "commit": "90f1cea3fe73d2f956f0e1df4c350c72d32498ef"
+    "git_blob": "35179043cbb2657e285944625a91aa74fc9f141f",
+    "implementation_commit": "df1ca199a66fb4380f991b3c29d3f1d949939eec"
   },
   "checks": {
     "binds_future_authorization_marker": true,
@@ -23,12 +23,37 @@
     "one_shot_output_guard": true,
     "selective_fixture_replay_forbidden": true,
     "raw_scientific_outcomes_not_parsed_during_collection": true,
-    "provenance_packaging_only_after_full_collection": true
+    "provenance_packaging_only_after_full_collection": true,
+    "environment_probe_zero_science_invariants_verified": true,
+    "environment_probe_exact_source_build_blobs_bound": true
   },
   "fresh_fixture_generated": false,
   "scientific_cpu_execution": false,
   "scientific_gpu_execution": false,
   "outcome_inspection": false,
-  "decision": "RUNNER_STATICALLY_QUALIFIED_FOR_REISSUED_Q6CB2_AUTHORIZATION",
-  "next": "REISSUE_UNCONSUMED_Q6CB2_AUTHORIZATION_BINDING_EXACT_RUNNER_BLOB"
+  "decision": "RUNNER_REPAIRED_AND_STATICALLY_QUALIFIED_FOR_FINAL_Q6CB2_AUTHORIZATION",
+  "next": "REISSUE_Q6CB2_AUTHORIZATION_REVISION_3_BINDING_REPAIRED_RUNNER_AND_ENVIRONMENT_PROBE",
+  "pre_science_f0_repair": {
+    "trigger": "VULKANINFO_EXECUTABLE_ABSENT_FROM_PORTABLE_VULKAN_SDK",
+    "scientific_fixture_generated": false,
+    "q6cb_harness_launched": false,
+    "scientific_cpu_execution": false,
+    "scientific_gpu_execution": false,
+    "outcome_inspection": false,
+    "repair_scope": "RUNNER_ENVIRONMENT_PREFLIGHT_ONLY",
+    "scientific_contract_changed": false,
+    "fixture_seed_threshold_rule_changed": false,
+    "implementation_harness_shader_changed": false,
+    "replacement_probe": {
+      "source": "src/sa0_capability_probe.cpp",
+      "source_git_blob": "7314988c0ca32f2a7d192f8a75d92490dd82d9fa",
+      "build_tool": "tools/build_sa0_cap.ps1",
+      "build_tool_git_blob": "8d0cce69fbf91e5cfa3dae0de9f92d611aebca29",
+      "prior_exact_device_adjudication": "SA0_CAP_PASS",
+      "scientific_workload": "NOT_RUN"
+    },
+    "bounded_repairs_consumed": 1,
+    "bounded_repairs_max": 1,
+    "further_infrastructure_repair_same_stage_permitted": false
+  }
 }
