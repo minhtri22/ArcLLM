@@ -189,8 +189,8 @@ P5's new question is whether those locally correct substitutions preserve integr
 
 Within each system/workload:
 - all five measured generated sequences must be identical;
-- candidate final-logits hash must be stable across the five measured attempts;
-- candidate final-hidden hash must be stable across the five measured attempts.
+- final-logits hash must be stable across the five measured attempts for both reference and candidate;
+- final-hidden hash must be stable across the five measured attempts for both reference and candidate.
 
 Warmup is excluded from this gate.
 
