@@ -1,0 +1,42 @@
+{
+  "schema": "arcllm.anl64.p1_zero_science_qa.v0.1",
+  "date": "2026-09-21",
+  "result": "PASS_ZERO_SCIENCE_PRIOR_ART_TRANSFER_QA",
+  "scientific_execution": false,
+  "target_execution": false,
+  "implementation": false,
+  "checks": {
+    "fresh_program_lineage_exists": true,
+    "lineage_append_only_policy_bound": true,
+    "parent_terminal_head_bound": true,
+    "prior_arcllm_line_not_reopened": true,
+    "internal_evidence_exact_blobs_pinned": true,
+    "nexus_el_ld64_exact_blobs_pinned": true,
+    "ld64_2_performance_preserved_as_unresolved": true,
+    "external_sources_commit_or_paper_pinned": true,
+    "source_licenses_recorded_where_source_reuse_possible": true,
+    "external_performance_not_admitted_as_local_evidence": true,
+    "transfer_classes_defined": true,
+    "implementation_provenance_labels_defined": true,
+    "ledger64_64wide_mapping_not_assumed": true,
+    "no_duplicate_proof_rule_present": true,
+    "implementation_gate_still_closed": true
+  },
+  "bound_blobs": {
+    "origin": "a16455ff6429922e8184489a6c8f92edf6a632ba",
+    "governance": "d6012021dbd2b2bba86b0255a8f830440026861f",
+    "prior_art_register": "057569ce027b02b47bab29bd8afb40b4ab78cd93",
+    "prior_art_review": "83a4b3a93232d200b00aaf914aaa820907d8085b",
+    "transfer_admissibility": "210add63ea86c5c99ee4bc77c7461e244544a541",
+    "architecture_preimplementation": "d9bce32a2ea62a27b55603fd1afbc555e43b5b56"
+  },
+  "stage_decision": {
+    "p0": "COMPLETE",
+    "p1": "COMPLETE",
+    "p2_design_authorized": true,
+    "p3_compatibility_authorized": false,
+    "implementation_authorized": false,
+    "scientific_measurement_authorized": false
+  },
+  "next": "P2_ARCHITECTURE_SPEC_AND_E2E_UPPER_BOUND_ONLY"
+}
