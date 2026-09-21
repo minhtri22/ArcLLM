@@ -1,0 +1,150 @@
+{
+  "schema": "arcllm.sa0.capability.adjudication.v0.1",
+  "date": "2026-09-21",
+  "result": "SA0_CAP_PASS",
+  "returned_bundle": {
+    "filename": "sa0_capability_return_to_chatgpt.zip",
+    "sha256": "C272F50AA5730D417BC0234127F72E345A4168F922794783FE6743CDD0C91570",
+    "bytes": 7820,
+    "entries": 5
+  },
+  "implementation": {
+    "commit": "e32ed1ccfe0d6e675e3186af5ca7db606692bd98",
+    "parent_sa0_commit": "1ade625ae60acaa9ebeb43890d53a198c200d576",
+    "critical_git_blobs_verified": "6/6",
+    "exact_blobs": {
+      "capability_probe": "7314988c0ca32f2a7d192f8a75d92490dd82d9fa",
+      "build_runner": "8d0cce69fbf91e5cfa3dae0de9f92d611aebca29",
+      "preflight_runner": "07dee855503ff5b85081d4b44e2084fe784191ee",
+      "static_test": "d33561a6c05a09275258beafc851e2b676e81b93",
+      "contract": "674d8c548eeca19beb4427b8ba944ec974c4134f",
+      "implementation_doc": "6d7c38d8cfdc5dcb27997ed98f4f60477c4e3def"
+    }
+  },
+  "integrity": {
+    "raw_capability_sha256": "1752126B4195CDD5CED040F5D61BBE604A9DD4DA87A57AA4C18F7BE7FB000AF0",
+    "raw_hash_matches_lock": true,
+    "build_manifest_sha256": "C0D7CD47EA4979FD01217A08E28B9D12F9A59365218B221A8EDF6E974C9C2F2F",
+    "build_manifest_hash_matches_lock": true,
+    "executable_sha256": "65D0636C999E4B795620148B8CC3D9652FF80595C3D0CBBB28D3EBAB9810FF39",
+    "executable_hash_cross_artifact_match": true,
+    "executable_bytes_packaged": false,
+    "executable_byte_rehash_required_by_frozen_bundle_contract": false,
+    "implementation_commit_matches_build_manifest": true,
+    "critical_blob_cross_match": true,
+    "contract_hash_matches_lock": true,
+    "parent_sa0_binding_consistent": true
+  },
+  "zero_science": {
+    "scientific_workload": "NOT_RUN",
+    "model_loaded": false,
+    "shader_compile": "NOT_PERFORMED",
+    "shader_modules_created": 0,
+    "compute_pipelines_created": 0,
+    "dispatches_submitted": 0,
+    "successor_kernel_implemented": false,
+    "q2_q3_execution": false
+  },
+  "environment": {
+    "os": "Microsoft Windows 11 Home Single Language",
+    "os_version": "10.0.26200",
+    "cpu": "Intel(R) Core(TM) Ultra 7 258V",
+    "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "windows_driver": "32.0.101.8860",
+    "vulkan_driver_info": "101.8860",
+    "vulkan_loader": "1.4.313",
+    "vulkan_device_api": "1.4.348",
+    "power_scheme": "Balanced",
+    "q3_driver_match": true
+  },
+  "baseline_capabilities": {
+    "intel_vendor": true,
+    "arc_140v": true,
+    "compute_queue": true,
+    "timestamp_valid_bits": 64,
+    "compute_subgroup": true,
+    "subgroup_size": 32,
+    "max_compute_shared_memory_size_bytes": 49152,
+    "max_compute_workgroup_invocations": 1024,
+    "max_compute_workgroup_size": [
+      1024,
+      1024,
+      64
+    ],
+    "memory_heap_count": 1,
+    "memory_type_count": 4,
+    "heap0_size_bytes": 19332261396,
+    "baseline_gate": true
+  },
+  "optional_capabilities": {
+    "subgroup_extended_types": true,
+    "subgroup_size_control": true,
+    "compute_full_subgroups": true,
+    "min_subgroup_size": 16,
+    "max_subgroup_size": 32,
+    "max_compute_workgroup_subgroups": 64,
+    "storage_buffer_8bit_access": true,
+    "storage_buffer_16bit_access": true,
+    "shader_float16": true,
+    "shader_int8": true,
+    "cooperative_matrix_khr": true,
+    "cooperative_matrix_scope": "SUBGROUP",
+    "cooperative_matrix_property_count": 4,
+    "cooperative_matrix_properties": [
+      {
+        "M": 8,
+        "N": 16,
+        "K": 16,
+        "A": "FLOAT16",
+        "B": "FLOAT16",
+        "C": "FLOAT32",
+        "Result": "FLOAT32"
+      },
+      {
+        "M": 8,
+        "N": 16,
+        "K": 32,
+        "A": "UINT8",
+        "B": "UINT8",
+        "C": "UINT32",
+        "Result": "UINT32"
+      },
+      {
+        "M": 8,
+        "N": 16,
+        "K": 32,
+        "A": "SINT8",
+        "B": "SINT8",
+        "C": "SINT32",
+        "Result": "SINT32"
+      },
+      {
+        "M": 8,
+        "N": 16,
+        "K": 16,
+        "A": "FLOAT16",
+        "B": "FLOAT16",
+        "C": "FLOAT16",
+        "Result": "FLOAT16"
+      }
+    ],
+    "cooperative_matrix_nv": false
+  },
+  "interpretation": {
+    "primary_sa_h1a": "SUPPORTED_TO_PROCEED_TO_PREREGISTRATION",
+    "subgroup_path": "AVAILABLE",
+    "subgroup_size_control_path": "AVAILABLE",
+    "fp16_int8_path": "AVAILABLE",
+    "cooperative_matrix_path": "AVAILABLE_AS_OPTIONAL_RESEARCH_ROUTE_NOT_PRIMARY_PROOF",
+    "caveat": "Capability presence establishes implementability options, not performance benefit. Q4_K/Q6_K packed dequant/dataflow compatibility with cooperative matrices is not yet established and must not be assumed."
+  },
+  "decision": {
+    "sa0_capability": "PASS",
+    "sa0_complete": true,
+    "sa1_preregistration_permitted": true,
+    "successor_kernel_implementation_permitted": false,
+    "target_model_execution_permitted": false,
+    "q3_reopen_permitted": false
+  },
+  "next": "SA1-P specification-only component-study preregistration: freeze exact batch-1 Q4_K/Q6_K shapes, baseline kernel identity, component metric/timing method, correctness tolerance, performance gate, resource budget, capability route(s), falsification and stop rule before any successor kernel implementation."
+}

@@ -1027,3 +1027,11 @@ Target-local invocation at HEAD `fd7bde8b63ac65abe2c3193c52eb1ded398d454c` stopp
 Classification: `F0_META_TEST_GOVERNANCE_STATE_DRIFT`. No BuildOnly, Vulkan capability query, model load, shader execution, target benchmark or successor implementation occurred.
 Repair scope: test-only governance-state assertion plus this append-only lineage entry. Probe source, build runner, capability runner, SA0-CAP contract and all scientific/runtime files remain byte-identical.
 Next: rerun target-local static QA on the repair HEAD. Only PASS permits the already-frozen zero-science capability preflight.
+
+
+## 2026-09-21 — SA0-CAP exact-device adjudication PASS
+Returned bundle SHA256 `C272F50AA5730D417BC0234127F72E345A4168F922794783FE6743CDD0C91570`, 7,820 bytes, five artifacts. Raw capability hash, BuildOnly manifest hash, implementation commit, frozen contract and critical Git-blob chain all cross-validate; repository verification matches 6/6 critical blobs at `e32ed1ccfe0d6e675e3186af5ca7db606692bd98`.
+Zero-science boundary holds: no model load, no shader compile/module/pipeline, no dispatch, no Q2/Q3 execution and no successor kernel implementation.
+Exact Arc 140V capability PASS: Vulkan device API 1.4.348, compute queue, 64 timestamp-valid bits, subgroup size 32, subgroup extended types, subgroup-size-control 16-32, computeFullSubgroups, 8/16-bit storage, FP16/INT8, 49,152-byte compute shared memory and 1,024 max workgroup invocations. VK_KHR_cooperative_matrix is exposed with four subgroup-scope combinations including FP16->FP32 and signed/unsigned INT8->INT32 forms.
+Decision: `SA0_CAP_PASS`; SA0 COMPLETE. These capabilities establish implementation options but no performance advantage. Cooperative matrix remains optional because compatibility/benefit for packed Q4_K/Q6_K dequant dataflow is not yet established.
+SA1-P specification-only preregistration is now permitted. Successor kernel implementation=false; target model execution=false; Q3 reopen forbidden.

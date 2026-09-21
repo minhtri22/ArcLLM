@@ -2,7 +2,7 @@
   "phase": "SA0-DECODE-ARCHITECTURE-CAUSAL-CAPABILITY-QUALIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "SA0_CAP_READY_FOR_TARGET_LOCAL_ZERO_SCIENCE",
+  "status": "SA0_CAP_PASS_SA1P_PREREGISTRATION_PERMITTED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Run py -3 tests/test_sa0_capability_package.py, then run run_sa0_capability_preflight.ps1 on the exact Core Ultra 7 258V + Arc 140V target. Return results/sa0_capability_return_to_chatgpt.zip. SA1-P remains blocked pending independent adjudication.",
+  "next_on_success": "Open SA1-P specification-only component-study preregistration. Do not implement a successor GEMM kernel until SA1-P independent QA and implementation lock pass.",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -491,21 +491,21 @@
     "next_step": "SA0_SPECIFICATION_ONLY_CAUSAL_CAPABILITY_QUALIFICATION"
   },
   "sa0": {
-    "status": "SA0_CAP_READY_FOR_TARGET_LOCAL_ZERO_SCIENCE",
+    "status": "SA0_COMPLETE",
     "document": "docs/SA0_DECODE_ARCHITECTURE_CAUSAL_CAPABILITY_QUALIFICATION.md",
     "contract": "config/sa0_decode_architecture_qualification_v0.1.json",
     "qa_artifact": "artifacts/SA0/SA0_SPECIFICATION_QA_v0.1.json",
     "causal_qualification": "PASS",
     "static_hardware_feasibility": "PASS",
-    "exact_device_optional_feature_capability": "READY_FOR_TARGET_LOCAL_ZERO_SCIENCE",
+    "exact_device_optional_feature_capability": "PASS",
     "selected_primary_subhypothesis": "SA-H1a",
     "fusion_only_primary_explanation": "REJECTED",
     "event_ledger_direct_transfer": "REJECTED",
     "successor_implementation_authorized": false,
     "target_model_execution_authorized": false,
-    "next_step": "SA0-CAP",
+    "next_step": "SA1-P",
     "capability_probe": {
-      "status": "STATIC_AUDIT_PASS_READY_FOR_TARGET_LOCAL",
+      "status": "PASS_ADJUDICATED",
       "contract": "config/sa0_capability_preflight_v0.1.json",
       "implementation_doc": "docs/SA0_CAPABILITY_PREFLIGHT_IMPLEMENTATION.md",
       "source": "src/sa0_capability_probe.cpp",
@@ -517,9 +517,18 @@
       "shader_execution_permitted": false,
       "successor_kernel_implementation_permitted": false,
       "target_benchmark_permitted": false,
-      "exact_device_execution_status": "READY_NOT_RUN",
+      "exact_device_execution_status": "PASS",
       "static_audit": "artifacts/SA0/SA0_CAP_IMPLEMENTATION_STATIC_AUDIT_v0.1.json",
-      "github_ci": "F0_BEFORE_STEPS"
+      "github_ci": "F0_BEFORE_STEPS",
+      "returned_bundle_sha256": "C272F50AA5730D417BC0234127F72E345A4168F922794783FE6743CDD0C91570",
+      "adjudication": "artifacts/SA0/SA0_CAP_ADJUDICATION_v0.1.json",
+      "adjudication_document": "docs/SA0_CAP_ADJUDICATION.md"
     }
+  },
+  "sa1": {
+    "status": "PREREGISTRATION_PERMITTED_NOT_YET_FROZEN",
+    "implementation_permitted": false,
+    "target_model_execution_permitted": false,
+    "next": "SA1-P specification-only component-study preregistration"
   }
 }

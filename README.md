@@ -138,3 +138,10 @@ The current ArcLLM architecture remains closed and no successor kernel or target
 The zero-science exact-device capability probe is now **implementation-static-locked**. It performs Vulkan physical-device queries only and cannot load the model, create shader modules/pipelines or submit compute dispatches.
 
 Run the target-local preflight and return `results/sa0_capability_return_to_chatgpt.zip` for independent adjudication. SA1-P remains closed until that evidence is accepted.
+
+
+### SA0-CAP adjudicated
+
+Exact-device SA0-CAP is **PASS**. The Arc 140V exposes the required baseline Vulkan compute/subgroup/timestamp/memory capabilities and optional subgroup-size-control, FP16/INT8 and KHR cooperative-matrix routes.
+
+SA0 is complete. The next permitted work is **SA1-P specification-only component-study preregistration**. No successor kernel or target-model run is authorized yet.
