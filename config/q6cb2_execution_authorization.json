@@ -1,10 +1,10 @@
 {
-  "schema": "arcllm.q6cb2.execution_authorization.v0.1",
+  "schema": "arcllm.q6cb2.execution_authorization.v0.2",
   "date": "2026-09-21",
   "decision": "Q6CB2_FROZEN_IDENTIFICATION_AUTHORIZED",
   "authorization_marker": "Q6CB1_SCIENTIFIC_EXECUTION_AUTHORIZED",
   "scope": "Q6CB2_IDENTIFICATION_ONLY",
-  "authorization_parent_head": "6e424c82741ff61cfcec4dfd99e1311533fc9ac5",
+  "authorization_parent_head": "ce3455f65193f83709ae3a977b074cba652b6cb6",
   "execution_contract": {
     "path": "config/q6cb1_execution_contract_v0.1.json",
     "git_blob": "c2a541dda5bc01ed473644f8c9f232cfc788e953"
@@ -410,7 +410,9 @@
     "adaptive_fixture_substitution_permitted": false,
     "threshold_or_rule_change_permitted": false,
     "implementation_change_permitted": false,
-    "partial_outcome_inspection_before_partition_completion_permitted": false
+    "partial_outcome_inspection_before_partition_completion_permitted": false,
+    "manual_direct_harness_invocation_permitted": false,
+    "authorized_entrypoint": "run_q6cb2_identification.ps1"
   },
   "hard_environment_contract": {
     "cpu": "Intel(R) Core(TM) Ultra 7 258V",
@@ -456,5 +458,21 @@
     "authorization_file": null,
     "rule": "Only post-Q6CB2 independent adjudication may determine eligibility; separate explicit authorization required."
   },
-  "next": "EXECUTE_EXACTLY_ONE_FROZEN_Q6CB2_IDENTIFICATION_PARTITION_ON_LOCKED_TARGET"
+  "next": "PULL_AND_RUN_ONLY_RUN_Q6CB2_IDENTIFICATION_PS1_ON_LOCKED_TARGET",
+  "authorization_revision": 2,
+  "supersedes_unconsumed_authorization": {
+    "commit": "a20bd784413f40b8d3e590f70c358a9936318590",
+    "git_blob": "7ab2b638f9118eaa4e50a3dd0a699bfbc560946e",
+    "consumed": false,
+    "reason": "OPERATOR_INTERFACE_REISSUE_TO_BIND_PREAUDITED_ONE_SHOT_PS1_RUNNER_NO_SCIENCE_CHANGE"
+  },
+  "execution_runner": {
+    "path": "run_q6cb2_identification.ps1",
+    "git_blob": "fa82d7023d0f94de2572df852f0d3a2f9dab6c91",
+    "implementation_commit": "90f1cea3fe73d2f956f0e1df4c350c72d32498ef",
+    "static_qa": "artifacts/Q6CB/Q6CB2_RUNNER_STATIC_QA_v0.1.json",
+    "static_qa_git_blob": "3302346cdb5b2859ff6e83f848cba0f5c9559f45",
+    "static_qa_result": "PASS_ZERO_SCIENCE_RUNNER_STATIC_QA",
+    "only_authorized_entrypoint": true
+  }
 }
