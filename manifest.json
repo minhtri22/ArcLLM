@@ -2,7 +2,7 @@
   "phase": "Q6CB-1-SPECIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "Q6CB1_IMPLEMENTATION_SOURCE_AUDIT_PASS_BUILDONLY_PENDING",
+  "status": "Q6CB1_IMPLEMENTATION_SEMANTIC_INVARIANT_REPAIR_REBUILD_PENDING",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -610,7 +610,7 @@
     "end_to_end_applicability": "NOT_TESTED"
   },
   "q6cb1": {
-    "status": "Q6CB1_IMPLEMENTATION_SOURCE_AUDIT_PASS_BUILDONLY_PENDING",
+    "status": "Q6CB1_IMPLEMENTATION_SEMANTIC_INVARIANT_REPAIR_REBUILD_PENDING",
     "branch": "research/q6-correctness-boundary",
     "program": "docs/Q6CB1_Q6_CORRECTNESS_BOUNDARY_PROGRAM.md",
     "contract": "config/q6cb1_specification_v0.1.json",
@@ -639,7 +639,7 @@
     "target_model_load_permitted": false,
     "sa1_rerun_permitted": false,
     "execution_authorization_file": null,
-    "next": "RUN_STATIC_UNIT_TEST_THEN_SHADER_COMPILE_AND_NATIVE_BUILDONLY_NO_EXECUTABLE_LAUNCH",
+    "next": "RERUN_STATIC_UNIT_AND_TARGET_LOCAL_BUILDONLY_ON_REPAIRED_EXACT_HEAD",
     "zero_science_qa": "PASS",
     "qa_artifact": "artifacts/Q6CB/Q6CB1_SPECIFICATION_QA_v0.1.json",
     "qa_document": "docs/Q6CB1_SPECIFICATION_QA.md",
@@ -658,17 +658,27 @@
     "implementation_authorization_commit": "d81ce5988df078ee3b7efe7a8009257af1b658f2",
     "implementation_lock": "config/q6cb1_implementation_lock_v0.1.json",
     "implementation_scope_commit": "42277644207197934be2ca57b26a59fde510fd40",
-    "buildonly_status": "PENDING_TARGET_LOCAL",
+    "buildonly_status": "PRIOR_BUILDONLY_INVALIDATED_BY_PRELOCK_IMPLEMENTATION_REPAIR",
     "source_blobs": {
       "canonical_reference": "6e4283b8a91606c868573c5250e06d803c442c74",
-      "fixture_generator": "30d54e484d9ad211bde04458fbdba42749c318dd",
-      "causal_harness": "a08cc86f864ce595801c8de4e32c128d340e14fb",
+      "fixture_generator": "34f1e71355448244dd09dab67e27c0cad4808826",
+      "causal_harness": "8f9d0d260348d3a6282ed5730b2e06179912b704",
       "gpu_packed": "502fdecc5d2d6462f1fbff0f2927c8ad7792202f",
       "gpu_expanded": "44ac2c4a4792b93b6a3406bafdf51a1f68b4e721",
       "compile_tool": "d1cfddeeda2a2e9c7bbd14c4f7a5a78ec7407c95",
       "build_tool": "dcf078f6054ad1cb6cf1a789deb9e007de36c077",
-      "static_test": "d5a13c34c9548a4a0ac6e63c3db52f015e7358d8"
+      "static_test": "4df5f8e1399b074073b46ab2bd521dd4f74d0b71"
     },
-    "prebuild_source_audit": "PASS_CONNECTOR_EQUIVALENT"
+    "prebuild_source_audit": "REPAIR_APPLIED_SEMANTIC_INVARIANT",
+    "semantic_invariant": {
+      "status": "IMPLEMENTED_PRE_SCIENCE_REBUILD_REQUIRED",
+      "purpose": "SEPARATE_H_SEM_FROM_PACKED_PATH_INTERACTION",
+      "expected_fields": [
+        "q",
+        "scale",
+        "d_bits"
+      ],
+      "observed_science": false
+    }
   }
 }
