@@ -1,10 +1,10 @@
 {
-  "schema": "arcllm.q6cb2.execution_authorization.v0.2",
+  "schema": "arcllm.q6cb2.execution_authorization.v0.3",
   "date": "2026-09-21",
   "decision": "Q6CB2_FROZEN_IDENTIFICATION_AUTHORIZED",
   "authorization_marker": "Q6CB1_SCIENTIFIC_EXECUTION_AUTHORIZED",
   "scope": "Q6CB2_IDENTIFICATION_ONLY",
-  "authorization_parent_head": "ce3455f65193f83709ae3a977b074cba652b6cb6",
+  "authorization_parent_head": "7d2de054d1b5544167dde0766c8a016261f83db0",
   "execution_contract": {
     "path": "config/q6cb1_execution_contract_v0.1.json",
     "git_blob": "c2a541dda5bc01ed473644f8c9f232cfc788e953"
@@ -458,21 +458,39 @@
     "authorization_file": null,
     "rule": "Only post-Q6CB2 independent adjudication may determine eligibility; separate explicit authorization required."
   },
-  "next": "PULL_AND_RUN_ONLY_RUN_Q6CB2_IDENTIFICATION_PS1_ON_LOCKED_TARGET",
-  "authorization_revision": 2,
+  "next": "PULL_AND_RUN_ONLY_REPAIRED_RUN_Q6CB2_IDENTIFICATION_PS1_ON_LOCKED_TARGET",
+  "authorization_revision": 3,
   "supersedes_unconsumed_authorization": {
-    "commit": "a20bd784413f40b8d3e590f70c358a9936318590",
-    "git_blob": "7ab2b638f9118eaa4e50a3dd0a699bfbc560946e",
+    "commit": "f6cddd5359761c21b6ac9e5037b794600487e395",
+    "git_blob": "9c9a577665346c43629a21b1b2b95ac56b83a42d",
     "consumed": false,
-    "reason": "OPERATOR_INTERFACE_REISSUE_TO_BIND_PREAUDITED_ONE_SHOT_PS1_RUNNER_NO_SCIENCE_CHANGE"
+    "reason": "BOUNDED_PRE_SCIENCE_F0_REPAIR_REPLACES_MISSING_VULKANINFO_ASSUMPTION_WITH_FROZEN_SA0_CAPABILITY_PROBE"
   },
   "execution_runner": {
     "path": "run_q6cb2_identification.ps1",
-    "git_blob": "fa82d7023d0f94de2572df852f0d3a2f9dab6c91",
-    "implementation_commit": "90f1cea3fe73d2f956f0e1df4c350c72d32498ef",
+    "git_blob": "35179043cbb2657e285944625a91aa74fc9f141f",
+    "implementation_commit": "df1ca199a66fb4380f991b3c29d3f1d949939eec",
     "static_qa": "artifacts/Q6CB/Q6CB2_RUNNER_STATIC_QA_v0.1.json",
-    "static_qa_git_blob": "3302346cdb5b2859ff6e83f848cba0f5c9559f45",
-    "static_qa_result": "PASS_ZERO_SCIENCE_RUNNER_STATIC_QA",
+    "static_qa_git_blob": "c483a8b42b9051601f8c06c73d56b37278537126",
+    "static_qa_result": "PASS_ZERO_SCIENCE_RUNNER_STATIC_QA_AFTER_BOUNDED_F0_REPAIR",
     "only_authorized_entrypoint": true
+  },
+  "environment_probe": {
+    "source": "src/sa0_capability_probe.cpp",
+    "source_git_blob": "7314988c0ca32f2a7d192f8a75d92490dd82d9fa",
+    "build_tool": "tools/build_sa0_cap.ps1",
+    "build_tool_git_blob": "8d0cce69fbf91e5cfa3dae0de9f92d611aebca29",
+    "role": "ZERO_SCIENCE_TARGET_ENVIRONMENT_QUERY_ONLY",
+    "shader_execution_permitted": false,
+    "model_load_permitted": false
+  },
+  "bounded_f0_repair": {
+    "stage": "Q6CB-2",
+    "consumed": 1,
+    "max": 1,
+    "trigger": "VULKANINFO_EXECUTABLE_ABSENT_BEFORE_ANY_SCIENTIFIC_FIXTURE",
+    "science_changed": false,
+    "further_same_stage_infrastructure_repair_permitted": false,
+    "on_next_f0": "STOP_INFRASTRUCTURE_UNSTABLE"
   }
 }
