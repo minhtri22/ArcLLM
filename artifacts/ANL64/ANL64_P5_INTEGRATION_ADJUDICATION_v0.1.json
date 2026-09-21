@@ -1,0 +1,146 @@
+{
+  "schema": "arcllm.anl64.p5.integration_adjudication.v0.1",
+  "date": "2026-09-21",
+  "verdict": "P5_INTEGRATION_PASS",
+  "returned_bundle": {
+    "filename": "anl64_p5_integration_return_to_chatgpt.zip",
+    "sha256": "44A3DE02CBFC25F9548E56D3C7A9F85E1247AD948C77029185E06C9EA9E0B73D",
+    "bytes": 17516,
+    "member_count": 11,
+    "members": [
+      "ANL64_P4_BUILDONLY_ADJUDICATION_v0.1.json",
+      "anl64_p5_execution_authorization_v0.1.json",
+      "anl64_p5_execution_lock_v0.1.json",
+      "anl64_p5_integration_validation_spec_v0.1.json",
+      "ANL64_P5_SPECIFICATION_QA_v0.1.json",
+      "candidate_W_C.json",
+      "candidate_W_S.json",
+      "P5_EXECUTION_ENVIRONMENT.json",
+      "P5_SEMANTIC_EVIDENCE.json",
+      "reference_W_C.json",
+      "reference_W_S.json"
+    ]
+  },
+  "F0_provenance": {
+    "pass": true,
+    "run_head": "d0e2e562f7c56d2d7e7af49358fc58d3c751e1da",
+    "authorization_blob": "4662ad4bdb5e517f08fa878b41bb824a1cdf8252",
+    "execution_lock_blob": "b7fc7c707fd10008805eff0e7e7b7b38c345c81d",
+    "specification_blob": "8f9d8984985a17541cd3dbbfb3f7cd04c84cf3c9",
+    "specification_qa_blob": "94c7f5448a6e71dee4e362ca974e4bd1947a694b",
+    "runner_blob": "5b03752a2a3924ceaa63b034e01d780e0fff4f75",
+    "semantic_extractor_blob": "495c9bdab5a74edc176553334ce26acdf24b044a",
+    "p4_adjudication_blob": "e9039de1af496cf724a390e8180ae7d97e99f091",
+    "bundled_git_blobs_reproduced": true,
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "model_bytes": 4683074048,
+    "cpu": "Intel(R) Core(TM) Ultra 7 258V",
+    "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "driver": "32.0.101.8860",
+    "candidate_executable_sha256": "1F45DA9D8CACE3CF78FE31B7B7041B6027CB41E180F7FC99E50E1127EA4F5451",
+    "raw_sha256": {
+      "reference_ws": "DFD2A233D3E86F700B7AEB980EDECF054F33714E8A14852BCE3440F28B0E3656",
+      "candidate_ws": "3F7B6EF5C2BBFA2BF5867A0E0B1A0D6F00BF306A066F6D723979866578417656",
+      "reference_wc": "A3DD2115E43C0C0303F03E2FF4E9A8317C825CC16B6079C85961A8E285482BFB",
+      "candidate_wc": "86E7756B47BAE2BC047297C91D71A9C3B681D611B61351AE214F9E2720C86526"
+    },
+    "measured_attempts_expected": 20,
+    "measured_attempts_present": 20,
+    "cells_complete": 4,
+    "note": "P5_EXECUTION_ENVIRONMENT.cell_exit_codes captured child stdout plus terminal 0 rather than a scalar exit code. This is a non-fatal orchestration telemetry defect: all four raw result files exist, contain the exact five measured attempts, report success/finite/dispatch PASS, and are independently bound by SHA256. It does not alter F0 or any semantic gate."
+  },
+  "F1_structure": {
+    "pass": true,
+    "all_20_attempts_success": true,
+    "all_20_final_logits_finite": true,
+    "all_20_dispatch_census_pass": true,
+    "candidate_plan": {
+      "nodes": 469,
+      "quant_linear_nodes": 215,
+      "fixed_q4_fast_nodes": 140,
+      "regions": 24104,
+      "fixed_q4_regions": 19936,
+      "metadata_bytes": 593504,
+      "metadata_budget_bytes": 2097152,
+      "hash_fnv1a64": "04f3f884c0fc4fcc"
+    },
+    "plan_hash_identical_across_workloads": true
+  },
+  "F2_prefill_control": {
+    "pass": true,
+    "paired_attempts": 10,
+    "first_token_equal_pairs": 10,
+    "mismatch_pairs": 0
+  },
+  "F3_decode_semantics": {
+    "pass": true,
+    "rule": "exact complete 32-token greedy sequence equality",
+    "paired_attempts": 10,
+    "exact_sequence_equal_pairs": 10,
+    "token_mismatch_pairs": 0,
+    "W_S_generated_hash": "f31d4bb9fe5eb9c3",
+    "W_C_generated_hash": "471519ddc45b232e",
+    "numeric_hash_cross_system_equality_required": false,
+    "observation": "Reference and ANL64 final-logits/final-hidden hashes differ, as allowed by the frozen specification because Q4_FAST changes FP32 reduction order; generated sequences are exactly identical."
+  },
+  "F4_repeatability": {
+    "pass": true,
+    "cells": {
+      "ARC_SAFE_REFERENCE/W-S": {
+        "sequence": true,
+        "final_logits_hash": true,
+        "final_hidden_hash": true
+      },
+      "ANL64_P4_LOCKED/W-S": {
+        "sequence": true,
+        "final_logits_hash": true,
+        "final_hidden_hash": true
+      },
+      "ARC_SAFE_REFERENCE/W-C": {
+        "sequence": true,
+        "final_logits_hash": true,
+        "final_hidden_hash": true
+      },
+      "ANL64_P4_LOCKED/W-C": {
+        "sequence": true,
+        "final_logits_hash": true,
+        "final_hidden_hash": true
+      }
+    },
+    "candidate_hashes": {
+      "W_S": {
+        "final_logits": "a95a2aac1fcab926",
+        "final_hidden": "00ab8bffe0066bfa"
+      },
+      "W_C": {
+        "final_logits": "e61e413123c96e5d",
+        "final_hidden": "a148de801d43f994"
+      }
+    },
+    "reference_hashes": {
+      "W_S": {
+        "final_logits": "bc5edace970bedb5",
+        "final_hidden": "8b0ca3c132d06f7c"
+      },
+      "W_C": {
+        "final_logits": "e1e80da3ad7272c4",
+        "final_hidden": "d4e6780d304f1a46"
+      }
+    }
+  },
+  "performance_quarantine": {
+    "performance_fields_extracted": false,
+    "performance_fields_decision_role": "NONE",
+    "p5_timing_reusable_for_p6": false,
+    "p6_requires_fresh_execution": true,
+    "no_performance_claim_from_p5": true
+  },
+  "final_adjudication": {
+    "classification": "P5_INTEGRATION_PASS",
+    "current_architecture_semantic_integration_supported": true,
+    "p6_specification_eligible": true,
+    "p6_execution_authorized": false,
+    "production_mutation_authorized": false
+  },
+  "next": "P6_MATCHED_END_TO_END_CONFIRMATION_SPECIFICATION_ONLY"
+}
