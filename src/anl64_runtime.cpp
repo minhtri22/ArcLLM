@@ -526,7 +526,7 @@ int main(int argc,char**argv){
 
         std::ofstream o(out,std::ios::binary);if(!o)throw std::runtime_error("cannot write Q2 ArcLLM result JSON");
         o<<std::setprecision(15);
-        o<<"{\n  \"schema\":\"arcllm.q2.arcllm_cell.v1\",\n";
+        o<<"{\n  \"schema\":\"arcllm.anl64.runtime_cell.v0.1\",\n";
         o<<"  \"system\":\"ANL64\",\"workload\":\""<<workload<<"\",\"implementation_commit\":\""<<p8g_escape(implementation_commit)<<"\",\n";
         o<<"  \"anl64_plan\":{\"nodes\":"<<anl64_plan.nodes.size()
          <<",\"quant_linear_nodes\":"<<anl64_plan.quant_linear_nodes
@@ -561,7 +561,7 @@ int main(int argc,char**argv){
         return 0;
     }catch(const std::exception&e){
         std::ofstream o(out,std::ios::binary);
-        if(o)o<<"{\n  \"schema\":\"arcllm.q2.arcllm_cell.v1\",\n  \"status\":\"ERROR\",\n  \"error\":\""<<p8g_escape(e.what())<<"\"\n}\n";
+        if(o)o<<"{\n  \"schema\":\"arcllm.anl64.runtime_cell.v0.1\",\n  \"status\":\"ERROR\",\n  \"error\":\""<<p8g_escape(e.what())<<"\"\n}\n";
         std::cerr<<"Q2 ArcLLM error: "<<e.what()<<"\n";return 2;
     }
 }
