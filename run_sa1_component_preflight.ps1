@@ -82,6 +82,6 @@ $Lock=[ordered]@{
  next="Return bundle for independent adjudication. Do not run run_sa1_component_q4.ps1."
 }
 $LockPath=Join-Path $Results "sa1_k1_preflight_lock.json";[IO.File]::WriteAllText($LockPath,($Lock|ConvertTo-Json -Depth 12),(New-Object Text.UTF8Encoding($false)))
-$Zip=Join-Path $Results "sa1_k1_preflight_return_to_chatgpt.zip";if(Test-Path$Zip){Remove-Item -Force $Zip}
+$Zip=Join-Path $Results "sa1_k1_preflight_return_to_chatgpt.zip";if(Test-Path $Zip){Remove-Item -Force $Zip}
 Compress-Archive -Path @($Raw,$LockPath,$ShaderBuild,$NativeBuild,$Exe,$Base,$Cand,(Join-Path $Root "shaders\sa1_q4k_subgroup_splitk.comp"),(Join-Path $Root "config\sa1_k1_implementation_contract_v0.1.json"),(Join-Path $Root "config\sa1p_implementation_lock_v0.1.json")) -DestinationPath $Zip -Force
 Write-Host "SA1-K1 ZERO-MEASUREMENT PREFLIGHT PASS";Write-Host "bundle=$Zip";Write-Host "SHA256=$(Get-Sha256 $Zip)";Write-Host "MEASUREMENT REMAINS FORBIDDEN"

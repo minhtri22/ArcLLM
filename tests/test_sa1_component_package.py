@@ -36,5 +36,6 @@ req("function H(" not in pre and "function H(" not in run,"PowerShell h/Get-Hist
 req("function Get-Sha256" in pre and "function Get-Sha256" in run,"explicit SHA helper required")
 req("[switch]$PackageExisting" in pre and "reusing existing correctness/build artifacts" in pre,"packaging-only recovery required")
 req("implementation source drift since executed preflight" in pre,"recovery must bind executed implementation blobs")
+req("Test-Path$" not in pre and "Get-Content$" not in pre and "Get-FileHash$" not in pre and "Remove-Item$" not in pre and "Compress-Archive$" not in pre,"PowerShell cmdlet/variable tokenization spacing")
 req(man["sa1"]["q4_implementation_permitted"] is True and man["sa1"]["q6_implementation_permitted"] is False and man["sa1"]["component_measurement_permitted"] is False,"manifest gates")
 print("SA1_K1_STATIC_QA_PASS")
