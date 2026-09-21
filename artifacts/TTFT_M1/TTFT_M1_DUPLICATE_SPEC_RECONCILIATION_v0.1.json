@@ -1,0 +1,87 @@
+{
+  "schema": "arcllm.ttft_m1.duplicate_spec_reconciliation.v0.1",
+  "date": "2026-09-22",
+  "result": "CANONICAL_P0_P5_PACKAGE_PRESERVED_LATE_DUPLICATES_NON_AUTHORITATIVE",
+  "chronology": {
+    "canonical_p1_started_commit": "e64bc670fa47f2e5019d8397348e274bdb717470",
+    "canonical_p5_qa_pass_commit": "928ced6c0134666a8221a98db6832fd66a6ffde1",
+    "canonical_p6_gate_commit": "0e61cc35fd2a7f1461dedcc3ef96d75691cf3384",
+    "first_late_duplicate_commit": "16d2a7616feb2e4bcd94d9000b88a2d37e72aad9",
+    "rule": "Package frozen and QA-passed first remains authoritative. Later parallel specifications cannot supersede it without explicit amendment and re-QA."
+  },
+  "canonical": {
+    "p1_register": [
+      "config/arcllm_ttft_prior_art_register_v0.1.json",
+      "92682f51f97c9af87ce408629ff7c6f45d3468ac"
+    ],
+    "p1_review": [
+      "docs/research/arcllm-ttft-mechanism/PRIOR_ART_REVIEW.md",
+      "69a5cf641ca33d36a40f1694111d97a8298000d3"
+    ],
+    "p2_mapping": [
+      "docs/research/arcllm-ttft-mechanism/TTFT_PATH_MAPPING.md",
+      "7c57e7d789cd2672cb9fe9342df5a18065dc46bf"
+    ],
+    "p2_hypotheses": [
+      "config/arcllm_ttft_hypotheses_v0.1.json",
+      "559cf3a60789074045ac0c3f30c4982b99800707"
+    ],
+    "p3_contract": [
+      "config/arcllm_ttft_causal_decomposition_v0.1.json",
+      "66b6ca2bf1da1e05ddc416bf8f9d73074e8f3fdb"
+    ],
+    "p3_document": [
+      "docs/research/arcllm-ttft-mechanism/CAUSAL_DECOMPOSITION.md",
+      "ae33e94c8af15361e6ed5dcf804958ec9b3bab41"
+    ],
+    "p4_contract": [
+      "config/arcllm_ttft_falsification_contract_v0.1.json",
+      "fb856b27385278878114316ebd667b97fb38ba59"
+    ],
+    "p4_document": [
+      "docs/research/arcllm-ttft-mechanism/FALSIFICATION_AND_STOP.md",
+      "010c9ff3af0561998fd14949a84a8e6e8775ec04"
+    ],
+    "p5_qa": [
+      "artifacts/TTFT_M1/TTFT_M1_P5_ZERO_SCIENCE_QA_v0.1.json",
+      "234ea107f5d6e049a879acdea1a0c679bf0e566c"
+    ]
+  },
+  "late_duplicates_non_authoritative": [
+    [
+      "docs/research/arcllm-ttft-mechanism/P1_PRIOR_ART_AND_SOURCE_REVIEW.md",
+      "6d8ff2ea79fd6643c83be37ff5682c8d71173237"
+    ],
+    [
+      "config/arcllm_ttft_m1_prior_art_register_v0.1.json",
+      "547a033f32feef55a86053d5839c99b7ba49bd35"
+    ],
+    [
+      "config/arcllm_ttft_m1_hypotheses_v0.1.json",
+      "9b974c80dd99905d5163b2053c7328f65766e858"
+    ],
+    [
+      "docs/research/arcllm-ttft-mechanism/P2_MECHANISM_HYPOTHESES.md",
+      "cb6df7238d5e776478cc81f6e20954b44e82aedc"
+    ],
+    [
+      "config/arcllm_ttft_m1_causal_decomposition_v0.1.json",
+      "1d4b324bdab7a0db147adba21485f82319c49b8d"
+    ],
+    [
+      "docs/research/arcllm-ttft-mechanism/P3_CAUSAL_DECOMPOSITION.md",
+      "a8fc95d8362ad2d7d3ad23e74cddc88bf059bd71"
+    ],
+    [
+      "config/arcllm_ttft_m1_falsification_stop_v0.1.json",
+      "2717f4c66bed4d823178e8f619c17462b856e6a4"
+    ],
+    [
+      "docs/research/arcllm-ttft-mechanism/P4_FALSIFICATION_AND_STOP.md",
+      "1511a67fd613fedee198dc12f9863c522bff4bd2"
+    ]
+  ],
+  "execution_consumed_by_duplicates": false,
+  "scientific_data_consumed_by_duplicates": false,
+  "canonical_next": "P6_EXPLICIT_BOUNDED_DIAGNOSTIC_IMPLEMENTATION_AUTHORIZATION_GATE"
+}
