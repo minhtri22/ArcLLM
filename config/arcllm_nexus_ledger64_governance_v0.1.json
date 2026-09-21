@@ -3,7 +3,7 @@
   "date": "2026-09-21",
   "program_id": "ANL64",
   "branch": "research/arcllm-nexus-ledger64",
-  "status": "P4_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
+  "status": "P4_COMPLETE_PASS_P5_SPECIFICATION_AUTHORIZED",
   "lineage": {
     "path": "programs/arcllm_nexus_ledger64/lineage.md",
     "policy": "APPEND_ONLY",
@@ -63,14 +63,14 @@
   "target_execution_authorized": false,
   "scientific_measurement_authorized": false,
   "rescue_by_renaming": false,
-  "next": "RERUN_COMMITTED_RUN_ANL64_P4_BUILDONLY_PS1_FROM_STEP_1",
+  "next": "P5_COMPONENT_INTEGRATION_VALIDATION_SPECIFICATION_ONLY",
   "stage_state": {
     "P0": "COMPLETE",
     "P1": "COMPLETE",
     "P2": "COMPLETE_PASS",
     "P3": "COMPLETE_PASS",
-    "P4": "IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
-    "P5": "BLOCKED",
+    "P4": "COMPLETE_PASS",
+    "P5": "SPECIFICATION_AUTHORIZED_EXECUTION_BLOCKED",
     "P6": "BLOCKED",
     "P7": "BLOCKED"
   },
@@ -96,7 +96,9 @@
     "p4_implementation": false,
     "target_model_inference": false,
     "scientific_performance_measurement": false,
-    "p4_buildonly": true
+    "p4_buildonly": false,
+    "p5_specification": true,
+    "p5_execution": false
   },
   "p3": {
     "result": "P3_PASS_P4_BOUNDED_IMPLEMENTATION_ELIGIBLE",
@@ -113,7 +115,7 @@
     "authorization_blob": "c0a9c77d09c7da98103fc949ede182f117bd6329",
     "decision": "P4_BOUNDED_IMPLEMENTATION_AUTHORIZED",
     "implementation_authorized": false,
-    "buildonly_authorized": true,
+    "buildonly_authorized": false,
     "target_model_inference": false,
     "scientific_performance_measurement": false,
     "implementation_lock": "config/anl64_p4_implementation_lock_v0.2.json",
@@ -128,6 +130,11 @@
       "classification": "BUILDONLY_STATIC_QA_FALSE_NEGATIVE_NO_SCIENCE_CONSUMED",
       "artifact": "artifacts/ANL64/ANL64_P4_BUILDONLY_PREFLIGHT_ADJUDICATION_v0.1.json",
       "further_repair_permitted": false
-    }
+    },
+    "result": "P4_IMPLEMENTATION_AND_BUILDONLY_CLOSED_PASS",
+    "adjudication": "artifacts/ANL64/ANL64_P4_BUILDONLY_ADJUDICATION_v0.1.json",
+    "adjudication_blob": "e9039de1af496cf724a390e8180ae7d97e99f091",
+    "adjudication_document": "docs/research/arcllm-nexus-ledger64/P4_BUILDONLY_ADJUDICATION.md",
+    "adjudication_document_blob": "cee15c55121f318366749debb6741374c5e1d32b"
   }
 }
