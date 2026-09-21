@@ -251,3 +251,18 @@ The original lock v0.1 is retained as historical evidence and is superseded only
 Current state remains `P4_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING`.
 
 Next: rerun the revised committed `run_anl64_p4_buildonly.ps1` from step 1 and return the generated BuildOnly evidence bundle. P5 remains closed.
+
+
+## 2026-09-21 — P4 BUILDONLY REPAIR PACKAGE FINALIZED
+
+During final pre-rerun provenance audit, two bundle-bookkeeping references in the revised runner still named implementation lock v0.1 even though the runner correctly consumed lock v0.2. This was corrected before any rerun.
+
+No production, shader, model, GPU or measurement behavior changed.
+
+Final repaired BuildOnly bindings:
+- static test blob: `90ff3060f7fd809d8ea5d6159898a27e19874d6a`;
+- static QA v0.2 blob: `c3faaf04ef7f91adadd9dce93b95cf6d6cebe3ba`;
+- runner blob: `f33179a96f83868acc77e808a6fa508311e2fd7e`;
+- implementation lock v0.2 blob: `60b1428ad0f919df4fb3a993ccc289f5d5a003c2`.
+
+These values supersede the intermediate repair-package blob values in the immediately preceding lineage entry. The scientific/production blobs listed there remain unchanged.
