@@ -1153,3 +1153,13 @@ Formal classification: `Q6_STAGE_FAIL_CORRECTNESS` / `SA1_K2_Q6_CORRECTNESS_FAIL
 ## 2026-09-21 — SA1 formal closeout
 SA1 closed asymmetrically: Q4_K is `Q4_STAGE_PASS` with reproducible component uplift under the frozen contract; Q6_K, using the same mechanism/geometry, is `Q6_STAGE_FAIL_CORRECTNESS` before performance measurement. Thus SA1 supports mechanism efficacy for the frozen Q4_K component family while falsifying cross-quant generality of the unchanged mechanism to Q6_K under the frozen numerical contract. End-to-end applicability remains untested.
 Formal closeout artifact commit: `b70b1e0ea48c63b9cf1562e56fb12727b05d2ed9`. SA1 is immutable/closed. The only scientifically valid continuation is a new specification-only, independently preregistered research program addressing the Q6 correctness boundary; no new execution is opened by this closeout.
+
+
+## 2026-09-21 — Q6CB-1 opened specification-only after SA1 closeout
+Opened independent branch `research/q6-correctness-boundary` from exact SA1-closeout HEAD `3352dbc841a06f1cab8e70f9d8353d683c411ccc`.
+Program: `Q6CB-1 — Q6 Correctness-Boundary Mechanism Study`.
+This is not an SA1 rescue: SA1 remains immutable and closed as `SA1_CLOSED_ASYMMETRIC_Q4_PASS_Q6_CORRECTNESS_FAIL`; no Q6CB outcome can reclassify SA1, mutate its thresholds, rerun its Q6 fixtures as fresh evidence, authorize Q6 performance timing, or load the target model.
+Competing hypotheses are preregistered rather than assuming reduction topology is causal: reduction-topology × conditioning interaction (H-RTCI), packed-dequant access interaction (H-PDI), device/subgroup arithmetic contribution (H-DSA), hidden semantic/reference defect (H-SEM), and no stable fresh boundary (H-NSB).
+The causal-identification design requires serial/high-precision references, deterministic CPU fixed-tree emulation, GPU direct-packed split-32, GPU pre-expanded split-32 diagnostic control, conditioning-strata contrasts, and an independent Q6 semantic invariant.
+Exact SA1 Q6 cells, banks 0/3, inputs/weights/outputs and random seeds are excluded from future Q6CB primary/confirmatory evidence. Identification and confirmatory partitions must both be frozen before the first scientific execution.
+Current state: specification files only. Causal harness implementation, scientific CPU/GPU execution, fresh fixture execution, timing, target-model load and SA1 rerun are all forbidden pending zero-science QA and later explicit locks/authorization.
