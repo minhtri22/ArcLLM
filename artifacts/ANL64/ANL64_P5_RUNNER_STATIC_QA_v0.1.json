@@ -1,0 +1,55 @@
+{
+  "schema": "arcllm.anl64.p5.runner_static_qa.v0.1",
+  "date": "2026-09-21",
+  "result": "PASS_ZERO_SCIENCE_P5_RUNNER_STATIC_QA",
+  "scientific_execution": false,
+  "target_model_load": false,
+  "gpu_dispatch": false,
+  "performance_adjudication": false,
+  "bindings": {
+    "authorization_blob": "4662ad4bdb5e517f08fa878b41bb824a1cdf8252",
+    "specification_blob": "8f9d8984985a17541cd3dbbfb3f7cd04c84cf3c9",
+    "specification_qa_blob": "94c7f5448a6e71dee4e362ca974e4bd1947a694b",
+    "runner_blob": "5b03752a2a3924ceaa63b034e01d780e0fff4f75",
+    "semantic_extractor_blob": "495c9bdab5a74edc176553334ce26acdf24b044a",
+    "static_test_blob": "63ff914f398b036c52e819d219f95625cb0d018b"
+  },
+  "immutable_candidate": {
+    "runtime_blob": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+    "plan_blob": "157be15c63363ba2d55093af829ca68be9107e27",
+    "q4_fast_blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a"
+  },
+  "safe_reference_historical_identity": {
+    "implementation_commit": "43afd71161c4dc8c766c09c3b55d5eca48352bde",
+    "all_runtime_support_blobs_identical": true,
+    "all_16_shader_source_blobs_identical": true,
+    "compile_tool_identical": true,
+    "build_tool_identical": true
+  },
+  "checks": {
+    "authorization_semantic_execution_only": true,
+    "performance_adjudication_false": true,
+    "p6_false": true,
+    "exact_target_checked_before_science": true,
+    "exact_candidate_executable_hash_checked": true,
+    "exact_candidate_critical_spvs_checked": true,
+    "safe_reference_built_from_exact_historical_sources": true,
+    "safe_reference_16_shader_sources_historical_identity_verified": true,
+    "safe_reference_q4_q6_spvs_checked": true,
+    "frozen_execution_order_exact": true,
+    "four_cells_each_exactly_once": true,
+    "repetitions_one_warmup_five_measured": true,
+    "selective_rerun_absent": true,
+    "semantic_extractor_uses_allowlist": true,
+    "semantic_extractor_reads_no_timing_fields": true,
+    "semantic_extractor_full_32_token_equality_gate": true,
+    "semantic_extractor_plan_census_gate": true,
+    "raw_performance_fields_not_used_for_adjudication": true,
+    "p5_timing_marked_nonreusable_for_p6": true,
+    "result_bundle_includes_raw_and_semantic_evidence": true,
+    "production_source_mutation": false,
+    "shader_mutation": false
+  },
+  "execution_lock_eligible": true,
+  "next": "FREEZE_P5_EXECUTION_LOCK_THEN_EXECUTE_EXACTLY_ONCE"
+}
