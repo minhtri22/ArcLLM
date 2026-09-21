@@ -451,6 +451,8 @@ int main(int argc, char** argv) {
         q6cb::validate_fixture_spec(spec);
 
         const q6cb::Fixture fixture = q6cb::generate_fixture(spec);
+        const q6cb::SemanticInvariant semantic_invariant =
+            q6cb::verify_semantic_invariant(fixture);
         const std::vector<float> expanded =
             q6cb::expand_q6_rows(fixture.packed, spec.n, spec.rows);
 
@@ -502,6 +504,12 @@ int main(int argc, char** argv) {
           << ",\"stratum\":\"" << q6cb::stratum_name(spec.stratum) << "\"},\n";
         o << "\"device\":{\"name\":\"" << vk.properties.deviceName
           << "\",\"subgroup_size\":" << vk.subgroup.subgroupSize << "},\n";
+        o << "\"semantic_invariant\":{\"pass\":"
+          << (semantic_invariant.pass ? "true" : "false")
+          << ",\"total_elements\":" << semantic_invariant.total_elements
+          << ",\"q_mismatches\":" << semantic_invariant.q_mismatches
+          << ",\"scale_mismatches\":" << semantic_invariant.scale_mismatches
+          << ",\"d_mismatches\":" << semantic_invariant.d_mismatches << "},\n";
         o << "\"hashes\":{\"packed_fnv64\":\""
           << hex64(fnv1a64(fixture.packed.data(), fixture.packed.size()))
           << "\",\"x_fnv64\":\""
