@@ -1,0 +1,77 @@
+{
+  "schema": "arcllm.ttft_m1.p6_implementation_lock.v0.1",
+  "date": "2026-09-22",
+  "status": "P6_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
+  "authorization": {
+    "path": "config/arcllm_ttft_m1_p6_implementation_authorization_v0.1.json",
+    "blob": "03bf0f7ab3d2067c6aa1a9a04c8d6fc9072baaa7",
+    "decision": "P6_BOUNDED_DIAGNOSTIC_IMPLEMENTATION_AND_BUILDONLY_AUTHORIZED"
+  },
+  "canonical_bindings": {
+    "p3_contract_blob": "66b6ca2bf1da1e05ddc416bf8f9d73074e8f3fdb",
+    "p4_contract_blob": "fb856b27385278878114316ebd667b97fb38ba59",
+    "p5_qa_blob": "234ea107f5d6e049a879acdea1a0c679bf0e566c",
+    "duplicate_reconciliation_blob": "392f02cac42a2b3f52f2cacf92580a918529e180"
+  },
+  "exact_git_blobs": {
+    "src/ttft_m1_diagnostic.cpp": "88d97ddb497bfddcec191358f1e21d982c5efccf",
+    "tools/compile_ttft_m1_p6_shaders.ps1": "c7b7777c2023da7f0ff7fe489f844bc66069ef43",
+    "tools/build_ttft_m1_p6.ps1": "1c65d419fb664889bcefc452c509628eff6858a6",
+    "tests/test_ttft_m1_p6_package.py": "ac1e0fdea2f16598bb1665b4430340d8295083bf",
+    "artifacts/TTFT_M1/TTFT_M1_P6_STATIC_QA_v0.1.json": "5174b0d0bc4cf80bca31ea005a3ee55d9ac0ab09",
+    "docs/research/arcllm-ttft-mechanism/P6_DIAGNOSTIC_IMPLEMENTATION.md": "3b13ffdd9a7b382d4143a36887d94d05b97e49b6",
+    "config/arcllm_ttft_m1_p6_implementation_authorization_v0.1.json": "03bf0f7ab3d2067c6aa1a9a04c8d6fc9072baaa7",
+    "artifacts/TTFT_M1/TTFT_M1_DUPLICATE_SPEC_RECONCILIATION_v0.1.json": "392f02cac42a2b3f52f2cacf92580a918529e180",
+    "config/arcllm_ttft_causal_decomposition_v0.1.json": "66b6ca2bf1da1e05ddc416bf8f9d73074e8f3fdb",
+    "config/arcllm_ttft_falsification_contract_v0.1.json": "fb856b27385278878114316ebd667b97fb38ba59",
+    "artifacts/TTFT_M1/TTFT_M1_P5_ZERO_SCIENCE_QA_v0.1.json": "234ea107f5d6e049a879acdea1a0c679bf0e566c"
+  },
+  "runner_git_blob": "ed32620591aeeb3942efcc220ec6a0bfec7d124b",
+  "immutable_parent_production": {
+    "src/q2_benchmark.cpp": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "src/anl64_runtime.cpp": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+    "src/p8c_segmented_access_correctness.cpp": "8432ca554b36a2167429b640c5ec6779cf2b3e6b",
+    "shaders/sa1_q4k_subgroup_splitk.comp": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a"
+  },
+  "frozen_diagnostic": {
+    "arms": [
+      "SP",
+      "SF",
+      "QP",
+      "QF"
+    ],
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "measured_attempts_per_cell": 5,
+    "common_prefill_dispatches": 441,
+    "decode_dispatches_per_step": 469,
+    "parent_p6_timing_reuse": 0
+  },
+  "H_ART": {
+    "static_first": true,
+    "common_shader_count": 16,
+    "exact_common_spv_match_required": true,
+    "q4fast_spv_expected_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+    "on_match": "H_ART_FALSIFIED_STATIC",
+    "on_mismatch": "H_ART_SUPPORTED_STATIC_STOP_TIMING"
+  },
+  "mutation_policy": {
+    "diagnostic_source_mutation_permitted": false,
+    "build_tool_mutation_permitted": false,
+    "static_test_mutation_permitted": false,
+    "production_source_mutation_permitted": false,
+    "existing_shader_mutation_permitted": false,
+    "canonical_spec_mutation_permitted": false
+  },
+  "execution_scope": {
+    "buildonly": true,
+    "executable_launch": false,
+    "target_model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "p7": false
+  },
+  "next": "RUN_COMMITTED_RUN_TTFT_M1_P6_BUILDONLY_PS1_AND_RETURN_BUNDLE"
+}
