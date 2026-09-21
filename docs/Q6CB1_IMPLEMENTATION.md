@@ -85,3 +85,37 @@ The test checks the authorization boundary, SA1 immutability, five-arm census, c
 No fresh fixture has been generated or executed by this implementation work. No GPU scientific dispatch has been authorized. No Q6CB outcome has been observed.
 
 Target-local shader compile/native BuildOnly evidence remains a separate non-scientific implementation validation step before final static-equivalent adjudication and exact implementation lock.
+
+
+## Exact target-local BuildOnly command
+
+From the frozen ArcLLM checkout on the Windows target:
+
+```powershell
+Set-Location "D:\WORK\RESEARCH\6.LTR\ArcLLM"
+
+git fetch origin
+git checkout research/q6-correctness-boundary
+git pull --ff-only origin research/q6-correctness-boundary
+
+git rev-parse HEAD
+
+py -3 .\tests\test_q6cb1_package.py
+
+powershell.exe -NoProfile -ExecutionPolicy Bypass `
+  -File .\tools\compile_q6cb1.ps1
+
+powershell.exe -NoProfile -ExecutionPolicy Bypass `
+  -File .\tools\build_q6cb1.ps1
+
+Get-Content .\artifacts\Q6CB\Q6CB1\build\shader_build.json -Raw
+Get-Content .\artifacts\Q6CB\Q6CB1\build\native_build.json -Raw
+
+Get-FileHash .\artifacts\Q6CB\Q6CB1\build\q6cb_t32_gpu_packed.spv -Algorithm SHA256
+Get-FileHash .\artifacts\Q6CB\Q6CB1\build\q6cb_t32_gpu_expanded.spv -Algorithm SHA256
+Get-FileHash .\artifacts\Q6CB\Q6CB1\build\q6cb_causal_harness.exe -Algorithm SHA256
+```
+
+The command intentionally does **not** launch `q6cb_causal_harness.exe`.
+
+Do not create an execution-authorization file and do not invoke the executable manually. Return only the static-test output, shader/native BuildOnly output and the two provenance JSON files for independent adjudication.
