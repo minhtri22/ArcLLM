@@ -1,0 +1,144 @@
+{
+  "schema": "arcllm.anl64.p4.implementation_authorization.v0.1",
+  "date": "2026-09-21",
+  "decision": "P4_BOUNDED_IMPLEMENTATION_AUTHORIZED",
+  "parent_head": "9de34950ebdea51d67a606284e75081cc999e649",
+  "prerequisites": {
+    "p2_contract_blob": "e7d00d6d1deb516347fd8919e2ed27eeeaeb84a6",
+    "p2_qa_blob": "91884d476f3d14f9c56aa735cc11f4bcf6dd1f4f",
+    "p3_contract_blob": "374d8f50206757a7b5c5fe5b76a7acb177653b8e",
+    "p3_document_blob": "d46eb2ee13c7b54bee85a29d7462ec22ba75d6d7",
+    "p3_qa_blob": "ec576a35344d6da2f4c66e6c042a3f4fa340aa0c",
+    "p3_result": "P3_PASS_P4_BOUNDED_IMPLEMENTATION_ELIGIBLE"
+  },
+  "strategy": {
+    "isolation": "NEW_ANL64_RUNTIME_DO_NOT_MUTATE_LEGACY_Q2_RUNTIME",
+    "base_runtime": {
+      "path": "src/q2_benchmark.cpp",
+      "blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663"
+    },
+    "q4_fast_shader": {
+      "path": "shaders/sa1_q4k_subgroup_splitk.comp",
+      "blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+      "mutation_permitted": false
+    },
+    "q4_safe_shader": {
+      "path": "shaders/p7_q4k_gemm_2d.comp",
+      "blob": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a",
+      "mutation_permitted": false
+    }
+  },
+  "implementation_allowlist": [
+    "src/anl64_plan.hpp",
+    "src/anl64_runtime.cpp",
+    "tools/compile_anl64_p4_shaders.ps1",
+    "tools/build_anl64_p4.ps1",
+    "tests/test_anl64_p4_package.py",
+    "run_anl64_p4_buildonly.ps1",
+    "docs/research/arcllm-nexus-ledger64/P4_IMPLEMENTATION.md",
+    "artifacts/ANL64/ANL64_P4_STATIC_QA_v0.1.json",
+    "config/anl64_p4_implementation_lock_v0.1.json",
+    "config/arcllm_nexus_ledger64_governance_v0.1.json",
+    "manifest.json",
+    "programs/arcllm_nexus_ledger64/lineage.md"
+  ],
+  "production_scope": {
+    "new_runtime": "src/anl64_runtime.cpp",
+    "planner_header": "src/anl64_plan.hpp",
+    "fixed_q4_fast_plan_nodes": 140,
+    "q4_fast_roles": [
+      "q_proj",
+      "k_proj",
+      "o_proj",
+      "ffn_gate",
+      "ffn_up"
+    ],
+    "layers": 28,
+    "decode_batch_only": true,
+    "prefill_q4_fast": false,
+    "q4_fast_spv_name": "anl64_q4_fast.spv",
+    "safe_paths_unchanged": [
+      "token_embedding",
+      "v_proj",
+      "q_rope",
+      "k_rope",
+      "kv_store",
+      "cached_gqa",
+      "attn_residual",
+      "ffn_rmsnorm",
+      "swiglu",
+      "ffn_down",
+      "ffn_residual",
+      "output_norm",
+      "lm_head"
+    ],
+    "q6_optimization": false,
+    "fusion_change": false,
+    "dependency_reorder": false
+  },
+  "planner_scope": {
+    "representation": "STATIC_ROW_REGION64_PLAN",
+    "build_time": "MODEL_LOAD_ONLY",
+    "region_width_rows": 64,
+    "fixed_q4_regions": 19936,
+    "total_quant_linear_regions": 24104,
+    "max_metadata_bytes": 2097152,
+    "per_token_discovery": false,
+    "per_token_sort": false,
+    "per_token_region_rebuild": false,
+    "online_autotuning": false
+  },
+  "memory_scope": {
+    "weight_repack": false,
+    "predequant_cache": false,
+    "duplicate_weight_buffers": false,
+    "explicit_prefetch": false,
+    "additional_weight_copy_bytes": 0
+  },
+  "buildonly_gate": {
+    "static_test_required": true,
+    "shader_compile_required": true,
+    "native_build_required": true,
+    "executable_launch_permitted": false,
+    "target_model_load_permitted": false,
+    "gpu_dispatch_permitted": false,
+    "performance_measurement_permitted": false,
+    "candidate_shader_source_must_match_blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "glslang_release": "16.5.0",
+    "target_env": "vulkan1.2"
+  },
+  "static_assertions": [
+    "legacy src/q2_benchmark.cpp exact blob unchanged",
+    "legacy Q4 safe and Q4_FAST shader exact blobs unchanged",
+    "prefill contains zero anl64_q4_fast.spv references",
+    "decode contains exactly five Q4_FAST insertion sites inside layer loop",
+    "Q4_FAST sites are q_proj/k_proj/o_proj/ffn_gate/ffn_up only",
+    "Q4_FAST dispatch x = rows/4",
+    "Q4_FAST push contract remains PCGemm",
+    "planner validates 469 PlanNodes, 215 quant-linear nodes, 140 fixed Q4_FAST nodes, 24,104 Region64 descriptors, 19,936 fixed-Q4 regions",
+    "planner metadata estimated bytes <= 2 MiB",
+    "no new performance timers/thresholds"
+  ],
+  "forbidden": [
+    "modify legacy q2 runtime",
+    "modify inherited Q4/Q6 shaders",
+    "optimize Q6",
+    "change quantization",
+    "change model semantics",
+    "fusion redesign",
+    "repack weights",
+    "prefetch intervention",
+    "online autotuning",
+    "target inference",
+    "performance benchmark",
+    "open P5"
+  ],
+  "authorization": {
+    "implementation": true,
+    "buildonly": true,
+    "target_model_inference": false,
+    "scientific_performance_measurement": false,
+    "p5": false
+  },
+  "next": "IMPLEMENT_EXACT_ALLOWLIST_THEN_STATIC_QA_AND_TARGET_LOCAL_BUILDONLY"
+}
