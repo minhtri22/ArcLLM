@@ -1246,3 +1246,12 @@ The repaired Q6CB-2 runner failed a second time during pre-science environment v
 The stage had already consumed its single permitted infrastructure repair after the prior `vulkaninfo.exe unavailable` F0. Per `config/q6cb_termination_goal_alignment_v0.1.json`, a second F0 in the same stage mandates `STOP_INFRASTRUCTURE_UNSTABLE`.
 Static diagnosis indicates the repaired runner supplied `Arc 140V` to a contiguous substring matcher while the previously qualified Vulkan device name is `Intel(R) Arc(TM) 140V GPU`. This explanation is recorded but intentionally not repaired because the repair budget is exhausted.
 No scientific Q6CB-2 observation exists; F1-F6 are not adjudicated. Q6CB-2 authorization is revoked, Q6CB-3 remains closed, and no further Q6CB execution or renamed rescue continuation is permitted.
+
+
+## 2026-09-21 — ArcLLM program-level decision: STOP_CURRENT_SUCCESSOR_LINE
+The program-level review considered the full ArcLLM chain rather than treating Q6CB infrastructure termination as a causal result.
+The legacy architecture remains closed at `FEASIBLE_NO_DEMONSTRATED_ADVANTAGE`. SA-H1 remained the only bounded successor candidate. SA0 established target capability, SA1 established a strong Q4 component PASS, but the unchanged Q6 mechanism failed correctness and SA1 explicitly denied target-model integration or an end-to-end claim.
+Q6CB then terminated `STOP_INFRASTRUCTURE_UNSTABLE` before any valid scientific fixture, so it produced no causal mechanism result and cannot unlock the governance-required successor intervention gate.
+Because the preregistered Q4/Q6 successor scope is incomplete and no supported causal result / SI-1 correctness / component-value chain exists, `RETURN_TO_END_TO_END_VALIDATION` is not admissible. The current SA-H1 successor line is therefore closed.
+The Q4 component PASS, SA0 capability PASS and original ArcLLM E2E feasibility remain valid bounded evidence; they are not promoted into a complete successor architecture claim.
+No current successor implementation, Q6CB execution, Q3 reopen or successor E2E validation is authorized.
