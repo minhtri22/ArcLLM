@@ -183,7 +183,7 @@ Require ([int]$Cap.dispatches_submitted -eq 0) "environment probe submitted GPU 
 Require ([int64]$Cap.device.vendor_id -eq [int64]$Auth.hard_environment_contract.intel_vendor_id) "Vulkan vendor id mismatch"
 Require ([string]$Cap.device.name -match "Arc.*140V") "Vulkan target GPU mismatch"
 Require ([string]$Cap.device.driver_info -eq [string]$Auth.hard_environment_contract.vulkan_driver_info) "Vulkan driverInfo mismatch"
-Require ([string]$Cap.device.api_version.text -ge [string]$Auth.hard_environment_contract.minimum_vulkan_device_api) "Vulkan device API below contract minimum"
+Require (([version][string]$Cap.device.api_version.text) -ge ([version][string]$Auth.hard_environment_contract.minimum_vulkan_device_api)) "Vulkan device API below contract minimum"
 Require ([bool]$Cap.subgroup.compute_stage_supported) "compute-stage subgroup support missing"
 Require ([int]$Cap.subgroup.size -eq [int]$Auth.hard_environment_contract.subgroup_size) "Vulkan subgroup size mismatch"
 Require ([bool]$Cap.subgroup.basic) "Vulkan subgroup BASIC capability missing"
