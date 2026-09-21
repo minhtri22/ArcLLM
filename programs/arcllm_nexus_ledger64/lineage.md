@@ -388,3 +388,56 @@ Current authorization:
 - P6: FORBIDDEN.
 
 Next: execute exactly one frozen P5 semantic-integration collection using the committed runner and return the bundle for independent F0 → F1 → F2 → F3 → F4 adjudication.
+
+
+## 2026-09-21 — P5 EXECUTION AUTHORIZED / FROZEN LOCK / NOT YET RUN
+
+The explicit P5 execution authorization gate was opened only after the zero-science P5 specification QA passed.
+
+Authorization:
+- path: `config/anl64_p5_execution_authorization_v0.1.json`;
+- blob: `4662ad4bdb5e517f08fa878b41bb824a1cdf8252`;
+- decision: `P5_BOUNDED_SEMANTIC_INTEGRATION_EXECUTION_AUTHORIZED`.
+
+Runner and semantic extractor:
+- runner: `run_anl64_p5_integration.ps1`;
+- runner blob: `5b03752a2a3924ceaa63b034e01d780e0fff4f75`;
+- extractor: `tools/extract_anl64_p5_semantics.py`;
+- extractor blob: `495c9bdab5a74edc176553334ce26acdf24b044a`;
+- runner static QA: `PASS_ZERO_SCIENCE_P5_RUNNER_STATIC_QA`;
+- runner static QA blob: `3cc0e661b22bda4c76d2d58a16e81fda9e05bc16`.
+
+Independent reference audit confirmed that the current safe-reference path is exactly historical Q2:
+- Q2 runtime/support source blobs are identical to implementation commit `43afd71161c4dc8c766c09c3b55d5eca48352bde`;
+- all 16 Q2 shader source blobs are identical;
+- Q2 shader compiler/build tools are identical.
+
+Execution lock:
+- path: `config/anl64_p5_execution_lock_v0.1.json`;
+- blob: `b7fc7c707fd10008805eff0e7e7b7b38c345c81d`;
+- status: `P5_EXECUTION_LOCKED_NOT_YET_RUN`.
+
+The lock binds:
+- P4-locked ANL64 runtime/plan/Q4_FAST blobs;
+- exact P4 candidate executable SHA256 `1F45DA9D8CACE3CF78FE31B7B7041B6027CB41E180F7FC99E50E1127EA4F5451`;
+- exact safe-reference source/build path;
+- exact W-S/W-C workloads;
+- exactly one warmup plus five measured attempts per system/workload;
+- four frozen cells in fixed order;
+- semantic-only evidence extraction;
+- zero token mismatch primary gate;
+- no selective rerun;
+- one infrastructure-only repair budget;
+- no source/shader/spec/threshold/workload mutation.
+
+Performance quarantine remains binding:
+- runtime timing fields may physically exist in raw cell files because the locked production executables emit them;
+- the semantic extractor does not copy or adjudicate those fields;
+- all P5 timing values are spent/non-admissible for P6;
+- P6 remains unauthorized and requires fresh execution if P5 later passes.
+
+Current state:
+`P5_EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN`.
+
+Next:
+`EXECUTE_EXACTLY_ONE_FROZEN_P5_SEMANTIC_INTEGRATION_COLLECTION`.
