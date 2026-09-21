@@ -1,0 +1,84 @@
+{
+  "schema": "arcllm.anl64.p6.execution_authorization.v0.1",
+  "date": "2026-09-21",
+  "decision": "P6_MATCHED_E2E_EXECUTION_AUTHORIZED",
+  "prerequisites": {
+    "p5_adjudication_blob": "cada882bd886d96a71c73c40a6e243e3a51ebde0",
+    "p6_spec_blob": "c7e1753ef9079010ce1768ba924e4f996f5e9b35",
+    "p6_document_blob": "2ceaae5f2f80c4daae8888b3d36c1febea3ca76c",
+    "p6_spec_qa_blob": "57e73ff0675a6cfd57dc6d395f452104ac57571d",
+    "p6_spec_qa_result": "PASS_ZERO_SCIENCE_P6_SPECIFICATION_QA"
+  },
+  "exact_candidate": {
+    "runtime_blob": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+    "plan_blob": "157be15c63363ba2d55093af829ca68be9107e27",
+    "executable_path": "artifacts/ANL64/P4/anl64_p4.exe",
+    "executable_sha256": "1F45DA9D8CACE3CF78FE31B7B7041B6027CB41E180F7FC99E50E1127EA4F5451",
+    "shader_dir": "artifacts/ANL64/P4/compiled_shaders",
+    "q4_fast_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+    "q4_safe_spv_sha256": "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A",
+    "q6_safe_spv_sha256": "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67",
+    "implementation_identity": "aa284326a9322a14888967fa4a9a9dc626f2286a"
+  },
+  "exact_reference": {
+    "historical_implementation_commit": "43afd71161c4dc8c766c09c3b55d5eca48352bde",
+    "runtime_blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "compile_tool_blob": "a7e08a196ee6c6bf94f460ef4d710175a1b85166",
+    "build_tool_blob": "18325b0a2b3c319f304724397cfe8dfb6d17377f",
+    "q4_safe_spv_sha256": "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A",
+    "q6_safe_spv_sha256": "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67",
+    "reference_build_before_measurement_only": true
+  },
+  "environment": {
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "model_bytes": 4683074048,
+    "os_build": "26200",
+    "cpu_substring": "Ultra 7 258V",
+    "gpu_substring": "Arc(TM) 140V",
+    "driver": "32.0.101.8860",
+    "ac_online_required": true,
+    "active_power_scheme_contains": "(Balanced)"
+  },
+  "sessions": {
+    "independent_child_processes": true,
+    "A": [
+      "ARC_SAFE_REFERENCE/W-S",
+      "ANL64_P4_LOCKED/W-S",
+      "ANL64_P4_LOCKED/W-C",
+      "ARC_SAFE_REFERENCE/W-C"
+    ],
+    "B": [
+      "ANL64_P4_LOCKED/W-S",
+      "ARC_SAFE_REFERENCE/W-S",
+      "ARC_SAFE_REFERENCE/W-C",
+      "ANL64_P4_LOCKED/W-C"
+    ],
+    "warmups_per_cell": 1,
+    "measured_per_cell": 5,
+    "total_measured": 40
+  },
+  "thresholds": {
+    "decode_candidate_over_reference_min": 1.1,
+    "e2e_candidate_over_reference_max": 0.9,
+    "ttft_candidate_over_reference_blocking_max": 1.1,
+    "token_mismatch_tolerance": 0
+  },
+  "freshness": {
+    "p5_timing_reuse": false,
+    "p6_all_timings_fresh": true,
+    "artifact_rebuild_during_measurement": false,
+    "selective_rerun": false
+  },
+  "authorization": {
+    "preflight_reference_build": true,
+    "target_model_load": true,
+    "gpu_dispatch": true,
+    "performance_measurement": true,
+    "production_source_mutation": false,
+    "shader_mutation": false,
+    "threshold_mutation": false,
+    "workload_mutation": false,
+    "p7": false
+  },
+  "next": "IMPLEMENT_AND_LOCK_ONE_SHOT_P6_RUNNER_THEN_EXECUTE_EXACTLY_ONCE"
+}
