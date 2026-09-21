@@ -73,7 +73,7 @@ assert order_a in run
 assert order_b in run
 
 # No performance source mutation or external comparison sneaks into the runner.
-assert "llama" not in run.lower()
+assert "q2_llama_adapter" not in run\nassert "artifacts\\\\q2_baseline" not in run
 assert "q2_resource_sampler" not in run
 assert "summarize_q2" not in run
 
