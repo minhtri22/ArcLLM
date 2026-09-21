@@ -1,0 +1,133 @@
+{
+  "schema": "arcllm.sa1.k2.q6_implementation_lock.v0.1",
+  "date": "2026-09-21",
+  "status": "SA1_K2_Q6_IMPLEMENTATION_AUTHORIZED",
+  "prerequisite": {
+    "q4_adjudication_commit": "accd26471e4abd5bbe9981d49121068e116cc62c",
+    "q4_adjudication_blob": "f4bda3a8f5b6133c7a0f118c48e153fe1ea04866",
+    "q4_result": "Q4_STAGE_PASS"
+  },
+  "scientific_scope": {
+    "quant": "Q6_K",
+    "primary_mechanism": "SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW",
+    "mechanism_change_permitted": false,
+    "candidate_variants": 1,
+    "cooperative_matrix": false,
+    "fusion": false,
+    "predequantization": false,
+    "staging": false
+  },
+  "exact_cells": [
+    {
+      "id": "Q6_H3584_R512_BIAS",
+      "n": 3584,
+      "rows": 512,
+      "batch": 1,
+      "add_bias": 1,
+      "row_bytes": 2940,
+      "weight_bytes": 1505280,
+      "role": "Q6 V geometry"
+    },
+    {
+      "id": "Q6_H18944_R3584_NOBIAS",
+      "n": 18944,
+      "rows": 3584,
+      "batch": 1,
+      "add_bias": 0,
+      "row_bytes": 15540,
+      "weight_bytes": 55695360,
+      "role": "Q6 down geometry"
+    }
+  ],
+  "frozen_geometry": {
+    "local_size": [
+      128,
+      1,
+      1
+    ],
+    "required_subgroup_size": 32,
+    "require_full_subgroups": true,
+    "subgroups_per_workgroup": 4,
+    "rows_per_workgroup": 4,
+    "direct_packed_dequant": true,
+    "fp32_partial_accumulation": true,
+    "subgroup_arithmetic_reduction": true,
+    "shared_memory_bytes": 0,
+    "extra_global_scratch_bytes": 0
+  },
+  "baseline": {
+    "source": "shaders/p7_q6k_gemm_2d.comp",
+    "git_blob": "a0de99f972db6cd202606aad95fb9eab223639e6",
+    "source_sha256": "95335DF6E3FD592EA19B5707C9EEFE2FD23CA6472A98EA3002E6604D35892D56",
+    "spirv_sha256": "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67",
+    "compiler_release": "16.5.0",
+    "compiler_asset_sha256": "06B71298B750268C127F2EE7AE0EF7525E2068120C6C8A3A08B2F58CA6F325CE",
+    "target_env": "vulkan1.2"
+  },
+  "correctness_gate": {
+    "all_outputs_finite": true,
+    "max_abs_max": 0.02,
+    "rmse_max": 0.005,
+    "candidate_vs_cpu_required": true,
+    "baseline_vs_cpu_required": true,
+    "candidate_vs_baseline_required": true,
+    "correctness_banks": [
+      0,
+      3
+    ]
+  },
+  "future_measurement_gate": {
+    "prerequisite": "Q6_CORRECTNESS_PREFLIGHT_PASS_AND_SEPARATE_EXECUTION_AUTHORIZATION",
+    "processes": [
+      "A",
+      "B"
+    ],
+    "per_process_geometric_mean_speedup_min": 1.5,
+    "every_cell_speedup_min": 1.1,
+    "warmups_per_arm_per_cell": 10,
+    "measured_pairs_per_cell_per_process": 30,
+    "outlier_deletion": false,
+    "process_pooling": false
+  },
+  "implementation_authorization": {
+    "q6_candidate_shader_write": true,
+    "q6_component_harness_extension": true,
+    "q6_compile_build_preflight_tooling_write": true,
+    "q6_measurement": false,
+    "q4_reimplementation": false,
+    "target_model_execution": false,
+    "q3_reopen": false
+  },
+  "exact_allowlist": [
+    "shaders/sa1_q6k_subgroup_splitk.comp",
+    "src/sa1_component_benchmark.cpp only for Q6 extension; Q4 path must remain semantically frozen",
+    "tools/compile_sa1_component.ps1 only to add Q6 baseline/candidate compile + provenance",
+    "tools/build_sa1_component.ps1 only if required for unchanged harness build interface",
+    "run_sa1_component_preflight.ps1 only for Q6 correctness-preflight path",
+    "run_sa1_component_q6.ps1",
+    "tools/adjudicate_sa1_component.py only to add frozen Q6 adjudication path",
+    "tests/test_sa1_component_package.py",
+    "SA1-specific config/docs/artifacts/results",
+    "manifest.json",
+    "lineage.md",
+    "README.md"
+  ],
+  "immutable": [
+    "shaders/sa1_q4k_subgroup_splitk.comp",
+    "Q4 raw results and Q4 adjudication",
+    "shaders/p7_q4k_gemm_2d.comp",
+    "shaders/p7_q6k_gemm_2d.comp",
+    "src/q2_benchmark.cpp",
+    "Q2/Q3 runtime/contracts",
+    "target model/quantization",
+    "Q4 frozen performance gates"
+  ],
+  "stop_rules": [
+    "Implement exactly one Q6 shader with the same subgroup32 split-K mechanism and geometry.",
+    "No local-size/subgroup/tile/cooperative/fusion variant search.",
+    "Q6 must pass static QA and correctness-only zero-measurement preflight before any Q6 timing.",
+    "A correctness FAIL stops Q6; no performance rescue.",
+    "A later valid Q6 performance FAIL closes the Q6 extension; no tuning to PASS."
+  ],
+  "next": "Implement SA1-K2 Q6 exactly once under this lock, then static QA and zero-measurement correctness preflight. Do not run Q6 performance measurement."
+}

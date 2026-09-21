@@ -1105,3 +1105,10 @@ Decision: `SA1_Q4_EXECUTION_AUTHORIZED`. Measurement is not yet consumed. Run A 
 Authorized Process A and B returned complete measured JSONs. A SHA256 `1EB9F0907E542B51B8195BFA7F26B46BC729FC86C563EE6501A3738A606BB625`; B SHA256 `ACF7CE9AB6B28841A5E3516933DB792C6CD7CE0A5647FC9D4BCE060A3F9A2421`. Each contains exactly five Q4 cells and 30 baseline + 30 candidate samples per cell; A uses forward cell order and B reverse order; no target model was loaded.
 Independent recomputation with the preregistered statistic gives process A geometric mean 3.1371499895x, minimum cell 1.6594191177x; process B geometric mean 3.1475012006x, minimum cell 1.6714738763x. Both exceed frozen geomean >=1.50x and every-cell >=1.10x gates. No samples or visible timing spikes were removed.
 Decision: `Q4_STAGE_PASS`. Q4 measurement is consumed and must not be rerun. This supports the bounded Q4 component mechanism only; no end-to-end model claim follows. The preregistered Q6 extension may now receive a same-mechanism implementation lock. Q6 measurement/model/Q3 remain blocked.
+
+
+## 2026-09-21 — SA1-K2 Q6 implementation lock opened after Q4 PASS
+Prerequisite Q4 adjudication at `accd26471e4abd5bbe9981d49121068e116cc62c` is `Q4_STAGE_PASS`. Opened the preregistered Q6 extension only; no new scientific mechanism is introduced.
+Frozen two Q6 cells: 3584→512 bias and 18944→3584 no-bias. Frozen baseline Q6 blob `a0de99f972db6cd202606aad95fb9eab223639e6` and SPIR-V SHA256 `F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67`.
+Implementation lock permits exactly one `shaders/sa1_q6k_subgroup_splitk.comp` using the same local_size=128, required subgroup=32, four rows/workgroup, direct packed Q6_K dequant, FP32 partial accumulation and subgroup reduction. Q4 implementation/results are immutable. Cooperative matrix/fusion/staging/geometry search remain forbidden.
+Q6 performance measurement remains forbidden pending static QA, correctness-only zero-measurement preflight, independent evidence adjudication and separate execution authorization.
