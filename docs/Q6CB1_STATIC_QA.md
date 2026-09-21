@@ -48,3 +48,32 @@ No threshold, scientific fixture partition, identification seed, confirmatory se
 Q6CB-1 implementation is statically qualified. Implementation mutation must now close.
 
 The next mandatory action is the final implementation/evidence lock followed by the governance goal-alignment check. Neither action authorizes fresh scientific execution.
+
+
+## Mandatory goal-alignment check
+
+This check was performed only after the implementation/evidence lock was frozen.
+
+```text
+ORIGINAL_GOAL:
+Identify, within one finite preregistered causal program, whether the Q6_K
+correctness boundary has a reproducible causal mechanism among the frozen
+competing mechanism families.
+
+CURRENT_QUESTION:
+Can a frozen execution contract use the already locked causal harness to
+distinguish the declared Q6CB terminal outcomes without changing hypotheses,
+implementation, fixtures post hoc, or thresholds after data?
+
+DIRECTLY_SERVES_ORIGINAL_GOAL                         = true
+REQUIRED_TO_DISTINGUISH_TERMINAL_DECISIONS           = true
+WITHIN_HARD_RESEARCH_BUDGET                           = true
+PRESERVES_PRIOR_EVIDENCE                              = true
+JUSTIFIED_EVEN_IF_NEGATIVE                            = true
+NEGATIVE_OUTCOME_ACCEPTED_AS_FINAL_EVIDENCE           = true
+DRIFT_DETECTED                                        = false
+```
+
+**Decision:** `CONTINUE_WITHIN_LOCK_TO_EXECUTION_CONTRACT_DESIGN_ONLY`
+
+This decision permits only specification/freeze of the execution contract. It does not authorize fresh fixture execution, CPU scientific execution, GPU dispatch, performance timing or target-model loading.
