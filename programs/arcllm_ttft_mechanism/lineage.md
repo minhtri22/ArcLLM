@@ -166,3 +166,48 @@ P6 is eligible only for an explicit bounded diagnostic implementation authorizat
 
 Next:
 `P6_EXPLICIT_BOUNDED_DIAGNOSTIC_IMPLEMENTATION_AUTHORIZATION_GATE`.
+
+
+## 2026-09-22 — DUPLICATE-SPEC RECONCILIATION
+
+Commit chronology established that the canonical P1-P5 package was frozen and zero-science-QA'd before a later parallel P1-P4 specification set appeared.
+
+Canonical authority remains:
+- P1 register `92682f51f97c9af87ce408629ff7c6f45d3468ac`;
+- P1 review `69a5cf641ca33d36a40f1694111d97a8298000d3`;
+- P2 path mapping `7c57e7d789cd2672cb9fe9342df5a18065dc46bf`;
+- P2 hypotheses `559cf3a60789074045ac0c3f30c4982b99800707`;
+- P3 contract `66b6ca2bf1da1e05ddc416bf8f9d73074e8f3fdb`;
+- P3 document `ae33e94c8af15361e6ed5dcf804958ec9b3bab41`;
+- P4 contract `fb856b27385278878114316ebd667b97fb38ba59`;
+- P4 document `010c9ff3af0561998fd14949a84a8e6e8775ec04`;
+- P5 QA `234ea107f5d6e049a879acdea1a0c679bf0e566c`.
+
+Later parallel specs are retained as non-authoritative history and consumed no science.
+
+Reconciliation artifact:
+`artifacts/TTFT_M1/TTFT_M1_DUPLICATE_SPEC_RECONCILIATION_v0.1.json`,
+blob `392f02cac42a2b3f52f2cacf92580a918529e180`.
+
+## 2026-09-22 — P6 BOUNDED DIAGNOSTIC IMPLEMENTATION AUTHORIZED
+
+P6 implementation authorization was opened only after canonical P5 zero-science QA PASS.
+
+Authorization:
+- path `config/arcllm_ttft_m1_p6_implementation_authorization_v0.1.json`;
+- blob `03bf0f7ab3d2067c6aa1a9a04c8d6fc9072baaa7`;
+- decision `P6_BOUNDED_DIAGNOSTIC_IMPLEMENTATION_AND_BUILDONLY_AUTHORIZED`.
+
+Scope is limited to a new diagnostic harness and BuildOnly/static H-ART evaluation.
+
+Production ANL64/Q2 sources and existing shaders remain immutable.
+
+Current authorization:
+- implementation: true;
+- BuildOnly: true;
+- model load: false;
+- GPU dispatch: false;
+- timing science: false;
+- P7: false.
+
+Next: implement exact P6 allowlist, then static QA + BuildOnly/H-ART gate.
