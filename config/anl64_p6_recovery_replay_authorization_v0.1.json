@@ -1,0 +1,64 @@
+{
+  "schema": "arcllm.anl64.p6.recovery_replay_authorization.v0.1",
+  "date": "2026-09-21",
+  "decision": "P6_SINGLE_INFRASTRUCTURE_REPAIR_FULL_REPLAY_AUTHORIZED",
+  "trigger_adjudication": {
+    "path": "artifacts/ANL64/ANL64_P6_INTERRUPTION_F0_ADJUDICATION_v0.1.json",
+    "blob": "b4d6eb0c8342f1aa5973073c7a1e9b2e25a630f4"
+  },
+  "canonical_execution": {
+    "execution_lock": "config/anl64_p6_execution_lock_v0.1.json",
+    "execution_lock_blob": "eb11fc2c898846442d628acf69e6bc27241cd74e",
+    "authorization_blob": "491ce5d3dbb0b983925f238b2a292c146b5cda89",
+    "runner": "run_anl64_p6_confirmatory.ps1",
+    "runner_blob": "40c4941b1764fdd7a1f83be554e39fda1764151c",
+    "adjudicator_blob": "d6a295f252960389302fe35b81dbec16ae08b416",
+    "no_mutation": true
+  },
+  "exact_partial_evidence": {
+    "results_root": "results/anl64_p6_confirmatory",
+    "preflight_sha256": "CCC993AE10EC0919EB4B1DF71E2A5018DCD75CA135A11C2DB2BB7392A4644C58",
+    "session_A_environment_sha256": "06623EC6482BF0F2FC6A6638D1AC79AB3CD4B48398AA433D806FCFEEC3E1C540",
+    "session_A_reference_W_S_sha256": "7525B5457084BD885D1E386D41A3CDF34F8C5CDFA7B2C495A5597DE17BE602E9",
+    "session_A_reference_W_S_attempts": 5,
+    "required_missing": [
+      "session_A/P6_SESSION_META.json",
+      "session_A/candidate_W_S.json",
+      "session_A/reference_W_C.json",
+      "session_A/candidate_W_C.json",
+      "session_B"
+    ]
+  },
+  "recovery_rules": {
+    "archive_partial_attempt": true,
+    "archive_destination": "results/anl64_p6_confirmatory_interrupted_attempt1",
+    "archive_same_parent": true,
+    "preserve_existing_files_byte_exact": true,
+    "write_archive_manifest_after_move": true,
+    "remove_original_results_root_only_by_atomic_directory_move": true,
+    "delete_evidence": false,
+    "selective_rerun": false,
+    "full_replay_sessions": [
+      "A",
+      "B"
+    ],
+    "canonical_runner_only": true
+  },
+  "repair_budget": {
+    "max": 1,
+    "consumed_by_this_authorization": 1,
+    "remaining_after_this": 0,
+    "next_F0": "P6_STOP_INFRASTRUCTURE_UNSTABLE"
+  },
+  "forbidden": [
+    "reuse partial reference_W_S timing in replay adjudication",
+    "resume Session A from cell 2",
+    "run only missing cells",
+    "run only Session B",
+    "change canonical P6 runner",
+    "change canonical P6 spec/threshold/order/repetition count",
+    "change production source or shader",
+    "delete interrupted evidence"
+  ],
+  "next": "COMMIT_RECOVERY_WRAPPER_THEN_EXECUTE_ONCE"
+}
