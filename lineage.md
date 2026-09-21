@@ -1239,3 +1239,10 @@ The first Q6CB-2 runner invocation failed closed during environment preflight be
 One infrastructure-only repair was applied: the runner now uses the already-frozen zero-science SA0 Vulkan capability probe, with exact source/build-tool blobs bound by authorization revision 3. Q6CB fixtures, seeds, thresholds, mechanism rules, causal harness and shaders are unchanged.
 The single Q6CB-2 infrastructure repair allowance is now consumed (1/1). Any subsequent F0 in this stage requires `STOP_INFRASTRUCTURE_UNSTABLE`; no second repair is permitted.
 Q6CB-3 remains unauthorized.
+
+
+## 2026-09-21 — Q6CB-2 terminal: STOP_INFRASTRUCTURE_UNSTABLE
+The repaired Q6CB-2 runner failed a second time during pre-science environment validation. SA0 capability BuildOnly passed, but the zero-science capability probe exited with `requested Vulkan device substring not found` before any Q6CB fixture was generated or the Q6CB causal harness was launched.
+The stage had already consumed its single permitted infrastructure repair after the prior `vulkaninfo.exe unavailable` F0. Per `config/q6cb_termination_goal_alignment_v0.1.json`, a second F0 in the same stage mandates `STOP_INFRASTRUCTURE_UNSTABLE`.
+Static diagnosis indicates the repaired runner supplied `Arc 140V` to a contiguous substring matcher while the previously qualified Vulkan device name is `Intel(R) Arc(TM) 140V GPU`. This explanation is recorded but intentionally not repaired because the repair budget is exhausted.
+No scientific Q6CB-2 observation exists; F1-F6 are not adjudicated. Q6CB-2 authorization is revoked, Q6CB-3 remains closed, and no further Q6CB execution or renamed rescue continuation is permitted.
