@@ -198,3 +198,6 @@ After Q4_STAGE_PASS, the preregistered Q6 extension is now open for **one same-m
 ### SA1-K2 Q6 implementation
 
 Exactly one Q6_K subgroup-32 split-K candidate is now implemented with the same mechanism/geometry that passed Q4. The component harness/build/preflight path has a Q6-only extension for the two frozen cells. Q6 performance timing remains blocked.
+
+
+SA1-K2 Q6 has passed independent static-equivalent QA. Exact Windows shader compile, native BuildOnly and Arc 140V correctness-only preflight are still pending; Q6 performance timing remains forbidden.

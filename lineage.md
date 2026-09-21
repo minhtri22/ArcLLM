@@ -1125,3 +1125,10 @@ Status: SA1_K2_Q6_IMPLEMENTED_AWAITING_STATIC_QA. No Q6 measurement, model execu
 ## 2026-09-21 — SA1-K2 pre-static test assertion repair
 Before shader compile/native build/GPU execution, connector static audit of implementation commit `ad3fc9ace60cc7882a6d737efe39726d46e7f725` found one regression-test-only defect: the Q6 build-stage isolation assertion searched for a concatenated runtime path string rather than the literal PowerShell construction expression.
 Repaired only `tests/test_sa1_component_package.py` to assert the actual `"artifacts\\SA1_"+$Stage+"\\build"` construction. Q6 shader, harness, fixture/reference semantics, compile/build scripts, preflight gates and all frozen Q4/Q6 scientific contracts are unchanged. No execution attempt consumed.
+
+
+## 2026-09-21 — SA1-K2 independent static-equivalent audit PASS
+Audited exact repaired Q6 implementation commit `53195e7951fd740da32add7182657c27153a23ab`. Verified exactly one Q6 candidate; immutable Q4 candidate and frozen P7 Q6 baseline; exact same subgroup32 split-K mechanism/geometry; direct packed 210-byte Q6_K layout mirrored in shader and CPU reference; exact two-cell Q6 census; isolated `artifacts/SA1_K2/build`; Q6 preflight banks 0/3 only; and fail-closed future measurement authorization.
+No Q6 execution-authorization file exists. Q6 measurement/model/Q3 remain closed.
+No GitHub Actions workflow run is associated with this commit, so shader compile, native Windows BuildOnly and exact-device GPU correctness preflight are explicitly NOT RUN and cannot be inferred from static review.
+Decision: `PASS_CONNECTOR_EQUIVALENT_STATIC_AUDIT`; ready for exact-target Q6 compile/BuildOnly + zero-measurement correctness preflight.

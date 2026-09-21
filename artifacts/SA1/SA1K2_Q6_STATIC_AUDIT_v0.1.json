@@ -1,0 +1,53 @@
+{
+  "schema": "arcllm.sa1.k2.q6.static_audit.v0.1",
+  "date": "2026-09-21",
+  "audited_commit": "53195e7951fd740da32add7182657c27153a23ab",
+  "result": "PASS_CONNECTOR_EQUIVALENT_STATIC_AUDIT",
+  "compile_status": "PENDING_TARGET_LOCAL",
+  "native_build_status": "PENDING_TARGET_LOCAL",
+  "zero_measurement_preflight_status": "NOT_RUN",
+  "exact_blobs": {
+    "q6_candidate_shader": "0fdc0c8f195872396a653b38ee2283156fbaeaa0",
+    "component_harness": "0e51a39d49f11f5cdbcda64c94439b8e645bbca8",
+    "preflight_runner": "7b74e46f90c92ac44d611d692932727dc431d480",
+    "static_test": "a7e86abc7000159ee2c63420b590847df0c9f116",
+    "implementation_contract": "a7efc35a2bc70e4bbbd15751dfc6a6a29b4486a2",
+    "q6_implementation_lock": "66b720b55e0b3873c2c6b07a300cd3e5adc31c74",
+    "q4_candidate_shader": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "q6_baseline_shader": "a0de99f972db6cd202606aad95fb9eab223639e6"
+  },
+  "checks": {
+    "exactly_one_q6_candidate": true,
+    "q4_candidate_immutable": true,
+    "q6_baseline_immutable": true,
+    "same_primary_mechanism": true,
+    "local_size_128": true,
+    "required_subgroup_32_pipeline_path_inherited": true,
+    "four_subgroups_four_rows": true,
+    "k_stride_32": true,
+    "q6_210_byte_direct_packed_layout": true,
+    "fp32_partial_accumulation": true,
+    "subgroup_arithmetic_reduction": true,
+    "shared_memory_absent": true,
+    "cooperative_matrix_absent": true,
+    "fp16_int8_staging_absent": true,
+    "exact_q6_cell_census": true,
+    "q4_default_harness_path_retained": true,
+    "q6_build_directory_isolated": true,
+    "q6_preflight_banks_0_3_only": true,
+    "q6_preflight_measure_mode_absent": true,
+    "q6_timestamp_and_pair_guards": true,
+    "q6_execution_authorization_absent": true,
+    "q6_measured_runner_fail_closed": true,
+    "q6_measurement_closed": true,
+    "target_model_execution_closed": true,
+    "q3_closed": true
+  },
+  "ci": {
+    "commit_workflow_runs": 0,
+    "compile_evidence_available": false,
+    "note": "No GitHub Actions workflow run is associated with this SA1-K2 commit; exact Windows compile/native BuildOnly remains target-local."
+  },
+  "decision": "READY_FOR_TARGET_LOCAL_Q6_STATIC_TEST_COMPILE_BUILD_AND_ZERO_MEASUREMENT_PREFLIGHT",
+  "next": "On the exact Arc 140V target, pull this commit and run run_sa1_component_preflight.ps1 -Quant Q6. Return results/sa1_k2_q6_preflight_return_to_chatgpt.zip. Do not run run_sa1_component_q6.ps1."
+}
