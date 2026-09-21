@@ -641,3 +641,96 @@ If the recovery replay encounters another F0/infrastructure failure:
 
 Next:
 `RUN_RECOVER_ANL64_P6_AFTER_INTERRUPTION_PS1_ONCE`.
+
+
+## 2026-09-22 — P6 FORMAL CLOSE / VALID NEGATIVE
+
+The single authorized full P6 replay after the operator-interruption repair produced a complete fresh matched collection.
+
+Returned bundle:
+- SHA256 `4C91C295F98E9A5267135F1D4693E147AB7FBDDD54564A8EAC9CFB85F67F4BE1`;
+- exact run HEAD `a0d7cc2cc0bc060114274034823cf846418c6525`;
+- 19 members;
+- 40/40 fresh measured attempts;
+- two distinct session processes;
+- exact frozen counterbalanced orders;
+- no P5 timing reuse.
+
+F0 provenance/freshness: PASS.
+
+F1 semantic/structural guard: PASS:
+- all measured attempts success/finite/dispatch PASS;
+- all matched candidate/reference 32-token sequences exactly equal;
+- ANL64 plan identity `469 / 215 / 140 / 24104 / 19936`;
+- metadata 593,504 bytes;
+- plan hash `04f3f884c0fc4fcc`.
+
+F3 decode material-benefit gate PASS in all four comparisons:
+- A/W-S `2.5318x`;
+- A/W-C `1.2228x`;
+- B/W-S `2.1635x`;
+- B/W-C `3.2002x`.
+
+F4 E2E material-benefit gate PASS in all four comparisons:
+- A/W-S `0.4044`;
+- A/W-C `0.8765`;
+- B/W-S `0.4709`;
+- B/W-C `0.3984`.
+
+F5 TTFT blocking guard FAIL in 3/4:
+- A/W-S `1.5738` FAIL;
+- A/W-C `1.3365` FAIL;
+- B/W-S `1.3085` FAIL;
+- B/W-C `1.0677` PASS.
+
+The frozen P6 stop rule therefore yields:
+
+`P6_NO_MATERIAL_E2E_BENEFIT`.
+
+This is a valid confirmatory negative for the overall preregistered P6 claim. It preserves positive bounded evidence for semantic correctness and material decode/E2E gains against the exact safe ArcLLM reference.
+
+P6 formal adjudication:
+- artifact blob `56dd01850238e4131d357303d3888fd1826f6eb9`;
+- document blob `65a32fd47d92e76a1ab9ab6ec6564c35a57df8e5`.
+
+No P6 rescue is permitted.
+
+## 2026-09-22 — P7 FINAL PROGRAM ADJUDICATION / LINEAGE CLOSED
+
+The ANL64 program research question is adjudicated as:
+
+`NOT_ESTABLISHED`
+
+under the preregistered overall practical-materiality contract.
+
+Final program status:
+
+`ANL64_PROGRAM_CLOSED_VALID_NEGATIVE_TTFT_BLOCKED`.
+
+Preserved positive evidence:
+- exact-model semantic preservation on frozen W-S/W-C;
+- stable Ledger64-style immutable plan integration;
+- material decode improvement against the exact safe ArcLLM reference;
+- material E2E latency reduction against that same safe reference.
+
+Blocking evidence:
+- TTFT regression exceeded the frozen 1.10 harm ceiling in three of four required fresh comparisons.
+
+Claim boundaries:
+- no llama.cpp/external-runtime advantage claim;
+- no generalization beyond the exact tested model/hardware/workloads;
+- no independent causal performance attribution to NEXUS/Ledger64 control-plane logic because no control-plane ablation was performed.
+
+P7 terminal artifacts:
+- adjudication blob `79df1758f23f724890eb302907c0b2d3045df735`;
+- document blob `dd0ab0389251e77ccc2d654e77a897781426be34`.
+
+Current-program reopen, P6 rerun, threshold revision, workload search, executor tuning and TTFT/prefill rescue inside ANL64 are forbidden.
+
+Any future TTFT mechanism work must be a new independent program with a fresh branch, fresh `lineage.md`, ORIGIN binding this terminal P7 evidence, new prior-art review, new hypothesis/falsification gates and fresh confirmatory evidence.
+
+```text
+NEXT = NONE_PROGRAM_TERMINAL
+LINEAGE = CLOSED
+FURTHER_APPEND = FORBIDDEN
+```
