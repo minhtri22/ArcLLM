@@ -1,8 +1,8 @@
 {
-  "phase": "ANL64-P5-SPECIFICATION",
+  "phase": "ANL64-P5-EXECUTION-AUTHORIZATION-GATE",
   "track": "P8 7B runtime",
   "date": "2026-09-21",
-  "status": "ANL64_P4_COMPLETE_PASS_P5_SPECIFICATION_AUTHORIZED",
+  "status": "ANL64_P5_SPECIFICATION_QA_PASS_EXECUTION_GATE_OPEN",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -815,10 +815,11 @@
     "anl64_p3_zero_science_compatibility": false,
     "anl64_p4_authorization_gate": false,
     "anl64_p4_buildonly": false,
-    "anl64_p5_specification": true,
-    "anl64_p5_execution": false
+    "anl64_p5_specification": false,
+    "anl64_p5_execution": false,
+    "anl64_p5_execution_authorization_gate": true
   },
-  "next": "ANL64_P5_COMPONENT_INTEGRATION_VALIDATION_SPECIFICATION_ONLY",
+  "next": "ANL64_EXPLICIT_P5_EXECUTION_AUTHORIZATION_GATE",
   "anl64": {
     "program_id": "ANL64",
     "branch": "research/arcllm-nexus-ledger64",
@@ -871,7 +872,7 @@
       "P2": "COMPLETE_PASS",
       "P3": "COMPLETE_PASS",
       "P4": "COMPLETE_PASS",
-      "P5": "SPECIFICATION_AUTHORIZED_EXECUTION_BLOCKED",
+      "P5": "SPECIFICATION_QA_PASS_EXECUTION_AUTHORIZATION_GATE_OPEN",
       "P6": "BLOCKED",
       "P7": "BLOCKED"
     },
@@ -883,10 +884,11 @@
       "target_execution": false,
       "scientific_measurement": false,
       "p4_buildonly": false,
-      "p5_specification": true,
-      "p5_execution": false
+      "p5_specification": false,
+      "p5_execution": false,
+      "p5_execution_authorization_gate": true
     },
-    "next": "P5_COMPONENT_INTEGRATION_VALIDATION_SPECIFICATION_ONLY",
+    "next": "EXPLICIT_P5_EXECUTION_AUTHORIZATION_GATE",
     "p2": {
       "result": "P2_PASS_OPEN_P3_ZERO_SCIENCE_COMPATIBILITY",
       "contract": "config/anl64_p2_architecture_contract_v0.1.json",
@@ -939,6 +941,17 @@
       "adjudication": "artifacts/ANL64/ANL64_P4_BUILDONLY_ADJUDICATION_v0.1.json",
       "adjudication_blob": "e9039de1af496cf724a390e8180ae7d97e99f091",
       "bundle_sha256": "F336519DF14EAEC95F43A5CFC7680C9309F6560B6A60BCEEBA949A41ECEAACE2"
+    },
+    "p5": {
+      "specification": "config/anl64_p5_integration_validation_spec_v0.1.json",
+      "specification_blob": "8f9d8984985a17541cd3dbbfb3f7cd04c84cf3c9",
+      "document": "docs/research/arcllm-nexus-ledger64/P5_INTEGRATION_VALIDATION_SPEC.md",
+      "document_blob": "4339819a0956ca84b60ead2f6bd4184c196716ab",
+      "qa": "artifacts/ANL64/ANL64_P5_SPECIFICATION_QA_v0.1.json",
+      "qa_blob": "94c7f5448a6e71dee4e362ca974e4bd1947a694b",
+      "result": "PASS_ZERO_SCIENCE_P5_SPECIFICATION_QA",
+      "execution": false,
+      "performance_adjudication": false
     }
   }
 }
