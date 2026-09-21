@@ -1202,3 +1202,11 @@ Target-local validation at `6ba51a9d968cd0ed46f808b2f241cd8a50b7e118` produced s
 The static test failed only because its source-text assertion searched for an unescaped `"semantic_invariant"` token while the C++ source necessarily contains escaped quotes inside the emitted JSON string literal. Commit `54d1f9d4f0dfc0994e4d072366a1101c3a5ef753` corrects only that assertion.
 A commit comparison confirms this repair changes only `tests/test_q6cb1_package.py`; all harness, generator, reference, shader and BuildOnly-tool blobs remain identical to those used by the successful target-local build. Therefore no native/shader rebuild is scientifically or technically required. Only the repaired static test must be rerun before final static-equivalent QA and implementation/evidence lock.
 Scientific execution remains forbidden.
+
+
+## 2026-09-21 — Q6CB-1 implementation locked; goal alignment PASS
+Final static/unit QA at `627bcc52759b25649b49fd494ba6c802d7bf3d50` returned `Q6CB1_STATIC_UNIT_QA_PASS`. The target-local BuildOnly evidence from `6ba51a9d968cd0ed46f808b2f241cd8a50b7e118` remains authoritative because the only subsequent code change before the static PASS was the test-only escaped-literal assertion repair; build-critical source/shader/tool blobs did not change.
+Static-equivalent QA is `PASS_STATIC_EQUIVALENT_QA`. The exact implementation/evidence lock was frozen at commit `237a4174b409bf2e2200fa96fe1a7dbccfa76bab`, binding the canonical reference, fixture generator, causal harness, both GPU shaders, BuildOnly tools, SPIR-V hashes and native executable hash. Implementation mutation is now closed.
+The mandatory five-question goal-alignment check passed: the next stage directly serves the frozen causal question, is required to distinguish declared terminal outcomes, remains inside the hard budget, preserves prior evidence, and remains scientifically justified under a negative result. No drift was detected.
+Decision: `CONTINUE_WITHIN_LOCK_TO_EXECUTION_CONTRACT_DESIGN_ONLY`.
+Fresh fixture execution, CPU/GPU scientific execution, timing and target-model loading remain forbidden. No execution authorization exists. The only next permitted stage is specification-only design and freeze of the execution contract.
