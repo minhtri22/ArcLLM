@@ -41,5 +41,5 @@ req('ValidateSet("K1","K2")' in compile_ps and "F2267838D099128F233EF30817464658
 req('ValidateSet("K1","K2")' in build_ps and '"artifacts\\SA1_"+$Stage+"\\build"' in build_ps,"Q6 build stage isolation")
 for ps in [pre,runq6,compile_ps,build_ps]:
     req(not re.search(r"\b(?:Test-Path|Get-Content|Get-FileHash|Remove-Item|Compress-Archive)\$[A-Za-z_]",ps),"PowerShell cmdlet/variable tokenization")
-req(man["sa1"]["q6_implementation_permitted"] is True and man["sa1"]["component_measurement_permitted"] is False,"manifest Q6 implementation-only gate")
+req(man["sa1"]["q6_implementation_permitted"] is False and man["sa1"]["component_measurement_permitted"] is False and man["sa1"]["k2"]["rerun_authorized"] is False,"manifest Q6 correctness-fail stop gate")
 print("SA1_K2_STATIC_QA_PASS")
