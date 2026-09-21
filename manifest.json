@@ -840,8 +840,8 @@
     },
     "governance": {
       "path": "config/arcllm_nexus_ledger64_governance_v0.1.json",
-      "status": "P4_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
-      "blob": "23ce7097596e5b9ab86c6ae3633f7502ab29ed74"
+      "status": "P6_EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
+      "blob": "71406c9d4d86c119ebd0878683052ed028a1e43b"
     },
     "prior_art": {
       "register": "config/arcllm_nexus_ledger64_prior_art_register_v0.1.json",
