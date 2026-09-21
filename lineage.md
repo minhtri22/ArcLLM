@@ -1061,3 +1061,8 @@ Mechanism matches the frozen lock: local_size 128, required subgroup size 32 at 
 Added a standalone synthetic component harness. Preflight mode executes correctness only on banks 0/3 across all five Q4 shape cells with no timestamp query, no performance sample and no model load. Measurement mode contains the frozen future A/B protocol but requires a separate authorization file that does not exist at implementation time.
 Added pinned compile/build tooling, fail-closed local preflight, future measurement runner and adjudicator. Existing P7/Q2/Q3 production files are untouched.
 Status: SA1K1_IMPLEMENTED_AWAITING_STATIC_QA. Component measurement, Q6 implementation, target-model execution and Q3 remain forbidden.
+
+
+## 2026-09-21 — SA1-K1 pre-static implementation QA repair
+Before any compile, GPU dispatch, correctness preflight or performance measurement, connector audit of implementation commit `e5c761eff4811c41cee8b3c803d560600baac656` found three engineering-only defects: MSVC-risky multiword functional casts in RMSE code; an incorrect descriptive future-timing census field (400 rather than 300 timed dispatches / 600 timestamp values); and retention of all four host fixture weight copies after upload, which could violate the 256 MiB component-process allocation budget.
+Repaired only the SA1 component harness/static test. Candidate shader, frozen mechanism, geometry, fixtures, correctness thresholds, performance gates, baseline identity and all P7/Q2/Q3 files are unchanged. No scientific attempt was consumed.

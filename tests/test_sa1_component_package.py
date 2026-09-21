@@ -26,6 +26,9 @@ for s in ["shared ","coopmat","cooperative","float16_t","int8_t"]:
 for s in ["VkPipelineShaderStageRequiredSubgroupSizeCreateInfo","requiredSubgroupSize=32","VK_PIPELINE_SHADER_STAGE_CREATE_REQUIRE_FULL_SUBGROUPS_BIT","timestampValidBits!=64u","--mode","preflight","measure","10","30"]:
     req(s in cpp,"harness missing "+s)
 req("performance_measurement" in cpp and "PASS_CORRECTNESS_ZERO_MEASUREMENT" in cpp,"preflight evidence")
+req("timed_dispatches_expected\\\":300" in cpp and "timestamp_values_expected\\\":600" in cpp,"frozen timing census")
+req("Fixture host" not in cpp,"measurement must not retain four host weight-bank copies")
+req("long double(d)" not in cpp and "long double(a.size())" not in cpp,"MSVC-safe casts")
 req("--mode preflight" in pre and "--mode measure" not in pre,"preflight must not measure")
 req("timestamp_queries-ne0" in pre and "measured_pairs-ne0" in pre and "performance_gate_evaluated" in pre,"zero-measurement guards")
 req("SA1 Q4 execution authorization missing; measurement forbidden" in run and "SA1_Q4_EXECUTION_AUTHORIZED" in run,"measurement authorization gate")

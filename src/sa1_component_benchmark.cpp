@@ -145,9 +145,9 @@ static Metric metric(const std::vector<float>& a,const std::vector<float>& b){
     for(size_t i=0;i<a.size();++i){
         if(!std::isfinite(a[i])||!std::isfinite(b[i]))m.finite=false;
         double d=std::abs(double(a[i])-double(b[i]));
-        m.max_abs=(std::max)(m.max_abs,d);ss+=long double(d)*long double(d);
+        m.max_abs=(std::max)(m.max_abs,d);ss+=static_cast<long double>(d)*static_cast<long double>(d);
     }
-    m.rmse=std::sqrt(double(ss/long double(a.size())));return m;
+    m.rmse=std::sqrt(static_cast<double>(ss/static_cast<long double>(a.size())));return m;
 }
 
 struct Buffer{
@@ -270,7 +270,7 @@ public:
     ~VkCtx(){if(dev)vkDeviceWaitIdle(dev);if(cp)vkDestroyCommandPool(dev,cp,nullptr);if(dev)vkDestroyDevice(dev,nullptr);if(inst)vkDestroyInstance(inst,nullptr);}
 };
 
-struct BankGpu{Fixture host;Buffer w,x,b,y0,y1;BindSet s0,s1;};
+struct BankGpu{Buffer w,x,b,y0,y1;BindSet s0,s1;};
 struct CellGpu{std::vector<BankGpu> banks;};
 
 static void emit_vec(std::ostream& o,const std::vector<uint64_t>& v){o<<"[";for(size_t i=0;i<v.size();++i){if(i)o<<",";o<<v[i];}o<<"]";}
@@ -322,11 +322,11 @@ int main(int argc,char**argv){
             o<<"],\n\"status\":\"PASS_CORRECTNESS_ZERO_MEASUREMENT\"\n}\n";
         } else {
             std::vector<Cell> cells(kCells.begin(),kCells.end());if(process=="B")std::reverse(cells.begin(),cells.end());
-            o<<"\"performance_measurement\":true,\"timestamp_queries_expected\":400,\"measured_pairs\":150,\"process\":\""<<process<<"\",\n\"cells\":[";
+            o<<"\"performance_measurement\":true,\"timed_dispatches_expected\":300,\"timestamp_values_expected\":600,\"measured_pairs\":150,\"process\":\""<<process<<"\",\n\"cells\":[";
             for(size_t ci=0;ci<cells.size();++ci){
                 if(ci)o<<",";const Cell& c=cells[ci];
                 std::vector<BankGpu> banks(4);
-                for(uint32_t bi=0;bi<4;++bi){auto&g=banks[bi];g.host=make_fixture(c,bi);g.w=vk.buffer(g.host.w.size(),g.host.w.data());g.x=vk.buffer(g.host.x.size()*4,g.host.x.data());g.b=vk.buffer(g.host.bias.size()*4,g.host.bias.data());g.y0=vk.buffer(size_t(c.rows)*4);g.y1=vk.buffer(size_t(c.rows)*4);g.s0=vk.bind(base,g.w,g.x,g.b,g.y0);g.s1=vk.bind(cand,g.w,g.x,g.b,g.y1);}
+                for(uint32_t bi=0;bi<4;++bi){auto&g=banks[bi];Fixture f=make_fixture(c,bi);g.w=vk.buffer(f.w.size(),f.w.data());g.x=vk.buffer(f.x.size()*4,f.x.data());g.b=vk.buffer(f.bias.size()*4,f.bias.data());g.y0=vk.buffer(size_t(c.rows)*4);g.y1=vk.buffer(size_t(c.rows)*4);g.s0=vk.bind(base,g.w,g.x,g.b,g.y0);g.s1=vk.bind(cand,g.w,g.x,g.b,g.y1);Fixture empty;f=std::move(empty);}
                 for(int wi=0;wi<10;++wi){uint32_t bi=uint32_t(wi)&3u;vk.dispatch(base,banks[bi].s0,c,false,false);vk.dispatch(cand,banks[bi].s1,c,true,false);}
                 std::vector<uint64_t> bn,cn;
                 for(int pi=0;pi<30;++pi){uint32_t bi=uint32_t(pi)&3u;bool base_first=((pi&1)==0);if(process=="B")base_first=!base_first;
