@@ -1066,3 +1066,10 @@ Status: SA1K1_IMPLEMENTED_AWAITING_STATIC_QA. Component measurement, Q6 implemen
 ## 2026-09-21 — SA1-K1 pre-static implementation QA repair
 Before any compile, GPU dispatch, correctness preflight or performance measurement, connector audit of implementation commit `e5c761eff4811c41cee8b3c803d560600baac656` found three engineering-only defects: MSVC-risky multiword functional casts in RMSE code; an incorrect descriptive future-timing census field (400 rather than 300 timed dispatches / 600 timestamp values); and retention of all four host fixture weight copies after upload, which could violate the 256 MiB component-process allocation budget.
 Repaired only the SA1 component harness/static test. Candidate shader, frozen mechanism, geometry, fixtures, correctness thresholds, performance gates, baseline identity and all P7/Q2/Q3 files are unchanged. No scientific attempt was consumed.
+
+
+## 2026-09-21 — SA1-K1 independent static-equivalent audit PASS
+Audited exact repaired implementation commit `2f163873723b6d5bdf70cc7f8385d2bfd370ab27`. Verified one and only one SA1 shader; exact subgroup32 split-K geometry; required subgroup size 32 and full-subgroup pipeline controls; no shared memory/cooperative matrix/staging/fusion; immutable P7 Q4/Q6 baselines and Q2/Q3 runtime; corrected resource handling; and separate execution-authorization gate on future measured mode.
+The Vulkan required-subgroup-size structure and full-subgroup flag are valid for compute, and frozen local_size_x=128 is a multiple of required subgroup size 32. This is API/structural validation only.
+Decision: `PASS_CONNECTOR_EQUIVALENT_STATIC_AUDIT`. Native shader compile, C++ BuildOnly and exact-device correctness preflight remain NOT RUN and cannot be inferred from static review.
+Status: READY_FOR_ZERO_MEASUREMENT_PREFLIGHT. Measurement, Q6, target-model execution and Q3 remain forbidden.

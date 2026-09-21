@@ -2,7 +2,7 @@
   "phase": "SA1-K1-IMPLEMENTATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "SA1K1_IMPLEMENTED_AWAITING_STATIC_QA",
+  "status": "SA1K1_STATIC_QA_PASS_READY_FOR_ZERO_MEASUREMENT_PREFLIGHT",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Independent static audit of exact SA1-K1 implementation. If PASS, run exact-device zero-measurement correctness preflight and return bundle. Measurement remains forbidden.",
+  "next_on_success": "Run target-local SA1-K1 static test + pinned shader compile + native BuildOnly + correctness-only zero-measurement preflight. Return bundle for independent adjudication. Do not run measured Q4.",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -526,7 +526,7 @@
     }
   },
   "sa1": {
-    "status": "SA1K1_IMPLEMENTED_AWAITING_STATIC_QA",
+    "status": "SA1K1_STATIC_QA_PASS_READY_FOR_ZERO_MEASUREMENT_PREFLIGHT",
     "preregistration": "docs/SA1P_DECODE_PACKED_QUANT_COMPONENT_STUDY.md",
     "contract": "config/sa1p_component_study_preregistration_v0.1.json",
     "primary_mechanism": "SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW",
@@ -542,7 +542,7 @@
     "implementation_lock": "config/sa1p_implementation_lock_v0.1.json",
     "implementation_scope": "SA1-K1_ALLOWLIST_ONLY",
     "k1": {
-      "status": "IMPLEMENTED_AWAITING_STATIC_QA",
+      "status": "STATIC_AUDIT_PASS_READY_FOR_TARGET_PREFLIGHT",
       "contract": "config/sa1_k1_implementation_contract_v0.1.json",
       "shader": "shaders/sa1_q4k_subgroup_splitk.comp",
       "harness": "src/sa1_component_benchmark.cpp",
@@ -553,7 +553,10 @@
       "adjudicator": "tools/adjudicate_sa1_component.py",
       "static_qa": "tests/test_sa1_component_package.py",
       "candidate_variants": 1,
-      "measurement_authorized": false
+      "measurement_authorized": false,
+      "static_audit": "artifacts/SA1/SA1K1_STATIC_AUDIT_v0.1.json",
+      "compile_status": "PENDING_TARGET_LOCAL",
+      "zero_measurement_preflight_status": "NOT_RUN"
     }
   }
 }

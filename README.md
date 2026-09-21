@@ -166,3 +166,6 @@ Q6 implementation, component measurement, target-model inference and Q3 remain b
 The first successor implementation now exists under the SA1-P lock: one Q4_K subgroup-32 split-K shader plus an isolated synthetic component harness.
 
 Measurement is still **not authorized**. The next gate is independent static audit followed by the exact-device correctness-only zero-measurement preflight.
+
+
+SA1-K1 has passed an independent static-equivalent audit. Native compile/build and correctness-only preflight are still pending on the exact Arc 140V target; measured Q4 execution remains blocked.

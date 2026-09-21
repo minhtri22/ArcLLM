@@ -1,0 +1,53 @@
+{
+  "schema": "arcllm.sa1.k1.static_audit.v0.1",
+  "date": "2026-09-21",
+  "audited_commit": "2f163873723b6d5bdf70cc7f8385d2bfd370ab27",
+  "result": "PASS_CONNECTOR_EQUIVALENT_STATIC_AUDIT",
+  "compile_status": "PENDING_TARGET_LOCAL",
+  "zero_measurement_preflight_status": "NOT_RUN",
+  "exact_blobs": {
+    "candidate_shader": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "component_harness": "3a7c7a80ff8e23aa4443499efa5aa5c71ffd5557",
+    "static_test": "1cd69d8b5c82f4eb5099e28981c9d2f24bf8ab4c",
+    "preflight_runner": "bc02db22ba5723ced02296e5c153bea44ea6e95f",
+    "measurement_runner": "dc80ea2663373446ff280a04b2e8358b5c5b1d78",
+    "implementation_contract": "3d8948fc1cb62b6260763ca34abe7bc1b3dec8dc",
+    "parent_lock": "7d79316640dfa5b698ec68a5b770a7dc0903a3c6",
+    "baseline_q4_shader": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a"
+  },
+  "checks": {
+    "exactly_one_sa1_shader": true,
+    "baseline_q4_q6_unchanged": true,
+    "q2_q3_runtime_unchanged": true,
+    "local_size_128": true,
+    "subgroup_id_and_lane_mapping": true,
+    "split_k_stride_32": true,
+    "subgroup_arithmetic_reduction": true,
+    "required_subgroup_size_32_enforced_at_pipeline": true,
+    "require_full_subgroups_enforced": true,
+    "shared_memory_absent": true,
+    "cooperative_matrix_absent": true,
+    "fp16_int8_staging_absent": true,
+    "host_four_bank_weight_copies_not_retained": true,
+    "msva_safe_rmse_casts": true,
+    "future_timed_dispatch_census_300": true,
+    "future_timestamp_value_census_600": true,
+    "preflight_invokes_preflight_mode_only": true,
+    "preflight_rejects_any_timestamp_or_measured_pair": true,
+    "measurement_runner_requires_separate_authorization": true,
+    "q6_implementation_closed": true,
+    "target_model_execution_closed": true,
+    "q3_closed": true
+  },
+  "external_api_validation": {
+    "vulkan_required_subgroup_size_structure": "VkPipelineShaderStageRequiredSubgroupSizeCreateInfo",
+    "full_subgroup_flag": "VK_PIPELINE_SHADER_STAGE_CREATE_REQUIRE_FULL_SUBGROUPS_BIT",
+    "workgroup_x_multiple_of_required_subgroup_size": true,
+    "local_size_x": 128,
+    "required_subgroup_size": 32,
+    "max_compute_workgroup_subgroups_from_sa0": 64
+  },
+  "decision": "READY_FOR_TARGET_LOCAL_STATIC_TEST_COMPILE_BUILD_AND_ZERO_MEASUREMENT_PREFLIGHT",
+  "measurement_authorized": false,
+  "next": "Run tests/test_sa1_component_package.py then run_sa1_component_preflight.ps1 on the exact target. Return results/sa1_k1_preflight_return_to_chatgpt.zip."
+}
