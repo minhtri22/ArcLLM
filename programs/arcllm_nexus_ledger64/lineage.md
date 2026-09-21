@@ -23,3 +23,37 @@ Rules:
 - Scientific implementation: NOT AUTHORIZED.
 - Target execution: NOT AUTHORIZED.
 - Next: freeze ORIGIN, governance, prior-art/source register, and transfer-admissibility rules before architecture implementation.
+
+
+## 2026-09-21 — P0/P1 COMPLETE / P2 DESIGN OPEN
+
+P0 ORIGIN and governance are frozen for the new ANL64 program. The previous ArcLLM successor remains terminal and is referenced only as parent evidence.
+
+P1 prior-art/source review completed before implementation. Exact internal evidence and external source revisions/licenses were pinned. Transfer classes were frozen so externally established mechanisms are not re-proved unnecessarily, while Intel Arc/Vulkan compatibility and ANL64 performance remain local questions.
+
+Key dispositions:
+- heterogeneous executor selection is admissible as an architecture pattern;
+- historical Q4 component PASS may seed a Q4 executor but is not an integrated/E2E result;
+- Q6 is initially allowed to remain on a correctness-preserving safe executor;
+- Event Ledger/Ledger64 semantic/control-plane ideas are admissible where a natural ANL64 mapping exists;
+- Ledger64 LD64-2 performance remains UNRESOLVED and supplies no ANL64 performance claim;
+- 64-wide Ledger64 mapping is not forced.
+
+Frozen ANL64 blobs at this stage:
+- ORIGIN: `a16455ff6429922e8184489a6c8f92edf6a632ba`
+- governance after P1 gate: `0180771d63596d6c0e0e437aa94f1c36105597a6`
+- prior-art register: `057569ce027b02b47bab29bd8afb40b4ab78cd93`
+- prior-art review: `83a4b3a93232d200b00aaf914aaa820907d8085b`
+- transfer contract: `210add63ea86c5c99ee4bc77c7461e244544a541`
+- architecture preimplementation spec: `d9bce32a2ea62a27b55603fd1afbc555e43b5b56`
+- P1 zero-science QA: `8d622f022e0ebdd05825afe72b4fa5461f13285e`
+
+P1 QA result: `PASS_ZERO_SCIENCE_PRIOR_ART_TRANSFER_QA`.
+
+Current authorization:
+- P2 architecture design / E2E upper-bound analysis: AUTHORIZED.
+- P3 local compatibility execution: BLOCKED.
+- P4 implementation: BLOCKED.
+- target execution / scientific measurement: BLOCKED.
+
+Next: freeze the exact P2 architecture mapping, executor table, Ledger64 role, static/E2E upper-bound model, falsification and stop conditions before any code implementation.
