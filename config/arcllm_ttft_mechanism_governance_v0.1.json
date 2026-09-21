@@ -3,7 +3,7 @@
   "date": "2026-09-22",
   "program_id": "ARCLLM_TTFT_M1",
   "branch": "research/arcllm-ttft-mechanism",
-  "status": "P4_COMPLETE_P5_ZERO_SCIENCE_QA_PENDING",
+  "status": "P5_COMPLETE_PASS_P6_AUTHORIZATION_GATE_ELIGIBLE",
   "parent": {
     "terminal_program": "ANL64",
     "terminal_head": "0e40b3affe4f6add9ce23921687b2659017c95d3",
@@ -50,8 +50,8 @@
     "P2": "COMPLETE",
     "P3": "COMPLETE",
     "P4": "COMPLETE",
-    "P5": "OPEN",
-    "P6": "BLOCKED",
+    "P5": "COMPLETE_PASS",
+    "P6": "AUTHORIZATION_GATE_ELIGIBLE_NOT_AUTHORIZED",
     "P7": "BLOCKED",
     "P8": "BLOCKED",
     "P9": "BLOCKED",
@@ -62,16 +62,19 @@
     "policy": "APPEND_ONLY_WITHIN_THIS_PROGRAM",
     "fresh": true,
     "closed": false,
-    "reuse_parent_lineage": false
+    "reuse_parent_lineage": false,
+    "current_blob": "5551d0011816ff2724e282513fad049e9eecbb10"
   },
   "authorization": {
     "prior_art_research": false,
-    "repository_read_only_analysis": true,
-    "specification_only": true,
+    "repository_read_only_analysis": false,
+    "specification_only": false,
     "implementation": false,
     "target_model_execution": false,
     "gpu_dispatch": false,
-    "performance_measurement": false
+    "performance_measurement": false,
+    "p6_authorization_gate": true,
+    "build": false
   },
   "stop_rules": [
     "STOP_DRIFT if work ceases to identify or remove a TTFT mechanism while preserving demonstrated decode/E2E gains.",
@@ -79,7 +82,7 @@
     "No implementation before prior-art/source review, local path mapping, causal decomposition, falsification gates, and zero-science QA all pass.",
     "A valid negative result is terminal evidence, not an invitation to tune to PASS."
   ],
-  "next": "P5_ZERO_SCIENCE_PROGRAM_QA",
+  "next": "P6_EXPLICIT_BOUNDED_DIAGNOSTIC_IMPLEMENTATION_AUTHORIZATION_GATE",
   "p1": {
     "register": "config/arcllm_ttft_prior_art_register_v0.1.json",
     "register_blob": "92682f51f97c9af87ce408629ff7c6f45d3468ac",
@@ -103,5 +106,13 @@
     "contract_blob": "fb856b27385278878114316ebd667b97fb38ba59",
     "document": "docs/research/arcllm-ttft-mechanism/FALSIFICATION_AND_STOP.md",
     "document_blob": "010c9ff3af0561998fd14949a84a8e6e8775ec04"
+  },
+  "p5": {
+    "result": "PASS_ZERO_SCIENCE_TTFT_M1_PROGRAM_QA",
+    "artifact": "artifacts/TTFT_M1/TTFT_M1_P5_ZERO_SCIENCE_QA_v0.1.json",
+    "artifact_blob": "234ea107f5d6e049a879acdea1a0c679bf0e566c",
+    "document": "docs/research/arcllm-ttft-mechanism/P5_ZERO_SCIENCE_QA.md",
+    "document_blob": "362340c2ef6932a2d078329f5f329e576dbc1d60",
+    "open_finding_count": 0
   }
 }
