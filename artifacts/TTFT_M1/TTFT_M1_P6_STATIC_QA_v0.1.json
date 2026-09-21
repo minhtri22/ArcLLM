@@ -1,0 +1,73 @@
+{
+  "schema": "arcllm.ttft_m1.p6_static_qa.v0.1",
+  "date": "2026-09-22",
+  "result": "PASS_CONNECTOR_EQUIVALENT_P6_STATIC_QA_BUILDONLY_PENDING",
+  "scientific_execution": false,
+  "target_model_load": false,
+  "gpu_dispatch": false,
+  "performance_measurement": false,
+  "bindings": {
+    "implementation_authorization_blob": "03bf0f7ab3d2067c6aa1a9a04c8d6fc9072baaa7",
+    "reconciliation_blob": "392f02cac42a2b3f52f2cacf92580a918529e180",
+    "diagnostic_source_blob": "88d97ddb497bfddcec191358f1e21d982c5efccf",
+    "shader_build_tool_blob": "c7b7777c2023da7f0ff7fe489f844bc66069ef43",
+    "native_build_tool_blob": "1c65d419fb664889bcefc452c509628eff6858a6",
+    "static_test_blob": "34134de38390f8bd4cb5aee1362670303f3aca0a"
+  },
+  "immutable_sources": {
+    "q2_runtime_blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "anl64_runtime_blob": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+    "shared_vulkan_blob": "8432ca554b36a2167429b640c5ec6779cf2b3e6b",
+    "q4fast_shader_blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a"
+  },
+  "checks": {
+    "common_measured_prefill_source_exact_equal_to_q2": true,
+    "q4fast_references_in_common_prefill": 0,
+    "q4fast_references_in_decode": 5,
+    "q4fast_roles_exact": [
+      "q_proj",
+      "k_proj",
+      "o_proj",
+      "ffn_gate",
+      "ffn_up"
+    ],
+    "v_and_down_remain_safe": true,
+    "factors_exact": [
+      "SAFE",
+      "Q4FAST",
+      "PREFILL_ONLY",
+      "FULL_INFERENCE"
+    ],
+    "arm_map_exact": {
+      "SP": "SAFE+PREFILL_ONLY",
+      "SF": "SAFE+FULL_INFERENCE",
+      "QP": "Q4FAST+PREFILL_ONLY",
+      "QF": "Q4FAST+FULL_INFERENCE"
+    },
+    "measured_attempts_per_cell": 5,
+    "separate_warmup_absent": true,
+    "conditioning_before_measured_t0": true,
+    "reset_after_conditioning_before_t0": true,
+    "measured_prefill_dispatch_expected": 441,
+    "parent_p6_timing_paths_absent": true,
+    "allowed_secondary_telemetry_exact": true,
+    "H_ART_two_artifact_sets": true,
+    "H_ART_common_shader_count": 16,
+    "H_ART_common_exact_sha_required": true,
+    "H_ART_q4fast_historical_spv_reproduction_required": true,
+    "native_build_does_not_launch_executable": true,
+    "production_source_mutation": false,
+    "existing_shader_mutation": false
+  },
+  "buildonly_required_next": {
+    "python_static_test": true,
+    "two_set_shader_compile": true,
+    "H_ART_adjudication": true,
+    "native_windows_build": true,
+    "executable_launch": false,
+    "model_load": false,
+    "gpu_dispatch": false,
+    "timing": false
+  },
+  "next": "FREEZE_P6_IMPLEMENTATION_LOCK_AND_RUN_ONE_BUILDONLY_RUNNER"
+}
