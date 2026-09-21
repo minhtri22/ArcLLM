@@ -1,0 +1,140 @@
+{
+  "schema": "arcllm.q6cb1.specification.v0.1",
+  "date": "2026-09-21",
+  "program_id": "Q6CB-1",
+  "title": "Q6 Correctness-Boundary Mechanism Study",
+  "status": "SPECIFICATION_ONLY_EXECUTION_CLOSED",
+  "branch": "research/q6-correctness-boundary",
+  "parent_main_commit": "3352dbc841a06f1cab8e70f9d8353d683c411ccc",
+  "origin": {
+    "sa1_status": "SA1_CLOSED_ASYMMETRIC_Q4_PASS_Q6_CORRECTNESS_FAIL",
+    "q4_result": "Q4_STAGE_PASS",
+    "q6_result": "Q6_STAGE_FAIL_CORRECTNESS",
+    "q6_scientific_execution_commit": "b87f3bccee3809cedb2d88ab77c9885406348a87",
+    "q6_failure_bundle_sha256": "B4D6A6F7CF4ADE32EFFD9408754216CF3ED8FCABC2065F1A94D253CBA0933E95",
+    "sa1_closeout_artifact": "artifacts/SA1/SA1_CLOSEOUT_v0.1.json",
+    "sa1_adjudication_artifact": "artifacts/SA1/SA1K2_Q6_ADJUDICATION_v0.1.json",
+    "sa1_immutable": true
+  },
+  "non_rescue_contract": {
+    "sa1_reclassification_permitted": false,
+    "sa1_threshold_mutation_permitted": false,
+    "sa1_fixture_rerun_as_fresh_evidence_permitted": false,
+    "q6_performance_rescue_permitted": false,
+    "target_model_integration_permitted": false,
+    "optimization_inside_q6cb1_permitted": false
+  },
+  "research_question": "What causal mechanism explains the Q6_K correctness boundary observed when serial FP32 accumulation is replaced by subgroup-32 split-K partial accumulation and subgroup reduction under the frozen SA1 mechanism?",
+  "hypotheses": [
+    {
+      "id": "H-RTCI",
+      "name": "reduction_topology_x_conditioning_interaction",
+      "assumed_true": false
+    },
+    {
+      "id": "H-PDI",
+      "name": "packed_dequant_access_interaction",
+      "assumed_true": false
+    },
+    {
+      "id": "H-DSA",
+      "name": "device_subgroup_arithmetic_contribution",
+      "assumed_true": false
+    },
+    {
+      "id": "H-SEM",
+      "name": "hidden_semantic_or_reference_defect",
+      "assumed_true": false
+    },
+    {
+      "id": "H-NSB",
+      "name": "no_stable_fresh_boundary",
+      "assumed_true": false
+    }
+  ],
+  "minimum_causal_arms": [
+    "R64_CANONICAL_HIGH_PRECISION_REFERENCE",
+    "S32_SERIAL_FP32",
+    "T32_CPU_FIXED_TREE",
+    "T32_GPU_DIRECT_PACKED_Q6",
+    "T32_GPU_PREEXPANDED_FP32_DIAGNOSTIC"
+  ],
+  "required_contrasts": [
+    "TOPOLOGY_T32_CPU_VS_S32",
+    "DEVICE_T32_GPU_EXPANDED_VS_T32_CPU",
+    "PACKED_PATH_T32_GPU_PACKED_VS_T32_GPU_EXPANDED",
+    "CONDITIONING_X_TOPOLOGY_INTERACTION",
+    "CANONICAL_Q6_SEMANTIC_INVARIANT"
+  ],
+  "conditioning_strata_minimum": [
+    "LOW_CANCELLATION_BOUNDED_RANGE",
+    "HIGH_CANCELLATION",
+    "SCALE_HETEROGENEITY",
+    "MIXED_SIGN_HIGH_DYNAMIC_RANGE",
+    "NEUTRAL_RANDOM_CONTROL"
+  ],
+  "fresh_data_exclusions": {
+    "exclude_sa1_cells": [
+      "Q6_H3584_R512_BIAS",
+      "Q6_H18944_R3584_NOBIAS"
+    ],
+    "exclude_sa1_banks": [0, 3],
+    "exclude_sa1_exact_inputs_weights_outputs": true,
+    "exclude_sa1_random_seeds": true,
+    "posthoc_failure_mining_forbidden": true,
+    "threshold_selection_after_fresh_outcome_forbidden": true,
+    "sa1_preflight_rerun_for_q6cb_evidence_forbidden": true,
+    "identification_and_confirmatory_partitions_freeze_before_first_execution": true
+  },
+  "required_pre_execution_freeze": [
+    "fixture_generator_spec",
+    "seed_derivation_rule",
+    "conditioning_strata",
+    "identification_partition",
+    "confirmatory_partition",
+    "fixture_counts",
+    "numeric_tolerances",
+    "classification_rules",
+    "evidence_schema",
+    "implementation_commit_and_artifact_hashes",
+    "device_environment_contract"
+  ],
+  "falsification": {
+    "F0": "INVALID_EXECUTION_OR_PROVENANCE",
+    "F1": "BOUNDARY_NOT_REPRODUCED",
+    "F2": "H_RTCI_SIGNATURE_REQUIRED",
+    "F3": "H_PDI_SIGNATURE_REQUIRED",
+    "F4": "H_DSA_SIGNATURE_REQUIRED",
+    "F5": "H_SEM_SIGNATURE_REQUIRED",
+    "F6": "MULTIFACTOR_OR_UNRESOLVED_ALLOWED"
+  },
+  "final_classes": [
+    "BOUNDARY_NOT_REPRODUCED",
+    "H_RTCI_SUPPORTED",
+    "H_PDI_SUPPORTED",
+    "H_DSA_SUPPORTED",
+    "H_SEM_SUPPORTED",
+    "MULTIFACTOR",
+    "UNRESOLVED_MECHANISM",
+    "INVALID_F0"
+  ],
+  "finite_roadmap": [
+    "Q6CB-0_SPECIFICATION_AND_ZERO_SCIENCE_QA",
+    "Q6CB-1_CAUSAL_HARNESS_IMPLEMENTATION_LOCK",
+    "Q6CB-2_FROZEN_IDENTIFICATION_COLLECTION",
+    "Q6CB-3_FROZEN_CONFIRMATORY_COLLECTION_IF_PREDECLARED_GATE_OPENS",
+    "Q6CB-4_FINAL_ADJUDICATION_AND_CLOSE"
+  ],
+  "authorization": {
+    "specification_write": true,
+    "zero_science_qa": true,
+    "causal_harness_implementation": false,
+    "fresh_fixture_execution": false,
+    "scientific_cpu_execution": false,
+    "scientific_gpu_execution": false,
+    "performance_timing": false,
+    "target_model_load": false,
+    "sa1_rerun": false
+  },
+  "next": "INDEPENDENT_ZERO_SCIENCE_SPECIFICATION_QA"
+}
