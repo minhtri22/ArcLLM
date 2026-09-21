@@ -211,3 +211,34 @@ Current authorization:
 - P7: false.
 
 Next: implement exact P6 allowlist, then static QA + BuildOnly/H-ART gate.
+
+
+## 2026-09-22 — P6 IMPLEMENTED / STATIC QA PASS / BUILDONLY LOCKED
+
+P6 diagnostic implementation stayed within the exact authorization allowlist.
+
+Frozen implementation:
+- diagnostic source blob `88d97ddb497bfddcec191358f1e21d982c5efccf`;
+- H-ART shader compiler blob `c7b7777c2023da7f0ff7fe489f844bc66069ef43`;
+- native BuildOnly tool blob `1c65d419fb664889bcefc452c509628eff6858a6`;
+- static package test blob `ac1e0fdea2f16598bb1665b4430340d8295083bf`;
+- static QA blob `5174b0d0bc4cf80bca31ea005a3ee55d9ac0ab09`;
+- BuildOnly runner blob `ed32620591aeeb3942efcc220ec6a0bfec7d124b`;
+- implementation lock blob `b9f3e9b40bd99268ae7d0d4035b53055a007bec8`.
+
+Connector-equivalent static QA established:
+- diagnostic `build_prefill` is byte-for-byte equal to frozen safe Q2 source;
+- Q4FAST appears zero times in measured prefill and exactly five times in decode;
+- factors are exactly SAFE/Q4FAST × PREFILL_ONLY/FULL_INFERENCE;
+- conditioning is completed before reset and measured t0;
+- five measured attempts per future cell; no separate warmup;
+- parent P6 timing artifacts are not read;
+- production ANL64/Q2/Vulkan sources and existing shaders remain immutable.
+
+P6 BuildOnly must next evaluate the mandatory H-ART static gate by independently compiling SAFE and Q4FAST artifact sets. The target model must not be loaded and the diagnostic executable must not be launched.
+
+Current state:
+`P6_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING`.
+
+Next:
+`RUN_COMMITTED_RUN_TTFT_M1_P6_BUILDONLY_PS1_AND_RETURN_BUNDLE`.
