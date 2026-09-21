@@ -1,0 +1,182 @@
+{
+  "schema": "arcllm.anl64.p5.integration_validation_spec.v0.1",
+  "date": "2026-09-21",
+  "status": "P5_SPECIFICATION_FROZEN_EXECUTION_BLOCKED",
+  "purpose": "Validate semantic integration of the locked ANL64 planner + 140 Q4_FAST decode nodes against the exact frozen safe ArcLLM reference before any matched performance confirmation.",
+  "prerequisites": {
+    "p4_result": "P4_IMPLEMENTATION_AND_BUILDONLY_CLOSED_PASS",
+    "p4_adjudication_blob": "e9039de1af496cf724a390e8180ae7d97e99f091",
+    "candidate_runtime_blob": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+    "candidate_plan_blob": "157be15c63363ba2d55093af829ca68be9107e27",
+    "candidate_q4_fast_source_blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "candidate_q4_fast_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+    "candidate_p4_executable_sha256": "1F45DA9D8CACE3CF78FE31B7B7041B6027CB41E180F7FC99E50E1127EA4F5451",
+    "reference_runtime_blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "reference_q4_safe_source_blob": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a"
+  },
+  "exact_target": {
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "model_bytes": 4683074048,
+    "architecture": "qwen2",
+    "layers": 28,
+    "hidden": 3584,
+    "ffn": 18944,
+    "vocab": 152064,
+    "cpu": "Intel(R) Core(TM) Ultra 7 258V",
+    "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "driver": "32.0.101.8860"
+  },
+  "systems": {
+    "reference": {
+      "name": "ARC_SAFE_REFERENCE",
+      "source": "src/q2_benchmark.cpp",
+      "source_blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+      "q4_executor": "p7_q4k_gemm_2d.spv",
+      "q6_executor": "p7_q6k_gemm_2d.spv",
+      "role": "semantic reference only"
+    },
+    "candidate": {
+      "name": "ANL64_P4_LOCKED",
+      "source": "src/anl64_runtime.cpp",
+      "source_blob": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+      "planner": "src/anl64_plan.hpp",
+      "planner_blob": "157be15c63363ba2d55093af829ca68be9107e27",
+      "q4_fast_roles": [
+        "q_proj",
+        "k_proj",
+        "o_proj",
+        "ffn_gate",
+        "ffn_up"
+      ],
+      "q4_fast_plan_nodes": 140,
+      "q4_fast_regions": 19936,
+      "q6_optimization": false
+    }
+  },
+  "workloads": [
+    {
+      "id": "W-S",
+      "prompt_tokens": 4,
+      "token_ids": [
+        1,
+        133151,
+        133152,
+        152062
+      ],
+      "output_tokens": 32
+    },
+    {
+      "id": "W-C",
+      "prompt_tokens": 256,
+      "token_rule": "first 4 = [1,133151,133152,152062]; for i>=4: 1 + ((104729 + 7919*i) mod 152063)",
+      "output_tokens": 32
+    }
+  ],
+  "frozen_repetitions": {
+    "warmups_per_system_workload": 1,
+    "measured_attempts_per_system_workload": 5,
+    "system_workload_cells": 4,
+    "measured_attempts_total": 20,
+    "reason": "Reuse the exact locked runtime repetition contract; do not modify production source merely to reduce validation cost.",
+    "warmup_scientific_role": "NONE"
+  },
+  "evidence_read_policy": {
+    "primary_allowed_fields": [
+      "success",
+      "final_logits_finite",
+      "dispatch_census_pass",
+      "generated_token_ids",
+      "generated_hash_fnv1a64",
+      "final_logits_hash_fnv1a64",
+      "final_hidden_hash_fnv1a64",
+      "candidate anl64_plan fields"
+    ],
+    "performance_fields_quarantined": [
+      "ttft_ms",
+      "decode_ms",
+      "decode_tps",
+      "e2e_ms",
+      "wall timing",
+      "resource/performance summaries"
+    ],
+    "performance_fields_decision_role": "NONE",
+    "performance_fields_p6_reuse_permitted": false,
+    "raw_p5_timing_is_spent_for_performance": true,
+    "p6_requires_fresh_execution": true
+  },
+  "gates": {
+    "F0_provenance": {
+      "pass_requires": [
+        "exact model SHA256/bytes",
+        "exact target GPU/driver",
+        "candidate P4 executable SHA256 or exact rebuild bound to locked sources",
+        "reference exact source/shader provenance",
+        "workloads and repetitions exact",
+        "no source/shader mutation",
+        "no selective attempt substitution"
+      ],
+      "failure": "P5_INVALID_F0"
+    },
+    "F1_structure": {
+      "candidate_plan_nodes": 469,
+      "candidate_quant_linear_nodes": 215,
+      "candidate_fixed_q4_fast_nodes": 140,
+      "candidate_regions": 24104,
+      "candidate_fixed_q4_regions": 19936,
+      "candidate_metadata_bytes_max": 2097152,
+      "candidate_plan_hash_requirement": "nonzero and identical across W-S and W-C processes",
+      "every_measured_attempt_success": true,
+      "every_measured_attempt_dispatch_census_pass": true,
+      "every_measured_attempt_final_logits_finite": true
+    },
+    "F2_prefill_control": {
+      "rule": "For every measured attempt, generated_token_ids[0] must be exactly equal between ARC_SAFE_REFERENCE and ANL64_P4_LOCKED for the same workload.",
+      "rationale": "Prefill remains on the unchanged safe path; a mismatch is an integration/control failure independent of Q4_FAST decode semantics."
+    },
+    "F3_decode_semantics": {
+      "rule": "For each workload and measured attempt index 0..4, the complete 32-token generated_token_ids sequence must be exactly equal between candidate and reference.",
+      "tolerance": "ZERO token mismatches",
+      "numeric_hash_equality_required": false,
+      "rationale": "Closed SA1 already established local numerical correctness of the exact Q4_FAST shader. P5 tests integrated greedy execution semantics; full-logit bit identity is not expected under changed FP32 reduction order."
+    },
+    "F4_repeatability": {
+      "rule": "Within each system/workload, all five measured generated-token sequences must be identical; candidate final logits hash and final hidden hash must each be stable across the five measured attempts.",
+      "warmup_in_gate": false
+    }
+  },
+  "final_classifications": [
+    "P5_INTEGRATION_PASS",
+    "P5_SEMANTIC_INTEGRATION_FAIL",
+    "P5_INVALID_F0",
+    "P5_STOP_INFRASTRUCTURE_UNSTABLE"
+  ],
+  "adjudication_order": [
+    "F0_provenance",
+    "F1_structure",
+    "F2_prefill_control",
+    "F3_decode_semantics",
+    "F4_repeatability"
+  ],
+  "stop_rules": [
+    "Any measured candidate/reference token mismatch => P5_SEMANTIC_INTEGRATION_FAIL; do not tune thresholds or Q4_FAST.",
+    "Any candidate structural census/finite/dispatch failure => P5_SEMANTIC_INTEGRATION_FAIL unless independently proven F0 infrastructure/provenance.",
+    "No Q6 optimization, fusion, repack, prefetch, quantization change, executor search or numerical threshold tuning is allowed as P5 rescue.",
+    "A semantic FAIL closes the current ANL64 architecture path before P6.",
+    "A valid P5 PASS only makes P6 specification/authorization eligible; it does not authorize performance execution automatically."
+  ],
+  "infrastructure_policy": {
+    "repair_budget": 1,
+    "repair_scope": "infrastructure/orchestration only; no production/runtime/shader/science contract mutation",
+    "selective_rerun_permitted": false,
+    "after_partial_scientific_execution": "full frozen P5 replay only if the sole repair is validly adjudicated infrastructure-only",
+    "second_f0": "P5_STOP_INFRASTRUCTURE_UNSTABLE"
+  },
+  "execution_authorization": {
+    "p5_execution": false,
+    "target_model_load": false,
+    "gpu_dispatch": false,
+    "performance_adjudication": false,
+    "p6": false
+  },
+  "next": "ZERO_SCIENCE_P5_SPECIFICATION_QA_THEN_EXPLICIT_P5_EXECUTION_AUTHORIZATION_GATE"
+}
