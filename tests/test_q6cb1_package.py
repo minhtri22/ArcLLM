@@ -69,7 +69,7 @@ for token in [
 req("while" not in gen,"generator must not contain adaptive search loop")
 for token in ["expected_q","expected_scale","expected_d_bits","verify_semantic_invariant","q_mismatches","scale_mismatches","d_mismatches"]:
     req(token in gen,"runtime semantic invariant missing: "+token)
-req("\"semantic_invariant\"" in cpp and "semantic_invariant.pass" in cpp,"harness semantic invariant evidence missing")
+req("\\\"semantic_invariant\\\"" in cpp and "semantic_invariant.pass" in cpp,"harness semantic invariant evidence missing")
 
 # GPU arms preserve the same split-32 geometry.
 for shader,name in [(packed,"packed"),(expanded,"expanded")]:
