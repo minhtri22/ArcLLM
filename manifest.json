@@ -1,8 +1,8 @@
 {
-  "phase": "ARCLLM-TTFT-M1-P5-ZERO-SCIENCE-QA",
+  "phase": "ARCLLM-TTFT-M1-P6-AUTHORIZATION-GATE",
   "track": "ArcLLM TTFT causal mechanism",
   "date": "2026-09-22",
-  "status": "TTFT_M1_P4_COMPLETE_P5_QA_PENDING",
+  "status": "TTFT_M1_P5_COMPLETE_PASS_P6_AUTHORIZATION_GATE_ELIGIBLE",
   "title": "independent TTFT mechanism identification after terminal ANL64",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "ARCLLM_TTFT_M1",
@@ -828,9 +828,10 @@
     "ttft_m1_build": false,
     "ttft_m1_target_execution": false,
     "ttft_m1_gpu_dispatch": false,
-    "ttft_m1_performance_measurement": false
+    "ttft_m1_performance_measurement": false,
+    "ttft_m1_p6_authorization_gate": true
   },
-  "next": "TTFT_M1_P5_ZERO_SCIENCE_PROGRAM_QA",
+  "next": "TTFT_M1_P6_EXPLICIT_BOUNDED_DIAGNOSTIC_IMPLEMENTATION_AUTHORIZATION_GATE",
   "anl64": {
     "program_id": "ANL64",
     "branch": "research/arcllm-nexus-ledger64",
@@ -1059,12 +1060,12 @@
     },
     "governance": {
       "path": "config/arcllm_ttft_mechanism_governance_v0.1.json",
-      "blob": "9840c57e1c66f0c99158152c49508f17d5bcc8b1",
-      "status": "P4_COMPLETE_P5_ZERO_SCIENCE_QA_PENDING"
+      "blob": "4d767e1a4b5f1d40ff1681d8e28f6b70d9c113ca",
+      "status": "P5_COMPLETE_PASS_P6_AUTHORIZATION_GATE_ELIGIBLE"
     },
     "lineage": {
       "path": "programs/arcllm_ttft_mechanism/lineage.md",
-      "blob": "743472e98ad9abce5349ef86cb52ae0909f8f194",
+      "blob": "5551d0011816ff2724e282513fad049e9eecbb10",
       "policy": "APPEND_ONLY_WITHIN_THIS_PROGRAM",
       "closed": false
     },
@@ -1074,8 +1075,8 @@
       "P2": "COMPLETE",
       "P3": "COMPLETE",
       "P4": "COMPLETE",
-      "P5": "OPEN",
-      "P6": "BLOCKED",
+      "P5": "COMPLETE_PASS",
+      "P6": "AUTHORIZATION_GATE_ELIGIBLE_NOT_AUTHORIZED",
       "P7": "BLOCKED",
       "P8": "BLOCKED",
       "P9": "BLOCKED",
@@ -1098,13 +1099,22 @@
       "document_blob": "010c9ff3af0561998fd14949a84a8e6e8775ec04"
     },
     "authorization": {
-      "specification_only": true,
+      "p6_authorization_gate": true,
+      "specification_only": false,
       "implementation": false,
       "build": false,
       "target_execution": false,
       "gpu_dispatch": false,
       "performance_measurement": false
     },
-    "next": "P5_ZERO_SCIENCE_PROGRAM_QA"
+    "next": "P6_EXPLICIT_BOUNDED_DIAGNOSTIC_IMPLEMENTATION_AUTHORIZATION_GATE",
+    "p5": {
+      "result": "PASS_ZERO_SCIENCE_TTFT_M1_PROGRAM_QA",
+      "artifact": "artifacts/TTFT_M1/TTFT_M1_P5_ZERO_SCIENCE_QA_v0.1.json",
+      "artifact_blob": "234ea107f5d6e049a879acdea1a0c679bf0e566c",
+      "document": "docs/research/arcllm-ttft-mechanism/P5_ZERO_SCIENCE_QA.md",
+      "document_blob": "362340c2ef6932a2d078329f5f329e576dbc1d60",
+      "open_finding_count": 0
+    }
   }
 }
