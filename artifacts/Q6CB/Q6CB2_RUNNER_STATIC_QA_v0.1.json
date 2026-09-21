@@ -1,0 +1,34 @@
+{
+  "schema": "arcllm.q6cb2.runner_static_qa.v0.1",
+  "date": "2026-09-21",
+  "result": "PASS_ZERO_SCIENCE_RUNNER_STATIC_QA",
+  "runner": {
+    "path": "run_q6cb2_identification.ps1",
+    "git_blob": "fa82d7023d0f94de2572df852f0d3a2f9dab6c91",
+    "commit": "90f1cea3fe73d2f956f0e1df4c350c72d32498ef"
+  },
+  "checks": {
+    "binds_future_authorization_marker": true,
+    "self_git_blob_verified": true,
+    "execution_contract_blob_verified": true,
+    "execution_contract_lock_blob_verified": true,
+    "locked_source_blobs_verified": true,
+    "exact_runtime_sha256_verified": true,
+    "exact_30_fixture_census_verified": true,
+    "canonical_shape_stratum_replicate_order_verified": true,
+    "seed_identity_verified_against_frozen_contract": true,
+    "q6cb3_required_false": true,
+    "performance_timing_required_false": true,
+    "target_model_load_required_false": true,
+    "one_shot_output_guard": true,
+    "selective_fixture_replay_forbidden": true,
+    "raw_scientific_outcomes_not_parsed_during_collection": true,
+    "provenance_packaging_only_after_full_collection": true
+  },
+  "fresh_fixture_generated": false,
+  "scientific_cpu_execution": false,
+  "scientific_gpu_execution": false,
+  "outcome_inspection": false,
+  "decision": "RUNNER_STATICALLY_QUALIFIED_FOR_REISSUED_Q6CB2_AUTHORIZATION",
+  "next": "REISSUE_UNCONSUMED_Q6CB2_AUTHORIZATION_BINDING_EXACT_RUNNER_BLOB"
+}
