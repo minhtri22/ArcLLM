@@ -169,7 +169,7 @@
     "adjudication_document": "docs/research/arcllm-nexus-ledger64/P5_INTEGRATION_ADJUDICATION.md",
     "adjudication_document_blob": "67623e539867c4d1b61f97a80d56d06f87050748"
   },
-  "scientific_measurement_scope": "P5_SEMANTIC_INTEGRATION_ONLY_PERFORMANCE_ADJUDICATION_FORBIDDEN",
+  "scientific_measurement_scope": "P6_FRESH_MATCHED_E2E_SUCCESSOR_VS_SAFE_REFERENCE_ONLY",
   "p6": {
     "specification": "config/anl64_p6_matched_e2e_spec_v0.1.json",
     "specification_blob": "c7e1753ef9079010ce1768ba924e4f996f5e9b35",
