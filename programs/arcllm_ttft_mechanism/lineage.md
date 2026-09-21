@@ -119,3 +119,50 @@ Current P4 blobs:
 Parent ANL64 remains terminal and cannot be reclassified.
 
 Next: P5 zero-science QA.
+
+
+## 2026-09-22 — P5 ZERO-SCIENCE PROGRAM QA PASS
+
+The complete P0-P4 package was audited before implementation.
+
+QA result:
+`PASS_ZERO_SCIENCE_TTFT_M1_PROGRAM_QA`.
+
+Open findings:
+`0`.
+
+Frozen QA artifacts:
+- QA blob `234ea107f5d6e049a879acdea1a0c679bf0e566c`;
+- QA document blob `362340c2ef6932a2d078329f5f329e576dbc1d60`.
+
+The branch delta from parent terminal HEAD contains only research config/docs, manifest bookkeeping and this fresh program lineage. There are no `src/`, shader, runner, test or binary changes.
+
+No model load, GPU dispatch or performance measurement occurred.
+
+P5 confirms:
+- independent-program provenance;
+- prior-art/source review before implementation;
+- exact local TTFT boundary;
+- finite falsifiable hypothesis set;
+- H-ART static-first gate;
+- single-harness 2×2 causal design;
+- 80 fresh future observations with zero parent timing reuse;
+- frozen 1.10 materiality convention;
+- semantic validity before performance;
+- one infrastructure repair maximum;
+- no pooling/rescue;
+- explicit null, stable-unresolved and mixed-reproduction terminal outcomes;
+- at most one later mechanism-specific intervention;
+- parent ANL64 cannot be reclassified.
+
+Current authorization remains zero-execution:
+- implementation: false;
+- build: false;
+- model load: false;
+- GPU dispatch: false;
+- timing: false.
+
+P6 is eligible only for an explicit bounded diagnostic implementation authorization gate.
+
+Next:
+`P6_EXPLICIT_BOUNDED_DIAGNOSTIC_IMPLEMENTATION_AUTHORIZATION_GATE`.
