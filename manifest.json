@@ -1,8 +1,8 @@
 {
-  "phase": "ANL64-P4-BOUNDED-IMPLEMENTATION",
+  "phase": "ANL64-P4-BUILDONLY-PENDING",
   "track": "P8 7B runtime",
   "date": "2026-09-21",
-  "status": "ANL64_P4_BOUNDED_IMPLEMENTATION_AUTHORIZED",
+  "status": "ANL64_P4_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -83,7 +83,7 @@
     "summary_sha256": "36BFB413BCE31A1A6E2B77F96071162809B48FC7F566D61B34C779D90388AC95",
     "evidence_manifest_sha256": "89B22986B6BF5F4776413BD13D0F3CDAEF8B13B9EAA1B11000D9027F0F8F9548"
   },
-  "implementation_permitted": true,
+  "implementation_permitted": false,
   "target_run_permitted": false,
   "historical": {
     "p8g": "FAIL",
@@ -809,13 +809,14 @@
     "q6cb3_execution": false,
     "end_to_end_successor_validation": false,
     "anl64_p2_design": false,
-    "anl64_implementation": true,
+    "anl64_implementation": false,
     "anl64_target_execution": false,
     "anl64_scientific_measurement": false,
     "anl64_p3_zero_science_compatibility": false,
-    "anl64_p4_authorization_gate": false
+    "anl64_p4_authorization_gate": false,
+    "anl64_p4_buildonly": true
   },
-  "next": "ANL64_P4_IMPLEMENT_EXACT_ALLOWLIST_THEN_STATIC_QA_AND_TARGET_LOCAL_BUILDONLY",
+  "next": "ANL64_RUN_P4_BUILDONLY_PS1_AND_RETURN_BUNDLE",
   "anl64": {
     "program_id": "ANL64",
     "branch": "research/arcllm-nexus-ledger64",
@@ -831,7 +832,7 @@
     },
     "governance": {
       "path": "config/arcllm_nexus_ledger64_governance_v0.1.json",
-      "status": "P3_PASS_P4_AUTHORIZATION_GATE_OPEN_IMPLEMENTATION_BLOCKED",
+      "status": "P4_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
       "blob": "c3c81ec9a314868af868e72fee21466afbddda21"
     },
     "prior_art": {
@@ -867,7 +868,7 @@
       "P1": "COMPLETE",
       "P2": "COMPLETE_PASS",
       "P3": "COMPLETE_PASS",
-      "P4": "IMPLEMENTATION_AUTHORIZED",
+      "P4": "IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
       "P5": "BLOCKED",
       "P6": "BLOCKED",
       "P7": "BLOCKED"
@@ -876,11 +877,12 @@
       "p2_design": false,
       "p3_zero_science_compatibility": false,
       "p4_authorization_gate": false,
-      "implementation": true,
+      "implementation": false,
       "target_execution": false,
-      "scientific_measurement": false
+      "scientific_measurement": false,
+      "p4_buildonly": true
     },
-    "next": "P4_IMPLEMENT_EXACT_ALLOWLIST_THEN_STATIC_QA_AND_TARGET_LOCAL_BUILDONLY",
+    "next": "RUN_COMMITTED_RUN_ANL64_P4_BUILDONLY_PS1_AND_RETURN_BUNDLE",
     "p2": {
       "result": "P2_PASS_OPEN_P3_ZERO_SCIENCE_COMPATIBILITY",
       "contract": "config/anl64_p2_architecture_contract_v0.1.json",
@@ -912,10 +914,15 @@
       "authorization": "config/anl64_p4_implementation_authorization_v0.1.json",
       "authorization_blob": "c0a9c77d09c7da98103fc949ede182f117bd6329",
       "decision": "P4_BOUNDED_IMPLEMENTATION_AUTHORIZED",
-      "implementation": true,
+      "implementation": false,
       "buildonly": true,
       "target_execution": false,
-      "scientific_measurement": false
+      "scientific_measurement": false,
+      "implementation_lock": "config/anl64_p4_implementation_lock_v0.1.json",
+      "implementation_lock_blob": "2e561928d8c0319371860accc1fe03b6b9e7d658",
+      "runner": "run_anl64_p4_buildonly.ps1",
+      "runner_blob": "8a1539053a4d4ec25b7e27d0f7cd6c118d1024e0",
+      "static_qa": "PASS_CONNECTOR_EQUIVALENT_STATIC_QA_BUILDONLY_PENDING"
     }
   }
 }
