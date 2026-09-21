@@ -1,8 +1,8 @@
 {
-  "phase": "SA1-K2-Q6-IMPLEMENTATION",
+  "phase": "SA1-CLOSEOUT",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "SA1_K2_Q6_CORRECTNESS_FAIL_OBSERVED_EVIDENCE_PACKAGING_READY",
+  "status": "SA1_CLOSED_ASYMMETRIC_Q4_PASS_Q6_CORRECTNESS_FAIL",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Package the already-produced Q6 correctness failure artifacts with run_sa1_component_preflight.ps1 -Quant Q6 -PackageFailedExisting. Do not rerun Q6 correctness and do not run Q6 performance.",
+  "next_on_success": "NEW_PROGRAM_SPECIFICATION_ONLY_Q6_CORRECTNESS_BOUNDARY_MECHANISM_STUDY",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -526,17 +526,17 @@
     }
   },
   "sa1": {
-    "status": "SA1_K2_Q6_CORRECTNESS_FAIL_OBSERVED_EVIDENCE_PACKAGING_READY",
+    "status": "SA1_CLOSED_ASYMMETRIC_Q4_PASS_Q6_CORRECTNESS_FAIL",
     "preregistration": "docs/SA1P_DECODE_PACKED_QUANT_COMPONENT_STUDY.md",
     "contract": "config/sa1p_component_study_preregistration_v0.1.json",
     "primary_mechanism": "SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW",
     "cooperative_matrix_disposition": "DEFERRED_NOT_IN_SA1",
-    "q4_implementation_permitted": true,
+    "q4_implementation_permitted": false,
     "q6_implementation_permitted": false,
     "component_measurement_permitted": false,
     "target_model_execution_permitted": false,
     "q3_reopen_permitted": false,
-    "next": "SA1-K1_IMPLEMENTATION_THEN_STATIC_QA_ZERO_MEASUREMENT_PREFLIGHT",
+    "next": "NEW_PROGRAM_SPECIFICATION_ONLY_Q6_CORRECTNESS_BOUNDARY_MECHANISM_STUDY",
     "qa": "artifacts/SA1/SA1P_INDEPENDENT_QA_v0.1.json",
     "qa_document": "docs/SA1P_INDEPENDENT_QA.md",
     "implementation_lock": "config/sa1p_implementation_lock_v0.1.json",
@@ -573,17 +573,17 @@
       "process_B_sha256": "ACF7CE9AB6B28841A5E3516933DB792C6CD7CE0A5647FC9D4BCE060A3F9A2421",
       "process_A_geomean_speedup": 3.1371499895364643,
       "process_B_geomean_speedup": 3.147501200588043,
-      "q6_implementation_lock_permitted": true
+      "q6_implementation_lock_permitted": false
     },
     "k2": {
-      "status": "CORRECTNESS_FAIL_OBSERVED_PENDING_EVIDENCE_ADJUDICATION",
+      "status": "Q6_STAGE_FAIL_CORRECTNESS_CLOSED",
       "implementation_lock": "config/sa1_k2_q6_implementation_lock_v0.1.json",
       "prerequisite_q4_result": "Q4_STAGE_PASS",
       "candidate_shader": "shaders/sa1_q6k_subgroup_splitk.comp",
       "candidate_variants": 1,
       "q6_measurement_authorized": false,
       "target_model_execution_permitted": false,
-      "next": "Q6_IMPLEMENTATION_THEN_STATIC_QA_ZERO_MEASUREMENT_PREFLIGHT",
+      "next": "CLOSED_NO_RESCUE",
       "implementation_contract": "config/sa1_k2_q6_implementation_contract_v0.1.json",
       "preflight": "run_sa1_component_preflight.ps1 -Quant Q6",
       "measured_runner": "run_sa1_component_q6.ps1",
@@ -592,7 +592,21 @@
       "native_build_status": "PASS_OBSERVED_TARGET_LOCAL",
       "zero_measurement_preflight_status": "FAIL_CANDIDATE_CPU",
       "failure_packaging": "run_sa1_component_preflight.ps1 -Quant Q6 -PackageFailedExisting",
-      "rerun_authorized": false
-    }
+      "rerun_authorized": false,
+      "q6_result": "Q6_STAGE_FAIL_CORRECTNESS",
+      "failure_bundle_sha256": "B4D6A6F7CF4ADE32EFFD9408754216CF3ED8FCABC2065F1A94D253CBA0933E95",
+      "scientific_execution_commit": "b87f3bccee3809cedb2d88ab77c9885406348a87",
+      "packaging_commit": "8e783119ff6268d26d9c2e8405e0cb5f2faec182",
+      "adjudication": "artifacts/SA1/SA1K2_Q6_ADJUDICATION_v0.1.json",
+      "adjudication_document": "docs/SA1K2_Q6_ADJUDICATION.md",
+      "adjudication_commit": "984c4052d523f005ffbe43499c5e564af66232fa",
+      "performance_measurement": "NOT_RUN",
+      "measured_pairs": 0,
+      "target_model": "NOT_RUN"
+    },
+    "closeout": "artifacts/SA1/SA1_CLOSEOUT_v0.1.json",
+    "closeout_document": "docs/SA1_CLOSEOUT.md",
+    "closeout_result": "SA1_CLOSED_ASYMMETRIC_Q4_PASS_Q6_CORRECTNESS_FAIL",
+    "end_to_end_applicability": "NOT_TESTED"
   }
 }
