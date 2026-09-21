@@ -1143,3 +1143,13 @@ Because the error path wrote a compact ERROR JSON rather than the full metric re
 
 ## 2026-09-21 — SA1-K2 post-failure static-state assertion repair
 After engaging the Q6 correctness stop rule, the static package test still expected the pre-failure manifest state `q6_implementation_permitted=true`. Repaired only that governance assertion to require `q6_implementation_permitted=false`, component measurement false and rerun_authorized=false. No Q6 shader/harness/build artifact or scientific evidence changed.
+
+
+## 2026-09-21 — SA1-K2 Q6 independent evidence adjudication: correctness FAIL
+Returned bundle `sa1_k2_q6_failure_return_to_chatgpt.zip` independently rehashed to SHA-256 `B4D6A6F7CF4ADE32EFFD9408754216CF3ED8FCABC2065F1A94D253CBA0933E95`. All ten entries were rehashed; frozen baseline SPIR-V matched `F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67`; candidate source Git blob matched `0fdc0c8f195872396a653b38ee2283156fbaeaa0`; implementation lock/contract blobs matched the scientific execution state. Native build provenance binds execution to `b87f3bccee3809cedb2d88ab77c9885406348a87`; packaging binds to `8e783119ff6268d26d9c2e8405e0cb5f2faec182`.
+The harness order is `baseline_cpu -> candidate_cpu -> candidate_baseline`. Raw result is exactly `ERROR / correctness gate failed: candidate_cpu`; therefore the active-case baseline gate had already passed and the candidate breached at least one frozen numerical condition. Fail-fast did not retain exact magnitude or violated dimension, and no rerun was performed. No F0 invalidation was found.
+Formal classification: `Q6_STAGE_FAIL_CORRECTNESS` / `SA1_K2_Q6_CORRECTNESS_FAIL`. Q6 timing, rerun, rescue, target-model execution and Q3 reopen remain forbidden. Machine-readable adjudication commit: `984c4052d523f005ffbe43499c5e564af66232fa`.
+
+## 2026-09-21 — SA1 formal closeout
+SA1 closed asymmetrically: Q4_K is `Q4_STAGE_PASS` with reproducible component uplift under the frozen contract; Q6_K, using the same mechanism/geometry, is `Q6_STAGE_FAIL_CORRECTNESS` before performance measurement. Thus SA1 supports mechanism efficacy for the frozen Q4_K component family while falsifying cross-quant generality of the unchanged mechanism to Q6_K under the frozen numerical contract. End-to-end applicability remains untested.
+Formal closeout artifact commit: `b70b1e0ea48c63b9cf1562e56fb12727b05d2ed9`. SA1 is immutable/closed. The only scientifically valid continuation is a new specification-only, independently preregistered research program addressing the Q6 correctness boundary; no new execution is opened by this closeout.
