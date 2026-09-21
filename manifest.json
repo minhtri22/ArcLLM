@@ -2,7 +2,7 @@
   "phase": "Q6CB-1-SPECIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "Q6CB1_IMPLEMENTATION_LOCKED_GOAL_ALIGNMENT_PASS_EXECUTION_CLOSED",
+  "status": "Q6CB_EXECUTION_CONTRACT_LOCKED_Q6CB2_AUTHORIZATION_CLOSED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -610,7 +610,7 @@
     "end_to_end_applicability": "NOT_TESTED"
   },
   "q6cb1": {
-    "status": "Q6CB1_IMPLEMENTATION_LOCKED_GOAL_ALIGNMENT_PASS_EXECUTION_CLOSED",
+    "status": "Q6CB_EXECUTION_CONTRACT_LOCKED_Q6CB2_AUTHORIZATION_CLOSED",
     "branch": "research/q6-correctness-boundary",
     "program": "docs/Q6CB1_Q6_CORRECTNESS_BOUNDARY_PROGRAM.md",
     "contract": "config/q6cb1_specification_v0.1.json",
@@ -639,7 +639,7 @@
     "target_model_load_permitted": false,
     "sa1_rerun_permitted": false,
     "execution_authorization_file": null,
-    "next": "DESIGN_AND_FREEZE_EXECUTION_CONTRACT_SPECIFICATION_ONLY_NO_EXECUTION_AUTHORIZATION",
+    "next": "EXPLICIT_AUTHORIZATION_GATE_FOR_Q6CB2_FROZEN_IDENTIFICATION_COLLECTION_ONLY",
     "zero_science_qa": "PASS",
     "qa_artifact": "artifacts/Q6CB/Q6CB1_SPECIFICATION_QA_v0.1.json",
     "qa_document": "docs/Q6CB1_SPECIFICATION_QA.md",
@@ -710,13 +710,42 @@
     "static_qa_document": "docs/Q6CB1_STATIC_QA.md",
     "implementation_evidence_lock_commit": "237a4174b409bf2e2200fa96fe1a7dbccfa76bab",
     "implementation_mutation_permitted": false,
-    "execution_contract_design_permitted": true,
-    "execution_contract_frozen": false,
+    "execution_contract_design_permitted": false,
+    "execution_contract_frozen": true,
     "goal_alignment": {
       "status": "PASS",
       "decision": "CONTINUE_WITHIN_LOCK_TO_EXECUTION_CONTRACT_DESIGN_ONLY",
       "drift_detected": false,
       "negative_outcome_accepted_as_final_evidence": true
-    }
+    },
+    "execution_contract": "config/q6cb1_execution_contract_v0.1.json",
+    "execution_contract_blob": "c2a541dda5bc01ed473644f8c9f232cfc788e953",
+    "execution_contract_document": "docs/Q6CB1_EXECUTION_CONTRACT.md",
+    "execution_contract_qa": "PASS_ZERO_SCIENCE_EXECUTION_CONTRACT_QA",
+    "execution_contract_qa_artifact": "artifacts/Q6CB/Q6CB1_EXECUTION_CONTRACT_QA_v0.1.json",
+    "execution_contract_qa_document": "docs/Q6CB1_EXECUTION_CONTRACT_QA.md",
+    "execution_contract_lock": "config/q6cb1_execution_contract_lock_v0.1.json",
+    "execution_contract_lock_commit": "1d59198031509c3e63a8f551c67b2d73bf74e1a2",
+    "identification_partition": {
+      "fixtures": 30,
+      "rows_total": 1920,
+      "shapes": [
+        "K4096_R64",
+        "K16384_R64"
+      ],
+      "strata": 5,
+      "replicates_per_shape_stratum": 3,
+      "seed_schedule_sha256": "C6C47227DA52D41F485A21319DEAB81514A6A7555D0EFAD8113D75F304BA273E",
+      "authorized": false
+    },
+    "confirmatory_partition": {
+      "fixtures": 30,
+      "rows_total": 1920,
+      "frozen": true,
+      "authorized": false,
+      "gate": "F1 boundary reproduced AND >=1 preregistered identification mechanism candidate"
+    },
+    "q6cb2_execution_authorized": false,
+    "q6cb3_execution_authorized": false
   }
 }
