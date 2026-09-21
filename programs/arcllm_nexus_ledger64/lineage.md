@@ -441,3 +441,55 @@ Current state:
 
 Next:
 `EXECUTE_EXACTLY_ONE_FROZEN_P5_SEMANTIC_INTEGRATION_COLLECTION`.
+
+
+## 2026-09-21 — P5 FORMAL CLOSE / INTEGRATION PASS / P6 SPECIFICATION OPEN
+
+The returned P5 semantic-integration bundle was independently adjudicated in frozen order F0 → F1 → F2 → F3 → F4.
+
+Bundle:
+- SHA256 `44A3DE02CBFC25F9548E56D3C7A9F85E1247AD948C77029185E06C9EA9E0B73D`;
+- exact run HEAD `d0e2e562f7c56d2d7e7af49358fc58d3c751e1da`;
+- 11 expected members;
+- 20/20 measured attempts present.
+
+F0 provenance PASS:
+- exact model SHA/size;
+- exact Arc 140V / driver 32.0.101.8860;
+- exact P4 candidate executable SHA;
+- bundled governance artifacts reproduce committed Git blobs;
+- all four raw cell hashes match the semantic evidence.
+
+A non-fatal runner telemetry quirk was noted: `cell_exit_codes` captured child stdout plus terminal exit code 0 rather than a scalar integer. This did not affect provenance or semantic validity because all raw files independently exist, contain the exact frozen attempts, and are SHA-bound.
+
+F1 structure PASS:
+- 469 PlanNodes;
+- 215 quant-linear nodes;
+- 140 Q4_FAST nodes;
+- 24,104 Region64 descriptors;
+- 19,936 fixed-Q4 Region64 descriptors;
+- metadata 593,504 bytes <= 2 MiB;
+- plan hash `04f3f884c0fc4fcc` identical across W-S/W-C.
+
+F2 unchanged-prefill control PASS:
+- 10/10 paired attempts have identical first generated token.
+
+F3 integrated decode semantics PASS:
+- W-S 5/5 complete 32-token sequences exactly equal;
+- W-C 5/5 complete 32-token sequences exactly equal;
+- total 10/10 exact sequence pairs;
+- zero token-mismatch pairs.
+
+F4 repeatability PASS:
+- all four system/workload cells are stable across five measured attempts for generated sequence, final-logits hash, and final-hidden hash.
+
+P5 performance quarantine remained intact. P5 timing fields are spent/non-admissible for P6.
+
+Frozen P5 adjudication:
+- artifact blob `cada882bd886d96a71c73c40a6e243e3a51ebde0`;
+- document blob `67623e539867c4d1b61f97a80d56d06f87050748`.
+
+Final P5 result:
+`P5_INTEGRATION_PASS`.
+
+P6 is now open for specification only. No P6 timing execution is authorized.
