@@ -1180,3 +1180,11 @@ Negative outcomes including non-reproduction, unresolved mechanism, falsified hy
 Every next action is subject to a mandatory goal-alignment test. If it no longer directly reduces uncertainty required for the frozen causal question or the one permitted intervention, or cannot alter a declared terminal decision, the binding decision is `STOP_DRIFT`.
 F0 repair is also finite: at most one bounded tooling/measurement repair per stage; a second F0 at that stage yields `STOP_INFRASTRUCTURE_UNSTABLE`.
 Zero-science QA confirmed no scientific code or authorization changed. Q6CB-1 implementation and all scientific execution remain closed pending the existing explicit implementation-authorization gate.
+
+
+## 2026-09-21 — Q6CB-1 implementation source audit PASS; BuildOnly pending
+After explicit implementation-only authorization and exact allowlist freeze, implemented the isolated five-arm Q6CB causal harness, independent canonical Q6 decoder/reference, deterministic conditioning-strata generator, two diagnostic GPU shaders, BuildOnly tooling and static/unit invariant test.
+Allowlist audit from implementation-scope commit `42277644207197934be2ca57b26a59fde510fd40` found only permitted Q6CB files plus manifest/documentation changes; SA1 source/evidence was not changed.
+A pre-BuildOnly connector-equivalent source audit verified: R64/S32/T32-CPU arms; packed and expanded GPU split-32 arms with identical geometry; generator rejection of the two exact SA1 Q6 cells and all four SA1 seeds; absence of timing/model paths; and fail-closed future execution authorization before fixture generation or Vulkan initialization.
+One compile-portability defect was repaired before any BuildOnly or science: `src/q6cb_causal_harness.cpp` now includes `<iterator>` explicitly for `std::istreambuf_iterator`. No scientific contract, causal arm, fixture semantics or threshold changed.
+Current exact source blobs are recorded in manifest. Scientific CPU/GPU execution remains forbidden. Next permitted action is static/unit test plus target-local shader compile and native BuildOnly only; the produced harness must not be launched.
