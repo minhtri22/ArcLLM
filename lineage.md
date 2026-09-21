@@ -1035,3 +1035,14 @@ Zero-science boundary holds: no model load, no shader compile/module/pipeline, n
 Exact Arc 140V capability PASS: Vulkan device API 1.4.348, compute queue, 64 timestamp-valid bits, subgroup size 32, subgroup extended types, subgroup-size-control 16-32, computeFullSubgroups, 8/16-bit storage, FP16/INT8, 49,152-byte compute shared memory and 1,024 max workgroup invocations. VK_KHR_cooperative_matrix is exposed with four subgroup-scope combinations including FP16->FP32 and signed/unsigned INT8->INT32 forms.
 Decision: `SA0_CAP_PASS`; SA0 COMPLETE. These capabilities establish implementation options but no performance advantage. Cooperative matrix remains optional because compatibility/benefit for packed Q4_K/Q6_K dequant dataflow is not yet established.
 SA1-P specification-only preregistration is now permitted. Successor kernel implementation=false; target model execution=false; Q3 reopen forbidden.
+
+
+## 2026-09-21 — SA1-P preregistration candidate opened specification-only
+Opened SA1-P from SA0-CAP PASS. No shader, harness or target measurement was added.
+Frozen one primary mechanism: subgroup-32 split-K per output row. One 128-thread workgroup contains four full 32-lane subgroups, each subgroup owns one row, lanes split K, directly dequant packed Q4_K/Q6_K into FP32 partial sums, subgroup-reduce, and lane 0 stores.
+Frozen exact batch-1 7B shape universe: Q4 (3584x3584 bias/no-bias, 3584x512 bias, 3584x18944 no-bias, 18944x3584 no-bias) and Q6 (3584x512 bias, 18944x3584 no-bias), with exact row/weight bytes.
+Frozen baseline Q4/Q6 P7 shader Git blobs and Q2 SPIR-V hashes. Cooperative matrix, subgroup-16, fusion, pre-dequantization, tile/local-size search and multiple candidate variants are explicitly forbidden in SA1.
+Frozen timing: exact Arc 140V/Q3 driver, GPU timestamps, two processes A/B, forward/reverse cell order, 10 warmups/arm/cell, 30 measured pairs/cell/process, alternating within-pair order, no outlier deletion or pooling.
+Frozen correctness: finite, max_abs<=0.02, RMSE<=0.005 against CPU and baseline.
+Frozen materiality gate: Q4 five-cell geometric-mean speedup>=1.50x independently in A/B and every cell>=1.10x; valid Q4 FAIL stops SA1 and blocks Q6. Q6 future extension uses the same 1.50x aggregate / 1.10x floor and same mechanism.
+Status: SA1P_PREREGISTRATION_CANDIDATE_AWAITING_INDEPENDENT_QA. Candidate code and measurement remain forbidden.

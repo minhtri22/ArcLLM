@@ -145,3 +145,10 @@ Run the target-local preflight and return `results/sa0_capability_return_to_chat
 Exact-device SA0-CAP is **PASS**. The Arc 140V exposes the required baseline Vulkan compute/subgroup/timestamp/memory capabilities and optional subgroup-size-control, FP16/INT8 and KHR cooperative-matrix routes.
 
 SA0 is complete. The next permitted work is **SA1-P specification-only component-study preregistration**. No successor kernel or target-model run is authorized yet.
+
+
+### SA1-P
+
+SA1-P is now a **specification-only preregistration candidate**. The single frozen mechanism is subgroup-32 split-K per output row for batch-1 direct-packed Q4_K/Q6_K GEMM. Cooperative matrix/fusion/tile search are out of scope.
+
+No SA1 kernel, harness or measurement is authorized until independent QA passes and an implementation lock is committed.

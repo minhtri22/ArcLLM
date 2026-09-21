@@ -1,0 +1,292 @@
+{
+  "schema": "arcllm.sa1p.component_study_preregistration.v0.1",
+  "date": "2026-09-21",
+  "status": "SA1P_PREREGISTRATION_CANDIDATE_AWAITING_INDEPENDENT_QA",
+  "parent_sa0_adjudication_commit": "74d442487bd2ee181424604b9701fddb4e359b4a",
+  "parent_sa0_result": "SA0_CAP_PASS",
+  "current_architecture_line_closed": true,
+  "target_model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+  "scientific_question": "Does one fixed subgroup-cooperative split-K dataflow materially accelerate exact batch-1 packed Q4_K decode GEMM shapes versus the frozen generic ArcLLM baseline while preserving the existing numerical contract, and if so does the same mechanism extend to Q6_K?",
+  "primary_hypothesis": {
+    "id": "SA1-H1",
+    "mechanism": "SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW",
+    "statement": "Assign one 32-lane subgroup to one output row; lanes split the K dimension, perform direct packed Q4_K/Q6_K dequantization and FP32 partial accumulation, then reduce one row result with subgroup arithmetic before a single lane stores the output.",
+    "only_primary_mechanism": true
+  },
+  "exact_shape_matrix": [
+    {
+      "id": "Q4_H3584_R3584_BIAS",
+      "quant": "Q4_K",
+      "n": 3584,
+      "rows": 3584,
+      "batch": 1,
+      "add_bias": 1,
+      "row_bytes": 2016,
+      "weight_bytes": 7225344,
+      "role": "Q projection geometry"
+    },
+    {
+      "id": "Q4_H3584_R3584_NOBIAS",
+      "quant": "Q4_K",
+      "n": 3584,
+      "rows": 3584,
+      "batch": 1,
+      "add_bias": 0,
+      "row_bytes": 2016,
+      "weight_bytes": 7225344,
+      "role": "O projection geometry"
+    },
+    {
+      "id": "Q4_H3584_R512_BIAS",
+      "quant": "Q4_K",
+      "n": 3584,
+      "rows": 512,
+      "batch": 1,
+      "add_bias": 1,
+      "row_bytes": 2016,
+      "weight_bytes": 1032192,
+      "role": "K / Q4 V geometry"
+    },
+    {
+      "id": "Q4_H3584_R18944_NOBIAS",
+      "quant": "Q4_K",
+      "n": 3584,
+      "rows": 18944,
+      "batch": 1,
+      "add_bias": 0,
+      "row_bytes": 2016,
+      "weight_bytes": 38191104,
+      "role": "gate/up geometry"
+    },
+    {
+      "id": "Q4_H18944_R3584_NOBIAS",
+      "quant": "Q4_K",
+      "n": 18944,
+      "rows": 3584,
+      "batch": 1,
+      "add_bias": 0,
+      "row_bytes": 10656,
+      "weight_bytes": 38191104,
+      "role": "Q4 down geometry"
+    },
+    {
+      "id": "Q6_H3584_R512_BIAS",
+      "quant": "Q6_K",
+      "n": 3584,
+      "rows": 512,
+      "batch": 1,
+      "add_bias": 1,
+      "row_bytes": 2940,
+      "weight_bytes": 1505280,
+      "role": "Q6 V geometry"
+    },
+    {
+      "id": "Q6_H18944_R3584_NOBIAS",
+      "quant": "Q6_K",
+      "n": 18944,
+      "rows": 3584,
+      "batch": 1,
+      "add_bias": 0,
+      "row_bytes": 15540,
+      "weight_bytes": 55695360,
+      "role": "Q6 down geometry"
+    }
+  ],
+  "baseline": {
+    "q4_source": "shaders/p7_q4k_gemm_2d.comp",
+    "q4_git_blob": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a",
+    "q4_q2_source_sha256": "7125252B74FEE89A0697B7E8917637346A7ED1F30472DF6CF27EB7518F3A906B",
+    "q4_q2_spirv_sha256": "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A",
+    "q6_source": "shaders/p7_q6k_gemm_2d.comp",
+    "q6_git_blob": "a0de99f972db6cd202606aad95fb9eab223639e6",
+    "q6_q2_source_sha256": "95335DF6E3FD592EA19B5707C9EEFE2FD23CA6472A98EA3002E6604D35892D56",
+    "q6_q2_spirv_sha256": "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67",
+    "compiler_release": "glslang 16.5.0",
+    "compiler_asset_sha256": "06B71298B750268C127F2EE7AE0EF7525E2068120C6C8A3A08B2F58CA6F325CE",
+    "target_env": "vulkan1.2",
+    "dispatch_semantics": "one invocation owns one output row and scans all K; local_size_x=64"
+  },
+  "selected_capability_route": {
+    "subgroup_size": 32,
+    "subgroup_arithmetic_required": true,
+    "required_subgroup_size": 32,
+    "require_full_subgroups": true,
+    "candidate_local_size": [
+      128,
+      1,
+      1
+    ],
+    "subgroups_per_workgroup": 4,
+    "rows_per_workgroup": 4,
+    "cooperative_matrix": "DEFERRED_NOT_IN_SA1",
+    "fp16_or_int8_matrix_staging": "FORBIDDEN_NOT_IN_SA1",
+    "subgroup_size_16_variant": "FORBIDDEN_NOT_IN_SA1"
+  },
+  "fixture_contract": {
+    "source": "DETERMINISTIC_SYNTHETIC_PACKED_FIXTURES",
+    "rationale": "isolates exact packed-format/shape kernel mechanism without model execution or per-layer outcome leakage",
+    "generator": "SplitMix64 exact integer generator",
+    "bank_count_per_cell": 4,
+    "seeds": [
+      "0x5341315046495831",
+      "0x5341315046495832",
+      "0x5341315046495833",
+      "0x5341315046495834"
+    ],
+    "activation_mapping": "signed low-16-bit integer / 32768.0f",
+    "q4_block_rule": "direct valid Q4_K packed bytes; d=0.03125 FP16, dmin=0.015625 FP16; scale/min and q packed bytes deterministically filled from SplitMix64",
+    "q6_block_rule": "direct valid Q6_K packed bytes; d=0.03125 FP16; ql/qh/scales deterministically filled from SplitMix64",
+    "timing_bank_rotation": "bank = measured_pair_index mod 4; both arms use the same bank within a pair",
+    "correctness_banks": [
+      0,
+      3
+    ],
+    "model_load": false
+  },
+  "measurement": {
+    "target_environment": {
+      "cpu": "Intel Core Ultra 7 258V",
+      "gpu": "Intel Arc 140V GPU (16GB)",
+      "windows_driver": "32.0.101.8860",
+      "power": "AC online",
+      "power_scheme": "Balanced"
+    },
+    "processes": [
+      "A",
+      "B"
+    ],
+    "process_cell_order": {
+      "A": "shape_matrix forward",
+      "B": "shape_matrix reverse"
+    },
+    "warmups_per_arm_per_cell": 10,
+    "measured_pairs_per_cell_per_process": 30,
+    "within_pair_order": "pair parity alternates baseline→candidate / candidate→baseline; process B starts with reverse parity",
+    "primary_metric": "GPU timestamp dispatch duration ns",
+    "timestamp_valid_bits_required": 64,
+    "timestamp_period_ns_observed_sa0": 52.0833321,
+    "pipeline_creation_excluded": true,
+    "host_submit_wait_excluded_from_primary": true,
+    "one_dispatch_per_arm_per_measurement": true,
+    "candidate_and_baseline_outputs_separate": true,
+    "outlier_deletion": false,
+    "process_pooling": false
+  },
+  "correctness": {
+    "reference": "CPU packed Q4_K/Q6_K dequant + FP32 dot-product reference matching frozen format semantics",
+    "all_outputs_finite": true,
+    "max_abs_max": 0.02,
+    "rmse_max": 0.005,
+    "candidate_vs_cpu_required": true,
+    "baseline_vs_cpu_required": true,
+    "candidate_vs_baseline_required": true,
+    "measured_output_hashes_recorded": true
+  },
+  "performance_gate": {
+    "q4_stage": {
+      "cells": [
+        "Q4_H3584_R3584_BIAS",
+        "Q4_H3584_R3584_NOBIAS",
+        "Q4_H3584_R512_BIAS",
+        "Q4_H3584_R18944_NOBIAS",
+        "Q4_H18944_R3584_NOBIAS"
+      ],
+      "per_process_geometric_mean_speedup_min": 1.5,
+      "every_cell_speedup_min": 1.1,
+      "must_pass_independently_in": [
+        "A",
+        "B"
+      ],
+      "speedup_definition": "median_baseline_gpu_ns / median_candidate_gpu_ns"
+    },
+    "q6_extension_stage": {
+      "prerequisite": "Q4_STAGE_PASS",
+      "cells": [
+        "Q6_H3584_R512_BIAS",
+        "Q6_H18944_R3584_NOBIAS"
+      ],
+      "per_process_geometric_mean_speedup_min": 1.5,
+      "every_cell_speedup_min": 1.1,
+      "must_pass_independently_in": [
+        "A",
+        "B"
+      ],
+      "speedup_definition": "median_baseline_gpu_ns / median_candidate_gpu_ns"
+    },
+    "thresholds_frozen_before_candidate_measurement": true
+  },
+  "resource_budget": {
+    "direct_packed_weight_bytes_only": true,
+    "extra_global_scratch_bytes": 0,
+    "candidate_shared_memory_bytes": 0,
+    "max_component_process_allocation_bytes": 268435456,
+    "output_binding_contract": "same W/X/B/Y storage-buffer interface and same push-constant semantic fields as baseline",
+    "explicit_per_lane_arrays_forbidden": true,
+    "logical_live_scalar_budget_per_lane_max": 16,
+    "physical_register_count": "record if compiler/driver exposes it; descriptive because Vulkan core does not provide a portable authoritative register-count query",
+    "predequantization_buffer_forbidden": true,
+    "extra_copy_pass_forbidden": true
+  },
+  "staged_implementation": {
+    "SA1_K1": {
+      "quant": "Q4_K",
+      "status": "BLOCKED_UNTIL_SA1P_QA_AND_LOCK",
+      "one_candidate_shader": "shaders/sa1_q4k_subgroup_splitk.comp",
+      "allowed_geometry": "local_size_x=128; required subgroup size=32; four rows/workgroup",
+      "candidate_variants_allowed": 1
+    },
+    "SA1_K2": {
+      "quant": "Q6_K",
+      "status": "BLOCKED_UNTIL_INDEPENDENT_SA1_K1_Q4_PASS",
+      "one_candidate_shader": "shaders/sa1_q6k_subgroup_splitk.comp",
+      "same_mechanism_required": true
+    }
+  },
+  "forbidden": [
+    "QKV fusion",
+    "gate+up fusion",
+    "RMSNorm fusion",
+    "SwiGLU fusion",
+    "cooperative matrix path",
+    "FP16/INT8 staging",
+    "pre-dequantization cache",
+    "subgroup-size search",
+    "workgroup-size search",
+    "tile search",
+    "multiple candidate kernels",
+    "existing P7 shader modification",
+    "Q2/Q3 runtime modification",
+    "model/quantization change",
+    "target-model inference",
+    "Q3 reopen",
+    "NEXUS code/evidence transfer",
+    "threshold mutation after data"
+  ],
+  "falsification_and_stop": [
+    "Any correctness gate failure => scientific FAIL for that stage; no performance rescue.",
+    "Q4 geometric-mean gate <1.50x in either process => STOP SA1; do not implement Q6 extension.",
+    "Any Q4 cell <1.10x in either process => STOP SA1; shape non-generality falsifies the bounded mechanism.",
+    "Any required environment/provenance/timestamp mismatch => INVALID/F0, not scientific FAIL; repair harness only before fresh data.",
+    "After valid Q4 FAIL, no local-size/subgroup/tile/fusion variant may be tried under SA1.",
+    "Q6 is allowed only after independently adjudicated Q4 PASS and must use the same mechanism/geometry."
+  ],
+  "implementation_allowlist": [
+    "shaders/sa1_q4k_subgroup_splitk.comp after implementation lock only",
+    "src/sa1_component_benchmark.cpp",
+    "tools/compile_sa1_component.ps1",
+    "tools/build_sa1_component.ps1",
+    "run_sa1_component_preflight.ps1",
+    "run_sa1_component_q4.ps1",
+    "tools/adjudicate_sa1_component.py",
+    "tests/test_sa1_component_package.py",
+    "SA1-specific config/docs/artifacts/results only"
+  ],
+  "current_authorization": {
+    "write_candidate_shader": false,
+    "write_component_harness": false,
+    "compile_candidate": false,
+    "execute_component_measurement": false,
+    "target_model_execution": false,
+    "qa_and_lock_only": true
+  }
+}
