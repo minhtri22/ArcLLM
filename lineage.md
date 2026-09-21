@@ -1226,3 +1226,9 @@ Authorization file: `config/q6cb2_execution_authorization.json`, commit `a20bd78
 Scope is exactly one frozen Q6CB-2 identification partition: 30 fixtures in canonical order, using the locked executable and two locked SPIR-V artifacts. Fixture/seed substitution, selective valid-fixture replay, threshold/rule changes, implementation changes, timing and target-model loading remain forbidden.
 Q6CB-3 remains unauthorized and ineligible until independent Q6CB-2 adjudication determines otherwise.
 No Q6CB-2 fixture has yet been executed at this authorization record point.
+
+
+## 2026-09-21 — Q6CB-2 one-shot PS1 runner locked
+A single operator entrypoint, `run_q6cb2_identification.ps1`, was added and zero-science static QA passed. The Q6CB-2 authorization was reissued as revision 2 before any Q6CB-2 execution and now binds the exact runner Git blob `fa82d7023d0f94de2572df852f0d3a2f9dab6c91`.
+The runner fail-closes on contract/source/runtime provenance, validates the exact 30-fixture identification schedule and target identity, prevents overwrite/selective replay, executes only the frozen Q6CB-2 partition, and packages provenance without adjudicating scientific outcomes.
+Q6CB-3 remains unauthorized. No Q6CB-2 fixture has been executed at this lineage point.
