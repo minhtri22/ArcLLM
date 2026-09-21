@@ -2,7 +2,7 @@
   "phase": "Q6CB-1-SPECIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "Q6CB1_BUILDONLY_PASS_STATIC_TEST_FIX_RERUN_PENDING",
+  "status": "Q6CB1_IMPLEMENTATION_LOCKED_GOAL_ALIGNMENT_PASS_EXECUTION_CLOSED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -610,7 +610,7 @@
     "end_to_end_applicability": "NOT_TESTED"
   },
   "q6cb1": {
-    "status": "Q6CB1_BUILDONLY_PASS_STATIC_TEST_FIX_RERUN_PENDING",
+    "status": "Q6CB1_IMPLEMENTATION_LOCKED_GOAL_ALIGNMENT_PASS_EXECUTION_CLOSED",
     "branch": "research/q6-correctness-boundary",
     "program": "docs/Q6CB1_Q6_CORRECTNESS_BOUNDARY_PROGRAM.md",
     "contract": "config/q6cb1_specification_v0.1.json",
@@ -631,7 +631,7 @@
       0,
       3
     ],
-    "causal_harness_implementation_permitted": true,
+    "causal_harness_implementation_permitted": false,
     "fresh_fixture_execution_permitted": false,
     "scientific_cpu_execution_permitted": false,
     "scientific_gpu_execution_permitted": false,
@@ -639,7 +639,7 @@
     "target_model_load_permitted": false,
     "sa1_rerun_permitted": false,
     "execution_authorization_file": null,
-    "next": "RERUN_STATIC_UNIT_TEST_ONLY_ON_HEAD_54D1F9D4_NO_REBUILD_REQUIRED",
+    "next": "DESIGN_AND_FREEZE_EXECUTION_CONTRACT_SPECIFICATION_ONLY_NO_EXECUTION_AUTHORIZATION",
     "zero_science_qa": "PASS",
     "qa_artifact": "artifacts/Q6CB/Q6CB1_SPECIFICATION_QA_v0.1.json",
     "qa_document": "docs/Q6CB1_SPECIFICATION_QA.md",
@@ -671,7 +671,7 @@
     },
     "prebuild_source_audit": "REPAIR_APPLIED_SEMANTIC_INVARIANT",
     "semantic_invariant": {
-      "status": "IMPLEMENTED_PRE_SCIENCE_REBUILD_REQUIRED",
+      "status": "IMPLEMENTED_AND_LOCKED_PRE_SCIENCE",
       "purpose": "SEPARATE_H_SEM_FROM_PACKED_PATH_INTERACTION",
       "expected_fields": [
         "q",
@@ -701,7 +701,22 @@
       "repair_commit": "54d1f9d4f0dfc0994e4d072366a1101c3a5ef753",
       "science_changed": false,
       "build_critical_blobs_changed": false,
-      "rerun_required": true
+      "rerun_required": false,
+      "final_result": "Q6CB1_STATIC_UNIT_QA_PASS",
+      "final_run_head": "627bcc52759b25649b49fd494ba6c802d7bf3d50"
+    },
+    "static_equivalent_qa": "PASS_STATIC_EQUIVALENT_QA",
+    "static_qa_artifact": "artifacts/Q6CB/Q6CB1_STATIC_QA_v0.1.json",
+    "static_qa_document": "docs/Q6CB1_STATIC_QA.md",
+    "implementation_evidence_lock_commit": "237a4174b409bf2e2200fa96fe1a7dbccfa76bab",
+    "implementation_mutation_permitted": false,
+    "execution_contract_design_permitted": true,
+    "execution_contract_frozen": false,
+    "goal_alignment": {
+      "status": "PASS",
+      "decision": "CONTINUE_WITHIN_LOCK_TO_EXECUTION_CONTRACT_DESIGN_ONLY",
+      "drift_detected": false,
+      "negative_outcome_accepted_as_final_evidence": true
     }
   }
 }
