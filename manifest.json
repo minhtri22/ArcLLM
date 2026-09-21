@@ -2,7 +2,7 @@
   "phase": "Q6CB-1-SPECIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "Q6CB2_AUTHORIZED_AFTER_ONE_BOUNDED_F0_REPAIR_NOT_YET_EXECUTED",
+  "status": "STOP_INFRASTRUCTURE_UNSTABLE_Q6CB_TERMINAL",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -610,7 +610,7 @@
     "end_to_end_applicability": "NOT_TESTED"
   },
   "q6cb1": {
-    "status": "Q6CB2_AUTHORIZED_AFTER_ONE_BOUNDED_F0_REPAIR_NOT_YET_EXECUTED",
+    "status": "STOP_INFRASTRUCTURE_UNSTABLE_Q6CB_TERMINAL",
     "branch": "research/q6-correctness-boundary",
     "program": "docs/Q6CB1_Q6_CORRECTNESS_BOUNDARY_PROGRAM.md",
     "contract": "config/q6cb1_specification_v0.1.json",
@@ -632,14 +632,14 @@
       3
     ],
     "causal_harness_implementation_permitted": false,
-    "fresh_fixture_execution_permitted": true,
-    "scientific_cpu_execution_permitted": true,
-    "scientific_gpu_execution_permitted": true,
+    "fresh_fixture_execution_permitted": false,
+    "scientific_cpu_execution_permitted": false,
+    "scientific_gpu_execution_permitted": false,
     "performance_timing_permitted": false,
     "target_model_load_permitted": false,
     "sa1_rerun_permitted": false,
     "execution_authorization_file": "config/q6cb2_execution_authorization.json",
-    "next": "PULL_AND_RUN_ONLY_REPAIRED_RUN_Q6CB2_IDENTIFICATION_PS1_ON_LOCKED_TARGET",
+    "next": "PROGRAM_LEVEL_ARCLLM_DECISION_Q6CB_INFRASTRUCTURE_TERMINATED_NO_CAUSAL_RESULT",
     "zero_science_qa": "PASS",
     "qa_artifact": "artifacts/Q6CB/Q6CB1_SPECIFICATION_QA_v0.1.json",
     "qa_document": "docs/Q6CB1_SPECIFICATION_QA.md",
@@ -736,7 +736,7 @@
       "strata": 5,
       "replicates_per_shape_stratum": 3,
       "seed_schedule_sha256": "C6C47227DA52D41F485A21319DEAB81514A6A7555D0EFAD8113D75F304BA273E",
-      "authorized": true
+      "authorized": false
     },
     "confirmatory_partition": {
       "fixtures": 30,
@@ -745,19 +745,14 @@
       "authorized": false,
       "gate": "F1 boundary reproduced AND >=1 preregistered identification mechanism candidate"
     },
-    "q6cb2_execution_authorized": true,
+    "q6cb2_execution_authorized": false,
     "q6cb3_execution_authorized": false,
     "execution_authorization": {
-      "decision": "Q6CB2_FROZEN_IDENTIFICATION_AUTHORIZED",
-      "revision": 3,
+      "decision": "Q6CB2_EXECUTION_REVOKED_STOP_INFRASTRUCTURE_UNSTABLE",
+      "revision": 4,
       "file": "config/q6cb2_execution_authorization.json",
-      "git_blob": "a90e0194ee02e266119f526658482539c8261ef4",
-      "commit": "6cda2fb3e891c54f8a226f5e0d303e16e40310ef",
-      "scope": "Q6CB2_IDENTIFICATION_ONLY",
-      "fixture_count": 30,
-      "valid_partition_execution_count": 1,
-      "authorized_entrypoint": "run_q6cb2_identification.ps1",
-      "direct_manual_harness_invocation_permitted": false,
+      "scope": "CLOSED",
+      "q6cb2_authorized": false,
       "q6cb3_authorized": false
     },
     "execution_runner": {
@@ -776,7 +771,7 @@
       "max": 1,
       "science_changed": false,
       "further_same_stage_infrastructure_repair_permitted": false,
-      "on_next_f0": "STOP_INFRASTRUCTURE_UNSTABLE"
+      "on_next_f0": "STOP_INFRASTRUCTURE_UNSTABLE_ALREADY_TRIGGERED"
     },
     "environment_probe": {
       "source": "src/sa0_capability_probe.cpp",
@@ -784,6 +779,14 @@
       "build_tool": "tools/build_sa0_cap.ps1",
       "build_tool_git_blob": "8d0cce69fbf91e5cfa3dae0de9f92d611aebca29",
       "role": "ZERO_SCIENCE_TARGET_ENVIRONMENT_QUERY_ONLY"
+    },
+    "q6cb2_f0_adjudication": {
+      "result": "STOP_INFRASTRUCTURE_UNSTABLE",
+      "artifact": "artifacts/Q6CB/Q6CB2_F0_ADJUDICATION_v0.1.json",
+      "document": "docs/Q6CB2_F0_ADJUDICATION.md",
+      "scientific_fixture_count": 0,
+      "scientific_adjudication_performed": false,
+      "f1_f6_adjudicated": false
     }
   }
 }
