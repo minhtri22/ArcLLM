@@ -1,0 +1,56 @@
+{
+  "schema": "arcllm.sa1.closeout.v0.1",
+  "date": "2026-09-21",
+  "result": "SA1_CLOSED_ASYMMETRIC_Q4_PASS_Q6_CORRECTNESS_FAIL",
+  "research_question": "Does one fixed subgroup-cooperative split-K dataflow materially accelerate exact batch-1 packed Q4_K decode GEMM shapes while preserving the numerical contract, and if so does the same unchanged mechanism extend to Q6_K?",
+  "mechanism": "SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW",
+  "q4": {
+    "result": "Q4_STAGE_PASS",
+    "status": "CLOSED",
+    "process_A_geometric_mean_speedup": 3.1371499895364643,
+    "process_B_geometric_mean_speedup": 3.147501200588043,
+    "process_A_minimum_cell_speedup": 1.6594191176826698,
+    "process_B_minimum_cell_speedup": 1.67147387628277,
+    "interpretation": "Mechanism efficacy is supported for the frozen Q4_K component family under the frozen numerical and performance contracts.",
+    "end_to_end_claim": false
+  },
+  "q6": {
+    "result": "Q6_STAGE_FAIL_CORRECTNESS",
+    "status": "CLOSED",
+    "same_mechanism_and_geometry_as_q4": true,
+    "shader_compile": "PASS",
+    "native_build": "PASS",
+    "candidate_cpu_correctness": "FAIL",
+    "performance_measurement": "NOT_RUN",
+    "measured_pairs": 0,
+    "target_model": "NOT_RUN",
+    "interpretation": "The unchanged mechanism does not generalize to Q6_K under the frozen numerical contract."
+  },
+  "synthesis": {
+    "mechanism_efficacy_on_q4": "SUPPORTED_WITHIN_FROZEN_COMPONENT_SCOPE",
+    "mechanism_generality_across_q4_q6": "FALSIFIED_FOR_UNCHANGED_MECHANISM_WITHIN_SA1",
+    "end_to_end_applicability": "NOT_TESTED",
+    "broad_claim_subgroup_split_k_does_not_work": false,
+    "claim_q6_is_slow": false
+  },
+  "governance": {
+    "sa1_closed": true,
+    "q4_rerun_permitted": false,
+    "q6_rerun_permitted": false,
+    "q6_measurement_permitted": false,
+    "target_model_execution_from_sa1_permitted": false,
+    "q3_reopen_permitted": false,
+    "rescue_or_tuning_inside_sa1_permitted": false
+  },
+  "next_scientifically_valid_step": {
+    "type": "NEW_RESEARCH_PROGRAM_SPECIFICATION_ONLY",
+    "question": "What mechanism causes the Q6_K correctness boundary under the frozen SA1 dataflow, and can reduction topology/numerical conditioning be causally distinguished from other explanations?",
+    "requirements": [
+      "new hypothesis and branch",
+      "independent preregistration before fresh execution",
+      "explicit alternatives and falsification gates",
+      "SA1 evidence remains immutable",
+      "no target-model integration or new Q6 kernel execution until the new program passes specification and zero-science QA"
+    ]
+  }
+}
