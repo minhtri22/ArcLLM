@@ -213,3 +213,41 @@ Current authorization:
 - P5: CLOSED.
 
 Next: run the committed `run_anl64_p4_buildonly.ps1` on Windows and return the generated evidence bundle for independent P4 BuildOnly adjudication.
+
+
+## 2026-09-21 — P4 BUILDONLY PRE-FLIGHT FALSE NEGATIVE / BOUNDED QA REPAIR
+
+The first target-local P4 BuildOnly attempt stopped at step 1/3 before shader compilation or native build.
+
+Observed failure:
+- static test expected `P4 == IMPLEMENTATION_AUTHORIZED`;
+- governance had already validly transitioned to `P4 == IMPLEMENTATION_LOCKED_BUILDONLY_PENDING`;
+- therefore the failure was a stale static-QA state assertion, not an implementation or architecture failure.
+
+No science or target execution was consumed:
+- shader compile: NOT STARTED;
+- native build: NOT STARTED;
+- executable launch: NO;
+- target model load: NO;
+- GPU dispatch: NO;
+- performance measurement: NO.
+
+A single bounded BuildOnly QA repair was authorized and consumed. Production implementation and shader blobs remained unchanged:
+- planner `157be15c63363ba2d55093af829ca68be9107e27`;
+- runtime `dbcb7afed5a08e7aff3ca02a1bd95bd985076f70`;
+- legacy Q2 runtime `ea1e986e22f6921e7f6c52a4fa5935121cfec663`;
+- Q4 safe shader `fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a`;
+- Q4_FAST shader `56999d88dc1bef6486e7e1908982f6de4b0f9f6a`.
+
+Repair evidence:
+- preflight adjudication blob `c50f9bb906293827c7657838a86d2d64a2a8a099`;
+- repaired static test blob `90ff3060f7fd809d8ea5d6159898a27e19874d6a`;
+- P4 static QA v0.2 blob `c3faaf04ef7f91adadd9dce93b95cf6d6cebe3ba`;
+- revised runner blob `f62470b22abb5ab8fd1f6877235bbd92cc299955`;
+- implementation lock v0.2 blob `95155fee1a453f1b6276e94d6356df65613e9c85`.
+
+The original lock v0.1 is retained as historical evidence and is superseded only for BuildOnly bookkeeping. No further P4 BuildOnly repair is permitted under this bounded repair record.
+
+Current state remains `P4_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING`.
+
+Next: rerun the revised committed `run_anl64_p4_buildonly.ps1` from step 1 and return the generated BuildOnly evidence bundle. P5 remains closed.
