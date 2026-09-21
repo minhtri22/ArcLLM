@@ -1,8 +1,8 @@
 {
-  "phase": "ANL64-P2-ARCHITECTURE-DESIGN",
+  "phase": "ANL64-P3-ZERO-SCIENCE-COMPATIBILITY",
   "track": "P8 7B runtime",
   "date": "2026-09-21",
-  "status": "ANL64_P2_DESIGN_AUTHORIZED_IMPLEMENTATION_BLOCKED",
+  "status": "ANL64_P2_PASS_P3_ZERO_SCIENCE_AUTHORIZED_IMPLEMENTATION_BLOCKED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -808,12 +808,13 @@
     "q6cb_execution": false,
     "q6cb3_execution": false,
     "end_to_end_successor_validation": false,
-    "anl64_p2_design": true,
+    "anl64_p2_design": false,
     "anl64_implementation": false,
     "anl64_target_execution": false,
-    "anl64_scientific_measurement": false
+    "anl64_scientific_measurement": false,
+    "anl64_p3_zero_science_compatibility": true
   },
-  "next": "ANL64_P2_ARCHITECTURE_SPEC_AND_E2E_UPPER_BOUND_ONLY",
+  "next": "ANL64_P3_ZERO_SCIENCE_LOCAL_COMPATIBILITY_ONLY",
   "anl64": {
     "program_id": "ANL64",
     "branch": "research/arcllm-nexus-ledger64",
@@ -829,8 +830,7 @@
     },
     "governance": {
       "path": "config/arcllm_nexus_ledger64_governance_v0.1.json",
-      "blob": "0180771d63596d6c0e0e437aa94f1c36105597a6",
-      "status": "P2_ARCHITECTURE_DESIGN_AUTHORIZED_IMPLEMENTATION_BLOCKED"
+      "status": "P3_ZERO_SCIENCE_COMPATIBILITY_AUTHORIZED_IMPLEMENTATION_BLOCKED"
     },
     "prior_art": {
       "register": "config/arcllm_nexus_ledger64_prior_art_register_v0.1.json",
@@ -863,20 +863,35 @@
     "stage_state": {
       "P0": "COMPLETE",
       "P1": "COMPLETE",
-      "P2": "DESIGN_AUTHORIZED",
-      "P3": "BLOCKED",
+      "P2": "COMPLETE_PASS",
+      "P3": "ZERO_SCIENCE_COMPATIBILITY_AUTHORIZED",
       "P4": "BLOCKED",
       "P5": "BLOCKED",
       "P6": "BLOCKED",
       "P7": "BLOCKED"
     },
     "authorization": {
-      "p2_design": true,
-      "local_compatibility_execution": false,
+      "p2_design": false,
+      "p3_zero_science_compatibility": true,
       "implementation": false,
       "target_execution": false,
       "scientific_measurement": false
     },
-    "next": "P2_ARCHITECTURE_SPEC_AND_E2E_UPPER_BOUND_ONLY"
+    "next": "P3_ZERO_SCIENCE_LOCAL_COMPATIBILITY_ONLY",
+    "p2": {
+      "result": "P2_PASS_OPEN_P3_ZERO_SCIENCE_COMPATIBILITY",
+      "contract": "config/anl64_p2_architecture_contract_v0.1.json",
+      "contract_blob": "e7d00d6d1deb516347fd8919e2ed27eeeaeb84a6",
+      "document": "docs/research/arcllm-nexus-ledger64/P2_ARCHITECTURE_AND_UPPER_BOUND.md",
+      "document_blob": "6c9dbc3d9919ee50b822a2ffac4cedb41c62bc35",
+      "qa": "artifacts/ANL64/ANL64_P2_ZERO_SCIENCE_QA_v0.1.json",
+      "qa_blob": "91884d476f3d14f9c56aa735cc11f4bcf6dd1f4f",
+      "fixed_q4_saving_proxy_ms_per_decode_token": 670.817252,
+      "historical_upper_bound_e2e_ratio_range": [
+        0.7784124425968799,
+        0.824678021548106
+      ],
+      "max_transfer_fraction_required_for_reused_0_90_target": 0.570379144
+    }
   }
 }
