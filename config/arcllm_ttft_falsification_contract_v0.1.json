@@ -70,12 +70,16 @@
       "fail": "otherwise"
     },
     "H_NULL": {
-      "support": "QF/SF <1.10 in W-S and W-C independently in both sessions after H-ART falsification",
+      "support": "No H_DPIPE/H_PRECOND/H_STATE_INTERACTION gate passes AND QF/SF <1.10 in W-S and W-C independently in both sessions after H-ART falsification.",
       "meaning": "No stable material parent-like TTFT harm under the controlled fresh protocol."
     },
     "UNRESOLVED_STABLE_TTFT_HARM": {
       "classification": "QF/SF >=1.10 in every required comparison while none of H_DPIPE/H_PRECOND/H_STATE_INTERACTION are supported",
       "meaning": "Stable harm reproduced but current finite hypothesis set did not identify its mechanism."
+    },
+    "HISTORICAL_HARM_NOT_STABLY_REPRODUCED": {
+      "classification": "QF/SF is mixed across required workload/session comparisons (neither all <1.10 nor all >=1.10) and no registered mechanism has a fully replicated support gate",
+      "meaning": "Historical harm does not reproduce stably enough to justify a mechanism-specific intervention."
     }
   },
   "semantic_failure": {
@@ -119,7 +123,8 @@
     "if_H_PRECOND": "first adjudicate measurement-conditioning vs production-runtime relevance; architecture mutation is not automatically justified",
     "if_H_STATE_INTERACTION": "one state-isolation intervention specification may be opened only if its targeted state transition is explicit",
     "if_H_NULL": "PROGRAM_TERMINAL_NO_INTERVENTION",
-    "if_UNRESOLVED_STABLE_TTFT_HARM": "PROGRAM_TERMINAL_NO_RESCUE"
+    "if_UNRESOLVED_STABLE_TTFT_HARM": "PROGRAM_TERMINAL_NO_RESCUE",
+    "if_HISTORICAL_HARM_NOT_STABLY_REPRODUCED": "PROGRAM_TERMINAL_NO_INTERVENTION"
   },
   "gain_preservation_requirement_for_any_later_intervention": {
     "semantic": "exact frozen greedy semantics required",
