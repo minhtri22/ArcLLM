@@ -1,0 +1,86 @@
+{
+  "schema": "arcllm.anl64.p5.execution_authorization.v0.1",
+  "date": "2026-09-21",
+  "decision": "P5_BOUNDED_SEMANTIC_INTEGRATION_EXECUTION_AUTHORIZED",
+  "parent_head": "f8beee5cb37e94a11b8a586fd2e5f532b56d9e17",
+  "prerequisites": {
+    "p4_adjudication_blob": "e9039de1af496cf724a390e8180ae7d97e99f091",
+    "p5_spec_blob": "8f9d8984985a17541cd3dbbfb3f7cd04c84cf3c9",
+    "p5_spec_document_blob": "4339819a0956ca84b60ead2f6bd4184c196716ab",
+    "p5_spec_qa_blob": "94c7f5448a6e71dee4e362ca974e4bd1947a694b",
+    "p5_spec_qa_result": "PASS_ZERO_SCIENCE_P5_SPECIFICATION_QA"
+  },
+  "exact_candidate": {
+    "runtime_blob": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+    "plan_blob": "157be15c63363ba2d55093af829ca68be9107e27",
+    "executable_path": "artifacts/ANL64/P4/anl64_p4.exe",
+    "executable_sha256": "1F45DA9D8CACE3CF78FE31B7B7041B6027CB41E180F7FC99E50E1127EA4F5451",
+    "shader_dir": "artifacts/ANL64/P4/compiled_shaders",
+    "q4_fast_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+    "q4_safe_spv_sha256": "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A",
+    "q6_safe_spv_sha256": "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67",
+    "implementation_identity": "aa284326a9322a14888967fa4a9a9dc626f2286a"
+  },
+  "exact_reference": {
+    "runtime_path": "src/q2_benchmark.cpp",
+    "runtime_blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "compile_tool_blob": "a7e08a196ee6c6bf94f460ef4d710175a1b85166",
+    "build_tool_blob": "18325b0a2b3c319f304724397cfe8dfb6d17377f",
+    "q4_safe_source_blob": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a",
+    "q4_safe_spv_sha256": "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A",
+    "q6_safe_spv_sha256": "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67",
+    "historical_implementation_commit": "43afd71161c4dc8c766c09c3b55d5eca48352bde"
+  },
+  "exact_target": {
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "model_bytes": 4683074048,
+    "cpu_substring": "Ultra 7 258V",
+    "gpu_substring": "Arc(TM) 140V",
+    "driver": "32.0.101.8860"
+  },
+  "execution_order": [
+    "ARC_SAFE_REFERENCE/W-S",
+    "ANL64_P4_LOCKED/W-S",
+    "ARC_SAFE_REFERENCE/W-C",
+    "ANL64_P4_LOCKED/W-C"
+  ],
+  "repetitions": {
+    "warmups_per_cell": 1,
+    "measured_attempts_per_cell": 5,
+    "total_measured_attempts": 20
+  },
+  "semantic_fields_only": [
+    "success",
+    "final_logits_finite",
+    "dispatch_census_pass",
+    "generated_token_ids",
+    "generated_hash_fnv1a64",
+    "final_logits_hash_fnv1a64",
+    "final_hidden_hash_fnv1a64",
+    "anl64_plan"
+  ],
+  "performance_quarantine": {
+    "timing_fields_may_be_emitted_by_locked_runtime": true,
+    "timing_fields_must_not_be_used_by_semantic_extractor": true,
+    "timing_fields_decision_role": "NONE",
+    "p5_timing_reusable_for_p6": false,
+    "p6_requires_fresh_run": true
+  },
+  "rerun_policy": {
+    "selective_cell_or_attempt_rerun": false,
+    "infrastructure_repair_budget": 1,
+    "valid_infrastructure_repair_requires_independent_adjudication": true,
+    "after_valid_repair": "FULL_FROZEN_P5_REPLAY_ONLY",
+    "second_f0": "P5_STOP_INFRASTRUCTURE_UNSTABLE"
+  },
+  "authorization": {
+    "p5_target_model_load": true,
+    "p5_gpu_dispatch": true,
+    "p5_semantic_execution": true,
+    "p5_performance_adjudication": false,
+    "p6": false,
+    "production_source_mutation": false,
+    "shader_mutation": false
+  },
+  "next": "IMPLEMENT_AND_LOCK_ONE_SHOT_P5_RUNNER_THEN_EXECUTE_EXACTLY_ONCE"
+}
