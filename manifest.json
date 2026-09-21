@@ -1,8 +1,8 @@
 {
-  "phase": "ANL64-P6-FROZEN-MATCHED-E2E-EXECUTION",
+  "phase": "ANL64-P6-INTERRUPTION-RECOVERY-REPLAY",
   "track": "P8 7B runtime",
   "date": "2026-09-21",
-  "status": "ANL64_P6_EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
+  "status": "ANL64_P6_INTERRUPTED_RECOVERY_REPLAY_AUTHORIZED_AND_LOCKED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -822,9 +822,10 @@
     "anl64_performance_adjudication": false,
     "anl64_p6": false,
     "anl64_p6_specification": false,
-    "anl64_p6_execution": true
+    "anl64_p6_execution": false,
+    "anl64_p6_recovery_replay": true
   },
-  "next": "ANL64_EXECUTE_EXACTLY_ONE_FROZEN_P6_MATCHED_E2E_COLLECTION",
+  "next": "ANL64_RUN_RECOVER_P6_AFTER_INTERRUPTION_PS1_ONCE",
   "anl64": {
     "program_id": "ANL64",
     "branch": "research/arcllm-nexus-ledger64",
@@ -878,7 +879,7 @@
       "P3": "COMPLETE_PASS",
       "P4": "COMPLETE_PASS",
       "P5": "COMPLETE_PASS",
-      "P6": "EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
+      "P6": "INTERRUPTED_RECOVERY_REPLAY_AUTHORIZED_AND_LOCKED",
       "P7": "BLOCKED"
     },
     "authorization": {
@@ -896,9 +897,10 @@
       "performance_adjudication": false,
       "p6": false,
       "p6_specification": false,
-      "p6_execution": true
+      "p6_execution": false,
+      "p6_recovery_replay": true
     },
-    "next": "EXECUTE_EXACTLY_ONE_FROZEN_P6_MATCHED_E2E_COLLECTION",
+    "next": "RUN_RECOVER_ANL64_P6_AFTER_INTERRUPTION_PS1_ONCE",
     "p2": {
       "result": "P2_PASS_OPEN_P3_ZERO_SCIENCE_COMPATIBILITY",
       "contract": "config/anl64_p2_architecture_contract_v0.1.json",
@@ -1005,7 +1007,22 @@
       ],
       "measured_attempts_total": 40,
       "p5_timing_reuse": false,
-      "p7_authorized": false
+      "p7_authorized": false,
+      "recovery": {
+        "adjudication": "artifacts/ANL64/ANL64_P6_INTERRUPTION_F0_ADJUDICATION_v0.1.json",
+        "adjudication_blob": "e70556520938cd5d6ae149d3bbc666434ba5404f",
+        "authorization": "config/anl64_p6_recovery_replay_authorization_v0.1.json",
+        "authorization_blob": "9d8675cba9ee34a18712a7bf8b7655f073a765bf",
+        "static_qa": "artifacts/ANL64/ANL64_P6_RECOVERY_STATIC_QA_v0.1.json",
+        "static_qa_blob": "ffce6456c573ae97da6fac820949bc6635d4b79d",
+        "lock": "config/anl64_p6_recovery_replay_lock_v0.1.json",
+        "lock_blob": "8dd8adfabeb803be24e8ef6db3778566b5f32ac0",
+        "runner": "recover_anl64_p6_after_interruption.ps1",
+        "runner_blob": "20d220d6357454cc7de38338eba7f6fce53c20a0",
+        "repair_budget_consumed": 1,
+        "repair_remaining": 0,
+        "partial_evidence_status": "SPENT_NON_ADMISSIBLE"
+      }
     },
     "current_scientific_measurement_scope": "P6_FRESH_MATCHED_E2E_SUCCESSOR_VS_SAFE_REFERENCE_ONLY"
   }
