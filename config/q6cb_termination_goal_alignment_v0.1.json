@@ -1,0 +1,82 @@
+{
+  "schema": "arcllm.q6cb.termination_goal_alignment.v0.1",
+  "date": "2026-09-21",
+  "status": "BINDING_BEFORE_Q6CB1_IMPLEMENTATION",
+  "scope": "Q6CB_AND_AT_MOST_ONE_SUCCESSOR_INTERVENTION",
+  "local_goal": "Identify within one finite preregistered causal program whether the Q6_K correctness boundary has a reproducible causal mechanism among the frozen competing families.",
+  "global_goal": "Return only justified successor evidence to ArcLLM real-model end-to-end validation of a useful reproducible regime against a matched baseline.",
+  "success_definition": "TRUSTWORTHY_DECISION_NOT_POSITIVE_OUTCOME",
+  "hard_budget": {
+    "mechanism_programs": 1,
+    "fresh_identification_collections": 1,
+    "fresh_confirmatory_collections_max": 1,
+    "successor_interventions_max": 1,
+    "successor_candidates": 1,
+    "valid_successor_correctness_attempts": 1,
+    "successor_component_performance_programs_max": 1,
+    "additional_mechanism_programs": 0,
+    "si2_permitted": false,
+    "kernel_search_permitted": false,
+    "adaptive_threshold_search_permitted": false
+  },
+  "q6cb_terminal_stage": "Q6CB-4_FINAL_ADJUDICATION",
+  "q6cb5_permitted": false,
+  "negative_results_are_valid_terminal_evidence": true,
+  "valid_q6cb_terminal_results": [
+    "BOUNDARY_NOT_REPRODUCED",
+    "H_RTCI_SUPPORTED",
+    "H_PDI_SUPPORTED",
+    "H_DSA_SUPPORTED",
+    "H_SEM_SUPPORTED",
+    "MULTIFACTOR",
+    "UNRESOLVED_MECHANISM"
+  ],
+  "successor_gate": {
+    "requires_supported_causal_result": true,
+    "requires_one_concrete_pre_outcome_intervention": true,
+    "if_no_single_intervention": "STOP_NO_ACTIONABLE_INTERVENTION",
+    "maximum_successor_programs": 1
+  },
+  "si1_path": {
+    "specification_and_qa": true,
+    "implementation_candidates": 1,
+    "valid_correctness_attempts": 1,
+    "on_correctness_fail": "STOP_INTERVENTION_CORRECTNESS",
+    "component_value_programs_max": 1,
+    "on_no_practical_value": "STOP_INTERVENTION_NO_PRACTICAL_VALUE",
+    "on_value": "RETURN_TO_END_TO_END_VALIDATION",
+    "further_component_optimization_after_value": false
+  },
+  "f0": {
+    "scientific_negative": false,
+    "repairs_per_stage_max": 1,
+    "repair_may_change_science": false,
+    "second_f0_same_stage": "STOP_INFRASTRUCTURE_UNSTABLE"
+  },
+  "drift_rule": {
+    "decision": "STOP_DRIFT",
+    "mandatory_alignment_questions": [
+      "DIRECTLY_REDUCES_UNCERTAINTY_FOR_FROZEN_CAUSAL_QUESTION_OR_ONE_INTERVENTION",
+      "REQUIRED_TO_DISTINGUISH_DECLARED_TERMINAL_OUTCOMES",
+      "WITHIN_HARD_BUDGET",
+      "PRESERVES_PRIOR_EVIDENCE",
+      "JUSTIFIED_EVEN_IF_NEGATIVE"
+    ],
+    "all_must_be_true": true
+  },
+  "line_terminal_states": [
+    "STOP_BOUNDARY_NOT_REPRODUCED",
+    "STOP_UNRESOLVED_MECHANISM",
+    "STOP_MULTIFACTOR_NO_ACTIONABLE_INTERVENTION",
+    "STOP_NO_ACTIONABLE_INTERVENTION",
+    "STOP_INTERVENTION_CORRECTNESS",
+    "STOP_INTERVENTION_NO_PRACTICAL_VALUE",
+    "STOP_INFRASTRUCTURE_UNSTABLE",
+    "STOP_DRIFT",
+    "RETURN_TO_END_TO_END_VALIDATION"
+  ],
+  "generic_continue_research_terminal_state_permitted": false,
+  "implementation_authorized_by_this_governance": false,
+  "scientific_execution_authorized_by_this_governance": false,
+  "next": "ZERO_SCIENCE_QA_OF_TERMINATION_GOVERNANCE"
+}
