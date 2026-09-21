@@ -3,7 +3,7 @@
   "date": "2026-09-22",
   "program_id": "ARCLLM_TTFT_M1",
   "branch": "research/arcllm-ttft-mechanism",
-  "status": "P5_COMPLETE_PASS_P6_AUTHORIZATION_GATE_ELIGIBLE",
+  "status": "P6_DIAGNOSTIC_IMPLEMENTATION_AUTHORIZED_BUILDONLY_ONLY",
   "parent": {
     "terminal_program": "ANL64",
     "terminal_head": "0e40b3affe4f6add9ce23921687b2659017c95d3",
@@ -51,7 +51,7 @@
     "P3": "COMPLETE",
     "P4": "COMPLETE",
     "P5": "COMPLETE_PASS",
-    "P6": "AUTHORIZATION_GATE_ELIGIBLE_NOT_AUTHORIZED",
+    "P6": "IMPLEMENTATION_AUTHORIZED_BUILDONLY_ONLY",
     "P7": "BLOCKED",
     "P8": "BLOCKED",
     "P9": "BLOCKED",
@@ -69,12 +69,12 @@
     "prior_art_research": false,
     "repository_read_only_analysis": false,
     "specification_only": false,
-    "implementation": false,
+    "implementation": true,
     "target_model_execution": false,
     "gpu_dispatch": false,
     "performance_measurement": false,
-    "p6_authorization_gate": true,
-    "build": false
+    "p6_authorization_gate": false,
+    "build": true
   },
   "stop_rules": [
     "STOP_DRIFT if work ceases to identify or remove a TTFT mechanism while preserving demonstrated decode/E2E gains.",
@@ -82,7 +82,7 @@
     "No implementation before prior-art/source review, local path mapping, causal decomposition, falsification gates, and zero-science QA all pass.",
     "A valid negative result is terminal evidence, not an invitation to tune to PASS."
   ],
-  "next": "P6_EXPLICIT_BOUNDED_DIAGNOSTIC_IMPLEMENTATION_AUTHORIZATION_GATE",
+  "next": "P6_IMPLEMENT_EXACT_ALLOWLIST_THEN_STATIC_QA_AND_BUILDONLY",
   "p1": {
     "register": "config/arcllm_ttft_prior_art_register_v0.1.json",
     "register_blob": "92682f51f97c9af87ce408629ff7c6f45d3468ac",
@@ -114,5 +114,19 @@
     "document": "docs/research/arcllm-ttft-mechanism/P5_ZERO_SCIENCE_QA.md",
     "document_blob": "362340c2ef6932a2d078329f5f329e576dbc1d60",
     "open_finding_count": 0
+  },
+  "p6": {
+    "implementation_authorization": "config/arcllm_ttft_m1_p6_implementation_authorization_v0.1.json",
+    "implementation_authorization_blob": "03bf0f7ab3d2067c6aa1a9a04c8d6fc9072baaa7",
+    "implementation": true,
+    "buildonly": true,
+    "target_execution": false,
+    "gpu_dispatch": false,
+    "timing": false
+  },
+  "reconciliation": {
+    "artifact": "artifacts/TTFT_M1/TTFT_M1_DUPLICATE_SPEC_RECONCILIATION_v0.1.json",
+    "blob": "392f02cac42a2b3f52f2cacf92580a918529e180",
+    "canonical_package_preserved": true
   }
 }
