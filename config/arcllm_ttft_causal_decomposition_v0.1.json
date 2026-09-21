@@ -157,8 +157,9 @@
     "H_DPIPE_SUPPORTED": "H_DPIPE >=1.10 independently in W-S and W-C in both sessions.",
     "H_PRECOND_SUPPORTED": "H_PRECOND_Q4FAST >=1.10 while H_PRECOND_SAFE <1.10 independently in W-S and W-C in both sessions.",
     "H_STATE_INTERACTION_SUPPORTED": "PARENT_LIKE >=1.10 and INTERACTION >=1.10 independently in W-S and W-C in both sessions.",
-    "H_NULL_SUPPORTED": "PARENT_LIKE <1.10 independently in W-S and W-C in both sessions after H-ART is falsified.",
-    "UNRESOLVED_STABLE_HARM": "PARENT_LIKE >=1.10 reproducibly but none of H_DPIPE/H_PRECOND/H_STATE_INTERACTION support rules pass."
+    "H_NULL_SUPPORTED": "No H_DPIPE/H_PRECOND/H_STATE_INTERACTION support rule passes AND PARENT_LIKE <1.10 independently in W-S and W-C in both sessions after H-ART is falsified.",
+    "UNRESOLVED_STABLE_HARM": "PARENT_LIKE >=1.10 in W-S and W-C in both sessions but none of H_DPIPE/H_PRECOND/H_STATE_INTERACTION support rules pass.",
+    "HISTORICAL_HARM_NOT_STABLY_REPRODUCED": "PARENT_LIKE is mixed across required workload/session comparisons (neither all <1.10 nor all >=1.10) and no registered mechanism has a fully replicated support gate."
   },
   "static_H_ART_gate": {
     "must_precede_any_timing": true,
