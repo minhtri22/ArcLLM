@@ -1,6 +1,6 @@
 {
   "schema": "arcllm.anl64.governance.v0.1",
-  "date": "2026-09-21",
+  "date": "2026-09-22",
   "program_id": "ANL64",
   "branch": "research/arcllm-nexus-ledger64",
   "status": "ANL64_PROGRAM_CLOSED_VALID_NEGATIVE_TTFT_BLOCKED",
@@ -11,7 +11,9 @@
     "reuse_by_successor": false,
     "closed": true,
     "closed_at_stage": "P7_FINAL_ADJUDICATION",
-    "further_append_permitted": false
+    "further_append_permitted": false,
+    "final_blob": "8ae08b06e901e464169264730936f2fa299af941",
+    "final_append_commit": "3cc3c07fbd24ec035c719ea2538af97dd8d85f67"
   },
   "parent": {
     "arcllm_terminal_head": "d76295cbb3da116eed28f2f6b5f77ce89f5bce2e",
@@ -230,5 +232,6 @@
     "research_question_answer": "NOT_ESTABLISHED",
     "current_program_reopen_permitted": false,
     "successor_program_authorized": false
-  }
+  },
+  "terminal_date": "2026-09-22"
 }
