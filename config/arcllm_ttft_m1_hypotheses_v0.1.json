@@ -1,0 +1,60 @@
+{
+  "schema": "arcllm.ttft_m1.mechanism_hypotheses.v0.1",
+  "date": "2026-09-22",
+  "status": "FROZEN_SPECIFICATION_ONLY",
+  "source_facts": {
+    "ttft_timer_starts_after_reset_and_prepare": true,
+    "prefill_graph_source_identical": true,
+    "prefill_execute_prepared_implementation_identical": true,
+    "one_full_warmup_attempt_precedes_measured_attempts": true,
+    "warmup_contains_31_decode_steps": true,
+    "candidate_warmup_decode_uses_q4_fast": true,
+    "reference_warmup_decode_uses_safe_q4": true
+  },
+  "hypotheses": [
+    {
+      "id": "H1_EXECUTED_DECODE_CARRYOVER",
+      "mechanism": "Executing Q4_FAST decode during warmup changes GPU/cache/clock/driver state and causally slows the immediately following identical prefill.",
+      "rank": "PRIMARY",
+      "discriminating_prediction": "With both safe and fast decode chains prepared in the same process/resource footprint, switching only the warmup decode chain changes subsequent identical-prefill TTFT/GPU-prefill time.",
+      "falsifier": "No stable post-warmup TTFT/GPU-prefill difference under shared resource footprint."
+    },
+    {
+      "id": "H2_PREPARED_RESOURCE_FOOTPRINT",
+      "mechanism": "Preparing the fast decode chain changes driver/pipeline/descriptor resource state enough to slow subsequent identical prefill even when no decode warmup is executed.",
+      "rank": "SECONDARY",
+      "discriminating_prediction": "Safe-only vs fast-only prepared decode-chain processes differ in prefill latency under identical no-decode conditioning.",
+      "falsifier": "No stable difference under no-decode conditioning."
+    },
+    {
+      "id": "H3_HOST_SUBMISSION_PATH_STATE",
+      "mechanism": "The regression is primarily CPU/driver command recording, queue submission, or fence-wait overhead rather than GPU prefill execution.",
+      "rank": "DECOMPOSITION",
+      "discriminating_prediction": "CPU-side TTFT component increases while GPU timestamped prefill duration does not increase proportionally.",
+      "falsifier": "Regression is localized to GPU timestamped prefill execution."
+    },
+    {
+      "id": "H4_GPU_PREFILL_STATE",
+      "mechanism": "The identical prefill command stream runs slower on GPU because prior decode execution leaves an unfavorable cache/clock/thermal/residency state.",
+      "rank": "DECOMPOSITION",
+      "discriminating_prediction": "GPU timestamped prefill duration increases after fast-decode conditioning under shared resource footprint.",
+      "falsifier": "GPU timestamped duration unchanged while host-side components account for regression."
+    },
+    {
+      "id": "H5_PROCESS_ORDER_DVFS",
+      "mechanism": "The P6 TTFT gap is primarily process/order/clock-ramping bias rather than a stable architecture-dependent carryover mechanism.",
+      "rank": "ALTERNATIVE",
+      "discriminating_prediction": "Counterbalanced fresh processes with neutral conditioning erase or reverse the candidate/reference gap; within-process shared-footprint conditioning shows no fast-vs-safe causal effect.",
+      "falsifier": "Within-process randomized shared-footprint fast-vs-safe conditioning reproduces the effect."
+    }
+  ],
+  "explicitly_rejected_primary_causes": [
+    "model loading",
+    "buffer reset",
+    "vkCreateComputePipelines inside measured TTFT",
+    "direct ANL64 prefill shader/graph mutation",
+    "serving-level request batching interference"
+  ],
+  "no_intervention_selected": true,
+  "next": "P3_CAUSAL_DECOMPOSITION_SPECIFICATION"
+}
