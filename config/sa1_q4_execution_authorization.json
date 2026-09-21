@@ -1,0 +1,66 @@
+{
+  "schema": "arcllm.sa1.k1.q4_execution_authorization.v0.1",
+  "date": "2026-09-21",
+  "decision": "SA1_Q4_EXECUTION_AUTHORIZED",
+  "evidence_lock_commit": "d207089a87cd9938b977a29689d4a2e934d2fdac",
+  "evidence_lock_blob": "9808cdc639fd29e8018ead393708b9914aafd15e",
+  "adjudication_blob": "505446048d2601566073445308ed6beee3f41f73",
+  "returned_preflight_bundle_sha256": "37366F785BB391E38E04A8FD0D631850C0DE62F13E2BACEA7FEA2A8363E14D02",
+  "preflight_lock_sha256": "A0B7A718D42FC6A41661560E48D987B00A4B90A8EAB2F31B3D552701B768DD45",
+  "scientific_execution_commit": "b45c2cee60e99e4b7700ff032489e77df9fbd3c3",
+  "implementation_commit": "e2d0b025418d43ad634f3323d873f7da5527d495",
+  "executable_sha256": "AC9936429F464C2AD30BFBB842DF916A74FA834BB2BA3ED56F723CEFA9122E2C",
+  "baseline_spv_sha256": "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A",
+  "candidate_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+  "candidate_shader_blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+  "component_harness_blob": "3a7c7a80ff8e23aa4443499efa5aa5c71ffd5557",
+  "measurement_permitted": true,
+  "exact_execution_plan": {
+    "processes": [
+      "A",
+      "B"
+    ],
+    "process_A_invocations": 1,
+    "process_B_invocations": 1,
+    "process_A_cell_order": "forward",
+    "process_B_cell_order": "reverse",
+    "cells": [
+      "Q4_H3584_R3584_BIAS",
+      "Q4_H3584_R3584_NOBIAS",
+      "Q4_H3584_R512_BIAS",
+      "Q4_H3584_R18944_NOBIAS",
+      "Q4_H18944_R3584_NOBIAS"
+    ],
+    "warmups_per_arm_per_cell": 10,
+    "measured_pairs_per_cell_per_process": 30,
+    "timed_dispatches_per_process": 300,
+    "timestamp_values_per_process": 600,
+    "within_pair_order": "alternating; process B reverse parity",
+    "primary_metric": "GPU timestamp dispatch duration ns",
+    "outlier_deletion": false,
+    "process_pooling": false
+  },
+  "frozen_gate": {
+    "speedup_definition": "median_baseline_gpu_ns / median_candidate_gpu_ns",
+    "per_process_geometric_mean_speedup_min": 1.5,
+    "every_cell_speedup_min": 1.1,
+    "must_pass_independently_in": [
+      "A",
+      "B"
+    ]
+  },
+  "execution_rules": [
+    "Run process A exactly once.",
+    "Run process B exactly once.",
+    "Do not rebuild or recompile the authorized executable or SPIR-V artifacts.",
+    "Do not modify candidate shader, harness, baseline, thresholds, cell matrix, bank rotation, warmups or pair count.",
+    "Do not delete or censor samples.",
+    "If a process is invalidated by infrastructure failure before producing a valid result, stop and return evidence for adjudication; do not self-authorize a retry.",
+    "Do not run Q6, target-model inference or Q3."
+  ],
+  "q6_implementation_permitted": false,
+  "target_model_execution_permitted": false,
+  "q3_reopen_permitted": false,
+  "measurement_consumed": false,
+  "next": "Execute Process A once and Process B once using run_sa1_component_q4.ps1. Return both JSON results for independent adjudication before any Q6 action."
+}

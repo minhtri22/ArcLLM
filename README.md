@@ -176,3 +176,8 @@ SA1-K1 has passed an independent static-equivalent audit. Native compile/build a
 The Q4 subgroup-32 candidate passed exact-device compile/build and correctness-only preflight on the Arc 140V. Ten correctness cases passed the frozen numerical gates, with zero timestamp queries and zero measured pairs.
 
 The implementation evidence is now locked. Q4 performance measurement is still pending a separate execution-authorization commit; Q6/model/Q3 remain blocked.
+
+
+### SA1-K1 Q4 execution authorization
+
+The correctness-only preflight evidence is independently locked. Exactly one Q4 component measurement Process A and one Process B are now authorized under the frozen executable and SPIR-V hashes. No Q6 implementation or target-model run is authorized.

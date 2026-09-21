@@ -2,7 +2,7 @@
   "phase": "SA1-K1-IMPLEMENTATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "SA1K1_PREFLIGHT_PASS_EVIDENCE_LOCKED_AUTHORIZATION_PENDING",
+  "status": "SA1_Q4_EXECUTION_AUTHORIZED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -96,7 +96,7 @@
   },
   "full_inference_general_permitted": false,
   "q1_end_to_end_target_run_permitted": false,
-  "next_on_success": "Create a separate SA1 Q4 component-measurement execution authorization bound to the SA1-K1 evidence lock. Measurement has not yet been consumed.",
+  "next_on_success": "Run exactly one SA1-K1 Q4 Process A and one Process B using the frozen executable/SPIR-V hashes. Return both JSON results for independent adjudication. No retry, Q6, model execution or Q3.",
   "implementation_commit_pending": false,
   "q2_permitted": true,
   "q3_permitted": false,
@@ -526,14 +526,14 @@
     }
   },
   "sa1": {
-    "status": "SA1K1_PREFLIGHT_PASS_EVIDENCE_LOCKED_AUTHORIZATION_PENDING",
+    "status": "SA1_Q4_EXECUTION_AUTHORIZED",
     "preregistration": "docs/SA1P_DECODE_PACKED_QUANT_COMPONENT_STUDY.md",
     "contract": "config/sa1p_component_study_preregistration_v0.1.json",
     "primary_mechanism": "SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW",
     "cooperative_matrix_disposition": "DEFERRED_NOT_IN_SA1",
     "q4_implementation_permitted": true,
     "q6_implementation_permitted": false,
-    "component_measurement_permitted": false,
+    "component_measurement_permitted": true,
     "target_model_execution_permitted": false,
     "q3_reopen_permitted": false,
     "next": "SA1-K1_IMPLEMENTATION_THEN_STATIC_QA_ZERO_MEASUREMENT_PREFLIGHT",
@@ -542,7 +542,7 @@
     "implementation_lock": "config/sa1p_implementation_lock_v0.1.json",
     "implementation_scope": "SA1-K1_ALLOWLIST_ONLY",
     "k1": {
-      "status": "ZERO_MEASUREMENT_PREFLIGHT_PASS_EVIDENCE_LOCKED",
+      "status": "Q4_MEASUREMENT_AUTHORIZED_NOT_YET_CONSUMED",
       "contract": "config/sa1_k1_implementation_contract_v0.1.json",
       "shader": "shaders/sa1_q4k_subgroup_splitk.comp",
       "harness": "src/sa1_component_benchmark.cpp",
@@ -553,7 +553,7 @@
       "adjudicator": "tools/adjudicate_sa1_component.py",
       "static_qa": "tests/test_sa1_component_package.py",
       "candidate_variants": 1,
-      "measurement_authorized": false,
+      "measurement_authorized": true,
       "static_audit": "artifacts/SA1/SA1K1_STATIC_AUDIT_v0.1.json",
       "compile_status": "PASS_OBSERVED_TARGET_LOCAL",
       "zero_measurement_preflight_status": "PASS_ADJUDICATED",
@@ -562,7 +562,10 @@
       "returned_bundle_sha256": "37366F785BB391E38E04A8FD0D631850C0DE62F13E2BACEA7FEA2A8363E14D02",
       "preflight_lock_sha256": "A0B7A718D42FC6A41661560E48D987B00A4B90A8EAB2F31B3D552701B768DD45",
       "adjudication": "artifacts/SA1/SA1K1_PREFLIGHT_ADJUDICATION_v0.1.json",
-      "evidence_lock": "config/sa1_k1_implementation_evidence_lock_v0.1.json"
+      "evidence_lock": "config/sa1_k1_implementation_evidence_lock_v0.1.json",
+      "execution_authorization": "config/sa1_q4_execution_authorization.json",
+      "execution_authorization_commit_pending": false,
+      "measurement_consumed": false
     }
   }
 }

@@ -1093,3 +1093,9 @@ Scientific execution commit remains `b45c2cee60e99e4b7700ff032489e77df9fbd3c3`; 
 Correctness PASS across 5 Q4 cells × banks 0/3. Worst candidate-vs-CPU was max_abs 0.013916015625, RMSE 0.00269372814522; worst candidate-vs-baseline max_abs 0.014404296875, RMSE 0.00270290781691, all below frozen 0.02/0.005 gates.
 Zero-measurement invariants PASS: model_loaded=false, performance_measurement=false, timestamp_queries=0, measured_pairs=0, performance_gate_evaluated=false.
 Decision: `SA1_K1_ZERO_MEASUREMENT_PREFLIGHT_PASS`; implementation evidence locked. Q4 execution authorization may now be created only as a separate commit. Q6/model/Q3 remain blocked.
+
+
+## 2026-09-21 — SA1-K1 Q4 measured execution authorized
+Following independent preflight PASS and evidence-lock commit `d207089a87cd9938b977a29689d4a2e934d2fdac`, authorized exactly one Process A and one Process B Q4 component measurement under the frozen executable/SPIR-V hashes.
+Frozen tooling reference is `e2d0b025418d43ad634f3323d873f7da5527d495`; scientific preflight execution remains bound to `b45c2cee60e99e4b7700ff032489e77df9fbd3c3`. Authorization binds executable `AC993642...`, baseline SPIR-V `2EFD94AC...`, candidate SPIR-V `B16868A8...`, five Q4 cells, 10 warmups/arm/cell, 30 measured pairs/cell/process, A forward/B reverse order, no outlier deletion and no process pooling.
+Decision: `SA1_Q4_EXECUTION_AUTHORIZED`. Measurement is not yet consumed. Run A exactly once and B exactly once. Any infrastructure invalidation must return for adjudication before retry; no self-authorized rerun. Q6/model/Q3 remain blocked.
