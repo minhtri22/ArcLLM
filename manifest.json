@@ -2,7 +2,7 @@
   "phase": "Q6CB-1-SPECIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "Q6CB1_SPECIFICATION_QA_PASS_EXECUTION_CLOSED",
+  "status": "Q6CB_TERMINATION_GOVERNANCE_BINDING_EXECUTION_CLOSED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -643,6 +643,16 @@
     "zero_science_qa": "PASS",
     "qa_artifact": "artifacts/Q6CB/Q6CB1_SPECIFICATION_QA_v0.1.json",
     "qa_document": "docs/Q6CB1_SPECIFICATION_QA.md",
-    "qa_commit": "bf86e8ffddf81ed17559f300d1f95c33a59643c5"
+    "qa_commit": "bf86e8ffddf81ed17559f300d1f95c33a59643c5",
+    "termination_governance": "docs/Q6CB_TERMINATION_AND_GOAL_ALIGNMENT_GOVERNANCE.md",
+    "termination_contract": "config/q6cb_termination_goal_alignment_v0.1.json",
+    "termination_qa": "PASS",
+    "termination_qa_artifact": "artifacts/Q6CB/Q6CB_TERMINATION_GOVERNANCE_QA_v0.1.json",
+    "termination_qa_document": "docs/Q6CB_TERMINATION_GOVERNANCE_QA.md",
+    "q6cb_terminal_stage": "Q6CB-4_FINAL_ADJUDICATION",
+    "q6cb5_permitted": false,
+    "successor_interventions_max": 1,
+    "si2_permitted": false,
+    "stop_drift_binding": true
   }
 }
