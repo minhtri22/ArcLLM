@@ -1,0 +1,154 @@
+{
+  "schema": "arcllm.ttft_m1.prior_art_register.v0.1",
+  "date": "2026-09-22",
+  "status": "P1_PRIOR_ART_SOURCE_REVIEW_FROZEN",
+  "policy": {
+    "external_result_is_local_result": false,
+    "source_pin_required": true,
+    "paper_claims_are_context_not_local_evidence": true,
+    "transfer_requires_local_assumption_match": true
+  },
+  "papers": [
+    {
+      "id": "DISTServe_2024",
+      "title": "DistServe: Disaggregating Prefill and Decoding for Goodput-optimized Large Language Model Serving",
+      "source": "arXiv:2401.09670",
+      "claim": "Prefill/TTFT and decode/TPOT are distinct latency dimensions; co-location can create cross-phase interference.",
+      "classification": "TRANSFERABLE_INVARIANT",
+      "local_transfer": "Phase-specific latency must be isolated. Multi-request/disaggregated-cluster scheduling results are not local evidence for single-request ArcLLM."
+    },
+    {
+      "id": "SARATHI_SERVE_2024",
+      "title": "Taming Throughput-Latency Tradeoff in LLM Inference with Sarathi-Serve",
+      "source": "arXiv:2403.02310",
+      "claim": "Chunked prefill and stall-free scheduling control prefill/decode interference in serving.",
+      "classification": "NOT_TRANSFERABLE",
+      "local_transfer": "Scheduling mechanism assumes serving batches/requests. Only the separation of prefill from decode is informative."
+    },
+    {
+      "id": "DEEPSPEED_FASTGEN_2024",
+      "title": "DeepSpeed-FastGen: High-throughput Text Generation for LLMs via MII and DeepSpeed-Inference",
+      "source": "arXiv:2401.08671",
+      "claim": "Prompt and generation composition strategies change latency/throughput tradeoffs.",
+      "classification": "NOT_TRANSFERABLE",
+      "local_transfer": "Dynamic SplitFuse serving policy is not the single-request Vulkan mechanism under study."
+    }
+  ],
+  "external_source_pins": [
+    {
+      "repository": "ggml-org/llama.cpp",
+      "commit": "fb34fc262c1b43f1832c7472429fb2247d650493",
+      "path": "ggml/src/ggml-vulkan/ggml-vulkan-types.h",
+      "blob": "67e3361ed3a5d68c141599eb13da0f664c8ff286",
+      "observed": "Persistent vk_command_pool owns reusable command buffers; vk_pipeline_struct has initialized/compile state.",
+      "classification": "SOURCE_VERIFIED",
+      "transfer": "TRANSFERABLE_INVARIANT",
+      "note": "Resource reuse is established Vulkan runtime practice; this does not establish local TTFT causality."
+    },
+    {
+      "repository": "vllm-project/vllm",
+      "commit": "54020c3c3ec9de219929a5a956010a0251b87520",
+      "path": "vllm/config/scheduler.py",
+      "blob": "321c76fe30580e2c9d7716e0210505d9abf33f07",
+      "observed": "Chunked prefill is an explicit scheduler control.",
+      "classification": "SOURCE_VERIFIED",
+      "transfer": "NOT_TRANSFERABLE",
+      "note": "Multi-request scheduler mechanism differs from the frozen single-request ArcLLM path."
+    },
+    {
+      "repository": "vllm-project/vllm",
+      "commit": "54020c3c3ec9de219929a5a956010a0251b87520",
+      "path": "vllm/v1/core/sched/scheduler.py",
+      "blob": "36a09f9adcc471534dce932945342284bc30e2a1",
+      "observed": "Scheduler contains explicit chunked-prefill logic.",
+      "classification": "SOURCE_VERIFIED",
+      "transfer": "NOT_TRANSFERABLE"
+    },
+    {
+      "repository": "microsoft/sarathi-serve",
+      "commit": "96f9911790ecc00af12ee9fae47cb8fa9ba0d199",
+      "path": "sarathi/core/scheduler/sarathi_scheduler.py",
+      "blob": "bd475635472df2048120f32ffbec3e273c50b40b",
+      "observed": "Prefill chunk allocation/scheduling is explicit.",
+      "classification": "SOURCE_VERIFIED",
+      "transfer": "NOT_TRANSFERABLE"
+    },
+    {
+      "repository": "microsoft/sarathi-serve",
+      "commit": "96f9911790ecc00af12ee9fae47cb8fa9ba0d199",
+      "path": "sarathi/metrics/README.md",
+      "blob": "1bf9e2fd94b3c6ea0942791c72b80a0ab819067f",
+      "observed": "Prefill completion/first-output-token is measured separately from decode execution.",
+      "classification": "SOURCE_VERIFIED",
+      "transfer": "TRANSFERABLE_INVARIANT"
+    },
+    {
+      "repository": "sgl-project/sglang",
+      "commit": "f0940fe3a6d2f2761d04ecc4cdf64349a4a1c022",
+      "path": "python/sglang/srt/layers/radix_attention.py",
+      "blob": "8ef88491e9f3fe638c437f8e2155cf2ed5b6cbc0",
+      "observed": "Runtime implements prefix/radix-cache-oriented attention infrastructure.",
+      "classification": "SOURCE_VERIFIED",
+      "transfer": "NOT_TRANSFERABLE",
+      "note": "Frozen ArcLLM W-S/W-C are fresh single requests with no cross-request prefix reuse."
+    },
+    {
+      "repository": "flashinfer-ai/flashinfer",
+      "commit": "d7a7447cb4bb29b4637f7fa02fe5eaeeb5e61a6e",
+      "path": "flashinfer/prefill.py",
+      "blob": "8a1c0e7aad6e51a1ffc02183e510152d88b7dfbd",
+      "observed": "Prefill wrappers separate planning from run-time execution.",
+      "classification": "SOURCE_VERIFIED",
+      "transfer": "TRANSFERABLE_INVARIANT",
+      "note": "Plan/run separation is informative; CUDA-specific kernel performance is not transferable."
+    },
+    {
+      "repository": "flashinfer-ai/flashinfer",
+      "commit": "d7a7447cb4bb29b4637f7fa02fe5eaeeb5e61a6e",
+      "path": "flashinfer/cudnn/prefill.py",
+      "blob": "13d608083cbadb897fb784ab2df8554fb7ff8180",
+      "observed": "Source explicitly treats execution-plan finalization as potentially costly and separable from run.",
+      "classification": "SOURCE_VERIFIED",
+      "transfer": "TRANSFERABLE_INVARIANT",
+      "note": "cuDNN/SM100 timing magnitudes are NOT_TRANSFERABLE to Intel Arc/Vulkan."
+    }
+  ],
+  "authoritative_vulkan_guidance": [
+    {
+      "source": "Khronos Vulkan Samples - Command buffer usage and multi-threaded recording",
+      "claim": "Frequent command-buffer allocate/free has significant CPU overhead; pool/buffer reuse is preferred.",
+      "classification": "EXTERNALLY_ESTABLISHED",
+      "transfer": "LOCAL_COMPATIBILITY_REQUIRED"
+    },
+    {
+      "source": "Khronos Vulkan Samples - Pipeline Management",
+      "claim": "Pipeline creation may trigger expensive compilation; pipeline caches allow reuse of internal representations.",
+      "classification": "EXTERNALLY_ESTABLISHED",
+      "transfer": "LOCAL_COMPATIBILITY_REQUIRED",
+      "boundary": "ArcLLM prepare_chain is outside measured TTFT, so only residual/deferred driver-state effects are admissible for this TTFT study."
+    }
+  ],
+  "exclusions": [
+    {
+      "mechanism": "ANL64 planner CPU construction time",
+      "classification": "NOT_TRANSFERABLE_TO_MEASURED_TTFT",
+      "reason": "Local source places anl64_build_plan before the TTFT t0 boundary."
+    },
+    {
+      "mechanism": "Q4_FAST executes in prefill",
+      "classification": "REJECTED_BY_SOURCE_MAPPING",
+      "reason": "Candidate and safe-reference build_prefill source is exact-equal and uses the same prefill shader family."
+    },
+    {
+      "mechanism": "cross-request prefix caching",
+      "classification": "NOT_TRANSFERABLE",
+      "reason": "The parent frozen workloads are independent single-request executions with no shared-prefix cache contract."
+    },
+    {
+      "mechanism": "multi-request prefill/decode scheduler interference",
+      "classification": "NOT_TRANSFERABLE",
+      "reason": "Parent P6 compares isolated single-system cells rather than concurrent serving batches."
+    }
+  ],
+  "local_question_after_review": "Residual TTFT mechanisms must arise inside the measured prefill/top2 interval or from pre-t0 state that causally changes that interval, despite identical prefill source."
+}
