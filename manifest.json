@@ -2,7 +2,7 @@
   "phase": "Q6CB-1-SPECIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "Q6CB1_IMPLEMENTATION_AUTHORIZED_EXECUTION_CLOSED",
+  "status": "Q6CB1_IMPLEMENTATION_SOURCE_AUDIT_PASS_BUILDONLY_PENDING",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -610,7 +610,7 @@
     "end_to_end_applicability": "NOT_TESTED"
   },
   "q6cb1": {
-    "status": "Q6CB1_IMPLEMENTATION_IN_PROGRESS_EXECUTION_CLOSED",
+    "status": "Q6CB1_IMPLEMENTATION_SOURCE_AUDIT_PASS_BUILDONLY_PENDING",
     "branch": "research/q6-correctness-boundary",
     "program": "docs/Q6CB1_Q6_CORRECTNESS_BOUNDARY_PROGRAM.md",
     "contract": "config/q6cb1_specification_v0.1.json",
@@ -639,7 +639,7 @@
     "target_model_load_permitted": false,
     "sa1_rerun_permitted": false,
     "execution_authorization_file": null,
-    "next": "COMPLETE_IMPLEMENTATION_STATIC_TESTS_THEN_TARGET_LOCAL_COMPILE_BUILDONLY",
+    "next": "RUN_STATIC_UNIT_TEST_THEN_SHADER_COMPILE_AND_NATIVE_BUILDONLY_NO_EXECUTABLE_LAUNCH",
     "zero_science_qa": "PASS",
     "qa_artifact": "artifacts/Q6CB/Q6CB1_SPECIFICATION_QA_v0.1.json",
     "qa_document": "docs/Q6CB1_SPECIFICATION_QA.md",
@@ -658,6 +658,17 @@
     "implementation_authorization_commit": "d81ce5988df078ee3b7efe7a8009257af1b658f2",
     "implementation_lock": "config/q6cb1_implementation_lock_v0.1.json",
     "implementation_scope_commit": "42277644207197934be2ca57b26a59fde510fd40",
-    "buildonly_status": "PENDING_TARGET_LOCAL"
+    "buildonly_status": "PENDING_TARGET_LOCAL",
+    "source_blobs": {
+      "canonical_reference": "6e4283b8a91606c868573c5250e06d803c442c74",
+      "fixture_generator": "30d54e484d9ad211bde04458fbdba42749c318dd",
+      "causal_harness": "a08cc86f864ce595801c8de4e32c128d340e14fb",
+      "gpu_packed": "502fdecc5d2d6462f1fbff0f2927c8ad7792202f",
+      "gpu_expanded": "44ac2c4a4792b93b6a3406bafdf51a1f68b4e721",
+      "compile_tool": "d1cfddeeda2a2e9c7bbd14c4f7a5a78ec7407c95",
+      "build_tool": "dcf078f6054ad1cb6cf1a789deb9e007de36c077",
+      "static_test": "d5a13c34c9548a4a0ac6e63c3db52f015e7358d8"
+    },
+    "prebuild_source_audit": "PASS_CONNECTOR_EQUIVALENT"
   }
 }
