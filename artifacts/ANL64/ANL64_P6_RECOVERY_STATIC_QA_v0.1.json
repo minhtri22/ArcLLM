@@ -1,0 +1,42 @@
+{
+  "schema": "arcllm.anl64.p6.recovery_static_qa.v0.1",
+  "date": "2026-09-21",
+  "result": "PASS_ZERO_SCIENCE_P6_RECOVERY_STATIC_QA",
+  "scientific_execution": false,
+  "target_model_load": false,
+  "gpu_dispatch": false,
+  "performance_measurement": false,
+  "bindings": {
+    "interruption_adjudication_blob": "e70556520938cd5d6ae149d3bbc666434ba5404f",
+    "recovery_authorization_blob": "9d8675cba9ee34a18712a7bf8b7655f073a765bf",
+    "recovery_runner_blob": "20d220d6357454cc7de38338eba7f6fce53c20a0",
+    "canonical_execution_lock_blob": "eb11fc2c898846442d628acf69e6bc27241cd74e",
+    "canonical_runner_blob": "40c4941b1764fdd7a1f83be554e39fda1764151c",
+    "canonical_adjudicator_blob": "d6a295f252960389302fe35b81dbec16ae08b416"
+  },
+  "checks": {
+    "partial_preflight_hash_pinned": true,
+    "partial_session_A_environment_hash_pinned": true,
+    "partial_reference_W_S_hash_pinned": true,
+    "partial_reference_W_S_attempt_count_required_5": true,
+    "candidate_W_S_required_missing": true,
+    "reference_W_C_required_missing": true,
+    "candidate_W_C_required_missing": true,
+    "session_B_required_missing": true,
+    "exact_partial_file_count_required_3": true,
+    "archive_destination_inside_results_parent": true,
+    "partial_directory_moved_not_deleted": true,
+    "archived_original_hashes_rechecked": true,
+    "archive_manifest_marks_partial_spent_non_admissible": true,
+    "canonical_results_root_required_absent_before_replay": true,
+    "canonical_runner_blob_verified": true,
+    "canonical_execution_lock_blob_verified": true,
+    "selective_cell_reuse_absent": true,
+    "selective_session_reuse_absent": true,
+    "full_canonical_runner_invoked_once": true,
+    "repair_budget_remaining_zero": true,
+    "on_replay_failure_do_not_rerun": true
+  },
+  "conclusion": "RECOVERY_WRAPPER_ELIGIBLE_FOR_SINGLE_AUTHORIZED_FULL_REPLAY",
+  "next": "FREEZE_P6_RECOVERY_LOCK_THEN_RUN_RECOVERY_WRAPPER_ONCE"
+}
