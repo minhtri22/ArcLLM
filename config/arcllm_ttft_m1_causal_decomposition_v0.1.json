@@ -1,0 +1,91 @@
+{
+  "schema": "arcllm.ttft_m1.causal_decomposition.v0.1",
+  "date": "2026-09-22",
+  "status": "FROZEN_SPECIFICATION_ONLY",
+  "principle": "IDENTIFY_MECHANISM_BEFORE_INTERVENTION",
+  "instrumentation_required": {
+    "cpu_total_prefill_ms": true,
+    "cpu_record_submit_wait_ms": true,
+    "cpu_submit_wait_ms": true,
+    "gpu_timestamp_prefill_ms": true,
+    "cpu_top2_ms": true,
+    "generated_token_hash": true,
+    "dispatch_census": true,
+    "exact_plan_identity": true,
+    "performance_clock_telemetry": "OPTIONAL_DESCRIPTIVE_NOT_REQUIRED_FOR_IDENTIFICATION"
+  },
+  "studies": [
+    {
+      "id": "D0_MEASUREMENT_DECOMPOSITION",
+      "question": "Where does the TTFT delta live: host path or GPU prefill execution?",
+      "arms": [
+        "SAFE_CONDITIONED",
+        "FAST_CONDITIONED"
+      ],
+      "resource_footprint": "BOTH_SAFE_AND_FAST_DECODE_CHAINS_PREPARED_IN_EVERY_PROCESS",
+      "conditioning": "one full 31-step decode conditioning sequence using selected chain, then identical prefill measurement",
+      "changed_variable": "executed decode conditioning identity only",
+      "endpoints": [
+        "cpu_total_prefill_ms",
+        "cpu_record_submit_wait_ms",
+        "cpu_submit_wait_ms",
+        "gpu_timestamp_prefill_ms",
+        "cpu_top2_ms"
+      ],
+      "no_claim": "No removal intervention is tested here."
+    },
+    {
+      "id": "D1_RESOURCE_FOOTPRINT",
+      "question": "Can prepared decode resources alone alter identical-prefill TTFT?",
+      "arms": [
+        "SAFE_ONLY_PREPARED_NO_DECODE",
+        "FAST_ONLY_PREPARED_NO_DECODE"
+      ],
+      "conditioning": "no decode execution before measured prefill",
+      "changed_variable": "prepared decode-chain identity only",
+      "endpoints": [
+        "cpu_total_prefill_ms",
+        "gpu_timestamp_prefill_ms",
+        "cpu_record_submit_wait_ms",
+        "cpu_submit_wait_ms"
+      ]
+    },
+    {
+      "id": "D2_NEUTRAL_ORDER_CONTROL",
+      "question": "Does the gap survive neutral conditioning and counterbalanced fresh-process order?",
+      "arms": [
+        "REFERENCE_NEUTRAL",
+        "ANL64_NEUTRAL"
+      ],
+      "conditioning": "identical prefill-only warmup; no decode warmup before TTFT measurement",
+      "order": [
+        "AB",
+        "BA"
+      ],
+      "endpoints": [
+        "cpu_total_prefill_ms",
+        "gpu_timestamp_prefill_ms"
+      ],
+      "role": "Distinguish stable binary/resource effect from process/order/DVFS bias."
+    }
+  ],
+  "identifiability_logic": [
+    "H1 supported only if D0 shared-footprint FAST_CONDITIONED > SAFE_CONDITIONED with predeclared effect precision and D1 does not fully account for the delta.",
+    "H2 supported only if D1 FAST_ONLY_PREPARED differs from SAFE_ONLY_PREPARED under no-decode conditioning.",
+    "H3 supported if host-side delta accounts for the effect while GPU timestamp delta is absent/small.",
+    "H4 supported if GPU timestamp prefill delta reproduces under D0 shared-footprint conditioning.",
+    "H5 supported if D0 and D1 fail to reproduce a mechanism-specific effect while neutral/order controls explain the original-direction gap.",
+    "If multiple mechanisms remain observationally equivalent, terminate identification as NOT_IDENTIFIED rather than select one."
+  ],
+  "preservation_contract": {
+    "no_q4_fast_kernel_change": true,
+    "no_prefill_shader_change": true,
+    "no_quantization_change": true,
+    "no_threshold_tuning": true,
+    "semantic_hash_must_match_frozen_parent_workload_hashes": true,
+    "decode_gain_not_retested_until_mechanism_identified": true
+  },
+  "fresh_data": true,
+  "p6_timing_values_used_as_outcome_data": false,
+  "next": "P4_FALSIFICATION_AND_STOP_CONTRACT"
+}
