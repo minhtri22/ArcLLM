@@ -1,0 +1,182 @@
+{
+  "schema": "arcllm.ttft_m1.p6_implementation_authorization.v0.1",
+  "date": "2026-09-22",
+  "decision": "P6_BOUNDED_DIAGNOSTIC_IMPLEMENTATION_AND_BUILDONLY_AUTHORIZED",
+  "prerequisites": {
+    "p5_result": "PASS_ZERO_SCIENCE_TTFT_M1_PROGRAM_QA",
+    "p5_qa_blob": "234ea107f5d6e049a879acdea1a0c679bf0e566c",
+    "canonical_reconciliation_blob": "392f02cac42a2b3f52f2cacf92580a918529e180",
+    "p3_contract_blob": "66b6ca2bf1da1e05ddc416bf8f9d73074e8f3fdb",
+    "p4_contract_blob": "fb856b27385278878114316ebd667b97fb38ba59"
+  },
+  "canonical_design": {
+    "arms": [
+      "SP",
+      "SF",
+      "QP",
+      "QF"
+    ],
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "common_prefill_path_required": true,
+    "primary_endpoint": "ttft_ms",
+    "future_sessions": 2,
+    "measured_attempts_per_arm_workload_session": 5,
+    "future_primary_observations": 80,
+    "parent_p6_timing_reuse": 0,
+    "material_ratio": 1.1
+  },
+  "implementation_strategy": {
+    "isolation": "NEW_DIAGNOSTIC_HARNESS_ONLY_DO_NOT_MUTATE_PRODUCTION_RUNTIMES",
+    "safe_runtime_source": {
+      "path": "src/q2_benchmark.cpp",
+      "blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+      "mutation_permitted": false
+    },
+    "anl64_runtime_source": {
+      "path": "src/anl64_runtime.cpp",
+      "blob": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+      "mutation_permitted": false
+    },
+    "shared_vulkan_source": {
+      "path": "src/p8c_segmented_access_correctness.cpp",
+      "blob": "8432ca554b36a2167429b640c5ec6779cf2b3e6b",
+      "mutation_permitted": false
+    },
+    "q4_fast_shader": {
+      "path": "shaders/sa1_q4k_subgroup_splitk.comp",
+      "blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+      "mutation_permitted": false
+    }
+  },
+  "implementation_allowlist": [
+    "src/ttft_m1_diagnostic.cpp",
+    "tools/compile_ttft_m1_p6_shaders.ps1",
+    "tools/build_ttft_m1_p6.ps1",
+    "tests/test_ttft_m1_p6_package.py",
+    "run_ttft_m1_p6_buildonly.ps1",
+    "docs/research/arcllm-ttft-mechanism/P6_DIAGNOSTIC_IMPLEMENTATION.md",
+    "artifacts/TTFT_M1/TTFT_M1_P6_STATIC_QA_v0.1.json",
+    "config/arcllm_ttft_m1_p6_implementation_lock_v0.1.json",
+    "config/arcllm_ttft_mechanism_governance_v0.1.json",
+    "manifest.json",
+    "programs/arcllm_ttft_mechanism/lineage.md"
+  ],
+  "diagnostic_harness_contract": {
+    "one_binary": true,
+    "CLI_factors": {
+      "decode_pipeline_set": [
+        "SAFE",
+        "Q4FAST"
+      ],
+      "conditioning": [
+        "PREFILL_ONLY",
+        "FULL_INFERENCE"
+      ],
+      "workload": [
+        "W-S",
+        "W-C"
+      ]
+    },
+    "exact_arm_map": {
+      "SP": [
+        "SAFE",
+        "PREFILL_ONLY"
+      ],
+      "SF": [
+        "SAFE",
+        "FULL_INFERENCE"
+      ],
+      "QP": [
+        "Q4FAST",
+        "PREFILL_ONLY"
+      ],
+      "QF": [
+        "Q4FAST",
+        "FULL_INFERENCE"
+      ]
+    },
+    "per_measured_attempt": [
+      "reset_execution",
+      "execute selected frozen conditioning pass",
+      "reset_execution",
+      "start t0",
+      "execute exact common 441-dispatch prefill chain",
+      "q2_top2",
+      "stop t1",
+      "emit TTFT plus secondary decomposition telemetry"
+    ],
+    "allowed_secondary_telemetry": [
+      "prefill_execute_wall_ms",
+      "submit_wait_ms",
+      "host_record_and_lifecycle_ms",
+      "top2_ms"
+    ],
+    "semantic_guard": [
+      "success",
+      "final_logits_finite",
+      "prefill dispatch_count == 441",
+      "submit_count == 1",
+      "first greedy token emitted"
+    ],
+    "no_primary_science_during_p6": true
+  },
+  "H_ART_buildonly_gate": {
+    "mandatory_before_any_future_timing": true,
+    "compile_two_artifact_sets": true,
+    "artifact_sets": [
+      "SAFE",
+      "Q4FAST"
+    ],
+    "common_prefill_spv_exact_sha256_match_required": true,
+    "on_match": "H_ART_FALSIFIED_STATIC_P7_ELIGIBLE_AFTER_P6_FORMAL_CLOSE",
+    "on_mismatch": "H_ART_SUPPORTED_STATIC_STOP_TIMING",
+    "target_model_not_required": true
+  },
+  "buildonly_scope": {
+    "diagnostic_source_static_test": true,
+    "shader_compile": true,
+    "native_windows_build": true,
+    "executable_launch": false,
+    "target_model_load": false,
+    "gpu_dispatch": false,
+    "timing": false
+  },
+  "static_assertions": [
+    "production ANL64 and Q2 source blobs remain unchanged",
+    "existing shader source blobs remain unchanged",
+    "single diagnostic source exposes exactly SAFE/Q4FAST and PREFILL_ONLY/FULL_INFERENCE factors",
+    "common measured prefill graph has exactly 441 dispatches in all arms",
+    "Q4FAST is absent from measured prefill path",
+    "Q4FAST can appear only in diagnostic decode path",
+    "conditioning occurs before the measured t0",
+    "parent P6 timing values are not read",
+    "no threshold/workload mutation",
+    "no target execution in P6"
+  ],
+  "forbidden": [
+    "modify src/anl64_runtime.cpp",
+    "modify src/q2_benchmark.cpp",
+    "modify any existing shader",
+    "change Q4FAST algorithm",
+    "change prefill shader or launch geometry",
+    "change prompts/workloads",
+    "change 1.10 threshold",
+    "load target model during P6 BuildOnly",
+    "GPU dispatch",
+    "performance measurement",
+    "reuse parent P6 timings",
+    "open P7 before P6 BuildOnly/H-ART adjudication"
+  ],
+  "authorization": {
+    "implementation": true,
+    "buildonly": true,
+    "target_model_execution": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "p7": false
+  },
+  "next": "IMPLEMENT_EXACT_P6_ALLOWLIST_THEN_STATIC_QA_AND_BUILDONLY"
+}
