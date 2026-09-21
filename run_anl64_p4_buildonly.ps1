@@ -100,7 +100,7 @@ $Result=[ordered]@{
  status="P4_BUILDONLY_COMPLETE_AWAITING_INDEPENDENT_ADJUDICATION"
  git_head=((& git -C $Root rev-parse HEAD).Trim())
  authorization_blob=(GitBlob "config/anl64_p4_implementation_authorization_v0.1.json")
- implementation_lock_blob=(GitBlob "config/anl64_p4_implementation_lock_v0.1.json")
+ implementation_lock_blob=(GitBlob "config/anl64_p4_implementation_lock_v0.2.json")
  runner_blob=(GitBlob "run_anl64_p4_buildonly.ps1")
  static_test="PASS"
  shader_build="PASS"
@@ -132,7 +132,7 @@ $ResultPath=Join-Path $ResultsDir "P4_BUILDONLY_RESULT.json"
 Copy-Item $ProvPath (Join-Path $ResultsDir "shader_provenance.json")
 Copy-Item $NativePath (Join-Path $ResultsDir "native_build.json")
 Copy-Item $AuthPath (Join-Path $ResultsDir "anl64_p4_implementation_authorization_v0.1.json")
-Copy-Item $LockPath (Join-Path $ResultsDir "anl64_p4_implementation_lock_v0.1.json")
+Copy-Item $LockPath (Join-Path $ResultsDir "anl64_p4_implementation_lock_v0.2.json")
 Copy-Item (Join-Path $Root "artifacts\ANL64\ANL64_P4_STATIC_QA_v0.2.json") (Join-Path $ResultsDir "ANL64_P4_STATIC_QA_v0.2.json")
 Copy-Item (Join-Path $Root "artifacts\ANL64\ANL64_P4_BUILDONLY_PREFLIGHT_ADJUDICATION_v0.1.json") (Join-Path $ResultsDir "ANL64_P4_BUILDONLY_PREFLIGHT_ADJUDICATION_v0.1.json")
 
