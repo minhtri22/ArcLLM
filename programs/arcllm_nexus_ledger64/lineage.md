@@ -304,3 +304,43 @@ Frozen adjudication:
 - document blob `cee15c55121f318366749debb6741374c5e1d32b`.
 
 P5 is now opened for specification only. No target execution, correctness run, or performance measurement is yet authorized.
+
+
+## 2026-09-21 — P5 SPECIFICATION FROZEN / ZERO-SCIENCE QA PASS
+
+P5 is defined as a matched semantic-integration validation, not a performance study.
+
+Frozen reference:
+- exact safe Q2 runtime blob `ea1e986e22f6921e7f6c52a4fa5935121cfec663`.
+
+Frozen candidate:
+- ANL64 runtime blob `dbcb7afed5a08e7aff3ca02a1bd95bd985076f70`;
+- plan blob `157be15c63363ba2d55093af829ca68be9107e27`;
+- Q4_FAST source blob `56999d88dc1bef6486e7e1908982f6de4b0f9f6a`;
+- P4 executable SHA256 `1F45DA9D8CACE3CF78FE31B7B7041B6027CB41E180F7FC99E50E1127EA4F5451`.
+
+Workloads remain exactly W-S and W-C with the existing production repetition contract: one warmup plus five measured attempts per system/workload.
+
+P5 primary semantic rule:
+- exact full 32-token greedy sequence equality between candidate and safe reference for every measured attempt;
+- zero token mismatches;
+- unchanged-prefill first token is a separate control;
+- all measured runs must succeed, remain finite and pass dispatch census;
+- both systems must be internally repeatable across five measured attempts.
+
+Full-logit bit equality across systems is not required because Q4_FAST changes the FP32 reduction order and its local numerical correctness was already established in closed SA1 evidence.
+
+Performance quarantine is binding:
+- P5 timing fields have no decision role;
+- any timings emitted by the locked runtimes are spent/non-admissible for P6;
+- P6, if reached, requires fresh separately authorized execution.
+
+Frozen P5 blobs:
+- specification `8f9d8984985a17541cd3dbbfb3f7cd04c84cf3c9`;
+- specification document `4339819a0956ca84b60ead2f6bd4184c196716ab`;
+- zero-science QA `94c7f5448a6e71dee4e362ca974e4bd1947a694b`.
+
+QA result:
+`PASS_ZERO_SCIENCE_P5_SPECIFICATION_QA`.
+
+P5 execution is still blocked. The next gate is explicit P5 execution authorization.
