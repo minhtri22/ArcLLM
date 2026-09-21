@@ -1,0 +1,38 @@
+{
+  "schema": "arcllm.anl64.p6.runner_static_qa.v0.1",
+  "date": "2026-09-21",
+  "result": "PASS_ZERO_SCIENCE_P6_RUNNER_STATIC_QA",
+  "scientific_execution": false,
+  "target_model_load": false,
+  "gpu_dispatch": false,
+  "performance_measurement": false,
+  "bindings": {
+    "authorization_blob": "491ce5d3dbb0b983925f238b2a292c146b5cda89",
+    "spec_blob": "c7e1753ef9079010ce1768ba924e4f996f5e9b35",
+    "spec_qa_blob": "57e73ff0675a6cfd57dc6d395f452104ac57571d",
+    "adjudicator_blob": "d6a295f252960389302fe35b81dbec16ae08b416",
+    "runner_blob": "40c4941b1764fdd7a1f83be554e39fda1764151c",
+    "static_test_blob": "11f8d670d754234857b89bdeebfd17335c2dec45"
+  },
+  "checks": {
+    "exact_candidate_and_reference_sources_immutable": true,
+    "fresh_p6_results_root_only": true,
+    "no_p5_result_consumption": true,
+    "reference_build_before_measurement_only": true,
+    "no_rebuild_between_sessions": true,
+    "separate_child_processes_for_A_B": true,
+    "counterbalanced_orders_exact": true,
+    "one_warmup_five_measured_per_cell": true,
+    "total_measured_40": true,
+    "exact_decode_threshold_1_10": true,
+    "exact_e2e_threshold_0_90": true,
+    "exact_ttft_blocking_threshold_1_10": true,
+    "semantic_guard_exact_32_token_equality": true,
+    "candidate_plan_identity_exact": true,
+    "p7_blocked": true,
+    "external_llama_cpp_baseline_not_invoked": true,
+    "resource_sampler_not_used": true
+  },
+  "execution_lock_eligible": true,
+  "next": "FREEZE_P6_EXECUTION_LOCK_THEN_RUN_EXACTLY_ONCE"
+}
