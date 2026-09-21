@@ -63,7 +63,7 @@
     "fresh": true,
     "closed": false,
     "reuse_parent_lineage": false,
-    "current_blob": "5551d0011816ff2724e282513fad049e9eecbb10"
+    "current_blob": "80f1e457e9073fc8f9ce25035a61ceac6ffb8d57"
   },
   "authorization": {
     "prior_art_research": false,
@@ -128,7 +128,14 @@
     "runner": "run_ttft_m1_p6_buildonly.ps1",
     "runner_blob": "ed32620591aeeb3942efcc220ec6a0bfec7d124b",
     "static_qa": "artifacts/TTFT_M1/TTFT_M1_P6_STATIC_QA_v0.1.json",
-    "static_qa_blob": "5174b0d0bc4cf80bca31ea005a3ee55d9ac0ab09"
+    "static_qa_blob": "5174b0d0bc4cf80bca31ea005a3ee55d9ac0ab09",
+    "implementation_blobs": {
+      "diagnostic_source": "88d97ddb497bfddcec191358f1e21d982c5efccf",
+      "shader_build_tool": "c7b7777c2023da7f0ff7fe489f844bc66069ef43",
+      "native_build_tool": "1c65d419fb664889bcefc452c509628eff6858a6",
+      "static_test": "ac1e0fdea2f16598bb1665b4430340d8295083bf",
+      "implementation_document": "3b13ffdd9a7b382d4143a36887d94d05b97e49b6"
+    }
   },
   "reconciliation": {
     "artifact": "artifacts/TTFT_M1/TTFT_M1_DUPLICATE_SPEC_RECONCILIATION_v0.1.json",
