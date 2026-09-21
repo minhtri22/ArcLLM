@@ -1,8 +1,8 @@
 {
-  "phase": "SA1-CLOSEOUT",
+  "phase": "Q6CB-1-SPECIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-20",
-  "status": "SA1_CLOSED_ASYMMETRIC_Q4_PASS_Q6_CORRECTNESS_FAIL",
+  "status": "Q6CB1_SPECIFICATION_ONLY_EXECUTION_CLOSED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -608,5 +608,37 @@
     "closeout_document": "docs/SA1_CLOSEOUT.md",
     "closeout_result": "SA1_CLOSED_ASYMMETRIC_Q4_PASS_Q6_CORRECTNESS_FAIL",
     "end_to_end_applicability": "NOT_TESTED"
+  },
+  "q6cb1": {
+    "status": "SPECIFICATION_ONLY_AWAITING_ZERO_SCIENCE_QA",
+    "branch": "research/q6-correctness-boundary",
+    "program": "docs/Q6CB1_Q6_CORRECTNESS_BOUNDARY_PROGRAM.md",
+    "contract": "config/q6cb1_specification_v0.1.json",
+    "parent_sa1_status": "SA1_CLOSED_ASYMMETRIC_Q4_PASS_Q6_CORRECTNESS_FAIL",
+    "purpose": "MECHANISM_IDENTIFICATION_ONLY",
+    "hypotheses": [
+      "H-RTCI",
+      "H-PDI",
+      "H-DSA",
+      "H-SEM",
+      "H-NSB"
+    ],
+    "sa1_immutable": true,
+    "sa1_reclassification_permitted": false,
+    "fresh_data_required": true,
+    "exact_sa1_cells_excluded": true,
+    "exact_sa1_banks_excluded": [
+      0,
+      3
+    ],
+    "causal_harness_implementation_permitted": false,
+    "fresh_fixture_execution_permitted": false,
+    "scientific_cpu_execution_permitted": false,
+    "scientific_gpu_execution_permitted": false,
+    "performance_timing_permitted": false,
+    "target_model_load_permitted": false,
+    "sa1_rerun_permitted": false,
+    "execution_authorization_file": null,
+    "next": "ZERO_SCIENCE_SPECIFICATION_QA"
   }
 }
