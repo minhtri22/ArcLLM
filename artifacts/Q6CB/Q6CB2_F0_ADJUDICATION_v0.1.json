@@ -1,0 +1,73 @@
+{
+  "schema": "arcllm.q6cb2.f0_adjudication.v0.1",
+  "date": "2026-09-21",
+  "result": "STOP_INFRASTRUCTURE_UNSTABLE",
+  "stage": "Q6CB-2",
+  "scientific_adjudication_performed": false,
+  "scientific_outcome_available": false,
+  "causal_hypotheses_adjudicated": false,
+  "identification_partition_consumed": false,
+  "valid_scientific_fixture_count": 0,
+  "q6cb_harness_launched": false,
+  "q6cb_gpu_dispatches": 0,
+  "performance_timing": false,
+  "target_model_loaded": false,
+  "f0_history": [
+    {
+      "ordinal": 1,
+      "classification": "PRE_SCIENCE_INFRASTRUCTURE_F0",
+      "observed_failure": "vulkaninfo.exe unavailable",
+      "runner_head": "38870c25382283e9de0f752c8b7cb4ecbec55de3",
+      "repair_applied": true,
+      "repair_scope": "environment-preflight-only",
+      "repair_consumed": 1,
+      "repair_max": 1
+    },
+    {
+      "ordinal": 2,
+      "classification": "PRE_SCIENCE_INFRASTRUCTURE_F0",
+      "observed_failure": "SA0-CAP error: requested Vulkan device substring not found",
+      "runner_head": "af8e0118f1fd3cad94c34c1bdf553b6446f66f57",
+      "runner_blob": "35179043cbb2657e285944625a91aa74fc9f141f",
+      "authorization_revision": 3,
+      "authorization_blob": "a90e0194ee02e266119f526658482539c8261ef4",
+      "repair_permitted": false
+    }
+  ],
+  "technical_diagnosis": {
+    "observed_runner_argument": "--device-substring \"Arc 140V\"",
+    "previously_qualified_target_name": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "likely_failure_mode": "substring matcher requires contiguous text; 'Arc 140V' is not contiguous in the qualified Vulkan device name because '(TM)' occurs between Arc and 140V",
+    "diagnosis_status": "STATIC_EXPLANATION_ONLY_NOT_REPAIRED",
+    "note": "The apparent simplicity of the defect does not override the preregistered one-repair limit."
+  },
+  "governance_binding": {
+    "contract": "config/q6cb_termination_goal_alignment_v0.1.json",
+    "contract_blob": "72e27750320c68676e63639ebb6edde318fe5e55",
+    "repairs_per_stage_max": 1,
+    "second_f0_same_stage": "STOP_INFRASTRUCTURE_UNSTABLE",
+    "repair_budget_consumed_before_second_f0": true
+  },
+  "frozen_science_preserved": {
+    "execution_contract_blob": "c2a541dda5bc01ed473644f8c9f232cfc788e953",
+    "execution_contract_lock_blob": "aae9a58faa9460fd842210f638acbfda2c67c808",
+    "canonical_reference_blob": "6e4283b8a91606c868573c5250e06d803c442c74",
+    "fixture_generator_blob": "34f1e71355448244dd09dab67e27c0cad4808826",
+    "causal_harness_blob": "8f9d0d260348d3a6282ed5730b2e06179912b704",
+    "gpu_packed_blob": "502fdecc5d2d6462f1fbff0f2927c8ad7792202f",
+    "gpu_expanded_blob": "44ac2c4a4792b93b6a3406bafdf51a1f68b4e721",
+    "fixture_seed_threshold_mechanism_rule_changed": false
+  },
+  "forbidden_followups": [
+    "repair runner again",
+    "change device-substring and rerun Q6CB-2",
+    "directly invoke Q6CB harness",
+    "open Q6CB-3",
+    "adjudicate F1-F6 without valid identification data",
+    "rename a new mechanism program to bypass the stop"
+  ],
+  "terminal_decision": "STOP_INFRASTRUCTURE_UNSTABLE",
+  "q6cb2_execution_authorized": false,
+  "q6cb3_execution_authorized": false,
+  "next": "RETURN_TO_ARCLLM_PROGRAM_LEVEL_DECISION_WITH_Q6CB_RECORDED_AS_INFRASTRUCTURE_TERMINATED_NO_CAUSAL_RESULT"
+}
