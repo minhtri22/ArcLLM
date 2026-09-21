@@ -1163,3 +1163,11 @@ Competing hypotheses are preregistered rather than assuming reduction topology i
 The causal-identification design requires serial/high-precision references, deterministic CPU fixed-tree emulation, GPU direct-packed split-32, GPU pre-expanded split-32 diagnostic control, conditioning-strata contrasts, and an independent Q6 semantic invariant.
 Exact SA1 Q6 cells, banks 0/3, inputs/weights/outputs and random seeds are excluded from future Q6CB primary/confirmatory evidence. Identification and confirmatory partitions must both be frozen before the first scientific execution.
 Current state: specification files only. Causal harness implementation, scientific CPU/GPU execution, fresh fixture execution, timing, target-model load and SA1 rerun are all forbidden pending zero-science QA and later explicit locks/authorization.
+
+
+## 2026-09-21 — Q6CB-0 zero-science specification QA PASS
+Audited specification HEAD `af36dbc5382d3d0b1ec009f1562230ffb68456a3` against exact SA1-closeout base `3352dbc841a06f1cab8e70f9d8353d683c411ccc`.
+Delta contained only the Q6CB specification contract/document plus manifest/lineage governance updates; no shader, native source, PowerShell runner, scientific harness or execution-authorization file was changed or created.
+SA1 Q6 candidate shader blob remained `0fdc0c8f195872396a653b38ee2283156fbaeaa0`; SA1 closeout blob remained `83b30549410ce89e8d5047685c8bcbddc87983ee`; Q6 adjudication blob remained `a2419af5a98ec931424bda46de840d3495e0bc38`.
+Scientific design QA passed: competing hypotheses are explicit, reduction topology is not assumed causal, fresh-data exclusions are frozen, identification/confirmatory partitions must be frozen before first execution, negative/multifactor/unresolved outcomes are admissible, and the roadmap is finite.
+Decision: `PASS_ZERO_SCIENCE_SPECIFICATION_QA`; Q6CB-0 complete. No implementation or scientific execution is automatically authorized. Next gate is explicit authorization for Q6CB-1 causal-harness implementation lock only.
