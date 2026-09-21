@@ -12,7 +12,7 @@
     "diagnostic_source_blob": "88d97ddb497bfddcec191358f1e21d982c5efccf",
     "shader_build_tool_blob": "c7b7777c2023da7f0ff7fe489f844bc66069ef43",
     "native_build_tool_blob": "1c65d419fb664889bcefc452c509628eff6858a6",
-    "static_test_blob": "34134de38390f8bd4cb5aee1362670303f3aca0a"
+    "static_test_blob": "ac1e0fdea2f16598bb1665b4430340d8295083bf"
   },
   "immutable_sources": {
     "q2_runtime_blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
@@ -69,5 +69,11 @@
     "gpu_dispatch": false,
     "timing": false
   },
-  "next": "FREEZE_P6_IMPLEMENTATION_LOCK_AND_RUN_ONE_BUILDONLY_RUNNER"
+  "next": "FREEZE_P6_IMPLEMENTATION_LOCK_AND_RUN_ONE_BUILDONLY_RUNNER",
+  "prelock_adjustment": {
+    "class": "STATIC_QA_STATE_TRANSITION_ALIGNMENT",
+    "reason": "Allow the static test to remain valid after the authorized transition from implementation-open to implementation-locked/BuildOnly-pending.",
+    "scientific_change": false,
+    "production_change": false
+  }
 }
