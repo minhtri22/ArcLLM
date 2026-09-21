@@ -1,0 +1,67 @@
+{
+  "schema": "arcllm.anl64.governance.v0.1",
+  "date": "2026-09-21",
+  "program_id": "ANL64",
+  "branch": "research/arcllm-nexus-ledger64",
+  "status": "SPECIFICATION_ONLY_PRIOR_ART_STAGE",
+  "lineage": {
+    "path": "programs/arcllm_nexus_ledger64/lineage.md",
+    "policy": "APPEND_ONLY",
+    "closes_with_program": true,
+    "reuse_by_successor": false
+  },
+  "parent": {
+    "arcllm_terminal_head": "d76295cbb3da116eed28f2f6b5f77ce89f5bce2e",
+    "program_decision_blob": "745fbbd4e92d3aadf9db2eb8862c51ca6386f363",
+    "decision": "STOP_CURRENT_SUCCESSOR_LINE"
+  },
+  "research_question": "Can a control-plane/data-plane separated exact-model runtime combine ArcLLM quant-specific execution with transfer-admissible NEXUS/Event-Ledger/Ledger64 representation/planning to produce material end-to-end improvement without changing model semantics?",
+  "architecture_boundary": {
+    "nexus_ledger64_role": [
+      "control-plane representation",
+      "execution-plan descriptors",
+      "dependency/frontier authority only if locally identified",
+      "residency/prefetch planning",
+      "executor selection"
+    ],
+    "arcllm_role": [
+      "exact GGUF semantics",
+      "quant-specific executors",
+      "attention/KV",
+      "Vulkan data-plane execution"
+    ],
+    "direct_sparse_llm_transfer_assumed": false
+  },
+  "prior_art_policy": {
+    "study_before_implementation": true,
+    "paper_and_source_required_when_available": true,
+    "exact_repo_commit_or_blob_pin_required": true,
+    "external_claim_is_local_pass": false,
+    "implementation_may_reuse_established_mechanism": true,
+    "local_compatibility_required_when_assumptions_change": true,
+    "local_effect_measurement_required_for_performance_claim": true
+  },
+  "evidence_classes": [
+    "EXTERNALLY_ESTABLISHED",
+    "SOURCE_VERIFIED",
+    "TRANSFERABLE_INVARIANT",
+    "LOCAL_COMPATIBILITY_REQUIRED",
+    "LOCAL_EFFECT_REQUIRED",
+    "NOT_TRANSFERABLE"
+  ],
+  "finite_stages": [
+    "P0_ORIGIN_AND_GOVERNANCE",
+    "P1_PRIOR_ART_AND_SOURCE_TRANSFER_REVIEW",
+    "P2_ARCHITECTURE_SPEC_AND_E2E_UPPER_BOUND",
+    "P3_ZERO_SCIENCE_LOCAL_COMPATIBILITY",
+    "P4_BOUNDED_IMPLEMENTATION",
+    "P5_COMPONENT_INTEGRATION_VALIDATION",
+    "P6_MATCHED_END_TO_END_CONFIRMATION",
+    "P7_FINAL_ADJUDICATION"
+  ],
+  "implementation_authorized": false,
+  "target_execution_authorized": false,
+  "scientific_measurement_authorized": false,
+  "rescue_by_renaming": false,
+  "next": "COMPLETE_P1_PRIOR_ART_AND_SOURCE_TRANSFER_REVIEW"
+}
