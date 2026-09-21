@@ -1171,3 +1171,12 @@ Delta contained only the Q6CB specification contract/document plus manifest/line
 SA1 Q6 candidate shader blob remained `0fdc0c8f195872396a653b38ee2283156fbaeaa0`; SA1 closeout blob remained `83b30549410ce89e8d5047685c8bcbddc87983ee`; Q6 adjudication blob remained `a2419af5a98ec931424bda46de840d3495e0bc38`.
 Scientific design QA passed: competing hypotheses are explicit, reduction topology is not assumed causal, fresh-data exclusions are frozen, identification/confirmatory partitions must be frozen before first execution, negative/multifactor/unresolved outcomes are admissible, and the roadmap is finite.
 Decision: `PASS_ZERO_SCIENCE_SPECIFICATION_QA`; Q6CB-0 complete. No implementation or scientific execution is automatically authorized. Next gate is explicit authorization for Q6CB-1 causal-harness implementation lock only.
+
+
+## 2026-09-21 — Q6CB termination and goal-alignment governance locked
+Before authorizing Q6CB-1 implementation, a hard-stop governance was added and independently zero-science audited. The research line now defines scientific success as a trustworthy adjudication rather than a positive outcome.
+Q6CB terminates at `Q6CB-4 FINAL ADJUDICATION`; Q6CB-5 is forbidden. At most one causal successor intervention (`SI-1`) may follow a supported causal result, with exactly one candidate and one valid frozen correctness attempt. SI-2 is forbidden. If SI-1 shows practical component value, micro-research stops and the program returns to real-model end-to-end validation.
+Negative outcomes including non-reproduction, unresolved mechanism, falsified hypotheses, non-actionability, correctness failure and lack of practical value are retained as terminal scientific evidence rather than rescued.
+Every next action is subject to a mandatory goal-alignment test. If it no longer directly reduces uncertainty required for the frozen causal question or the one permitted intervention, or cannot alter a declared terminal decision, the binding decision is `STOP_DRIFT`.
+F0 repair is also finite: at most one bounded tooling/measurement repair per stage; a second F0 at that stage yields `STOP_INFRASTRUCTURE_UNSTABLE`.
+Zero-science QA confirmed no scientific code or authorization changed. Q6CB-1 implementation and all scientific execution remain closed pending the existing explicit implementation-authorization gate.
