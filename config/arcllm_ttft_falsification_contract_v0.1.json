@@ -1,0 +1,149 @@
+{
+  "schema": "arcllm.ttft_m1.falsification_stop_contract.v0.1",
+  "date": "2026-09-22",
+  "status": "P4_FALSIFICATION_CONTRACT_FROZEN",
+  "bindings": {
+    "origin_parent_p7_blob": "79df1758f23f724890eb302907c0b2d3045df735",
+    "p1_prior_art_register_blob": "92682f51f97c9af87ce408629ff7c6f45d3468ac",
+    "p1_review_blob": "69a5cf641ca33d36a40f1694111d97a8298000d3",
+    "p2_path_mapping_blob": "7c57e7d789cd2672cb9fe9342df5a18065dc46bf",
+    "p2_hypotheses_blob": "559cf3a60789074045ac0c3f30c4982b99800707",
+    "p3_causal_design_blob": "5ceb95f1d487679bed6a073ffb8fb89b34bb0958",
+    "p3_document_blob": "45ec845cc5537ebfad89c73f6b9acef95a95d502"
+  },
+  "exact_future_target": {
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "model_bytes": 4683074048,
+    "cpu": "Intel(R) Core(TM) Ultra 7 258V",
+    "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "driver": "32.0.101.8860",
+    "os_build": "26200",
+    "power_scheme": "Balanced",
+    "ac_online": true,
+    "reason": "Mechanism identification must preserve the target on which the parent TTFT harm was observed."
+  },
+  "adjudication_order": [
+    "F0_PROVENANCE_ENVIRONMENT_AND_FRESHNESS",
+    "F1_H_ART_STATIC_BINARY_IDENTITY",
+    "F2_SEMANTIC_AND_STRUCTURAL_GUARD",
+    "F3_SESSION_AND_ORDER_VALIDITY",
+    "F4_H_DPIPE",
+    "F5_H_PRECOND",
+    "F6_H_STATE_INTERACTION",
+    "F7_PARENT_LIKE_REPRODUCTION_OR_H_NULL",
+    "FINAL_MECHANISM_CLASSIFICATION"
+  ],
+  "H_ART": {
+    "support": "Any common prefill SPIR-V SHA256 mismatch between SAFE and Q4FAST diagnostic artifact sets.",
+    "falsify": "All common prefill SPIR-V artifacts match byte-for-byte.",
+    "on_support": "STOP_TIMING_H_ART_SUPPORTED_STATIC",
+    "timing_after_support": false,
+    "next_if_supported": "P8_ARTIFACT_NORMALIZATION_INTERVENTION_SPEC_ONLY_AFTER_FORMAL_IDENTIFICATION_CLOSE"
+  },
+  "materiality": {
+    "ratio": 1.1,
+    "strict_session_workload_replication": true,
+    "pooling_for_gate": false,
+    "source": "pre-existing practical materiality convention",
+    "no_effect_size_tuning": true
+  },
+  "gates": {
+    "H_DPIPE": {
+      "contrast": "QP/SP",
+      "support": "ratio >=1.10 in W-S and W-C independently in both sessions",
+      "fail": "otherwise"
+    },
+    "H_PRECOND": {
+      "contrasts": [
+        "QF/QP",
+        "SF/SP"
+      ],
+      "support": "QF/QP >=1.10 AND SF/SP <1.10 in W-S and W-C independently in both sessions",
+      "fail": "otherwise"
+    },
+    "H_STATE_INTERACTION": {
+      "contrasts": [
+        "QF/SF",
+        "(QF/SF)/(QP/SP)"
+      ],
+      "support": "both ratios >=1.10 in W-S and W-C independently in both sessions",
+      "fail": "otherwise"
+    },
+    "H_NULL": {
+      "support": "QF/SF <1.10 in W-S and W-C independently in both sessions after H-ART falsification",
+      "meaning": "No stable material parent-like TTFT harm under the controlled fresh protocol."
+    },
+    "UNRESOLVED_STABLE_TTFT_HARM": {
+      "classification": "QF/SF >=1.10 in every required comparison while none of H_DPIPE/H_PRECOND/H_STATE_INTERACTION are supported",
+      "meaning": "Stable harm reproduced but current finite hypothesis set did not identify its mechanism."
+    }
+  },
+  "semantic_failure": {
+    "triggers": [
+      "any measured execution failure",
+      "any non-finite logits",
+      "prefill dispatch count != 441",
+      "submit count != 1",
+      "first greedy token differs across matched arms"
+    ],
+    "classification": "INVALID_SEMANTIC_OR_STRUCTURAL",
+    "performance_interpretation": false
+  },
+  "F0_failure": {
+    "triggers": [
+      "target model/hardware/driver/OS/power mismatch",
+      "spec/source/harness hash mismatch",
+      "parent timing reused",
+      "session order/repetition count drift",
+      "selective rerun or missing arm"
+    ],
+    "classification": "INVALID_F0",
+    "performance_interpretation": false
+  },
+  "infrastructure_policy": {
+    "repair_budget": 1,
+    "scope": "orchestration/infrastructure only; no hypotheses, arms, thresholds, workload, compute, shader or target mutation",
+    "after_valid_repair": "FULL_FRESH_IDENTIFICATION_REPLAY_FROM_ZERO",
+    "selective_rerun": false,
+    "second_f0": "STOP_INFRASTRUCTURE_UNSTABLE"
+  },
+  "multi_mechanism_rule": {
+    "multiple_supported_allowed": true,
+    "report_all_supported": true,
+    "intervention_search_allowed": false,
+    "intervention_selection": "A later intervention may target only one supported mechanism, chosen by a pre-outcome causal sufficiency rule frozen before intervention data. No tournament of interventions."
+  },
+  "post_identification": {
+    "if_H_ART": "one artifact-normalization intervention specification may be opened",
+    "if_H_DPIPE": "one decode-pipeline-state isolation intervention specification may be opened",
+    "if_H_PRECOND": "first adjudicate measurement-conditioning vs production-runtime relevance; architecture mutation is not automatically justified",
+    "if_H_STATE_INTERACTION": "one state-isolation intervention specification may be opened only if its targeted state transition is explicit",
+    "if_H_NULL": "PROGRAM_TERMINAL_NO_INTERVENTION",
+    "if_UNRESOLVED_STABLE_TTFT_HARM": "PROGRAM_TERMINAL_NO_RESCUE"
+  },
+  "gain_preservation_requirement_for_any_later_intervention": {
+    "semantic": "exact frozen greedy semantics required",
+    "decode": "must not lose the previously demonstrated Q4FAST decode mechanism; fresh matched decode ratio must remain >=1.10",
+    "e2e": "fresh matched E2E ratio must remain <=0.90",
+    "ttft": "fresh TTFT ratio must be <1.10",
+    "note": "These are future intervention confirmatory gates, not identification outcomes. Parent P6 data cannot satisfy them."
+  },
+  "non_reclassification_rule": "No result in this new program may retroactively change ANL64 P6/P7 terminal classifications.",
+  "prohibited": [
+    "post-outcome threshold changes",
+    "arm removal after seeing outcomes",
+    "workload search",
+    "selective session pooling",
+    "new unregistered mechanism invented to rescue a failed identification",
+    "parent P6 rerun as evidence",
+    "ANL64 lineage mutation"
+  ],
+  "current_authorization": {
+    "implementation": false,
+    "build": false,
+    "model_load": false,
+    "gpu_dispatch": false,
+    "timing": false
+  },
+  "next": "P5_ZERO_SCIENCE_PROGRAM_QA"
+}
