@@ -25,7 +25,7 @@
     "docs/research/arcllm-nexus-ledger64/P4_IMPLEMENTATION.md": "d925308dd9dbe6ebd86827055285682e0958f98c",
     "config/anl64_p4_implementation_authorization_v0.1.json": "c0a9c77d09c7da98103fc949ede182f117bd6329"
   },
-  "runner_git_blob": "f62470b22abb5ab8fd1f6877235bbd92cc299955",
+  "runner_git_blob": "f33179a96f83868acc77e808a6fa508311e2fd7e",
   "immutable_parent_blobs": {
     "src/q2_benchmark.cpp": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
     "shaders/p7_q4k_gemm_2d.comp": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a",
