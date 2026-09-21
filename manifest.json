@@ -1,8 +1,8 @@
 {
-  "phase": "ANL64-P4-BUILDONLY-PENDING",
+  "phase": "ANL64-P5-SPECIFICATION",
   "track": "P8 7B runtime",
   "date": "2026-09-21",
-  "status": "ANL64_P4_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
+  "status": "ANL64_P4_COMPLETE_PASS_P5_SPECIFICATION_AUTHORIZED",
   "title": "real-model end-to-end 7B feasibility",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "FINAL_ARCLLM_VALIDATION",
@@ -814,9 +814,11 @@
     "anl64_scientific_measurement": false,
     "anl64_p3_zero_science_compatibility": false,
     "anl64_p4_authorization_gate": false,
-    "anl64_p4_buildonly": true
+    "anl64_p4_buildonly": false,
+    "anl64_p5_specification": true,
+    "anl64_p5_execution": false
   },
-  "next": "ANL64_RERUN_P4_BUILDONLY_PS1_FROM_STEP_1",
+  "next": "ANL64_P5_COMPONENT_INTEGRATION_VALIDATION_SPECIFICATION_ONLY",
   "anl64": {
     "program_id": "ANL64",
     "branch": "research/arcllm-nexus-ledger64",
@@ -868,8 +870,8 @@
       "P1": "COMPLETE",
       "P2": "COMPLETE_PASS",
       "P3": "COMPLETE_PASS",
-      "P4": "IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
-      "P5": "BLOCKED",
+      "P4": "COMPLETE_PASS",
+      "P5": "SPECIFICATION_AUTHORIZED_EXECUTION_BLOCKED",
       "P6": "BLOCKED",
       "P7": "BLOCKED"
     },
@@ -880,9 +882,11 @@
       "implementation": false,
       "target_execution": false,
       "scientific_measurement": false,
-      "p4_buildonly": true
+      "p4_buildonly": false,
+      "p5_specification": true,
+      "p5_execution": false
     },
-    "next": "RERUN_COMMITTED_RUN_ANL64_P4_BUILDONLY_PS1_FROM_STEP_1",
+    "next": "P5_COMPONENT_INTEGRATION_VALIDATION_SPECIFICATION_ONLY",
     "p2": {
       "result": "P2_PASS_OPEN_P3_ZERO_SCIENCE_COMPATIBILITY",
       "contract": "config/anl64_p2_architecture_contract_v0.1.json",
@@ -930,7 +934,11 @@
         "classification": "BUILDONLY_STATIC_QA_FALSE_NEGATIVE_NO_SCIENCE_CONSUMED",
         "artifact": "artifacts/ANL64/ANL64_P4_BUILDONLY_PREFLIGHT_ADJUDICATION_v0.1.json",
         "further_repair_permitted": false
-      }
+      },
+      "result": "P4_IMPLEMENTATION_AND_BUILDONLY_CLOSED_PASS",
+      "adjudication": "artifacts/ANL64/ANL64_P4_BUILDONLY_ADJUDICATION_v0.1.json",
+      "adjudication_blob": "e9039de1af496cf724a390e8180ae7d97e99f091",
+      "bundle_sha256": "F336519DF14EAEC95F43A5CFC7680C9309F6560B6A60BCEEBA949A41ECEAACE2"
     }
   }
 }
