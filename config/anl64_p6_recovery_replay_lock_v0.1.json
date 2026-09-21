@@ -1,0 +1,58 @@
+{
+  "schema": "arcllm.anl64.p6.recovery_replay_lock.v0.1",
+  "date": "2026-09-21",
+  "status": "P6_RECOVERY_LOCKED_NOT_YET_RUN",
+  "authorization": {
+    "path": "config/anl64_p6_recovery_replay_authorization_v0.1.json",
+    "blob": "9d8675cba9ee34a18712a7bf8b7655f073a765bf",
+    "decision": "P6_SINGLE_INFRASTRUCTURE_REPAIR_FULL_REPLAY_AUTHORIZED"
+  },
+  "exact_git_blobs": {
+    "artifacts/ANL64/ANL64_P6_INTERRUPTION_F0_ADJUDICATION_v0.1.json": "e70556520938cd5d6ae149d3bbc666434ba5404f",
+    "config/anl64_p6_recovery_replay_authorization_v0.1.json": "9d8675cba9ee34a18712a7bf8b7655f073a765bf",
+    "artifacts/ANL64/ANL64_P6_RECOVERY_STATIC_QA_v0.1.json": "ffce6456c573ae97da6fac820949bc6635d4b79d",
+    "config/anl64_p6_execution_lock_v0.1.json": "eb11fc2c898846442d628acf69e6bc27241cd74e",
+    "config/anl64_p6_execution_authorization_v0.1.json": "491ce5d3dbb0b983925f238b2a292c146b5cda89",
+    "run_anl64_p6_confirmatory.ps1": "40c4941b1764fdd7a1f83be554e39fda1764151c",
+    "tools/adjudicate_anl64_p6.py": "d6a295f252960389302fe35b81dbec16ae08b416"
+  },
+  "runner_git_blob": "20d220d6357454cc7de38338eba7f6fce53c20a0",
+  "partial_evidence_fingerprint": {
+    "preflight_sha256": "CCC993AE10EC0919EB4B1DF71E2A5018DCD75CA135A11C2DB2BB7392A4644C58",
+    "session_A_environment_sha256": "06623EC6482BF0F2FC6A6638D1AC79AB3CD4B48398AA433D806FCFEEC3E1C540",
+    "session_A_reference_W_S_sha256": "7525B5457084BD885D1E386D41A3CDF34F8C5CDFA7B2C495A5597DE17BE602E9",
+    "exact_partial_files": 3,
+    "complete_cells": 1,
+    "measured_attempts": 5,
+    "matched_comparisons": 0
+  },
+  "replay_scope": {
+    "archive_partial_attempt": true,
+    "archive_destination": "results/anl64_p6_confirmatory_interrupted_attempt1",
+    "partial_attempt_admissibility": "SPENT_NON_ADMISSIBLE",
+    "full_replay": true,
+    "sessions": [
+      "A",
+      "B"
+    ],
+    "canonical_runner_only": true,
+    "selective_reuse": false
+  },
+  "repair_budget": {
+    "max": 1,
+    "consumed": 1,
+    "remaining": 0,
+    "next_F0": "P6_STOP_INFRASTRUCTURE_UNSTABLE"
+  },
+  "mutation_policy": {
+    "canonical_p6_spec": false,
+    "canonical_p6_runner": false,
+    "canonical_p6_adjudicator": false,
+    "production_source": false,
+    "shader": false,
+    "thresholds": false,
+    "workloads": false,
+    "partial_evidence_bytes": false
+  },
+  "next": "RUN_RECOVER_ANL64_P6_AFTER_INTERRUPTION_PS1_ONCE"
+}
