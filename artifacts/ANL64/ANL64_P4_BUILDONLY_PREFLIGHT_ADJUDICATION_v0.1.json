@@ -1,0 +1,59 @@
+{
+  "schema": "arcllm.anl64.p4.buildonly_preflight_adjudication.v0.1",
+  "date": "2026-09-21",
+  "result": "BUILDONLY_STATIC_QA_FALSE_NEGATIVE_NO_SCIENCE_CONSUMED",
+  "observed_failure": {
+    "stage": "P4_BUILDONLY_STEP_1_OF_3_STATIC_PACKAGE_QA",
+    "assertion": "manifest.anl64.stage_state.P4 == \"IMPLEMENTATION_AUTHORIZED\"",
+    "actual": "IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
+    "shader_compile_started": false,
+    "native_build_started": false,
+    "executable_created_by_this_attempt": false,
+    "executable_launched": false,
+    "model_loaded": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "scientific_data_consumed": false
+  },
+  "diagnosis": {
+    "class": "STALE_GOVERNANCE_STATE_ASSERTION",
+    "cause": "The static test froze an intermediate authorization-state expectation before the implementation lock transitioned governance to the intended BuildOnly-pending state.",
+    "production_defect": false,
+    "architecture_defect": false,
+    "shader_defect": false,
+    "scientific_falsification": false
+  },
+  "immutable_production_blobs": {
+    "src/anl64_plan.hpp": "157be15c63363ba2d55093af829ca68be9107e27",
+    "src/anl64_runtime.cpp": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+    "src/q2_benchmark.cpp": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "shaders/p7_q4k_gemm_2d.comp": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a",
+    "shaders/sa1_q4k_subgroup_splitk.comp": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a"
+  },
+  "bounded_repair": {
+    "permitted": true,
+    "purpose": "Align static QA assertions and BuildOnly lock/runner bookkeeping to the already-valid locked governance state.",
+    "allowed_mutations": [
+      "tests/test_anl64_p4_package.py",
+      "artifacts/ANL64/ANL64_P4_STATIC_QA_v0.2.json",
+      "config/anl64_p4_implementation_lock_v0.2.json",
+      "run_anl64_p4_buildonly.ps1",
+      "config/arcllm_nexus_ledger64_governance_v0.1.json",
+      "manifest.json",
+      "programs/arcllm_nexus_ledger64/lineage.md"
+    ],
+    "forbidden": [
+      "src/anl64_plan.hpp",
+      "src/anl64_runtime.cpp",
+      "any shader",
+      "Q6 optimization",
+      "model execution",
+      "GPU dispatch",
+      "performance measurement",
+      "P5 opening"
+    ],
+    "repair_budget": 1,
+    "repair_index": 1
+  },
+  "next": "APPLY_BOUNDED_STATIC_QA_REPAIR_THEN_RERUN_FULL_P4_BUILDONLY_FROM_STEP_1"
+}
