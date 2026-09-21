@@ -1,0 +1,53 @@
+{
+  "schema": "arcllm.ttft_m1.prior_art_register.v0.1",
+  "date": "2026-09-22",
+  "sources": [
+    {
+      "id": "PA-SARATHI",
+      "kind": "paper+source",
+      "papers": [
+        "arXiv:2308.16369",
+        "arXiv:2403.02310"
+      ],
+      "repo": "microsoft/sarathi-serve",
+      "commit": "96f9911790ecc00af12ee9fae47cb8fa9ba0d199",
+      "classification": "TRANSFERABLE_PHASE_INVARIANT_NOT_DIRECT_INTERVENTION"
+    },
+    {
+      "id": "PA-VLLM",
+      "kind": "source+docs",
+      "repo": "vllm-project/vllm",
+      "commit": "54020c3c3ec9de219929a5a956010a0251b87520",
+      "file": "vllm/config/scheduler.py",
+      "classification": "SOURCE_VERIFIED_PHASE_SCHEDULING_NOT_DIRECTLY_TRANSFERABLE"
+    },
+    {
+      "id": "PA-VULKAN",
+      "kind": "spec+performance-guidance",
+      "classification": "WARMUP_AND_GPU_TIMESTAMP_INVARIANTS_TRANSFERABLE_PIPELINE_CREATION_OUTSIDE_LOCAL_TTFT"
+    },
+    {
+      "id": "PA-FLASHINFER",
+      "kind": "source",
+      "repo": "flashinfer-ai/flashinfer",
+      "commit": "d7a7447cb4bb29b4637f7fa02fe5eaeeb5e61a6e",
+      "file": "benchmarks/bench_grouped_fp8.py",
+      "classification": "SOURCE_VERIFIED_ORDER_CLOCK_RAMP_MEASUREMENT_INVARIANT"
+    }
+  ],
+  "local_sources": [
+    {
+      "path": "src/anl64_runtime.cpp",
+      "blob": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70"
+    },
+    {
+      "path": "src/q2_benchmark.cpp",
+      "blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663"
+    },
+    {
+      "path": "src/p8c_segmented_access_correctness.cpp",
+      "blob": "8432ca554b36a2167429b640c5ec6779cf2b3e6b"
+    }
+  ],
+  "no_implementation_selected": true
+}
