@@ -202,19 +202,20 @@ If a genuine F0 occurs, governance permits at most one infrastructure-only repai
 
 ## Frozen target environment
 
-Hard identity is bound to the previously qualified target:
+Hard causal/runtime identity is bound to the previously qualified target:
 
-- Windows 11 Home Single Language, version `10.0.26200`;
 - Intel Core Ultra 7 258V;
 - Intel Arc 140V GPU (16GB);
 - Intel vendor ID 32902;
 - Windows GPU driver `32.0.101.8860`;
 - Vulkan driver info `101.8860`;
+- Vulkan device API >= 1.2;
 - compute subgroup size 32 with basic + arithmetic operations;
-- AC online;
-- Balanced power scheme.
+- exact executable and both SPIR-V SHA-256 identities.
 
-Vulkan loader/device exact versions and memory census are recorded descriptively. No model is loaded and no timing is scientifically used.
+Windows build, Vulkan loader/exact device-API version, AC/battery state, power scheme and memory census are recorded descriptively rather than used as hard F0 gates. This is a correctness-only mechanism study, so non-causal timing/power state must not create an artificial invalidation.
+
+No model is loaded and no timing is scientifically used.
 
 ## Evidence contract
 
