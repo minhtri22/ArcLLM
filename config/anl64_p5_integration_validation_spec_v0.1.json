@@ -140,7 +140,7 @@
       "rationale": "Closed SA1 already established local numerical correctness of the exact Q4_FAST shader. P5 tests integrated greedy execution semantics; full-logit bit identity is not expected under changed FP32 reduction order."
     },
     "F4_repeatability": {
-      "rule": "Within each system/workload, all five measured generated-token sequences must be identical; candidate final logits hash and final hidden hash must each be stable across the five measured attempts.",
+      "rule": "Within each system/workload, all five measured generated-token sequences must be identical; final logits hash and final hidden hash must each be stable across the five measured attempts for BOTH reference and candidate.",
       "warmup_in_gate": false
     }
   },
