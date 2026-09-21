@@ -493,3 +493,65 @@ Final P5 result:
 `P5_INTEGRATION_PASS`.
 
 P6 is now open for specification only. No P6 timing execution is authorized.
+
+
+## 2026-09-21 — P6 SPECIFICATION / QA / EXECUTION LOCK COMPLETE
+
+P6 was opened only after formal P5 `P5_INTEGRATION_PASS`.
+
+Scientific question:
+- whether the semantically validated ANL64 successor produces a reproducible material end-to-end improvement over the exact frozen safe ArcLLM reference;
+- this is a successor-intervention contrast, not a claim of competitive advantage against llama.cpp or another external runtime.
+
+Freshness boundary:
+- all P5 timing is permanently inadmissible;
+- P6 requires fresh timing only;
+- no P5 result file is consumed by the P6 runner.
+
+Frozen P6 comparison:
+- candidate: exact P4-locked ANL64 runtime/plan/executable;
+- reference: exact historical safe Q2 ArcLLM implementation `43afd71161c4dc8c766c09c3b55d5eca48352bde`.
+
+Frozen design:
+- two independent PowerShell child runner processes A and B;
+- session A order: reference/W-S → candidate/W-S → candidate/W-C → reference/W-C;
+- session B order: candidate/W-S → reference/W-S → reference/W-C → candidate/W-C;
+- one warmup + five measured attempts per cell;
+- 40 fresh measured attempts total;
+- no rebuild between sessions;
+- no online tuning, workload search, or selective rerun.
+
+Frozen primary thresholds:
+- decode throughput candidate/reference >= 1.10;
+- E2E latency candidate/reference <= 0.90;
+- TTFT blocking guard candidate/reference <= 1.10;
+- exact 32-token semantic equality and exact ANL64 plan identity are mandatory before performance evidence is admissible.
+
+Claim boundary:
+- a P6 PASS supports a material improvement over the exact safe ArcLLM reference only;
+- it does not establish ANL64 > llama.cpp.
+
+Frozen P6 artifacts:
+- specification blob `c7e1753ef9079010ce1768ba924e4f996f5e9b35`;
+- specification document blob `2ceaae5f2f80c4daae8888b3d36c1febea3ca76c`;
+- zero-science specification QA blob `57e73ff0675a6cfd57dc6d395f452104ac57571d`;
+- execution authorization blob `491ce5d3dbb0b983925f238b2a292c146b5cda89`;
+- candidate adjudicator blob `d6a295f252960389302fe35b81dbec16ae08b416`;
+- one-shot master runner blob `40c4941b1764fdd7a1f83be554e39fda1764151c`;
+- runner static test blob `11f8d670d754234857b89bdeebfd17335c2dec45`;
+- runner zero-science QA blob `c8476a9af378754e76319ea23e686b8b94e2f30b`;
+- execution lock blob `eb11fc2c898846442d628acf69e6bc27241cd74e`.
+
+The P6 runner static audit also caught and corrected a zero-science test-only false positive before execution: a literal substring check for `llama` also matched `OllamaModelsRoot`. The final test instead excludes actual llama.cpp baseline adapter paths. No runtime, shader, specification, threshold, workload, or scientific evidence changed.
+
+Current state:
+`P6_EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN`.
+
+Current permissions:
+- fresh P6 target-model execution: AUTHORIZED;
+- fresh P6 GPU timing: AUTHORIZED;
+- production/source/shader/spec/threshold mutation: FORBIDDEN;
+- P7: FORBIDDEN.
+
+Next:
+`EXECUTE_EXACTLY_ONE_FROZEN_P6_MATCHED_E2E_COLLECTION`.
