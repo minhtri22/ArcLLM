@@ -818,7 +818,7 @@
     "anl64_p5_specification": false,
     "anl64_p5_execution": false,
     "anl64_p5_execution_authorization_gate": false,
-    "anl64_scientific_semantic_execution": true,
+    "anl64_scientific_semantic_execution": false,
     "anl64_performance_adjudication": false,
     "anl64_p6": false,
     "anl64_p6_specification": false,
@@ -841,7 +841,7 @@
     "governance": {
       "path": "config/arcllm_nexus_ledger64_governance_v0.1.json",
       "status": "P6_EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN",
-      "blob": "71406c9d4d86c119ebd0878683052ed028a1e43b"
+      "blob": "c20d581def6df22ffe1ecd17f41278c453c8f951"
     },
     "prior_art": {
       "register": "config/arcllm_nexus_ledger64_prior_art_register_v0.1.json",
@@ -892,7 +892,7 @@
       "p5_specification": false,
       "p5_execution": false,
       "p5_execution_authorization_gate": false,
-      "scientific_semantic_execution": true,
+      "scientific_semantic_execution": false,
       "performance_adjudication": false,
       "p6": false,
       "p6_specification": false,
@@ -960,7 +960,7 @@
       "qa": "artifacts/ANL64/ANL64_P5_SPECIFICATION_QA_v0.1.json",
       "qa_blob": "94c7f5448a6e71dee4e362ca974e4bd1947a694b",
       "result": "P5_INTEGRATION_PASS",
-      "execution": true,
+      "execution": false,
       "performance_adjudication": false,
       "execution_authorization": "config/anl64_p5_execution_authorization_v0.1.json",
       "execution_authorization_blob": "4662ad4bdb5e517f08fa878b41bb824a1cdf8252",
@@ -1006,6 +1006,7 @@
       "measured_attempts_total": 40,
       "p5_timing_reuse": false,
       "p7_authorized": false
-    }
+    },
+    "current_scientific_measurement_scope": "P6_FRESH_MATCHED_E2E_SUCCESSOR_VS_SAFE_REFERENCE_ONLY"
   }
 }
