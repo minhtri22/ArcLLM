@@ -833,7 +833,7 @@
     "governance": {
       "path": "config/arcllm_nexus_ledger64_governance_v0.1.json",
       "status": "P4_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
-      "blob": "c3c81ec9a314868af868e72fee21466afbddda21"
+      "blob": "e08e8faaec3e8bdc79ed5da82e3e2d2e058fe0a2"
     },
     "prior_art": {
       "register": "config/arcllm_nexus_ledger64_prior_art_register_v0.1.json",
