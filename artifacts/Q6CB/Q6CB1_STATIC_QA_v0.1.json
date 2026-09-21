@@ -1,0 +1,75 @@
+{
+  "schema": "arcllm.q6cb1.static_equivalent_qa.v0.1",
+  "date": "2026-09-21",
+  "result": "PASS_STATIC_EQUIVALENT_QA",
+  "classification": "Q6CB1_IMPLEMENTATION_QUALIFIED_EXECUTION_CLOSED",
+  "static_unit": {
+    "run_head": "627bcc52759b25649b49fd494ba6c802d7bf3d50",
+    "result": "Q6CB1_STATIC_UNIT_QA_PASS",
+    "prior_false_negative": {
+      "head": "6ba51a9d968cd0ed46f808b2f241cd8a50b7e118",
+      "cause": "TEST_ASSERTION_ESCAPED_CPP_JSON_LITERAL_ONLY",
+      "repair_commit": "54d1f9d4f0dfc0994e4d072366a1101c3a5ef753",
+      "science_changed": false,
+      "build_critical_blobs_changed": false
+    }
+  },
+  "target_local_buildonly": {
+    "head": "6ba51a9d968cd0ed46f808b2f241cd8a50b7e118",
+    "shader_compile": "PASS",
+    "native_build": "PASS",
+    "executable_launched": false,
+    "scientific_execution": false,
+    "gpu_dispatch": false,
+    "performance_timing": false,
+    "model_loaded": false,
+    "glslang_release": "16.5.0",
+    "glslang_asset_sha256": "06B71298B750268C127F2EE7AE0EF7525E2068120C6C8A3A08B2F58CA6F325CE",
+    "sdk_header_sha256": "2D1A6F00BFDCDDBE1C68BF5F574A0FC4CF95C4BE9EAE683123B6DB8AF9D1A1DE",
+    "packed_spv_sha256": "CE326D6CFB6474D3B255D0530FE3BE789BACC8B1540A709223EF7F06E1C49B61",
+    "expanded_spv_sha256": "73F35157417A2BB28E0BBB97D1F9CFE4AD7C54C0DFED599DEA0E4EE53F5AA6D2",
+    "executable_sha256": "83E2A04C83418258EB2BB77E4350D3661766EFDBB140E754AE704805D62A1AA9"
+  },
+  "exact_source_blobs": {
+    "canonical_reference": "6e4283b8a91606c868573c5250e06d803c442c74",
+    "fixture_generator": "34f1e71355448244dd09dab67e27c0cad4808826",
+    "causal_harness": "8f9d0d260348d3a6282ed5730b2e06179912b704",
+    "gpu_packed": "502fdecc5d2d6462f1fbff0f2927c8ad7792202f",
+    "gpu_expanded": "44ac2c4a4792b93b6a3406bafdf51a1f68b4e721",
+    "compile_tool": "d1cfddeeda2a2e9c7bbd14c4f7a5a78ec7407c95",
+    "build_tool": "dcf078f6054ad1cb6cf1a789deb9e007de36c077"
+  },
+  "post_build_compare": {
+    "base": "6ba51a9d968cd0ed46f808b2f241cd8a50b7e118",
+    "static_pass_head": "627bcc52759b25649b49fd494ba6c802d7bf3d50",
+    "changed_files": [
+      "tests/test_q6cb1_package.py",
+      "manifest.json",
+      "lineage.md"
+    ],
+    "build_critical_source_drift": false
+  },
+  "scientific_identifiability": {
+    "five_arms_present": true,
+    "semantic_invariant_present": true,
+    "h_sem_separable_from_h_pdi": true,
+    "same_split32_geometry_gpu_controls": true,
+    "fresh_data_exclusions_encoded": true
+  },
+  "sa1_immutability": {
+    "q6_candidate_shader_blob": "0fdc0c8f195872396a653b38ee2283156fbaeaa0",
+    "q6_adjudication_blob": "a2419af5a98ec931424bda46de840d3495e0bc38",
+    "sa1_closeout_blob": "83b30549410ce89e8d5047685c8bcbddc87983ee"
+  },
+  "authorization": {
+    "implementation_write": false,
+    "fresh_fixture_execution": false,
+    "scientific_cpu_execution": false,
+    "scientific_gpu_execution": false,
+    "performance_timing": false,
+    "target_model_load": false,
+    "execution_authorization_file": null
+  },
+  "decision": "Q6CB1_IMPLEMENTATION_STATIC_QUALIFICATION_PASS",
+  "next": "FREEZE_FINAL_IMPLEMENTATION_EVIDENCE_LOCK_THEN_GOAL_ALIGNMENT_CHECK"
+}
