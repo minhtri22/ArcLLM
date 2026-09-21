@@ -1,0 +1,62 @@
+{
+  "schema": "arcllm.anl64.p3_zero_science_qa.v0.1",
+  "date": "2026-09-21",
+  "result": "PASS_ZERO_SCIENCE_P3_COMPATIBILITY_QA",
+  "scientific_execution": false,
+  "target_model_inference": false,
+  "performance_measurement": false,
+  "fresh_gpu_dispatch": false,
+  "implementation": false,
+  "evidence_bindings": {
+    "p3_contract_blob": "374d8f50206757a7b5c5fe5b76a7acb177653b8e",
+    "p3_document_blob": "d46eb2ee13c7b54bee85a29d7462ec22ba75d6d7",
+    "q2_runtime_blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "q4_baseline_blob": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a",
+    "q4_fast_blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "sa0_capability_blob": "9092a5cff7950dfa56874bc86197259d5dfb7700",
+    "sa1_q4_preflight_blob": "505446048d2601566073445308ed6beee3f41f73",
+    "sa1_q4_lock_blob": "9808cdc639fd29e8018ead393708b9914aafd15e"
+  },
+  "independent_checks": {
+    "baseline_candidate_storage_bindings_identical": true,
+    "baseline_candidate_push_constant_semantics_identical": true,
+    "q2_pcgmm_field_order_identical": true,
+    "q2_fixed_q4_tensor_contract_verified": true,
+    "q2_decoder_tensors_single_slice_required": true,
+    "q2_existing_arena_plus_byte_base_contract_verified": true,
+    "q4_fast_batch1_only_constraint_identified_and_frozen": true,
+    "fixed_q4_plan_nodes": 140,
+    "fixed_q4_regions": 19936,
+    "q4_fast_workgroups_per_region64": 16,
+    "tail_region_required": false,
+    "tail_q4_fast_workgroup_required": false,
+    "exact_target_subgroup32_closed_evidence_valid": true,
+    "exact_candidate_closed_build_evidence_valid": true,
+    "exact_candidate_closed_zero_measurement_correctness_valid": true,
+    "duplicate_capability_probe_scientifically_unnecessary": true,
+    "duplicate_candidate_preflight_scientifically_unnecessary": true,
+    "weight_repack_required": false,
+    "predequant_copy_required": false,
+    "extra_weight_buffer_required": false,
+    "per_token_planner_discovery_required": false,
+    "dependency_reordering_required": false
+  },
+  "stop_conditions": {
+    "interface_mismatch": false,
+    "batch_domain_unresolved": false,
+    "subgroup_contract_missing": false,
+    "repack_copy_required": false,
+    "online_control_work_required": false,
+    "dependency_reorder_required": false,
+    "p2_metadata_budget_violation": false
+  },
+  "adjudication": {
+    "p3": "PASS",
+    "classification": "P3_PASS_P4_BOUNDED_IMPLEMENTATION_ELIGIBLE",
+    "p4_implementation_eligible": true,
+    "p4_implementation_authorized": false,
+    "reason": "The frozen ANL64 planner/Region64/Q4_FAST design is expressible against the exact Q2 arena/interface contract and exact target subgroup32 capability without repack/copy or new per-token control-plane work. The only integration-domain restriction, batch=1 decode only, is now explicitly frozen.",
+    "new_scientific_data_consumed": false
+  },
+  "next": "EXPLICIT_P4_BOUNDED_IMPLEMENTATION_AUTHORIZATION_GATE"
+}
