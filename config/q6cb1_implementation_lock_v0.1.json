@@ -1,0 +1,83 @@
+{
+  "schema": "arcllm.q6cb1.implementation_lock.v0.1",
+  "date": "2026-09-21",
+  "status": "Q6CB1_IMPLEMENTATION_SCOPE_FROZEN",
+  "authorization_commit": "d81ce5988df078ee3b7efe7a8009257af1b658f2",
+  "parent_specification_blob": "22f48afebcad9cb093d46914808bca033e8ead1b",
+  "parent_termination_contract_blob": "72e27750320c68676e63639ebb6edde318fe5e55",
+  "immutable_sa1": {
+    "q6_candidate_shader_blob": "0fdc0c8f195872396a653b38ee2283156fbaeaa0",
+    "q6_adjudication_blob": "a2419af5a98ec931424bda46de840d3495e0bc38",
+    "sa1_closeout_blob": "83b30549410ce89e8d5047685c8bcbddc87983ee"
+  },
+  "five_arms": [
+    "R64_CANONICAL_HIGH_PRECISION_REFERENCE",
+    "S32_SERIAL_FP32",
+    "T32_CPU_FIXED_TREE",
+    "T32_GPU_DIRECT_PACKED_Q6",
+    "T32_GPU_PREEXPANDED_FP32_DIAGNOSTIC"
+  ],
+  "exact_allowlist": [
+    "config/q6cb1_implementation_authorization_v0.1.json",
+    "config/q6cb1_implementation_lock_v0.1.json",
+    "src/q6cb_q6_reference.hpp",
+    "src/q6cb_fixture_generator.hpp",
+    "src/q6cb_causal_harness.cpp",
+    "shaders/q6cb_t32_gpu_packed.comp",
+    "shaders/q6cb_t32_gpu_expanded.comp",
+    "tools/compile_q6cb1.ps1",
+    "tools/build_q6cb1.ps1",
+    "tests/test_q6cb1_package.py",
+    "docs/Q6CB1_IMPLEMENTATION.md",
+    "artifacts/Q6CB/Q6CB1_STATIC_QA_v0.1.json",
+    "docs/Q6CB1_STATIC_QA.md",
+    "manifest.json",
+    "lineage.md"
+  ],
+  "implementation_invariants": {
+    "separate_from_sa1_harness": true,
+    "no_sa1_shader_mutation": true,
+    "no_sa1_harness_mutation": true,
+    "q6_block_bytes": 210,
+    "q6_values_per_block": 256,
+    "subgroup_size": 32,
+    "local_size_x_gpu_arms": 128,
+    "rows_per_workgroup": 4,
+    "t32_cpu_lane_count": 32,
+    "r64_accumulator": "IEEE754_BINARY64",
+    "s32_accumulator": "IEEE754_BINARY32_SERIAL",
+    "t32_cpu_accumulator": "IEEE754_BINARY32_PER_LANE_PLUS_FIXED_PAIRWISE_TREE",
+    "gpu_packed_direct_q6_decode": true,
+    "gpu_expanded_uses_same_split32_topology": true,
+    "timing_code_permitted": false,
+    "model_code_permitted": false
+  },
+  "fixture_generator_requirements": {
+    "deterministic": true,
+    "strata_declared_in_specification": true,
+    "sa1_exact_cells_forbidden": true,
+    "sa1_banks_0_3_forbidden": true,
+    "sa1_seed_reuse_forbidden": true,
+    "posthoc_search_api_forbidden": true,
+    "execution_during_q6cb1_forbidden": true
+  },
+  "fail_closed_runtime": {
+    "scientific_execution_requires_future_authorization_marker": "Q6CB1_SCIENTIFIC_EXECUTION_AUTHORIZED",
+    "authorization_file_created_in_q6cb1": false,
+    "runner_script_permitted_in_q6cb1": false
+  },
+  "buildonly": {
+    "shader_compile_permitted": true,
+    "native_compile_link_permitted": true,
+    "executable_launch_permitted": false,
+    "gpu_dispatch_permitted": false
+  },
+  "stop_rules": [
+    "No file outside exact_allowlist may be changed by Q6CB-1 implementation work.",
+    "No fresh fixture may be generated or executed during Q6CB-1.",
+    "No executable produced by BuildOnly may be launched during Q6CB-1.",
+    "No timing, target-model load, SA1 rerun, threshold tuning, kernel search or execution authorization is permitted.",
+    "After static-equivalent QA and exact implementation lock, perform mandatory goal-alignment check before any execution-contract design."
+  ],
+  "next": "IMPLEMENT_EXACT_ALLOWLIST_WITHOUT_SCIENTIFIC_EXECUTION"
+}
