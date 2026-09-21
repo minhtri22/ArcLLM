@@ -1,0 +1,186 @@
+{
+  "schema": "arcllm.anl64.p6.matched_e2e_confirmation_spec.v0.1",
+  "date": "2026-09-21",
+  "status": "P6_SPECIFICATION_FROZEN_EXECUTION_BLOCKED",
+  "scientific_question": "Does the P5-validated ANL64 successor architecture deliver a practically material, reproducible decode and end-to-end improvement over the exact frozen safe ArcLLM reference on both frozen workloads without material TTFT or memory harm?",
+  "prerequisites": {
+    "p5_verdict": "P5_INTEGRATION_PASS",
+    "p5_adjudication_blob": "cada882bd886d96a71c73c40a6e243e3a51ebde0",
+    "p5_bundle_sha256": "44A3DE02CBFC25F9548E56D3C7A9F85E1247AD948C77029185E06C9EA9E0B73D",
+    "p5_timing_reusable": false,
+    "p6_requires_fresh_measurement": true
+  },
+  "systems": {
+    "reference": {
+      "id": "ARC_SAFE_REFERENCE",
+      "runtime_blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+      "historical_implementation_commit": "43afd71161c4dc8c766c09c3b55d5eca48352bde",
+      "role": "frozen exact-model safe reference"
+    },
+    "candidate": {
+      "id": "ANL64_P4_LOCKED",
+      "runtime_blob": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+      "plan_blob": "157be15c63363ba2d55093af829ca68be9107e27",
+      "executable_sha256": "1F45DA9D8CACE3CF78FE31B7B7041B6027CB41E180F7FC99E50E1127EA4F5451",
+      "q4_fast_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+      "plan_hash_fnv1a64": "04f3f884c0fc4fcc",
+      "fixed_q4_fast_nodes": 140,
+      "role": "frozen successor candidate"
+    }
+  },
+  "exact_target": {
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "model_bytes": 4683074048,
+    "cpu": "Intel(R) Core(TM) Ultra 7 258V",
+    "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "driver": "32.0.101.8860",
+    "os_version": "10.0.26200",
+    "os_build": "26200",
+    "power_scheme_guid": "381b4222-f694-41f0-9685-ff5bb260df2e",
+    "power_scheme_name": "Balanced",
+    "ac_power_required": true
+  },
+  "workloads": {
+    "W_S": {
+      "prompt_tokens": 4,
+      "token_ids": [
+        1,
+        133151,
+        133152,
+        152062
+      ],
+      "output_tokens": 32,
+      "frozen_generated_hash_fnv1a64": "f31d4bb9fe5eb9c3"
+    },
+    "W_C": {
+      "prompt_tokens": 256,
+      "token_rule": "first 4 = [1,133151,133152,152062]; for i>=4: 1 + ((104729 + 7919*i) mod 152063)",
+      "output_tokens": 32,
+      "frozen_generated_hash_fnv1a64": "471519ddc45b232e"
+    }
+  },
+  "fresh_reproduction": {
+    "sessions": [
+      "A",
+      "B"
+    ],
+    "separate_runner_processes_required": true,
+    "warmups_per_cell_per_session": 1,
+    "measured_attempts_per_cell_per_session": 5,
+    "cells_per_session": 4,
+    "measured_attempts_per_session": 20,
+    "total_measured_attempts": 40,
+    "session_A_order": [
+      "ANL64_P4_LOCKED/W-S",
+      "ARC_SAFE_REFERENCE/W-S",
+      "ARC_SAFE_REFERENCE/W-C",
+      "ANL64_P4_LOCKED/W-C"
+    ],
+    "session_B_order": [
+      "ARC_SAFE_REFERENCE/W-S",
+      "ANL64_P4_LOCKED/W-S",
+      "ANL64_P4_LOCKED/W-C",
+      "ARC_SAFE_REFERENCE/W-C"
+    ],
+    "artifact_rebuild_during_session": false,
+    "source_or_shader_mutation": false,
+    "workload_search": false,
+    "threshold_tuning": false
+  },
+  "measurement": {
+    "primary_metrics": [
+      "decode_tps",
+      "e2e_ms"
+    ],
+    "harm_guard_metrics": [
+      "ttft_ms",
+      "working_set_peak_bytes"
+    ],
+    "supporting_only": [
+      "private_bytes_peak_bytes",
+      "cpu_mean_percent",
+      "cpu_peak_percent",
+      "gpu_sampler_if_available"
+    ],
+    "statistic": "median of 5 measured attempts per system/workload/session",
+    "warmup_in_statistics": false,
+    "resource_sampling_period_ms": 100,
+    "correctness_guard_required": true
+  },
+  "frozen_thresholds": {
+    "provenance": "Reuse the 10% practical speed/latency and 10% maximum blocking-harm thresholds frozen in historical Q3; P6 narrows the primary dimensions to the decode intervention's intended effects.",
+    "primary_all_required": [
+      "decode_tps_ANL64 / decode_tps_reference >= 1.10",
+      "e2e_ms_ANL64 / e2e_ms_reference <= 0.90"
+    ],
+    "harm_guards_all_required": [
+      "ttft_ms_ANL64 / ttft_ms_reference <= 1.10",
+      "working_set_peak_ANL64 / working_set_peak_reference <= 1.10"
+    ],
+    "reproduction_rule": "All primary and harm-guard conditions must pass for BOTH W-S and W-C independently in BOTH session A and session B.",
+    "no_pooling_across_sessions": true,
+    "no_pooling_across_workloads": true
+  },
+  "correctness_guard": {
+    "every_measured_attempt_success": true,
+    "final_logits_finite": true,
+    "dispatch_census_pass": true,
+    "output_tokens_exact": 32,
+    "generated_hash_must_equal_frozen_p5_hash_by_workload": true,
+    "candidate_plan_exact": {
+      "nodes": 469,
+      "quant_linear_nodes": 215,
+      "fixed_q4_fast_nodes": 140,
+      "regions": 24104,
+      "fixed_q4_regions": 19936,
+      "metadata_bytes_max": 2097152,
+      "hash_fnv1a64": "04f3f884c0fc4fcc"
+    }
+  },
+  "adjudication_order": [
+    "F0_PROVENANCE_AND_FRESHNESS",
+    "F1_CORRECTNESS_AND_STABILITY",
+    "F2_SESSION_A_MATCHED_EFFECT",
+    "F3_SESSION_B_MATCHED_EFFECT",
+    "F4_REPRODUCED_MATERIAL_E2E_GAIN"
+  ],
+  "classifications": [
+    "P6_REPRODUCED_MATERIAL_E2E_GAIN",
+    "P6_NO_MATERIAL_E2E_GAIN",
+    "P6_BLOCKING_HARM",
+    "P6_INVALID_F0",
+    "P6_STOP_INFRASTRUCTURE_UNSTABLE"
+  ],
+  "decision_rules": {
+    "P6_REPRODUCED_MATERIAL_E2E_GAIN": "F0/F1 pass AND all primary thresholds and all harm guards pass for W-S and W-C in both A and B.",
+    "P6_BLOCKING_HARM": "F0/F1 pass but any TTFT or working-set harm guard fails in either workload/session.",
+    "P6_NO_MATERIAL_E2E_GAIN": "F0/F1 pass, harm guards pass, but one or more primary decode/E2E thresholds fail to reproduce in any workload/session.",
+    "P6_INVALID_F0": "freshness/provenance/environment/session/order/evidence integrity invalid.",
+    "P6_STOP_INFRASTRUCTURE_UNSTABLE": "second valid infrastructure-only F0 after the single permitted repair."
+  },
+  "infrastructure_policy": {
+    "repair_budget": 1,
+    "repair_scope": "orchestration/infrastructure only; candidate/reference/runtime/shader/workload/threshold/spec mutation forbidden",
+    "selective_cell_rerun": false,
+    "after_valid_repair": "full two-session P6 replay from fresh session directories",
+    "second_f0": "P6_STOP_INFRASTRUCTURE_UNSTABLE"
+  },
+  "no_rescue": [
+    "No Q6 optimization.",
+    "No fusion redesign.",
+    "No Q4_FAST variant swap.",
+    "No repack/prefetch/online autotuning.",
+    "No workload search.",
+    "No threshold revision.",
+    "No use of P5 timing values.",
+    "No session/workload pooling to convert a failed cell into PASS."
+  ],
+  "execution_authorization": {
+    "p6_execution": false,
+    "target_model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "p7": false
+  },
+  "next": "ZERO_SCIENCE_P6_SPECIFICATION_QA_THEN_EXPLICIT_P6_EXECUTION_AUTHORIZATION_GATE"
+}
