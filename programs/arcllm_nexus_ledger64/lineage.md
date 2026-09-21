@@ -156,3 +156,60 @@ Current authorization:
 - scientific performance measurement: BLOCKED.
 
 Next: explicit P4 bounded implementation authorization must freeze the exact implementation allowlist, production file mutations, Region64 descriptor scope, 140-node Q4_FAST substitution scope, metadata budget, BuildOnly/correctness gates and no-rescue exclusions before any production source is changed.
+
+
+## 2026-09-21 — P4 IMPLEMENTED / STATIC QA PASS / BUILDONLY PENDING
+
+P4 authorization was opened only after P3 PASS. The implementation was isolated from the closed Q2 runtime and remained within the frozen allowlist.
+
+New ANL64 production implementation:
+- `src/anl64_plan.hpp` — immutable STATIC_ROW_REGION64_PLAN builder;
+- `src/anl64_runtime.cpp` — isolated exact-model runtime derived from the frozen Q2 runtime.
+
+Legacy evidence-critical files remain unchanged:
+- `src/q2_benchmark.cpp` blob `ea1e986e22f6921e7f6c52a4fa5935121cfec663`;
+- `shaders/p7_q4k_gemm_2d.comp` blob `fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a`;
+- `shaders/sa1_q4k_subgroup_splitk.comp` blob `56999d88dc1bef6486e7e1908982f6de4b0f9f6a`.
+
+The planner fail-closes unless it constructs:
+- 469 PlanNodes;
+- 215 quant-linear PlanNodes;
+- 140 fixed Q4_FAST PlanNodes;
+- 24,104 Region64 descriptors;
+- 19,936 fixed-Q4 Region64 descriptors;
+- metadata <= 2 MiB.
+
+The data plane replaces only the five guaranteed fixed-Q4 decode roles per layer:
+- q_proj;
+- k_proj;
+- o_proj;
+- ffn_gate;
+- ffn_up.
+
+Prefill has zero Q4_FAST references. V/down retain the existing Q4/Q6 safe paths. Q6 optimization, fusion redesign, repack, predequant cache, prefetch and online autotuning remain absent.
+
+Frozen P4 implementation blobs:
+- planner: `157be15c63363ba2d55093af829ca68be9107e27`;
+- runtime: `dbcb7afed5a08e7aff3ca02a1bd95bd985076f70`;
+- shader BuildOnly tool: `b7cb2449460a0c6cd44c2046a2a475addea9cd3f`;
+- native BuildOnly tool: `b64dae3db704847644f374a0745b816470f0bc86`;
+- static test: `ff4bf09c51de4df97818670e6330bd5a66cd8f58`;
+- P4 static QA: `121b7643c66dc859b14cb0a366aea6dc111c317d`;
+- BuildOnly runner: `8a1539053a4d4ec25b7e27d0f7cd6c118d1024e0`;
+- implementation lock: `2e561928d8c0319371860accc1fe03b6b9e7d658`.
+
+Connector-equivalent static QA result:
+`PASS_CONNECTOR_EQUIVALENT_STATIC_QA_BUILDONLY_PENDING`.
+
+The implementation lock now forbids further P4 source/shader mutation. Only regeneration of non-scientific BuildOnly outputs is permitted.
+
+Current authorization:
+- P4 source mutation: CLOSED;
+- P4 BuildOnly: AUTHORIZED;
+- executable launch: FORBIDDEN;
+- target model load: FORBIDDEN;
+- GPU dispatch: FORBIDDEN;
+- performance measurement: FORBIDDEN;
+- P5: CLOSED.
+
+Next: run the committed `run_anl64_p4_buildonly.ps1` on Windows and return the generated evidence bundle for independent P4 BuildOnly adjudication.
