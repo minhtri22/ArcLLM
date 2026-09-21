@@ -1,0 +1,64 @@
+{
+  "schema": "arcllm.sa1.k2.q6_implementation_contract.v0.1",
+  "date": "2026-09-21",
+  "status": "SA1_K2_IMPLEMENTED_AWAITING_STATIC_QA",
+  "parent_q6_implementation_lock_commit": "2a7a7a2ecec38aac0853f112e7bea01bbad7514a",
+  "parent_q6_implementation_lock_blob": "66b720b55e0b3873c2c6b07a300cd3e5adc31c74",
+  "prerequisite_q4_adjudication_commit": "accd26471e4abd5bbe9981d49121068e116cc62c",
+  "prerequisite_q4_result": "Q4_STAGE_PASS",
+  "primary_mechanism": "SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW",
+  "candidate_shader": "shaders/sa1_q6k_subgroup_splitk.comp",
+  "candidate_variants": 1,
+  "exact_cells": [
+    {
+      "id": "Q6_H3584_R512_BIAS",
+      "n": 3584,
+      "rows": 512,
+      "add_bias": 1,
+      "row_bytes": 2940
+    },
+    {
+      "id": "Q6_H18944_R3584_NOBIAS",
+      "n": 18944,
+      "rows": 3584,
+      "add_bias": 0,
+      "row_bytes": 15540
+    }
+  ],
+  "geometry": {
+    "local_size": [
+      128,
+      1,
+      1
+    ],
+    "required_subgroup_size": 32,
+    "require_full_subgroups": true,
+    "subgroups_per_workgroup": 4,
+    "rows_per_workgroup": 4,
+    "direct_packed_dequant": true,
+    "fp32_partial_accumulation": true,
+    "subgroup_arithmetic_reduction": true,
+    "shared_memory_bytes": 0,
+    "extra_global_scratch_bytes": 0
+  },
+  "baseline": {
+    "source": "shaders/p7_q6k_gemm_2d.comp",
+    "git_blob": "a0de99f972db6cd202606aad95fb9eab223639e6",
+    "spirv_sha256": "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67"
+  },
+  "preflight": {
+    "correctness_only": true,
+    "correctness_banks": [
+      0,
+      3
+    ],
+    "timestamp_queries_permitted": false,
+    "performance_samples_permitted": 0,
+    "model_load_permitted": false,
+    "performance_gate_evaluation_permitted": false
+  },
+  "measurement_permitted": false,
+  "target_model_execution_permitted": false,
+  "q3_reopen_permitted": false,
+  "next": "Static QA, pinned Q6 compile/native BuildOnly, then exact-device Q6 correctness-only zero-measurement preflight. Do not run Q6 A/B timing."
+}

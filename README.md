@@ -193,3 +193,8 @@ This closes Q4 and permits the preregistered same-mechanism Q6 implementation st
 ### SA1-K2 Q6 implementation lock
 
 After Q4_STAGE_PASS, the preregistered Q6 extension is now open for **one same-mechanism implementation only**. Q6 timing is still blocked until its own correctness-only preflight and execution authorization.
+
+
+### SA1-K2 Q6 implementation
+
+Exactly one Q6_K subgroup-32 split-K candidate is now implemented with the same mechanism/geometry that passed Q4. The component harness/build/preflight path has a Q6-only extension for the two frozen cells. Q6 performance timing remains blocked.

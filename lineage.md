@@ -1112,3 +1112,11 @@ Prerequisite Q4 adjudication at `accd26471e4abd5bbe9981d49121068e116cc62c` is `Q
 Frozen two Q6 cells: 3584→512 bias and 18944→3584 no-bias. Frozen baseline Q6 blob `a0de99f972db6cd202606aad95fb9eab223639e6` and SPIR-V SHA256 `F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67`.
 Implementation lock permits exactly one `shaders/sa1_q6k_subgroup_splitk.comp` using the same local_size=128, required subgroup=32, four rows/workgroup, direct packed Q6_K dequant, FP32 partial accumulation and subgroup reduction. Q4 implementation/results are immutable. Cooperative matrix/fusion/staging/geometry search remain forbidden.
 Q6 performance measurement remains forbidden pending static QA, correctness-only zero-measurement preflight, independent evidence adjudication and separate execution authorization.
+
+
+## 2026-09-21 — SA1-K2 exact same-mechanism Q6 implementation
+Implemented exactly one new Q6 successor shader under lock `2a7a7a2ecec38aac0853f112e7bea01bbad7514a`: `shaders/sa1_q6k_subgroup_splitk.comp`.
+Mechanism/geometry are unchanged from Q4: local_size=128, required subgroup=32 at pipeline creation, full subgroups, four rows/workgroup, one subgroup/output row, K-stride 32, direct packed Q6_K dequant, FP32 partial accumulation, subgroupAdd reduction and lane-0 store. No shared memory, scratch, staging, fusion, cooperative matrix or variant search.
+Extended the existing component harness minimally with a Q6 mode containing only the two preregistered cells and CPU/reference fixture support for the frozen 210-byte Q6_K block layout. Q4 mode remains the default and the Q4 candidate shader is immutable.
+Compile/native-build artifacts for Q6 are isolated under `artifacts/SA1_K2/build`. Q6 correctness preflight is banks 0/3 only and zero-measurement. Future Q6 timing is fail-closed behind a separate authorization file that does not exist.
+Status: SA1_K2_Q6_IMPLEMENTED_AWAITING_STATIC_QA. No Q6 measurement, model execution or Q3 reopen.

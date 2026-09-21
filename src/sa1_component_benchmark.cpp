@@ -24,14 +24,19 @@ struct Cell {
     uint32_t rows;
     uint32_t add_bias;
     uint32_t row_bytes;
+    bool q6;
 };
 
-static const std::array<Cell,5> kCells = {{
-    {"Q4_H3584_R3584_BIAS",3584,3584,1,2016},
-    {"Q4_H3584_R3584_NOBIAS",3584,3584,0,2016},
-    {"Q4_H3584_R512_BIAS",3584,512,1,2016},
-    {"Q4_H3584_R18944_NOBIAS",3584,18944,0,2016},
-    {"Q4_H18944_R3584_NOBIAS",18944,3584,0,10656}
+static const std::array<Cell,5> kQ4Cells = {{
+    {"Q4_H3584_R3584_BIAS",3584,3584,1,2016,false},
+    {"Q4_H3584_R3584_NOBIAS",3584,3584,0,2016,false},
+    {"Q4_H3584_R512_BIAS",3584,512,1,2016,false},
+    {"Q4_H3584_R18944_NOBIAS",3584,18944,0,2016,false},
+    {"Q4_H18944_R3584_NOBIAS",18944,3584,0,10656,false}
+}};
+static const std::array<Cell,2> kQ6Cells = {{
+    {"Q6_H3584_R512_BIAS",3584,512,1,2940,true},
+    {"Q6_H18944_R3584_NOBIAS",18944,3584,0,15540,true}
 }};
 static const std::array<uint64_t,4> kSeeds = {{
     0x5341315046495831ull,0x5341315046495832ull,
@@ -109,6 +114,28 @@ static float q4_weight(const std::vector<uint8_t>& w,const Cell& c,uint32_t row,
     uint32_t q=local64<32u?(qb&15u):(qb>>4u);
     return d*float(sc)*float(q)-dm*float(mn);
 }
+static int i8_cpu(uint8_t v){return v>=128u?int(v)-256:int(v);}
+static int q6_value_cpu(const std::vector<uint8_t>& w,size_t base,uint32_t k,int& scale){
+    uint32_t half128=k>>7u,kk=k&127u,l=kk&31u,quarter=kk>>5u;
+    size_t ql_base=base+size_t(half128)*64u;
+    size_t qh_base=base+128u+size_t(half128)*32u;
+    size_t sc_base=base+192u+size_t(half128)*8u;
+    uint32_t is=l>>4u,low=0,high=0,sc_idx=0;
+    if(quarter==0u){low=u8(w,ql_base+l)&15u;high=(u8(w,qh_base+l)>>0u)&3u;sc_idx=is+0u;}
+    else if(quarter==1u){low=u8(w,ql_base+l+32u)&15u;high=(u8(w,qh_base+l)>>2u)&3u;sc_idx=is+2u;}
+    else if(quarter==2u){low=u8(w,ql_base+l)>>4u;high=(u8(w,qh_base+l)>>4u)&3u;sc_idx=is+4u;}
+    else{low=u8(w,ql_base+l+32u)>>4u;high=(u8(w,qh_base+l)>>6u)&3u;sc_idx=is+6u;}
+    scale=i8_cpu(u8(w,sc_base+sc_idx));
+    return int(low|(high<<4u))-32;
+}
+static float q6_weight(const std::vector<uint8_t>& w,const Cell& c,uint32_t row,uint32_t k){
+    size_t rb=size_t(row)*c.row_bytes;
+    uint32_t ib=k>>8u,kin=k&255u;
+    size_t base=rb+size_t(ib)*210u;
+    int sc=0,q=q6_value_cpu(w,base,kin,sc);
+    float d=half_to_float(u16(w,base+208u));
+    return d*float(sc)*float(q);
+}
 struct Fixture {
     std::vector<uint8_t> w;
     std::vector<float> x,bias;
@@ -119,10 +146,16 @@ static Fixture make_fixture(const Cell& c,uint32_t bank){
     f.w.resize(size_t(c.row_bytes)*c.rows);
     for(uint32_t r=0;r<c.rows;++r){
         for(uint32_t ib=0;ib<c.n/256u;++ib){
-            size_t base=size_t(r)*c.row_bytes+size_t(ib)*144u;
-            put_u16(f.w,base,0x2800u);
-            put_u16(f.w,base+2,0x2400u);
-            for(size_t i=4;i<144;++i)f.w[base+i]=uint8_t(splitmix64(s)&255u);
+            if(c.q6){
+                size_t base=size_t(r)*c.row_bytes+size_t(ib)*210u;
+                for(size_t i=0;i<208;++i)f.w[base+i]=uint8_t(splitmix64(s)&255u);
+                put_u16(f.w,base+208u,0x2800u);
+            }else{
+                size_t base=size_t(r)*c.row_bytes+size_t(ib)*144u;
+                put_u16(f.w,base,0x2800u);
+                put_u16(f.w,base+2,0x2400u);
+                for(size_t i=4;i<144;++i)f.w[base+i]=uint8_t(splitmix64(s)&255u);
+            }
         }
     }
     f.x.resize(c.n);for(float& v:f.x)v=rand_s16(s);
@@ -133,7 +166,7 @@ static std::vector<float> cpu_ref(const Cell& c,const Fixture& f){
     std::vector<float> y(c.rows);
     for(uint32_t r=0;r<c.rows;++r){
         float sum=c.add_bias?f.bias[r]:0.0f;
-        for(uint32_t k=0;k<c.n;++k)sum+=q4_weight(f.w,c,r,k)*f.x[k];
+        for(uint32_t k=0;k<c.n;++k)sum+=(c.q6?q6_weight(f.w,c,r,k):q4_weight(f.w,c,r,k))*f.x[k];
         y[r]=sum;
     }
     return y;
@@ -281,30 +314,34 @@ static void verify_metrics(const Metric&m,const char* label){
 }
 
 int main(int argc,char**argv){
-    std::string mode,process,baseline_spv,candidate_spv,out,authorization;
+    std::string mode,process,baseline_spv,candidate_spv,out,authorization,quant="q4";
     try{
         for(int i=1;i<argc;++i){std::string a=argv[i];auto need=[&](const char*n){if(i+1>=argc)throw std::runtime_error(std::string("missing ")+n);return std::string(argv[++i]);};
-            if(a=="--mode")mode=need("--mode");else if(a=="--process")process=need("--process");else if(a=="--baseline-spv")baseline_spv=need("--baseline-spv");
+            if(a=="--mode")mode=need("--mode");else if(a=="--process")process=need("--process");else if(a=="--quant")quant=need("--quant");else if(a=="--baseline-spv")baseline_spv=need("--baseline-spv");
             else if(a=="--candidate-spv")candidate_spv=need("--candidate-spv");else if(a=="--out")out=need("--out");else if(a=="--authorization")authorization=need("--authorization");
             else throw std::runtime_error("unknown arg "+a);}
         if(mode!="preflight"&&mode!="measure")throw std::runtime_error("mode must be preflight or measure");
+        if(quant!="q4"&&quant!="q6")throw std::runtime_error("quant must be q4 or q6");
         if(baseline_spv.empty()||candidate_spv.empty()||out.empty())throw std::runtime_error("shader/out args required");
         if(mode=="measure"&&(process!="A"&&process!="B"))throw std::runtime_error("measure requires process A or B");
         if(mode=="measure"&&authorization.empty())throw std::runtime_error("measure requires authorization path");
-        if(mode=="measure"){std::ifstream af(authorization);std::ostringstream ss;ss<<af.rdbuf();if(!af||ss.str().find("SA1_Q4_EXECUTION_AUTHORIZED")==std::string::npos)throw std::runtime_error("execution authorization invalid");}
+        if(mode=="measure"){std::ifstream af(authorization);std::ostringstream ss;ss<<af.rdbuf();const std::string required=(quant=="q6")?"SA1_Q6_EXECUTION_AUTHORIZED":"SA1_Q4_EXECUTION_AUTHORIZED";if(!af||ss.str().find(required)==std::string::npos)throw std::runtime_error("execution authorization invalid");}
+        std::vector<Cell> active_cells;
+        if(quant=="q6")active_cells.assign(kQ6Cells.begin(),kQ6Cells.end());else active_cells.assign(kQ4Cells.begin(),kQ4Cells.end());
 
         VkCtx vk;vk.init();Pipe base=vk.pipeline(baseline_spv,false),cand=vk.pipeline(candidate_spv,true);
         std::ofstream o(out,std::ios::binary);if(!o)throw std::runtime_error("cannot open output");
         o<<std::setprecision(15);
-        o<<"{\n\"schema\":\"arcllm.sa1.k1.component.v0.1\",\n\"mode\":\""<<mode<<"\",\n";
+        o<<"{\n\"schema\":\""<<((quant=="q6")?"arcllm.sa1.k2.q6.component.v0.1":"arcllm.sa1.k1.component.v0.1")<<"\",\n\"mode\":\""<<mode<<"\",\n";
+        o<<"\"quant\":\""<<((quant=="q6")?"Q6_K":"Q4_K")<<"\",\n";
         o<<"\"device\":\""<<esc(vk.props.deviceName)<<"\",\"timestamp_period_ns\":"<<vk.props.limits.timestampPeriod<<",\"subgroup_size_default\":"<<vk.subgroup.subgroupSize<<",\n";
         o<<"\"required_subgroup_size\":32,\"candidate_local_size\":128,\"model_loaded\":false,\n";
 
         if(mode=="preflight"){
             o<<"\"performance_measurement\":false,\"timestamp_queries\":0,\"measured_pairs\":0,\"performance_gate_evaluated\":false,\n\"cells\":[";
-            for(size_t ci=0;ci<kCells.size();++ci){
+            for(size_t ci=0;ci<active_cells.size();++ci){
                 if(ci)o<<",";
-                const Cell& c=kCells[ci];o<<"{\"id\":\""<<c.id<<"\",\"banks\":[";
+                const Cell& c=active_cells[ci];o<<"{\"id\":\""<<c.id<<"\",\"banks\":[";
                 for(uint32_t bank : {0u,3u}){
                     if(bank==3u)o<<",";
                     Fixture f=make_fixture(c,bank);auto ref=cpu_ref(c,f);
@@ -321,8 +358,11 @@ int main(int argc,char**argv){
             }
             o<<"],\n\"status\":\"PASS_CORRECTNESS_ZERO_MEASUREMENT\"\n}\n";
         } else {
-            std::vector<Cell> cells(kCells.begin(),kCells.end());if(process=="B")std::reverse(cells.begin(),cells.end());
-            o<<"\"performance_measurement\":true,\"timed_dispatches_expected\":300,\"timestamp_values_expected\":600,\"measured_pairs\":150,\"process\":\""<<process<<"\",\n\"cells\":[";
+            std::vector<Cell> cells(active_cells.begin(),active_cells.end());if(process=="B")std::reverse(cells.begin(),cells.end());
+            const uint32_t measured_pairs=uint32_t(cells.size())*30u;
+            const uint32_t timed_dispatches=measured_pairs*2u;
+            const uint32_t timestamp_values=timed_dispatches*2u;
+            o<<"\"performance_measurement\":true,\"timed_dispatches_expected\":"<<timed_dispatches<<",\"timestamp_values_expected\":"<<timestamp_values<<",\"measured_pairs\":"<<measured_pairs<<",\"process\":\""<<process<<"\",\n\"cells\":[";
             for(size_t ci=0;ci<cells.size();++ci){
                 if(ci)o<<",";const Cell& c=cells[ci];
                 std::vector<BankGpu> banks(4);

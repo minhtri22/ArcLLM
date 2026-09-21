@@ -1,0 +1,93 @@
+#version 450
+#extension GL_KHR_shader_subgroup_basic : require
+#extension GL_KHR_shader_subgroup_arithmetic : require
+
+layout(local_size_x = 128, local_size_y = 1, local_size_z = 1) in;
+
+layout(std430, binding = 0) readonly buffer WBuf { uint w[]; } W;
+layout(std430, binding = 1) readonly buffer XBuf { float x[]; } X;
+layout(std430, binding = 2) readonly buffer BiasBuf { float bias[]; } B;
+layout(std430, binding = 3) writeonly buffer YBuf { float y[]; } Y;
+
+layout(push_constant) uniform PC {
+    uint n;
+    uint rows;
+    uint batch;
+    uint row_bytes;
+    uint add_bias;
+    uint w_base_bytes;
+    uint bias_base;
+} pc;
+
+uint load_u8(uint byte_off) {
+    uint word = W.w[byte_off >> 2u];
+    uint shift = (byte_off & 3u) * 8u;
+    return (word >> shift) & 255u;
+}
+uint load_u16(uint byte_off) {
+    return load_u8(byte_off) | (load_u8(byte_off + 1u) << 8u);
+}
+float fp16_at(uint byte_off) {
+    return unpackHalf2x16(load_u16(byte_off)).x;
+}
+int load_i8(uint byte_off) {
+    int v = int(load_u8(byte_off));
+    return (v >= 128) ? (v - 256) : v;
+}
+int q6_value(uint base, uint k, out int scale) {
+    uint half128 = k >> 7u;
+    uint kk = k & 127u;
+    uint l = kk & 31u;
+    uint quarter = kk >> 5u;
+    uint ql_base = base + half128 * 64u;
+    uint qh_base = base + 128u + half128 * 32u;
+    uint sc_base = base + 192u + half128 * 8u;
+    uint is = l >> 4u;
+    uint low;
+    uint high;
+    uint sc_idx;
+    if (quarter == 0u) {
+        low = load_u8(ql_base + l) & 15u;
+        high = (load_u8(qh_base + l) >> 0u) & 3u;
+        sc_idx = is + 0u;
+    } else if (quarter == 1u) {
+        low = load_u8(ql_base + l + 32u) & 15u;
+        high = (load_u8(qh_base + l) >> 2u) & 3u;
+        sc_idx = is + 2u;
+    } else if (quarter == 2u) {
+        low = load_u8(ql_base + l) >> 4u;
+        high = (load_u8(qh_base + l) >> 4u) & 3u;
+        sc_idx = is + 4u;
+    } else {
+        low = load_u8(ql_base + l + 32u) >> 4u;
+        high = (load_u8(qh_base + l) >> 6u) & 3u;
+        sc_idx = is + 6u;
+    }
+    scale = load_i8(sc_base + sc_idx);
+    return int(low | (high << 4u)) - 32;
+}
+
+void main() {
+    uint subgroup = gl_SubgroupID;
+    uint lane = gl_SubgroupInvocationID;
+    uint row = gl_WorkGroupID.x * 4u + subgroup;
+    if (row >= pc.rows) return;
+
+    uint row_base = pc.w_base_bytes + row * pc.row_bytes;
+    float partial = 0.0;
+    for (uint k = lane; k < pc.n; k += 32u) {
+        uint ib = k >> 8u;
+        uint kin = k & 255u;
+        uint base = row_base + ib * 210u;
+        int sc;
+        int q = q6_value(base, kin, sc);
+        float d = fp16_at(base + 208u);
+        partial += (d * float(sc) * float(q)) * X.x[k];
+    }
+
+    float sum = subgroupAdd(partial);
+    if (lane == 0u) {
+        if (pc.add_bias != 0u) sum += B.bias[pc.bias_base + row];
+        Y.y[row] = sum;
+    }
+}

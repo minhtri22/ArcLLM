@@ -1,41 +1,42 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import json, subprocess
+import json,re,subprocess
 from pathlib import Path
 R=Path(__file__).resolve().parents[1]
 def req(x,m):
     if not x: raise AssertionError(m)
-lock=json.loads((R/"config/sa1p_implementation_lock_v0.1.json").read_text(encoding="utf-8"))
-cfg=json.loads((R/"config/sa1_k1_implementation_contract_v0.1.json").read_text(encoding="utf-8"))
+def blob(p): return subprocess.check_output(["git","-C",str(R),"rev-parse","HEAD:"+p],text=True).strip()
+q6lock=json.loads((R/"config/sa1_k2_q6_implementation_lock_v0.1.json").read_text(encoding="utf-8"))
+q6cfg=json.loads((R/"config/sa1_k2_q6_implementation_contract_v0.1.json").read_text(encoding="utf-8"))
 man=json.loads((R/"manifest.json").read_text(encoding="utf-8"))
-sh=(R/"shaders/sa1_q4k_subgroup_splitk.comp").read_text(encoding="utf-8")
+q4=(R/"shaders/sa1_q4k_subgroup_splitk.comp").read_text(encoding="utf-8")
+q6=(R/"shaders/sa1_q6k_subgroup_splitk.comp").read_text(encoding="utf-8")
 cpp=(R/"src/sa1_component_benchmark.cpp").read_text(encoding="utf-8")
 pre=(R/"run_sa1_component_preflight.ps1").read_text(encoding="utf-8")
-run=(R/"run_sa1_component_q4.ps1").read_text(encoding="utf-8")
-def blob(p): return subprocess.check_output(["git","-C",str(R),"rev-parse","HEAD:"+p],text=True).strip()
-req(lock["status"]=="SA1P_LOCK_PASS_SA1K1_IMPLEMENTATION_AUTHORIZED","parent lock")
-req(cfg["parent_implementation_lock_commit"]=="60b0fdf91ffe859c918055afa9e3b1071142f6c4","parent commit")
-req(cfg["primary_mechanism"]=="SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW","mechanism")
-req(cfg["measurement_permitted"] is False and cfg["target_model_execution_permitted"] is False and cfg["q6_implementation_permitted"] is False,"closed gates")
-req(blob("shaders/p7_q4k_gemm_2d.comp")=="fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a","baseline Q4 drift")
-sa1=list((R/"shaders").glob("sa1_*.comp"));req(len(sa1)==1 and sa1[0].name=="sa1_q4k_subgroup_splitk.comp","exactly one SA1 shader")
-for s in ["local_size_x = 128","GL_KHR_shader_subgroup_basic","GL_KHR_shader_subgroup_arithmetic","gl_SubgroupID","gl_SubgroupInvocationID","subgroupAdd","k += 32u","gl_WorkGroupID.x * 4u"]:
-    req(s in sh,"shader missing "+s)
+runq6=(R/"run_sa1_component_q6.ps1").read_text(encoding="utf-8")
+compile_ps=(R/"tools/compile_sa1_component.ps1").read_text(encoding="utf-8")
+build_ps=(R/"tools/build_sa1_component.ps1").read_text(encoding="utf-8")
+req(q6lock["status"]=="SA1_K2_Q6_IMPLEMENTATION_AUTHORIZED","Q6 lock")
+req(q6lock["prerequisite"]["q4_result"]=="Q4_STAGE_PASS","Q4 prerequisite")
+req(q6cfg["parent_q6_implementation_lock_commit"]=="2a7a7a2ecec38aac0853f112e7bea01bbad7514a","Q6 parent")
+req(q6cfg["measurement_permitted"] is False and q6cfg["target_model_execution_permitted"] is False,"Q6 closed execution gates")
+req(blob("shaders/sa1_q4k_subgroup_splitk.comp")=="56999d88dc1bef6486e7e1908982f6de4b0f9f6a","Q4 candidate drift")
+req(blob("shaders/p7_q6k_gemm_2d.comp")=="a0de99f972db6cd202606aad95fb9eab223639e6","Q6 baseline drift")
+sa1=sorted(p.name for p in (R/"shaders").glob("sa1_*.comp"))
+req(sa1==["sa1_q4k_subgroup_splitk.comp","sa1_q6k_subgroup_splitk.comp"],"exact SA1 shader census")
+for s in ["local_size_x = 128","GL_KHR_shader_subgroup_basic","GL_KHR_shader_subgroup_arithmetic","gl_SubgroupID","gl_SubgroupInvocationID","subgroupAdd","k += 32u","gl_WorkGroupID.x * 4u","base + 208u","ib * 210u"]:
+    req(s in q6,"Q6 shader missing "+s)
 for s in ["shared ","coopmat","cooperative","float16_t","int8_t"]:
-    req(s.lower() not in sh.lower(),"shader forbidden "+s)
-for s in ["VkPipelineShaderStageRequiredSubgroupSizeCreateInfo","requiredSubgroupSize=32","VK_PIPELINE_SHADER_STAGE_CREATE_REQUIRE_FULL_SUBGROUPS_BIT","timestampValidBits!=64u","--mode","preflight","measure","10","30"]:
-    req(s in cpp,"harness missing "+s)
-req("performance_measurement" in cpp and "PASS_CORRECTNESS_ZERO_MEASUREMENT" in cpp,"preflight evidence")
-req("timed_dispatches_expected\\\":300" in cpp and "timestamp_values_expected\\\":600" in cpp,"frozen timing census")
-req("Fixture host" not in cpp,"measurement must not retain four host weight-bank copies")
-req("long double(d)" not in cpp and "long double(a.size())" not in cpp,"MSVC-safe casts")
-req("--mode preflight" in pre and "--mode measure" not in pre,"preflight must not measure")
+    req(s.lower() not in q6.lower(),"Q6 shader forbidden "+s)
+for s in ["Q6_H3584_R512_BIAS","Q6_H18944_R3584_NOBIAS","q6_value_cpu","q6_weight","--quant","quant==\"q6\"","SA1_Q6_EXECUTION_AUTHORIZED"]:
+    req(s in cpp,"Q6 harness missing "+s)
+req("timed_dispatches=measured_pairs*2u" in cpp and "timestamp_values=timed_dispatches*2u" in cpp,"dynamic timing census")
+req("--quant q6 --mode preflight" in pre and "-Stage K2" in pre,"Q6 preflight path")
 req("timestamp_queries-ne0" in pre and "measured_pairs-ne0" in pre and "performance_gate_evaluated" in pre,"zero-measurement guards")
-req("SA1 Q4 execution authorization missing; measurement forbidden" in run and "SA1_Q4_EXECUTION_AUTHORIZED" in run,"measurement authorization gate")
-req("function H(" not in pre and "function H(" not in run,"PowerShell h/Get-History alias collision forbidden")
-req("function Get-Sha256" in pre and "function Get-Sha256" in run,"explicit SHA helper required")
-req("[switch]$PackageExisting" in pre and "reusing existing correctness/build artifacts" in pre,"packaging-only recovery required")
-req("implementation source drift since executed preflight" in pre,"recovery must bind executed implementation blobs")
-req("Test-Path$" not in pre and "Get-Content$" not in pre and "Get-FileHash$" not in pre and "Remove-Item$" not in pre and "Compress-Archive$" not in pre,"PowerShell cmdlet/variable tokenization spacing")
-req(man["sa1"]["q4_implementation_permitted"] is True and man["sa1"]["q6_implementation_permitted"] is False and man["sa1"]["component_measurement_permitted"] is False,"manifest gates")
-print("SA1_K1_STATIC_QA_PASS")
+req("SA1 Q6 execution authorization missing; measurement forbidden" in runq6 and "SA1_Q6_EXECUTION_AUTHORIZED" in runq6,"Q6 measurement fail-closed")
+req('ValidateSet("K1","K2")' in compile_ps and "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67" in compile_ps,"Q6 compile frozen baseline")
+req('ValidateSet("K1","K2")' in build_ps and "SA1_"+'$Stage'+"\\build" in build_ps,"Q6 build stage isolation")
+for ps in [pre,runq6,compile_ps,build_ps]:
+    req(not re.search(r"\b(?:Test-Path|Get-Content|Get-FileHash|Remove-Item|Compress-Archive)\$[A-Za-z_]",ps),"PowerShell cmdlet/variable tokenization")
+req(man["sa1"]["q6_implementation_permitted"] is True and man["sa1"]["component_measurement_permitted"] is False,"manifest Q6 implementation-only gate")
+print("SA1_K2_STATIC_QA_PASS")
