@@ -3,7 +3,7 @@
   "date": "2026-09-21",
   "program_id": "ANL64",
   "branch": "research/arcllm-nexus-ledger64",
-  "status": "P3_ZERO_SCIENCE_COMPATIBILITY_AUTHORIZED_IMPLEMENTATION_BLOCKED",
+  "status": "P3_PASS_P4_AUTHORIZATION_GATE_OPEN_IMPLEMENTATION_BLOCKED",
   "lineage": {
     "path": "programs/arcllm_nexus_ledger64/lineage.md",
     "policy": "APPEND_ONLY",
@@ -63,13 +63,13 @@
   "target_execution_authorized": false,
   "scientific_measurement_authorized": false,
   "rescue_by_renaming": false,
-  "next": "P3_ZERO_SCIENCE_LOCAL_COMPATIBILITY_ONLY",
+  "next": "EXPLICIT_P4_BOUNDED_IMPLEMENTATION_AUTHORIZATION_GATE",
   "stage_state": {
     "P0": "COMPLETE",
     "P1": "COMPLETE",
     "P2": "COMPLETE_PASS",
-    "P3": "ZERO_SCIENCE_COMPATIBILITY_AUTHORIZED",
-    "P4": "BLOCKED",
+    "P3": "COMPLETE_PASS",
+    "P4": "AUTHORIZATION_GATE_OPEN_IMPLEMENTATION_BLOCKED",
     "P5": "BLOCKED",
     "P6": "BLOCKED",
     "P7": "BLOCKED"
@@ -91,9 +91,20 @@
   },
   "authorization": {
     "p2_design": false,
-    "p3_zero_science_compatibility": true,
+    "p3_zero_science_compatibility": false,
+    "p4_authorization_gate": true,
     "p4_implementation": false,
     "target_model_inference": false,
     "scientific_performance_measurement": false
+  },
+  "p3": {
+    "result": "P3_PASS_P4_BOUNDED_IMPLEMENTATION_ELIGIBLE",
+    "contract": "config/anl64_p3_compatibility_contract_v0.1.json",
+    "contract_blob": "374d8f50206757a7b5c5fe5b76a7acb177653b8e",
+    "document": "docs/research/arcllm-nexus-ledger64/P3_ZERO_SCIENCE_COMPATIBILITY.md",
+    "document_blob": "d46eb2ee13c7b54bee85a29d7462ec22ba75d6d7",
+    "qa": "artifacts/ANL64/ANL64_P3_ZERO_SCIENCE_QA_v0.1.json",
+    "qa_blob": "ec576a35344d6da2f4c66e6c042a3f4fa340aa0c",
+    "implementation_authorized": false
   }
 }
