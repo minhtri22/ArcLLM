@@ -3,7 +3,7 @@
   "date": "2026-09-21",
   "program_id": "ANL64",
   "branch": "research/arcllm-nexus-ledger64",
-  "status": "P5_SPECIFICATION_QA_PASS_EXECUTION_AUTHORIZATION_GATE_OPEN",
+  "status": "P5_EXECUTION_AUTHORIZED_LOCKED_NOT_YET_RUN",
   "lineage": {
     "path": "programs/arcllm_nexus_ledger64/lineage.md",
     "policy": "APPEND_ONLY",
@@ -60,17 +60,17 @@
     "P7_FINAL_ADJUDICATION"
   ],
   "implementation_authorized": false,
-  "target_execution_authorized": false,
-  "scientific_measurement_authorized": false,
+  "target_execution_authorized": true,
+  "scientific_measurement_authorized": true,
   "rescue_by_renaming": false,
-  "next": "EXPLICIT_P5_EXECUTION_AUTHORIZATION_GATE",
+  "next": "EXECUTE_EXACTLY_ONE_FROZEN_P5_SEMANTIC_INTEGRATION_COLLECTION",
   "stage_state": {
     "P0": "COMPLETE",
     "P1": "COMPLETE",
     "P2": "COMPLETE_PASS",
     "P3": "COMPLETE_PASS",
     "P4": "COMPLETE_PASS",
-    "P5": "SPECIFICATION_QA_PASS_EXECUTION_AUTHORIZATION_GATE_OPEN",
+    "P5": "EXECUTION_AUTHORIZED_LOCKED_NOT_YET_RUN",
     "P6": "BLOCKED",
     "P7": "BLOCKED"
   },
@@ -98,8 +98,11 @@
     "scientific_performance_measurement": false,
     "p4_buildonly": false,
     "p5_specification": false,
-    "p5_execution": false,
-    "p5_execution_authorization_gate": true
+    "p5_execution": true,
+    "p5_execution_authorization_gate": false,
+    "p5_semantic_execution": true,
+    "p5_performance_adjudication": false,
+    "p6": false
   },
   "p3": {
     "result": "P3_PASS_P4_BOUNDED_IMPLEMENTATION_ELIGIBLE",
@@ -146,7 +149,18 @@
     "qa": "artifacts/ANL64/ANL64_P5_SPECIFICATION_QA_v0.1.json",
     "qa_blob": "94c7f5448a6e71dee4e362ca974e4bd1947a694b",
     "result": "PASS_ZERO_SCIENCE_P5_SPECIFICATION_QA",
-    "execution_authorized": false,
-    "performance_adjudication": false
-  }
+    "execution_authorized": true,
+    "performance_adjudication": false,
+    "execution_authorization": "config/anl64_p5_execution_authorization_v0.1.json",
+    "execution_authorization_blob": "4662ad4bdb5e517f08fa878b41bb824a1cdf8252",
+    "runner": "run_anl64_p5_integration.ps1",
+    "runner_blob": "5b03752a2a3924ceaa63b034e01d780e0fff4f75",
+    "semantic_extractor": "tools/extract_anl64_p5_semantics.py",
+    "semantic_extractor_blob": "495c9bdab5a74edc176553334ce26acdf24b044a",
+    "runner_static_qa": "artifacts/ANL64/ANL64_P5_RUNNER_STATIC_QA_v0.1.json",
+    "runner_static_qa_blob": "3cc0e661b22bda4c76d2d58a16e81fda9e05bc16",
+    "execution_lock": "config/anl64_p5_execution_lock_v0.1.json",
+    "execution_lock_blob": "b7fc7c707fd10008805eff0e7e7b7b38c345c81d"
+  },
+  "scientific_measurement_scope": "P5_SEMANTIC_INTEGRATION_ONLY_PERFORMANCE_ADJUDICATION_FORBIDDEN"
 }
