@@ -1,0 +1,215 @@
+{
+  "schema": "arcllm.anl64.p3.compatibility_contract.v0.1",
+  "date": "2026-09-21",
+  "status": "P3_COMPATIBILITY_CANDIDATE_ZERO_SCIENCE",
+  "mode": "ZERO_SCIENCE_SOURCE_AND_CLOSED_EVIDENCE_REUSE",
+  "parent_p2": {
+    "contract": "config/anl64_p2_architecture_contract_v0.1.json",
+    "blob": "e7d00d6d1deb516347fd8919e2ed27eeeaeb84a6",
+    "qa": "artifacts/ANL64/ANL64_P2_ZERO_SCIENCE_QA_v0.1.json",
+    "qa_blob": "91884d476f3d14f9c56aa735cc11f4bcf6dd1f4f",
+    "decision": "P2_PASS_OPEN_P3_ZERO_SCIENCE_COMPATIBILITY"
+  },
+  "source_bindings": {
+    "q2_runtime": {
+      "path": "src/q2_benchmark.cpp",
+      "blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663"
+    },
+    "q4_baseline": {
+      "path": "shaders/p7_q4k_gemm_2d.comp",
+      "blob": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a"
+    },
+    "q4_fast_candidate": {
+      "path": "shaders/sa1_q4k_subgroup_splitk.comp",
+      "blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a"
+    },
+    "sa0_capability": {
+      "path": "artifacts/SA0/SA0_CAP_ADJUDICATION_v0.1.json",
+      "blob": "9092a5cff7950dfa56874bc86197259d5dfb7700"
+    },
+    "sa1_q4_preflight": {
+      "path": "artifacts/SA1/SA1K1_PREFLIGHT_ADJUDICATION_v0.1.json",
+      "blob": "505446048d2601566073445308ed6beee3f41f73"
+    },
+    "sa1_q4_evidence_lock": {
+      "path": "config/sa1_k1_implementation_evidence_lock_v0.1.json",
+      "blob": "9808cdc639fd29e8018ead393708b9914aafd15e"
+    }
+  },
+  "no_duplicate_proof_policy": {
+    "fresh_capability_probe_required": false,
+    "fresh_candidate_correctness_probe_required": false,
+    "reason": "The exact Arc 140V / driver 32.0.101.8860 subgroup32 capability and this exact candidate shader blob were already bound by closed zero-science SA0/SA1 evidence. P3 tests integration compatibility, not those already-established facts.",
+    "new_scientific_data_consumed": false
+  },
+  "exact_target_capability": {
+    "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "driver": "32.0.101.8860",
+    "subgroup_size": 32,
+    "subgroup_arithmetic": true,
+    "subgroup_size_control": true,
+    "compute_full_subgroups": true,
+    "max_compute_workgroup_invocations": 1024,
+    "candidate_local_size_x": 128,
+    "candidate_subgroups_per_workgroup": 4,
+    "capability_status": "INHERITED_EXACT_TARGET_PASS"
+  },
+  "q4_fast_interface_compatibility": {
+    "storage_bindings": {
+      "binding_0": "W packed uint storage buffer",
+      "binding_1": "X FP32 storage buffer",
+      "binding_2": "Bias FP32 storage buffer",
+      "binding_3": "Y FP32 storage buffer"
+    },
+    "exact_push_constant_fields": [
+      "n",
+      "rows",
+      "batch",
+      "row_bytes",
+      "add_bias",
+      "w_base_bytes",
+      "bias_base"
+    ],
+    "baseline_and_candidate_interface_identical": true,
+    "q2_pcgmm_struct_field_order_identical": true,
+    "direct_arena_binding_compatible": true,
+    "w_base_bytes_compatible": true,
+    "bias_base_compatible": true,
+    "additional_weight_buffer": false,
+    "payload_repack": false,
+    "predequant_copy": false,
+    "scratch_buffer": false,
+    "shared_memory_bytes": 0
+  },
+  "execution_domain": {
+    "q4_fast_decode_batch_only": true,
+    "batch_required": 1,
+    "prefill_q4_fast_use": false,
+    "candidate_output_index_equivalent_for_batch1": true,
+    "note": "The inherited candidate addresses X[k] and Y[row]; this is equivalent to baseline token-offset semantics only for batch=1. Therefore P3 explicitly forbids using Q4_FAST for prefill/multi-token execution."
+  },
+  "fixed_q4_nodes": {
+    "families": [
+      {
+        "role": "q_proj",
+        "n": 3584,
+        "rows": 3584,
+        "bias": 1,
+        "regions": 56,
+        "candidate_workgroups": 896
+      },
+      {
+        "role": "k_proj",
+        "n": 3584,
+        "rows": 512,
+        "bias": 1,
+        "regions": 8,
+        "candidate_workgroups": 128
+      },
+      {
+        "role": "o_proj",
+        "n": 3584,
+        "rows": 3584,
+        "bias": 0,
+        "regions": 56,
+        "candidate_workgroups": 896
+      },
+      {
+        "role": "gate_proj",
+        "n": 3584,
+        "rows": 18944,
+        "bias": 0,
+        "regions": 296,
+        "candidate_workgroups": 4736
+      },
+      {
+        "role": "up_proj",
+        "n": 3584,
+        "rows": 18944,
+        "bias": 0,
+        "regions": 296,
+        "candidate_workgroups": 4736
+      }
+    ],
+    "layers": 28,
+    "fixed_q4_plan_nodes": 140,
+    "fixed_q4_regions": 19936,
+    "rows_per_candidate_workgroup": 4,
+    "candidate_workgroups_per_region64": 16,
+    "all_rows_divisible_by_64": true,
+    "all_rows_divisible_by_4": true,
+    "tail_workgroup_required": false
+  },
+  "ledger64_plan_compatibility": {
+    "representation": "STATIC_ROW_REGION64_PLAN",
+    "region_is_gpu_workgroup": false,
+    "relation": "One Region64 descriptor covers exactly 16 candidate workgroups for Q4_FAST_FIXED.",
+    "region_lane_semantics_preserved": true,
+    "dynamic_frontier": false,
+    "active_mask_for_exact_target": "0xffffffffffffffff",
+    "per_token_region_reconstruction": false,
+    "per_token_region_sort": false,
+    "per_token_region_scan": false,
+    "extra_gpu_dispatch": false,
+    "extra_queue_submit": false
+  },
+  "plan_node_mapping": {
+    "total_decode_plan_nodes": 469,
+    "quant_linear_plan_nodes": 215,
+    "fixed_q4_fast_plan_nodes": 140,
+    "conditional_v_down_plan_nodes": 56,
+    "lm_head_safe_plan_nodes": 19,
+    "non_quant_safe_plan_nodes": 254,
+    "mapping_rule": "Preserve frozen Q2 logical operator order exactly. Replace executor identity only for the 140 guaranteed fixed-Q4 decode nodes; all other nodes remain safe-path or conditional under the P2 table.",
+    "dependency_reordering": false,
+    "operator_elision": false,
+    "fusion": false
+  },
+  "residency_compatibility": {
+    "existing_weight_arenas": 19,
+    "q2_weight_bytes": 4677120000,
+    "q4_fast_reads_existing_arena_directly": true,
+    "q4_fast_requires_contiguous_single_slice_tensor": true,
+    "q2_guarantees_decoder_tensor_single_slice": true,
+    "extra_weight_bytes": 0,
+    "extra_copy_passes": 0,
+    "offline_repack": false,
+    "prefetch_change": false
+  },
+  "buildonly_and_correctness_reuse": {
+    "exact_candidate_shader_build_pass": true,
+    "exact_candidate_spirv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+    "exact_target_zero_measurement_correctness_pass": true,
+    "cases": 10,
+    "all_candidate_vs_cpu_pass": true,
+    "all_candidate_vs_baseline_pass": true,
+    "performance_measurement_consumed_by_p3": false,
+    "target_model_loaded_by_p3": false
+  },
+  "p3_stop_checks": {
+    "interface_mismatch": false,
+    "batch_domain_mismatch": false,
+    "unsupported_subgroup_contract": false,
+    "repack_or_copy_required": false,
+    "per_token_control_plane_work_required": false,
+    "dependency_reorder_required": false,
+    "metadata_budget_violation": false
+  },
+  "p3_gate": {
+    "source_interface_compatible": true,
+    "exact_fixed_q4_shape_compatible": true,
+    "exact_arena_base_offset_compatible": true,
+    "exact_device_subgroup_contract_available": true,
+    "inherited_candidate_build_and_zero_measurement_correctness_valid": true,
+    "ledger64_mapping_requires_no_runtime_discovery": true,
+    "safe_paths_preserved": true,
+    "decision": "P3_PASS_P4_BOUNDED_IMPLEMENTATION_ELIGIBLE"
+  },
+  "authorization": {
+    "p4_implementation_eligible": true,
+    "p4_implementation_authorized": false,
+    "target_model_inference": false,
+    "scientific_performance_measurement": false
+  },
+  "next": "EXPLICIT_P4_BOUNDED_IMPLEMENTATION_AUTHORIZATION_GATE"
+}
