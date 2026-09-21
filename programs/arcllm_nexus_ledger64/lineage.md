@@ -555,3 +555,35 @@ Current permissions:
 
 Next:
 `EXECUTE_EXACTLY_ONE_FROZEN_P6_MATCHED_E2E_COLLECTION`.
+
+
+## 2026-09-21 — P6 CANONICAL LOCK RECONCILIATION
+
+During post-P5 continuation, a duplicate P6 specification/document pair was created after the canonical P6 execution package had already been specification-QA'd, authorized, runner-QA'd and execution-locked.
+
+No P6 target execution had begun.
+
+The canonical locked package remains authoritative:
+- specification `config/anl64_p6_matched_e2e_spec_v0.1.json` blob `c7e1753ef9079010ce1768ba924e4f996f5e9b35`;
+- document `docs/research/arcllm-nexus-ledger64/P6_MATCHED_E2E_SPEC.md` blob `2ceaae5f2f80c4daae8888b3d36c1febea3ca76c`;
+- specification QA blob `57e73ff0675a6cfd57dc6d395f452104ac57571d`;
+- execution authorization blob `491ce5d3dbb0b983925f238b2a292c146b5cda89`;
+- runner blob `40c4941b1764fdd7a1f83be554e39fda1764151c`;
+- adjudicator blob `d6a295f252960389302fe35b81dbec16ae08b416`;
+- runner static QA blob `c8476a9af378754e76319ea23e686b8b94e2f30b`;
+- execution lock blob `eb11fc2c898846442d628acf69e6bc27241cd74e`.
+
+The later duplicate pair:
+- `config/anl64_p6_matched_e2e_confirmation_spec_v0.1.json`;
+- `docs/research/arcllm-nexus-ledger64/P6_MATCHED_E2E_CONFIRMATION_SPEC.md`;
+
+is retained only as repository history and is explicitly non-authoritative. It was never consumed by target execution or scientific adjudication and cannot alter the canonical P6 metrics, thresholds, session order or stop rules.
+
+Reconciliation artifact:
+`artifacts/ANL64/ANL64_P6_DUPLICATE_SPEC_RECONCILIATION_v0.1.json`.
+
+Current state restored to:
+`P6_EXECUTION_AUTHORIZED_AND_LOCKED_NOT_YET_RUN`.
+
+Next:
+`EXECUTE_EXACTLY_ONE_FROZEN_P6_MATCHED_E2E_COLLECTION`.
