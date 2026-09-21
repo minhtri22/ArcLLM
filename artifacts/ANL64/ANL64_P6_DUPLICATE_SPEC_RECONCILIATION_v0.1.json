@@ -1,0 +1,42 @@
+{
+  "schema": "arcllm.anl64.p6.duplicate_spec_reconciliation.v0.1",
+  "date": "2026-09-21",
+  "result": "CANONICAL_P6_LOCK_PRESERVED_DUPLICATE_SPEC_NON_AUTHORITATIVE",
+  "scientific_execution": false,
+  "target_model_load": false,
+  "gpu_dispatch": false,
+  "performance_measurement": false,
+  "canonical_package": {
+    "specification": "config/anl64_p6_matched_e2e_spec_v0.1.json",
+    "specification_blob": "c7e1753ef9079010ce1768ba924e4f996f5e9b35",
+    "document": "docs/research/arcllm-nexus-ledger64/P6_MATCHED_E2E_SPEC.md",
+    "document_blob": "2ceaae5f2f80c4daae8888b3d36c1febea3ca76c",
+    "specification_qa": "artifacts/ANL64/ANL64_P6_SPECIFICATION_QA_v0.1.json",
+    "specification_qa_blob": "57e73ff0675a6cfd57dc6d395f452104ac57571d",
+    "execution_authorization": "config/anl64_p6_execution_authorization_v0.1.json",
+    "execution_authorization_blob": "491ce5d3dbb0b983925f238b2a292c146b5cda89",
+    "runner": "run_anl64_p6_confirmatory.ps1",
+    "runner_blob": "40c4941b1764fdd7a1f83be554e39fda1764151c",
+    "adjudicator": "tools/adjudicate_anl64_p6.py",
+    "adjudicator_blob": "d6a295f252960389302fe35b81dbec16ae08b416",
+    "runner_static_qa": "artifacts/ANL64/ANL64_P6_RUNNER_STATIC_QA_v0.1.json",
+    "runner_static_qa_blob": "c8476a9af378754e76319ea23e686b8b94e2f30b",
+    "execution_lock": "config/anl64_p6_execution_lock_v0.1.json",
+    "execution_lock_blob": "eb11fc2c898846442d628acf69e6bc27241cd74e",
+    "status": "P6_EXECUTION_LOCKED_NOT_YET_RUN"
+  },
+  "duplicate_non_authoritative": {
+    "specification": "config/anl64_p6_matched_e2e_confirmation_spec_v0.1.json",
+    "specification_blob": "cda960383e954d3c58d21bb9a2ffd83a0f02a3cd",
+    "document": "docs/research/arcllm-nexus-ledger64/P6_MATCHED_E2E_CONFIRMATION_SPEC.md",
+    "document_blob": "d25395a8ba8546c2e06d29ae36e01e8643063dbb",
+    "created_after_canonical_lock": true,
+    "consumed_by_execution": false,
+    "consumed_by_scientific_adjudication": false,
+    "authoritative": false,
+    "deletion_required": false,
+    "note": "Retained as repository history only. It must not be used to alter canonical P6 thresholds, metrics, session order, or execution."
+  },
+  "governance_rule": "Once the canonical P6 execution lock existed, later duplicate specification material cannot supersede it without an explicit amendment/relock. No such amendment is authorized. Canonical locked package therefore remains binding.",
+  "next": "RESTORE_GOVERNANCE_TO_CANONICAL_P6_EXECUTION_LOCKED_NOT_YET_RUN"
+}
