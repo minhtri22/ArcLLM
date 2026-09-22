@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "arcllm.ttft_m2.failure_result.v0.1",
+  "title": "TTFT_M2 fail-closed infrastructure result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "stage",
+    "classification",
+    "message",
+    "package_version",
+    "lock",
+    "zero_science",
+    "scientific_result"
+  ],
+  "properties": {
+    "schema": {
+      "const": "arcllm.ttft_m2.failure_result.v0.1"
+    },
+    "status": {
+      "const": "M2_INFRASTRUCTURE_FAIL_CLOSED"
+    },
+    "stage": {
+      "type": "string",
+      "minLength": 1
+    },
+    "classification": {
+      "type": "string",
+      "minLength": 1
+    },
+    "message": {
+      "type": "string",
+      "minLength": 1
+    },
+    "package_version": {
+      "const": "v0.1"
+    },
+    "lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "version",
+        "blob"
+      ],
+      "properties": {
+        "path": {
+          "const": "config/arcllm_ttft_m2_execution_lock_v0.1.json"
+        },
+        "version": {
+          "const": "v0.1"
+        },
+        "blob": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "zero_science": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_model_loaded",
+        "diagnostic_executable_launched",
+        "gpu_dispatch",
+        "performance_measurement",
+        "fresh_ttft_observations"
+      ],
+      "properties": {
+        "target_model_loaded": {
+          "const": false
+        },
+        "diagnostic_executable_launched": {
+          "const": false
+        },
+        "gpu_dispatch": {
+          "const": false
+        },
+        "performance_measurement": {
+          "const": false
+        },
+        "fresh_ttft_observations": {
+          "const": 0
+        }
+      }
+    },
+    "scientific_result": {
+      "const": "NONE"
+    }
+  }
+}

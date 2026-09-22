@@ -1,0 +1,10 @@
+{
+  "schema": "arcllm.ttft_m2.atomic_package_negative_fixture.v0.1",
+  "id": "RUNNER_LOCK_MISMATCH",
+  "mutation": {
+    "op": "set",
+    "path": "runner.lock_path",
+    "value": "config/arcllm_ttft_m2_execution_lock_v0.0.json"
+  },
+  "expected_failure": "RUNNER_LOCK_MISMATCH"
+}

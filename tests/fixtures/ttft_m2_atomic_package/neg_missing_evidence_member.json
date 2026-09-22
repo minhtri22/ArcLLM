@@ -1,0 +1,9 @@
+{
+  "schema": "arcllm.ttft_m2.atomic_package_negative_fixture.v0.1",
+  "id": "MISSING_EVIDENCE_MEMBER",
+  "mutation": {
+    "op": "delete",
+    "path": "evidence_manifest.members.1"
+  },
+  "expected_failure": "MISSING_EVIDENCE_MEMBER"
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "arcllm.ttft_m2.atomic_package_negative_fixture.v0.1",
+  "id": "STALE_LOCK_VERSION",
+  "mutation": {
+    "op": "set",
+    "path": "runner.lock_version",
+    "value": "v0.0"
+  },
+  "expected_failure": "RUNNER_LOCK_MISMATCH"
+}

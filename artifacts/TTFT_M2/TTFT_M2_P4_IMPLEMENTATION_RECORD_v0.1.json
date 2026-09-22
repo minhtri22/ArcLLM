@@ -1,0 +1,77 @@
+{
+  "schema": "arcllm.ttft_m2.p4.implementation_record.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "result": "M2_P4_ZERO_SCIENCE_INFRASTRUCTURE_PACKAGE_IMPLEMENTED",
+  "authorization_blob": "6ad37531ca81227e65420b1261780ebfafbca97a",
+  "parent_head": "c53d168246fd5068d1ca5383716324df46a93857",
+  "package": {
+    "execution_lock_blob": "9af4c7b4c96354223e1f671a43af64b215072330",
+    "runner_blob": "4722e86a01453d973ee2122b49229b80bf7d84f6",
+    "evidence_manifest_template_blob": "bf496e00e4cf0bff86582e0649c6c26bc28b6f60",
+    "package_manifest_blob": "4629910255580322706b01f318ad9a80044208d7",
+    "atomic_qa_tool_blob": "73b74f2dbc65f0e1bff7cd2c226b4112c34ecfdb",
+    "fixture_index_blob": "9735e97d5ea264642725466e50ae26a00e8a4951",
+    "package_member_count": 30,
+    "negative_fixture_count": 10
+  },
+  "schemas": {
+    "success_result": {
+      "id": "arcllm.ttft_m2.buildonly_result.v0.1",
+      "blob": "1c216e1bf6e71677d82b658197f2e90302f53f9e"
+    },
+    "failure_result": {
+      "id": "arcllm.ttft_m2.failure_result.v0.1",
+      "blob": "7cc8947790f9a11d76af144707128fc1df78f7ae"
+    },
+    "evidence_manifest": {
+      "id": "arcllm.ttft_m2.evidence_manifest.v0.1",
+      "blob": "a6cbf83ffe3b0e81f6d5c03257bba7ba8fbc9d18"
+    },
+    "package_manifest": {
+      "id": "arcllm.ttft_m2.package_manifest.v0.1",
+      "blob": "ec8d8c00162cce0de9fd564c32ea1e34ac679b59"
+    },
+    "adjudicator_input": {
+      "id": "arcllm.ttft_m2.adjudicator_input.v0.1",
+      "blob": "713ba835364132ceb903e309570b3ca8d36c4c6a"
+    }
+  },
+  "binding_model": {
+    "static_committed": "exact Git blob frozen in lock/package manifest",
+    "package_manifest_self": "RUNTIME_REQUIRED_EXACT_GIT_BLOB plus external P5/P6 binding",
+    "future_p7_authorization": "RUNTIME_REQUIRED_EXACT_GIT_BLOB",
+    "runtime_result_and_evidence": "RUNTIME_GENERATED with frozen schemas",
+    "adjudicator_input": "RUNTIME_GENERATED_AFTER_BUNDLE_HASH and deliberately outside ZIP to avoid self-hash cycle"
+  },
+  "negative_fixtures": [
+    "STALE_LOCK_VERSION",
+    "WRONG_BUNDLE_DESTINATION_FILENAME",
+    "WRONG_GIT_BLOB_FIELD",
+    "MISSING_EVIDENCE_MEMBER",
+    "DUPLICATE_EVIDENCE_MEMBER",
+    "RESULT_SCHEMA_VERSION_MISMATCH",
+    "RUNNER_LOCK_MISMATCH",
+    "MANIFEST_RUNNER_MISMATCH",
+    "PACKAGE_RESULT_MISMATCH",
+    "SAME_SOURCE_AUTHORITY_TAUTOLOGY"
+  ],
+  "zero_science": {
+    "buildonly_runner_executions": 0,
+    "diagnostic_executable_launches": 0,
+    "target_model_loads": 0,
+    "gpu_dispatches": 0,
+    "performance_measurements": 0,
+    "fresh_ttft_observations": 0,
+    "scientific_result": "NONE"
+  },
+  "boundaries": {
+    "p5_atomic_qa_run": false,
+    "p5_pass_claimed": false,
+    "p6_governance_pass_claimed": false,
+    "p7_buildonly_authorized": false,
+    "execution_stage_repair_budget_active": false,
+    "mechanism_adjudicated": false
+  },
+  "next": "M2_P5_ATOMIC_PACKAGE_QA_POSITIVE_AND_NEGATIVE_FIXTURES"
+}

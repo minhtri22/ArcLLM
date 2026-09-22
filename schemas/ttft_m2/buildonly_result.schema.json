@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "arcllm.ttft_m2.buildonly_result.v0.1",
+  "title": "TTFT_M2 infrastructure BuildOnly result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "git_head",
+    "package_version",
+    "lock",
+    "runner",
+    "package_manifest",
+    "evidence_manifest",
+    "zero_science",
+    "scientific_result",
+    "mechanism_adjudication_performed"
+  ],
+  "properties": {
+    "schema": {
+      "const": "arcllm.ttft_m2.buildonly_result.v0.1"
+    },
+    "status": {
+      "const": "M2_INFRASTRUCTURE_BUILDONLY_COMPLETE_AWAITING_ADJUDICATION"
+    },
+    "git_head": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "package_version": {
+      "const": "v0.1"
+    },
+    "lock": {
+      "$ref": "#/$defs/lockBinding"
+    },
+    "runner": {
+      "$ref": "#/$defs/staticBinding"
+    },
+    "package_manifest": {
+      "$ref": "#/$defs/staticBinding"
+    },
+    "evidence_manifest": {
+      "$ref": "#/$defs/runtimeFile"
+    },
+    "zero_science": {
+      "$ref": "#/$defs/zeroScience"
+    },
+    "scientific_result": {
+      "const": "NONE"
+    },
+    "mechanism_adjudication_performed": {
+      "const": false
+    }
+  },
+  "$defs": {
+    "lockBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "version",
+        "blob"
+      ],
+      "properties": {
+        "path": {
+          "const": "config/arcllm_ttft_m2_execution_lock_v0.1.json"
+        },
+        "version": {
+          "const": "v0.1"
+        },
+        "blob": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "staticBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "blob"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blob": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "runtimeFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[A-F0-9]{64}$"
+        }
+      }
+    },
+    "zeroScience": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_model_loaded",
+        "diagnostic_executable_launched",
+        "gpu_dispatch",
+        "performance_measurement",
+        "fresh_ttft_observations"
+      ],
+      "properties": {
+        "target_model_loaded": {
+          "const": false
+        },
+        "diagnostic_executable_launched": {
+          "const": false
+        },
+        "gpu_dispatch": {
+          "const": false
+        },
+        "performance_measurement": {
+          "const": false
+        },
+        "fresh_ttft_observations": {
+          "const": 0
+        }
+      }
+    }
+  }
+}

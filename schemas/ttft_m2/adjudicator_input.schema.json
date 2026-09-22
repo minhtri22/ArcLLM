@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "arcllm.ttft_m2.adjudicator_input.v0.1",
+  "title": "TTFT_M2 adjudicator input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "package_id",
+    "package_version",
+    "package_manifest",
+    "result",
+    "evidence_manifest",
+    "bundle_sha256",
+    "zero_science"
+  ],
+  "properties": {
+    "schema": {
+      "const": "arcllm.ttft_m2.adjudicator_input.v0.1"
+    },
+    "package_id": {
+      "const": "ARCLLM_TTFT_M2_ATOMIC_PACKAGE"
+    },
+    "package_version": {
+      "const": "v0.1"
+    },
+    "package_manifest": {
+      "$ref": "#/$defs/runtimeFile"
+    },
+    "result": {
+      "$ref": "#/$defs/runtimeFile"
+    },
+    "evidence_manifest": {
+      "$ref": "#/$defs/runtimeFile"
+    },
+    "bundle_sha256": {
+      "type": "string",
+      "pattern": "^[A-F0-9]{64}$"
+    },
+    "zero_science": {
+      "type": "object",
+      "required": [
+        "scientific_result"
+      ],
+      "properties": {
+        "scientific_result": {
+          "const": "NONE"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "runtimeFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[A-F0-9]{64}$"
+        }
+      }
+    }
+  }
+}

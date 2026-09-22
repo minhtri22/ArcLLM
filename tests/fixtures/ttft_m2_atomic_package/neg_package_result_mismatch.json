@@ -1,0 +1,10 @@
+{
+  "schema": "arcllm.ttft_m2.atomic_package_negative_fixture.v0.1",
+  "id": "PACKAGE_RESULT_MISMATCH",
+  "mutation": {
+    "op": "set",
+    "path": "package_manifest.result_schema",
+    "value": "arcllm.ttft_m2.buildonly_result.v0.0"
+  },
+  "expected_failure": "PACKAGE_RESULT_MISMATCH"
+}

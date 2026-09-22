@@ -1,0 +1,10 @@
+{
+  "schema": "arcllm.ttft_m2.atomic_package_negative_fixture.v0.1",
+  "id": "MANIFEST_RUNNER_MISMATCH",
+  "mutation": {
+    "op": "set",
+    "path": "package_manifest.runner_blob",
+    "value": "3333333333333333333333333333333333333333"
+  },
+  "expected_failure": "MANIFEST_RUNNER_MISMATCH"
+}

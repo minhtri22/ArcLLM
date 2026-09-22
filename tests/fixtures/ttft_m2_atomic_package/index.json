@@ -1,0 +1,46 @@
+{
+  "schema": "arcllm.ttft_m2.atomic_package_fixture_index.v0.1",
+  "canonical": "tests/fixtures/ttft_m2_atomic_package/positive_canonical.json",
+  "negative_cases": [
+    {
+      "id": "STALE_LOCK_VERSION",
+      "path": "tests/fixtures/ttft_m2_atomic_package/neg_stale_lock_version.json"
+    },
+    {
+      "id": "WRONG_BUNDLE_DESTINATION_FILENAME",
+      "path": "tests/fixtures/ttft_m2_atomic_package/neg_wrong_bundle_destination_filename.json"
+    },
+    {
+      "id": "WRONG_GIT_BLOB_FIELD",
+      "path": "tests/fixtures/ttft_m2_atomic_package/neg_wrong_git_blob_field.json"
+    },
+    {
+      "id": "MISSING_EVIDENCE_MEMBER",
+      "path": "tests/fixtures/ttft_m2_atomic_package/neg_missing_evidence_member.json"
+    },
+    {
+      "id": "DUPLICATE_EVIDENCE_MEMBER",
+      "path": "tests/fixtures/ttft_m2_atomic_package/neg_duplicate_evidence_member.json"
+    },
+    {
+      "id": "RESULT_SCHEMA_VERSION_MISMATCH",
+      "path": "tests/fixtures/ttft_m2_atomic_package/neg_result_schema_version_mismatch.json"
+    },
+    {
+      "id": "RUNNER_LOCK_MISMATCH",
+      "path": "tests/fixtures/ttft_m2_atomic_package/neg_runner_lock_mismatch.json"
+    },
+    {
+      "id": "MANIFEST_RUNNER_MISMATCH",
+      "path": "tests/fixtures/ttft_m2_atomic_package/neg_manifest_runner_mismatch.json"
+    },
+    {
+      "id": "PACKAGE_RESULT_MISMATCH",
+      "path": "tests/fixtures/ttft_m2_atomic_package/neg_package_result_mismatch.json"
+    },
+    {
+      "id": "SAME_SOURCE_AUTHORITY_TAUTOLOGY",
+      "path": "tests/fixtures/ttft_m2_atomic_package/neg_same_source_authority_tautology.json"
+    }
+  ]
+}

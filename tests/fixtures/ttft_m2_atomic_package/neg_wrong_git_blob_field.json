@@ -1,0 +1,10 @@
+{
+  "schema": "arcllm.ttft_m2.atomic_package_negative_fixture.v0.1",
+  "id": "WRONG_GIT_BLOB_FIELD",
+  "mutation": {
+    "op": "set",
+    "path": "success_result.lock_blob",
+    "value": "9999999999999999999999999999999999999999"
+  },
+  "expected_failure": "RESULT_LOCK_BLOB_MISMATCH"
+}

@@ -1,0 +1,158 @@
+{
+  "schema": "arcllm.ttft_m2.execution_lock.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "package_id": "ARCLLM_TTFT_M2_ATOMIC_PACKAGE",
+  "package_version": "v0.1",
+  "status": "M2_P4_IMPLEMENTED_AWAITING_P5_ATOMIC_QA",
+  "p4_authorization": {
+    "path": "config/arcllm_ttft_m2_p4_implementation_authorization_v0.1.json",
+    "blob": "6ad37531ca81227e65420b1261780ebfafbca97a",
+    "decision": "M2_P4_ZERO_SCIENCE_PACKAGE_IMPLEMENTATION_AUTHORIZED"
+  },
+  "p3_bindings": {
+    "atomic_package_contract_blob": "0d07219952177bbd0812be554aff1ae2f1b0bc47",
+    "p3_specification_qa_blob": "36cae16295e768fe0f50efafaac88e8a9867ae50",
+    "method_transfer_register_blob": "825d5b5a6d67fc92f66c667582a12b55de7737c7"
+  },
+  "runner": {
+    "path": "run_ttft_m2_buildonly.ps1",
+    "git_blob": "4722e86a01453d973ee2122b49229b80bf7d84f6",
+    "role": "FUTURE_INFRASTRUCTURE_BUILDONLY_PACKAGE_RUNNER",
+    "executable_now": false,
+    "requires_p7_authorization": true
+  },
+  "schema_bindings": {
+    "success_result": {
+      "path": "schemas/ttft_m2/buildonly_result.schema.json",
+      "id": "arcllm.ttft_m2.buildonly_result.v0.1",
+      "blob": "1c216e1bf6e71677d82b658197f2e90302f53f9e"
+    },
+    "failure_result": {
+      "path": "schemas/ttft_m2/failure_result.schema.json",
+      "id": "arcllm.ttft_m2.failure_result.v0.1",
+      "blob": "7cc8947790f9a11d76af144707128fc1df78f7ae"
+    },
+    "evidence_manifest": {
+      "path": "schemas/ttft_m2/evidence_manifest.schema.json",
+      "id": "arcllm.ttft_m2.evidence_manifest.v0.1",
+      "blob": "a6cbf83ffe3b0e81f6d5c03257bba7ba8fbc9d18"
+    },
+    "package_manifest": {
+      "path": "schemas/ttft_m2/package_manifest.schema.json",
+      "id": "arcllm.ttft_m2.package_manifest.v0.1",
+      "blob": "ec8d8c00162cce0de9fd564c32ea1e34ac679b59"
+    },
+    "adjudicator_input": {
+      "path": "schemas/ttft_m2/adjudicator_input.schema.json",
+      "id": "arcllm.ttft_m2.adjudicator_input.v0.1",
+      "blob": "713ba835364132ceb903e309570b3ca8d36c4c6a"
+    }
+  },
+  "manifests": {
+    "evidence_template": {
+      "path": "config/arcllm_ttft_m2_evidence_manifest_v0.1.json",
+      "schema_id": "arcllm.ttft_m2.evidence_manifest.v0.1",
+      "binding": "P4_CREATED_AFTER_LOCK_EXTERNAL_P5_BLOB_BINDING"
+    },
+    "package_manifest": {
+      "path": "config/arcllm_ttft_m2_package_manifest_v0.1.json",
+      "schema_id": "arcllm.ttft_m2.package_manifest.v0.1",
+      "binding": "SELF_RESOLVED_AT_RUNTIME_AND_EXTERNAL_P5_BLOB_BINDING"
+    }
+  },
+  "adjudicator_input": {
+    "schema_id": "arcllm.ttft_m2.adjudicator_input.v0.1",
+    "runtime_name": "TTFT_M2_ADJUDICATOR_INPUT.json"
+  },
+  "p7_authorization_slot": {
+    "path": "config/arcllm_ttft_m2_p7_buildonly_authorization_v0.1.json",
+    "schema_id": "arcllm.ttft_m2.p7.buildonly_authorization.v0.1",
+    "decision": "M2_P7_BUILDONLY_AUTHORIZED",
+    "binding_mode": "RUNTIME_REQUIRED_EXACT_GIT_BLOB",
+    "exists_at_p4": false
+  },
+  "output": {
+    "results_directory": "results/ttft_m2_buildonly",
+    "bundle_name": "results/ttft_m2_buildonly_return_to_chatgpt.zip"
+  },
+  "authority_operationalization": {
+    "frozen_authority_source": "config/q2_execution_authorization.json@20f556fb18ee4ffd0ce5e17cf8fab1a2b9a992dc",
+    "candidate_reproduction_source": "FUTURE_M2_CANDIDATE_REPRODUCTION_OUTPUT",
+    "identical_source_for_both_sides_forbidden": true,
+    "same_source_negative_fixture": "SAME_SOURCE_AUTHORITY_TAUTOLOGY"
+  },
+  "atomic_qa": {
+    "tool": {
+      "path": "tools/ttft_m2_atomic_package_qa.py",
+      "blob": "73b74f2dbc65f0e1bff7cd2c226b4112c34ecfdb"
+    },
+    "fixture_index": {
+      "path": "tests/fixtures/ttft_m2_atomic_package/index.json",
+      "blob": "9735e97d5ea264642725466e50ae26a00e8a4951"
+    },
+    "required_negative_fixture_ids": [
+      "STALE_LOCK_VERSION",
+      "WRONG_BUNDLE_DESTINATION_FILENAME",
+      "WRONG_GIT_BLOB_FIELD",
+      "MISSING_EVIDENCE_MEMBER",
+      "DUPLICATE_EVIDENCE_MEMBER",
+      "RESULT_SCHEMA_VERSION_MISMATCH",
+      "RUNNER_LOCK_MISMATCH",
+      "MANIFEST_RUNNER_MISMATCH",
+      "PACKAGE_RESULT_MISMATCH",
+      "SAME_SOURCE_AUTHORITY_TAUTOLOGY"
+    ],
+    "p5_not_yet_run": true
+  },
+  "static_git_blobs": {
+    "config/arcllm_ttft_m2_p4_implementation_authorization_v0.1.json": "6ad37531ca81227e65420b1261780ebfafbca97a",
+    "config/arcllm_ttft_m2_atomic_package_contract_v0.1.json": "0d07219952177bbd0812be554aff1ae2f1b0bc47",
+    "artifacts/TTFT_M2/TTFT_M2_P3_SPECIFICATION_QA_v0.1.json": "36cae16295e768fe0f50efafaac88e8a9867ae50",
+    "config/arcllm_ttft_m2_method_transfer_register_v0.1.json": "825d5b5a6d67fc92f66c667582a12b55de7737c7",
+    "run_ttft_m2_buildonly.ps1": "4722e86a01453d973ee2122b49229b80bf7d84f6",
+    "schemas/ttft_m2/buildonly_result.schema.json": "1c216e1bf6e71677d82b658197f2e90302f53f9e",
+    "schemas/ttft_m2/failure_result.schema.json": "7cc8947790f9a11d76af144707128fc1df78f7ae",
+    "schemas/ttft_m2/evidence_manifest.schema.json": "a6cbf83ffe3b0e81f6d5c03257bba7ba8fbc9d18",
+    "schemas/ttft_m2/package_manifest.schema.json": "ec8d8c00162cce0de9fd564c32ea1e34ac679b59",
+    "schemas/ttft_m2/adjudicator_input.schema.json": "713ba835364132ceb903e309570b3ca8d36c4c6a",
+    "tools/ttft_m2_atomic_package_qa.py": "73b74f2dbc65f0e1bff7cd2c226b4112c34ecfdb",
+    "tests/fixtures/ttft_m2_atomic_package/positive_canonical.json": "351c65d8987629062749540b730da13bb7caca4c",
+    "tests/fixtures/ttft_m2_atomic_package/neg_stale_lock_version.json": "3924a659a932601658239a672756b296351990b8",
+    "tests/fixtures/ttft_m2_atomic_package/neg_wrong_bundle_destination_filename.json": "37ec522d1ec6ab70a6ff9d52fff48fd8ccf0c11e",
+    "tests/fixtures/ttft_m2_atomic_package/neg_wrong_git_blob_field.json": "a30d9a782e99a47ebbb3de0df70a3addb9cf656b",
+    "tests/fixtures/ttft_m2_atomic_package/neg_missing_evidence_member.json": "744ae1931a7ddc4c1c72d969350f465fbb45008a",
+    "tests/fixtures/ttft_m2_atomic_package/neg_duplicate_evidence_member.json": "a09cb7dfb3fa94fa6885686e1b2523708186bffe",
+    "tests/fixtures/ttft_m2_atomic_package/neg_result_schema_version_mismatch.json": "2ad1d3d717fb03e8481daf321f76f9d3ca0e9b2c",
+    "tests/fixtures/ttft_m2_atomic_package/neg_runner_lock_mismatch.json": "19236ebabb9471c60c7f2ac3bb1e5e42c997325c",
+    "tests/fixtures/ttft_m2_atomic_package/neg_manifest_runner_mismatch.json": "650dd9af3d0f9702225828c87e0540c8ba4586eb",
+    "tests/fixtures/ttft_m2_atomic_package/neg_package_result_mismatch.json": "184905308b936cb95dfb3cf69870809b2b289438",
+    "tests/fixtures/ttft_m2_atomic_package/neg_same_source_authority_tautology.json": "f5588b0d1ea7ca0d268baf8c7355a0dd7414ef44",
+    "tests/fixtures/ttft_m2_atomic_package/index.json": "9735e97d5ea264642725466e50ae26a00e8a4951"
+  },
+  "zero_science": {
+    "target_model_load_permitted": false,
+    "diagnostic_executable_launch_permitted": false,
+    "gpu_dispatch_permitted": false,
+    "performance_measurement_permitted": false,
+    "fresh_ttft_observations_permitted": false,
+    "scientific_result": "NONE"
+  },
+  "scientific_payload": {
+    "diagnostic_harness_bound": false,
+    "mechanism_design_canonicalized": false,
+    "note": "P4 implements infrastructure composition only. M1 mechanism design remains prior methodological evidence and is not silently rebound here."
+  },
+  "repair_budget": {
+    "execution_stage_active": false,
+    "execution_stage_repairs_consumed": 0,
+    "execution_stage_max_repairs": 1,
+    "package_development_defects_consume_execution_budget": false
+  },
+  "mutation_policy": {
+    "p4_package_development_fix_before_p5_permitted": true,
+    "post_p5_freeze_mutation_requires_governed_requalification": true,
+    "scientific_mutation_permitted": false
+  },
+  "next": "M2_P5_ATOMIC_PACKAGE_QA_POSITIVE_AND_NEGATIVE_FIXTURES"
+}

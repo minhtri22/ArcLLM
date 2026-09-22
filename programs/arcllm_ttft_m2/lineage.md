@@ -70,3 +70,48 @@ A stale reference anywhere is a package failure.
 M2-P3 is specification-only. No scientific runner, model load, GPU dispatch, build, timing, or fresh TTFT observation has occurred.
 
 Next: `M2_P4_ZERO_SCIENCE_PACKAGE_IMPLEMENTATION`.
+
+
+## 2026-09-22 — M2-P4 ZERO-SCIENCE PACKAGE IMPLEMENTATION
+
+P4 was explicitly authorized in a separate predecessor commit.
+
+Authorization blob:
+`6ad37531ca81227e65420b1261780ebfafbca97a`.
+
+The atomic infrastructure package was materialized without executing it.
+
+Canonical P4 bindings:
+- execution lock `9af4c7b4c96354223e1f671a43af64b215072330`;
+- runner `4722e86a01453d973ee2122b49229b80bf7d84f6`;
+- evidence manifest template `bf496e00e4cf0bff86582e0649c6c26bc28b6f60`;
+- package manifest `4629910255580322706b01f318ad9a80044208d7`;
+- atomic QA tool `73b74f2dbc65f0e1bff7cd2c226b4112c34ecfdb`;
+- fixture index `9735e97d5ea264642725466e50ae26a00e8a4951`.
+
+Five frozen schemas now cover success result, fail-closed result, evidence manifest, package manifest and adjudicator input.
+
+The canonical positive fixture and all ten P3-required negative fixture classes are materialized.
+
+Self-reference handling is explicit:
+- static members -> exact Git blob;
+- package manifest self -> runtime exact Git binding + external P5/P6 binding;
+- future P7 authorization -> runtime exact Git binding;
+- adjudicator input -> sidecar generated only after bundle SHA256 exists.
+
+This avoids both stale-label provenance and impossible self-hash cycles.
+
+P4 does **not** bind a diagnostic-science payload and does not silently canonicalize the unexecuted M1 2x2 design.
+
+Scientific/execution accounting remains zero:
+- BuildOnly runner executions: 0;
+- target model loads: 0;
+- GPU dispatches: 0;
+- performance measurements: 0;
+- fresh TTFT observations: 0.
+
+Execution-stage repair budget remains inactive, consumed 0/1.
+
+P5 has not run and no P5 PASS is claimed.
+
+Next: `M2_P5_ATOMIC_PACKAGE_QA_POSITIVE_AND_NEGATIVE_FIXTURES`.

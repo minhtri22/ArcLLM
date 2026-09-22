@@ -1,0 +1,51 @@
+{
+  "lock": {
+    "path": "config/arcllm_ttft_m2_execution_lock_v0.1.json",
+    "version": "v0.1",
+    "blob": "1111111111111111111111111111111111111111"
+  },
+  "runner": {
+    "lock_path": "config/arcllm_ttft_m2_execution_lock_v0.1.json",
+    "lock_version": "v0.1",
+    "runner_blob": "2222222222222222222222222222222222222222",
+    "success_result_schema": "arcllm.ttft_m2.buildonly_result.v0.1",
+    "failure_result_schema": "arcllm.ttft_m2.failure_result.v0.1"
+  },
+  "success_result": {
+    "schema": "arcllm.ttft_m2.buildonly_result.v0.1",
+    "lock_path": "config/arcllm_ttft_m2_execution_lock_v0.1.json",
+    "lock_blob": "1111111111111111111111111111111111111111"
+  },
+  "failure_result": {
+    "schema": "arcllm.ttft_m2.failure_result.v0.1",
+    "lock_path": "config/arcllm_ttft_m2_execution_lock_v0.1.json",
+    "lock_blob": "1111111111111111111111111111111111111111"
+  },
+  "evidence_manifest": {
+    "lock_source_path": "config/arcllm_ttft_m2_execution_lock_v0.1.json",
+    "lock_destination_name": "arcllm_ttft_m2_execution_lock_v0.1.json",
+    "runner_blob": "2222222222222222222222222222222222222222",
+    "members": [
+      {
+        "id": "lock"
+      },
+      {
+        "id": "runner"
+      }
+    ]
+  },
+  "package_manifest": {
+    "lock_source_path": "config/arcllm_ttft_m2_execution_lock_v0.1.json",
+    "lock_destination_name": "arcllm_ttft_m2_execution_lock_v0.1.json",
+    "runner_blob": "2222222222222222222222222222222222222222",
+    "result_schema": "arcllm.ttft_m2.buildonly_result.v0.1"
+  },
+  "adjudicator_input": {
+    "package_manifest_sha256": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  },
+  "produced_package_manifest_sha256": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "authority": {
+    "frozen_source": "authority://historical-safe",
+    "candidate_source": "candidate://reproduction"
+  }
+}

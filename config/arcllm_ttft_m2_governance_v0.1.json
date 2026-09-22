@@ -3,7 +3,7 @@
   "date": "2026-09-22",
   "program_id": "ARCLLM_TTFT_M2",
   "branch": "research/arcllm-ttft-m2",
-  "status": "M2_P3_INITIAL_ZERO_SCIENCE_SPECIFICATION_COMPLETE",
+  "status": "M2_P4_ZERO_SCIENCE_PACKAGE_IMPLEMENTED_P5_PENDING",
   "git_history_base": "86ec48ce0cfff28fa43c23c1d8b57b8f881d249e",
   "parents": {
     "ANL64": {
@@ -66,8 +66,8 @@
     "M2_P1": "COMPLETE",
     "M2_P2": "COMPLETE",
     "M2_P3": "COMPLETE_SPECIFICATION_ONLY",
-    "M2_P4": "NOT_OPENED",
-    "M2_P5": "NOT_OPENED",
+    "M2_P4": "COMPLETE_IMPLEMENTED_ZERO_SCIENCE",
+    "M2_P5": "NOT_OPENED_ELIGIBLE_NEXT",
     "M2_P6": "NOT_OPENED",
     "M2_P7": "NOT_OPENED",
     "M2_P8": "NOT_OPENED",
@@ -126,7 +126,7 @@
     "stale_reference_anywhere_fails_before_freeze": true
   },
   "authorization": {
-    "specification_only": true,
+    "specification_only": false,
     "package_implementation": false,
     "diagnostic_science_implementation": false,
     "buildonly_execution": false,
@@ -136,5 +136,56 @@
     "performance_measurement": false,
     "fresh_ttft_observation": false
   },
-  "next": "M2_P4_ZERO_SCIENCE_PACKAGE_IMPLEMENTATION"
+  "next": "M2_P5_ATOMIC_PACKAGE_QA_POSITIVE_AND_NEGATIVE_FIXTURES",
+  "p4": {
+    "result": "M2_P4_ZERO_SCIENCE_INFRASTRUCTURE_PACKAGE_IMPLEMENTED",
+    "authorization": {
+      "path": "config/arcllm_ttft_m2_p4_implementation_authorization_v0.1.json",
+      "blob": "6ad37531ca81227e65420b1261780ebfafbca97a"
+    },
+    "execution_lock": {
+      "path": "config/arcllm_ttft_m2_execution_lock_v0.1.json",
+      "blob": "9af4c7b4c96354223e1f671a43af64b215072330",
+      "status": "M2_P4_IMPLEMENTED_AWAITING_P5_ATOMIC_QA"
+    },
+    "runner": {
+      "path": "run_ttft_m2_buildonly.ps1",
+      "blob": "4722e86a01453d973ee2122b49229b80bf7d84f6",
+      "executable_authorized": false,
+      "p7_gate_required": true
+    },
+    "evidence_manifest_template": {
+      "path": "config/arcllm_ttft_m2_evidence_manifest_v0.1.json",
+      "blob": "bf496e00e4cf0bff86582e0649c6c26bc28b6f60"
+    },
+    "package_manifest": {
+      "path": "config/arcllm_ttft_m2_package_manifest_v0.1.json",
+      "blob": "4629910255580322706b01f318ad9a80044208d7",
+      "self_binding": "RUNTIME_REQUIRED_EXACT_GIT_BLOB"
+    },
+    "schemas": {
+      "success_result": "1c216e1bf6e71677d82b658197f2e90302f53f9e",
+      "failure_result": "7cc8947790f9a11d76af144707128fc1df78f7ae",
+      "evidence_manifest": "a6cbf83ffe3b0e81f6d5c03257bba7ba8fbc9d18",
+      "package_manifest": "ec8d8c00162cce0de9fd564c32ea1e34ac679b59",
+      "adjudicator_input": "713ba835364132ceb903e309570b3ca8d36c4c6a"
+    },
+    "atomic_qa_tool_blob": "73b74f2dbc65f0e1bff7cd2c226b4112c34ecfdb",
+    "fixture_index_blob": "9735e97d5ea264642725466e50ae26a00e8a4951",
+    "negative_fixture_count": 10,
+    "package_member_count": 30,
+    "adjudicator_input_mode": "RUNTIME_SIDECAR_AFTER_BUNDLE_HASH",
+    "scientific_payload_bound": false,
+    "p5_atomic_qa_run": false,
+    "execution_stage_repair_budget_active": false,
+    "execution_stage_repairs_consumed": 0,
+    "scientific_accounting": {
+      "buildonly_runner_executions": 0,
+      "diagnostic_executable_launches": 0,
+      "target_model_loads": 0,
+      "gpu_dispatches": 0,
+      "performance_measurements": 0,
+      "fresh_ttft_observations": 0
+    }
+  }
 }

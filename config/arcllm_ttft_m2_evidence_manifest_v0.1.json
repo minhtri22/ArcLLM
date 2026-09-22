@@ -1,0 +1,229 @@
+{
+  "schema": "arcllm.ttft_m2.evidence_manifest.v0.1",
+  "package_id": "ARCLLM_TTFT_M2_ATOMIC_PACKAGE",
+  "package_version": "v0.1",
+  "lock": {
+    "source_path": "config/arcllm_ttft_m2_execution_lock_v0.1.json",
+    "destination_name": "arcllm_ttft_m2_execution_lock_v0.1.json",
+    "git_blob": "9af4c7b4c96354223e1f671a43af64b215072330"
+  },
+  "runner": {
+    "source_path": "run_ttft_m2_buildonly.ps1",
+    "destination_name": "run_ttft_m2_buildonly.ps1",
+    "git_blob": "4722e86a01453d973ee2122b49229b80bf7d84f6"
+  },
+  "members": [
+    {
+      "id": "p4_authorization",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "config/arcllm_ttft_m2_p4_implementation_authorization_v0.1.json",
+      "destination_name": "arcllm_ttft_m2_p4_implementation_authorization_v0.1.json",
+      "git_blob": "6ad37531ca81227e65420b1261780ebfafbca97a",
+      "schema_id": "arcllm.ttft_m2.p4.implementation_authorization.v0.1",
+      "required": true
+    },
+    {
+      "id": "atomic_package_contract",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "config/arcllm_ttft_m2_atomic_package_contract_v0.1.json",
+      "destination_name": "arcllm_ttft_m2_atomic_package_contract_v0.1.json",
+      "git_blob": "0d07219952177bbd0812be554aff1ae2f1b0bc47",
+      "schema_id": "arcllm.ttft_m2.atomic_package_contract.v0.1",
+      "required": true
+    },
+    {
+      "id": "p3_specification_qa",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "artifacts/TTFT_M2/TTFT_M2_P3_SPECIFICATION_QA_v0.1.json",
+      "destination_name": "TTFT_M2_P3_SPECIFICATION_QA_v0.1.json",
+      "git_blob": "36cae16295e768fe0f50efafaac88e8a9867ae50",
+      "schema_id": "arcllm.ttft_m2.p3.specification_qa.v0.1",
+      "required": true
+    },
+    {
+      "id": "method_transfer_register",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "config/arcllm_ttft_m2_method_transfer_register_v0.1.json",
+      "destination_name": "arcllm_ttft_m2_method_transfer_register_v0.1.json",
+      "git_blob": "825d5b5a6d67fc92f66c667582a12b55de7737c7",
+      "schema_id": "arcllm.ttft_m2.method_transfer_register.v0.1",
+      "required": true
+    },
+    {
+      "id": "success_result_schema",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "schemas/ttft_m2/buildonly_result.schema.json",
+      "destination_name": "buildonly_result.schema.json",
+      "git_blob": "1c216e1bf6e71677d82b658197f2e90302f53f9e",
+      "schema_id": "arcllm.ttft_m2.buildonly_result.v0.1",
+      "required": true
+    },
+    {
+      "id": "failure_result_schema",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "schemas/ttft_m2/failure_result.schema.json",
+      "destination_name": "failure_result.schema.json",
+      "git_blob": "7cc8947790f9a11d76af144707128fc1df78f7ae",
+      "schema_id": "arcllm.ttft_m2.failure_result.v0.1",
+      "required": true
+    },
+    {
+      "id": "evidence_manifest_schema",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "schemas/ttft_m2/evidence_manifest.schema.json",
+      "destination_name": "evidence_manifest.schema.json",
+      "git_blob": "a6cbf83ffe3b0e81f6d5c03257bba7ba8fbc9d18",
+      "schema_id": "arcllm.ttft_m2.evidence_manifest.v0.1",
+      "required": true
+    },
+    {
+      "id": "package_manifest_schema",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "schemas/ttft_m2/package_manifest.schema.json",
+      "destination_name": "package_manifest.schema.json",
+      "git_blob": "ec8d8c00162cce0de9fd564c32ea1e34ac679b59",
+      "schema_id": "arcllm.ttft_m2.package_manifest.v0.1",
+      "required": true
+    },
+    {
+      "id": "adjudicator_input_schema",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "schemas/ttft_m2/adjudicator_input.schema.json",
+      "destination_name": "adjudicator_input.schema.json",
+      "git_blob": "713ba835364132ceb903e309570b3ca8d36c4c6a",
+      "schema_id": "arcllm.ttft_m2.adjudicator_input.v0.1",
+      "required": true
+    },
+    {
+      "id": "atomic_qa_tool",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "tools/ttft_m2_atomic_package_qa.py",
+      "destination_name": "ttft_m2_atomic_package_qa.py",
+      "git_blob": "73b74f2dbc65f0e1bff7cd2c226b4112c34ecfdb",
+      "schema_id": null,
+      "required": true
+    },
+    {
+      "id": "fixture_index",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "tests/fixtures/ttft_m2_atomic_package/index.json",
+      "destination_name": "fixture_index.json",
+      "git_blob": "9735e97d5ea264642725466e50ae26a00e8a4951",
+      "schema_id": "arcllm.ttft_m2.atomic_package_fixture_index.v0.1",
+      "required": true
+    },
+    {
+      "id": "fixture_positive",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "tests/fixtures/ttft_m2_atomic_package/positive_canonical.json",
+      "destination_name": "fixture_positive_canonical.json",
+      "git_blob": "351c65d8987629062749540b730da13bb7caca4c",
+      "schema_id": null,
+      "required": true
+    },
+    {
+      "id": "fixture_neg_stale_lock_version",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "tests/fixtures/ttft_m2_atomic_package/neg_stale_lock_version.json",
+      "destination_name": "neg_stale_lock_version.json",
+      "git_blob": "3924a659a932601658239a672756b296351990b8",
+      "schema_id": null,
+      "required": true
+    },
+    {
+      "id": "fixture_neg_wrong_bundle_destination_filename",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "tests/fixtures/ttft_m2_atomic_package/neg_wrong_bundle_destination_filename.json",
+      "destination_name": "neg_wrong_bundle_destination_filename.json",
+      "git_blob": "37ec522d1ec6ab70a6ff9d52fff48fd8ccf0c11e",
+      "schema_id": null,
+      "required": true
+    },
+    {
+      "id": "fixture_neg_wrong_git_blob_field",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "tests/fixtures/ttft_m2_atomic_package/neg_wrong_git_blob_field.json",
+      "destination_name": "neg_wrong_git_blob_field.json",
+      "git_blob": "a30d9a782e99a47ebbb3de0df70a3addb9cf656b",
+      "schema_id": null,
+      "required": true
+    },
+    {
+      "id": "fixture_neg_missing_evidence_member",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "tests/fixtures/ttft_m2_atomic_package/neg_missing_evidence_member.json",
+      "destination_name": "neg_missing_evidence_member.json",
+      "git_blob": "744ae1931a7ddc4c1c72d969350f465fbb45008a",
+      "schema_id": null,
+      "required": true
+    },
+    {
+      "id": "fixture_neg_duplicate_evidence_member",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "tests/fixtures/ttft_m2_atomic_package/neg_duplicate_evidence_member.json",
+      "destination_name": "neg_duplicate_evidence_member.json",
+      "git_blob": "a09cb7dfb3fa94fa6885686e1b2523708186bffe",
+      "schema_id": null,
+      "required": true
+    },
+    {
+      "id": "fixture_neg_result_schema_version_mismatch",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "tests/fixtures/ttft_m2_atomic_package/neg_result_schema_version_mismatch.json",
+      "destination_name": "neg_result_schema_version_mismatch.json",
+      "git_blob": "2ad1d3d717fb03e8481daf321f76f9d3ca0e9b2c",
+      "schema_id": null,
+      "required": true
+    },
+    {
+      "id": "fixture_neg_runner_lock_mismatch",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "tests/fixtures/ttft_m2_atomic_package/neg_runner_lock_mismatch.json",
+      "destination_name": "neg_runner_lock_mismatch.json",
+      "git_blob": "19236ebabb9471c60c7f2ac3bb1e5e42c997325c",
+      "schema_id": null,
+      "required": true
+    },
+    {
+      "id": "fixture_neg_manifest_runner_mismatch",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "tests/fixtures/ttft_m2_atomic_package/neg_manifest_runner_mismatch.json",
+      "destination_name": "neg_manifest_runner_mismatch.json",
+      "git_blob": "650dd9af3d0f9702225828c87e0540c8ba4586eb",
+      "schema_id": null,
+      "required": true
+    },
+    {
+      "id": "fixture_neg_package_result_mismatch",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "tests/fixtures/ttft_m2_atomic_package/neg_package_result_mismatch.json",
+      "destination_name": "neg_package_result_mismatch.json",
+      "git_blob": "184905308b936cb95dfb3cf69870809b2b289438",
+      "schema_id": null,
+      "required": true
+    },
+    {
+      "id": "fixture_neg_same_source_authority_tautology",
+      "binding_mode": "STATIC_COMMITTED",
+      "source_path": "tests/fixtures/ttft_m2_atomic_package/neg_same_source_authority_tautology.json",
+      "destination_name": "neg_same_source_authority_tautology.json",
+      "git_blob": "f5588b0d1ea7ca0d268baf8c7355a0dd7414ef44",
+      "schema_id": null,
+      "required": true
+    },
+    {
+      "id": "package_manifest",
+      "binding_mode": "RUNTIME_REQUIRED_EXACT_GIT_BLOB",
+      "source_path": "config/arcllm_ttft_m2_package_manifest_v0.1.json",
+      "destination_name": "arcllm_ttft_m2_package_manifest_v0.1.json",
+      "git_blob": null,
+      "schema_id": "arcllm.ttft_m2.package_manifest.v0.1",
+      "required": true
+    }
+  ],
+  "zero_science": {
+    "target_model_load_permitted": false,
+    "gpu_dispatch_permitted": false,
+    "performance_measurement_permitted": false
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "arcllm.ttft_m2.atomic_package_negative_fixture.v0.1",
+  "id": "WRONG_BUNDLE_DESTINATION_FILENAME",
+  "mutation": {
+    "op": "set",
+    "path": "package_manifest.lock_destination_name",
+    "value": "arcllm_ttft_m2_execution_lock_v0.0.json"
+  },
+  "expected_failure": "WRONG_BUNDLE_DESTINATION_FILENAME"
+}

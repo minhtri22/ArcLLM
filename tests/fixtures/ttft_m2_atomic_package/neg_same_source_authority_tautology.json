@@ -1,0 +1,10 @@
+{
+  "schema": "arcllm.ttft_m2.atomic_package_negative_fixture.v0.1",
+  "id": "SAME_SOURCE_AUTHORITY_TAUTOLOGY",
+  "mutation": {
+    "op": "set",
+    "path": "authority.candidate_source",
+    "value": "authority://historical-safe"
+  },
+  "expected_failure": "SAME_SOURCE_AUTHORITY_TAUTOLOGY"
+}

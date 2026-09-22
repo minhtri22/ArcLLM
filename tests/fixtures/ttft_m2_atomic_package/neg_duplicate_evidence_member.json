@@ -1,0 +1,10 @@
+{
+  "schema": "arcllm.ttft_m2.atomic_package_negative_fixture.v0.1",
+  "id": "DUPLICATE_EVIDENCE_MEMBER",
+  "mutation": {
+    "op": "append_duplicate",
+    "path": "evidence_manifest.members",
+    "source_index": 0
+  },
+  "expected_failure": "DUPLICATE_EVIDENCE_MEMBER"
+}
