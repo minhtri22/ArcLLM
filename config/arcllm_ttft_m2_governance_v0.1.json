@@ -3,7 +3,7 @@
   "date": "2026-09-22",
   "program_id": "ARCLLM_TTFT_M2",
   "branch": "research/arcllm-ttft-m2",
-  "status": "M2_P8_REPLAY_PENDING_AFTER_EXECUTION_REPAIR_1_OF_1",
+  "status": "M2_P8_STOP_INFRASTRUCTURE_UNSTABLE_P9_BLOCKED_P10_ELIGIBLE",
   "git_history_base": "86ec48ce0cfff28fa43c23c1d8b57b8f881d249e",
   "parents": {
     "ANL64": {
@@ -70,9 +70,9 @@
     "M2_P5": "COMPLETE_PASS_ATOMIC_PACKAGE_QA",
     "M2_P6": "COMPLETE_PASS_ZERO_SCIENCE_GOVERNANCE",
     "M2_P7": "COMPLETE_AUTHORIZED_EXACT_FROZEN_BUILDONLY",
-    "M2_P8": "EXECUTION_REPLAY_PENDING_AFTER_REPAIR_1_OF_1",
-    "M2_P9": "NOT_OPENED",
-    "M2_P10": "NOT_OPENED"
+    "M2_P8": "TERMINAL_STOP_INFRASTRUCTURE_UNSTABLE",
+    "M2_P9": "BLOCKED_NOT_OPENED",
+    "M2_P10": "NOT_OPENED_ELIGIBLE_NEXT"
   },
   "lineage": {
     "path": "programs/arcllm_ttft_m2/lineage.md",
@@ -89,7 +89,7 @@
     },
     "execution_stage": {
       "max_repairs": 1,
-      "active": true,
+      "active": false,
       "activation_requires": [
         "M2_P4_COMPLETE",
         "M2_P5_ATOMIC_PACKAGE_QA_PASS",
@@ -131,14 +131,14 @@
     "specification_only": false,
     "package_implementation": false,
     "diagnostic_science_implementation": false,
-    "buildonly_execution": true,
+    "buildonly_execution": false,
     "target_model_execution": false,
     "model_load": false,
     "gpu_dispatch": false,
     "performance_measurement": false,
     "fresh_ttft_observation": false
   },
-  "next": "FULL_FRESH_M2_P8_BUILDONLY_REPLAY_FROM_ZERO",
+  "next": "M2_P10_FINAL_PROGRAM_ADJUDICATION",
   "p4": {
     "result": "M2_P4_ZERO_SCIENCE_INFRASTRUCTURE_PACKAGE_IMPLEMENTED",
     "authorization": {
@@ -334,33 +334,45 @@
     "authorized_next": "M2_P8_BOUNDED_BUILDONLY_EXECUTION"
   },
   "p8": {
-    "status": "REPLAY_PENDING_AFTER_VALID_EXECUTION_STAGE_REPAIR_1_OF_1",
-    "first_attempt": {
+    "result": "STOP_INFRASTRUCTURE_UNSTABLE",
+    "artifact": {
+      "path": "artifacts/TTFT_M2/TTFT_M2_P8_BOUNDED_BUILDONLY_EXECUTION_v0.1.json",
+      "blob": "ae7b17678b9cbb29018c7e0207a12a5fb6b99ac9"
+    },
+    "document": {
+      "path": "docs/research/arcllm-ttft-m2/P8_BOUNDED_BUILDONLY_EXECUTION.md",
+      "blob": "2ad183f856ddf329cd39d1f766bd0aea0927ed89"
+    },
+    "attempt_1": {
       "workflow_run_id": 35678683835,
       "head_sha": "1ecb6b7606f81e71fd7c5c6eb0f0d12c5838e2a1",
       "conclusion": "failure",
       "jobs_observed": 0,
       "exact_runner_executions": 0,
-      "classification": "VALID_EXECUTION_STAGE_ORCHESTRATION_DEFECT",
-      "defect": "P8_WORKFLOW_YAML_PLAIN_SCALAR_COLON_PARSE_FAILURE"
+      "defect": "P8_WORKFLOW_YAML_PLAIN_SCALAR_COLON_PARSE_FAILURE",
+      "repair_consumed": true
     },
-    "repair": {
-      "record_path": "artifacts/TTFT_M2/TTFT_M2_P8_EXECUTION_STAGE_REPAIR_1_v0.1.json",
+    "repair_1": {
       "record_blob": "0a21904295708660df7cb06ceda8163768d6b50c",
-      "document_path": "docs/research/arcllm-ttft-m2/P8_EXECUTION_REPAIR_1.md",
-      "document_blob": "efec8b9f596450bd0fca9a831f99ba83f2dd80c7",
-      "workflow_path": ".github/workflows/ttft_m2_p8_bounded_buildonly.yml",
       "repaired_workflow_blob": "45bf73ca7aad83a361299ce4ea7c4490070b564f",
-      "package_mutated": false,
-      "science_mutated": false
-    },
-    "repair_budget": {
-      "active": true,
       "consumed": 1,
-      "max": 1,
-      "remaining": 0,
-      "second_execution_stage_defect": "STOP_INFRASTRUCTURE_UNSTABLE"
+      "max": 1
     },
+    "attempt_2": {
+      "workflow_run_id": 35678861153,
+      "head_sha": "2fcb9756d032d806e52bc521457c7c49dfe6f868",
+      "conclusion": "failure",
+      "job_id": 106591157811,
+      "jobs_observed": 1,
+      "steps_observed": 0,
+      "logs_available": false,
+      "artifacts_observed": 0,
+      "exact_runner_executions": 0,
+      "classification": "SECOND_EXECUTION_STAGE_INFRASTRUCTURE_STARTUP_FAILURE_UNRESOLVED"
+    },
+    "frozen_package_mutated": false,
+    "further_repair_permitted": false,
+    "p9_open_permitted": false,
     "scientific_accounting": {
       "buildonly_runner_executions": 0,
       "diagnostic_executable_launches": 0,
@@ -368,8 +380,9 @@
       "gpu_dispatches": 0,
       "performance_measurements": 0,
       "fresh_ttft_observations": 0,
-      "scientific_result": "NONE"
+      "scientific_result": "NONE",
+      "mechanism_adjudication_performed": false
     },
-    "next": "FULL_FRESH_P8_REPLAY_FROM_ZERO"
+    "next": "M2_P10_FINAL_PROGRAM_ADJUDICATION"
   }
 }

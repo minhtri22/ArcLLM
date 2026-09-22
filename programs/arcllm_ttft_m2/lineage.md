@@ -340,3 +340,51 @@ Execution-stage repair budget:
 Scientific/execution accounting remains zero because the first workflow failed before job creation.
 
 Next: full fresh M2-P8 replay from zero.
+
+
+## 2026-09-22 — M2-P8 TERMINAL INFRASTRUCTURE STOP
+
+P8 was authorized by P7 but did not obtain a valid BuildOnly execution.
+
+Attempt 1:
+- run `35678683835`;
+- head `1ecb6b7606f81e71fd7c5c6eb0f0d12c5838e2a1`;
+- failure before job creation;
+- exact runner executions: 0;
+- classified `P8_WORKFLOW_YAML_PLAIN_SCALAR_COLON_PARSE_FAILURE`;
+- valid execution-stage repair consumed: 1/1.
+
+Repair 1/1 changed only the P8 orchestration workflow and required full replay from zero. Frozen package and science were unchanged.
+
+Attempt 2 full replay:
+- run `35678861153`;
+- head `2fcb9756d032d806e52bc521457c7c49dfe6f868`;
+- workflow parsed and job `106591157811` was created;
+- conclusion: failure;
+- observable steps: 0;
+- job log unavailable;
+- artifacts: 0;
+- exact runner executions: 0.
+
+Bounded classification:
+`SECOND_EXECUTION_STAGE_INFRASTRUCTURE_STARTUP_FAILURE_UNRESOLVED`
+
+No narrower cause is claimed because no job log exists.
+
+Because repair budget is exhausted at 1/1, governance requires:
+
+`STOP_INFRASTRUCTURE_UNSTABLE`
+
+No second repair, environment switch or third attempt is admissible inside TTFT_M2.
+
+Frozen package bindings remain unchanged, including runner `4722e86a01453d973ee2122b49229b80bf7d84f6`, lock `9af4c7b4c96354223e1f671a43af64b215072330`, package manifest `4629910255580322706b01f318ad9a80044208d7`, and P7 authorization `8faf0cd91da381333fdf7971e431fc091701a62b`.
+
+P8 formal evidence:
+- artifact blob `ae7b17678b9cbb29018c7e0207a12a5fb6b99ac9`;
+- document blob `2ad183f856ddf329cd39d1f766bd0aea0927ed89`.
+
+Scientific accounting remains zero; scientific result remains NONE.
+
+P9 is blocked and not opened.
+
+Next: `M2_P10_FINAL_PROGRAM_ADJUDICATION`.

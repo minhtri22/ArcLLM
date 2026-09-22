@@ -1,0 +1,75 @@
+{
+  "schema": "arcllm.ttft_m2.p8.bounded_buildonly_execution.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "result": "STOP_INFRASTRUCTURE_UNSTABLE",
+  "p7_authorization": {
+    "path": "config/arcllm_ttft_m2_p7_buildonly_authorization_v0.1.json",
+    "blob": "8faf0cd91da381333fdf7971e431fc091701a62b",
+    "decision": "M2_P7_BUILDONLY_AUTHORIZED"
+  },
+  "frozen_package": {
+    "source_head": "7e807caf7dd357f9c820f89f5a719a1e4a10139a",
+    "runner_blob": "4722e86a01453d973ee2122b49229b80bf7d84f6",
+    "execution_lock_blob": "9af4c7b4c96354223e1f671a43af64b215072330",
+    "package_manifest_blob": "4629910255580322706b01f318ad9a80044208d7",
+    "remained_exact_after_attempts": true
+  },
+  "attempt_1": {
+    "workflow_run_id": 35678683835,
+    "head_sha": "1ecb6b7606f81e71fd7c5c6eb0f0d12c5838e2a1",
+    "status": "completed",
+    "conclusion": "failure",
+    "jobs_observed": 0,
+    "exact_runner_executions": 0,
+    "classification": "VALID_EXECUTION_STAGE_ORCHESTRATION_DEFECT",
+    "defect": "P8_WORKFLOW_YAML_PLAIN_SCALAR_COLON_PARSE_FAILURE",
+    "repair_consumed": true
+  },
+  "repair_1": {
+    "record_blob": "0a21904295708660df7cb06ceda8163768d6b50c",
+    "repaired_workflow_blob": "45bf73ca7aad83a361299ce4ea7c4490070b564f",
+    "package_mutated": false,
+    "science_mutated": false,
+    "full_replay_from_zero_required": true
+  },
+  "attempt_2_replay": {
+    "workflow_run_id": 35678861153,
+    "head_sha": "2fcb9756d032d806e52bc521457c7c49dfe6f868",
+    "workflow_name": "TTFT M2 P8 Bounded BuildOnly",
+    "status": "completed",
+    "conclusion": "failure",
+    "job_id": 106591157811,
+    "jobs_observed": 1,
+    "steps_observed": 0,
+    "job_logs_available": false,
+    "artifacts_observed": 0,
+    "exact_runner_executions": 0,
+    "classification": "SECOND_EXECUTION_STAGE_INFRASTRUCTURE_STARTUP_FAILURE_UNRESOLVED",
+    "note": "The workflow parsed and created the Windows job, but the job failed before any step became observable. No log or artifact was available to attribute a narrower mechanism without speculation."
+  },
+  "repair_budget": {
+    "max_repairs": 1,
+    "consumed": 1,
+    "remaining": 0,
+    "second_execution_stage_defect_action": "STOP_INFRASTRUCTURE_UNSTABLE",
+    "further_repair_or_environment_switch_permitted": false
+  },
+  "scientific_accounting": {
+    "buildonly_runner_executions": 0,
+    "diagnostic_executable_launches": 0,
+    "target_model_loads": 0,
+    "gpu_dispatches": 0,
+    "performance_measurements": 0,
+    "fresh_ttft_observations": 0,
+    "scientific_result": "NONE",
+    "mechanism_adjudication_performed": false
+  },
+  "stage_effect": {
+    "p8": "TERMINAL_STOP_INFRASTRUCTURE_UNSTABLE",
+    "p9": "BLOCKED_NOT_OPENED",
+    "p10": "ELIGIBLE_NEXT_FOR_FINAL_PROGRAM_ADJUDICATION"
+  },
+  "final_statement": "P8 did not produce a valid BuildOnly package execution. The single permitted execution-stage repair was consumed, and the replay encountered a second infrastructure failure before the exact runner could execute. Governance therefore requires STOP_INFRASTRUCTURE_UNSTABLE with no scientific claim.",
+  "next": "M2_P10_FINAL_PROGRAM_ADJUDICATION"
+}
