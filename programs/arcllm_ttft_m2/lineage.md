@@ -491,3 +491,35 @@ P9 remains blocked until valid local BuildOnly PASS and a separate scientific au
 
 Next:
 `M2_P8L_LOCAL_BUILDONLY_EXECUTION_QUALIFICATION`.
+
+
+## 2026-09-22 — M2-P8L LOCAL BUILDONLY AUTHORIZATION
+
+P8L local Windows execution qualification is now explicitly authorized.
+
+Authorization:
+- path `config/arcllm_ttft_m2_p8l_local_buildonly_authorization_v0.1.json`;
+- blob `fa15f82ee75a3356c21e213d935eb93002d885f7`;
+- decision `M2_P8L_LOCAL_BUILDONLY_AUTHORIZED`.
+
+Local orchestration wrapper:
+- path `scripts/ttft_m2/p8l_local_oneclick.ps1`;
+- blob `9b7ebffa37c5c2657a2db95682134e8307ffc163`.
+
+The wrapper is outside the frozen research package and may only:
+1. verify local worktree / branch / authorization;
+2. verify exact frozen Git blobs;
+3. invoke the exact frozen `run_ttft_m2_buildonly.ps1`;
+4. package a local return report.
+
+Frozen package remains unchanged.
+
+Package-repair budget remains 0/1 before local runner execution.
+
+Scientific execution remains forbidden.
+
+Preferred return evidence:
+`results/ttft_m2_p8l_local_return_to_chatgpt.zip`
+
+Next:
+execute P8L once on the preregistered local Windows workstation, then adjudicate the returned evidence before any repair, rerun or P9 opening.

@@ -1,0 +1,86 @@
+{
+  "schema": "arcllm.ttft_m2.p8l.local_buildonly_authorization.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "branch": "research/arcllm-ttft-m2",
+  "authorization_parent_head": "196a555d177fc7d53bdd14c67b4551f9b9138489",
+  "decision": "M2_P8L_LOCAL_BUILDONLY_AUTHORIZED",
+  "scope": "LOCAL_WINDOWS_EXACT_FROZEN_BUILDONLY_ONLY",
+  "substrate": {
+    "id": "LOCAL_WINDOWS_WORKSTATION",
+    "status": "PREREGISTERED_PRIMARY_VIABLE_SUBSTRATE"
+  },
+  "prerequisites": {
+    "governance_amendment_blob": "4e56683b23153d4a4055d1bafd4422f11d186783",
+    "governance_status": "TTFT_M2_GOVERNANCE_AMENDED_LOCAL_BUILDONLY_ELIGIBLE",
+    "historical_p8_blob": "ae7b17678b9cbb29018c7e0207a12a5fb6b99ac9",
+    "historical_p10_blob": "0cbca9efa9754bf45e48ada5c7425ae7a8754d4a"
+  },
+  "local_wrapper": {
+    "path": "scripts/ttft_m2/p8l_local_oneclick.ps1",
+    "blob": "9b7ebffa37c5c2657a2db95682134e8307ffc163",
+    "role": "ORCHESTRATION_ONLY_OUTSIDE_FROZEN_PACKAGE"
+  },
+  "frozen_bindings": {
+    "runner": {
+      "path": "run_ttft_m2_buildonly.ps1",
+      "blob": "4722e86a01453d973ee2122b49229b80bf7d84f6"
+    },
+    "execution_lock": {
+      "path": "config/arcllm_ttft_m2_execution_lock_v0.1.json",
+      "blob": "9af4c7b4c96354223e1f671a43af64b215072330"
+    },
+    "evidence_manifest": {
+      "path": "config/arcllm_ttft_m2_evidence_manifest_v0.1.json",
+      "blob": "bf496e00e4cf0bff86582e0649c6c26bc28b6f60"
+    },
+    "package_manifest": {
+      "path": "config/arcllm_ttft_m2_package_manifest_v0.1.json",
+      "blob": "4629910255580322706b01f318ad9a80044208d7"
+    },
+    "p7_authorization": {
+      "path": "config/arcllm_ttft_m2_p7_buildonly_authorization_v0.1.json",
+      "blob": "8faf0cd91da381333fdf7971e431fc091701a62b"
+    },
+    "atomic_qa_tool": {
+      "path": "tools/ttft_m2_atomic_package_qa.py",
+      "blob": "73b74f2dbc65f0e1bff7cd2c226b4112c34ecfdb"
+    },
+    "fixture_index": {
+      "path": "tests/fixtures/ttft_m2_atomic_package/index.json",
+      "blob": "9735e97d5ea264642725466e50ae26a00e8a4951"
+    }
+  },
+  "authorization": {
+    "local_wrapper_execution": true,
+    "buildonly_execution": true,
+    "target_model_execution": false,
+    "diagnostic_executable_launch": false,
+    "model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "fresh_ttft_observation": false,
+    "mechanism_adjudication": false,
+    "scientific_mutation": false
+  },
+  "worktree_requirements": {
+    "exact_branch": "research/arcllm-ttft-m2",
+    "tracked_worktree_clean": true,
+    "untracked_files_permitted": true,
+    "frozen_blob_drift_forbidden": true
+  },
+  "output_contract": {
+    "local_report": "results/ttft_m2_p8l_local/TTFT_M2_P8L_LOCAL_REPORT.json",
+    "buildonly_bundle": "results/ttft_m2_buildonly_return_to_chatgpt.zip",
+    "return_bundle": "results/ttft_m2_p8l_local_return_to_chatgpt.zip"
+  },
+  "failure_policy": {
+    "wrapper_or_substrate_failure_consumes_package_budget": false,
+    "exact_runner_fail_closed_requires_adjudication_before_repair_or_rerun": true,
+    "package_repair_budget_max": 1,
+    "package_repair_budget_consumed_before_p8l": 0,
+    "no_automatic_repair": true
+  },
+  "next_on_success": "P8L_EVIDENCE_ADJUDICATION",
+  "next_on_failure": "P8L_FAILURE_DOMAIN_ADJUDICATION"
+}

@@ -3,7 +3,7 @@
   "date": "2026-09-22",
   "program_id": "ARCLLM_TTFT_M2",
   "branch": "research/arcllm-ttft-m2",
-  "status": "TTFT_M2_GOVERNANCE_AMENDED_LOCAL_BUILDONLY_ELIGIBLE",
+  "status": "TTFT_M2_P8L_LOCAL_BUILDONLY_AUTHORIZED",
   "git_history_base": "86ec48ce0cfff28fa43c23c1d8b57b8f881d249e",
   "parents": {
     "ANL64": {
@@ -76,7 +76,7 @@
     "M2_P9": "BLOCKED_PENDING_VALID_P8L_AND_SEPARATE_AUTHORIZATION",
     "M2_P10": "HISTORICAL_CLOSURE_SUPERSEDED_BY_A1_FOR_INFRASTRUCTURE_CONTINUATION",
     "M2_A1": "COMPLETE_GOVERNANCE_AMENDMENT",
-    "M2_P8L": "NOT_OPENED_ELIGIBLE_NEXT"
+    "M2_P8L": "AUTHORIZED_READY_LOCAL_EXECUTION"
   },
   "lineage": {
     "path": "programs/arcllm_ttft_m2/lineage.md",
@@ -139,10 +139,10 @@
     "stale_reference_anywhere_fails_before_freeze": true
   },
   "authorization": {
-    "specification_only": true,
+    "specification_only": false,
     "package_implementation": false,
     "diagnostic_science_implementation": false,
-    "buildonly_execution": false,
+    "buildonly_execution": true,
     "target_model_execution": false,
     "model_load": false,
     "gpu_dispatch": false,
@@ -465,5 +465,30 @@
       "status": "VIABLE_NOT_YET_ATTEMPTED",
       "role": "PRIMARY_NEXT_SUBSTRATE"
     }
+  },
+  "p8l": {
+    "status": "AUTHORIZED_READY_LOCAL_EXECUTION",
+    "substrate": "LOCAL_WINDOWS_WORKSTATION",
+    "authorization": {
+      "path": "config/arcllm_ttft_m2_p8l_local_buildonly_authorization_v0.1.json",
+      "blob": "fa15f82ee75a3356c21e213d935eb93002d885f7",
+      "decision": "M2_P8L_LOCAL_BUILDONLY_AUTHORIZED"
+    },
+    "local_wrapper": {
+      "path": "scripts/ttft_m2/p8l_local_oneclick.ps1",
+      "blob": "9b7ebffa37c5c2657a2db95682134e8307ffc163"
+    },
+    "document": {
+      "path": "docs/research/arcllm-ttft-m2/P8L_LOCAL_BUILDONLY_EXECUTION_QUALIFICATION.md",
+      "blob": "4ac3508b5cc0a34cf6c918fa944f10a1245df8c0"
+    },
+    "frozen_package_mutation_permitted": false,
+    "target_model_execution_authorized": false,
+    "gpu_dispatch_authorized": false,
+    "performance_measurement_authorized": false,
+    "fresh_ttft_observation_authorized": false,
+    "package_repair_budget_consumed": 0,
+    "package_repair_budget_max": 1,
+    "next_on_execution": "P8L_EVIDENCE_OR_FAILURE_DOMAIN_ADJUDICATION"
   }
 }
