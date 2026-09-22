@@ -44,7 +44,7 @@ for literal in [
     "model_weight_bytes_per_decode_step",
     "not measured DRAM traffic",
     # C++ source contains escaped quotes because this literal is emitted inside a JSON string.
-    '\\"pdep_implementation\\":false'
+    r'\"pdep_implementation\":false'
 ]:
     assert literal in (rt+prof), f"missing I001R instrumentation contract: {literal}"
 
@@ -53,8 +53,8 @@ for forbidden in ["anl64_q4_fast.spv","ANL64_P4_LOCKED","persistent_kernel","gra
     assert forbidden not in prof, f"forbidden optimization payload present: {forbidden}"
 
 # Profiled op names are emitted raw for independent family reclassification.
-assert '\"decode_op_names\"' in prof
-assert '\"op_ticks\"' in prof
+assert r'\"decode_op_names\"' in prof
+assert r'\"op_ticks\"' in prof
 assert "i001r_family" in prof
 
 print("ARCLLM_V1_I001R_STATIC_QA=PASS")

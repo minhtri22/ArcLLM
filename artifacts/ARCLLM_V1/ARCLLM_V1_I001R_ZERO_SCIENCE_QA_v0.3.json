@@ -1,0 +1,31 @@
+{
+  "schema": "arcllm.v1.i001r.zero_science_qa.v0.3",
+  "date": "2026-09-22",
+  "study": "ARCLLM_V1_I001R_EXACT_7B_DECODE_DEVICE_WORK_PROFILE",
+  "result": "PASS_I001R_ZERO_SCIENCE_REVALIDATION_AFTER_JSON_MATCHER_CORRECTION",
+  "scientific_execution_started": false,
+  "model_load": false,
+  "gpu_dispatches": 0,
+  "timing_observations": 0,
+  "unchanged_science_payload": {
+    "profiler_source_blob": "f028fc9fe08f6d0ebe817be7099a960629fa474c",
+    "runtime_source_blob": "6bb18efe639f67a44581f70a13e5fb3df04da135",
+    "q2_parent_blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "p8c_parent_blob": "8432ca554b36a2167429b640c5ec6779cf2b3e6b"
+  },
+  "corrected_test_blob": "b7637c735809129558a0011c87bb97217752b6c0",
+  "corrected_runner_blob": "402b5279621c9adce79e02af978b482a9bb1f79d",
+  "corrected_contract_blob": "33985bd05a4bf76534901f9757127501c47af324",
+  "checks": {
+    "graph_builder_byte_identical": true,
+    "execute_prepared_byte_identical": true,
+    "frozen_invariants_all_present": true,
+    "instrumentation_contract_all_present": true,
+    "forbidden_payloads_absent": true,
+    "decode_op_names_matcher": true,
+    "op_ticks_matcher": true,
+    "pdep_matcher": true,
+    "scientific_design_unchanged": true
+  },
+  "next": "LOCAL_EXACT_I001R_COLLECTION_V0_1_2"
+}

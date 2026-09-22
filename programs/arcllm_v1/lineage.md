@@ -280,3 +280,39 @@ Zero-science revalidation:
 Next:
 
 `LOCAL_EXACT_I001R_COLLECTION_V0_1_1`
+
+
+## I001R second pre-execution static-QA matcher correction — 2026-09-22
+
+Local execution at HEAD `c00932963c1dc628e6f8c5ce102cb1e8b3242b55` again stopped in static QA before build/model/GPU/timing.
+
+Observed failure:
+`AssertionError` on the `decode_op_names` source matcher.
+
+Root cause:
+- two remaining source-level JSON-key matchers used normal Python string escaping;
+- Python removed the backslashes before comparison against C++ source text;
+- the profiler source itself was correct.
+
+The complete JSON matcher set was converted to Python raw strings and the entire static-test logic was independently revalidated against repository blobs before release.
+
+Scientific contamination remains zero:
+```text
+model_load=0
+gpu_dispatch=0
+timing_observation=0
+fresh_science=0
+```
+
+Contract lineage:
+- v0.1 preserved;
+- v0.1.1 preserved;
+- v0.1.2 supersedes v0.1.1 and changes only QA matcher + runner contract binding.
+
+Scientific design remains unchanged.
+
+Zero-science result:
+`PASS_I001R_ZERO_SCIENCE_REVALIDATION_AFTER_JSON_MATCHER_CORRECTION`
+
+Next:
+`LOCAL_EXACT_I001R_COLLECTION_V0_1_2`
