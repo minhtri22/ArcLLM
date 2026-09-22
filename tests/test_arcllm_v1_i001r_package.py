@@ -43,7 +43,8 @@ for literal in [
     "normal_lifecycle_steps_per_measured_attempt",
     "model_weight_bytes_per_decode_step",
     "not measured DRAM traffic",
-    '"pdep_implementation":false'
+    # C++ source contains escaped quotes because this literal is emitted inside a JSON string.
+    '\\"pdep_implementation\\":false'
 ]:
     assert literal in (rt+prof), f"missing I001R instrumentation contract: {literal}"
 

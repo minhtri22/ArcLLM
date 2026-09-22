@@ -1,0 +1,108 @@
+{
+  "schema": "arcllm.v1.i001r.profile_contract.v0.1.1",
+  "date": "2026-09-22",
+  "study": "ARCLLM_V1_I001R_EXACT_7B_DECODE_DEVICE_WORK_PROFILE",
+  "branch": "research/arcllm-v1",
+  "parent_head": "cd4933591262baee5602922a8b52ecc162d1c926",
+  "parent_decision_blob": "5f655540af98c37ddcf5ed2ffb9e9484cbc2abd1",
+  "execution_authorized": true,
+  "authorization_scope": "MEASUREMENT_ONLY_EXACT_7B_PROFILE",
+  "production_optimization_authorized": false,
+  "pdep_implementation_authorized": false,
+  "replacement_intervention_selection_authorized": false,
+  "target_model": {
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "bytes": 4683074048
+  },
+  "environment": {
+    "os_build": "26200",
+    "cpu": "Intel(R) Core(TM) Ultra 7 258V",
+    "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "gpu_driver": "32.0.101.8860",
+    "power_scheme_guid": "381b4222-f694-41f0-9685-ff5bb260df2e",
+    "ac_online": true
+  },
+  "graph_contract": {
+    "q2_parent_blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "p8c_parent_blob": "8432ca554b36a2167429b640c5ec6779cf2b3e6b",
+    "layers": 28,
+    "vocab": 152064,
+    "prefill_dispatches": 441,
+    "decode_dispatches_per_step": 469,
+    "decode_steps": 31,
+    "cpu_model_math_fallback": false,
+    "teacher_forcing": false
+  },
+  "collection": {
+    "cell_order": [
+      "A_WS",
+      "A_WC",
+      "B_WC",
+      "B_WS"
+    ],
+    "workload_by_cell": {
+      "A_WS": "W-S",
+      "A_WC": "W-C",
+      "B_WC": "W-C",
+      "B_WS": "W-S"
+    },
+    "warmups_per_cell": 1,
+    "measured_attempts_per_cell": 5,
+    "measured_attempts_expected": 20,
+    "probe_decode_indices": [
+      0,
+      15,
+      30
+    ],
+    "profiled_decode_steps_expected": 60,
+    "normal_lifecycle_steps_expected": 560,
+    "automatic_rerun": false,
+    "selective_rerun": false
+  },
+  "decision_rules": {
+    "lifecycle_outside_submit_material_share": 0.1,
+    "barrier_unattributed_material_share": 0.1,
+    "dominant_family_share": 0.2,
+    "top2_mixed_share": 0.4,
+    "no_implementation_from_profile": true
+  },
+  "critical_git_blobs": {
+    "src/arcllm_v1_i001r_7b_decode_profile.cpp": "f028fc9fe08f6d0ebe817be7099a960629fa474c",
+    "src/arcllm_v1_i001r_p8c_profile_runtime.cpp": "6bb18efe639f67a44581f70a13e5fb3df04da135",
+    "src/q2_benchmark.cpp": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "src/p8c_segmented_access_correctness.cpp": "8432ca554b36a2167429b640c5ec6779cf2b3e6b",
+    "src/gguf.cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
+    "src/gguf.h": "d71d22cc1db54a9643ecafa6d3b616a96221c726",
+    "src/tensor_store.cpp": "0eb52588d30620bfeb323e62c8546e7191a006d6",
+    "src/tensor_store.h": "fdc8788b72da4c0f9464aabdaa48e680d153fc5d",
+    "tools/build_arcllm_v1_i001r.ps1": "b1e7e474d34a4836b1117fee9a19c51e22ca9be9",
+    "tools/compile_q2_shaders.ps1": "a7e08a196ee6c6bf94f460ef4d710175a1b85166",
+    "tools/resolve_p8_target.ps1": "f7434f59720dd2afdc9480cead289ab379614bb0",
+    "tools/summarize_arcllm_v1_i001r.py": "0b037ada561d1b5fdc1938d484b7d4f696bff64e",
+    "tests/test_arcllm_v1_i001r_package.py": "7f05fef51f453f55045061931d373d983e2827fe",
+    "run_arcllm_v1_i001r.ps1": "c1106b04492a39f5c3de2f8bd6f2f6554b391919",
+    "docs/research/arcllm-v1/ARCLLM_V1_I001R_EXACT_7B_DECODE_DEVICE_WORK_PROFILE.md": "4e8013e8344416a52b8d64c54e1b15d2e0a028ff"
+  },
+  "compiled_shader_sha256": {
+    "p7_rmsnorm_seq.spv": "AC92BCAD6F39E0A1FB8D77AA6D8D58DAB630D3237BBAA85E29722DDB5BBB6336",
+    "p7c_ffn_q4k_tiled.spv": "38BE2A2470AD8CB6925CB005C992B515BC5AB8306428A5F14E9F478FD023FF54",
+    "p7c_ffn_q6k_tiled.spv": "A303F13125F6EDE85A93C6063019622B543DD1A1A30E744CCE266049FD5D328A",
+    "p7_rope_seq.spv": "865BFFEFFCFA0449CBBDDD33EA405F2E6F37546017F8DC394B547BB163ABFAD3",
+    "p7_kv_store.spv": "FA4F9F71F700EACC91F4910E061936D22EBEAC293B34C79A42696F0735B59686",
+    "p7_attention_prefill_online.spv": "90778E1C9C82CC1A5A22C4D0A1208EB85D9AB00F25BB29BB3F6646E5E665DC3C",
+    "p7_attention_kv_online.spv": "0A6AB679398B0A71CC812D338850D791981A19A935333E92A6E2693BE0E4DE74",
+    "p7_add.spv": "189794B3BAE7CE6F3661E1407748F9DDEE5F7C384DC137D0D9B6BAB7200C9378",
+    "p7l_ffn_q4k_gateup_fused.spv": "60155DB8E86767C90EE35F5E3D97FAA62D1ADCCF8363C50C8E8742AC3436AA8F",
+    "p7_swiglu.spv": "D3E9F2AD2706DB335853823443F04F31830D37EF49B6A273806FAEE81B73459F",
+    "p7g_ffn_q4k_tiled16.spv": "5BD995EAA8381E64995AD108C7FEB88D02AA67905CB359BDC5B4CF95D4DE349F",
+    "p7g_ffn_q6k_tiled16.spv": "00E2E4767FDBBADD261F5002B2ACEB8BA12798825BD5B4CD51ED8C2C1F02803C",
+    "p7_q4k_gemm_2d.spv": "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A",
+    "p7_q6k_gemm_2d.spv": "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67",
+    "p8c_embedding_q4k_segmented_probe.spv": "561B5B388763D1D9912868B6FD49B579F27BE815A0AC18F27D5C9BFF91A8B056",
+    "p8q1_lmhead_q6k_segmented_chunk.spv": "AB8AA31C970F634E8A7B01FB35EB820423B3A07CA545D7EEFA5776D8B3BC8419"
+  },
+  "next_after_valid_collection": "INDEPENDENT_I001R_PROFILE_ADJUDICATION",
+  "supersedes_contract_blob": "4beb96115b0e67acbbfa09c6c811f69284de28bf",
+  "correction_scope": "PRE_EXEC_STATIC_QA_MATCHER_ONLY",
+  "scientific_design_changed": false
+}

@@ -241,3 +241,42 @@ No performance measurement has been executed at commit time.
 
 Next:
 `LOCAL_EXACT_I001R_COLLECTION`
+
+
+## I001R pre-execution static-QA matcher correction — 2026-09-22
+
+Local execution at frozen HEAD `8c75da2ec9831aeaa48d251f8c0f5c8e8228537c` stopped in the first static-QA step before build/model/GPU/timing.
+
+Observed failure:
+
+`AssertionError: missing I001R instrumentation contract: "pdep_implementation":false`
+
+Root cause:
+- C++ source correctly contains escaped quotes because it emits JSON from a string literal;
+- Python QA matcher accidentally searched the unescaped runtime JSON form;
+- defect is isolated to the QA matcher.
+
+Scientific contamination:
+
+```text
+model_load=0
+gpu_dispatch=0
+timing_observation=0
+fresh_science=0
+```
+
+Repair:
+- corrected static matcher;
+- original frozen contract `v0.1` preserved historically;
+- new `v0.1.1` contract supersedes it;
+- runner changed only to bind/read the `v0.1.1` contract.
+
+All scientific fields remain unchanged.
+
+Zero-science revalidation:
+
+`PASS_I001R_ZERO_SCIENCE_REVALIDATION_AFTER_MATCHER_CORRECTION`
+
+Next:
+
+`LOCAL_EXACT_I001R_COLLECTION_V0_1_1`
