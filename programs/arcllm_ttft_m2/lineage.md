@@ -806,3 +806,44 @@ Scientific execution remains blocked.
 
 Next:
 `M2_P9C_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_EXECUTION_AUTHORIZATION_GATE`.
+
+
+## 2026-09-22 — M2-P9C EXECUTION AUTHORIZATION GATE
+
+P9C reviewed whether the qualified P9B package may begin fresh mechanism-identification execution.
+
+Decision:
+
+`DENY_LEAVE_SCIENTIFIC_EXECUTION_BLOCKED`
+
+Canonical decision:
+
+`M2_P9C_FRESH_MECHANISM_IDENTIFICATION_EXECUTION_NOT_AUTHORIZED`
+
+Reason:
+
+`EXECUTION_IDENTITY_AND_RUNTIME_PAYLOAD_BINDING_INCOMPLETE`
+
+P9A and P9B remain valid.
+
+Blocking findings in future science runner `4326d69f058ad8266e88f20272b3ca17f1b21293`:
+
+1. stale lock path still targets `arcllm_ttft_m2_p9b_implementation_lock_v0.1.json` while qualified authority is v0.2 blob `7b06da63fe09597ebdcf641d1cd992d4a973075c`;
+2. qualified executable SHA256/size are not enforced before launch;
+3. qualified native/shader manifest hashes are not both enforced;
+4. actual runtime SPIR-V files are not rehashed against the qualified shader manifest;
+5. runner performs H-ART before F0 although the canonical P9A contract freezes F0 before F1.
+
+No executable launch, model load, GPU dispatch, timing, fresh TTFT observation, or mechanism adjudication occurred.
+
+No P9C execution authorization file was created.
+
+Gate evidence:
+- artifact `5054aded4e6347817c944021a3a613661e8c5ef2`;
+- document `15470b4bb4585ecfbd029bf7b26345ad792cd61f`.
+
+Package repair budget remains 0/1.
+
+Next admissible step:
+
+`M2_P9C_A_EXECUTION_IDENTITY_BINDING_CORRECTION_AND_ZERO_SCIENCE_REVALIDATION`.

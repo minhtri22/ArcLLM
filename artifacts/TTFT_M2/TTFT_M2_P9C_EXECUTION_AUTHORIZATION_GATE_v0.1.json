@@ -1,0 +1,96 @@
+{
+  "schema": "arcllm.ttft_m2.p9c.execution_authorization_gate.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "stage": "M2_P9C_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_EXECUTION_AUTHORIZATION_GATE",
+  "adjudication_head": "8201ca077b1e2ec380fd6faccd3370a26c3cbfc4",
+  "result": "DENY_LEAVE_SCIENTIFIC_EXECUTION_BLOCKED",
+  "decision": "M2_P9C_FRESH_MECHANISM_IDENTIFICATION_EXECUTION_NOT_AUTHORIZED",
+  "reason_code": "EXECUTION_IDENTITY_AND_RUNTIME_PAYLOAD_BINDING_INCOMPLETE",
+  "prerequisites": {
+    "p9a": {
+      "manifest_blob": "abce0545cec33367f9b3a82f15d5ffd4fb026f64",
+      "satisfied": true
+    },
+    "p9b": {
+      "adjudication_blob": "d6a9947694cb35044251bac363236f69b06e4d9f",
+      "result": "PASS_M2_P9B_CANONICAL_SCIENTIFIC_HARNESS_BUILDONLY_QUALIFICATION",
+      "satisfied": true,
+      "active_lock_blob": "7b06da63fe09597ebdcf641d1cd992d4a973075c",
+      "active_authorization_blob": "bcf7c04fbc09cdcbc39b57676945b808e66a2167",
+      "qualified_executable_sha256": "9E0C0A7CCCBB2DA767B4DE90354EC7ADF4463286264187843521419113C019C7",
+      "qualified_native_manifest_sha256": "0E51867BE03AFD60E90B823D2A6FE19F22ACBF6B628E9CE37E30E673C6AF91E4",
+      "qualified_shader_manifest_sha256": "9298D5EE2838B3FE5D39FC968DC937DC4183F168517CEE1F30F54E9CA86093FA"
+    }
+  },
+  "runner_review": {
+    "science_runner_path": "scripts/ttft_m2/run_p9_science.ps1",
+    "science_runner_blob": "4326d69f058ad8266e88f20272b3ca17f1b21293",
+    "findings": [
+      {
+        "id": "P9C-G1",
+        "severity": "BLOCKING",
+        "class": "STALE_IMPLEMENTATION_LOCK_REFERENCE",
+        "observed": "Runner loads and Git-verifies config/arcllm_ttft_m2_p9b_implementation_lock_v0.1.json.",
+        "required": "Runner must bind the active qualified P9B lock v0.2 blob 7b06da63fe09597ebdcf641d1cd992d4a973075c."
+      },
+      {
+        "id": "P9C-G2",
+        "severity": "BLOCKING",
+        "class": "QUALIFIED_EXECUTABLE_IDENTITY_NOT_ENFORCED",
+        "observed": "Runner checks that ttft_m2_diagnostic.exe exists but does not verify its SHA256 or size against the P9B-qualified executable.",
+        "required": "Before any executable launch, verify SHA256 9E0C0A7CCCBB2DA767B4DE90354EC7ADF4463286264187843521419113C019C7 and bytes 441856."
+      },
+      {
+        "id": "P9C-G3",
+        "severity": "BLOCKING",
+        "class": "QUALIFIED_BUILD_MANIFEST_IDENTITY_NOT_ENFORCED",
+        "observed": "Runner reads SHADER_BUILD.json but does not verify its file hash, and does not verify NATIVE_BUILD.json identity.",
+        "required": "Bind and verify the exact qualified shader/native manifest SHA256 values before launch."
+      },
+      {
+        "id": "P9C-G4",
+        "severity": "BLOCKING",
+        "class": "RUNTIME_SPIRV_PAYLOAD_NOT_REHASHED",
+        "observed": "H-ART logic compares hashes recorded in SHADER_BUILD.json with historical SAFE hashes but does not hash the actual SPIR-V files that the executable will consume.",
+        "required": "Rehash every runtime SPIR-V file and require equality with the qualified shader manifest before H-ART classification or executable launch."
+      },
+      {
+        "id": "P9C-G5",
+        "severity": "BLOCKING",
+        "class": "FROZEN_GATE_ORDER_MISMATCH",
+        "observed": "Runner performs static H-ART classification before F0 target/environment validation.",
+        "required": "Canonical P9A falsification contract freezes F0 before F1 H-ART; runner must enforce the same order or obtain a prospective design amendment before science."
+      }
+    ]
+  },
+  "interpretation": {
+    "infrastructure_package_invalid": false,
+    "p9b_buildonly_invalid": false,
+    "scientific_design_invalid": false,
+    "issue_scope": "PRE_EXECUTION_RUNNER_PROVENANCE_AND_RUNTIME_PAYLOAD_BINDING",
+    "any_scientific_outcome_exposed": false,
+    "package_repair_budget_consumed": 0,
+    "statement": "P9B qualification remains valid. The execution gate fails because the future science runner does not yet prove that the exact qualified executable and runtime shader payload will be the objects actually executed, and it contains a stale v0.1 lock reference."
+  },
+  "authorization": {
+    "p9c_execution_authorization_file_created": false,
+    "diagnostic_executable_launch": false,
+    "target_model_execution": false,
+    "model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "fresh_ttft_observation": false,
+    "mechanism_adjudication": false,
+    "scientific_design_mutation": false
+  },
+  "scientific_accounting": {
+    "diagnostic_executable_launches": 0,
+    "target_model_loads": 0,
+    "gpu_dispatches": 0,
+    "performance_measurements": 0,
+    "fresh_ttft_observations": 0,
+    "scientific_result": "NONE"
+  },
+  "next": "M2_P9C_A_EXECUTION_IDENTITY_BINDING_CORRECTION_AND_ZERO_SCIENCE_REVALIDATION"
+}
