@@ -242,3 +242,48 @@ Current state:
 
 Next:
 `RUN_COMMITTED_RUN_TTFT_M1_P6_BUILDONLY_PS1_AND_RETURN_BUNDLE`.
+
+
+## 2026-09-22 — P6 PRE-RUN H-ART IMPLEMENTATION CORRECTION
+
+Static review before any BuildOnly execution found that lock v0.1 operationalized H-ART by compiling the same common shader sources twice and comparing those two fresh outputs.
+
+This was adjudicated before science as:
+`P6_PRERUN_H_ART_IMPLEMENTATION_DEFECT_NO_SCIENCE_CONSUMED`.
+
+Adjudication blob:
+`ae6710eb8bf05ba72469ac75ed4fcb4fa46c89f7`.
+
+No BuildOnly runner had executed; no model load, GPU dispatch, timing or P7 observation existed.
+
+H-ART itself was not changed. The corrected operationalization now:
+- uses the 16 frozen historical SAFE compiled hashes from `config/q2_execution_authorization.json`, blob `20f556fb18ee4ffd0ce5e17cf8fab1a2b9a992dc`;
+- reproduces candidate artifacts with the exact ANL64 P4 compiler/toolchain;
+- cross-checks Q4-safe/Q6-safe against ANL64 P4 BuildOnly adjudication blob `e9039de1af496cf724a390e8180ae7d97e99f091`;
+- reproduces Q4FAST historical SPIR-V `B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569`.
+
+The single P6 BuildOnly repair allowance is conservatively consumed: 1/1. No further P6 BuildOnly repair is permitted.
+
+Static QA v0.2 PASS:
+`b27ca1ecce85117219649e549b24b183ab454d14`.
+
+## 2026-09-22 — P6 IMPLEMENTATION LOCK v0.2
+
+Corrected BuildOnly lock:
+- `config/arcllm_ttft_m1_p6_implementation_lock_v0.2.json`;
+- blob `e2eb6170933ee074bfb3446661b7d69d3d40eaa9`;
+- runner `run_ttft_m1_p6_buildonly.ps1`;
+- runner blob `4f7500bb2b0e3bc0b334a3f41c1244fcdc55d545`.
+
+Lock v0.2 supersedes v0.1 for BuildOnly execution.
+
+Current authorization:
+- BuildOnly: true;
+- diagnostic executable launch: false;
+- target model load: false;
+- GPU dispatch: false;
+- performance measurement: false;
+- P7: false.
+
+Next:
+`RUN_COMMITTED_RUN_TTFT_M1_P6_BUILDONLY_PS1_AND_RETURN_BUNDLE`.
