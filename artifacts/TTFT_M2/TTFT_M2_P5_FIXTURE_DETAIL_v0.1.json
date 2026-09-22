@@ -1,0 +1,145 @@
+{
+  "schema": "arcllm.ttft_m2.p5.fixture_detail.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "source_branch": "research/arcllm-ttft-m2",
+  "source_head": "7e807caf7dd357f9c820f89f5a719a1e4a10139a",
+  "qa_tool": {
+    "path": "tools/ttft_m2_atomic_package_qa.py",
+    "git_blob": "73b74f2dbc65f0e1bff7cd2c226b4112c34ecfdb"
+  },
+  "canonical_positive": {
+    "path": "tests/fixtures/ttft_m2_atomic_package/positive_canonical.json",
+    "git_blob": "351c65d8987629062749540b730da13bb7caca4c",
+    "observed_errors": [],
+    "pass": true
+  },
+  "actual_repository_cross_file_checks": {
+    "observed_errors": [],
+    "pass": true
+  },
+  "negative_fixtures": [
+    {
+      "id": "STALE_LOCK_VERSION",
+      "expected_failure": "RUNNER_LOCK_MISMATCH",
+      "observed_failures": [
+        "RUNNER_LOCK_MISMATCH"
+      ],
+      "expected_failure_observed": true
+    },
+    {
+      "id": "WRONG_BUNDLE_DESTINATION_FILENAME",
+      "expected_failure": "WRONG_BUNDLE_DESTINATION_FILENAME",
+      "observed_failures": [
+        "WRONG_BUNDLE_DESTINATION_FILENAME"
+      ],
+      "expected_failure_observed": true
+    },
+    {
+      "id": "WRONG_GIT_BLOB_FIELD",
+      "expected_failure": "RESULT_LOCK_BLOB_MISMATCH",
+      "observed_failures": [
+        "RESULT_LOCK_BLOB_MISMATCH"
+      ],
+      "expected_failure_observed": true
+    },
+    {
+      "id": "MISSING_EVIDENCE_MEMBER",
+      "expected_failure": "MISSING_EVIDENCE_MEMBER",
+      "observed_failures": [
+        "MISSING_EVIDENCE_MEMBER"
+      ],
+      "expected_failure_observed": true
+    },
+    {
+      "id": "DUPLICATE_EVIDENCE_MEMBER",
+      "expected_failure": "DUPLICATE_EVIDENCE_MEMBER",
+      "observed_failures": [
+        "DUPLICATE_EVIDENCE_MEMBER"
+      ],
+      "expected_failure_observed": true
+    },
+    {
+      "id": "RESULT_SCHEMA_VERSION_MISMATCH",
+      "expected_failure": "RESULT_SCHEMA_VERSION_MISMATCH",
+      "observed_failures": [
+        "PACKAGE_RESULT_MISMATCH",
+        "RESULT_SCHEMA_VERSION_MISMATCH"
+      ],
+      "expected_failure_observed": true
+    },
+    {
+      "id": "RUNNER_LOCK_MISMATCH",
+      "expected_failure": "RUNNER_LOCK_MISMATCH",
+      "observed_failures": [
+        "RUNNER_LOCK_MISMATCH"
+      ],
+      "expected_failure_observed": true
+    },
+    {
+      "id": "MANIFEST_RUNNER_MISMATCH",
+      "expected_failure": "MANIFEST_RUNNER_MISMATCH",
+      "observed_failures": [
+        "MANIFEST_RUNNER_MISMATCH"
+      ],
+      "expected_failure_observed": true
+    },
+    {
+      "id": "PACKAGE_RESULT_MISMATCH",
+      "expected_failure": "PACKAGE_RESULT_MISMATCH",
+      "observed_failures": [
+        "PACKAGE_RESULT_MISMATCH"
+      ],
+      "expected_failure_observed": true
+    },
+    {
+      "id": "SAME_SOURCE_AUTHORITY_TAUTOLOGY",
+      "expected_failure": "SAME_SOURCE_AUTHORITY_TAUTOLOGY",
+      "observed_failures": [
+        "SAME_SOURCE_AUTHORITY_TAUTOLOGY"
+      ],
+      "expected_failure_observed": true
+    }
+  ],
+  "summary": {
+    "negative_fixture_count": 10,
+    "negative_fixture_expected_rejections_observed": 10,
+    "all_negative_fixtures_rejected_fail_closed": true
+  },
+  "supplementary_schema_meta_validation": {
+    "validator": "jsonschema.Draft202012Validator.check_schema",
+    "result": "PASS",
+    "schemas": [
+      {
+        "path": "schemas/ttft_m2/buildonly_result.schema.json",
+        "blob": "1c216e1bf6e71677d82b658197f2e90302f53f9e"
+      },
+      {
+        "path": "schemas/ttft_m2/failure_result.schema.json",
+        "blob": "7cc8947790f9a11d76af144707128fc1df78f7ae"
+      },
+      {
+        "path": "schemas/ttft_m2/evidence_manifest.schema.json",
+        "blob": "a6cbf83ffe3b0e81f6d5c03257bba7ba8fbc9d18"
+      },
+      {
+        "path": "schemas/ttft_m2/package_manifest.schema.json",
+        "blob": "ec8d8c00162cce0de9fd564c32ea1e34ac679b59"
+      },
+      {
+        "path": "schemas/ttft_m2/adjudicator_input.schema.json",
+        "blob": "713ba835364132ceb903e309570b3ca8d36c4c6a"
+      }
+    ]
+  },
+  "raw_runtime_qa_sha256": "C1C032DF3DED4F63FD9B34F5DD00B70F50DE7757AA78F65852628E9405D4B84D",
+  "zero_science": {
+    "buildonly_runner_executions": 0,
+    "diagnostic_executable_launches": 0,
+    "target_model_loads": 0,
+    "gpu_dispatches": 0,
+    "performance_measurements": 0,
+    "fresh_ttft_observations": 0,
+    "scientific_result": "NONE"
+  }
+}

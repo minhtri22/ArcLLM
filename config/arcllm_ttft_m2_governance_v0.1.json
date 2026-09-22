@@ -3,7 +3,7 @@
   "date": "2026-09-22",
   "program_id": "ARCLLM_TTFT_M2",
   "branch": "research/arcllm-ttft-m2",
-  "status": "M2_P4_ZERO_SCIENCE_PACKAGE_IMPLEMENTED_P5_PENDING",
+  "status": "M2_P5_ATOMIC_PACKAGE_QA_PASS_P6_ELIGIBLE",
   "git_history_base": "86ec48ce0cfff28fa43c23c1d8b57b8f881d249e",
   "parents": {
     "ANL64": {
@@ -67,8 +67,8 @@
     "M2_P2": "COMPLETE",
     "M2_P3": "COMPLETE_SPECIFICATION_ONLY",
     "M2_P4": "COMPLETE_IMPLEMENTED_ZERO_SCIENCE",
-    "M2_P5": "NOT_OPENED_ELIGIBLE_NEXT",
-    "M2_P6": "NOT_OPENED",
+    "M2_P5": "COMPLETE_PASS_ATOMIC_PACKAGE_QA",
+    "M2_P6": "NOT_OPENED_ELIGIBLE_NEXT",
     "M2_P7": "NOT_OPENED",
     "M2_P8": "NOT_OPENED",
     "M2_P9": "NOT_OPENED",
@@ -136,7 +136,7 @@
     "performance_measurement": false,
     "fresh_ttft_observation": false
   },
-  "next": "M2_P5_ATOMIC_PACKAGE_QA_POSITIVE_AND_NEGATIVE_FIXTURES",
+  "next": "M2_P6_ZERO_SCIENCE_GOVERNANCE_ADJUDICATION",
   "p4": {
     "result": "M2_P4_ZERO_SCIENCE_INFRASTRUCTURE_PACKAGE_IMPLEMENTED",
     "authorization": {
@@ -176,7 +176,7 @@
     "package_member_count": 30,
     "adjudicator_input_mode": "RUNTIME_SIDECAR_AFTER_BUNDLE_HASH",
     "scientific_payload_bound": false,
-    "p5_atomic_qa_run": false,
+    "p5_atomic_qa_run": true,
     "execution_stage_repair_budget_active": false,
     "execution_stage_repairs_consumed": 0,
     "scientific_accounting": {
@@ -187,5 +187,77 @@
       "performance_measurements": 0,
       "fresh_ttft_observations": 0
     }
+  },
+  "p5": {
+    "result": "PASS_M2_P5_ATOMIC_PACKAGE_QA",
+    "source": {
+      "exact_head": "7e807caf7dd357f9c820f89f5a719a1e4a10139a",
+      "exact_tree": "09960203707653d22626ec2b39b7be20cac8e65a",
+      "branch_verified_identical_before_qa": true,
+      "branch_verified_identical_before_evidence_commit": true
+    },
+    "qa_tool": {
+      "path": "tools/ttft_m2_atomic_package_qa.py",
+      "blob": "73b74f2dbc65f0e1bff7cd2c226b4112c34ecfdb",
+      "mode": "p5",
+      "exit_code": 0,
+      "errors": []
+    },
+    "artifact": {
+      "path": "artifacts/TTFT_M2/TTFT_M2_P5_ATOMIC_PACKAGE_QA_v0.1.json",
+      "blob": "3012c817e2983d0928cd7599cfa70197c4debd3c"
+    },
+    "document": {
+      "path": "docs/research/arcllm-ttft-m2/P5_ATOMIC_PACKAGE_QA.md",
+      "blob": "cdfa1c85ca25dc6eddeb5b03710d5d4230532210"
+    },
+    "raw_qa": {
+      "path": "artifacts/TTFT_M2/TTFT_M2_P5_RUNTIME_QA_RAW_v0.1.json",
+      "blob": "aa832665cf25842887f34d6ad5c2f58bb0b75c23",
+      "sha256": "C1C032DF3DED4F63FD9B34F5DD00B70F50DE7757AA78F65852628E9405D4B84D"
+    },
+    "fixture_detail": {
+      "path": "artifacts/TTFT_M2/TTFT_M2_P5_FIXTURE_DETAIL_v0.1.json",
+      "blob": "be2ffb8053e20cf61a612f180727180b70e57d9e"
+    },
+    "canonical_positive_pass": true,
+    "actual_package_cross_file_pass": true,
+    "negative_fixtures": {
+      "required": 10,
+      "executed": 10,
+      "expected_rejections_observed": 10,
+      "all_rejected_fail_closed": true
+    },
+    "schema_meta_validation": {
+      "draft": "2020-12",
+      "schema_count": 5,
+      "result": "PASS"
+    },
+    "package_freeze": {
+      "frozen": true,
+      "source_head": "7e807caf7dd357f9c820f89f5a719a1e4a10139a",
+      "source_tree": "09960203707653d22626ec2b39b7be20cac8e65a",
+      "execution_lock_blob": "9af4c7b4c96354223e1f671a43af64b215072330",
+      "runner_blob": "4722e86a01453d973ee2122b49229b80bf7d84f6",
+      "evidence_manifest_template_blob": "bf496e00e4cf0bff86582e0649c6c26bc28b6f60",
+      "package_manifest_blob": "4629910255580322706b01f318ad9a80044208d7",
+      "atomic_qa_tool_blob": "73b74f2dbc65f0e1bff7cd2c226b4112c34ecfdb",
+      "fixture_index_blob": "9735e97d5ea264642725466e50ae26a00e8a4951",
+      "mutation_without_requalification_permitted": false
+    },
+    "zero_science": {
+      "buildonly_runner_executions": 0,
+      "diagnostic_executable_launches": 0,
+      "target_model_loads": 0,
+      "gpu_dispatches": 0,
+      "performance_measurements": 0,
+      "fresh_ttft_observations": 0,
+      "scientific_result": "NONE"
+    },
+    "p6_governance_adjudication_completed": false,
+    "p7_buildonly_authorized": false,
+    "buildonly_execution_authorized": false,
+    "execution_stage_repair_budget_active": false,
+    "execution_stage_repairs_consumed": 0
   }
 }

@@ -115,3 +115,70 @@ Execution-stage repair budget remains inactive, consumed 0/1.
 P5 has not run and no P5 PASS is claimed.
 
 Next: `M2_P5_ATOMIC_PACKAGE_QA_POSITIVE_AND_NEGATIVE_FIXTURES`.
+
+
+## 2026-09-22 — M2-P5 ATOMIC PACKAGE QA PASS
+
+P5 evaluated the exact P4 execution package bound to source HEAD:
+
+`7e807caf7dd357f9c820f89f5a719a1e4a10139a`
+
+and source tree:
+
+`09960203707653d22626ec2b39b7be20cac8e65a`.
+
+The branch was verified unchanged before QA and again before P5 evidence publication.
+
+Canonical atomic-QA tool:
+- path `tools/ttft_m2_atomic_package_qa.py`;
+- blob `73b74f2dbc65f0e1bff7cd2c226b4112c34ecfdb`;
+- mode `p5`;
+- exit code `0`;
+- result `PASS`;
+- errors `[]`.
+
+The isolated execution runtime could not perform a direct network clone. No alternate source package was used. Every path consumed by the QA tool was materialized from the authoritative GitHub package and verified against its exact committed Git blob, while the connector independently verified the branch remained at the exact P4 HEAD.
+
+Canonical positive fixture: PASS with no observed errors.
+
+All ten preregistered negative fixtures were executed and their required fail-closed rejection was observed:
+- STALE_LOCK_VERSION;
+- WRONG_BUNDLE_DESTINATION_FILENAME;
+- WRONG_GIT_BLOB_FIELD;
+- MISSING_EVIDENCE_MEMBER;
+- DUPLICATE_EVIDENCE_MEMBER;
+- RESULT_SCHEMA_VERSION_MISMATCH;
+- RUNNER_LOCK_MISMATCH;
+- MANIFEST_RUNNER_MISMATCH;
+- PACKAGE_RESULT_MISMATCH;
+- SAME_SOURCE_AUTHORITY_TAUTOLOGY.
+
+Supplementary JSON Schema Draft 2020-12 meta-validation passed for all five frozen schemas.
+
+P5 evidence:
+- formal artifact blob `3012c817e2983d0928cd7599cfa70197c4debd3c`;
+- document blob `cdfa1c85ca25dc6eddeb5b03710d5d4230532210`;
+- raw QA blob `aa832665cf25842887f34d6ad5c2f58bb0b75c23`;
+- fixture detail blob `be2ffb8053e20cf61a612f180727180b70e57d9e`;
+- raw QA SHA256 `C1C032DF3DED4F63FD9B34F5DD00B70F50DE7757AA78F65852628E9405D4B84D`.
+
+The execution package is now frozen at the exact P4 package bindings. P5 evidence/governance files are outside the frozen execution package. Any future package mutation requires requalification.
+
+Zero-science accounting remains:
+- BuildOnly runner executions: 0;
+- diagnostic executable launches: 0;
+- target model loads: 0;
+- GPU dispatches: 0;
+- performance measurements: 0;
+- fresh TTFT observations: 0;
+- mechanism result: NONE.
+
+Execution-stage repair budget remains inactive at 0/1.
+
+P7 remains unopened and BuildOnly remains unauthorized.
+
+P5 terminal result:
+
+`PASS_M2_P5_ATOMIC_PACKAGE_QA`
+
+Next: `M2_P6_ZERO_SCIENCE_GOVERNANCE_ADJUDICATION`.

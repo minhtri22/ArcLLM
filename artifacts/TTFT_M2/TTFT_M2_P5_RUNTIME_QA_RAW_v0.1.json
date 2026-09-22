@@ -1,0 +1,13 @@
+{
+  "schema": "arcllm.ttft_m2.atomic_package_qa.runtime.v0.1",
+  "mode": "p5",
+  "result": "PASS",
+  "errors": [],
+  "zero_science": {
+    "target_model_loaded": false,
+    "diagnostic_executable_launched": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "fresh_ttft_observations": 0
+  }
+}

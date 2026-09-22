@@ -1,0 +1,141 @@
+{
+  "schema": "arcllm.ttft_m2.p5.atomic_package_qa.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "result": "PASS_M2_P5_ATOMIC_PACKAGE_QA",
+  "source": {
+    "branch": "research/arcllm-ttft-m2",
+    "exact_head": "7e807caf7dd357f9c820f89f5a719a1e4a10139a",
+    "exact_tree": "09960203707653d22626ec2b39b7be20cac8e65a",
+    "branch_verified_identical_before_qa": true,
+    "branch_verified_identical_before_evidence_commit": true
+  },
+  "execution_method": {
+    "mode": "CONNECTOR_VERIFIED_AUTHORITATIVE_HEAD_PLUS_EXACT_GIT_BLOB_MATERIALIZATION",
+    "canonical_qa_command": "python tools/ttft_m2_atomic_package_qa.py --repo-root <materialized_exact_package> --mode p5 --emit-json <raw-output>",
+    "canonical_qa_exit_code": 0,
+    "clone_attempt_note": "Direct network clone from the isolated runtime was unavailable because the runtime could not resolve github.com. No substitute source was used.",
+    "materialization_guarantee": "Every path read by the P5 QA tool was materialized from the authoritative P4 package and verified by Git blob identity before execution. GitHub connector separately verified the authoritative branch remained at the exact P4 source HEAD.",
+    "exact_head_claim_boundary": "The QA input file set is exact by Git blob and is bound to the connector-verified P4 HEAD. Local recreation of the raw signed/unsigned commit object was not required for package semantics and is not used as evidence."
+  },
+  "package_bindings": {
+    "execution_lock": {
+      "path": "config/arcllm_ttft_m2_execution_lock_v0.1.json",
+      "blob": "9af4c7b4c96354223e1f671a43af64b215072330"
+    },
+    "runner": {
+      "path": "run_ttft_m2_buildonly.ps1",
+      "blob": "4722e86a01453d973ee2122b49229b80bf7d84f6"
+    },
+    "evidence_manifest_template": {
+      "path": "config/arcllm_ttft_m2_evidence_manifest_v0.1.json",
+      "blob": "bf496e00e4cf0bff86582e0649c6c26bc28b6f60"
+    },
+    "package_manifest": {
+      "path": "config/arcllm_ttft_m2_package_manifest_v0.1.json",
+      "blob": "4629910255580322706b01f318ad9a80044208d7"
+    },
+    "atomic_qa_tool": {
+      "path": "tools/ttft_m2_atomic_package_qa.py",
+      "blob": "73b74f2dbc65f0e1bff7cd2c226b4112c34ecfdb"
+    },
+    "fixture_index": {
+      "path": "tests/fixtures/ttft_m2_atomic_package/index.json",
+      "blob": "9735e97d5ea264642725466e50ae26a00e8a4951"
+    },
+    "schemas": {
+      "success_result": {
+        "id": "arcllm.ttft_m2.buildonly_result.v0.1",
+        "blob": "1c216e1bf6e71677d82b658197f2e90302f53f9e"
+      },
+      "failure_result": {
+        "id": "arcllm.ttft_m2.failure_result.v0.1",
+        "blob": "7cc8947790f9a11d76af144707128fc1df78f7ae"
+      },
+      "evidence_manifest": {
+        "id": "arcllm.ttft_m2.evidence_manifest.v0.1",
+        "blob": "a6cbf83ffe3b0e81f6d5c03257bba7ba8fbc9d18"
+      },
+      "package_manifest": {
+        "id": "arcllm.ttft_m2.package_manifest.v0.1",
+        "blob": "ec8d8c00162cce0de9fd564c32ea1e34ac679b59"
+      },
+      "adjudicator_input": {
+        "id": "arcllm.ttft_m2.adjudicator_input.v0.1",
+        "blob": "713ba835364132ceb903e309570b3ca8d36c4c6a"
+      }
+    }
+  },
+  "canonical_runtime_qa": {
+    "result": "PASS",
+    "errors": [],
+    "exit_code": 0,
+    "raw_artifact": "artifacts/TTFT_M2/TTFT_M2_P5_RUNTIME_QA_RAW_v0.1.json",
+    "raw_artifact_blob": "aa832665cf25842887f34d6ad5c2f58bb0b75c23",
+    "raw_artifact_sha256": "C1C032DF3DED4F63FD9B34F5DD00B70F50DE7757AA78F65852628E9405D4B84D"
+  },
+  "canonical_positive_fixture": {
+    "result": "PASS",
+    "observed_errors": [],
+    "path": "tests/fixtures/ttft_m2_atomic_package/positive_canonical.json",
+    "blob": "351c65d8987629062749540b730da13bb7caca4c"
+  },
+  "actual_package_cross_file_checks": {
+    "result": "PASS",
+    "errors": [],
+    "verified_categories": [
+      "exact static Git blob bindings",
+      "schema IDs and schema Git blobs",
+      "runner to lock path/version consistency",
+      "package manifest to lock/runner consistency",
+      "evidence manifest to lock/runner consistency",
+      "source to destination filename mappings",
+      "package/evidence shared member consistency",
+      "package manifest self-binding mode",
+      "future P7 authorization exact runtime binding mode",
+      "output bundle name consistency",
+      "stale version token absence",
+      "authority source non-tautology",
+      "zero-science boundary"
+    ]
+  },
+  "negative_fixture_adjudication": {
+    "required_count": 10,
+    "executed_count": 10,
+    "expected_rejections_observed": 10,
+    "all_rejected_fail_closed": true,
+    "detail_artifact": "artifacts/TTFT_M2/TTFT_M2_P5_FIXTURE_DETAIL_v0.1.json",
+    "detail_artifact_blob": "be2ffb8053e20cf61a612f180727180b70e57d9e"
+  },
+  "supplementary_schema_meta_validation": {
+    "draft": "JSON Schema Draft 2020-12",
+    "result": "PASS",
+    "schema_count": 5
+  },
+  "package_freeze": {
+    "frozen": true,
+    "frozen_execution_package_source_head": "7e807caf7dd357f9c820f89f5a719a1e4a10139a",
+    "frozen_execution_package_source_tree": "09960203707653d22626ec2b39b7be20cac8e65a",
+    "mutation_after_freeze_permitted_without_requalification": false,
+    "note": "P5 evidence/governance commits do not mutate the frozen execution package. P6 must re-verify these exact package blobs before adjudication."
+  },
+  "zero_science": {
+    "buildonly_runner_executions": 0,
+    "diagnostic_executable_launches": 0,
+    "target_model_loads": 0,
+    "gpu_dispatches": 0,
+    "performance_measurements": 0,
+    "fresh_ttft_observations": 0,
+    "scientific_result": "NONE",
+    "mechanism_adjudication_performed": false
+  },
+  "governance_boundary": {
+    "p6_governance_adjudication_authorized_as_next_step": true,
+    "p6_completed": false,
+    "p7_buildonly_authorized": false,
+    "buildonly_execution_authorized": false,
+    "execution_stage_repair_budget_active": false,
+    "execution_stage_repairs_consumed": 0
+  },
+  "next": "M2_P6_ZERO_SCIENCE_GOVERNANCE_ADJUDICATION"
+}
