@@ -1,0 +1,122 @@
+{
+  "schema": "arcllm.ttft_m2.atomic_package_contract.v0.1",
+  "date": "2026-09-22",
+  "status": "M2_P3_ATOMIC_PACKAGE_SPECIFICATION_COMPLETE",
+  "purpose": "Prevent cross-file provenance, version-label, schema and packaging inconsistencies before execution-stage repair budget activation.",
+  "package_semantics": "ONE_ATOMIC_CLOSED_OBJECT",
+  "planned_members": {
+    "execution_runner": {
+      "path": "run_ttft_m2_buildonly.ps1",
+      "implementation_stage": "M2_P4",
+      "created_now": false
+    },
+    "execution_build_lock": {
+      "path": "config/arcllm_ttft_m2_execution_lock_v0.1.json",
+      "implementation_stage": "M2_P4",
+      "created_now": false
+    },
+    "success_result_schema": {
+      "path": "schemas/ttft_m2/buildonly_result.schema.json",
+      "implementation_stage": "M2_P4",
+      "created_now": false
+    },
+    "failure_result_schema": {
+      "path": "schemas/ttft_m2/failure_result.schema.json",
+      "implementation_stage": "M2_P4",
+      "created_now": false
+    },
+    "evidence_manifest_schema": {
+      "path": "schemas/ttft_m2/evidence_manifest.schema.json",
+      "implementation_stage": "M2_P4",
+      "created_now": false
+    },
+    "package_manifest_schema": {
+      "path": "schemas/ttft_m2/package_manifest.schema.json",
+      "implementation_stage": "M2_P4",
+      "created_now": false
+    },
+    "adjudicator_input_schema": {
+      "path": "schemas/ttft_m2/adjudicator_input.schema.json",
+      "implementation_stage": "M2_P4",
+      "created_now": false
+    },
+    "atomic_qa_tool": {
+      "path": "tools/ttft_m2_atomic_package_qa.py",
+      "implementation_stage": "M2_P4",
+      "created_now": false
+    },
+    "atomic_qa_fixtures": {
+      "path": "tests/fixtures/ttft_m2_atomic_package/",
+      "implementation_stage": "M2_P4",
+      "created_now": false
+    }
+  },
+  "required_consistency_equations": [
+    "runner.lock.path == lock.path",
+    "success_result.lock.path == lock.path",
+    "failure_result.lock.path == lock.path",
+    "success_result.lock.blob == git_blob(lock.path)",
+    "failure_result.lock.blob == git_blob(lock.path)",
+    "evidence_manifest.lock.source_path == lock.path",
+    "package_manifest.lock.source_path == lock.path",
+    "package_manifest.lock.destination_name == canonical_lock_destination_name",
+    "runner.result_schema == success_result_schema.$id",
+    "runner.failure_schema == failure_result_schema.$id",
+    "evidence_manifest.schema_version == runner.expected_evidence_manifest_schema_version",
+    "package_manifest.schema_version == runner.expected_package_manifest_schema_version",
+    "adjudicator_input.package_manifest_hash == produced_package_manifest_hash",
+    "every_bundle_member appears exactly once in package_manifest",
+    "every_required_bundle_member has exactly one source_to_destination mapping",
+    "every reported git blob resolves from the frozen HEAD",
+    "no stale version token appears in runner, lock, schemas, manifests or destination labels"
+  ],
+  "authority_operationalization_rule": {
+    "description": "A gate must compare against its intended frozen authority, not a duplicate of its own candidate source.",
+    "same_source_tautology_fixture_must_fail": true
+  },
+  "required_negative_fixtures": [
+    "STALE_LOCK_VERSION",
+    "WRONG_BUNDLE_DESTINATION_FILENAME",
+    "WRONG_GIT_BLOB_FIELD",
+    "MISSING_EVIDENCE_MEMBER",
+    "DUPLICATE_EVIDENCE_MEMBER",
+    "RESULT_SCHEMA_VERSION_MISMATCH",
+    "RUNNER_LOCK_MISMATCH",
+    "MANIFEST_RUNNER_MISMATCH",
+    "PACKAGE_RESULT_MISMATCH",
+    "SAME_SOURCE_AUTHORITY_TAUTOLOGY"
+  ],
+  "qa_constraints": {
+    "target_model_load": false,
+    "diagnostic_executable_launch": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "real_scientific_outcome": false,
+    "synthetic_static_fixtures_only": true,
+    "fail_closed": true
+  },
+  "freeze_protocol": [
+    "Implement every planned member in M2_P4 without scientific execution.",
+    "Run atomic QA over the assembled package and all negative fixtures.",
+    "Require every positive invariant PASS and every negative fixture rejected.",
+    "Record exact Git blobs and schema identifiers in a P5 QA artifact.",
+    "Freeze the exact package only after P5 PASS.",
+    "Perform M2_P6 zero-science governance adjudication against the frozen package.",
+    "Only then may an explicit M2_P7 BuildOnly authorization be considered.",
+    "Execution-stage repair budget remains dormant until M2_P7 authorization."
+  ],
+  "self_reference_policy": {
+    "lock_must_not_claim_its_own_git_blob": true,
+    "package_manifest_must_not_claim_its_own_git_blob": true,
+    "rationale": "Avoid impossible self-hash cycles. External P5/P6 adjudication binds final lock/manifest blobs."
+  },
+  "current_authorization": {
+    "package_implementation": false,
+    "scientific_runner_implementation": false,
+    "buildonly_execution": false,
+    "target_model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false
+  },
+  "next": "M2_P4_ZERO_SCIENCE_PACKAGE_IMPLEMENTATION"
+}

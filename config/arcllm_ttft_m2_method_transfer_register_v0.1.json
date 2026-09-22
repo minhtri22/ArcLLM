@@ -1,0 +1,81 @@
+{
+  "schema": "arcllm.ttft_m2.method_transfer_register.v0.1",
+  "date": "2026-09-22",
+  "status": "M2_P2_METHOD_TRANSFER_REVIEW_COMPLETE",
+  "source_program": "ARCLLM_TTFT_M1",
+  "source_terminal_head": "86ec48ce0cfff28fa43c23c1d8b57b8f881d249e",
+  "rule": "METHODS_MAY_TRANSFER_ONLY_AS_PRIOR_METHODOLOGICAL_EVIDENCE; OUTCOMES_DO_NOT_TRANSFER",
+  "entries": [
+    {
+      "asset": "P1 prior-art register",
+      "blob": "92682f51f97c9af87ce408629ff7c6f45d3468ac",
+      "disposition": "ADMISSIBLE_AS_PRIOR_METHOD_EVIDENCE",
+      "canonical_in_m2": false
+    },
+    {
+      "asset": "P1 prior-art review",
+      "blob": "69a5cf641ca33d36a40f1694111d97a8298000d3",
+      "disposition": "ADMISSIBLE_AS_PRIOR_METHOD_EVIDENCE",
+      "canonical_in_m2": false
+    },
+    {
+      "asset": "P2 TTFT path mapping",
+      "blob": "7c57e7d789cd2672cb9fe9342df5a18065dc46bf",
+      "disposition": "ADMISSIBLE_AS_HISTORICAL_SOURCE_MAPPING_REQUIRES_REVALIDATION_BEFORE_SCIENCE",
+      "canonical_in_m2": false
+    },
+    {
+      "asset": "P2 finite hypotheses",
+      "blob": "559cf3a60789074045ac0c3f30c4982b99800707",
+      "disposition": "TEMPLATE_ONLY_REQUIRES_FRESH_M2_ADOPTION_GATE",
+      "canonical_in_m2": false
+    },
+    {
+      "asset": "P3 2x2 causal design",
+      "blob": "66b6ca2bf1da1e05ddc416bf8f9d73074e8f3fdb",
+      "disposition": "CONDITIONALLY_ADMISSIBLE_AS_DESIGN_TEMPLATE_ONLY",
+      "canonical_in_m2": false,
+      "reason": "Never executed in M1; may not be inherited as validated design or result."
+    },
+    {
+      "asset": "P4 falsification/STOP contract",
+      "blob": "fb856b27385278878114316ebd667b97fb38ba59",
+      "disposition": "ADMISSIBLE_AS_GOVERNANCE_TEMPLATE_ONLY",
+      "canonical_in_m2": false
+    },
+    {
+      "asset": "P5 zero-science QA",
+      "blob": "234ea107f5d6e049a879acdea1a0c679bf0e566c",
+      "disposition": "HISTORICAL_QA_EVIDENCE_ONLY",
+      "canonical_in_m2": false
+    },
+    {
+      "asset": "P6 lock v0.2",
+      "blob": "e2eb6170933ee074bfb3446661b7d69d3d40eaa9",
+      "disposition": "INFRASTRUCTURE_FAILURE_STUDY_INPUT_ONLY",
+      "canonical_in_m2": false
+    },
+    {
+      "asset": "P6 runner",
+      "blob": "4f7500bb2b0e3bc0b334a3f41c1244fcdc55d545",
+      "disposition": "INFRASTRUCTURE_FAILURE_STUDY_INPUT_ONLY",
+      "canonical_in_m2": false
+    },
+    {
+      "asset": "M1 mechanism outcome",
+      "disposition": "NON_TRANSFERABLE_NONE_EXISTS",
+      "canonical_in_m2": false
+    },
+    {
+      "asset": "M1 one-repair budget activation semantics",
+      "disposition": "REJECTED_FOR_M2_PRE_FREEZE_DEVELOPMENT",
+      "replacement": "Execution-stage repair budget remains dormant until exact package passes atomic QA, governance adjudication, freeze, and explicit BuildOnly authorization."
+    }
+  ],
+  "scientific_design_activation": {
+    "currently_allowed": false,
+    "reason": "Infrastructure validity question has priority. M2-P4/P5/P6 must close zero-science package validity first.",
+    "future_requirement": "Fresh M2 scientific-design adoption/amendment must occur prospectively and cannot claim M1 empirical support."
+  },
+  "next": "M2_P3_ATOMIC_INFRASTRUCTURE_PACKAGE_SPECIFICATION"
+}

@@ -1,0 +1,140 @@
+{
+  "schema": "arcllm.ttft_m2.governance.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "branch": "research/arcllm-ttft-m2",
+  "status": "M2_P3_INITIAL_ZERO_SCIENCE_SPECIFICATION_COMPLETE",
+  "git_history_base": "86ec48ce0cfff28fa43c23c1d8b57b8f881d249e",
+  "parents": {
+    "ANL64": {
+      "branch": "research/arcllm-nexus-ledger64",
+      "terminal_head": "0e40b3affe4f6add9ce23921687b2659017c95d3",
+      "terminal_status": "ANL64_PROGRAM_CLOSED_VALID_NEGATIVE_TTFT_BLOCKED",
+      "p7_adjudication_blob": "79df1758f23f724890eb302907c0b2d3045df735",
+      "p7_document_blob": "dd0ab0389251e77ccc2d654e77a897781426be34",
+      "role": "IMMUTABLE_HISTORICAL_PARENT_EVIDENCE"
+    },
+    "TTFT_M1": {
+      "branch": "research/arcllm-ttft-mechanism",
+      "terminal_head": "86ec48ce0cfff28fa43c23c1d8b57b8f881d249e",
+      "terminal_status": "TTFT_M1_PROGRAM_CLOSED_INFRASTRUCTURE_STOP_NO_MECHANISM_RESULT",
+      "p10_adjudication_blob": "3fd5ed7909f409e3b7419da8ec50cfc6041e1f48",
+      "p10_document_blob": "219724e91a8b228dc11197600def4abd19e3d0c4",
+      "p6_terminal_infrastructure_blob": "de89ae36950a9bee2262c7f055cad95a7d9e3106",
+      "governance_blob": "64d6faffdd20d131938d7178b13acd928f0b5c10",
+      "closed_lineage_blob": "6ab8d3aa4c36c58f2ae898bbbc9f2efc443f7980",
+      "mechanism_result": "NONE",
+      "role": "IMMUTABLE_HISTORICAL_METHOD_AND_INFRASTRUCTURE_EVIDENCE"
+    }
+  },
+  "independence": {
+    "new_program": true,
+    "anl64_rescue": false,
+    "ttft_m1_rescue": false,
+    "ttft_m1_continuation": false,
+    "ttft_m1_lock_v0_3": false,
+    "renamed_p7": false,
+    "parent_reopen": false,
+    "parent_lineage_append": false
+  },
+  "research_questions": {
+    "infrastructure_first": "Can the complete mechanism-identification execution package be proven internally self-consistent before any execution-stage repair budget or scientific observation is at risk?",
+    "scientific_later": "What mechanism causes the reproducible TTFT regression observed in the frozen ANL64 successor, and can that mechanism eventually be removed without sacrificing demonstrated semantic correctness and decode/E2E gains?"
+  },
+  "evidence_policy": {
+    "parent_anl64_timings": "HISTORICAL_ONLY_NOT_FRESH_M2_DATA",
+    "ttft_m1_mechanism_outcomes": "NONE_EXIST",
+    "ttft_m1_methods": "TRANSFER_ONLY_AFTER_EXPLICIT_ADMISSIBILITY_REVIEW",
+    "fresh_data_required_for_any_m2_mechanism_claim": true,
+    "no_post_outcome_rescue": true
+  },
+  "stage_order": [
+    "M2_P0_ORIGIN_INDEPENDENCE_AND_GOVERNANCE",
+    "M2_P1_TTFT_M1_INFRASTRUCTURE_FAILURE_REVIEW",
+    "M2_P2_METHOD_TRANSFER_ADMISSIBILITY",
+    "M2_P3_ATOMIC_INFRASTRUCTURE_PACKAGE_SPECIFICATION",
+    "M2_P4_ZERO_SCIENCE_PACKAGE_IMPLEMENTATION",
+    "M2_P5_ATOMIC_PACKAGE_QA_POSITIVE_AND_NEGATIVE_FIXTURES",
+    "M2_P6_ZERO_SCIENCE_GOVERNANCE_ADJUDICATION",
+    "M2_P7_EXPLICIT_BUILDONLY_AUTHORIZATION_IF_AND_ONLY_IF_P5_P6_PASS",
+    "M2_P8_BOUNDED_BUILDONLY_EXECUTION_IF_AUTHORIZED",
+    "M2_P9_FRESH_MECHANISM_IDENTIFICATION_ONLY_IF_LATER_AUTHORIZED",
+    "M2_P10_FINAL_PROGRAM_ADJUDICATION"
+  ],
+  "stage_state": {
+    "M2_P0": "COMPLETE",
+    "M2_P1": "COMPLETE",
+    "M2_P2": "COMPLETE",
+    "M2_P3": "COMPLETE_SPECIFICATION_ONLY",
+    "M2_P4": "NOT_OPENED",
+    "M2_P5": "NOT_OPENED",
+    "M2_P6": "NOT_OPENED",
+    "M2_P7": "NOT_OPENED",
+    "M2_P8": "NOT_OPENED",
+    "M2_P9": "NOT_OPENED",
+    "M2_P10": "NOT_OPENED"
+  },
+  "lineage": {
+    "path": "programs/arcllm_ttft_m2/lineage.md",
+    "policy": "APPEND_ONLY_WITHIN_TTFT_M2",
+    "fresh": true,
+    "closed": false,
+    "reuse_parent_lineage": false
+  },
+  "repair_budget": {
+    "package_development_defects_before_freeze": {
+      "execution_stage_budget_active": false,
+      "consume_execution_stage_budget": false,
+      "treatment": "DEVELOPMENT_DEFECT_FIX_AND_RERUN_ZERO_SCIENCE_QA"
+    },
+    "execution_stage": {
+      "max_repairs": 1,
+      "active": false,
+      "activation_requires": [
+        "M2_P4_COMPLETE",
+        "M2_P5_ATOMIC_PACKAGE_QA_PASS",
+        "M2_P6_ZERO_SCIENCE_GOVERNANCE_PASS",
+        "exact_package_frozen",
+        "explicit_M2_P7_BuildOnly_authorization"
+      ],
+      "scope": "ORCHESTRATION_OR_INFRASTRUCTURE_ONLY",
+      "science_mutation_permitted": false,
+      "after_one_valid_repair": "FULL_FRESH_BUILDONLY_REPLAY_FROM_ZERO",
+      "second_execution_stage_defect": "STOP_INFRASTRUCTURE_UNSTABLE"
+    }
+  },
+  "atomicity_rule": {
+    "package_is_one_object": true,
+    "required_members": [
+      "runner",
+      "execution_build_lock",
+      "success_result_schema",
+      "failure_result_schema",
+      "evidence_manifest_schema",
+      "package_manifest_schema",
+      "bundle_member_list",
+      "source_to_destination_filename_mapping",
+      "git_blob_provenance",
+      "preflight_references",
+      "postflight_result_references",
+      "packaging_references",
+      "version_labels",
+      "output_bundle_name",
+      "adjudicator_input_contract",
+      "atomic_package_qa_tool_and_fixtures"
+    ],
+    "stale_reference_anywhere_fails_before_freeze": true
+  },
+  "authorization": {
+    "specification_only": true,
+    "package_implementation": false,
+    "diagnostic_science_implementation": false,
+    "buildonly_execution": false,
+    "target_model_execution": false,
+    "model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "fresh_ttft_observation": false
+  },
+  "next": "M2_P4_ZERO_SCIENCE_PACKAGE_IMPLEMENTATION"
+}
