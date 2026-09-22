@@ -3,7 +3,7 @@
   "date": "2026-09-22",
   "program_id": "ARCLLM_TTFT_M1",
   "branch": "research/arcllm-ttft-mechanism",
-  "status": "P6_IMPLEMENTATION_LOCKED_V0_2_BUILDONLY_PENDING",
+  "status": "P6_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
   "parent": {
     "terminal_program": "ANL64",
     "terminal_head": "0e40b3affe4f6add9ce23921687b2659017c95d3",
@@ -51,7 +51,7 @@
     "P3": "COMPLETE",
     "P4": "COMPLETE",
     "P5": "COMPLETE_PASS",
-    "P6": "IMPLEMENTATION_LOCKED_V0_2_BUILDONLY_PENDING",
+    "P6": "IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
     "P7": "BLOCKED",
     "P8": "BLOCKED",
     "P9": "BLOCKED",
