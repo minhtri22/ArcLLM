@@ -51,3 +51,27 @@ The next documents must be produced in this order:
 3. intervention-001 selection.
 
 No ArcLLM v1 performance intervention is implemented at this origin step.
+
+
+## Architecture reframe — 2026-09-22
+
+Derived from methodology blob:
+
+`d41a357840435f52a682792b9a6608e4abaab312`
+
+Artifact:
+
+`docs/research/arcllm-v1/ARCLLM_V1_ARCHITECTURE_REFRAME.md`
+
+Key reframe:
+- legacy ArcLLM becomes evidence/reference rather than immutable architecture;
+- semantic graph is separated from execution topology;
+- prefill and decode receive independent execution policies;
+- quant formats default to specialized execution families;
+- execution graph IR becomes the architecture center;
+- observability/cost model becomes a first-class layer;
+- matched baseline comparison moves earlier in each architecture epoch.
+
+No intervention selected or implemented here.
+
+Next: build the historical-evidence Headroom Map.
