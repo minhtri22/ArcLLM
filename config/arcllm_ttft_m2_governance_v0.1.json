@@ -3,7 +3,7 @@
   "date": "2026-09-22",
   "program_id": "ARCLLM_TTFT_M2",
   "branch": "research/arcllm-ttft-m2",
-  "status": "TTFT_M2_PROGRAM_CLOSED_INFRASTRUCTURE_STOP_NO_MECHANISM_RESULT",
+  "status": "TTFT_M2_GOVERNANCE_AMENDED_LOCAL_BUILDONLY_ELIGIBLE",
   "git_history_base": "86ec48ce0cfff28fa43c23c1d8b57b8f881d249e",
   "parents": {
     "ANL64": {
@@ -59,7 +59,9 @@
     "M2_P7_EXPLICIT_BUILDONLY_AUTHORIZATION_IF_AND_ONLY_IF_P5_P6_PASS",
     "M2_P8_BOUNDED_BUILDONLY_EXECUTION_IF_AUTHORIZED",
     "M2_P9_FRESH_MECHANISM_IDENTIFICATION_ONLY_IF_LATER_AUTHORIZED",
-    "M2_P10_FINAL_PROGRAM_ADJUDICATION"
+    "M2_P10_FINAL_PROGRAM_ADJUDICATION",
+    "M2_A1_GOVERNANCE_AMENDMENT_EXECUTION_SUBSTRATE_AND_REPAIR_BUDGET_CORRECTION",
+    "M2_P8L_LOCAL_BUILDONLY_EXECUTION_QUALIFICATION"
   ],
   "stage_state": {
     "M2_P0": "COMPLETE",
@@ -71,38 +73,47 @@
     "M2_P6": "COMPLETE_PASS_ZERO_SCIENCE_GOVERNANCE",
     "M2_P7": "COMPLETE_AUTHORIZED_EXACT_FROZEN_BUILDONLY",
     "M2_P8": "TERMINAL_STOP_INFRASTRUCTURE_UNSTABLE",
-    "M2_P9": "BLOCKED_NOT_OPENED",
-    "M2_P10": "COMPLETE_FINAL_CLOSED"
+    "M2_P9": "BLOCKED_PENDING_VALID_P8L_AND_SEPARATE_AUTHORIZATION",
+    "M2_P10": "HISTORICAL_CLOSURE_SUPERSEDED_BY_A1_FOR_INFRASTRUCTURE_CONTINUATION",
+    "M2_A1": "COMPLETE_GOVERNANCE_AMENDMENT",
+    "M2_P8L": "NOT_OPENED_ELIGIBLE_NEXT"
   },
   "lineage": {
     "path": "programs/arcllm_ttft_m2/lineage.md",
     "policy": "APPEND_ONLY_WITHIN_TTFT_M2",
     "fresh": true,
-    "closed": true,
-    "reuse_parent_lineage": false
+    "closed": false,
+    "reuse_parent_lineage": false,
+    "reopened_by_amendment": "M2_A1_EXECUTION_SUBSTRATE_AND_REPAIR_BUDGET_CORRECTION",
+    "historical_closure_commit": "58d1091ad0a8619c97004f3afb70dfbbbf1160f5"
   },
   "repair_budget": {
-    "package_development_defects_before_freeze": {
-      "execution_stage_budget_active": false,
-      "consume_execution_stage_budget": false,
-      "treatment": "DEVELOPMENT_DEFECT_FIX_AND_RERUN_ZERO_SCIENCE_QA"
-    },
-    "execution_stage": {
+    "historical_v0_1_execution_stage": {
       "max_repairs": 1,
+      "consumed": 1,
+      "remaining": 0,
+      "status": "EXHAUSTED_UNDER_PRIOR_GOVERNANCE",
+      "normative_effect_superseded_by_a1": true,
+      "note": "Consumed by orchestration-layer defect outside the frozen research package."
+    },
+    "frozen_research_package": {
+      "max_repairs": 1,
+      "consumed": 0,
+      "remaining": 1,
       "active": false,
-      "activation_requires": [
-        "M2_P4_COMPLETE",
-        "M2_P5_ATOMIC_PACKAGE_QA_PASS",
-        "M2_P6_ZERO_SCIENCE_GOVERNANCE_PASS",
-        "exact_package_frozen",
-        "explicit_M2_P7_BuildOnly_authorization"
-      ],
-      "scope": "ORCHESTRATION_OR_INFRASTRUCTURE_ONLY",
+      "activation": "AFTER_EXACT_FROZEN_RUNNER_BEGINS_EXECUTION_AND_DEFECT_IS_ATTRIBUTABLE_TO_FROZEN_RESEARCH_PACKAGE",
       "science_mutation_permitted": false,
-      "after_one_valid_repair": "FULL_FRESH_BUILDONLY_REPLAY_FROM_ZERO",
-      "second_execution_stage_defect": "STOP_INFRASTRUCTURE_UNSTABLE",
-      "repairs_consumed": 1,
-      "repairs_remaining": 0
+      "after_one_valid_package_repair": "FULL_BUILDONLY_REQUALIFICATION_AND_REPLAY_FROM_ZERO",
+      "second_package_defect": "STOP_PACKAGE_UNSTABLE"
+    },
+    "orchestration_transport": {
+      "consumes_package_budget": false,
+      "mutation_scope": "OUTSIDE_FROZEN_PACKAGE_ONLY",
+      "scientific_outcome_must_remain_unexposed": true
+    },
+    "execution_substrate": {
+      "consumes_package_budget": false,
+      "alternate_preregistered_substrate_permitted": true
     }
   },
   "atomicity_rule": {
@@ -128,7 +139,7 @@
     "stale_reference_anywhere_fails_before_freeze": true
   },
   "authorization": {
-    "specification_only": false,
+    "specification_only": true,
     "package_implementation": false,
     "diagnostic_science_implementation": false,
     "buildonly_execution": false,
@@ -138,7 +149,7 @@
     "performance_measurement": false,
     "fresh_ttft_observation": false
   },
-  "next": "PROGRAM_CLOSED_NO_FURTHER_TTFT_M2_ACTION",
+  "next": "M2_P8L_LOCAL_BUILDONLY_EXECUTION_QUALIFICATION",
   "p4": {
     "result": "M2_P4_ZERO_SCIENCE_INFRASTRUCTURE_PACKAGE_IMPLEMENTED",
     "authorization": {
@@ -419,10 +430,40 @@
       "distinguishes_candidate_mechanisms": false,
       "infrastructure_failures_are_scientific_evidence": false
     },
-    "program_closed": true,
-    "reopen_permitted": false,
-    "additional_m2_execution_permitted": false,
-    "additional_m2_repair_permitted": false,
-    "future_work_requires_new_independent_program": true
+    "program_closed": false,
+    "reopen_permitted": true,
+    "additional_m2_execution_permitted": true,
+    "additional_m2_repair_permitted": "PACKAGE_REPAIR_ONLY_UNDER_A1_BUDGET",
+    "future_work_requires_new_independent_program": false,
+    "historical_status": "TTFT_M2_PROGRAM_CLOSED_INFRASTRUCTURE_STOP_NO_MECHANISM_RESULT",
+    "normative_closure_effect": "SUPERSEDED_BY_M2_A1_FOR_INFRASTRUCTURE_CONTINUATION_ONLY"
+  },
+  "amendments": [
+    {
+      "amendment_id": "M2_A1_EXECUTION_SUBSTRATE_AND_REPAIR_BUDGET_CORRECTION",
+      "path": "config/arcllm_ttft_m2_governance_amendment_a1_v0.1.json",
+      "blob": "4e56683b23153d4a4055d1bafd4422f11d186783",
+      "document": "docs/research/arcllm-ttft-m2/A1_GOVERNANCE_AMENDMENT_EXECUTION_SUBSTRATE.md",
+      "document_blob": "0948d9dbc8b213840e208aaa679e9cc32541ea75",
+      "prior_terminal_commit": "58d1091ad0a8619c97004f3afb70dfbbbf1160f5",
+      "prior_p10_blob": "0cbca9efa9754bf45e48ada5c7425ae7a8754d4a",
+      "scientific_non_result_preserved": true,
+      "normative_closure_superseded_for_infrastructure_continuation": true
+    }
+  ],
+  "execution_substrates": {
+    "github_hosted_windows": {
+      "status": "HISTORICALLY_ATTEMPTED_UNSUCCESSFUL",
+      "runs": [
+        35678683835,
+        35678861153
+      ],
+      "exact_frozen_runner_executions": 0,
+      "further_attempt_required": false
+    },
+    "local_windows_workstation": {
+      "status": "VIABLE_NOT_YET_ATTEMPTED",
+      "role": "PRIMARY_NEXT_SUBSTRATE"
+    }
   }
 }

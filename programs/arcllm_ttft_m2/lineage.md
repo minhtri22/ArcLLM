@@ -430,3 +430,64 @@ Formal terminal status:
 `TTFT_M2_PROGRAM_CLOSED_INFRASTRUCTURE_STOP_NO_MECHANISM_RESULT`
 
 TTFT_M2 is closed. No further execution, repair or P9 opening is permitted inside M2. Any future work requires a new independent governance program rather than an M2 rescue.
+
+
+## 2026-09-22 — M2-A1 GOVERNANCE AMENDMENT
+
+The prior governance was found to conflate three different infrastructure domains:
+
+1. frozen research package;
+2. orchestration / transport wrapper;
+3. execution substrate.
+
+That conflation allowed a GitHub Actions YAML defect and hosted-runner startup failure to exhaust the same budget intended to protect the frozen research package even though the exact frozen BuildOnly runner never executed.
+
+A1 therefore amends governance without deleting or rewriting prior evidence.
+
+Historical P8/P10 remain preserved:
+- P8 blob `ae7b17678b9cbb29018c7e0207a12a5fb6b99ac9`;
+- P10 blob `0cbca9efa9754bf45e48ada5c7425ae7a8754d4a`;
+- historical terminal commit `58d1091ad0a8619c97004f3afb70dfbbbf1160f5`.
+
+Their scientific non-result remains valid: `NONE`.
+
+Their normative rule forbidding all further M2 infrastructure continuation is superseded by A1.
+
+A1 evidence:
+- amendment blob `4e56683b23153d4a4055d1bafd4422f11d186783`;
+- document blob `0948d9dbc8b213840e208aaa679e9cc32541ea75`.
+
+Corrected budget domains:
+
+```text
+historical v0.1 execution-stage budget
+  consumed 1/1
+  retained as historical accounting
+  no longer controls package/substrate continuation
+
+frozen research-package repair budget
+  consumed 0/1
+  activates only if exact frozen runner begins and package defect is attributable
+
+orchestration / transport failures
+  do not consume package-repair budget
+
+execution-substrate failures
+  do not consume package-repair budget
+  alternate preregistered substrate permitted
+```
+
+The exact frozen package remains unchanged:
+- runner `4722e86a01453d973ee2122b49229b80bf7d84f6`;
+- lock `9af4c7b4c96354223e1f671a43af64b215072330`;
+- package manifest `4629910255580322706b01f318ad9a80044208d7`;
+- P7 authorization `8faf0cd91da381333fdf7971e431fc091701a62b`.
+
+GitHub-hosted Windows remains historical unsuccessful substrate evidence.
+
+The local Windows workstation is now the primary viable untried substrate.
+
+P9 remains blocked until valid local BuildOnly PASS and a separate scientific authorization.
+
+Next:
+`M2_P8L_LOCAL_BUILDONLY_EXECUTION_QUALIFICATION`.

@@ -1,0 +1,114 @@
+{
+  "schema": "arcllm.ttft_m2.governance_amendment.a1.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "amendment_id": "M2_A1_EXECUTION_SUBSTRATE_AND_REPAIR_BUDGET_CORRECTION",
+  "amends_governance": {
+    "path": "config/arcllm_ttft_m2_governance_v0.1.json",
+    "prior_blob": "4d6189249fe1a9a7c123fe51a5205ca22ee1a3f2",
+    "prior_terminal_commit": "58d1091ad0a8619c97004f3afb70dfbbbf1160f5"
+  },
+  "reason": "The prior governance conflated frozen research-package defects with external orchestration/transport/substrate failures. This allowed failures in a newly-added GitHub Actions wrapper and hosted-runner startup to exhaust the same repair budget intended to prevent repeated mutation of the frozen research package, even though the exact frozen BuildOnly runner never executed.",
+  "audit_policy": {
+    "delete_or_rewrite_prior_evidence": false,
+    "p8_and_p10_remain_historical_facts": true,
+    "prior_terminal_adjudication_valid_under_prior_governance": true,
+    "normative_closure_effect_superseded_for_infrastructure_continuation": true,
+    "scientific_non_result_remains_valid": true
+  },
+  "corrected_failure_domains": {
+    "RESEARCH_PACKAGE": {
+      "definition": "Frozen runner, lock, schemas, manifests, QA tool/fixtures, package provenance, scientific design bindings.",
+      "budgeted_repair": true
+    },
+    "ORCHESTRATION_TRANSPORT": {
+      "definition": "Workflow YAML, CI wrapper, artifact upload/download glue, shell invocation wrapper, transport-only code outside the frozen package.",
+      "budgeted_repair": false,
+      "constraint": "May change only while frozen package blobs and science design remain exact and no scientific outcome has been exposed."
+    },
+    "EXECUTION_SUBSTRATE": {
+      "definition": "GitHub-hosted Windows runner, local Windows workstation, shell/toolchain availability, runner provisioning and platform startup.",
+      "budgeted_repair": false,
+      "alternate_substrate_permitted": true,
+      "constraint": "Alternate substrate must be preregistered, must execute the exact frozen package, and must not mutate scientific design."
+    },
+    "SCIENTIFIC_EXECUTION": {
+      "definition": "Target-model load, diagnostic scientific executable, GPU dispatch, performance timing, fresh TTFT observations, mechanism adjudication.",
+      "remains_locked_until_valid_buildonly": true
+    }
+  },
+  "repair_budget_correction": {
+    "prior_v0_1_execution_stage_budget": {
+      "max": 1,
+      "consumed": 1,
+      "historical_status": "EXHAUSTED_UNDER_PRIOR_GOVERNANCE",
+      "consumed_by": "GITHUB_ACTIONS_ORCHESTRATION_DEFECT",
+      "no_longer_controls_package_or_substrate_continuation": true
+    },
+    "frozen_research_package_repair_budget": {
+      "max": 1,
+      "consumed": 0,
+      "remaining": 1,
+      "activation": "ONLY_AFTER_EXACT_FROZEN_RUNNER_BEGINS_EXECUTION_AND_A_DEFECT_IS_ATTRIBUTABLE_TO_THE_FROZEN_RESEARCH_PACKAGE",
+      "scientific_mutation_permitted": false,
+      "after_one_valid_package_repair": "FULL_BUILDONLY_REQUALIFICATION_AND_REPLAY_FROM_ZERO",
+      "second_package_defect": "STOP_PACKAGE_UNSTABLE"
+    }
+  },
+  "closure_rule_correction": {
+    "infrastructure_close_permitted_only_if_one_of": [
+      "A frozen research-package defect budget is exhausted after actual execution reaches the frozen runner/package.",
+      "All preregistered viable execution substrates have been attempted and independently shown unavailable or unusable without mutating the frozen package.",
+      "A substrate qualification gate concludes no viable substrate exists for the exact frozen package.",
+      "The operator explicitly terminates the research program."
+    ],
+    "forbidden_close_basis": [
+      "Failure of a newly-added orchestration wrapper before the frozen runner starts.",
+      "Failure of one hosted execution substrate when another viable preregistered substrate exists.",
+      "Absence of logs from an external executor without attempting another viable substrate."
+    ]
+  },
+  "viable_substrates": {
+    "github_hosted_windows": {
+      "status": "HISTORICALLY_ATTEMPTED_UNSUCCESSFUL",
+      "attempt_1_run": 35678683835,
+      "attempt_2_run": 35678861153,
+      "exact_frozen_runner_executions": 0,
+      "further_attempt_required": false
+    },
+    "local_windows_workstation": {
+      "status": "VIABLE_NOT_YET_ATTEMPTED",
+      "role": "PRIMARY_NEXT_SUBSTRATE",
+      "rationale": "ArcLLM is developed and previously executed on the user's Windows workstation; PowerShell and repository-local toolchain execution are natural for the frozen .ps1 BuildOnly runner."
+    }
+  },
+  "frozen_bindings_for_continuation": {
+    "package_source_head": "7e807caf7dd357f9c820f89f5a719a1e4a10139a",
+    "runner_blob": "4722e86a01453d973ee2122b49229b80bf7d84f6",
+    "execution_lock_blob": "9af4c7b4c96354223e1f671a43af64b215072330",
+    "evidence_manifest_blob": "bf496e00e4cf0bff86582e0649c6c26bc28b6f60",
+    "package_manifest_blob": "4629910255580322706b01f318ad9a80044208d7",
+    "p7_authorization_blob": "8faf0cd91da381333fdf7971e431fc091701a62b",
+    "mutation_permitted": false
+  },
+  "continuation_path": {
+    "current_stage": "M2_A1_GOVERNANCE_AMENDMENT_COMPLETE",
+    "next_stage": "M2_P8L_LOCAL_BUILDONLY_EXECUTION_QUALIFICATION",
+    "p8l_scope": "Pull exact amended branch on local Windows, verify frozen bindings and P7 authorization, invoke exact frozen run_ttft_m2_buildonly.ps1, return generated evidence bundle/report.",
+    "p8l_target_model_execution": false,
+    "p8l_gpu_dispatch": false,
+    "p8l_performance_measurement": false,
+    "p8l_fresh_ttft_observation": false,
+    "p9_status": "BLOCKED_UNTIL_VALID_P8L_BUILDONLY_PASS_AND_SEPARATE_P9_AUTHORIZATION"
+  },
+  "anti_rescue_boundary": {
+    "hypothesis_change": false,
+    "threshold_change": false,
+    "endpoint_change": false,
+    "workload_change": false,
+    "frozen_package_change": false,
+    "reinterpret_prior_infrastructure_failures_as_science": false,
+    "statement": "This amendment corrects infrastructure governance only. It does not rescue a scientific outcome because no scientific outcome exists."
+  },
+  "general_rule": "Governance constrains scientific degrees of freedom and preserves falsifiability; it must not treat unrelated transport/orchestration/substrate faults as scientific-package failures or prevent use of another preregistered viable substrate when the frozen research object is unchanged."
+}
