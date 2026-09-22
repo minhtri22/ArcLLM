@@ -1,0 +1,35 @@
+{
+  "schema": "arcllm.ttft_m2.p9b.implementation_record.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "stage": "M2_P9B_CANONICAL_SCIENTIFIC_HARNESS_IMPLEMENTATION_AND_BUILDONLY_QUALIFICATION",
+  "status": "IMPLEMENTED_BUILDONLY_AUTHORIZED_LOCAL_EXECUTION_PENDING",
+  "source_head": "9c697c64d6ca9adb78499e8d9a76f9d2b9c8a9f5",
+  "files": {
+    "diagnostic_source": "14eb11690b76c1ada102ab2d1ced9607ff522c34",
+    "native_build_tool": "46e733a2a7948f0182825fd1a1d069f029ba2050",
+    "shader_build_tool": "4a217a8911c2b9b657f0177ab55f1ae45c4ff571",
+    "static_package_test": "94d5640cfcf47b02f29446c783e647c03b0ddb28",
+    "future_science_runner": "4326d69f058ad8266e88f20272b3ca17f1b21293",
+    "implementation_lock": "d3df46210f81b113e346b0cb50faffcdb3a7eaaa",
+    "buildonly_runner": "05f4bddbbe697e39ba4968a54bc4594a5435541c",
+    "buildonly_authorization": "0e5ec30d0a1d302c898cbc6343df6b7fe13c186a"
+  },
+  "anti_stale_authority": {
+    "m1_lock_reused": false,
+    "m1_runner_reused": false,
+    "m1_program_strings_in_m2_diagnostic_forbidden": true,
+    "fresh_m2_authority": true
+  },
+  "zero_science_expected": {
+    "executable_launch": false,
+    "model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "fresh_ttft_observations": 0,
+    "h_art_mechanism_adjudication": false,
+    "scientific_result": "NONE"
+  },
+  "qualification_complete": false,
+  "next": "RUN_EXACT_P9B_BUILDONLY_ON_LOCAL_WINDOWS_AND_RETURN_BUNDLE"
+}

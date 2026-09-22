@@ -697,3 +697,35 @@ Gate evidence:
 Next admissible step:
 
 `M2_P9B_CANONICAL_SCIENTIFIC_HARNESS_IMPLEMENTATION_AND_BUILDONLY_QUALIFICATION`.
+
+
+## 2026-09-22 — M2-P9B CANONICAL HARNESS IMPLEMENTED / BUILDONLY AUTHORIZED
+
+P9B implementation is frozen and authorized for local Windows BuildOnly qualification.
+
+Fresh M2-native authority:
+- diagnostic source `14eb11690b76c1ada102ab2d1ced9607ff522c34`;
+- native build tool `46e733a2a7948f0182825fd1a1d069f029ba2050`;
+- shader build tool `4a217a8911c2b9b657f0177ab55f1ae45c4ff571`;
+- static package QA `94d5640cfcf47b02f29446c783e647c03b0ddb28`;
+- future science runner `4326d69f058ad8266e88f20272b3ca17f1b21293`;
+- implementation lock `d3df46210f81b113e346b0cb50faffcdb3a7eaaa`;
+- BuildOnly runner `05f4bddbbe697e39ba4968a54bc4594a5435541c`;
+- BuildOnly authorization `0e5ec30d0a1d302c898cbc6343df6b7fe13c186a`.
+
+Historical M1 lock/runner are not reused as M2 authority.
+
+The future science runner is hard-gated by a not-yet-existing P9C execution authorization and cannot legally launch model/GPU/timing science.
+
+P9B BuildOnly is zero-science:
+- executable launch false;
+- model load false;
+- GPU dispatch false;
+- performance timing false;
+- fresh TTFT observations 0;
+- H-ART mechanism adjudication false.
+
+P9B is not yet PASS. The next action is exact local BuildOnly execution on the qualified Windows workstation and independent adjudication of the returned bundle.
+
+Next:
+`LOCAL_P9B_ZERO_SCIENCE_BUILDONLY_EXECUTION_AND_RETURN`.

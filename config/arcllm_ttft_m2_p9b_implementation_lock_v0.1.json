@@ -1,0 +1,100 @@
+{
+  "schema": "arcllm.ttft_m2.p9b.implementation_lock.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "status": "P9B_CANONICAL_SCIENTIFIC_HARNESS_LOCKED_BUILDONLY_PENDING",
+  "authorization_gate": {
+    "path": "artifacts/TTFT_M2/TTFT_M2_P9_AUTHORIZATION_GATE_REVIEW_2_v0.1.json",
+    "blob": "e3accfd9f9ebe85b1635b65ae9066cdb89b88f00",
+    "decision": "AUTHORIZE_M2_P9_SCIENTIFIC_HARNESS_IMPLEMENTATION_AND_BUILDONLY_ONLY"
+  },
+  "canonical_design": {
+    "manifest": "abce0545cec33367f9b3a82f15d5ffd4fb026f64",
+    "source_revalidation": "17759ae80ce0cbbfb4d2dedd88c0aabe8216ac9c",
+    "hypotheses": "55192815d02637cc6e469794565ba8134ff63ae1",
+    "causal_design": "9d1960ee253e59f1835ea0d320b40e9975039ed3",
+    "target_environment": "5b79f7b42b238471e0d4bb3ee802bab7ffe83185",
+    "falsification_stop": "1ed4187934be119611f9fd1f0ce9f8e61bf88116"
+  },
+  "exact_git_blobs": {
+    "src/ttft_m2_diagnostic.cpp": "14eb11690b76c1ada102ab2d1ced9607ff522c34",
+    "src/gguf.cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
+    "src/tensor_store.cpp": "0eb52588d30620bfeb323e62c8546e7191a006d6",
+    "src/p8c_segmented_access_correctness.cpp": "8432ca554b36a2167429b640c5ec6779cf2b3e6b",
+    "tools/build_ttft_m2_p9b.ps1": "46e733a2a7948f0182825fd1a1d069f029ba2050",
+    "tools/compile_ttft_m2_p9b_shaders.ps1": "4a217a8911c2b9b657f0177ab55f1ae45c4ff571",
+    "tests/test_ttft_m2_p9b_package.py": "94d5640cfcf47b02f29446c783e647c03b0ddb28",
+    "scripts/ttft_m2/run_p9_science.ps1": "4326d69f058ad8266e88f20272b3ca17f1b21293",
+    "config/arcllm_ttft_m2_p9a_scientific_design_manifest_v0.1.json": "abce0545cec33367f9b3a82f15d5ffd4fb026f64",
+    "config/arcllm_ttft_m2_p9a_source_revalidation_v0.1.json": "17759ae80ce0cbbfb4d2dedd88c0aabe8216ac9c",
+    "config/arcllm_ttft_m2_p9a_hypotheses_v0.1.json": "55192815d02637cc6e469794565ba8134ff63ae1",
+    "config/arcllm_ttft_m2_p9a_causal_decomposition_v0.1.json": "9d1960ee253e59f1835ea0d320b40e9975039ed3",
+    "config/arcllm_ttft_m2_p9a_target_environment_contract_v0.1.json": "5b79f7b42b238471e0d4bb3ee802bab7ffe83185",
+    "config/arcllm_ttft_m2_p9a_falsification_stop_v0.1.json": "1ed4187934be119611f9fd1f0ce9f8e61bf88116",
+    "config/q2_execution_authorization.json": "20f556fb18ee4ffd0ce5e17cf8fab1a2b9a992dc",
+    "artifacts/ANL64/ANL64_P4_BUILDONLY_ADJUDICATION_v0.1.json": "e9039de1af496cf724a390e8180ae7d97e99f091",
+    "shaders/p7_rmsnorm_seq.comp": "69b16bda755551664afec768e1afe1cb08a295bc",
+    "shaders/p7c_ffn_q4k_tiled.comp": "52a457171ebcc23b005d10a80ef3d3175ae8b3d3",
+    "shaders/p7c_ffn_q6k_tiled.comp": "5ba8cb83e7a3a7cdafc0253b3d150d5c78cb412d",
+    "shaders/p7_rope_seq.comp": "8013a58efcb8a83b41ac12b32a1e8a5d69cec3d2",
+    "shaders/p7_kv_store.comp": "ce6488589dbdfe2c88f1426858f8bb625ba6231b",
+    "shaders/p7_attention_prefill_online.comp": "a43180205f7d3e44ed60faef22be6f25443a8fa3",
+    "shaders/p7_attention_kv_online.comp": "da5f7d9ac54245cf90db473212cbc050a8ec24d3",
+    "shaders/p7_add.comp": "8803bcef591e1c1a0a4ad1434af14832daa1984b",
+    "shaders/p7l_ffn_q4k_gateup_fused.comp": "ad6b7c5bf338c604506a0120e6550eaa09e8e053",
+    "shaders/p7_swiglu.comp": "df71ff50b1c533a8e70aec8f80321a00b9536e41",
+    "shaders/p7g_ffn_q4k_tiled16.comp": "4d66a5448959259ae71d87bbba68886ae948aff7",
+    "shaders/p7g_ffn_q6k_tiled16.comp": "169a470158ad6b3daefbb3003fb728a899f03bfb",
+    "shaders/p7_q4k_gemm_2d.comp": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a",
+    "shaders/p7_q6k_gemm_2d.comp": "a0de99f972db6cd202606aad95fb9eab223639e6",
+    "shaders/p8c_embedding_q4k_segmented_probe.comp": "84561dbe9a0e0b0412480a7a758ba90f937a6746",
+    "shaders/p8q1_lmhead_q6k_segmented_chunk.comp": "184b769a18de89d1f7fa53a8df19cfc0bc5a8fd3",
+    "shaders/sa1_q4k_subgroup_splitk.comp": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a"
+  },
+  "design_contract": {
+    "arms": [
+      "SP",
+      "SF",
+      "QP",
+      "QF"
+    ],
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "sessions": [
+      "A",
+      "B"
+    ],
+    "measured_attempts_per_arm_workload_session": 5,
+    "planned_fresh_ttft_observations": 80,
+    "material_ratio": 1.1,
+    "selective_rerun": false,
+    "parent_observations_reused": 0
+  },
+  "payload_contract": {
+    "executable": "artifacts/TTFT_M2/P9B/runtime_payload/ttft_m2_diagnostic.exe",
+    "native_build_manifest": "artifacts/TTFT_M2/P9B/runtime_payload/NATIVE_BUILD.json",
+    "shader_manifest": "artifacts/TTFT_M2/P9B/runtime_payload/SHADER_BUILD.json",
+    "shader_dir": "artifacts/TTFT_M2/P9B/runtime_payload/shaders"
+  },
+  "future_execution_runner": {
+    "path": "scripts/ttft_m2/run_p9_science.ps1",
+    "blob": "4326d69f058ad8266e88f20272b3ca17f1b21293",
+    "hard_gate_path": "config/arcllm_ttft_m2_p9c_execution_authorization_v0.1.json",
+    "direct_execution_authorized_now": false
+  },
+  "buildonly_authorization": {
+    "executable_launch": false,
+    "target_model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "fresh_ttft_observation": false,
+    "h_art_mechanism_adjudication": false
+  },
+  "repair_policy": {
+    "pre_freeze_defects_consume_package_budget": false,
+    "post_freeze_package_repair_budget_max": 1,
+    "science_mutation_permitted": false
+  }
+}

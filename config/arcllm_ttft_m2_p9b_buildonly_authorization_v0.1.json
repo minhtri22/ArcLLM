@@ -1,0 +1,42 @@
+{
+  "schema": "arcllm.ttft_m2.p9b.buildonly_authorization.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "authorization_parent_head": "9c697c64d6ca9adb78499e8d9a76f9d2b9c8a9f5",
+  "decision": "M2_P9B_CANONICAL_HARNESS_BUILDONLY_AUTHORIZED",
+  "review2_gate_blob": "e3accfd9f9ebe85b1635b65ae9066cdb89b88f00",
+  "canonical_design_manifest_blob": "abce0545cec33367f9b3a82f15d5ffd4fb026f64",
+  "implementation_lock_blob": "d3df46210f81b113e346b0cb50faffcdb3a7eaaa",
+  "buildonly_runner_blob": "05f4bddbbe697e39ba4968a54bc4594a5435541c",
+  "science_runner_blob": "4326d69f058ad8266e88f20272b3ca17f1b21293",
+  "authorization": {
+    "implementation": true,
+    "buildonly": true,
+    "static_package_qa": true,
+    "shader_compilation": true,
+    "native_executable_compilation": true,
+    "diagnostic_executable_launch": false,
+    "target_model_execution": false,
+    "model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "fresh_ttft_observation": false,
+    "h_art_mechanism_adjudication": false,
+    "mechanism_adjudication": false,
+    "scientific_design_mutation": false
+  },
+  "local_substrate": {
+    "required": "LOCAL_WINDOWS_WORKSTATION",
+    "rationale": "Qualified by P8L and has the required Windows/Visual Studio/Vulkan-adjacent build substrate."
+  },
+  "expected_output": {
+    "bundle": "results/ttft_m2_p9b_buildonly_return_to_chatgpt.zip",
+    "result": "results/ttft_m2_p9b_buildonly/TTFT_M2_P9B_BUILDONLY_RESULT.json"
+  },
+  "failure_policy": {
+    "no_automatic_repair_or_rerun": true,
+    "preserve_bundle_and_console": true,
+    "adjudicate_failure_domain_before_any_change": true
+  },
+  "next_on_run": "INDEPENDENT_P9B_BUILDONLY_ADJUDICATION"
+}
