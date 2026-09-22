@@ -204,3 +204,40 @@ The decode plane remains priority #1, but the next step is measurement-only:
 `ARCLLM_V1_I001R_EXACT_7B_DECODE_DEVICE_WORK_PROFILE.md`
 
 Only after an exact 7B per-family profile may a replacement implementation be selected.
+
+
+## I001R exact 7B decode device-work profile — implementation freeze — 2026-09-22
+
+Study:
+
+`ARCLLM_V1_I001R_EXACT_7B_DECODE_DEVICE_WORK_PROFILE`
+
+Purpose:
+- replace 1.5B proxy attribution with exact Q2/Q3-safe 7B device-work evidence;
+- measure dominant decode families before selecting any replacement implementation.
+
+Frozen instrumentation:
+- exact Q2 graph builder preserved byte-for-byte;
+- exact 441 prefill / 469 decode dispatch census;
+- exact Q2 16-shader payload;
+- decode probes at indices 0, 15, 30 only;
+- remaining 28 measured decode steps use unchanged production `execute_prepared`;
+- Vulkan timestamp period and raw 469 op ticks are emitted;
+- exact GGUF model-weight bytes are emitted only as logical tensor-byte accounting, not DRAM traffic.
+
+Collection:
+- Session A: W-S → W-C;
+- Session B: W-C → W-S;
+- 1 warmup + 5 measured per cell;
+- 20 measured full inferences;
+- 60 profiled decode steps;
+- 560 production lifecycle decode steps;
+- no automatic/selective rerun.
+
+Zero-science implementation QA:
+`PASS_I001R_ZERO_SCIENCE_IMPLEMENTATION_QA`
+
+No performance measurement has been executed at commit time.
+
+Next:
+`LOCAL_EXACT_I001R_COLLECTION`

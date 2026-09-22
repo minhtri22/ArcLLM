@@ -1,0 +1,49 @@
+{
+  "schema": "arcllm.v1.i001r.zero_science_qa.v0.1",
+  "date": "2026-09-22",
+  "study": "ARCLLM_V1_I001R_EXACT_7B_DECODE_DEVICE_WORK_PROFILE",
+  "parent_head": "cd4933591262baee5602922a8b52ecc162d1c926",
+  "result": "PASS_I001R_ZERO_SCIENCE_IMPLEMENTATION_QA",
+  "science_executed": false,
+  "production_optimization": false,
+  "pdep_implementation": false,
+  "checks": {
+    "q2_graph_builder_byte_identical": true,
+    "production_execute_prepared_byte_identical": true,
+    "exact_model_graph_constants": true,
+    "exact_441_prefill_469_decode_census": true,
+    "profile_probe_indices": [
+      0,
+      15,
+      30
+    ],
+    "timestamp_valid_bits_captured": true,
+    "timestamp_period_ns_captured": true,
+    "raw_469_op_ticks_per_probe_emitted": true,
+    "exact_model_weight_byte_map_emitted": true,
+    "weight_bytes_not_claimed_as_dram_traffic": true,
+    "anl64_payload_absent": true,
+    "pdep_payload_absent": true,
+    "frozen_session_order": true,
+    "measured_attempts_expected": 20,
+    "profiled_steps_expected": 60,
+    "normal_lifecycle_steps_expected": 560,
+    "automatic_rerun": false,
+    "selective_rerun": false,
+    "analyzer_pre_registered": true,
+    "replacement_implementation_selected": false
+  },
+  "blobs": {
+    "profiler_source": "f028fc9fe08f6d0ebe817be7099a960629fa474c",
+    "instrumented_runtime": "6bb18efe639f67a44581f70a13e5fb3df04da135",
+    "build_script": "b1e7e474d34a4836b1117fee9a19c51e22ca9be9",
+    "static_test": "6b03581dc69ec63758f547abf673b0dfaf76d180",
+    "analyzer": "0b037ada561d1b5fdc1938d484b7d4f696bff64e",
+    "runner": "4a026e61cc5faecc10b32b7b7ffa297f3f2b8958",
+    "specification": "4e8013e8344416a52b8d64c54e1b15d2e0a028ff",
+    "contract": "4beb96115b0e67acbbfa09c6c811f69284de28bf",
+    "q2_parent": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "p8c_parent": "8432ca554b36a2167429b640c5ec6779cf2b3e6b"
+  },
+  "next": "LOCAL_EXACT_I001R_COLLECTION"
+}
