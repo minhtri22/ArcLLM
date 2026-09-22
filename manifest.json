@@ -2,7 +2,7 @@
   "phase": "ARCLLM-TTFT-M1-P6-BUILDONLY-PENDING-V0.2",
   "track": "ArcLLM TTFT causal mechanism",
   "date": "2026-09-22",
-  "status": "TTFT_M1_P6_IMPLEMENTATION_LOCKED_V0_2_BUILDONLY_PENDING",
+  "status": "TTFT_M1_P6_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
   "title": "independent TTFT mechanism identification after terminal ANL64",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "ARCLLM_TTFT_M1",
@@ -1061,7 +1061,7 @@
     "governance": {
       "path": "config/arcllm_ttft_mechanism_governance_v0.1.json",
       "blob": "265e40bce0f9981103e64827c849a5c5bd178394",
-      "status": "P6_IMPLEMENTATION_LOCKED_V0_2_BUILDONLY_PENDING"
+      "status": "P6_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING"
     },
     "lineage": {
       "path": "programs/arcllm_ttft_mechanism/lineage.md",
@@ -1076,7 +1076,7 @@
       "P3": "COMPLETE",
       "P4": "COMPLETE",
       "P5": "COMPLETE_PASS",
-      "P6": "IMPLEMENTATION_LOCKED_V0_2_BUILDONLY_PENDING",
+      "P6": "IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
       "P7": "BLOCKED",
       "P8": "BLOCKED",
       "P9": "BLOCKED",
