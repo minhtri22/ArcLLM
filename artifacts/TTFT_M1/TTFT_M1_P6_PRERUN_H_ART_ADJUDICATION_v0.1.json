@@ -1,0 +1,55 @@
+{
+  "schema": "arcllm.ttft_m1.p6.prerun_h_art_implementation_adjudication.v0.1",
+  "date": "2026-09-22",
+  "result": "P6_PRERUN_H_ART_IMPLEMENTATION_DEFECT_NO_SCIENCE_CONSUMED",
+  "defect": {
+    "class": "STATIC_GATE_OPERATIONALIZATION_TAUTOLOGY",
+    "description": "v0.1 compiled the same 16 common shader sources twice with the same compiler and compared those two fresh outputs. That can test compiler determinism but cannot by itself establish historical SAFE-vs-candidate artifact identity.",
+    "discovered_before_runner_execution": true,
+    "buildonly_started": false,
+    "target_model_loaded": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "p7_data_collected": false
+  },
+  "canonical_rule_unchanged": {
+    "hypothesis": "H-ART PREFILL_BINARY_ARTIFACT_DIVERGENCE",
+    "support": "Any common prefill SPIR-V differs candidate vs safe reference.",
+    "falsify": "All common prefill SPIR-V hashes match exactly.",
+    "threshold_change": false,
+    "arm_change": false,
+    "workload_change": false,
+    "endpoint_change": false
+  },
+  "authoritative_historical_inputs": {
+    "safe_reference": {
+      "path": "config/q2_execution_authorization.json",
+      "blob": "20f556fb18ee4ffd0ce5e17cf8fab1a2b9a992dc",
+      "role": "historical SAFE compiled_shader_sha256 map for all 16 common shaders"
+    },
+    "candidate_buildonly": {
+      "path": "artifacts/ANL64/ANL64_P4_BUILDONLY_ADJUDICATION_v0.1.json",
+      "blob": "e9039de1af496cf724a390e8180ae7d97e99f091",
+      "compiler_release": "16.5.0",
+      "target_env": "vulkan1.2",
+      "q4fast_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+      "q4safe_spv_sha256": "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A",
+      "q6safe_spv_sha256": "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67",
+      "role": "historical candidate BuildOnly compiler/source identity and sentinel compiled hashes"
+    }
+  },
+  "authorized_correction": {
+    "compile_each_common_shader_once_with_exact_pinned_candidate_toolchain": true,
+    "compare_reproduced_hash_to_frozen_safe_historical_hash": true,
+    "require_q4safe_and_q6safe_sentinels_match_parent_candidate_p4": true,
+    "require_q4fast_reproduce_parent_candidate_p4": true,
+    "no_model_or_gpu_needed": true
+  },
+  "repair_accounting": {
+    "p6_buildonly_repair_consumed": 1,
+    "p6_buildonly_repair_max": 1,
+    "further_p6_buildonly_repair_permitted": false,
+    "note": "Consumed conservatively because implementation lock v0.1 had already been frozen, although no BuildOnly runner was executed."
+  },
+  "next": "IMPLEMENT_CORRECTION_REQA_LOCK_V0_2_THEN_ONE_BUILDONLY_RUN"
+}
