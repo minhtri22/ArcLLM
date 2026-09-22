@@ -1,0 +1,113 @@
+{
+  "schema": "arcllm.ttft_m1.p10.final_program_adjudication.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M1",
+  "final_status": "TTFT_M1_PROGRAM_CLOSED_INFRASTRUCTURE_STOP_NO_MECHANISM_RESULT",
+  "research_question": "What mechanism causes the reproducible TTFT regression observed in the frozen ANL64 successor, and can a separately preregistered architecture remove that mechanism without sacrificing the already-demonstrated semantic correctness and decode/E2E gains?",
+  "answer": "NOT_ADJUDICATED",
+  "reason": "The program stopped at P6 before BuildOnly execution and before any fresh mechanism-identification observation because the single infrastructure/implementation repair allowance had been consumed and a second post-lock runner provenance defect was found.",
+  "stage_results": {
+    "P0": "COMPLETE",
+    "P1": "COMPLETE_PRIOR_ART_AND_SOURCE_REVIEW",
+    "P2": "COMPLETE_TTFT_PATH_AND_HYPOTHESES",
+    "P3": "COMPLETE_CAUSAL_DECOMPOSITION",
+    "P4": "COMPLETE_FALSIFICATION_AND_STOP_CONTRACT",
+    "P5": "COMPLETE_PASS_ZERO_SCIENCE_QA",
+    "P6": "STOP_INFRASTRUCTURE_UNSTABLE_BEFORE_BUILDONLY_EXECUTION",
+    "P7": "NOT_OPENED",
+    "P8": "NOT_OPENED",
+    "P9": "NOT_OPENED",
+    "P10": "COMPLETE_TERMINAL"
+  },
+  "preserved_methodological_evidence": {
+    "independent_program_provenance": true,
+    "parent_anl64_not_reopened": true,
+    "prior_art_before_implementation": true,
+    "local_ttft_boundary_mapped": true,
+    "common_prefill_source_identity_established": true,
+    "finite_hypothesis_set_frozen": true,
+    "factorial_2x2_design_frozen": true,
+    "falsification_and_stop_rules_frozen": true,
+    "parent_p6_timing_reuse_forbidden": true,
+    "fresh_identification_design_observations_planned": 80
+  },
+  "scientific_non_results": {
+    "H_ART": "NOT_ADJUDICATED_LOCALLY",
+    "H_DPIPE": "NOT_ADJUDICATED",
+    "H_PRECOND": "NOT_ADJUDICATED",
+    "H_STATE_INTERACTION": "NOT_ADJUDICATED",
+    "H_NULL": "NOT_ADJUDICATED",
+    "ttft_removal_intervention": "NOT_TESTED"
+  },
+  "execution_accounting": {
+    "buildonly_runner_executions": 0,
+    "diagnostic_executable_launches": 0,
+    "target_model_loads": 0,
+    "gpu_dispatches": 0,
+    "fresh_ttft_identification_observations": 0,
+    "parent_p6_timings_used_as_fresh_data": 0
+  },
+  "terminal_p6": {
+    "adjudication": "artifacts/TTFT_M1/TTFT_M1_P6_TERMINAL_INFRASTRUCTURE_ADJUDICATION_v0.1.json",
+    "adjudication_blob": "de89ae36950a9bee2262c7f055cad95a7d9e3106",
+    "document": "docs/research/arcllm-ttft-mechanism/P6_TERMINAL_INFRASTRUCTURE_ADJUDICATION.md",
+    "document_blob": "568b9e9f35e8ff5286296e23ff3853f0e9942371"
+  },
+  "repair_accounting": {
+    "budget_max": 1,
+    "consumed": 1,
+    "remaining": 0,
+    "first_defect": "STATIC_GATE_OPERATIONALIZATION_TAUTOLOGY",
+    "second_defect": "POST_LOCK_RUNNER_PROVENANCE_STALE_REFERENCE",
+    "second_repair_permitted": false
+  },
+  "claim_boundary": {
+    "supported": [
+      "The program produced a governed, prior-art-informed, falsifiable mechanism-identification design.",
+      "Static source analysis established that ANL64 and safe reference share the measured prefill source path and that Q4FAST is decode-only."
+    ],
+    "not_supported": [
+      "Any local TTFT mechanism is causally identified.",
+      "H-ART is falsified or supported by a fresh local BuildOnly run.",
+      "Decode-pipeline state causes TTFT regression.",
+      "Full-inference preconditioning causes TTFT regression.",
+      "The historical TTFT harm is absent under controlled fresh identification.",
+      "Any TTFT-removal intervention preserves decode/E2E gains."
+    ]
+  },
+  "parent_boundary": {
+    "anl64_terminal_status_unchanged": "ANL64_PROGRAM_CLOSED_VALID_NEGATIVE_TTFT_BLOCKED",
+    "retroactive_reclassification": false
+  },
+  "closure_rules": {
+    "reopen_current_program": false,
+    "patch_runner_and_continue": false,
+    "create_lock_v0_3": false,
+    "open_p7": false,
+    "rename_continuation_as_same_program": false,
+    "lineage_closed_after_final_append": true
+  },
+  "future_work": {
+    "permitted_only_as_new_independent_program": true,
+    "requirements": [
+      "fresh branch",
+      "fresh lineage.md",
+      "ORIGIN binding TTFT_M1 terminal P10 and ANL64 terminal evidence",
+      "new zero-science governance",
+      "infrastructure package validated before consuming the single execution-stage repair budget",
+      "fresh evidence only"
+    ],
+    "recommendation_boundary": "A future program may reuse the frozen causal design as prior methodological evidence, but must not inherit an unexecuted H-ART or mechanism verdict."
+  },
+  "final_authorization": {
+    "implementation": false,
+    "build": false,
+    "target_model_execution": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "p7": false,
+    "p8": false,
+    "p9": false
+  },
+  "next": "NONE_PROGRAM_TERMINAL"
+}
