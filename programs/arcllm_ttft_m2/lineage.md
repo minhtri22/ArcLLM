@@ -756,3 +756,53 @@ Package repair budget consumed: 0, because the corrected governance budget activ
 
 Next remains:
 `LOCAL_P9B_ZERO_SCIENCE_BUILDONLY_EXECUTION_AND_RETURN`.
+
+
+## 2026-09-22 — M2-P9B BUILDONLY QUALIFICATION PASS
+
+The local Windows P9B BuildOnly bundle was independently adjudicated.
+
+Result:
+
+`PASS_M2_P9B_CANONICAL_SCIENTIFIC_HARNESS_BUILDONLY_QUALIFICATION`
+
+Execution identity:
+- HEAD `3d7cb8f0ec0827caab83589b72e6c872d09e6346`;
+- authorization `bcf7c04fbc09cdcbc39b57676945b808e66a2167`;
+- implementation lock `7b06da63fe09597ebdcf641d1cd992d4a973075c`;
+- BuildOnly runner `91e2a071d764b02ce328d4fa40248a68bdedd144`;
+- future science runner `4326d69f058ad8266e88f20272b3ca17f1b21293`;
+- canonical design `abce0545cec33367f9b3a82f15d5ffd4fb026f64`.
+
+Returned bundle SHA256:
+`AAC4F7E2E042CB51FEAA663FF969527C48D52FB1B85062230F12B1F548587185`.
+
+Bundle membership: exactly 24 required members, 0 extras.
+
+Built executable:
+- SHA256 `9E0C0A7CCCBB2DA767B4DE90354EC7ADF4463286264187843521419113C019C7`;
+- bytes `441856`.
+
+Independent hash checks passed for executable, native-build manifest, shader-build manifest and every returned SPIR-V artifact.
+
+The bundled authorization, implementation lock and P9A design manifest resolve byte-for-byte to their expected Git blobs.
+
+Zero-science remained exact:
+- executable launch false;
+- model load false;
+- GPU dispatch false;
+- performance timing false;
+- fresh TTFT observations 0;
+- H-ART mechanism adjudication false;
+- mechanism result NONE.
+
+No defect was observed in executed P9B v0.2. Package repair budget remains 0/1.
+
+P9B adjudication:
+- artifact `d6a9947694cb35044251bac363236f69b06e4d9f`;
+- document `e6fdb045e25a7ed5fdcb45c64b880e4728360389`.
+
+Scientific execution remains blocked.
+
+Next:
+`M2_P9C_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_EXECUTION_AUTHORIZATION_GATE`.

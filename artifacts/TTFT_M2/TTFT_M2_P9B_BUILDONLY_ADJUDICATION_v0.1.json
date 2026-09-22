@@ -1,0 +1,71 @@
+{
+  "schema": "arcllm.ttft_m2.p9b.buildonly_adjudication.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "stage": "M2_P9B_CANONICAL_SCIENTIFIC_HARNESS_IMPLEMENTATION_AND_BUILDONLY_QUALIFICATION",
+  "result": "PASS_M2_P9B_CANONICAL_SCIENTIFIC_HARNESS_BUILDONLY_QUALIFICATION",
+  "execution_source": {
+    "substrate": "LOCAL_WINDOWS_WORKSTATION",
+    "git_head": "3d7cb8f0ec0827caab83589b72e6c872d09e6346",
+    "authorization_blob": "bcf7c04fbc09cdcbc39b57676945b808e66a2167",
+    "implementation_lock_blob": "7b06da63fe09597ebdcf641d1cd992d4a973075c",
+    "buildonly_runner_blob": "91e2a071d764b02ce328d4fa40248a68bdedd144",
+    "science_runner_blob": "4326d69f058ad8266e88f20272b3ca17f1b21293",
+    "canonical_design_manifest_blob": "abce0545cec33367f9b3a82f15d5ffd4fb026f64"
+  },
+  "returned_bundle": {
+    "sha256": "AAC4F7E2E042CB51FEAA663FF969527C48D52FB1B85062230F12B1F548587185",
+    "member_count": 24,
+    "required_members_present": true,
+    "extra_members": 0,
+    "powershell_zip_backslash_member_names": true
+  },
+  "integrity": {
+    "bundled_authorization_git_blob": "bcf7c04fbc09cdcbc39b57676945b808e66a2167",
+    "bundled_lock_git_blob": "7b06da63fe09597ebdcf641d1cd992d4a973075c",
+    "bundled_design_manifest_git_blob": "abce0545cec33367f9b3a82f15d5ffd4fb026f64",
+    "result_sha256": "066D312EE74825947ACF0C0B34637DCF0520C931CEDCE6E43C9D83173B4E4232",
+    "native_build_manifest_sha256": "0E51867BE03AFD60E90B823D2A6FE19F22ACBF6B628E9CE37E30E673C6AF91E4",
+    "shader_build_manifest_sha256": "9298D5EE2838B3FE5D39FC968DC937DC4183F168517CEE1F30F54E9CA86093FA",
+    "executable_sha256": "9E0C0A7CCCBB2DA767B4DE90354EC7ADF4463286264187843521419113C019C7",
+    "executable_bytes": 441856,
+    "common_shader_count": 16,
+    "q4fast_shader_present": true,
+    "all_shader_payload_hashes_match_manifest": true,
+    "native_source_blobs_match_lock": true,
+    "shader_source_blobs_match_lock": true,
+    "result_payload_hashes_match": true,
+    "all_integrity_checks_pass": true
+  },
+  "buildonly_result": {
+    "status": "M2_P9B_BUILDONLY_COMPLETE_AWAITING_ADJUDICATION",
+    "static_package_qa": "PASS_BY_RUNNER_PRECONDITION",
+    "shader_compilation": "PASS",
+    "native_executable_compilation": "PASS",
+    "executable_built": true,
+    "executable_launched": false
+  },
+  "zero_science": {
+    "diagnostic_executable_launched": false,
+    "target_model_loaded": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "fresh_ttft_observations": 0,
+    "h_art_mechanism_adjudication_performed": false,
+    "mechanism_adjudication_performed": false,
+    "scientific_result": "NONE"
+  },
+  "package_repair_budget": {
+    "consumed_before_execution": 0,
+    "defects_observed_in_executed_v0_2_package": 0,
+    "consumed_after_adjudication": 0,
+    "remaining": 1
+  },
+  "effect": {
+    "canonical_m2_scientific_harness_buildonly_qualified": true,
+    "p9b_complete": true,
+    "scientific_execution_authorized": false,
+    "p9c_execution_authorization_gate_eligible": true
+  },
+  "next": "M2_P9C_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_EXECUTION_AUTHORIZATION_GATE"
+}
