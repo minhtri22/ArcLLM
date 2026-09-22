@@ -122,3 +122,39 @@ Current result:
 ```text
 PASS_CONNECTOR_EQUIVALENT_P6_STATIC_QA_BUILDONLY_PENDING
 ```
+
+
+## Pre-run H-ART implementation correction
+
+Before any P6 BuildOnly runner was executed, static review found that the first H-ART implementation compared two fresh compilations of the same common sources. That was insufficient to establish historical SAFE-vs-candidate artifact identity.
+
+The defect was adjudicated as:
+
+```text
+P6_PRERUN_H_ART_IMPLEMENTATION_DEFECT_NO_SCIENCE_CONSUMED
+```
+
+No build, model load, GPU dispatch, timing, or P7 observation had occurred.
+
+The corrected H-ART method is:
+
+```text
+candidate exact source/toolchain reproduction
+        ↓
+compare each of 16 reproduced common SPIR-V hashes
+against frozen historical SAFE hashes
+from config/q2_execution_authorization.json
+        ↓
+cross-check Q4-safe/Q6-safe reproduced hashes
+against ANL64 P4 historical BuildOnly adjudication
+        ↓
+reproduce historical Q4FAST hash
+```
+
+Frozen historical inputs:
+- SAFE authorization blob `20f556fb18ee4ffd0ce5e17cf8fab1a2b9a992dc`;
+- ANL64 P4 BuildOnly adjudication blob `e9039de1af496cf724a390e8180ae7d97e99f091`.
+
+The hypothesis, support/falsification rule, workloads, arms, 1.10 materiality threshold and future P7 collection are unchanged.
+
+The correction conservatively consumes the single P6 BuildOnly repair allowance. No further P6 BuildOnly repair is permitted after lock v0.2.
