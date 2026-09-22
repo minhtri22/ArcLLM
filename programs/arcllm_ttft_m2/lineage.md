@@ -653,3 +653,47 @@ P9 remains not opened.
 
 Next:
 `M2_P9_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_AUTHORIZATION_GATE_REVIEW_2`.
+
+
+## 2026-09-22 — M2-P9 AUTHORIZATION GATE REVIEW 2
+
+Review 2 was performed after P9A fresh M2 scientific-design adoption.
+
+Result:
+
+`PASS_M2_P9_AUTHORIZATION_GATE_REVIEW_2`
+
+Decision:
+
+`AUTHORIZE_M2_P9_SCIENTIFIC_HARNESS_IMPLEMENTATION_AND_BUILDONLY_ONLY`
+
+P9 is now open in an implementation-only state. Scientific execution remains blocked.
+
+Prerequisites satisfied:
+- P8L valid local BuildOnly PASS: `b1eda822a3580370ebdeda704af8a169c4991dec`;
+- P9A PASS: `0eccfd37a85738c1d05babaf36f46b66c6b17219`;
+- canonical P9A design manifest: `abce0545cec33367f9b3a82f15d5ffd4fb026f64`.
+
+The gate found that P9A froze the scientific design but did not yet freeze a fresh M2-native scientific execution package. Historical M1 implementation artifacts remain non-canonical for M2 execution.
+
+Therefore Review 2 authorizes:
+- M2-native scientific harness implementation;
+- BuildOnly compilation;
+- static H-ART artifact identity qualification;
+- execution-package QA/provenance freeze.
+
+Still forbidden:
+- diagnostic executable launch;
+- target model load;
+- GPU dispatch;
+- performance measurement;
+- fresh TTFT observations;
+- mechanism adjudication.
+
+Gate evidence:
+- artifact blob `e3accfd9f9ebe85b1635b65ae9066cdb89b88f00`;
+- document blob `4fa8e2f8c8de0fed675868bfef247497f8d0961d`.
+
+Next admissible step:
+
+`M2_P9B_CANONICAL_SCIENTIFIC_HARNESS_IMPLEMENTATION_AND_BUILDONLY_QUALIFICATION`.
