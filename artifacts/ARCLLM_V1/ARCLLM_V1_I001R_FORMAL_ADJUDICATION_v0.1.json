@@ -1,0 +1,119 @@
+{
+  "schema": "arcllm.v1.i001r.formal_adjudication.v0.1",
+  "date": "2026-09-22",
+  "result": "PASS_VALID_COLLECTION_DOMINANT_DEVICE_FAMILY_FFN_GATE_UP",
+  "program": "ARCLLM_V1_I001R_EXACT_7B_DECODE_DEVICE_WORK_PROFILE",
+  "execution_head": "8b4b8e1705df8c0b0b961485046c9ba67c51d78a",
+  "bundle_sha256": "5C69C5ADD37A5C54F58942A4A4A2B74F21111FBED17D028AFDCCB02418A1ECBE",
+  "file_sha256": {
+    "contract": "413B09C20A1550400FB8BA2353EFD52D337DF7C02FF3CB32EFD1BAB97236341F",
+    "A_WS": "6A5107129F55D5F80F27B1AF0E1C2FA7FBC9634D43589549FEED48FED51C84B6",
+    "A_WC": "001090048C06507A25BC85C8336EBE90C99B6AFDC262EF717C467D9A9D17B96F",
+    "B_WC": "C85445D033B2154DBC28C3C5172E485430321D2E9ABACDA7B3493B40CEF6762E",
+    "B_WS": "25823B5D62E65F3AA240185136184ED77E92FC140B321165D0DFB68BE75ACDE9",
+    "build_manifest": "0D121F9D0CE26543878EED9C4D95C9F08CD1D2B992507FAAC344F86C4D357406",
+    "environment": "EFC9A71C94916150E0D13905F9FC460F57E1CDFECBBE7319E08ADAFD4D632289",
+    "returned_summary": "2FCE1DA14DA816BE517657DC0D11E54AD6240C0DAC91DD3118E0BF8B6A733D76",
+    "run_meta": "9D2652D24AE8A3C46E07DFB2C7AEEE1DD28D24F2FBC5CFE1EAC204CC4D1E4248"
+  },
+  "validity": {
+    "collection_complete": true,
+    "exact_environment": true,
+    "exact_model": true,
+    "measured_attempts": "20/20",
+    "profiled_decode_steps": "60/60",
+    "normal_lifecycle_steps": "560/560",
+    "all_attempts_success": true,
+    "all_outputs_finite": true,
+    "all_dispatch_census_pass": true,
+    "probe_indices": [
+      0,
+      15,
+      30
+    ],
+    "op_ticks_per_probe": 469,
+    "semantic_hash_consistency_W_S": true,
+    "semantic_hash_consistency_W_C": true,
+    "automatic_rerun": false,
+    "selective_rerun": false,
+    "production_optimization": false,
+    "pdep_implementation": false
+  },
+  "independent_recompute": {
+    "global_median_family_share": {
+      "ffn_gate_up": 0.5967268006333042,
+      "lm_head": 0.2145571770363493,
+      "ffn_down": 0.15816775169148867,
+      "attn_qkv": 0.025975380977095876,
+      "attn_output": 0.010218484916967842,
+      "attention": 0.0020932134819125364,
+      "rmsnorm": 0.0003397571577690435,
+      "residual_add": 0.00015214643045203396,
+      "rope": 0.00011109814375451919,
+      "swiglu": 0.00009790093115521307,
+      "kv_store": 0.00005256183741717062,
+      "embedding": 0.000005565658888982477
+    },
+    "barrier_unattributed_share_median": 0.0004595523989697782,
+    "lifecycle_outside_submit_share_median": 0.0008170494681169015,
+    "ffn_gate_up_attempt_min": 0.5466980870717825,
+    "ffn_gate_up_attempt_max": 0.6568265622822441,
+    "ffn_gate_up_probe_min": 0.5201037743552807,
+    "ffn_gate_up_probe_max": 0.6864757913599959,
+    "ffn_gate_up_probe_median": 0.6112999538020587,
+    "ffn_gate_up_cell_medians": {
+      "A_WS": 0.6473561669060606,
+      "A_WC": 0.5781149511508396,
+      "B_WC": 0.5968590719385765,
+      "B_WS": 0.5886966890911511
+    },
+    "corrected_quant_linear_share_median_per_attempt": 0.9965737914422226
+  },
+  "exact_gate_up_geometry": {
+    "dispatches_per_token": 56,
+    "quant": "Q4_K",
+    "batch": 1,
+    "n": 3584,
+    "rows": 18944,
+    "row_bytes": 2016,
+    "shader": "p7_q4k_gemm_2d.spv",
+    "logical_weight_bytes_per_matrix": 38191104,
+    "logical_weight_bytes_per_layer_pair": 76382208,
+    "logical_weight_bytes_per_token": 2138701824,
+    "fp32_input_reuse_max_bytes_per_token": 401408
+  },
+  "prior_mechanism": {
+    "id": "SA1-H1 SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW",
+    "preregistration_blob": "4256a2e6bda4fa35b48cb4051ff26e18eef5dc96",
+    "adjudication_blob": "f4bda3a8f5b6133c7a0f118c48e153fe1ea04866",
+    "candidate_shader_blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "exact_shape": "Q4_H3584_R18944_NOBIAS",
+    "process_A_speedup": 5.333759957492209,
+    "process_B_speedup": 5.504312605870369,
+    "correctness": "PASS"
+  },
+  "carry_through_envelope": {
+    "gate_up_share": 0.5967268006333042,
+    "A_speedup_if_transfer": 1.94118020093082,
+    "B_speedup_if_transfer": 1.9543312830843298,
+    "geomean_mechanism_speedup": 5.418365267376403,
+    "geomean_predicted_device_chain_speedup": 1.947785285041628,
+    "interpretation": "Amdahl device-chain envelope under transfer, not observed model-level speedup."
+  },
+  "returned_summary_qa": {
+    "invalid_noncompositional_field": "quant_linear_family_share_sum_of_medians",
+    "returned_value": 1.005645595255206,
+    "corrected_metric": "median(per-attempt sum of quant-linear family shares)",
+    "corrected_value": 0.9965737914422226,
+    "decision_affected": false
+  },
+  "decision": {
+    "frozen_dominant_family_threshold": 0.2,
+    "observed_ffn_gate_up_median": 0.5967268006333042,
+    "threshold_multiple": 2.9836340031665207,
+    "i001r_closed": true,
+    "pdep_reopened": false,
+    "next_intervention": "I002_Q4_FFN_GATE_UP_SUBGROUP32_SPLITK_DECODE_EXECUTOR",
+    "implementation_authorized": false
+  }
+}

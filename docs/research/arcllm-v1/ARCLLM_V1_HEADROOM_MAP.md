@@ -412,3 +412,61 @@ Exact 7B per-family timestamp evidence is still missing, so no replacement imple
 Next:
 
 `ARCLLM_V1_I001R_EXACT_7B_DECODE_DEVICE_WORK_PROFILE.md`
+
+
+## 17. Exact 7B I001R update — dominant gate/up family
+
+I001R exact 7B collection is valid and formally adjudicated:
+
+`PASS_VALID_COLLECTION_DOMINANT_DEVICE_FAMILY_FFN_GATE_UP`
+
+Independent raw-tick recomputation:
+
+```text
+ffn_gate_up        59.6727%
+lm_head            21.4557%
+ffn_down           15.8168%
+attn_qkv            2.5975%
+attn_output         1.0218%
+attention           0.2093%
+
+barrier/unattributed 0.04596%
+lifecycle outside-submit 0.08170%
+```
+
+The gate/up result replicates across all four cells:
+
+```text
+A/W-S 64.7356%
+A/W-C 57.8115%
+B/W-C 59.6859%
+B/W-S 58.8697%
+```
+
+It also remains above 52% in every one of the 60 individual profile probes.
+
+This closes the previous attribution gap:
+
+- launch/lifecycle is not a first-order decode target;
+- explicit barrier/unattributed cost is not a first-order decode target;
+- `ffn_gate_up` is the dominant exact-7B device-work family.
+
+Exact source mapping identifies 56 Q4_K batch-1 gate/up matvec dispatches per token, all using `p7_q4k_gemm_2d.spv` with geometry 3584→18,944.
+
+Historical SA1 had already validated a subgroup32 split-K mechanism on that exact geometry with ~5.33–5.50× component speedup and correctness PASS.
+
+Updated priority:
+
+| Area | Exact evidence | Recoverable evidence | Priority |
+|---|---|---|---|
+| Q4 FFN gate/up decode | 59.67% exact-7B device-chain | SA1 exact-shape 5.33–5.50× component PASS | **1** |
+| LM-head | 21.46% | no equally strong exact-shape mechanism carried here | 2 |
+| FFN-down | 15.82% | SA1 Q4 down supported locally, Q6 extension failed correctness | 3 / quant-dependent |
+| QKV/O | ~3.62% combined | ANL64/SA1 Q4 mechanism evidence exists | subordinate after gate/up |
+| lifecycle/barrier | <0.1% each | negligible first-order ceiling | deprioritized |
+
+The new selected intervention is:
+
+`I002-Q4-GU-SG32 — Q4 FFN Gate/Up Subgroup32 Split-K Decode Executor`
+
+No production implementation is authorized until its real-model transfer/carry-through specification is frozen.

@@ -357,3 +357,57 @@ Zero-science QA:
 
 Next:
 `LOCAL_EXACT_I001R_COLLECTION_V0_1_3`
+
+
+## I001R exact 7B profile adjudication — 2026-09-22
+
+Returned bundle SHA256:
+
+`5C69C5ADD37A5C54F58942A4A4A2B74F21111FBED17D028AFDCCB02418A1ECBE`
+
+Independent validity:
+- 20/20 measured attempts;
+- 60/60 profile probes;
+- 560/560 normal lifecycle steps;
+- exact environment/model/HEAD;
+- no rerun;
+- no optimization during measurement;
+- semantic tokens/logits/hidden hashes stable within each workload.
+
+Formal result:
+
+`PASS_VALID_COLLECTION_DOMINANT_DEVICE_FAMILY_FFN_GATE_UP`
+
+Independent median device-chain shares:
+- ffn_gate_up 59.6727%;
+- lm_head 21.4557%;
+- ffn_down 15.8168%;
+- attn_qkv 2.5975%;
+- attn_output 1.0218%;
+- attention 0.2093%.
+
+Barrier/unattributed median = 0.04596%.
+Lifecycle outside-submit median = 0.08170%.
+
+Exact source mapping:
+- 56 decode gate/up nodes/token;
+- Q4_K;
+- batch 1;
+- n=3584;
+- rows=18944;
+- baseline `p7_q4k_gemm_2d.spv`.
+
+Cross-evidence:
+SA1 exact gate/up geometry `Q4_H3584_R18944_NOBIAS` already passed correctness and showed 5.33376× / 5.50431× speedup for subgroup32 split-K.
+
+I001R is formally closed.
+
+Selected successor intervention:
+
+`I002-Q4-GU-SG32`
+
+No I002 implementation is authorized yet.
+
+Next artifact:
+
+`ARCLLM_V1_I002_REAL_MODEL_TRANSFER_AND_CARRY_THROUGH_SPEC.md`
