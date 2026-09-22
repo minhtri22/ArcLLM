@@ -1,0 +1,50 @@
+{
+  "schema": "arcllm.ttft_m2.p9c_a.execution_binding.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "status": "P9C_A_CORRECTED_EXECUTION_IDENTITY_BINDING_ZERO_SCIENCE",
+  "p9c_denial_gate_blob": "5054aded4e6347817c944021a3a613661e8c5ef2",
+  "p9a_design_manifest_blob": "abce0545cec33367f9b3a82f15d5ffd4fb026f64",
+  "p9b": {
+    "adjudication_blob": "d6a9947694cb35044251bac363236f69b06e4d9f",
+    "implementation_lock_path": "config/arcllm_ttft_m2_p9b_implementation_lock_v0.2.json",
+    "implementation_lock_blob": "7b06da63fe09597ebdcf641d1cd992d4a973075c",
+    "buildonly_authorization_blob": "bcf7c04fbc09cdcbc39b57676945b808e66a2167",
+    "qualified_executable_sha256": "9E0C0A7CCCBB2DA767B4DE90354EC7ADF4463286264187843521419113C019C7",
+    "qualified_executable_bytes": 441856,
+    "qualified_native_manifest_sha256": "0E51867BE03AFD60E90B823D2A6FE19F22ACBF6B628E9CE37E30E673C6AF91E4",
+    "qualified_shader_manifest_sha256": "9298D5EE2838B3FE5D39FC968DC937DC4183F168517CEE1F30F54E9CA86093FA"
+  },
+  "runtime_payload": {
+    "executable_relative": "ttft_m2_diagnostic.exe",
+    "native_manifest_relative": "NATIVE_BUILD.json",
+    "shader_manifest_relative": "SHADER_BUILD.json",
+    "shader_directory_relative": "shaders",
+    "require_actual_spirv_rehash": true,
+    "require_manifest_to_payload_hash_equality": true
+  },
+  "p9b_lock_supersession_boundary": {
+    "preserve_p9b_lock_immutable": true,
+    "historical_science_runner_blob_in_p9b_lock": "4326d69f058ad8266e88f20272b3ca17f1b21293",
+    "corrected_runner_is_new_p9c_a_authority": true,
+    "skip_only_p9b_lock_member_during_runtime_git_reverification": "scripts/ttft_m2/run_p9_science.ps1",
+    "rationale": "P9B lock remains the immutable BuildOnly qualification record. P9C-A prospectively supersedes only the future execution runner, while all other P9B lock members remain exact."
+  },
+  "gate_order": [
+    "F0_PROVENANCE_ENVIRONMENT_AND_FRESHNESS",
+    "F1_H_ART_STATIC_BINARY_IDENTITY",
+    "F2_TO_F7_FRESH_COLLECTION_AND_LATER_ADJUDICATION"
+  ],
+  "authorization": {
+    "corrected_runner_implementation": true,
+    "zero_science_static_revalidation": true,
+    "diagnostic_executable_launch": false,
+    "target_model_execution": false,
+    "model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "fresh_ttft_observation": false,
+    "mechanism_adjudication": false
+  },
+  "next": "M2_P9C_EXECUTION_AUTHORIZATION_GATE_REVIEW_2"
+}

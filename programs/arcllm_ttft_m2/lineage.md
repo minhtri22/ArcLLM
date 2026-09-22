@@ -847,3 +847,47 @@ Package repair budget remains 0/1.
 Next admissible step:
 
 `M2_P9C_A_EXECUTION_IDENTITY_BINDING_CORRECTION_AND_ZERO_SCIENCE_REVALIDATION`.
+
+
+## 2026-09-22 — M2-P9C-A EXECUTION IDENTITY BINDING CORRECTION
+
+P9C-A corrected the five pre-execution runner/provenance blockers found by the first P9C gate.
+
+Result:
+
+`PASS_M2_P9C_A_EXECUTION_IDENTITY_BINDING_CORRECTION_AND_ZERO_SCIENCE_REVALIDATION`
+
+New execution-binding contract:
+- path `config/arcllm_ttft_m2_p9c_a_execution_binding_v0.1.json`;
+- blob `90dc9d87fb987a3892d0a64c27e89baa2cbd3a32`.
+
+Corrected future science runner:
+- path `scripts/ttft_m2/run_p9_science.ps1`;
+- blob `f0a627de05c509286cdb51a070d409b297c7dbaa`;
+- supersedes old runner `4326d69f058ad8266e88f20272b3ca17f1b21293`.
+
+P9B lock v0.2 remains immutable and P9B PASS remains valid.
+
+Resolved:
+1. active implementation lock is now v0.2;
+2. exact qualified executable SHA256/size are enforced before launch;
+3. native/shader build manifest byte hashes are enforced;
+4. every actual runtime SPIR-V is rehashed before F1/launch;
+5. gate order is restored to F0 → F1 → F2-F7.
+
+Reproducibility guard:
+- `tests/test_ttft_m2_p9c_a_runner.py`;
+- blob `1dba3b2305a608b5f6fbe81d31a2dd1ab17baac8`.
+
+The test is committed for reproducibility; this gate records source-level zero-science revalidation, not a Windows test execution.
+
+P9C-A evidence:
+- artifact `0ce4487770a8cdff93de99936ced234b2fd405d9`;
+- document `e3103acc588077472b8f725062204a4a127b7704`.
+
+No P9C execution authorization file was created.
+No executable/model/GPU/timing/fresh-TTFT execution occurred.
+Package repair budget remains 0/1.
+
+Next:
+`M2_P9C_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_EXECUTION_AUTHORIZATION_GATE_REVIEW_2`.
