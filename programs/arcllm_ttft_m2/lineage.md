@@ -891,3 +891,65 @@ Package repair budget remains 0/1.
 
 Next:
 `M2_P9C_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_EXECUTION_AUTHORIZATION_GATE_REVIEW_2`.
+
+
+## 2026-09-22 — M2-P9C EXECUTION AUTHORIZATION GATE REVIEW 2
+
+Review 2 completed after P9C-A resolved all five pre-execution binding defects.
+
+Result:
+
+`PASS_M2_P9C_EXECUTION_AUTHORIZATION_GATE_REVIEW_2`
+
+Decision:
+
+`AUTHORIZE_ONE_EXACT_FRESH_MECHANISM_IDENTIFICATION_COLLECTION`
+
+Execution authorization:
+- path `config/arcllm_ttft_m2_p9c_execution_authorization_v0.1.json`;
+- blob `fe4c45ba7675a2d10cc8a1cc4294d0f84adcdfe2`;
+- decision `M2_P9C_FRESH_MECHANISM_IDENTIFICATION_EXECUTION_AUTHORIZED`.
+
+Exact execution authority:
+- P9C-A binding `90dc9d87fb987a3892d0a64c27e89baa2cbd3a32`;
+- corrected science runner `f0a627de05c509286cdb51a070d409b297c7dbaa`;
+- P9B lock v0.2 `7b06da63fe09597ebdcf641d1cd992d4a973075c`;
+- P9B adjudication `d6a9947694cb35044251bac363236f69b06e4d9f`;
+- P9A canonical design `abce0545cec33367f9b3a82f15d5ffd4fb026f64`.
+
+Final pre-authorization checks PASS:
+- exact executable SHA256/size enforced;
+- native/shader build-manifest identities enforced;
+- actual runtime SPIR-V payload rehashed;
+- F0 precedes F1;
+- executable launch occurs only after F0/F1;
+- SAFE H-ART authority contains the 16 required common shader keys;
+- historical exact local environment evidence matches the P9A target contract, while fresh runtime F0 remains mandatory.
+
+Exactly one fresh collection is authorized:
+- SP/SF/QP/QF;
+- W-S/W-C;
+- sessions A/B;
+- 5 measured attempts per arm/workload/session;
+- 80 planned fresh TTFT observations;
+- parent observations reused 0;
+- selective rerun false;
+- materiality threshold 1.10.
+
+H-ART static adjudication is authorized. Final mechanism adjudication remains separate and unauthorized in the execution step.
+
+Mandatory fail-closed semantics remain active for F0 mismatch, H-ART support, provenance/payload mismatch, or cell failure.
+
+At gate close:
+- executable launches 0;
+- model loads 0;
+- GPU dispatches 0;
+- performance measurements 0;
+- fresh TTFT observations 0;
+- scientific result NONE.
+
+Gate artifact:
+`84861ddb708c2e9d5ac719eecc7cee4ccbf389d5`.
+
+Next:
+`EXECUTE_EXACT_P9C_AUTHORIZED_FRESH_COLLECTION_ON_LOCAL_WINDOWS`.

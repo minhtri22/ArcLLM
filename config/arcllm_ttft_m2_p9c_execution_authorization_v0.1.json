@@ -1,0 +1,97 @@
+{
+  "schema": "arcllm.ttft_m2.p9c.execution_authorization.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "decision": "M2_P9C_FRESH_MECHANISM_IDENTIFICATION_EXECUTION_AUTHORIZED",
+  "authorization_parent_head": "909e1817e9600162874b9f6ca464aa4e2c4f2ca5",
+  "p9c_review_1_gate_blob": "5054aded4e6347817c944021a3a613661e8c5ef2",
+  "p9c_a_adjudication_blob": "0ce4487770a8cdff93de99936ced234b2fd405d9",
+  "execution_binding_blob": "90dc9d87fb987a3892d0a64c27e89baa2cbd3a32",
+  "science_runner_blob": "f0a627de05c509286cdb51a070d409b297c7dbaa",
+  "p9b_adjudication_blob": "d6a9947694cb35044251bac363236f69b06e4d9f",
+  "p9b_lock_blob": "7b06da63fe09597ebdcf641d1cd992d4a973075c",
+  "p9a_design_manifest_blob": "abce0545cec33367f9b3a82f15d5ffd4fb026f64",
+  "qualified_payload": {
+    "executable_sha256": "9E0C0A7CCCBB2DA767B4DE90354EC7ADF4463286264187843521419113C019C7",
+    "executable_bytes": 441856,
+    "native_manifest_sha256": "0E51867BE03AFD60E90B823D2A6FE19F22ACBF6B628E9CE37E30E673C6AF91E4",
+    "shader_manifest_sha256": "9298D5EE2838B3FE5D39FC968DC937DC4183F168517CEE1F30F54E9CA86093FA",
+    "common_shader_count": 16,
+    "q4fast_required": true
+  },
+  "target_F0": {
+    "contract_blob": "5b79f7b42b238471e0d4bb3ee802bab7ffe83185",
+    "runtime_match_must_be_revalidated": true,
+    "prior_exact_environment_evidence_blob": "e9039de1af496cf724a390e8180ae7d97e99f091",
+    "prior_environment_match_is_not_substitute_for_runtime_F0": true
+  },
+  "science_design": {
+    "hypotheses": [
+      "H-ART",
+      "H-DPIPE",
+      "H-PRECOND",
+      "H-STATE-INTERACTION",
+      "H-NULL"
+    ],
+    "arms": [
+      "SP",
+      "SF",
+      "QP",
+      "QF"
+    ],
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "sessions": [
+      "A",
+      "B"
+    ],
+    "measured_attempts_per_arm_workload_session": 5,
+    "planned_fresh_ttft_observations": 80,
+    "material_ratio": 1.1,
+    "parent_observations_reused": 0,
+    "selective_rerun": false,
+    "pooling_for_gate": false
+  },
+  "authorization": {
+    "one_exact_fresh_collection": true,
+    "diagnostic_executable_launch": true,
+    "target_model_execution": true,
+    "model_load": true,
+    "gpu_dispatch": true,
+    "performance_measurement": true,
+    "fresh_ttft_observation": true,
+    "h_art_static_adjudication": true,
+    "final_mechanism_adjudication": false,
+    "scientific_design_mutation": false,
+    "threshold_mutation": false,
+    "workload_mutation": false,
+    "endpoint_mutation": false,
+    "session_order_mutation": false,
+    "repetition_mutation": false
+  },
+  "mandatory_order": [
+    "F0_PROVENANCE_ENVIRONMENT_AND_FRESHNESS",
+    "F1_H_ART_STATIC_BINARY_IDENTITY",
+    "IF_H_ART_SUPPORTED_STOP_BEFORE_EXECUTABLE_LAUNCH",
+    "F2_TO_F7_EXACT_FRESH_COLLECTION",
+    "RETURN_RAW_EVIDENCE",
+    "INDEPENDENT_ADJUDICATION_LATER"
+  ],
+  "stop_and_failure_policy": {
+    "on_F0_mismatch": "STOP_NO_PERFORMANCE_INTERPRETATION_NO_RERUN",
+    "on_H_ART_support": "STOP_TIMING_H_ART_SUPPORTED_STATIC",
+    "on_any_cell_failure": "STOP_PRESERVE_PARTIAL_EVIDENCE_NO_SELECTIVE_RERUN",
+    "on_provenance_or_payload_mismatch": "STOP_NO_EXECUTION",
+    "automatic_repair": false,
+    "automatic_rerun": false,
+    "selective_rerun": false,
+    "tuning_after_observation": false
+  },
+  "execution_substrate": {
+    "required": "LOCAL_WINDOWS_WORKSTATION",
+    "status": "QUALIFIED_BY_P8L_AND_P9B_BUILDONLY"
+  },
+  "next_after_execution": "M2_P9D_RAW_COLLECTION_INTEGRITY_AND_FROZEN_ADJUDICATION"
+}

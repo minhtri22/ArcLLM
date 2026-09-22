@@ -1,0 +1,60 @@
+{
+  "schema": "arcllm.ttft_m2.p9c.execution_authorization_gate.review2.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "stage": "M2_P9C_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_EXECUTION_AUTHORIZATION_GATE_REVIEW_2",
+  "adjudication_head": "909e1817e9600162874b9f6ca464aa4e2c4f2ca5",
+  "result": "PASS_M2_P9C_EXECUTION_AUTHORIZATION_GATE_REVIEW_2",
+  "decision": "AUTHORIZE_ONE_EXACT_FRESH_MECHANISM_IDENTIFICATION_COLLECTION",
+  "prerequisites": {
+    "p9a_design_pass": true,
+    "p9b_buildonly_pass": true,
+    "p9c_review_1_denial_resolved": true,
+    "p9c_a_pass": true,
+    "p9c_a_blockers_resolved": [
+      "P9C-G1",
+      "P9C-G2",
+      "P9C-G3",
+      "P9C-G4",
+      "P9C-G5"
+    ],
+    "current_branch_exact": true,
+    "scientific_outcomes_exposed_before_gate": false
+  },
+  "exact_bindings": {
+    "execution_authorization_blob": "fe4c45ba7675a2d10cc8a1cc4294d0f84adcdfe2",
+    "execution_binding_blob": "90dc9d87fb987a3892d0a64c27e89baa2cbd3a32",
+    "corrected_runner_blob": "f0a627de05c509286cdb51a070d409b297c7dbaa",
+    "p9b_lock_blob": "7b06da63fe09597ebdcf641d1cd992d4a973075c",
+    "p9b_adjudication_blob": "d6a9947694cb35044251bac363236f69b06e4d9f",
+    "p9a_manifest_blob": "abce0545cec33367f9b3a82f15d5ffd4fb026f64"
+  },
+  "final_pre_authorization_checks": {
+    "qualified_executable_identity_enforced": true,
+    "qualified_build_manifest_identity_enforced": true,
+    "actual_runtime_spirv_rehash_enforced": true,
+    "gate_order_F0_before_F1": true,
+    "executable_launch_after_F0_and_F1": true,
+    "safe_h_art_keyspace_matches_16_common_shaders": true,
+    "target_contract_matches_prior_exact_local_environment_evidence": true,
+    "runtime_F0_still_required": true,
+    "p9c_hard_gate_present_before_authorization_file": true
+  },
+  "authorization_scope": {
+    "exact_fresh_collection_count": 1,
+    "planned_fresh_ttft_observations": 80,
+    "h_art_static_adjudication_authorized": true,
+    "final_mechanism_adjudication_authorized": false,
+    "selective_rerun_authorized": false,
+    "post_outcome_tuning_authorized": false
+  },
+  "scientific_accounting_at_gate": {
+    "diagnostic_executable_launches": 0,
+    "target_model_loads": 0,
+    "gpu_dispatches": 0,
+    "performance_measurements": 0,
+    "fresh_ttft_observations": 0,
+    "scientific_result": "NONE"
+  },
+  "next": "EXECUTE_EXACT_P9C_AUTHORIZED_FRESH_COLLECTION_ON_LOCAL_WINDOWS"
+}
