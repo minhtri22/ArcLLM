@@ -3,7 +3,7 @@
   "date": "2026-09-22",
   "program_id": "ARCLLM_TTFT_M2",
   "branch": "research/arcllm-ttft-m2",
-  "status": "M2_P8_STOP_INFRASTRUCTURE_UNSTABLE_P9_BLOCKED_P10_ELIGIBLE",
+  "status": "TTFT_M2_PROGRAM_CLOSED_INFRASTRUCTURE_STOP_NO_MECHANISM_RESULT",
   "git_history_base": "86ec48ce0cfff28fa43c23c1d8b57b8f881d249e",
   "parents": {
     "ANL64": {
@@ -72,13 +72,13 @@
     "M2_P7": "COMPLETE_AUTHORIZED_EXACT_FROZEN_BUILDONLY",
     "M2_P8": "TERMINAL_STOP_INFRASTRUCTURE_UNSTABLE",
     "M2_P9": "BLOCKED_NOT_OPENED",
-    "M2_P10": "NOT_OPENED_ELIGIBLE_NEXT"
+    "M2_P10": "COMPLETE_FINAL_CLOSED"
   },
   "lineage": {
     "path": "programs/arcllm_ttft_m2/lineage.md",
     "policy": "APPEND_ONLY_WITHIN_TTFT_M2",
     "fresh": true,
-    "closed": false,
+    "closed": true,
     "reuse_parent_lineage": false
   },
   "repair_budget": {
@@ -138,7 +138,7 @@
     "performance_measurement": false,
     "fresh_ttft_observation": false
   },
-  "next": "M2_P10_FINAL_PROGRAM_ADJUDICATION",
+  "next": "PROGRAM_CLOSED_NO_FURTHER_TTFT_M2_ACTION",
   "p4": {
     "result": "M2_P4_ZERO_SCIENCE_INFRASTRUCTURE_PACKAGE_IMPLEMENTED",
     "authorization": {
@@ -384,5 +384,45 @@
       "mechanism_adjudication_performed": false
     },
     "next": "M2_P10_FINAL_PROGRAM_ADJUDICATION"
+  },
+  "p10": {
+    "result": "INFRASTRUCTURE_STOP_NO_MECHANISM_RESULT",
+    "terminal_status": "TTFT_M2_PROGRAM_CLOSED_INFRASTRUCTURE_STOP_NO_MECHANISM_RESULT",
+    "adjudication_head": "86a951becd08c67ef1b8dffba13b1d1cd141206c",
+    "artifact": {
+      "path": "artifacts/TTFT_M2/TTFT_M2_P10_FINAL_PROGRAM_ADJUDICATION_v0.1.json",
+      "blob": "0cbca9efa9754bf45e48ada5c7425ae7a8754d4a"
+    },
+    "document": {
+      "path": "docs/research/arcllm-ttft-m2/P10_FINAL_PROGRAM_ADJUDICATION.md",
+      "blob": "433b3ee26d2cc26c36024e2cd0b1f85567cff64b"
+    },
+    "p8_valid_buildonly_execution_obtained": false,
+    "repair_budget_exhausted": true,
+    "repairs_consumed": 1,
+    "repairs_max": 1,
+    "p9_opened": false,
+    "p9_status": "BLOCKED_NOT_OPENED",
+    "scientific_result": "NONE",
+    "mechanism_adjudication_performed": false,
+    "scientific_accounting": {
+      "buildonly_runner_executions": 0,
+      "diagnostic_executable_launches": 0,
+      "target_model_loads": 0,
+      "gpu_dispatches": 0,
+      "performance_measurements": 0,
+      "fresh_ttft_observations": 0
+    },
+    "interpretation_boundary": {
+      "supports_any_ttft_mechanism": false,
+      "falsifies_any_ttft_mechanism": false,
+      "distinguishes_candidate_mechanisms": false,
+      "infrastructure_failures_are_scientific_evidence": false
+    },
+    "program_closed": true,
+    "reopen_permitted": false,
+    "additional_m2_execution_permitted": false,
+    "additional_m2_repair_permitted": false,
+    "future_work_requires_new_independent_program": true
   }
 }

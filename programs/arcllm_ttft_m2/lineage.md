@@ -388,3 +388,45 @@ Scientific accounting remains zero; scientific result remains NONE.
 P9 is blocked and not opened.
 
 Next: `M2_P10_FINAL_PROGRAM_ADJUDICATION`.
+
+
+## 2026-09-22 — M2-P10 FINAL PROGRAM ADJUDICATION
+
+P10 adjudicated the exact P8 terminal state at HEAD:
+
+`86a951becd08c67ef1b8dffba13b1d1cd141206c`
+
+P8 terminal evidence:
+- artifact `ae7b17678b9cbb29018c7e0207a12a5fb6b99ac9`;
+- result `STOP_INFRASTRUCTURE_UNSTABLE`;
+- valid BuildOnly execution obtained: false;
+- exact frozen runner executions: 0.
+
+Execution-stage repair budget:
+- maximum: 1;
+- consumed: 1;
+- remaining: 0;
+- exhausted: true.
+
+P9 status:
+`BLOCKED_NOT_OPENED`
+
+No target model execution, diagnostic executable launch, GPU dispatch, performance measurement, fresh TTFT observation, or mechanism adjudication occurred.
+
+Final P10 evidence:
+- artifact blob `0cbca9efa9754bf45e48ada5c7425ae7a8754d4a`;
+- document blob `433b3ee26d2cc26c36024e2cd0b1f85567cff64b`.
+
+Final scientific interpretation boundary:
+
+TTFT_M2 infrastructure failures are not evidence supporting or falsifying any candidate TTFT mechanism. No candidate mechanism was ranked, preferred, distinguished, causally implicated, supported or falsified. Scientific result remains `NONE`.
+
+Formal terminal result:
+
+`INFRASTRUCTURE_STOP_NO_MECHANISM_RESULT`
+
+Formal terminal status:
+
+`TTFT_M2_PROGRAM_CLOSED_INFRASTRUCTURE_STOP_NO_MECHANISM_RESULT`
+
+TTFT_M2 is closed. No further execution, repair or P9 opening is permitted inside M2. Any future work requires a new independent governance program rather than an M2 rescue.
