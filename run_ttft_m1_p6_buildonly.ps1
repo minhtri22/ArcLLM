@@ -3,7 +3,7 @@ Set-StrictMode -Version Latest
 
 $Root=Split-Path -Parent $MyInvocation.MyCommand.Path
 $AuthPath=Join-Path $Root "config\arcllm_ttft_m1_p6_implementation_authorization_v0.1.json"
-$LockPath=Join-Path $Root "config\arcllm_ttft_m1_p6_implementation_lock_v0.1.json"
+$LockPath=Join-Path $Root "config\arcllm_ttft_m1_p6_implementation_lock_v0.2.json"
 $Base=Join-Path $Root "artifacts\TTFT_M1\P6"
 $ResultsDir=Join-Path $Root "results\ttft_m1_p6_buildonly"
 $Bundle=Join-Path $Root "results\ttft_m1_p6_buildonly_return_to_chatgpt.zip"
@@ -130,8 +130,9 @@ Copy-Item $HArtPath (Join-Path $ResultsDir "H_ART_BUILDONLY.json")
 if(Test-Path (Join-Path $Base "NATIVE_BUILD.json")){Copy-Item (Join-Path $Base "NATIVE_BUILD.json") (Join-Path $ResultsDir "NATIVE_BUILD.json")}
 Copy-Item $AuthPath (Join-Path $ResultsDir "arcllm_ttft_m1_p6_implementation_authorization_v0.1.json")
 Copy-Item $LockPath (Join-Path $ResultsDir "arcllm_ttft_m1_p6_implementation_lock_v0.1.json")
-Copy-Item (Join-Path $Root "artifacts\TTFT_M1\TTFT_M1_P6_STATIC_QA_v0.1.json") (Join-Path $ResultsDir "TTFT_M1_P6_STATIC_QA_v0.1.json")
+Copy-Item (Join-Path $Root "artifacts\TTFT_M1\TTFT_M1_P6_STATIC_QA_v0.2.json") (Join-Path $ResultsDir "TTFT_M1_P6_STATIC_QA_v0.2.json")
 Copy-Item (Join-Path $Root "artifacts\TTFT_M1\TTFT_M1_DUPLICATE_SPEC_RECONCILIATION_v0.1.json") (Join-Path $ResultsDir "TTFT_M1_DUPLICATE_SPEC_RECONCILIATION_v0.1.json")
+Copy-Item (Join-Path $Root "artifacts\TTFT_M1\TTFT_M1_P6_PRERUN_H_ART_ADJUDICATION_v0.1.json") (Join-Path $ResultsDir "TTFT_M1_P6_PRERUN_H_ART_ADJUDICATION_v0.1.json")
 
 Compress-Archive -Path (Join-Path $ResultsDir "*") -DestinationPath $Bundle -CompressionLevel Optimal
 $BundleHash=Sha256 $Bundle
