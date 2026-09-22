@@ -411,3 +411,33 @@ No I002 implementation is authorized yet.
 Next artifact:
 
 `ARCLLM_V1_I002_REAL_MODEL_TRANSFER_AND_CARRY_THROUGH_SPEC.md`
+
+
+## I002 real-model transfer/carry-through specification — 2026-09-22
+
+Parent evidence/adjudication commit:
+`e4e643262a36e35ef79cb6a190a6a46019dbe39d`
+
+Frozen successor:
+`I002-Q4-GU-SG32`
+
+Evidence basis:
+- exact I001R 7B `ffn_gate_up` share 59.6727%;
+- exact 56 Q4_K gate/up decode nodes;
+- SA1 exact gate/up geometry speedup 5.33376× / 5.50431× with correctness PASS.
+
+Specification:
+`docs/research/arcllm-v1/ARCLLM_V1_I002_REAL_MODEL_TRANSFER_AND_CARRY_THROUGH_SPEC.md`
+
+The study changes only the 56 decode gate/up nodes and freezes:
+- real-model component correctness transfer;
+- full-model semantic guard;
+- paired decode carry-through;
+- TTFT non-regression;
+- E2E direction;
+- no rescue / no kernel search.
+
+No fresh I002 model execution is authorized by this specification alone.
+
+Next:
+I002 bounded implementation package + T0/T1/T3 zero-science QA.
