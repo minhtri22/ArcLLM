@@ -104,3 +104,31 @@ Initial priority:
 The map does not yet choose a specific decode mechanism.
 
 Next: Intervention-001 selection.
+
+
+## Intervention-001 selection — 2026-09-22
+
+Artifact:
+
+`docs/research/arcllm-v1/ARCLLM_V1_INTERVENTION_001_SELECTION.md`
+
+Selected:
+
+`I001-PDEP — Persistent Decode Execution Plane / Decode Graph Compression`
+
+Selection basis:
+- historical post-TTFT share ~99.1% W-S / ~83.8% W-C;
+- coarse post-TTFT external gap ~39.98× / ~32.08×;
+- 469 dispatches per cached decode step;
+- decode received less optimization depth than prefill;
+- ANL64 demonstrates ~1.22–3.20× recoverable decode movement and ~1.14–2.51× E2E movement versus the safe ArcLLM reference.
+
+I001 does not assume host submission is the bottleneck. It targets the broader fine-grained decode execution topology and persistent-state opportunity.
+
+No implementation is authorized.
+
+Next required artifact:
+
+`ARCLLM_V1_I001_DECODE_COST_MODEL_AND_MECHANISM_DISCRIMINATOR.md`
+
+The next study must falsify I001 before implementation if graph fragmentation/persistence opportunity does not account for enough recoverable decode cost.
