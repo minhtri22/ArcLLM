@@ -1,0 +1,19 @@
+{
+  "schema": "arcllm.ttft_m2.p9b.pre_execution_correction.v0.2",
+  "date": "2026-09-22",
+  "result": "P9B_PRE_EXECUTION_STATIC_QA_MATCHER_CORRECTED_NO_SCIENCE",
+  "defect": "STATIC_TEST_EXPECTED_UNESCAPED_JSON_MARKER_IN_CPP_SOURCE",
+  "source_correct": true,
+  "source_blob_unchanged": "14eb11690b76c1ada102ab2d1ced9607ff522c34",
+  "corrected_test_blob": "10aba9c5b50746fda3892656f6eb2dafd9dfe4d1",
+  "implementation_lock_v0_2_blob": "7b06da63fe09597ebdcf641d1cd992d4a973075c",
+  "buildonly_runner_v0_2_blob": "91e2a071d764b02ce328d4fa40248a68bdedd144",
+  "buildonly_authorization_v0_2_blob": "bcf7c04fbc09cdcbc39b57676945b808e66a2167",
+  "runner_executions_before_correction": 0,
+  "model_loads": 0,
+  "gpu_dispatches": 0,
+  "performance_measurements": 0,
+  "fresh_ttft_observations": 0,
+  "package_repair_budget_consumed": 0,
+  "next": "LOCAL_P9B_ZERO_SCIENCE_BUILDONLY_EXECUTION_AND_RETURN"
+}

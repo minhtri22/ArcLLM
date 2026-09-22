@@ -3,7 +3,7 @@
   "date": "2026-09-22",
   "program_id": "ARCLLM_TTFT_M2",
   "branch": "research/arcllm-ttft-m2",
-  "status": "TTFT_M2_P9B_IMPLEMENTED_BUILDONLY_AUTHORIZED_LOCAL_EXECUTION_PENDING",
+  "status": "TTFT_M2_P9B_V0_2_BUILDONLY_AUTHORIZED_LOCAL_EXECUTION_PENDING",
   "git_history_base": "86ec48ce0cfff28fa43c23c1d8b57b8f881d249e",
   "parents": {
     "ANL64": {
@@ -80,7 +80,7 @@
     "M2_A1": "COMPLETE_GOVERNANCE_AMENDMENT",
     "M2_P8L": "COMPLETE_PASS_VALID_LOCAL_BUILDONLY",
     "M2_P9A": "COMPLETE_PASS_FRESH_M2_DESIGN_ADOPTED",
-    "M2_P9B": "IMPLEMENTED_BUILDONLY_AUTHORIZED_LOCAL_EXECUTION_PENDING"
+    "M2_P9B": "V0_2_PRE_EXECUTION_CORRECTION_COMPLETE_BUILDONLY_AUTHORIZED"
   },
   "lineage": {
     "path": "programs/arcllm_ttft_m2/lineage.md",
@@ -585,7 +585,7 @@
     "next": "M2_P9B_CANONICAL_SCIENTIFIC_HARNESS_IMPLEMENTATION_AND_BUILDONLY_QUALIFICATION"
   },
   "p9b": {
-    "status": "IMPLEMENTED_BUILDONLY_AUTHORIZED_LOCAL_EXECUTION_PENDING",
+    "status": "V0_2_PRE_EXECUTION_CORRECTION_COMPLETE_BUILDONLY_AUTHORIZED",
     "implementation_record": {
       "path": "artifacts/TTFT_M2/TTFT_M2_P9B_IMPLEMENTATION_RECORD_v0.1.json",
       "blob": "22626a9ca4ea9e4136e9897eb0fcb6a53c3dd396"
@@ -595,13 +595,13 @@
       "blob": "668fda888d107c3908bf846779f6bcef2f42d1cc"
     },
     "authorization": {
-      "path": "config/arcllm_ttft_m2_p9b_buildonly_authorization_v0.1.json",
-      "blob": "0e5ec30d0a1d302c898cbc6343df6b7fe13c186a",
+      "path": "config/arcllm_ttft_m2_p9b_buildonly_authorization_v0.2.json",
+      "blob": "bcf7c04fbc09cdcbc39b57676945b808e66a2167",
       "decision": "M2_P9B_CANONICAL_HARNESS_BUILDONLY_AUTHORIZED"
     },
     "implementation_lock": {
-      "path": "config/arcllm_ttft_m2_p9b_implementation_lock_v0.1.json",
-      "blob": "d3df46210f81b113e346b0cb50faffcdb3a7eaaa"
+      "path": "config/arcllm_ttft_m2_p9b_implementation_lock_v0.2.json",
+      "blob": "7b06da63fe09597ebdcf641d1cd992d4a973075c"
     },
     "diagnostic_source": {
       "path": "src/ttft_m2_diagnostic.cpp",
@@ -611,7 +611,7 @@
       "native": "46e733a2a7948f0182825fd1a1d069f029ba2050",
       "shaders": "4a217a8911c2b9b657f0177ab55f1ae45c4ff571"
     },
-    "static_test": "94d5640cfcf47b02f29446c783e647c03b0ddb28",
+    "static_test": "10aba9c5b50746fda3892656f6eb2dafd9dfe4d1",
     "future_science_runner": {
       "path": "scripts/ttft_m2/run_p9_science.ps1",
       "blob": "4326d69f058ad8266e88f20272b3ca17f1b21293",
@@ -619,11 +619,20 @@
     },
     "buildonly_runner": {
       "path": "run_ttft_m2_p9b_buildonly.ps1",
-      "blob": "05f4bddbbe697e39ba4968a54bc4594a5435541c"
+      "blob": "91e2a071d764b02ce328d4fa40248a68bdedd144"
     },
     "qualification_complete": false,
     "scientific_execution_authorized": false,
     "zero_science_required": true,
-    "next": "LOCAL_P9B_ZERO_SCIENCE_BUILDONLY_EXECUTION_AND_RETURN"
+    "next": "LOCAL_P9B_ZERO_SCIENCE_BUILDONLY_EXECUTION_AND_RETURN",
+    "pre_execution_correction": {
+      "record": {
+        "path": "artifacts/TTFT_M2/TTFT_M2_P9B_PRE_EXECUTION_CORRECTION_v0.2.json",
+        "blob": "930fa11500dd815dae542e403b62f879670f3e6f"
+      },
+      "classification": "STATIC_QA_MATCHER_DEFECT_NO_RUNNER_EXECUTION_NO_SCIENCE",
+      "runner_executions_before_correction": 0,
+      "package_repair_budget_consumed": 0
+    }
   }
 }

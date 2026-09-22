@@ -2,8 +2,8 @@ $ErrorActionPreference="Stop"
 Set-StrictMode -Version Latest
 
 $Root=Split-Path -Parent $MyInvocation.MyCommand.Path
-$AuthPath=Join-Path $Root "config\arcllm_ttft_m2_p9b_buildonly_authorization_v0.1.json"
-$LockPath=Join-Path $Root "config\arcllm_ttft_m2_p9b_implementation_lock_v0.1.json"
+$AuthPath=Join-Path $Root "config\arcllm_ttft_m2_p9b_buildonly_authorization_v0.2.json"
+$LockPath=Join-Path $Root "config\arcllm_ttft_m2_p9b_implementation_lock_v0.2.json"
 $PayloadDir=Join-Path $Root "artifacts\TTFT_M2\P9B\runtime_payload"
 $ResultsDir=Join-Path $Root "results\ttft_m2_p9b_buildonly"
 $Bundle=Join-Path $Root "results\ttft_m2_p9b_buildonly_return_to_chatgpt.zip"
@@ -33,7 +33,7 @@ Require (-not[bool]$Auth.authorization.performance_measurement) "timing must rem
 Require (-not[bool]$Auth.authorization.fresh_ttft_observation) "fresh TTFT must remain forbidden"
 Require (-not[bool]$Auth.authorization.h_art_mechanism_adjudication) "H-ART mechanism adjudication must remain forbidden"
 
-Require ((GitBlob "config/arcllm_ttft_m2_p9b_implementation_lock_v0.1.json") -eq [string]$Auth.implementation_lock_blob) "P9B lock blob mismatch"
+Require ((GitBlob "config/arcllm_ttft_m2_p9b_implementation_lock_v0.2.json") -eq [string]$Auth.implementation_lock_blob) "P9B lock blob mismatch"
 Require ((GitBlob "run_ttft_m2_p9b_buildonly.ps1") -eq [string]$Auth.buildonly_runner_blob) "P9B runner self blob mismatch"
 foreach($P in $Lock.exact_git_blobs.PSObject.Properties){
   Require ((GitBlob $P.Name) -eq [string]$P.Value) ("exact Git blob mismatch: "+$P.Name)
@@ -84,8 +84,8 @@ $Result=[ordered]@{
  schema="arcllm.ttft_m2.p9b.buildonly_result.v0.1"
  status="M2_P9B_BUILDONLY_COMPLETE_AWAITING_ADJUDICATION"
  git_head=((& git -C $Root rev-parse HEAD).Trim())
- authorization_blob=(GitBlob "config/arcllm_ttft_m2_p9b_buildonly_authorization_v0.1.json")
- implementation_lock_blob=(GitBlob "config/arcllm_ttft_m2_p9b_implementation_lock_v0.1.json")
+ authorization_blob=(GitBlob "config/arcllm_ttft_m2_p9b_buildonly_authorization_v0.2.json")
+ implementation_lock_blob=(GitBlob "config/arcllm_ttft_m2_p9b_implementation_lock_v0.2.json")
  buildonly_runner_blob=(GitBlob "run_ttft_m2_p9b_buildonly.ps1")
  science_runner_blob=(GitBlob "scripts/ttft_m2/run_p9_science.ps1")
  canonical_design_manifest_blob=(GitBlob "config/arcllm_ttft_m2_p9a_scientific_design_manifest_v0.1.json")
@@ -110,8 +110,8 @@ $Result=[ordered]@{
 $ResultPath=Join-Path $ResultsDir "TTFT_M2_P9B_BUILDONLY_RESULT.json"
 [IO.File]::WriteAllText($ResultPath,($Result|ConvertTo-Json -Depth 12),(New-Object Text.UTF8Encoding($false)))
 
-Copy-Item $AuthPath (Join-Path $ResultsDir "arcllm_ttft_m2_p9b_buildonly_authorization_v0.1.json")
-Copy-Item $LockPath (Join-Path $ResultsDir "arcllm_ttft_m2_p9b_implementation_lock_v0.1.json")
+Copy-Item $AuthPath (Join-Path $ResultsDir "arcllm_ttft_m2_p9b_buildonly_authorization_v0.2.json")
+Copy-Item $LockPath (Join-Path $ResultsDir "arcllm_ttft_m2_p9b_implementation_lock_v0.2.json")
 Copy-Item (Join-Path $Root "config\arcllm_ttft_m2_p9a_scientific_design_manifest_v0.1.json") (Join-Path $ResultsDir "arcllm_ttft_m2_p9a_scientific_design_manifest_v0.1.json")
 Copy-Item $PayloadDir (Join-Path $ResultsDir "runtime_payload") -Recurse
 

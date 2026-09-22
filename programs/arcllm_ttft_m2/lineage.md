@@ -729,3 +729,30 @@ P9B is not yet PASS. The next action is exact local BuildOnly execution on the q
 
 Next:
 `LOCAL_P9B_ZERO_SCIENCE_BUILDONLY_EXECUTION_AND_RETURN`.
+
+
+## 2026-09-22 — M2-P9B PRE-EXECUTION CORRECTION v0.2
+
+A pre-run static-QA matcher defect was found during post-commit audit before any P9B BuildOnly runner execution.
+
+Defect:
+`STATIC_TEST_EXPECTED_UNESCAPED_JSON_MARKER_IN_CPP_SOURCE`
+
+The M2 diagnostic source was correct and unchanged:
+`14eb11690b76c1ada102ab2d1ced9607ff522c34`.
+
+Only the Python static matcher was corrected:
+`10aba9c5b50746fda3892656f6eb2dafd9dfe4d1`.
+
+Re-frozen authority:
+- implementation lock v0.2 `7b06da63fe09597ebdcf641d1cd992d4a973075c`;
+- BuildOnly runner v0.2 `91e2a071d764b02ce328d4fa40248a68bdedd144`;
+- BuildOnly authorization v0.2 `bcf7c04fbc09cdcbc39b57676945b808e66a2167`;
+- correction record `930fa11500dd815dae542e403b62f879670f3e6f`.
+
+Exact runner executions before correction: 0.
+Model/GPU/timing/fresh TTFT: 0.
+Package repair budget consumed: 0, because the corrected governance budget activates only after the exact frozen runner begins execution.
+
+Next remains:
+`LOCAL_P9B_ZERO_SCIENCE_BUILDONLY_EXECUTION_AND_RETURN`.

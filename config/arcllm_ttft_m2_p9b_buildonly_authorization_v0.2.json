@@ -1,0 +1,50 @@
+{
+  "schema": "arcllm.ttft_m2.p9b.buildonly_authorization.v0.2",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "authorization_parent_head": "86f6646c7df7df2acd69714a3e94578816d7d41d",
+  "supersedes": "config/arcllm_ttft_m2_p9b_buildonly_authorization_v0.1.json",
+  "decision": "M2_P9B_CANONICAL_HARNESS_BUILDONLY_AUTHORIZED",
+  "review2_gate_blob": "e3accfd9f9ebe85b1635b65ae9066cdb89b88f00",
+  "canonical_design_manifest_blob": "abce0545cec33367f9b3a82f15d5ffd4fb026f64",
+  "implementation_lock_blob": "7b06da63fe09597ebdcf641d1cd992d4a973075c",
+  "buildonly_runner_blob": "91e2a071d764b02ce328d4fa40248a68bdedd144",
+  "science_runner_blob": "4326d69f058ad8266e88f20272b3ca17f1b21293",
+  "pre_execution_correction": {
+    "prior_authorization_blob": "0e5ec30d0a1d302c898cbc6343df6b7fe13c186a",
+    "prior_runner_blob": "05f4bddbbe697e39ba4968a54bc4594a5435541c",
+    "prior_lock_blob": "d3df46210f81b113e346b0cb50faffcdb3a7eaaa",
+    "corrected_static_test_blob": "10aba9c5b50746fda3892656f6eb2dafd9dfe4d1",
+    "runner_executions_before_correction": 0,
+    "package_repair_budget_consumed": 0
+  },
+  "authorization": {
+    "implementation": true,
+    "buildonly": true,
+    "static_package_qa": true,
+    "shader_compilation": true,
+    "native_executable_compilation": true,
+    "diagnostic_executable_launch": false,
+    "target_model_execution": false,
+    "model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "fresh_ttft_observation": false,
+    "h_art_mechanism_adjudication": false,
+    "mechanism_adjudication": false,
+    "scientific_design_mutation": false
+  },
+  "local_substrate": {
+    "required": "LOCAL_WINDOWS_WORKSTATION"
+  },
+  "expected_output": {
+    "bundle": "results/ttft_m2_p9b_buildonly_return_to_chatgpt.zip",
+    "result": "results/ttft_m2_p9b_buildonly/TTFT_M2_P9B_BUILDONLY_RESULT.json"
+  },
+  "failure_policy": {
+    "no_automatic_repair_or_rerun": true,
+    "preserve_bundle_and_console": true,
+    "adjudicate_failure_domain_before_any_change": true
+  },
+  "next_on_run": "INDEPENDENT_P9B_BUILDONLY_ADJUDICATION"
+}
