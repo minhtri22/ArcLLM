@@ -75,3 +75,32 @@ Key reframe:
 No intervention selected or implemented here.
 
 Next: build the historical-evidence Headroom Map.
+
+
+## Initial Headroom Map — 2026-09-22
+
+Artifact:
+
+`docs/research/arcllm-v1/ARCLLM_V1_HEADROOM_MAP.md`
+
+Historical evidence was converted into a system-level headroom model.
+
+Key derived result from Q2:
+- post-TTFT share ~99.1% for W-S;
+- post-TTFT share ~83.8% for W-C;
+- post-TTFT ArcLLM/baseline envelope ~39.98× / ~32.08×.
+
+Amdahl envelopes:
+- TTFT elimination ceiling ~1.009× W-S / ~1.193× W-C;
+- 3× post-TTFT improvement would imply ~2.945× W-S / ~2.267× W-C E2E speedup if the historical cost shares held.
+
+ANL64 provides direct evidence that ArcLLM-family decode maturity can move by ~1.22–3.20× and propagate to ~1.14–2.51× E2E improvement versus the safe ArcLLM reference, though TTFT coupling blocked that program.
+
+Initial priority:
+1. decode/post-TTFT execution plane;
+2. prefill/TTFT architecture;
+3. memory/working-set topology.
+
+The map does not yet choose a specific decode mechanism.
+
+Next: Intervention-001 selection.
