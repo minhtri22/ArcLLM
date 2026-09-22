@@ -1,0 +1,90 @@
+name: TTFT M2 P8 Bounded BuildOnly
+
+on:
+  push:
+    branches:
+      - research/arcllm-ttft-m2
+
+permissions:
+  contents: read
+
+jobs:
+  p8-bounded-buildonly:
+    if: ${{ github.event.head_commit.message == 'research: execute TTFT M2 P8 bounded BuildOnly' }}
+    runs-on: windows-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout exact P8 commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify P7 authorization and frozen package bindings
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $expected = [ordered]@{
+            "config/arcllm_ttft_m2_p7_buildonly_authorization_v0.1.json" = "8faf0cd91da381333fdf7971e431fc091701a62b"
+            "config/arcllm_ttft_m2_execution_lock_v0.1.json" = "9af4c7b4c96354223e1f671a43af64b215072330"
+            "run_ttft_m2_buildonly.ps1" = "4722e86a01453d973ee2122b49229b80bf7d84f6"
+            "config/arcllm_ttft_m2_evidence_manifest_v0.1.json" = "bf496e00e4cf0bff86582e0649c6c26bc28b6f60"
+            "config/arcllm_ttft_m2_package_manifest_v0.1.json" = "4629910255580322706b01f318ad9a80044208d7"
+            "tools/ttft_m2_atomic_package_qa.py" = "73b74f2dbc65f0e1bff7cd2c226b4112c34ecfdb"
+            "tests/fixtures/ttft_m2_atomic_package/index.json" = "9735e97d5ea264642725466e50ae26a00e8a4951"
+          }
+          foreach($kv in $expected.GetEnumerator()) {
+            $actual = (& git rev-parse ("HEAD:" + $kv.Key)).Trim()
+            if($actual -ne $kv.Value) {
+              throw ("P8_FROZEN_BLOB_MISMATCH " + $kv.Key + " expected=" + $kv.Value + " actual=" + $actual)
+            }
+          }
+          $auth = Get-Content "config/arcllm_ttft_m2_p7_buildonly_authorization_v0.1.json" -Raw -Encoding UTF8 | ConvertFrom-Json
+          if($auth.schema -ne "arcllm.ttft_m2.p7.buildonly_authorization.v0.1") { throw "P8_P7_SCHEMA_MISMATCH" }
+          if($auth.decision -ne "M2_P7_BUILDONLY_AUTHORIZED") { throw "P8_P7_DECISION_MISMATCH" }
+          if(-not [bool]$auth.authorization.buildonly_execution) { throw "P8_BUILDONLY_NOT_AUTHORIZED" }
+          if([bool]$auth.authorization.target_model_execution) { throw "P8_TARGET_MODEL_EXECUTION_FORBIDDEN" }
+          if([bool]$auth.authorization.gpu_dispatch) { throw "P8_GPU_DISPATCH_FORBIDDEN" }
+          if([bool]$auth.authorization.performance_measurement) { throw "P8_TIMING_FORBIDDEN" }
+          Write-Host "P8_AUTH_AND_FROZEN_BINDINGS_PASS"
+
+      - name: Execute exact frozen BuildOnly runner
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          & ".\run_ttft_m2_buildonly.ps1"
+          if($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Record GitHub Actions execution metadata
+        if: success()
+        shell: pwsh
+        run: |
+          $meta = [ordered]@{
+            schema = "arcllm.ttft_m2.p8.gha_execution_meta.v0.1"
+            git_head = "${{ github.sha }}"
+            workflow_run_id = "${{ github.run_id }}"
+            workflow_run_attempt = "${{ github.run_attempt }}"
+            p7_authorization_blob = "8faf0cd91da381333fdf7971e431fc091701a62b"
+            frozen_runner_blob = "4722e86a01453d973ee2122b49229b80bf7d84f6"
+            target_model_loaded = $false
+            diagnostic_executable_launched = $false
+            gpu_dispatch = $false
+            performance_measurement = $false
+            fresh_ttft_observations = 0
+            scientific_result = "NONE"
+          }
+          [IO.File]::WriteAllText(
+            "results\ttft_m2_buildonly\TTFT_M2_P8_GHA_EXECUTION_META.json",
+            ($meta | ConvertTo-Json -Depth 10),
+            (New-Object Text.UTF8Encoding($false))
+          )
+
+      - name: Upload P8 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ttft-m2-p8-buildonly-${{ github.run_id }}
+          if-no-files-found: warn
+          path: |
+            results/ttft_m2_buildonly/**
+            results/ttft_m2_buildonly_return_to_chatgpt.zip
