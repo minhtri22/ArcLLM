@@ -1,0 +1,64 @@
+{
+  "schema": "arcllm.ttft_m1.p6.terminal_infrastructure_adjudication.v0.1",
+  "date": "2026-09-22",
+  "result": "P6_STOP_INFRASTRUCTURE_UNSTABLE_BEFORE_BUILDONLY_EXECUTION",
+  "scientific_result": "NONE",
+  "mechanism_adjudication_performed": false,
+  "buildonly_execution_performed": false,
+  "target_model_loaded": false,
+  "gpu_dispatch": false,
+  "performance_measurement": false,
+  "fresh_identification_observations": 0,
+  "sequence": [
+    {
+      "defect": 1,
+      "classification": "STATIC_GATE_OPERATIONALIZATION_TAUTOLOGY",
+      "adjudication": "artifacts/TTFT_M1/TTFT_M1_P6_PRERUN_H_ART_ADJUDICATION_v0.1.json",
+      "adjudication_blob": "ae6710eb8bf05ba72469ac75ed4fcb4fa46c89f7",
+      "repair_consumed": true,
+      "repair_budget_after": 0
+    },
+    {
+      "defect": 2,
+      "classification": "POST_LOCK_RUNNER_PROVENANCE_STALE_REFERENCE",
+      "discovered_before_runner_execution": true,
+      "details": [
+        "run_ttft_m1_p6_buildonly.ps1 correctly reads implementation lock v0.2 at preflight",
+        "result field implementation_lock_blob still resolves config/arcllm_ttft_m1_p6_implementation_lock_v0.1.json",
+        "bundle Copy-Item destination still names arcllm_ttft_m1_p6_implementation_lock_v0.1.json while source is v0.2",
+        "therefore returned evidence would misstate or ambiguously label the authoritative lock"
+      ],
+      "repair_permitted": false,
+      "reason": "implementation lock v0.2 explicitly freezes repair budget consumed 1/1 and further_p6_buildonly_repair_permitted=false"
+    }
+  ],
+  "frozen_governance_basis": {
+    "p4_contract": "config/arcllm_ttft_falsification_contract_v0.1.json",
+    "p4_contract_blob": "fb856b27385278878114316ebd667b97fb38ba59",
+    "infrastructure_policy": {
+      "repair_budget": 1,
+      "second_f0": "STOP_INFRASTRUCTURE_UNSTABLE"
+    },
+    "p6_lock": "config/arcllm_ttft_m1_p6_implementation_lock_v0.2.json",
+    "p6_lock_blob": "e2eb6170933ee074bfb3446661b7d69d3d40eaa9",
+    "repair_budget_consumed": 1,
+    "further_p6_buildonly_repair_permitted": false
+  },
+  "non_interpretation": [
+    "H-ART is not adjudicated from a local BuildOnly run.",
+    "H-DPIPE is not adjudicated.",
+    "H-PRECOND is not adjudicated.",
+    "H-STATE-INTERACTION is not adjudicated.",
+    "H-NULL is not adjudicated.",
+    "Parent ANL64 P6/P7 remains unchanged."
+  ],
+  "forbidden": [
+    "patch runner stale references and rerun under P6",
+    "create lock v0.3",
+    "rename continuation within same TTFT_M1 program",
+    "execute diagnostic binary directly",
+    "reuse historical parent P6 timing as mechanism evidence",
+    "open P7 identification"
+  ],
+  "next": "P10_FINAL_PROGRAM_ADJUDICATION_NO_MECHANISM_RESULT"
+}
