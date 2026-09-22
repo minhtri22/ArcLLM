@@ -1,0 +1,34 @@
+{
+  "schema": "arcllm.ttft_m2.p9a.target_environment_contract.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "status": "P9A_REQUIRED_TARGET_INVARIANTS_ADOPTED_RUNTIME_NOT_YET_VALIDATED",
+  "required": {
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "model_bytes": 4683074048,
+    "cpu": "Intel(R) Core(TM) Ultra 7 258V",
+    "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "driver": "32.0.101.8860",
+    "os_build": "26200",
+    "power_scheme": "Balanced",
+    "ac_online": true
+  },
+  "provenance": {
+    "historical_template_blob": "fb856b27385278878114316ebd667b97fb38ba59",
+    "role": "target identity template only",
+    "adoption_reason": "Preserve the exact target on which historical TTFT harm was observed; no historical timing value is reused.",
+    "runtime_match_claimed_now": false
+  },
+  "F0_runtime_requirements": [
+    "model SHA256 exact match",
+    "model byte size exact match",
+    "CPU identity exact match",
+    "GPU identity exact match",
+    "driver exact match",
+    "OS build exact match",
+    "power scheme exact match",
+    "AC online true"
+  ],
+  "on_any_mismatch": "INVALID_F0_NO_PERFORMANCE_INTERPRETATION",
+  "zero_science": true
+}

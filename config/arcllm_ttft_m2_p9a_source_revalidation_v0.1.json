@@ -1,0 +1,88 @@
+{
+  "schema": "arcllm.ttft_m2.p9a.source_revalidation.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "adjudication_head": "f917ed2d4109de120ad9eb5115726f18107d9327",
+  "result": "PASS_STATIC_SOURCE_AND_FACTOR_REVALIDATION",
+  "historical_method_source": {
+    "method_transfer_register_blob": "825d5b5a6d67fc92f66c667582a12b55de7737c7",
+    "historical_path_mapping_blob": "7c57e7d789cd2672cb9fe9342df5a18065dc46bf",
+    "historical_hypotheses_template_blob": "559cf3a60789074045ac0c3f30c4982b99800707",
+    "historical_causal_design_template_blob": "66b6ca2bf1da1e05ddc416bf8f9d73074e8f3fdb",
+    "historical_falsification_template_blob": "fb856b27385278878114316ebd667b97fb38ba59",
+    "empirical_outcome_transferred": false
+  },
+  "current_source_bindings": {
+    "safe_reference_runtime": {
+      "path": "src/q2_benchmark.cpp",
+      "blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663"
+    },
+    "candidate_runtime": {
+      "path": "src/anl64_runtime.cpp",
+      "blob": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70"
+    },
+    "shared_vulkan_runtime": {
+      "path": "src/p8c_segmented_access_correctness.cpp",
+      "blob": "8432ca554b36a2167429b640c5ec6779cf2b3e6b"
+    },
+    "q4fast_shader": {
+      "path": "shaders/sa1_q4k_subgroup_splitk.comp",
+      "blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a"
+    },
+    "diagnostic_template_source": {
+      "path": "src/ttft_m1_diagnostic.cpp",
+      "blob": "88d97ddb497bfddcec191358f1e21d982c5efccf"
+    }
+  },
+  "checks": {
+    "q2_anl64_prefill_source_region_exact_equal": true,
+    "q4fast_refs_in_candidate_prefill": 0,
+    "q4fast_refs_in_candidate_decode": 5,
+    "q4fast_refs_in_diagnostic_prefill": 0,
+    "q4fast_refs_in_diagnostic_decode": 5,
+    "diagnostic_factor_decode_pipeline_set_levels": [
+      "SAFE",
+      "Q4FAST"
+    ],
+    "diagnostic_factor_conditioning_levels": [
+      "PREFILL_ONLY",
+      "FULL_INFERENCE"
+    ],
+    "diagnostic_arm_map": {
+      "SP": "SAFE+PREFILL_ONLY",
+      "SF": "SAFE+FULL_INFERENCE",
+      "QP": "Q4FAST+PREFILL_ONLY",
+      "QF": "Q4FAST+FULL_INFERENCE"
+    },
+    "diagnostic_measured_attempts_per_cell_enforced": 5,
+    "diagnostic_expected_prefill_dispatch_count_enforced": 441
+  },
+  "measurement_boundary_adopted": {
+    "outside_t0_t1": [
+      "GGUF/model read",
+      "TensorStore inspection",
+      "weight/working/KV allocation",
+      "ANL64 plan construction",
+      "VkRuntime initialization",
+      "prefill/decode graph construction",
+      "prepare_chain(prefill)",
+      "prepare_chain(decode)",
+      "reset_execution before t0"
+    ],
+    "inside_t0_t1": [
+      "execute_prepared(prefill) transient command-pool/buffer/fence lifecycle",
+      "441 prefill dispatches and barriers",
+      "queue submit + fence wait",
+      "CPU q2_top2"
+    ],
+    "primary_definition": "TTFT = t1-t0 from immediately before execute_prepared(prefill) to immediately after q2_top2"
+  },
+  "conclusions": {
+    "planner_cpu_time_direct_ttft_explanation": "REJECTED_BY_MEASUREMENT_BOUNDARY",
+    "q4fast_executes_in_prefill": "REJECTED_BY_CURRENT_SOURCE_MAPPING",
+    "decode_pipeline_state_factor_manipulable": true,
+    "conditioning_factor_manipulable": true,
+    "finite_2x2_design_still_structurally_admissible": true
+  },
+  "zero_science": true
+}

@@ -611,3 +611,45 @@ Next admissible step:
 `M2_P9A_FRESH_SCIENTIFIC_DESIGN_ADOPTION_AND_REVALIDATION`
 
 P9 remains not opened.
+
+
+## 2026-09-22 — M2-P9A FRESH SCIENTIFIC DESIGN ADOPTION AND REVALIDATION
+
+P9A completed the fresh M2 scientific-design adoption required by the first P9 authorization denial.
+
+Result:
+
+`PASS_M2_P9A_FRESH_SCIENTIFIC_DESIGN_ADOPTION_AND_REVALIDATION`
+
+Static current-source revalidation PASS:
+- q2 safe runtime `ea1e986e22f6921e7f6c52a4fa5935121cfec663`;
+- ANL64 runtime `dbcb7afed5a08e7aff3ca02a1bd95bd985076f70`;
+- shared Vulkan runtime `8432ca554b36a2167429b640c5ec6779cf2b3e6b`;
+- Q4FAST shader `56999d88dc1bef6486e7e1908982f6de4b0f9f6a`;
+- diagnostic template `88d97ddb497bfddcec191358f1e21d982c5efccf`.
+
+The current q2/ANL64 prefill source region remains exact-equal. Q4FAST references remain 0 in prefill and 5 in decode. Diagnostic factor switches SAFE/Q4FAST and PREFILL_ONLY/FULL_INFERENCE remain explicit and arm mapping remains SP/SF/QP/QF.
+
+Fresh canonical M2 design manifest:
+`abce0545cec33367f9b3a82f15d5ffd4fb026f64`.
+
+Canonical members:
+- source revalidation `17759ae80ce0cbbfb4d2dedd88c0aabe8216ac9c`;
+- hypotheses `55192815d02637cc6e469794565ba8134ff63ae1`;
+- causal design `9d1960ee253e59f1835ea0d320b40e9975039ed3`;
+- target environment `5b79f7b42b238471e0d4bb3ee802bab7ffe83185`;
+- falsification/STOP `1ed4187934be119611f9fd1f0ce9f8e61bf88116`.
+
+The finite hypothesis set is now canonical in M2:
+`H-ART`, `H-DPIPE`, `H-PRECOND`, `H-STATE-INTERACTION`, `H-NULL`.
+
+The 2x2 design, W-S/W-C workloads, two-session A/B order, five attempts per arm/workload/session, 80 planned fresh observations, primary TTFT endpoint, semantic guards, 1.10 materiality threshold, target F0 invariants and falsification/STOP order are prospectively frozen.
+
+No target runtime match is claimed by P9A; exact model/hardware/driver/OS/power invariants must be checked at future F0.
+
+No model load, GPU dispatch, timing or fresh TTFT observation occurred.
+
+P9 remains not opened.
+
+Next:
+`M2_P9_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_AUTHORIZATION_GATE_REVIEW_2`.

@@ -1,0 +1,48 @@
+{
+  "schema": "arcllm.ttft_m2.p9a.adjudication.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "stage": "M2_P9A_FRESH_SCIENTIFIC_DESIGN_ADOPTION_AND_REVALIDATION",
+  "result": "PASS_M2_P9A_FRESH_SCIENTIFIC_DESIGN_ADOPTION_AND_REVALIDATION",
+  "adjudication_head": "f917ed2d4109de120ad9eb5115726f18107d9327",
+  "p9_gate_prerequisite": {
+    "prior_gate_blob": "9753e25df13d343b1e8c1fa950183c3ea6b1f6f4",
+    "prior_decision": "DENY_LEAVE_M2_P9_BLOCKED",
+    "deficiency": "MISSING_FRESH_M2_SCIENTIFIC_DESIGN_ADOPTION_AND_REVALIDATION",
+    "deficiency_resolved_by_p9a": true
+  },
+  "canonical_manifest": {
+    "path": "config/arcllm_ttft_m2_p9a_scientific_design_manifest_v0.1.json",
+    "blob": "abce0545cec33367f9b3a82f15d5ffd4fb026f64"
+  },
+  "static_revalidation": {
+    "current_q2_blob": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "current_anl64_blob": "dbcb7afed5a08e7aff3ca02a1bd95bd985076f70",
+    "current_vulkan_blob": "8432ca554b36a2167429b640c5ec6779cf2b3e6b",
+    "current_q4fast_blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "diagnostic_template_blob": "88d97ddb497bfddcec191358f1e21d982c5efccf",
+    "prefill_source_region_exact_equal": true,
+    "q4fast_refs_prefill": 0,
+    "q4fast_refs_decode": 5,
+    "factors_manipulable": true
+  },
+  "scientific_design": {
+    "fresh_m2_canonical": true,
+    "historical_m1_outcomes_transferred": false,
+    "historical_templates_role": "PRIOR_METHODOLOGICAL_EVIDENCE_ONLY",
+    "planned_fresh_observations": 80
+  },
+  "zero_science": {
+    "target_model_loaded": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "fresh_ttft_observations": 0,
+    "mechanism_adjudication": false,
+    "scientific_result": "NONE"
+  },
+  "authorization_effect": {
+    "p9_science_authorized": false,
+    "p9_gate_may_be_repeated": true
+  },
+  "next": "M2_P9_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_AUTHORIZATION_GATE_REVIEW_2"
+}

@@ -1,0 +1,147 @@
+{
+  "schema": "arcllm.ttft_m2.p9a.causal_decomposition.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "status": "P9A_FRESH_M2_CAUSAL_DESIGN_ADOPTED_EXECUTION_BLOCKED",
+  "question": "Which preregistered pre-t0 state factor causally changes latency of an otherwise identical measured prefill execution?",
+  "source_revalidation_blob": "17759ae80ce0cbbfb4d2dedd88c0aabe8216ac9c",
+  "hypotheses_blob": "55192815d02637cc6e469794565ba8134ff63ae1",
+  "harness_boundary": {
+    "one_binary_required": true,
+    "exact_prefill_compute_for_all_arms": true,
+    "production_source_mutation": false,
+    "diagnostic_only": true,
+    "current_diagnostic_template_source_blob": "88d97ddb497bfddcec191358f1e21d982c5efccf",
+    "diagnostic_template_not_yet_execution_authorized": true
+  },
+  "factors": {
+    "D_decode_pipeline_set": {
+      "levels": [
+        "SAFE",
+        "Q4FAST"
+      ],
+      "definition": "Decode pipeline set prepared before measured prefill; prefill chain remains identical."
+    },
+    "C_conditioning": {
+      "levels": [
+        "PREFILL_ONLY",
+        "FULL_INFERENCE"
+      ],
+      "definition": "Immediately before each measured prefill, execute the frozen conditioning mode, then reset execution buffers identically before t0."
+    }
+  },
+  "arms": [
+    {
+      "id": "SP",
+      "decode_pipeline_set": "SAFE",
+      "conditioning": "PREFILL_ONLY"
+    },
+    {
+      "id": "SF",
+      "decode_pipeline_set": "SAFE",
+      "conditioning": "FULL_INFERENCE"
+    },
+    {
+      "id": "QP",
+      "decode_pipeline_set": "Q4FAST",
+      "conditioning": "PREFILL_ONLY"
+    },
+    {
+      "id": "QF",
+      "decode_pipeline_set": "Q4FAST",
+      "conditioning": "FULL_INFERENCE"
+    }
+  ],
+  "workloads": {
+    "W-S": {
+      "prompt_tokens": 4,
+      "output_tokens_for_full_conditioning": 32,
+      "adoption_reason": "Short-prompt sensitivity; prospectively adopted without historical effect-size calibration."
+    },
+    "W-C": {
+      "prompt_tokens": 256,
+      "output_tokens_for_full_conditioning": 32,
+      "adoption_reason": "Context-bearing workload; prospectively adopted without historical effect-size calibration."
+    }
+  },
+  "fresh_design": {
+    "independent_sessions": 2,
+    "separate_processes": true,
+    "session_orders": {
+      "A": [
+        "SP/W-S",
+        "QP/W-S",
+        "QF/W-S",
+        "SF/W-S",
+        "SF/W-C",
+        "QF/W-C",
+        "QP/W-C",
+        "SP/W-C"
+      ],
+      "B": [
+        "SF/W-S",
+        "QF/W-S",
+        "QP/W-S",
+        "SP/W-S",
+        "SP/W-C",
+        "QP/W-C",
+        "QF/W-C",
+        "SF/W-C"
+      ]
+    },
+    "measured_attempts_per_arm_workload_session": 5,
+    "conditioning_immediately_before_each_measured_attempt": true,
+    "measured_ttft_observations_total": 80,
+    "parent_observations_reused": 0,
+    "selective_rerun": false,
+    "pooling_for_gate": false
+  },
+  "per_attempt_sequence": [
+    "reset_execution",
+    "execute frozen conditioning according to arm; conditioning timing is not primary outcome",
+    "reset_execution identically",
+    "t0",
+    "execute exact common prefill chain",
+    "CPU q2_top2",
+    "t1",
+    "record TTFT and preregistered decomposition telemetry"
+  ],
+  "endpoints": {
+    "primary": "ttft_ms",
+    "secondary_decomposition": [
+      "prefill_execute_wall_ms",
+      "submit_wait_ms",
+      "host_record_and_lifecycle_ms = prefill_execute_wall_ms - submit_wait_ms",
+      "top2_ms"
+    ],
+    "secondary_role": "mechanism localization only; cannot override primary gate",
+    "semantic_guard": [
+      "success",
+      "final_logits_finite",
+      "dispatch_count == 441",
+      "submit_count == 1",
+      "exact first-token equality across all four arms for matched workload/session/attempt"
+    ]
+  },
+  "contrasts": {
+    "H_DPIPE": "median(QP.ttft_ms) / median(SP.ttft_ms)",
+    "H_PRECOND_SAFE": "median(SF.ttft_ms) / median(SP.ttft_ms)",
+    "H_PRECOND_Q4FAST": "median(QF.ttft_ms) / median(QP.ttft_ms)",
+    "PARENT_LIKE": "median(QF.ttft_ms) / median(SF.ttft_ms)",
+    "H_STATE_INTERACTION": "(median(QF)/median(SF)) / (median(QP)/median(SP))"
+  },
+  "threshold": {
+    "material_ratio": 1.1,
+    "no_parent_effect_size_calibration": true
+  },
+  "observability_boundary": {
+    "command_lifecycle_is_measured_component": true,
+    "standalone_command_lifecycle_causal_claim_permitted": false
+  },
+  "authorization": {
+    "implementation": false,
+    "model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false
+  }
+}

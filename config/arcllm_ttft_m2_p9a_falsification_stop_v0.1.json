@@ -1,0 +1,104 @@
+{
+  "schema": "arcllm.ttft_m2.p9a.falsification_stop_contract.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "status": "P9A_FRESH_M2_FALSIFICATION_CONTRACT_ADOPTED_EXECUTION_BLOCKED",
+  "bindings": {
+    "source_revalidation_blob": "17759ae80ce0cbbfb4d2dedd88c0aabe8216ac9c",
+    "hypotheses_blob": "55192815d02637cc6e469794565ba8134ff63ae1",
+    "causal_design_blob": "9d1960ee253e59f1835ea0d320b40e9975039ed3",
+    "target_environment_blob": "5b79f7b42b238471e0d4bb3ee802bab7ffe83185"
+  },
+  "adjudication_order": [
+    "F0_PROVENANCE_ENVIRONMENT_AND_FRESHNESS",
+    "F1_H_ART_STATIC_BINARY_IDENTITY",
+    "F2_SEMANTIC_AND_STRUCTURAL_GUARD",
+    "F3_SESSION_AND_ORDER_VALIDITY",
+    "F4_H_DPIPE",
+    "F5_H_PRECOND",
+    "F6_H_STATE_INTERACTION",
+    "F7_PARENT_LIKE_REPRODUCTION_OR_H_NULL",
+    "FINAL_MECHANISM_CLASSIFICATION"
+  ],
+  "H_ART": {
+    "support": "Any common prefill SPIR-V SHA256 mismatch between SAFE and Q4FAST diagnostic artifact sets.",
+    "falsify": "All common prefill SPIR-V artifacts match byte-for-byte.",
+    "on_support": "STOP_TIMING_H_ART_SUPPORTED_STATIC",
+    "timing_after_support": false
+  },
+  "materiality": {
+    "ratio": 1.1,
+    "strict_session_workload_replication": true,
+    "pooling_for_gate": false,
+    "no_effect_size_tuning": true
+  },
+  "gates": {
+    "H_DPIPE": {
+      "contrast": "QP/SP",
+      "support": "ratio >=1.10 in W-S and W-C independently in both sessions"
+    },
+    "H_PRECOND": {
+      "contrasts": [
+        "QF/QP",
+        "SF/SP"
+      ],
+      "support": "QF/QP >=1.10 AND SF/SP <1.10 in W-S and W-C independently in both sessions"
+    },
+    "H_STATE_INTERACTION": {
+      "contrasts": [
+        "QF/SF",
+        "(QF/SF)/(QP/SP)"
+      ],
+      "support": "both ratios >=1.10 in W-S and W-C independently in both sessions"
+    },
+    "H_NULL": {
+      "support": "No H_DPIPE/H_PRECOND/H_STATE_INTERACTION gate passes AND QF/SF <1.10 in W-S and W-C independently in both sessions after H-ART falsification."
+    },
+    "UNRESOLVED_STABLE_TTFT_HARM": {
+      "classification": "QF/SF >=1.10 in every required comparison while none of H_DPIPE/H_PRECOND/H_STATE_INTERACTION are supported"
+    },
+    "HISTORICAL_HARM_NOT_STABLY_REPRODUCED": {
+      "classification": "QF/SF mixed across required workload/session comparisons and no registered mechanism has a fully replicated support gate"
+    }
+  },
+  "invalidation": {
+    "semantic_or_structural": [
+      "any measured execution failure",
+      "any non-finite logits",
+      "prefill dispatch count != 441",
+      "submit count != 1",
+      "first greedy token differs across matched arms"
+    ],
+    "F0": [
+      "target invariant mismatch",
+      "spec/source/harness hash mismatch",
+      "parent timing reused",
+      "session order/repetition drift",
+      "selective rerun",
+      "missing arm"
+    ],
+    "on_invalid": "NO_PERFORMANCE_INTERPRETATION"
+  },
+  "infrastructure_policy": {
+    "frozen_research_package_repair_budget_max": 1,
+    "package_repair_budget_consumed_at_p9a": 0,
+    "orchestration_or_substrate_fault_does_not_consume_package_budget": true,
+    "scientific_mutation_permitted": false,
+    "selective_rerun": false,
+    "after_valid_package_repair": "FULL_FRESH_IDENTIFICATION_REPLAY_FROM_ZERO"
+  },
+  "prohibited": [
+    "post-outcome threshold changes",
+    "arm removal after seeing outcomes",
+    "workload search",
+    "selective session pooling",
+    "new unregistered mechanism invented to rescue failed identification",
+    "parent timing reuse as fresh evidence"
+  ],
+  "authorization": {
+    "implementation": false,
+    "model_load": false,
+    "gpu_dispatch": false,
+    "timing": false
+  }
+}

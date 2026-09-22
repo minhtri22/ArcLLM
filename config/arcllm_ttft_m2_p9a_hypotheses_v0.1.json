@@ -1,0 +1,71 @@
+{
+  "schema": "arcllm.ttft_m2.p9a.hypotheses.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "status": "P9A_FRESH_M2_HYPOTHESES_ADOPTED_EXECUTION_BLOCKED",
+  "source_revalidation_blob": "17759ae80ce0cbbfb4d2dedd88c0aabe8216ac9c",
+  "adoption_basis": "Fresh M2 prospective adoption after current-source revalidation; no M1 mechanism outcome transferred.",
+  "material_ratio": 1.1,
+  "hypotheses": [
+    {
+      "id": "H-ART",
+      "mechanism": "PREFILL_BINARY_ARTIFACT_DIVERGENCE",
+      "priority": 1,
+      "prediction": "At least one common prefill SPIR-V binary differs between SAFE and Q4FAST diagnostic artifact sets.",
+      "falsification": "All common prefill SPIR-V SHA256 values match exactly.",
+      "timing_allowed_before_resolution": false
+    },
+    {
+      "id": "H-DPIPE",
+      "mechanism": "PREPARED_DECODE_PIPELINE_STATE_INTERACTION",
+      "priority": 2,
+      "prediction": "With identical PREFILL_ONLY conditioning, preparing Q4FAST decode pipelines causes material TTFT increase relative to SAFE, replicated across both workloads and sessions.",
+      "causal_factor": "decode_pipeline_set"
+    },
+    {
+      "id": "H-PRECOND",
+      "mechanism": "FULL_INFERENCE_WARMUP_PRECONDITIONING",
+      "priority": 2,
+      "prediction": "Within fixed decode-pipeline set, FULL_INFERENCE conditioning causes material TTFT increase versus PREFILL_ONLY, subject to preregistered contrast rule.",
+      "causal_factor": "conditioning"
+    },
+    {
+      "id": "H-STATE-INTERACTION",
+      "aliases_from_prior_method": [
+        "H-INTERACT"
+      ],
+      "mechanism": "DECODE_STATE_X_MEASURED_COMMAND_LIFECYCLE_INTERACTION",
+      "priority": 3,
+      "prediction": "Combined Q4FAST+FULL condition produces replicated parent-like harm not explained by either preregistered main effect alone.",
+      "restriction": "Only preregistered factorial interaction rule may support this hypothesis."
+    },
+    {
+      "id": "H-NULL",
+      "mechanism": "NO_STABLE_MATERIAL_TTFT_MECHANISM",
+      "priority": 4,
+      "prediction": "After H-ART is controlled, no registered dynamic mechanism gate passes and parent-like TTFT harm is below material threshold in every required comparison."
+    }
+  ],
+  "explicitly_rejected": [
+    {
+      "id": "R-P1",
+      "claim": "ANL64 planner CPU construction directly inflates measured TTFT",
+      "reason": "outside t0-t1"
+    },
+    {
+      "id": "R-P2",
+      "claim": "Q4FAST executes in prefill",
+      "reason": "current exact source mapping shows zero Q4FAST refs in prefill"
+    },
+    {
+      "id": "R-P3",
+      "claim": "multi-request scheduler contention explains isolated cells",
+      "reason": "not part of isolated design"
+    }
+  ],
+  "authorization": {
+    "model_load": false,
+    "gpu_dispatch": false,
+    "timing": false
+  }
+}

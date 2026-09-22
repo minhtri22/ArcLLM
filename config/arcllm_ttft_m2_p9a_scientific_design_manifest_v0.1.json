@@ -1,0 +1,83 @@
+{
+  "schema": "arcllm.ttft_m2.p9a.scientific_design_manifest.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "status": "P9A_CANONICAL_M2_SCIENTIFIC_DESIGN_FROZEN_ZERO_SCIENCE",
+  "canonical_members": {
+    "source_revalidation": {
+      "path": "config/arcllm_ttft_m2_p9a_source_revalidation_v0.1.json",
+      "blob": "17759ae80ce0cbbfb4d2dedd88c0aabe8216ac9c"
+    },
+    "hypotheses": {
+      "path": "config/arcllm_ttft_m2_p9a_hypotheses_v0.1.json",
+      "blob": "55192815d02637cc6e469794565ba8134ff63ae1"
+    },
+    "causal_design": {
+      "path": "config/arcllm_ttft_m2_p9a_causal_decomposition_v0.1.json",
+      "blob": "9d1960ee253e59f1835ea0d320b40e9975039ed3"
+    },
+    "target_environment": {
+      "path": "config/arcllm_ttft_m2_p9a_target_environment_contract_v0.1.json",
+      "blob": "5b79f7b42b238471e0d4bb3ee802bab7ffe83185"
+    },
+    "falsification_stop": {
+      "path": "config/arcllm_ttft_m2_p9a_falsification_stop_v0.1.json",
+      "blob": "1ed4187934be119611f9fd1f0ce9f8e61bf88116"
+    }
+  },
+  "adopted_design_summary": {
+    "hypotheses": [
+      "H-ART",
+      "H-DPIPE",
+      "H-PRECOND",
+      "H-STATE-INTERACTION",
+      "H-NULL"
+    ],
+    "factors": {
+      "decode_pipeline_set": [
+        "SAFE",
+        "Q4FAST"
+      ],
+      "conditioning": [
+        "PREFILL_ONLY",
+        "FULL_INFERENCE"
+      ]
+    },
+    "arms": [
+      "SP",
+      "SF",
+      "QP",
+      "QF"
+    ],
+    "workloads": {
+      "W-S": 4,
+      "W-C": 256
+    },
+    "sessions": 2,
+    "attempts_per_arm_workload_session": 5,
+    "total_fresh_ttft_observations_planned": 80,
+    "material_ratio": 1.1,
+    "parent_observations_reused": 0,
+    "selective_rerun": false
+  },
+  "qa": {
+    "current_source_revalidation_pass": true,
+    "factor_manipulability_pass": true,
+    "exact_target_contract_present": true,
+    "workloads_frozen": true,
+    "endpoint_semantics_frozen": true,
+    "session_order_repetition_frozen": true,
+    "falsification_stop_frozen": true,
+    "historical_outcome_transfer": false,
+    "target_runtime_match_claimed": false,
+    "scientific_execution_performed": false
+  },
+  "authorization": {
+    "implementation": false,
+    "model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "fresh_ttft_observation": false
+  },
+  "next": "M2_P9_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_AUTHORIZATION_GATE_REVIEW_2"
+}
