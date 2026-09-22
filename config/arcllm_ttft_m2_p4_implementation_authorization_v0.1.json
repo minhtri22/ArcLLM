@@ -1,0 +1,41 @@
+{
+  "schema": "arcllm.ttft_m2.p4.implementation_authorization.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "branch": "research/arcllm-ttft-m2",
+  "parent_head": "5017f4faa10bbd38c62d937a4ce3aef6d9a94951",
+  "decision": "M2_P4_ZERO_SCIENCE_PACKAGE_IMPLEMENTATION_AUTHORIZED",
+  "prerequisites": {
+    "governance_blob": "f9ff3b0f08b5c74bfc6c0e3ce9c604404be54f28",
+    "atomic_package_contract_blob": "0d07219952177bbd0812be554aff1ae2f1b0bc47",
+    "p3_specification_qa_blob": "36cae16295e768fe0f50efafaac88e8a9867ae50",
+    "p3_specification_qa_result": "PASS_M2_P0_TO_P3_ZERO_SCIENCE_SPECIFICATION_QA"
+  },
+  "allowed": [
+    "materialize inert BuildOnly runner source without executing it",
+    "materialize execution/build lock",
+    "materialize success/failure/evidence/package/adjudicator schemas",
+    "materialize package/evidence/adjudicator templates and source-to-destination mapping",
+    "materialize atomic zero-science QA tool",
+    "materialize canonical positive fixture and required negative fixtures",
+    "perform syntax/static repository checks that do not launch target executable or collect scientific outcome",
+    "append TTFT_M2 lineage and update TTFT_M2 governance to record P4 completion"
+  ],
+  "forbidden": [
+    "execute BuildOnly runner",
+    "launch diagnostic executable",
+    "load target model",
+    "dispatch GPU work",
+    "measure TTFT or any performance endpoint",
+    "consume execution-stage repair budget",
+    "freeze package as P5-PASS",
+    "claim M2-P5 atomic QA PASS",
+    "claim M2-P6 governance PASS",
+    "authorize M2-P7 BuildOnly",
+    "adjudicate any TTFT mechanism",
+    "modify ANL64 or TTFT_M1 closed lineage"
+  ],
+  "execution_stage_repair_budget_active": false,
+  "package_development_repairs_consume_execution_budget": false,
+  "next": "IMPLEMENT_EXACT_M2_P4_ZERO_SCIENCE_PACKAGE"
+}
