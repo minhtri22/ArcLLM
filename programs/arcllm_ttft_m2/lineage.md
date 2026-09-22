@@ -953,3 +953,57 @@ Gate artifact:
 
 Next:
 `EXECUTE_EXACT_P9C_AUTHORIZED_FRESH_COLLECTION_ON_LOCAL_WINDOWS`.
+
+
+## 2026-09-22 — M2-P9D VALID FRESH COLLECTION / FROZEN ADJUDICATION
+
+The exact P9C-authorized local Windows collection completed and was independently adjudicated.
+
+Result:
+
+`PASS_M2_P9D_VALID_FRESH_COLLECTION_H_NULL_SUPPORTED`
+
+Scientific classification:
+
+`H_NULL_SUPPORTED_NO_STABLE_MATERIAL_REGISTERED_TTFT_MECHANISM`
+
+Evidence identity:
+- execution HEAD `b3e49b54e99c05908939269c3b59c726a5810a41`;
+- returned bundle SHA256 `3BCA56E562D15F14B16D16AECA56192AA1184726A6E3ACF5AA172B92B05E191E`;
+- authorization `fe4c45ba7675a2d10cc8a1cc4294d0f84adcdfe2`;
+- execution binding `90dc9d87fb987a3892d0a64c27e89baa2cbd3a32`;
+- science runner `f0a627de05c509286cdb51a070d409b297c7dbaa`;
+- qualified executable SHA256 `9E0C0A7CCCBB2DA767B4DE90354EC7ADF4463286264187843521419113C019C7`.
+
+Collection integrity:
+- F0 PASS;
+- H-ART falsified statically;
+- 16/16 required cells;
+- 80/80 fresh TTFT observations;
+- all attempt success, conditioning, finite-logit and dispatch-census guards PASS;
+- matched first-token guard PASS;
+- parent observations reused 0;
+- automatic/selective rerun false.
+
+Frozen primary gates:
+- H-DPIPE not supported;
+- H-PRECOND not supported;
+- H-STATE-INTERACTION not supported;
+- H-NULL supported.
+
+Observed QF/SF ratios were below the frozen 1.10 materiality threshold in every required comparison:
+- A/W-S 0.7712;
+- A/W-C 0.9535;
+- B/W-S 0.7942;
+- B/W-C 0.9086.
+
+The result is narrow: no stable material registered mechanism replicated under the frozen P9A design. It does not establish a universal absence of TTFT mechanisms.
+
+P9D evidence:
+- artifact `228e33410fd5e67c67a08771c5ed0c896e0e51e1`;
+- document `7aa34fb68189f7a12274f24b3e261dca0790a336`.
+
+No further scientific execution is authorized by P9D.
+
+Next:
+`M2_P10_FINAL_PROGRAM_ADJUDICATION_POST_A1_CONTINUATION`.

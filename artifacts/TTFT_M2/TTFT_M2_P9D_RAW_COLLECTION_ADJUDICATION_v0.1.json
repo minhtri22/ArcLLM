@@ -1,0 +1,180 @@
+{
+  "schema": "arcllm.ttft_m2.p9d.raw_collection_adjudication.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "stage": "M2_P9D_RAW_COLLECTION_INTEGRITY_AND_FROZEN_ADJUDICATION",
+  "result": "PASS_M2_P9D_VALID_FRESH_COLLECTION_H_NULL_SUPPORTED",
+  "scientific_classification": "H_NULL_SUPPORTED_NO_STABLE_MATERIAL_REGISTERED_TTFT_MECHANISM",
+  "interpretation_scope": "Within the frozen P9A mechanism set and exact preregistered gates, no stable material H-DPIPE, H-PRECOND, or H-STATE-INTERACTION mechanism replicated across both workloads and both sessions. This does not prove that no TTFT mechanism exists outside the registered design.",
+  "execution_identity": {
+    "git_head": "b3e49b54e99c05908939269c3b59c726a5810a41",
+    "execution_authorization_blob": "fe4c45ba7675a2d10cc8a1cc4294d0f84adcdfe2",
+    "execution_binding_blob": "90dc9d87fb987a3892d0a64c27e89baa2cbd3a32",
+    "science_runner_blob": "f0a627de05c509286cdb51a070d409b297c7dbaa",
+    "p9b_lock_blob": "7b06da63fe09597ebdcf641d1cd992d4a973075c",
+    "p9a_falsification_contract_blob": "1ed4187934be119611f9fd1f0ce9f8e61bf88116",
+    "qualified_executable_sha256": "9E0C0A7CCCBB2DA767B4DE90354EC7ADF4463286264187843521419113C019C7"
+  },
+  "returned_evidence": {
+    "bundle_sha256": "3BCA56E562D15F14B16D16AECA56192AA1184726A6E3ACF5AA172B92B05E191E",
+    "member_count": 22,
+    "terminal_classification": "FRESH_COLLECTION_COMPLETE_AWAITING_ADJUDICATION",
+    "science_exit_code": 0,
+    "raw_collection_manifest_sha256": "247AA21C146A3BDF6AD1561BE1FFD27B78D7EFD93B9D56C9BCC4D3D0771E3BD6",
+    "return_manifest_sha256": "0FB8832B8BC760D42D56A278522570F9567239E5B27A9E5DD76731BA8C50733D",
+    "automatic_rerun_performed": false,
+    "selective_rerun_performed": false,
+    "final_mechanism_adjudication_performed_during_execution": false
+  },
+  "provenance_cross_checks": {
+    "bundled_authorization_git_blob": "fe4c45ba7675a2d10cc8a1cc4294d0f84adcdfe2",
+    "bundled_execution_binding_git_blob": "90dc9d87fb987a3892d0a64c27e89baa2cbd3a32",
+    "bundled_p9b_lock_git_blob": "7b06da63fe09597ebdcf641d1cd992d4a973075c",
+    "branch_identical_to_execution_head_before_adjudication": true,
+    "parent_observations_reused": 0,
+    "selective_rerun": false,
+    "f0": "PASS",
+    "h_art": "H_ART_FALSIFIED_STATIC"
+  },
+  "collection_integrity": {
+    "required_cells": 16,
+    "observed_cells": 16,
+    "measured_attempts_per_cell": 5,
+    "observed_attempts": 80,
+    "planned_fresh_ttft_observations": 80,
+    "all_attempts_success": true,
+    "all_conditioning_success": true,
+    "all_final_logits_finite": true,
+    "all_dispatch_census_pass": true,
+    "all_errors_empty": true,
+    "common_prefill_dispatch_contract": 441,
+    "matched_first_token_guard": true,
+    "matched_first_tokens": {
+      "A/W-S": 128275,
+      "A/W-C": 198,
+      "B/W-S": 128275,
+      "B/W-C": 198
+    },
+    "session_order_validity_basis": "Exact authorized runner deterministically encodes the frozen A/B orders; returned execution binds that runner, reports no rerun/selective rerun, and contains the complete required cell set."
+  },
+  "primary_ttft_medians_ms": {
+    "A/W-S": {
+      "SP": 614.6502,
+      "SF": 1532.9764,
+      "QP": 1270.0694,
+      "QF": 1182.2344
+    },
+    "A/W-C": {
+      "SP": 13931.2627,
+      "SF": 14732.218,
+      "QP": 14149.2049,
+      "QF": 14047.2733
+    },
+    "B/W-S": {
+      "SP": 1091.0486,
+      "SF": 1029.8283,
+      "QP": 1166.7608,
+      "QF": 817.8737
+    },
+    "B/W-C": {
+      "SP": 14176.8504,
+      "SF": 13845.8193,
+      "QP": 14416.2319,
+      "QF": 12580.2151
+    }
+  },
+  "preregistered_ratios": {
+    "A/W-S": {
+      "QP_over_SP": 2.0663286638993457,
+      "SF_over_SP": 2.494063286118372,
+      "QF_over_QP": 0.9308430214590787,
+      "QF_over_SF": 0.7712024099537143,
+      "interaction": 0.3732234970299385
+    },
+    "A/W-C": {
+      "QP_over_SP": 1.015644102607355,
+      "SF_over_SP": 1.0574934181306253,
+      "QF_over_QP": 0.9927959696052456,
+      "QF_over_SF": 0.9535069952533423,
+      "interaction": 0.9388199988613188
+    },
+    "B/W-S": {
+      "QP_over_SP": 1.0693937987174722,
+      "SF_over_SP": 0.943888378930909,
+      "QF_over_QP": 0.7009787355674106,
+      "QF_over_SF": 0.7941853396877925,
+      "interaction": 0.7426500327945251
+    },
+    "B/W-C": {
+      "QP_over_SP": 1.0168854083727021,
+      "SF_over_SP": 0.9766498832720236,
+      "QF_over_QP": 0.8726423710806316,
+      "QF_over_SF": 0.908593047599323,
+      "interaction": 0.8935058366638609
+    }
+  },
+  "frozen_gate_adjudication": {
+    "material_ratio": 1.1,
+    "strict_session_workload_replication": true,
+    "pooling_for_gate": false,
+    "H_ART": {
+      "result": "FALSIFIED",
+      "evidence": "All common prefill SPIR-V identities matched under the exact authorized F1 path; timing collection proceeded."
+    },
+    "H_DPIPE": {
+      "support": false,
+      "rule": "QP/SP >= 1.10 in W-S and W-C independently in both sessions",
+      "note": "A/W-S exceeds threshold, but A/W-C, B/W-S, and B/W-C do not; strict replication fails."
+    },
+    "H_PRECOND": {
+      "support": false,
+      "rule": "QF/QP >= 1.10 AND SF/SP < 1.10 in W-S and W-C independently in both sessions",
+      "note": "QF/QP is below 1.10 in all four required comparisons."
+    },
+    "H_STATE_INTERACTION": {
+      "support": false,
+      "rule": "QF/SF >= 1.10 AND interaction >= 1.10 in W-S and W-C independently in both sessions",
+      "note": "QF/SF and the interaction ratio are below 1.10 in all four required comparisons."
+    },
+    "H_NULL": {
+      "support": true,
+      "rule": "No H-DPIPE/H-PRECOND/H-STATE-INTERACTION gate passes AND QF/SF < 1.10 in W-S and W-C independently in both sessions after H-ART falsification.",
+      "qf_over_sf_all_below_1_10": true
+    },
+    "UNRESOLVED_STABLE_TTFT_HARM": false,
+    "HISTORICAL_HARM_NOT_STABLY_REPRODUCED": false
+  },
+  "anti_rescue_checks": {
+    "threshold_changed_after_outcome": false,
+    "arm_removed": false,
+    "workload_search": false,
+    "selective_session_pooling": false,
+    "new_mechanism_added": false,
+    "parent_timing_reused": false
+  },
+  "evidence_fingerprints": {
+    "session_A/QF_W-C.json": "7E1043BF09C41A578CB4330CCE6D3F9D617F21D3ACF8C568245AE42269F3C37A",
+    "session_A/QF_W-S.json": "B3265A3704BEA1FCC330E5C16B00D733FCA4F836D70523868B2EE739D0B1B4EB",
+    "session_A/QP_W-C.json": "746397AA37ED91434CA644D2B51C2E1DE6381BCA403F2330AB1537737E1F8004",
+    "session_A/QP_W-S.json": "01D95C823E9D0FE9DCCE4F1AFE4B189933489A28FE0AC09869DDF984ADA90CCF",
+    "session_A/SF_W-C.json": "83269D5EB0C6713611E53DDFB30F76CCC72817FBDC979F2CD7CCD27392F4DC5D",
+    "session_A/SF_W-S.json": "85FA8BD06671FA2D545257268D2264D63B290DD220503486D81DC5C759493158",
+    "session_A/SP_W-C.json": "C16AA173EC1FA3FEDA1C7920582F8390DD6A84153ADF1C0A34AE738FC0D963ED",
+    "session_A/SP_W-S.json": "A155437D80F002FC9CAA4742F652522AD019AC64E59A4D1226AA9266C3966EB2",
+    "session_B/QF_W-C.json": "6DEED9FC0BC30ADFB5A7B407FD80A6E92AD6207BF353319CC78BBC48A3DE0883",
+    "session_B/QF_W-S.json": "C5D9DAA8FE20A0E840248DDF5AFD6835D791E1E8D21FFAC8DD0A1D057D5B7CB4",
+    "session_B/QP_W-C.json": "2A4659EAF07873C3B8DEAC7DE4C76D40D20E0BB57FA80FE813F804F94FA3D6BF",
+    "session_B/QP_W-S.json": "D415FC39DAAFB5364195ED17EFC1E8922BEE15D8C2161BC1AC3EF098CD84CEEF",
+    "session_B/SF_W-C.json": "49311201767DF960CDA3130AD7FE802BDF96E57ACD6A87A86E4A18F160D82CC6",
+    "session_B/SF_W-S.json": "4987A0FAB9CCEF639664E7A1B0CAFA77564FFC95B864C0A5DF8F5AB2E12FCBB6",
+    "session_B/SP_W-C.json": "ECBAFF66745E6CA7C7AE038EB2A8A5270919F37065608C598D4F030ED95EF1D0",
+    "session_B/SP_W-S.json": "D80BAD4BF0A7EE4CA1D02AB1622104582EEEF12ACB5C5E694E5D70B3F11A0FAA"
+  },
+  "scientific_result": {
+    "supports_any_registered_positive_mechanism": false,
+    "supports_H_NULL": true,
+    "stable_material_parent_like_harm": false,
+    "conclusion": "The valid fresh P9 collection supports H-NULL under the frozen preregistered rule."
+  },
+  "next": "M2_P10_FINAL_PROGRAM_ADJUDICATION_POST_A1_CONTINUATION"
+}
