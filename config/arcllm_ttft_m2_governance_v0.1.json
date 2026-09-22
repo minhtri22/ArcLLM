@@ -3,7 +3,7 @@
   "date": "2026-09-22",
   "program_id": "ARCLLM_TTFT_M2",
   "branch": "research/arcllm-ttft-m2",
-  "status": "M2_P5_ATOMIC_PACKAGE_QA_PASS_P6_ELIGIBLE",
+  "status": "M2_P6_ZERO_SCIENCE_GOVERNANCE_PASS_P7_ELIGIBLE",
   "git_history_base": "86ec48ce0cfff28fa43c23c1d8b57b8f881d249e",
   "parents": {
     "ANL64": {
@@ -68,8 +68,8 @@
     "M2_P3": "COMPLETE_SPECIFICATION_ONLY",
     "M2_P4": "COMPLETE_IMPLEMENTED_ZERO_SCIENCE",
     "M2_P5": "COMPLETE_PASS_ATOMIC_PACKAGE_QA",
-    "M2_P6": "NOT_OPENED_ELIGIBLE_NEXT",
-    "M2_P7": "NOT_OPENED",
+    "M2_P6": "COMPLETE_PASS_ZERO_SCIENCE_GOVERNANCE",
+    "M2_P7": "NOT_OPENED_ELIGIBLE_NEXT",
     "M2_P8": "NOT_OPENED",
     "M2_P9": "NOT_OPENED",
     "M2_P10": "NOT_OPENED"
@@ -136,7 +136,7 @@
     "performance_measurement": false,
     "fresh_ttft_observation": false
   },
-  "next": "M2_P6_ZERO_SCIENCE_GOVERNANCE_ADJUDICATION",
+  "next": "M2_P7_EXPLICIT_BUILDONLY_AUTHORIZATION_GATE",
   "p4": {
     "result": "M2_P4_ZERO_SCIENCE_INFRASTRUCTURE_PACKAGE_IMPLEMENTED",
     "authorization": {
@@ -254,10 +254,46 @@
       "fresh_ttft_observations": 0,
       "scientific_result": "NONE"
     },
-    "p6_governance_adjudication_completed": false,
+    "p6_governance_adjudication_completed": true,
     "p7_buildonly_authorized": false,
     "buildonly_execution_authorized": false,
     "execution_stage_repair_budget_active": false,
     "execution_stage_repairs_consumed": 0
+  },
+  "p6": {
+    "result": "PASS_M2_P6_ZERO_SCIENCE_GOVERNANCE_ADJUDICATION",
+    "adjudication_head": "0d1d99e5284496a091973dc3f64f0b3da398d7ef",
+    "artifact": {
+      "path": "artifacts/TTFT_M2/TTFT_M2_P6_ZERO_SCIENCE_GOVERNANCE_ADJUDICATION_v0.1.json",
+      "blob": "4ffae2c16d60d02a63c9cdbe96be1f5d1e7e0ad9"
+    },
+    "document": {
+      "path": "docs/research/arcllm-ttft-m2/P6_ZERO_SCIENCE_GOVERNANCE_ADJUDICATION.md",
+      "blob": "ff6fd6b3fbbf33e23662a77fdacac29806659de6"
+    },
+    "frozen_package_reverified_exact": true,
+    "frozen_execution_package_source_head": "7e807caf7dd357f9c820f89f5a719a1e4a10139a",
+    "frozen_execution_package_source_tree": "09960203707653d22626ec2b39b7be20cac8e65a",
+    "p5_evidence_integrity_pass": true,
+    "p5_raw_sha256_recomputed": "C1C032DF3DED4F63FD9B34F5DD00B70F50DE7757AA78F65852628E9405D4B84D",
+    "repair_budget_semantics_pass": true,
+    "zero_science_boundary_pass": true,
+    "p7_gate_pass": true,
+    "p7_authorization_exists": false,
+    "p7_buildonly_authorized": false,
+    "buildonly_execution_authorized": false,
+    "execution_stage_repair_budget_active": false,
+    "execution_stage_repairs_consumed": 0,
+    "scientific_accounting": {
+      "buildonly_runner_executions": 0,
+      "diagnostic_executable_launches": 0,
+      "target_model_loads": 0,
+      "gpu_dispatches": 0,
+      "performance_measurements": 0,
+      "fresh_ttft_observations": 0,
+      "scientific_result": "NONE",
+      "mechanism_adjudication_performed": false
+    },
+    "only_admissible_next": "M2_P7_EXPLICIT_BUILDONLY_AUTHORIZATION_GATE"
   }
 }

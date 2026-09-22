@@ -1,0 +1,154 @@
+{
+  "schema": "arcllm.ttft_m2.p6.zero_science_governance_adjudication.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "result": "PASS_M2_P6_ZERO_SCIENCE_GOVERNANCE_ADJUDICATION",
+  "adjudication_head": "0d1d99e5284496a091973dc3f64f0b3da398d7ef",
+  "source_freeze": {
+    "frozen_execution_package_source_head": "7e807caf7dd357f9c820f89f5a719a1e4a10139a",
+    "frozen_execution_package_source_tree": "09960203707653d22626ec2b39b7be20cac8e65a",
+    "mutation_after_freeze_permitted_without_requalification": false
+  },
+  "prerequisite_evidence": {
+    "p3_atomic_package_contract": {
+      "path": "config/arcllm_ttft_m2_atomic_package_contract_v0.1.json",
+      "blob": "0d07219952177bbd0812be554aff1ae2f1b0bc47",
+      "freeze_protocol_consistent": true
+    },
+    "p4_authorization": {
+      "path": "config/arcllm_ttft_m2_p4_implementation_authorization_v0.1.json",
+      "blob": "6ad37531ca81227e65420b1261780ebfafbca97a",
+      "prohibited_execution_preserved": true
+    },
+    "p4_implementation_record": {
+      "path": "artifacts/TTFT_M2/TTFT_M2_P4_IMPLEMENTATION_RECORD_v0.1.json",
+      "blob": "e23917425fe86a527c1f23324caad08f21500175"
+    },
+    "p5_formal": {
+      "path": "artifacts/TTFT_M2/TTFT_M2_P5_ATOMIC_PACKAGE_QA_v0.1.json",
+      "blob": "3012c817e2983d0928cd7599cfa70197c4debd3c",
+      "result": "PASS_M2_P5_ATOMIC_PACKAGE_QA"
+    },
+    "p5_raw": {
+      "path": "artifacts/TTFT_M2/TTFT_M2_P5_RUNTIME_QA_RAW_v0.1.json",
+      "blob": "aa832665cf25842887f34d6ad5c2f58bb0b75c23",
+      "sha256_recomputed": "C1C032DF3DED4F63FD9B34F5DD00B70F50DE7757AA78F65852628E9405D4B84D",
+      "result": "PASS",
+      "errors": []
+    },
+    "p5_fixture_detail": {
+      "path": "artifacts/TTFT_M2/TTFT_M2_P5_FIXTURE_DETAIL_v0.1.json",
+      "blob": "be2ffb8053e20cf61a612f180727180b70e57d9e",
+      "canonical_positive_pass": true,
+      "negative_required": 10,
+      "negative_expected_rejections_observed": 10,
+      "all_negative_fail_closed": true,
+      "schema_meta_validation": "PASS"
+    }
+  },
+  "frozen_blob_reverification": {
+    "all_exact": true,
+    "bindings": {
+      "execution_lock": "9af4c7b4c96354223e1f671a43af64b215072330",
+      "runner": "4722e86a01453d973ee2122b49229b80bf7d84f6",
+      "evidence_manifest_template": "bf496e00e4cf0bff86582e0649c6c26bc28b6f60",
+      "package_manifest": "4629910255580322706b01f318ad9a80044208d7",
+      "atomic_qa_tool": "73b74f2dbc65f0e1bff7cd2c226b4112c34ecfdb",
+      "fixture_index": "9735e97d5ea264642725466e50ae26a00e8a4951",
+      "success_result_schema": "1c216e1bf6e71677d82b658197f2e90302f53f9e",
+      "failure_result_schema": "7cc8947790f9a11d76af144707128fc1df78f7ae",
+      "evidence_manifest_schema": "a6cbf83ffe3b0e81f6d5c03257bba7ba8fbc9d18",
+      "package_manifest_schema": "ec8d8c00162cce0de9fd564c32ea1e34ac679b59",
+      "adjudicator_input_schema": "713ba835364132ceb903e309570b3ca8d36c4c6a"
+    }
+  },
+  "freeze_integrity": {
+    "p4_to_p5_package_mutation": false,
+    "p4_to_p5_changed_paths_only": [
+      "artifacts/TTFT_M2/TTFT_M2_P5_ATOMIC_PACKAGE_QA_v0.1.json",
+      "artifacts/TTFT_M2/TTFT_M2_P5_FIXTURE_DETAIL_v0.1.json",
+      "artifacts/TTFT_M2/TTFT_M2_P5_RUNTIME_QA_RAW_v0.1.json",
+      "config/arcllm_ttft_m2_governance_v0.1.json",
+      "docs/research/arcllm-ttft-m2/P5_ATOMIC_PACKAGE_QA.md",
+      "programs/arcllm_ttft_m2/lineage.md"
+    ],
+    "frozen_package_files_unchanged": true
+  },
+  "repair_budget_adjudication": {
+    "package_development_defects_consume_execution_budget": false,
+    "execution_stage_max_repairs": 1,
+    "execution_stage_active": false,
+    "execution_stage_repairs_consumed": 0,
+    "activation_requires": [
+      "M2_P4_COMPLETE",
+      "M2_P5_ATOMIC_PACKAGE_QA_PASS",
+      "M2_P6_ZERO_SCIENCE_GOVERNANCE_PASS",
+      "exact_package_frozen",
+      "explicit_M2_P7_BuildOnly_authorization"
+    ],
+    "p6_pass_alone_activates_budget": false,
+    "budget_must_remain_dormant_after_p6": true,
+    "result": "PASS"
+  },
+  "zero_science_adjudication": {
+    "lock_target_model_load_permitted": false,
+    "lock_diagnostic_executable_launch_permitted": false,
+    "lock_gpu_dispatch_permitted": false,
+    "lock_performance_measurement_permitted": false,
+    "lock_fresh_ttft_observations_permitted": false,
+    "diagnostic_harness_bound": false,
+    "mechanism_design_canonicalized": false,
+    "observed_buildonly_runner_executions": 0,
+    "observed_diagnostic_executable_launches": 0,
+    "observed_target_model_loads": 0,
+    "observed_gpu_dispatches": 0,
+    "observed_performance_measurements": 0,
+    "observed_fresh_ttft_observations": 0,
+    "scientific_result": "NONE",
+    "mechanism_adjudication_performed": false,
+    "result": "PASS"
+  },
+  "p7_gate_adjudication": {
+    "authorization_path": "config/arcllm_ttft_m2_p7_buildonly_authorization_v0.1.json",
+    "authorization_exists_at_p6": false,
+    "absence_verified_by_repository_lookup": true,
+    "required_schema": "arcllm.ttft_m2.p7.buildonly_authorization.v0.1",
+    "required_decision": "M2_P7_BUILDONLY_AUTHORIZED",
+    "required_binding_mode": "RUNTIME_REQUIRED_EXACT_GIT_BLOB",
+    "runner_fails_closed_if_missing": true,
+    "runner_fails_closed_on_schema_mismatch": true,
+    "runner_fails_closed_on_decision_mismatch": true,
+    "runner_requires_target_model_execution_false": true,
+    "runner_requires_gpu_dispatch_false": true,
+    "runner_requires_performance_measurement_false": true,
+    "p6_creates_p7_authorization": false,
+    "p6_authorizes_buildonly_execution": false,
+    "result": "PASS"
+  },
+  "stage_adjudication": {
+    "p4": "COMPLETE_IMPLEMENTED_ZERO_SCIENCE",
+    "p5": "COMPLETE_PASS_ATOMIC_PACKAGE_QA",
+    "p6": "PASS",
+    "p7": "NOT_OPENED_ELIGIBLE_NEXT",
+    "p8": "NOT_OPENED",
+    "p9": "NOT_OPENED",
+    "p10": "NOT_OPENED"
+  },
+  "allowed_next": [
+    "OPEN_EXPLICIT_M2_P7_BUILDONLY_AUTHORIZATION_GATE"
+  ],
+  "forbidden_after_p6": [
+    "run BuildOnly before a separate P7 authorization artifact exists",
+    "activate execution-stage repair budget before P7 authorization",
+    "load target model",
+    "launch diagnostic executable",
+    "dispatch GPU work",
+    "measure TTFT or another performance endpoint",
+    "collect fresh TTFT observations",
+    "adjudicate a TTFT mechanism",
+    "mutate the frozen P4 execution package without requalification",
+    "reopen TTFT_M1 or ANL64"
+  ],
+  "final_statement": "P6 establishes governance consistency only. It does not authorize execution.",
+  "next": "M2_P7_EXPLICIT_BUILDONLY_AUTHORIZATION_GATE"
+}

@@ -182,3 +182,60 @@ P5 terminal result:
 `PASS_M2_P5_ATOMIC_PACKAGE_QA`
 
 Next: `M2_P6_ZERO_SCIENCE_GOVERNANCE_ADJUDICATION`.
+
+
+## 2026-09-22 — M2-P6 ZERO-SCIENCE GOVERNANCE ADJUDICATION
+
+P6 independently re-verified the frozen P4 execution package, P5 evidence, repair-budget semantics, zero-science boundary and future P7 authorization gate.
+
+Adjudication input HEAD:
+`0d1d99e5284496a091973dc3f64f0b3da398d7ef`
+
+Frozen execution package remains:
+- source HEAD `7e807caf7dd357f9c820f89f5a719a1e4a10139a`;
+- source tree `09960203707653d22626ec2b39b7be20cac8e65a`.
+
+All 11 package-critical Git blobs independently re-fetched at P6 matched the P5 freeze exactly.
+
+The P4→P5 diff changed only P5 evidence, governance, documentation and TTFT_M2 lineage. No frozen package member changed.
+
+P5 evidence independently re-verified:
+- formal P5 blob `3012c817e2983d0928cd7599cfa70197c4debd3c`;
+- raw QA blob `aa832665cf25842887f34d6ad5c2f58bb0b75c23`;
+- fixture-detail blob `be2ffb8053e20cf61a612f180727180b70e57d9e`;
+- raw QA SHA256 recomputed as `C1C032DF3DED4F63FD9B34F5DD00B70F50DE7757AA78F65852628E9405D4B84D`;
+- canonical positive PASS;
+- 10/10 negative expected rejections observed;
+- five Draft 2020-12 schema meta-validations PASS.
+
+Repair-budget adjudication:
+- maximum execution-stage repairs: 1;
+- consumed: 0;
+- active: false;
+- P6 PASS alone does not activate the budget;
+- explicit P7 authorization remains required.
+
+Zero-science adjudication:
+- BuildOnly runner executions: 0;
+- diagnostic executable launches: 0;
+- target model loads: 0;
+- GPU dispatches: 0;
+- performance measurements: 0;
+- fresh TTFT observations: 0;
+- scientific result: NONE.
+
+The future P7 authorization path was queried and does not exist at P6. The frozen runner fails closed when P7 is absent or malformed and additionally requires target-model execution, GPU dispatch and performance measurement to remain false.
+
+P6 formal evidence:
+- artifact blob `4ffae2c16d60d02a63c9cdbe96be1f5d1e7e0ad9`;
+- document blob `ff6fd6b3fbbf33e23662a77fdacac29806659de6`.
+
+Formal result:
+
+`PASS_M2_P6_ZERO_SCIENCE_GOVERNANCE_ADJUDICATION`
+
+P6 does not create P7 authorization, does not authorize BuildOnly, and does not activate the execution-stage repair budget.
+
+Next and only admissible step:
+
+`M2_P7_EXPLICIT_BUILDONLY_AUTHORIZATION_GATE`.
