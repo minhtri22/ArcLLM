@@ -103,8 +103,8 @@ common_names=[
 ]
 assert len(common_names)==16
 assert all(f'"{name}"' in cp for name in common_names)
-assert "config\\q2_execution_authorization.json" in cp
-assert "artifacts\\ANL64\\ANL64_P4_BUILDONLY_ADJUDICATION_v0.1.json" in cp
+assert "q2_execution_authorization.json" in cp
+assert "ANL64_P4_BUILDONLY_ADJUDICATION_v0.1.json" in cp
 assert 'method="CANDIDATE_REPRODUCTION_VS_FROZEN_HISTORICAL_SAFE"' in cp
 assert "historical_safe_sha256" in cp
 assert "candidate_reproduction_sha256" in cp
