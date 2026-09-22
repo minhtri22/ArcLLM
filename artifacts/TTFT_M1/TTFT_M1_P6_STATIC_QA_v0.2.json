@@ -1,0 +1,60 @@
+{
+  "schema": "arcllm.ttft_m1.p6_static_qa.v0.2",
+  "date": "2026-09-22",
+  "result": "PASS_CONNECTOR_EQUIVALENT_P6_STATIC_QA_AFTER_H_ART_PRERUN_CORRECTION",
+  "supersedes": "artifacts/TTFT_M1/TTFT_M1_P6_STATIC_QA_v0.1.json",
+  "scientific_execution": false,
+  "target_model_load": false,
+  "gpu_dispatch": false,
+  "performance_measurement": false,
+  "repair": {
+    "adjudication": "artifacts/TTFT_M1/TTFT_M1_P6_PRERUN_H_ART_ADJUDICATION_v0.1.json",
+    "adjudication_blob": "ae6710eb8bf05ba72469ac75ed4fcb4fa46c89f7",
+    "classification": "STATIC_GATE_OPERATIONALIZATION_TAUTOLOGY",
+    "buildonly_started": false,
+    "p6_buildonly_repair_consumed": 1,
+    "further_p6_buildonly_repair_permitted": false
+  },
+  "bindings": {
+    "diagnostic_source_blob": "88d97ddb497bfddcec191358f1e21d982c5efccf",
+    "shader_build_tool_blob": "144a48b7ac14ab1e44427cf0df10b13a2a82966e",
+    "native_build_tool_blob": "1c65d419fb664889bcefc452c509628eff6858a6",
+    "static_test_blob": "66212bd0fb369e9866f98c3462c7f5c13e2d2594",
+    "safe_historical_authorization_blob": "20f556fb18ee4ffd0ce5e17cf8fab1a2b9a992dc",
+    "candidate_historical_buildonly_adjudication_blob": "e9039de1af496cf724a390e8180ae7d97e99f091"
+  },
+  "h_art_method": {
+    "method": "CANDIDATE_REPRODUCTION_VS_FROZEN_HISTORICAL_SAFE",
+    "safe_historical_compiled_shader_count": 16,
+    "safe_historical_source_hash_count": 16,
+    "candidate_compiler_release": "16.5.0",
+    "candidate_target_env": "vulkan1.2",
+    "candidate_compiler_asset_sha256": "06B71298B750268C127F2EE7AE0EF7525E2068120C6C8A3A08B2F58CA6F325CE",
+    "q4safe_historical_crosscheck": true,
+    "q6safe_historical_crosscheck": true,
+    "q4fast_historical_reproduction_required": true,
+    "q4fast_expected_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569"
+  },
+  "checks": {
+    "production_q2_blob_unchanged": true,
+    "production_anl64_blob_unchanged": true,
+    "shared_vulkan_blob_unchanged": true,
+    "q4fast_source_blob_unchanged": true,
+    "common_measured_prefill_source_exact_equal_to_q2": true,
+    "q4fast_references_in_common_prefill": 0,
+    "q4fast_references_in_decode": 5,
+    "conditioning_before_measured_t0": true,
+    "reset_after_conditioning_before_t0": true,
+    "parent_p6_timing_paths_absent": true,
+    "historical_safe_hashes_are_frozen_inputs_not_fresh_outcomes": true,
+    "candidate_reproduction_uses_parent_p4_exact_toolchain": true,
+    "dual_same_source_fresh_comparison_removed": true,
+    "h_art_support_falsification_rule_unchanged": true,
+    "thresholds_unchanged": true,
+    "workloads_unchanged": true,
+    "arms_unchanged": true,
+    "endpoint_unchanged": true,
+    "native_build_does_not_launch_executable": true
+  },
+  "next": "CREATE_P6_LOCK_V0_2_AND_ONE_BUILDONLY_RUNNER"
+}
