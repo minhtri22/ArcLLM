@@ -287,3 +287,73 @@ Current authorization:
 
 Next:
 `RUN_COMMITTED_RUN_TTFT_M1_P6_BUILDONLY_PS1_AND_RETURN_BUNDLE`.
+
+
+## 2026-09-22 — P6 TERMINAL INFRASTRUCTURE STOP
+
+After the single permitted P6 BuildOnly repair had been consumed by the pre-run H-ART operationalization correction, a second post-lock runner provenance defect was discovered before execution.
+
+The runner correctly preflighted implementation lock v0.2 but still:
+- resolved the result JSON implementation-lock blob from v0.1;
+- labeled the copied v0.2 lock under a v0.1 bundle filename.
+
+Because lock v0.2 froze:
+- repair budget consumed `1/1`;
+- `further_p6_buildonly_repair_permitted = false`;
+
+the second defect could not be patched without violating the frozen stop contract.
+
+Terminal P6 result:
+
+`P6_STOP_INFRASTRUCTURE_UNSTABLE_BEFORE_BUILDONLY_EXECUTION`.
+
+P6 terminal adjudication:
+- artifact blob `de89ae36950a9bee2262c7f055cad95a7d9e3106`;
+- document blob `568b9e9f35e8ff5286296e23ff3853f0e9942371`.
+
+Scientific accounting:
+- BuildOnly runner executions: 0;
+- target model loads: 0;
+- GPU dispatches: 0;
+- fresh TTFT mechanism observations: 0.
+
+Therefore H-ART, H-DPIPE, H-PRECOND, state interaction and H-NULL remain unadjudicated.
+
+## 2026-09-22 — P10 FINAL PROGRAM ADJUDICATION / LINEAGE CLOSED
+
+Final program status:
+
+`TTFT_M1_PROGRAM_CLOSED_INFRASTRUCTURE_STOP_NO_MECHANISM_RESULT`.
+
+The research question is not adjudicated because the program stopped before any fresh identification execution.
+
+Preserved methodological evidence:
+- independent-program provenance;
+- prior-art/source review before implementation;
+- exact TTFT path mapping;
+- common measured-prefill source identity;
+- finite hypotheses;
+- frozen 2x2 factorial design;
+- falsification/STOP rules;
+- zero parent P6 timing reuse.
+
+No mechanism claim is supported or rejected by local fresh evidence.
+
+P10 terminal artifacts:
+- adjudication blob `3fd5ed7909f409e3b7419da8ec50cfc6041e1f48`;
+- document blob `219724e91a8b228dc11197600def4abd19e3d0c4`.
+
+Parent ANL64 remains terminal and unchanged.
+
+Any future TTFT mechanism study must be a new independent program with:
+- fresh branch;
+- fresh `lineage.md`;
+- ORIGIN binding both ANL64 terminal evidence and this TTFT_M1 P10 terminal evidence;
+- new zero-science governance;
+- fresh evidence only.
+
+```text
+NEXT = NONE_PROGRAM_TERMINAL
+LINEAGE = CLOSED
+FURTHER_APPEND = FORBIDDEN
+```
