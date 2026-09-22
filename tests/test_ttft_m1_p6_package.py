@@ -14,6 +14,8 @@ assert blob("src/q2_benchmark.cpp")=="ea1e986e22f6921e7f6c52a4fa5935121cfec663"
 assert blob("src/anl64_runtime.cpp")=="dbcb7afed5a08e7aff3ca02a1bd95bd985076f70"
 assert blob("src/p8c_segmented_access_correctness.cpp")=="8432ca554b36a2167429b640c5ec6779cf2b3e6b"
 assert blob("shaders/sa1_q4k_subgroup_splitk.comp")=="56999d88dc1bef6486e7e1908982f6de4b0f9f6a"
+assert blob("config/q2_execution_authorization.json")=="20f556fb18ee4ffd0ce5e17cf8fab1a2b9a992dc"
+assert blob("artifacts/ANL64/ANL64_P4_BUILDONLY_ADJUDICATION_v0.1.json")=="e9039de1af496cf724a390e8180ae7d97e99f091"
 
 auth=json.loads(txt("config/arcllm_ttft_m1_p6_implementation_authorization_v0.1.json"))
 assert auth["decision"]=="P6_BOUNDED_DIAGNOSTIC_IMPLEMENTATION_AND_BUILDONLY_AUTHORIZED"
@@ -88,10 +90,9 @@ for forbidden in [
 ]:
     assert forbidden not in diag,forbidden
 
-# H-ART BuildOnly compiles two independent common sets with pinned compiler.
+# H-ART BuildOnly reproduces the exact candidate toolchain output and
+# compares it to the frozen historical SAFE SPIR-V hashes.
 cp=txt("tools/compile_ttft_m1_p6_shaders.ps1")
-assert '$SafeDir=Join-Path $Base "shaders_safe"' in cp
-assert '$FastDir=Join-Path $Base "shaders_q4fast"' in cp
 common_names=[
     "p7_rmsnorm_seq.comp","p7c_ffn_q4k_tiled.comp","p7c_ffn_q6k_tiled.comp",
     "p7_rope_seq.comp","p7_kv_store.comp","p7_attention_prefill_online.comp",
@@ -102,11 +103,30 @@ common_names=[
 ]
 assert len(common_names)==16
 assert all(f'"{name}"' in cp for name in common_names)
-assert 'common_prefill_artifacts_exact_match=$AllCommonMatch' in cp
+assert "config\\q2_execution_authorization.json" in cp
+assert "artifacts\\ANL64\\ANL64_P4_BUILDONLY_ADJUDICATION_v0.1.json" in cp
+assert 'method="CANDIDATE_REPRODUCTION_VS_FROZEN_HISTORICAL_SAFE"' in cp
+assert "historical_safe_sha256" in cp
+assert "candidate_reproduction_sha256" in cp
+assert 'common_prefill_artifacts_exact_match=$AllHistoricalMatch' in cp
 assert 'H_ART_FALSIFIED_STATIC' in cp
 assert 'H_ART_SUPPORTED_STATIC_STOP_TIMING' in cp
+assert "q4_safe_spv_sha256" in cp and "q6_safe_spv_sha256" in cp
 assert "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569" in cp
 assert "16.5.0" in cp and "vulkan1.2" in cp
+assert "shaders_safe" not in cp and "shaders_q4fast" not in cp
+
+safe_auth=json.loads(txt("config/q2_execution_authorization.json"))
+assert len(safe_auth["compiled_shader_sha256"])==16
+assert safe_auth["compiled_shader_sha256"]["p7_q4k_gemm_2d.spv"]=="2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A"
+assert safe_auth["compiled_shader_sha256"]["p7_q6k_gemm_2d.spv"]=="F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67"
+
+cand_adj=json.loads(txt("artifacts/ANL64/ANL64_P4_BUILDONLY_ADJUDICATION_v0.1.json"))
+assert cand_adj["shader_build"]["compiler_release"]=="16.5.0"
+assert cand_adj["shader_build"]["target_env"]=="vulkan1.2"
+assert cand_adj["shader_build"]["q4_fast_spv_sha256"]=="B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569"
+assert cand_adj["shader_build"]["q4_safe_spv_sha256"]==safe_auth["compiled_shader_sha256"]["p7_q4k_gemm_2d.spv"]
+assert cand_adj["shader_build"]["q6_safe_spv_sha256"]==safe_auth["compiled_shader_sha256"]["p7_q6k_gemm_2d.spv"]
 
 bp=txt("tools/build_ttft_m1_p6.ps1")
 assert "ttft_m1_diagnostic.cpp" in bp
