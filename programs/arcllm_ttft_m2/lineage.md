@@ -297,3 +297,46 @@ P7 terminal result:
 Next and only admissible stage:
 
 `M2_P8_BOUNDED_BUILDONLY_EXECUTION`.
+
+
+## 2026-09-22 — M2-P8 FIRST ATTEMPT FAILED BEFORE JOB CREATION; REPAIR 1/1
+
+First P8 Actions run:
+`35678683835`
+
+Head:
+`1ecb6b7606f81e71fd7c5c6eb0f0d12c5838e2a1`
+
+The run completed with failure and the Actions API returned zero jobs. The exact frozen BuildOnly runner did not execute.
+
+Classification:
+`VALID_EXECUTION_STAGE_ORCHESTRATION_DEFECT`
+
+Defect:
+`P8_WORKFLOW_YAML_PLAIN_SCALAR_COLON_PARSE_FAILURE`
+
+The P8 workflow job condition was a YAML plain scalar containing a compared commit message with `: `, causing workflow parsing to fail before Windows job creation.
+
+This defect is outside the frozen execution package and outside science.
+
+Bounded repair 1/1:
+- frozen P4 package unchanged;
+- P7 authorization unchanged;
+- only orchestration workflow predicate repaired;
+- replay trigger changed to colon-free exact message `P8-REPLAY-ONE-SHOT`;
+- full P8 replay required from zero.
+
+Repair evidence:
+- record blob `0a21904295708660df7cb06ceda8163768d6b50c`;
+- document blob `efec8b9f596450bd0fca9a831f99ba83f2dd80c7`;
+- repaired workflow blob `45bf73ca7aad83a361299ce4ea7c4490070b564f`.
+
+Execution-stage repair budget:
+- active: true;
+- consumed: 1/1;
+- remaining: 0;
+- second execution-stage defect -> `STOP_INFRASTRUCTURE_UNSTABLE`.
+
+Scientific/execution accounting remains zero because the first workflow failed before job creation.
+
+Next: full fresh M2-P8 replay from zero.

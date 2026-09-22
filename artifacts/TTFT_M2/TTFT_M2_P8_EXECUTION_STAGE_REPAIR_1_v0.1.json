@@ -1,0 +1,41 @@
+{
+  "schema": "arcllm.ttft_m2.p8.execution_stage_repair.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "classification": "VALID_EXECUTION_STAGE_ORCHESTRATION_DEFECT",
+  "failed_run": {
+    "workflow_run_id": 35678683835,
+    "head_sha": "1ecb6b7606f81e71fd7c5c6eb0f0d12c5838e2a1",
+    "status": "completed",
+    "conclusion": "failure",
+    "jobs_observed": 0,
+    "exact_runner_executions": 0
+  },
+  "defect": "P8_WORKFLOW_YAML_PLAIN_SCALAR_COLON_PARSE_FAILURE",
+  "diagnosis": "The job-level YAML plain scalar for if contained the literal ': ' inside the commit-message comparison. The workflow failed before job creation, so no exact BuildOnly runner or package code executed.",
+  "repair": {
+    "scope": "ORCHESTRATION_ONLY",
+    "workflow_path": ".github/workflows/ttft_m2_p8_bounded_buildonly.yml",
+    "change": "Replace invalid if expression with a colon-free one-shot commit-message predicate.",
+    "one_shot_message": "P8-REPLAY-ONE-SHOT",
+    "frozen_package_mutated": false,
+    "science_mutated": false
+  },
+  "repair_budget": {
+    "max_repairs": 1,
+    "before_consumed": 0,
+    "after_consumed": 1,
+    "remaining": 0,
+    "second_execution_stage_defect_action": "STOP_INFRASTRUCTURE_UNSTABLE"
+  },
+  "replay_requirement": "FULL_FRESH_BUILDONLY_REPLAY_FROM_ZERO",
+  "scientific_accounting": {
+    "buildonly_runner_executions": 0,
+    "diagnostic_executable_launches": 0,
+    "target_model_loads": 0,
+    "gpu_dispatches": 0,
+    "performance_measurements": 0,
+    "fresh_ttft_observations": 0,
+    "scientific_result": "NONE"
+  }
+}

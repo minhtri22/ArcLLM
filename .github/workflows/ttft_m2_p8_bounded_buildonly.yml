@@ -10,12 +10,12 @@ permissions:
 
 jobs:
   p8-bounded-buildonly:
-    if: ${{ github.event.head_commit.message == 'research: execute TTFT M2 P8 bounded BuildOnly' }}
+    if: github.event.head_commit.message == 'P8-REPLAY-ONE-SHOT'
     runs-on: windows-latest
     timeout-minutes: 10
 
     steps:
-      - name: Checkout exact P8 commit
+      - name: Checkout exact P8 replay commit
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
