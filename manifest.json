@@ -1,8 +1,8 @@
 {
-  "phase": "ARCLLM-TTFT-M1-P6-BUILDONLY-PENDING-V0.2",
+  "phase": "ARCLLM-TTFT-M1-P10-TERMINAL",
   "track": "ArcLLM TTFT causal mechanism",
   "date": "2026-09-22",
-  "status": "TTFT_M1_P6_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
+  "status": "TTFT_M1_PROGRAM_CLOSED_INFRASTRUCTURE_STOP_NO_MECHANISM_RESULT",
   "title": "independent TTFT mechanism identification after terminal ANL64",
   "governance": "docs/ARC_LLM_RESEARCH_GOVERNANCE.md",
   "serves": "ARCLLM_TTFT_M1",
@@ -825,13 +825,13 @@
     "anl64_p6_execution": false,
     "anl64_p6_recovery_replay": false,
     "ttft_m1_implementation": false,
-    "ttft_m1_build": true,
+    "ttft_m1_build": false,
     "ttft_m1_target_execution": false,
     "ttft_m1_gpu_dispatch": false,
     "ttft_m1_performance_measurement": false,
     "ttft_m1_p6_authorization_gate": false
   },
-  "next": "TTFT_M1_RUN_P6_BUILDONLY_PS1_AND_RETURN_BUNDLE",
+  "next": "NONE_TTFT_M1_PROGRAM_TERMINAL",
   "anl64": {
     "program_id": "ANL64",
     "branch": "research/arcllm-nexus-ledger64",
@@ -1067,7 +1067,9 @@
       "path": "programs/arcllm_ttft_mechanism/lineage.md",
       "blob": "80f1e457e9073fc8f9ce25035a61ceac6ffb8d57",
       "policy": "APPEND_ONLY_WITHIN_THIS_PROGRAM",
-      "closed": false
+      "closed": true,
+      "closed_at_stage": "P10_FINAL_PROGRAM_ADJUDICATION",
+      "further_append_permitted": false
     },
     "stage_state": {
       "P0": "COMPLETE",
@@ -1076,11 +1078,11 @@
       "P3": "COMPLETE",
       "P4": "COMPLETE",
       "P5": "COMPLETE_PASS",
-      "P6": "IMPLEMENTATION_LOCKED_BUILDONLY_PENDING",
-      "P7": "BLOCKED",
-      "P8": "BLOCKED",
-      "P9": "BLOCKED",
-      "P10": "BLOCKED"
+      "P6": "STOP_INFRASTRUCTURE_UNSTABLE",
+      "P7": "NOT_OPENED_TERMINAL",
+      "P8": "NOT_OPENED_TERMINAL",
+      "P9": "NOT_OPENED_TERMINAL",
+      "P10": "COMPLETE_TERMINAL"
     },
     "p1": {
       "register_blob": "92682f51f97c9af87ce408629ff7c6f45d3468ac",
@@ -1102,12 +1104,12 @@
       "p6_authorization_gate": false,
       "specification_only": false,
       "implementation": false,
-      "build": true,
+      "build": false,
       "target_execution": false,
       "gpu_dispatch": false,
       "performance_measurement": false
     },
-    "next": "RUN_COMMITTED_RUN_TTFT_M1_P6_BUILDONLY_PS1_AND_RETURN_BUNDLE",
+    "next": "NONE_PROGRAM_TERMINAL",
     "p5": {
       "result": "PASS_ZERO_SCIENCE_TTFT_M1_PROGRAM_QA",
       "artifact": "artifacts/TTFT_M1/TTFT_M1_P5_ZERO_SCIENCE_QA_v0.1.json",
@@ -1146,11 +1148,22 @@
         "further_p6_buildonly_repair_permitted": false,
         "classification": "STATIC_GATE_OPERATIONALIZATION_TAUTOLOGY_NO_SCIENCE_CONSUMED"
       },
-      "h_art_method": "CANDIDATE_REPRODUCTION_VS_FROZEN_HISTORICAL_SAFE"
+      "h_art_method": "CANDIDATE_REPRODUCTION_VS_FROZEN_HISTORICAL_SAFE",
+      "result": "P6_STOP_INFRASTRUCTURE_UNSTABLE_BEFORE_BUILDONLY_EXECUTION",
+      "terminal_adjudication": "artifacts/TTFT_M1/TTFT_M1_P6_TERMINAL_INFRASTRUCTURE_ADJUDICATION_v0.1.json",
+      "terminal_adjudication_blob": "de89ae36950a9bee2262c7f055cad95a7d9e3106"
     },
     "reconciliation": {
       "artifact": "artifacts/TTFT_M1/TTFT_M1_DUPLICATE_SPEC_RECONCILIATION_v0.1.json",
       "blob": "392f02cac42a2b3f52f2cacf92580a918529e180"
+    },
+    "p10": {
+      "result": "TTFT_M1_PROGRAM_CLOSED_INFRASTRUCTURE_STOP_NO_MECHANISM_RESULT",
+      "adjudication": "artifacts/TTFT_M1/TTFT_M1_P10_FINAL_PROGRAM_ADJUDICATION_v0.1.json",
+      "adjudication_blob": "3fd5ed7909f409e3b7419da8ec50cfc6041e1f48",
+      "document": "docs/research/arcllm-ttft-mechanism/P10_FINAL_PROGRAM_ADJUDICATION.md",
+      "document_blob": "219724e91a8b228dc11197600def4abd19e3d0c4",
+      "mechanism_result": "NONE"
     }
   }
 }
