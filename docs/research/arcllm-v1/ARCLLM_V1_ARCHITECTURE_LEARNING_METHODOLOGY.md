@@ -2,8 +2,49 @@
 
 **Program:** ArcLLM v1  
 **Branch:** `research/arcllm-v1`  
-**Status:** FOUNDATION / METHODOLOGY FROZEN FOR DERIVED DESIGN WORK  
+**Status:** FOUNDATION / QA-AMENDED BEFORE I001 DISCRIMINATOR  
+**QA note:** terminology, equations, evidence classes, and prior-art transfer limits clarified prospectively before any ArcLLM v1 performance execution  
 **Parent evidence line:** ArcLLM terminal commit `e30199cd54be1e0e7390e2453c8935c847fe0dd1`
+
+## 0. Scope, terminology provenance, and evidence classes
+
+ArcLLM v1 intentionally combines established performance-analysis ideas with project-specific research vocabulary.
+
+### Literature-derived concepts
+
+The following concepts have established prior art and are used in their ordinary systems/performance sense:
+
+- **Amdahl-style speedup ceiling:** the maximum system speedup is limited by the fraction not improved by an intervention.
+- **Roofline-style bound reasoning:** performance analysis should distinguish compute capability, data movement, and achievable hardware ceilings rather than infer bottlenecks from FLOP counts alone.
+- **IO-aware / locality-aware optimization:** wall-clock speed can be dominated by movement through the memory hierarchy even when arithmetic work is unchanged.
+- **iteration / operation-level scheduling:** autoregressive inference performance depends on how repeated model iterations and heterogeneous operations are scheduled, not only on individual kernels.
+- **paged / non-contiguous KV management:** memory-layout and KV-cache policy can materially change serving efficiency without changing model semantics.
+
+### ArcLLM-v1 project terms
+
+The following are **project-defined analytical terms**, not claims of standard terminology in the literature:
+
+- `StructuralGap`
+- `MaturityDebt`
+- `MeasurementUncertainty`
+- `Headroom Map`
+- `Carry-Through Ratio (CTR)`
+- `Architecture Epoch`
+- `Persistent Decode Execution Plane (PDEP)`
+- `decode graph compression`
+
+These terms are operational tools for organizing ArcLLM evidence. They must not be cited as established laws or treated as directly measurable quantities unless a study defines an estimator for them.
+
+### Evidence classes
+
+ArcLLM v1 distinguishes four evidence classes:
+
+1. **MEASURED:** directly observed in an exact execution.
+2. **DERIVED:** arithmetic or deterministic transformation of measured evidence.
+3. **BOUND:** theoretical or empirical ceiling/floor with explicit assumptions.
+4. **HYPOTHESIS:** causal explanation not yet discriminated by an experiment.
+
+Every Headroom Map claim should be traceable to one of these classes.
 
 ## 1. Why ArcLLM v1 exists
 
@@ -26,16 +67,16 @@ to:
 
 ## 2. Core model
 
-ArcLLM v1 treats the observed matched gap as:
+ArcLLM v1 partitions explanations of an observed matched gap into three project-defined classes:
 
 ```text
-ObservedGap
-  = StructuralGap
-  + MaturityDebt
-  + MeasurementUncertainty
+ObservedGap explanations
+  ├─ StructuralGap
+  ├─ MaturityDebt
+  └─ MeasurementUncertainty
 ```
 
-These terms are conceptual rather than assumed to be linearly identifiable from one benchmark.
+This is a **taxonomy, not an arithmetic identity**. The three classes need not be additive, independent, or directly identifiable from one benchmark. A study may leave part of the gap `UNRESOLVED` rather than force attribution.
 
 ### StructuralGap
 
@@ -68,6 +109,22 @@ Examples:
 Gap caused by incomplete attribution or instrumentation.
 
 A performance gap must not be classified as structural while a material part of it remains unattributed.
+
+### Operational term contract
+
+| Term | ArcLLM-v1 operational meaning | What would strengthen the claim | What it does **not** mean |
+|---|---|---|---|
+| `execution regime` | a frozen combination of model, workload shape, batch/concurrency, context/output lengths, hardware/software environment, and comparison contract | exact matched reproduction | a broad hardware category or an informal usage scenario |
+| `mature baseline` | a pinned external runtime with established optimization history, exact version/build, and matched workload/environment | multiple matched sessions and reproducible build identity | a theoretically optimal implementation |
+| `StructuralGap` | residual disadvantage that remains after credible maturity headroom is bounded away or exhausted under the same semantic contract | lower-bound analysis plus failed high-headroom interventions | any gap that is merely large |
+| `MaturityDebt` | cost plausibly recoverable by implementation/execution improvements without changing the semantic problem | causal intervention with carry-through or a defensible bound | a promise that the gap is recoverable |
+| `MeasurementUncertainty` | material cost or attribution that cannot yet be assigned because instrumentation/bounds are insufficient | improved instrumentation or a discriminating experiment | random noise only |
+| `headroom` | room between current measured cost and an explicit bound/reference under stated assumptions | tighter lower/upper bounds | expected speedup |
+| `recoverable headroom` | the subset of headroom for which a mechanism and evidence make recovery plausible | causal A/B or mechanistic bound | total current gap |
+| `structural advantage` | matched end-to-end benefit linked to a mechanism whose benefit is not merely an artifact of an immature comparator | causal mapping, bound analysis, reproduced matched E2E benefit | a single benchmark win |
+| `structural ceiling` | evidence that remaining plausible maturity improvements are insufficient to meet the target under the frozen regime | tight bounds plus multiple failed high-value interventions | failure of one implementation |
+| `material` | large enough to cross a threshold preregistered for the study in which the term is used | frozen numeric threshold | a universal fixed percentage |
+| `confidence` | quality of evidence supporting a Headroom Map entry; LOW/MEDIUM/HIGH must be justified by provenance, replication, and causal specificity | independent or repeated evidence | statistical confidence interval unless explicitly stated |
 
 ## 3. Research objective
 
@@ -165,14 +222,16 @@ Before implementation, every performance intervention must state an upper-bound 
 For subsystem share (f) and hypothetical subsystem speedup (s):
 
 [
-S_{E2E,max} = rac{1}{(1-f) + f/s}
+S_{E2E}(f,s) = \frac{1}{(1-f) + f/s}
 ]
 
-When (s 	o infty):
+For an idealized infinite subsystem speedup:
 
 [
-S_{E2E,ceiling} = rac{1}{1-f}
+S_{E2E,ceiling}(f) = \frac{1}{1-f}
 ]
+
+These are Amdahl-style ceilings. They are **bounds under the stated cost partition**, not predictions of realized speedup and not proof that the partition is causally correct.
 
 An intervention with negligible theoretical E2E ceiling should not outrank an intervention that targets a dominant subsystem with credible recoverable headroom.
 
@@ -180,17 +239,19 @@ This rule prevents repeated investment in locally interesting but system-irrelev
 
 ## 8. Carry-Through Ratio
 
-ArcLLM v1 explicitly measures whether a component win survives integration.
+`Carry-Through Ratio (CTR)` is an **ArcLLM-v1 diagnostic**, not a standard systems metric.
 
-For an intervention with a predicted integrated gain and an observed end-to-end gain:
+For an intervention with a preregistered predicted integrated improvement and an observed matched end-to-end improvement, define:
 
 [
-CTR = rac{Observed E2E Improvement}{Predicted E2E Improvement}
+CTR = \frac{Observed\ E2E\ improvement}{Predicted\ E2E\ improvement}
 ]
 
-CTR is diagnostic, not a universal score.
+The numerator and denominator must use the same direction convention; for latency, convert both to speedup or fractional reduction before taking the ratio.
 
-Low CTR indicates that a local win is being absorbed by other costs such as:
+CTR is meaningful only when the prediction was frozen before the integrated outcome. It must not be manufactured after seeing the result.
+
+Low CTR indicates that a local win may be absorbed by other costs such as:
 - synchronization;
 - memory traffic;
 - scheduling;
@@ -319,24 +380,22 @@ The knowledge ledger records **what the project learned**, not only whether a ga
 
 ## 15. Intervention selection
 
-Interventions are ranked qualitatively from four terms:
+ArcLLM v1 uses a qualitative prioritization heuristic:
 
 [
-Priority propto
-E2E Share
-	imes Recoverable Headroom
-	imes Evidence Confidence
-div Implementation Risk
+Priority \propto \frac{E2E\ Share \times Plausible\ Recoverable\ Headroom \times Evidence\ Quality}{Implementation\ Risk}
 ]
 
-This is not a frozen numerical score. It is a decision framework.
+This expression is **not a calibrated numerical score**. It is a checklist forcing each intervention to expose the terms that justify priority.
 
 A high-priority intervention should:
 - target a large E2E share;
-- have evidence that a material part is recoverable;
+- have evidence that a material part is plausibly recoverable;
 - have a causal mechanism rather than a generic optimization idea;
 - be measurable at component and E2E levels;
 - have a clear falsification condition.
+
+When a term is unknown, the next action should usually be a discriminator that reduces uncertainty rather than immediate implementation.
 
 ## 16. No self-rescue, but continued learning is allowed
 
@@ -375,6 +434,25 @@ Strong inherited evidence includes:
 - governance evidence separating infrastructure failure from scientific failure.
 
 Historical data become priors and constraints for Headroom analysis. They do not automatically become v1 claims.
+
+## 17A. Prior-art foundation and transfer limits
+
+ArcLLM v1 uses the following works as **conceptual prior art**, not as empirical evidence for Intel Arc 140V or Vulkan.
+
+| Work | Concept imported | ArcLLM-v1 use | Transfer limit |
+|---|---|---|---|
+| Gene M. Amdahl, *Validity of the Single Processor Approach to Achieving Large Scale Computing Capabilities*, AFIPS 1967, DOI 10.1145/1465482.1465560 | serial/unimproved fraction limits total speedup | Amdahl-first E2E ceiling | does not identify ArcLLM subsystem shares |
+| Williams, Waterman, Patterson, *Roofline*, CACM 2009, DOI 10.1145/1498765.1498785 | relate arithmetic work, memory traffic, and hardware bounds | cost/lower-bound discipline | original model is not a complete model of LLM/Vulkan scheduling |
+| Dao et al., *FlashAttention*, NeurIPS 2022, DOI 10.52202/068431-1189 | IO-aware algorithm design; reduce memory-hierarchy traffic rather than FLOPs alone | locality/data-movement reasoning | attention-specific and evaluated on different hardware/software |
+| Dao, *FlashAttention-2*, ICLR 2024 | work partitioning, occupancy, communication overhead can leave headroom after a strong v1 | motivates maturity-aware re-partitioning | NVIDIA/A100 results do not transfer numerically to Intel Arc |
+| Kwon et al., *Efficient Memory Management for LLM Serving with PagedAttention*, SOSP 2023 / arXiv:2309.06180 | KV layout/fragmentation policy can affect system throughput | memory/residency architecture | serving/batching regime differs from ArcLLM batch-1 focus |
+| Yu et al., *Orca*, OSDI 2022 | autoregressive iteration-level scheduling matters at system level | separates scheduling policy from model semantics | distributed serving scheduler, not a decode-kernel result |
+| Agrawal et al., *Sarathi-Serve*, OSDI 2024 | prefill/decode composition can create stalls and latency/throughput tradeoffs | requires integrated TTFT/decode constraints | multi-request serving results do not establish ArcLLM causes |
+| Ye et al., *FlashInfer*, MLSys 2025 | customizable attention, scheduling, KV formats, graph-compatible execution | supports explicit execution-policy / specialization design | CUDA-centric serving engine; mechanism must be revalidated on Vulkan |
+| Zhu et al., *NanoFlow*, OSDI 2025 | operation-level scheduling and intra-device overlap can improve end-to-end utilization | motivates execution-topology decomposition | high-throughput server regime differs from local batch-1 |
+| Holmes et al., *DeepSpeed-FastGen*, arXiv:2401.08671 | prompt/generation composition and persistent/non-persistent serving choices affect latency/throughput | adjacent evidence for system-level phase coupling | not an Intel Arc or Vulkan causal result |
+
+The literature supports the **need to model memory, scheduling, work partitioning, and end-to-end carry-through**. It does not validate `MaturityDebt`, `PDEP`, or any ArcLLM-v1 mechanism by itself.
 
 ## 18. First derived artifacts
 

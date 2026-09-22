@@ -132,3 +132,37 @@ Next required artifact:
 `ARCLLM_V1_I001_DECODE_COST_MODEL_AND_MECHANISM_DISCRIMINATOR.md`
 
 The next study must falsify I001 before implementation if graph fragmentation/persistence opportunity does not account for enough recoverable decode cost.
+
+
+## Foundation terminology / prior-art QA — 2026-09-22
+
+A zero-science QA pass was performed before opening the I001 decode cost-model discriminator.
+
+Canonical QA-amended documents:
+- methodology `bd943fe99e0a6758f8e0aa8060f9540a0b74a942`;
+- architecture reframe `5f06a648d200366066e79c9355ae3bb448e1c8fb`;
+- Headroom Map `e66a296134d5f9701a6f6b63a5954f52417b71cc`;
+- I001 selection `c76ceb06e00bbea731bb575f6646febc39eee466`.
+
+QA checklist:
+`docs/research/arcllm-v1/checklist.md`
+
+Resolved 20/20 findings. Final `open_findings=0`, `count=0`.
+
+Key corrections:
+- project-specific terms separated from established literature terminology;
+- operational term contract added;
+- evidence classes MEASURED/DERIVED/BOUND/HYPOTHESIS added;
+- broken math escaping repaired;
+- headroom envelope separated from attributable recoverability;
+- ANL64 causal scope narrowed;
+- architecture objects explicitly defined;
+- PDEP/graph-compression/persistence semantics defined;
+- I001 made conditional with competing mechanism alternatives and H-NULL-I001;
+- prior-art foundation and Intel-Arc/Vulkan transfer limits added;
+- exact derived-document blob bindings refreshed.
+
+No performance execution or I001 implementation occurred.
+
+Next remains specification-only:
+`ARCLLM_V1_I001_DECODE_COST_MODEL_AND_MECHANISM_DISCRIMINATOR.md`.

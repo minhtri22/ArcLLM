@@ -1,11 +1,28 @@
 # ArcLLM v1 — Intervention-001 Selection
 
 **Derived from:**  
-- `ARCLLM_V1_ARCHITECTURE_LEARNING_METHODOLOGY.md`  
-- `ARCLLM_V1_ARCHITECTURE_REFRAME.md`  
-- `ARCLLM_V1_HEADROOM_MAP.md`
+- `ARCLLM_V1_ARCHITECTURE_LEARNING_METHODOLOGY.md` — blob `bd943fe99e0a6758f8e0aa8060f9540a0b74a942`
+- `ARCLLM_V1_ARCHITECTURE_REFRAME.md` — blob `5f06a648d200366066e79c9355ae3bb448e1c8fb`
+- `ARCLLM_V1_HEADROOM_MAP.md` — blob `e66a296134d5f9701a6f6b63a5954f52417b71cc`
 
-**Status:** INTERVENTION FAMILY SELECTED / NO IMPLEMENTATION AUTHORIZED
+**Status:** INTERVENTION FAMILY SELECTED / QA-AMENDED / NO IMPLEMENTATION AUTHORIZED
+
+## 0. Intervention terminology and claim boundary
+
+`I001-PDEP` is an **ArcLLM-v1 umbrella intervention family**, not the name of an established algorithm or a commitment to one implementation.
+
+Operational definitions:
+
+| Term | Meaning in I001 |
+|---|---|
+| `PDEP` | a family of decode plans that seeks to retain/reuse execution state across token steps and reduce avoidable fine-grained execution boundaries |
+| `decode graph compression` | reduction in the number of explicitly scheduled execution regions while preserving the semantic graph; it does **not** mean deleting semantic operations |
+| `execution region` | a policy/lowering unit containing one or more semantic operations with explicit inputs, outputs, lifetime, correctness, and synchronization boundaries |
+| `persistence` | reuse of prepared command/pipeline/descriptor/control state and/or longer-lived GPU-side execution across token steps; it does not require a single always-running kernel |
+| `graph fragmentation` | a hypothesis that useful work is split into execution regions whose boundaries impose material cost; fragmentation is not inferred from dispatch count alone |
+| `persistent-state opportunity` | state that can legally survive across token iterations without changing model semantics and whose reuse could remove measured setup/synchronization/data-movement cost |
+
+The intervention selection claims only that the **decode execution plane has the largest credible system headroom envelope** among the currently mapped areas. It does not claim that PDEP already has enough attributable recoverable headroom to implement.
 
 ## 1. Selected intervention
 
@@ -43,11 +60,13 @@ ANL64 independently demonstrates that ArcLLM-family decode behavior is not fixed
 - E2E latency improved by ~1.14× to 2.51×;
 - the program failed because TTFT worsened, not because decode lacked recoverable headroom.
 
-This combination makes decode the only area with:
+This combination makes decode the strongest first **discrimination target** because it has:
 - dominant E2E share;
 - huge external gap;
-- direct evidence of multi-x recoverability;
+- integrated evidence that ArcLLM-family decode/E2E can move by multi-x amounts;
 - incomplete maturity.
+
+It does **not** yet establish that PDEP, dispatch reduction, or persistence is the cause of that recoverability.
 
 ## 3. Why not TTFT first
 
@@ -93,7 +112,9 @@ The selected hypothesis is deliberately narrower than "469 dispatches are bad".
 
 ### H-I001
 
-> A material portion of ArcLLM's decode maturity debt is caused by fine-grained repeated execution topology: many small dispatch regions, synchronization boundaries, repeated scheduling/state setup, and weak cross-operator locality. A persistent GPU-resident decode execution plane that compresses the graph into larger reusable execution regions can reduce that recoverable cost and improve decode/E2E performance while preserving model semantics.
+> A material portion of ArcLLM's decode/post-TTFT cost is recoverable through changes to repeated execution topology. If fine-grained region boundaries, synchronization, state setup, and/or lost locality account for enough measured cost, then a PDEP-style lowering should have a credible path to decode and E2E improvement while preserving model semantics.
+
+This hypothesis is intentionally conditional: the discriminator must first show that a material recoverable execution-topology term exists.
 
 This does **not** assume host submission overhead is the dominant cost.
 
@@ -106,6 +127,19 @@ The intervention targets the combined execution-topology cost:
 - missed locality across adjacent operators;
 - command lifecycle where material;
 - inability to retain execution state across token steps.
+
+### Pre-implementation mechanism alternatives
+
+The discriminator must keep at least these alternatives separate:
+
+- **H-LAUNCH/LIFECYCLE:** repeated host/API/command/pipeline/descriptor lifecycle contributes materially.
+- **H-SYNC:** barriers, waits, or dependency serialization create material bubbles.
+- **H-LOCALITY:** region boundaries cause avoidable memory traffic or destroy useful cache/local-state reuse.
+- **H-KERNEL:** device kernel compute itself dominates; graph compression would have little value unless kernels also change.
+- **H-MIXED:** no single term dominates, but a bounded region-level intervention can remove multiple coupled costs.
+- **H-NULL-I001:** execution-topology-removable cost is too small to justify PDEP implementation.
+
+These alternatives are not yet preregistered experiments. They are the required structure for the next specification.
 
 ## 7. Architecture delta
 
@@ -175,6 +209,18 @@ These are Amdahl envelopes, not expected outcomes.
 
 They establish that I001 has materially larger system headroom than TTFT-only work or a small residual prefill kernel family.
 
+## 9A. Prior art relevant to I001 — and what does not transfer
+
+I001 is adjacent to, but not equivalent to, prior work:
+
+- **Orca** shows that autoregressive iteration-level scheduling is a system-level performance object.
+- **FlashInfer** explicitly addresses dynamic scheduling while retaining compatibility with CUDA Graph constraints.
+- **NanoFlow** shows that operation-level scheduling and overlap can improve device utilization.
+- **Sarathi-Serve / DeepSpeed-FastGen** demonstrate that prompt/decode composition can change latency-throughput behavior.
+- **FlashAttention-2** shows that work partitioning and communication can leave large headroom even after a first strong implementation.
+
+These works support measuring execution topology as a first-class cost. They do **not** establish that ArcLLM batch-1 Vulkan decode is launch-bound, graph-bound, or helped by a CUDA-Graph-like mechanism. Intel Arc/Vulkan requires an independent discriminator.
+
 ## 10. Required pre-implementation discriminator
 
 No PDEP code should be written yet.
@@ -192,7 +238,7 @@ persistent-state opportunity
 unattributed
 ```
 
-The study must estimate how much cost can plausibly be removed by graph compression/persistence.
+The study must estimate a **bounded attributable share** for each mechanism alternative and the maximum plausible cost removable by a PDEP-style change. Any unmeasured remainder stays `UNATTRIBUTED`; it must not be assigned to PDEP by subtraction without an explicit model.
 
 If the attributable recoverable share is small, I001 must be falsified **before** a major implementation effort.
 

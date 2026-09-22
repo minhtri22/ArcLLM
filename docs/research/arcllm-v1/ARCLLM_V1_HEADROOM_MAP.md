@@ -1,7 +1,9 @@
 # ArcLLM v1 — Historical-Evidence Headroom Map
 
 **Derived from:** ArcLLM v1 Architecture Learning Methodology + Architecture Reframe  
-**Status:** INITIAL HEADROOM MAP / HISTORICAL EVIDENCE ONLY  
+**Methodology blob:** `bd943fe99e0a6758f8e0aa8060f9540a0b74a942`  
+**Architecture-reframe blob:** `5f06a648d200366066e79c9355ae3bb448e1c8fb`  
+**Status:** INITIAL HEADROOM MAP / QA-AMENDED HISTORICAL EVIDENCE ONLY  
 **No new performance execution in this artifact**
 
 ## 1. Purpose
@@ -17,6 +19,24 @@ This document converts historical ArcLLM PASS/FAIL evidence into an initial map 
 The map is used to select ArcLLM v1 Intervention-001.
 
 It does not rewrite historical verdicts.
+
+## 1A. Headroom vocabulary and confidence rubric
+
+This document uses the methodology evidence classes: `MEASURED`, `DERIVED`, `BOUND`, and `HYPOTHESIS`.
+
+A Headroom Map entry separates three different ideas that must not be collapsed:
+
+- **system headroom envelope:** an Amdahl-style upper bound if a broad cost region improved;
+- **attributed recoverable headroom:** the portion linked to a specific, evidenced mechanism;
+- **unattributed gap:** measured difference for which no causal recovery mechanism is yet established.
+
+Ordinal confidence means:
+
+- **HIGH:** exact provenance plus replicated or independently corroborated evidence, with narrow claim scope;
+- **MEDIUM:** exact evidence exists but causal attribution or generalization is incomplete;
+- **LOW:** primarily hypothesis-generating or dependent on weak/incomplete instrumentation.
+
+`VERY HIGH/MEDIUM/LOW headroom` is not a statistical scale. When used, it must specify whether it refers to a **system envelope** or **attributed recoverability**.
 
 ## 2. Evidence anchors
 
@@ -96,39 +116,41 @@ This makes the post-TTFT/decode execution plane the dominant system-level gap un
 
 ### TTFT-only intervention ceiling
 
-If TTFT were reduced to zero while all post-TTFT cost stayed unchanged:
+Using the Q2 measured share (f_{TTFT}), an idealized intervention that removes TTFT completely has ceiling:
+
+[
+S_{E2E,TTFT\to0}=\frac{1}{1-f_{TTFT}}
+]
+
+Under the historical Q2 partition:
 
 ```text
 W-S maximum E2E speedup ≈ 1.009×
 W-C maximum E2E speedup ≈ 1.193×
 ```
 
-Therefore TTFT-only optimization cannot be Intervention-001 for the existing 32-token E2E regimes, despite the large ArcLLM/baseline TTFT ratio.
-
-TTFT becomes important after decode maturity improves, or in a different short-output regime.
+Therefore TTFT-only optimization cannot be Intervention-001 for the existing 32-token E2E regimes. This conclusion is **regime-specific** and does not apply automatically to short-output workloads.
 
 ### Post-TTFT/decode-plane intervention
 
-If the post-TTFT plane improves by a factor (s):
+For post-TTFT share (f_{post}) and hypothetical improvement (s):
 
 [
-S_{E2E} = rac{1}{(1-f)+f/s}
+S_{E2E}(f_{post},s)=\frac{1}{(1-f_{post})+f_{post}/s}
 ]
 
-where (f) is the post-TTFT E2E share.
-
-| Hypothetical post-TTFT speedup | W-S E2E | W-C E2E |
+| Hypothetical post-TTFT speedup | W-S E2E envelope | W-C E2E envelope |
 |---:|---:|---:|
 | 2× | 1.981× | 1.722× |
 | 3× | 2.945× | 2.267× |
 | 5× | 4.820× | 3.037× |
 | 10× | 9.224× | 4.075× |
 
-Unrealistic zero-cost ceilings are approximately:
+Idealized zero-cost ceilings are approximately:
 - W-S: 107.0×;
 - W-C: 6.19×.
 
-These are theoretical envelopes only, not predictions.
+These are **system headroom envelopes**, not evidence that the corresponding share is recoverable.
 
 ## 6. Decode execution maturity evidence
 
@@ -162,12 +184,13 @@ B / W-S   0.4709  → ~2.12×
 B / W-C   0.3984  → ~2.51×
 ```
 
-ANL64 therefore proves that **multi-x decode and E2E movement is recoverable within the ArcLLM family**.
+ANL64 demonstrates that an **integrated ArcLLM-family successor can move decode and E2E by multi-x amounts** relative to the safe ArcLLM reference. Because ANL64 changed a bundled successor execution path, it does not identify which individual mechanism produced each part of the gain.
 
 Its overall claim failed because TTFT worsened in three of four comparisons.
 
 Interpretation for v1:
-- large decode maturity debt is supported;
+- **integrated decode-plane recoverability is supported at the system level**;
+- attribution to dispatch granularity, kernel compute, locality, lifecycle, or another maturity-debt subclass remains unresolved;
 - integration coupling can create a new startup penalty;
 - future decode architecture must preserve/measure TTFT separately.
 
@@ -266,7 +289,7 @@ Memory may become a dedicated regime-advantage track, especially for integrated/
 
 | Area | Current historical evidence | E2E share / gap | Recoverable headroom | Structural concern | Confidence | Initial priority |
 |---|---|---|---|---|---|---|
-| Decode/post-TTFT execution plane | ~32–40× post envelope vs baseline; 469 dispatches/step; ANL64 multi-x gains | 99.1% W-S, 83.8% W-C | VERY HIGH | UNKNOWN | HIGH | **1** |
+| Decode/post-TTFT execution plane | ~32–40× post envelope vs baseline; 469 dispatches/step; ANL64 integrated multi-x movement | 99.1% W-S, 83.8% W-C | system envelope VERY HIGH; attributable recoverable share UNKNOWN | UNKNOWN | HIGH for gap / MEDIUM for causal attribution | **1** |
 | Prefill/TTFT architecture | ~9–10× TTFT gap; many component wins already harvested | 0.9% W-S, 16.2% W-C in current E2E | MEDIUM | MEDIUM | HIGH for gap, LOW for cause | 2 |
 | Memory/working-set topology | ~1.83× working set, ~3% lower private bytes | indirect | UNKNOWN | MEDIUM/HIGH | MEDIUM | 3 |
 | Q4 specialized kernels | ~3.14× component result in SA1 | local only | HIGH locally | LOW for Q4 | HIGH | subordinate |
@@ -275,12 +298,13 @@ Memory may become a dedicated regime-advantage track, especially for integrated/
 
 ## 12. Maturity debt vs structural gap classification
 
-### Supported maturity debt
+### Supported integrated recoverability; maturity-debt subclass unresolved
 
 **Decode execution plane**
 - less optimized than prefill;
 - enormous external gap;
-- ANL64 demonstrates multi-x recoverability.
+- ANL64 demonstrates multi-x integrated movement;
+- the specific recoverable share attributable to dispatch, synchronization, locality, lifecycle, or kernels is not yet identified.
 
 ### Possible structural gap
 
@@ -300,6 +324,19 @@ Memory may become a dedicated regime-advantage track, especially for integrated/
 **Q4 split-K**
 - real component value;
 - E2E carry-through not established.
+
+## 12A. Prior-art constraints on interpreting the map
+
+The Headroom Map incorporates these literature lessons:
+
+- **Amdahl**: large local speedups matter only in proportion to affected system share.
+- **Roofline**: a large runtime gap is not enough to identify compute versus data-movement limitation; a bound model is needed.
+- **FlashAttention / FlashAttention-2**: IO and work partitioning can dominate realized performance even when semantic math is unchanged.
+- **vLLM/PagedAttention**: memory fragmentation/layout can materially affect system behavior.
+- **Orca/Sarathi/NanoFlow/DeepSpeed-FastGen**: iteration composition and operation scheduling can move end-to-end metrics.
+- **FlashInfer**: graph compatibility, KV format, scheduling, and specialized kernels interact.
+
+Therefore the `~32–40× post-TTFT gap` is a **measurement target**, not a pre-labeled dispatch or memory bottleneck.
 
 ## 13. First-intervention decision boundary
 

@@ -1,9 +1,31 @@
 # ArcLLM v1 — Architecture Reframe
 
 **Derived from:** `ARCLLM_V1_ARCHITECTURE_LEARNING_METHODOLOGY.md`  
-**Methodology blob:** `d41a357840435f52a682792b9a6608e4abaab312`  
+**Methodology blob:** `bd943fe99e0a6758f8e0aa8060f9540a0b74a942`  
 **Status:** ARCHITECTURE REFRAME / SPECIFICATION ONLY  
 **No intervention implementation authorized**
+
+## 0. Terminology inheritance and architecture-object contract
+
+This document inherits the operational definitions and evidence classes from `ARCLLM_V1_ARCHITECTURE_LEARNING_METHODOLOGY.md`.
+
+The architecture below is a **logical research architecture**, not a claim that these modules already exist in code.
+
+Project-specific terms used here:
+
+| Term | Operational meaning |
+|---|---|
+| `semantic model / semantic graph` | the model operations and dependency semantics that must remain invariant across alternative execution lowerings |
+| `execution topology` | the concrete partition of semantic work into kernels/dispatches, synchronization boundaries, command objects, and state transitions |
+| `execution plane` | a logical policy domain with independently evolvable lowering/scheduling rules; it does not imply a separate GPU queue, process, or physical device |
+| `Execution Graph IR` | a proposed ArcLLM-v1 intermediate representation containing semantic nodes plus dependency/lifetime/residency/policy metadata; it is not yet an implemented compiler IR |
+| `kernel portfolio` | multiple admissible implementations for the same semantic operation/shape/quant family, selected by explicit policy |
+| `execution region` | a group of semantic nodes treated as one policy/lowering unit for lifecycle, fusion, reuse, or scheduling analysis |
+| `persistent/reusable execution` | reuse of prepared GPU execution state across token steps and/or longer-lived GPU-side execution; it does **not** necessarily mean one infinite persistent kernel |
+| `residency` | where weights/KV/intermediates live and for how long, including placement, lifetime, and transfer boundaries |
+| `researchable runtime` | a runtime whose architecture exposes enough stable identities and telemetry to compare alternative execution lowerings causally |
+
+The names are ArcLLM-v1 abstractions unless explicitly tied to external prior art.
 
 ## 1. Reframed system question
 
@@ -292,6 +314,18 @@ unattributed
 A cost term may remain UNKNOWN.
 
 UNKNOWN is preferable to incorrectly labeling the gap as structural.
+
+## 10A. Prior-art mapping for the architecture reframe
+
+The layer split is informed by, but not copied from, established systems ideas:
+
+- **Roofline** motivates explicit compute/data-movement bounds rather than a FLOP-only model.
+- **FlashAttention / FlashAttention-2** show that IO awareness and work partitioning can materially change realized performance without changing model semantics.
+- **PagedAttention/vLLM** shows that KV/residency policy is a system architecture object, not just an allocator detail.
+- **Orca, Sarathi-Serve, DeepSpeed-FastGen, NanoFlow** show that scheduling and composition of autoregressive work can change end-to-end behavior.
+- **FlashInfer** shows value in separating customizable kernel families, KV formats, scheduling, and graph-compatible execution.
+
+None of these results establish the optimal ArcLLM-v1 layer boundaries, nor do CUDA-specific graph results transfer directly to Vulkan. The architecture is designed so those mechanism classes can be tested rather than assumed.
 
 ## 11. Architecture maturity states
 
