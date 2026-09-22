@@ -239,3 +239,61 @@ P6 does not create P7 authorization, does not authorize BuildOnly, and does not 
 Next and only admissible step:
 
 `M2_P7_EXPLICIT_BUILDONLY_AUTHORIZATION_GATE`.
+
+
+## 2026-09-22 — M2-P7 EXPLICIT BUILDONLY AUTHORIZATION GATE
+
+P7 was opened only after P5 atomic-package QA PASS and P6 zero-science governance PASS.
+
+Authorization parent HEAD:
+`5058ef3b2f45510fdda7255101c74422a57a950a`
+
+The frozen execution package remains bound to:
+- P4 source HEAD `7e807caf7dd357f9c820f89f5a719a1e4a10139a`;
+- P4 source tree `09960203707653d22626ec2b39b7be20cac8e65a`;
+- runner blob `4722e86a01453d973ee2122b49229b80bf7d84f6`;
+- lock blob `9af4c7b4c96354223e1f671a43af64b215072330`;
+- package manifest blob `4629910255580322706b01f318ad9a80044208d7`;
+- evidence manifest template blob `bf496e00e4cf0bff86582e0649c6c26bc28b6f60`.
+
+P7 decision:
+
+`AUTHORIZE_EXACT_FROZEN_M2_BUILDONLY_EXECUTION`
+
+Canonical authorization artifact:
+- path `config/arcllm_ttft_m2_p7_buildonly_authorization_v0.1.json`;
+- blob `8faf0cd91da381333fdf7971e431fc091701a62b`;
+- schema `arcllm.ttft_m2.p7.buildonly_authorization.v0.1`;
+- decision `M2_P7_BUILDONLY_AUTHORIZED`.
+
+Formal gate record:
+- blob `ce261a743633b2f7e306d455b4f871e44923acee`.
+
+P7 authorizes only the exact frozen zero-science BuildOnly runner/package.
+
+Still forbidden:
+- target-model execution;
+- diagnostic executable launch;
+- model load;
+- GPU dispatch;
+- performance or TTFT measurement;
+- fresh TTFT observation;
+- mechanism adjudication;
+- scientific mutation.
+
+Execution-stage repair budget transitions to active because all activation prerequisites are now satisfied:
+- active: true;
+- consumed: 0/1;
+- scope: orchestration/infrastructure only.
+
+Activation itself consumes no repair.
+
+No BuildOnly runner was executed during P7. All execution/science counters remain zero and scientific result remains NONE.
+
+P7 terminal result:
+
+`AUTHORIZE_EXACT_FROZEN_M2_BUILDONLY_EXECUTION`
+
+Next and only admissible stage:
+
+`M2_P8_BOUNDED_BUILDONLY_EXECUTION`.

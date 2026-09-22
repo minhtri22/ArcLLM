@@ -1,0 +1,71 @@
+{
+  "schema": "arcllm.ttft_m2.p7.authorization_gate.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "result": "AUTHORIZE_EXACT_FROZEN_M2_BUILDONLY_EXECUTION",
+  "authorization_artifact": {
+    "path": "config/arcllm_ttft_m2_p7_buildonly_authorization_v0.1.json",
+    "blob": "8faf0cd91da381333fdf7971e431fc091701a62b",
+    "schema": "arcllm.ttft_m2.p7.buildonly_authorization.v0.1",
+    "decision": "M2_P7_BUILDONLY_AUTHORIZED"
+  },
+  "prerequisite_bindings": {
+    "p4_frozen_head": "7e807caf7dd357f9c820f89f5a719a1e4a10139a",
+    "p4_frozen_tree": "09960203707653d22626ec2b39b7be20cac8e65a",
+    "p5_artifact_blob": "3012c817e2983d0928cd7599cfa70197c4debd3c",
+    "p5_result": "PASS_M2_P5_ATOMIC_PACKAGE_QA",
+    "p6_artifact_blob": "4ffae2c16d60d02a63c9cdbe96be1f5d1e7e0ad9",
+    "p6_result": "PASS_M2_P6_ZERO_SCIENCE_GOVERNANCE_ADJUDICATION",
+    "p6_parent_head": "5058ef3b2f45510fdda7255101c74422a57a950a"
+  },
+  "exact_frozen_core_reverified": true,
+  "authorization_scope": {
+    "buildonly_runner_authorized": true,
+    "exact_runner_blob": "4722e86a01453d973ee2122b49229b80bf7d84f6",
+    "target_model_execution": false,
+    "diagnostic_executable_launch": false,
+    "model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "fresh_ttft_observation": false,
+    "mechanism_adjudication": false,
+    "scientific_mutation": false
+  },
+  "repair_budget_transition": {
+    "before_p7": {
+      "active": false,
+      "consumed": 0,
+      "max": 1
+    },
+    "after_p7_authorization": {
+      "active": true,
+      "consumed": 0,
+      "max": 1
+    },
+    "scope": "ORCHESTRATION_OR_INFRASTRUCTURE_ONLY",
+    "note": "Budget activation authorizes bounded infrastructure execution handling only; no repair has been consumed."
+  },
+  "execution_accounting_at_gate": {
+    "buildonly_runner_executions": 0,
+    "diagnostic_executable_launches": 0,
+    "target_model_loads": 0,
+    "gpu_dispatches": 0,
+    "performance_measurements": 0,
+    "fresh_ttft_observations": 0,
+    "scientific_result": "NONE"
+  },
+  "no_execution_performed_in_p7": true,
+  "authorized_next": "M2_P8_BOUNDED_BUILDONLY_EXECUTION",
+  "forbidden": [
+    "run a different runner or mutated package",
+    "target-model execution",
+    "diagnostic scientific execution",
+    "GPU dispatch",
+    "performance or TTFT measurement",
+    "fresh TTFT observation",
+    "mechanism adjudication",
+    "scientific mutation",
+    "package mutation without requalification"
+  ],
+  "final_statement": "P7 authorizes only one bounded execution of the exact frozen zero-science BuildOnly package under the frozen runner and P7 authorization artifact. P7 itself performs no execution."
+}

@@ -1,0 +1,88 @@
+{
+  "schema": "arcllm.ttft_m2.p7.buildonly_authorization.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "branch": "research/arcllm-ttft-m2",
+  "authorization_parent_head": "5058ef3b2f45510fdda7255101c74422a57a950a",
+  "decision": "M2_P7_BUILDONLY_AUTHORIZED",
+  "decision_class": "AUTHORIZE_EXACT_FROZEN_M2_BUILDONLY_EXECUTION",
+  "scope": "EXACT_FROZEN_ZERO_SCIENCE_BUILDONLY_PACKAGE_ONLY",
+  "prerequisites": {
+    "p4_frozen_package_source_head": "7e807caf7dd357f9c820f89f5a719a1e4a10139a",
+    "p4_frozen_package_source_tree": "09960203707653d22626ec2b39b7be20cac8e65a",
+    "p5_artifact_blob": "3012c817e2983d0928cd7599cfa70197c4debd3c",
+    "p5_result": "PASS_M2_P5_ATOMIC_PACKAGE_QA",
+    "p6_artifact_blob": "4ffae2c16d60d02a63c9cdbe96be1f5d1e7e0ad9",
+    "p6_result": "PASS_M2_P6_ZERO_SCIENCE_GOVERNANCE_ADJUDICATION",
+    "p6_governance_blob": "57a906323ddc2666730d369194d61b295970d9b3"
+  },
+  "frozen_package_bindings": {
+    "execution_lock_blob": "9af4c7b4c96354223e1f671a43af64b215072330",
+    "runner_blob": "4722e86a01453d973ee2122b49229b80bf7d84f6",
+    "evidence_manifest_template_blob": "bf496e00e4cf0bff86582e0649c6c26bc28b6f60",
+    "package_manifest_blob": "4629910255580322706b01f318ad9a80044208d7",
+    "atomic_qa_tool_blob": "73b74f2dbc65f0e1bff7cd2c226b4112c34ecfdb",
+    "fixture_index_blob": "9735e97d5ea264642725466e50ae26a00e8a4951",
+    "success_result_schema_blob": "1c216e1bf6e71677d82b658197f2e90302f53f9e",
+    "failure_result_schema_blob": "7cc8947790f9a11d76af144707128fc1df78f7ae",
+    "evidence_manifest_schema_blob": "a6cbf83ffe3b0e81f6d5c03257bba7ba8fbc9d18",
+    "package_manifest_schema_blob": "ec8d8c00162cce0de9fd564c32ea1e34ac679b59",
+    "adjudicator_input_schema_blob": "713ba835364132ceb903e309570b3ca8d36c4c6a"
+  },
+  "authorization": {
+    "buildonly_execution": true,
+    "target_model_execution": false,
+    "diagnostic_executable_launch": false,
+    "model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "fresh_ttft_observation": false,
+    "mechanism_adjudication": false,
+    "scientific_mutation": false
+  },
+  "execution_constraints": {
+    "runner_path": "run_ttft_m2_buildonly.ps1",
+    "runner_blob": "4722e86a01453d973ee2122b49229b80bf7d84f6",
+    "runtime_preflight_required": true,
+    "dirty_tracked_tree_forbidden": true,
+    "frozen_package_blob_drift_forbidden": true,
+    "p7_authorization_schema_must_match": true,
+    "p7_authorization_decision_must_match": true,
+    "fail_closed_on_any_preflight_or_binding_error": true,
+    "package_mutation_requires_requalification": true
+  },
+  "repair_budget": {
+    "execution_stage_max_repairs": 1,
+    "execution_stage_repairs_consumed": 0,
+    "activation_on_this_authorization": true,
+    "active_after_p7_commit": true,
+    "scope": "ORCHESTRATION_OR_INFRASTRUCTURE_ONLY",
+    "scientific_mutation_permitted": false,
+    "after_one_valid_repair": "FULL_FRESH_BUILDONLY_REPLAY_FROM_ZERO",
+    "second_execution_stage_defect": "STOP_INFRASTRUCTURE_UNSTABLE"
+  },
+  "no_execution_in_p7": {
+    "buildonly_runner_executed": false,
+    "diagnostic_executable_launched": false,
+    "target_model_loaded": false,
+    "gpu_dispatched": false,
+    "performance_measured": false,
+    "fresh_ttft_observations": 0,
+    "scientific_result": "NONE"
+  },
+  "invalidation_conditions": [
+    "any frozen package blob changes",
+    "P5 or P6 evidence is superseded or invalidated",
+    "runner, lock, manifest, schema, QA tool or fixture bindings drift",
+    "authorization artifact is modified without a new explicit governance decision"
+  ],
+  "authorized_next": "M2_P8_BOUNDED_BUILDONLY_EXECUTION",
+  "forbidden_next_without_separate_later_authorization": [
+    "target model execution",
+    "diagnostic scientific execution",
+    "GPU dispatch",
+    "performance or TTFT measurement",
+    "fresh TTFT observation",
+    "mechanism adjudication"
+  ]
+}
