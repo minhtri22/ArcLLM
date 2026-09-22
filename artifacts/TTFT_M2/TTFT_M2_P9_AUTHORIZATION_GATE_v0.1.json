@@ -1,0 +1,66 @@
+{
+  "schema": "arcllm.ttft_m2.p9.authorization_gate.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "stage": "M2_P9_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_AUTHORIZATION_GATE",
+  "adjudication_head": "16fb34a21c52195671d99a24e8875ab82d965d1a",
+  "result": "DENY_LEAVE_M2_P9_BLOCKED",
+  "decision": "M2_P9_FRESH_MECHANISM_IDENTIFICATION_NOT_AUTHORIZED",
+  "reason_code": "MISSING_FRESH_M2_SCIENTIFIC_DESIGN_ADOPTION_AND_REVALIDATION",
+  "prerequisites": {
+    "p8l": {
+      "artifact_blob": "b1eda822a3580370ebdeda704af8a169c4991dec",
+      "result": "PASS_M2_P8L_LOCAL_BUILDONLY_EXECUTION_QUALIFICATION",
+      "satisfied": true
+    },
+    "infrastructure_package_valid": true,
+    "local_buildonly_substrate_valid": true,
+    "frozen_package_defect_observed": false
+  },
+  "p2_method_transfer_constraints": {
+    "register_path": "config/arcllm_ttft_m2_method_transfer_register_v0.1.json",
+    "register_blob": "825d5b5a6d67fc92f66c667582a12b55de7737c7",
+    "decision": "METHODS_MAY_TRANSFER_ONLY_AS_PRIOR_METHODOLOGICAL_EVIDENCE; OUTCOMES_DO_NOT_TRANSFER",
+    "finite_hypotheses_disposition": "TEMPLATE_ONLY_REQUIRES_FRESH_M2_ADOPTION_GATE",
+    "causal_design_disposition": "CONDITIONALLY_ADMISSIBLE_AS_DESIGN_TEMPLATE_ONLY",
+    "falsification_contract_disposition": "ADMISSIBLE_AS_GOVERNANCE_TEMPLATE_ONLY",
+    "canonical_in_m2": false,
+    "scientific_design_activation_currently_allowed": false,
+    "future_requirement": "Fresh M2 scientific-design adoption/amendment must occur prospectively and cannot claim M1 empirical support."
+  },
+  "historical_template_bindings": {
+    "m1_hypotheses_blob": "559cf3a60789074045ac0c3f30c4982b99800707",
+    "m1_causal_design_blob": "66b6ca2bf1da1e05ddc416bf8f9d73074e8f3fdb",
+    "m1_falsification_contract_blob": "fb856b27385278878114316ebd667b97fb38ba59",
+    "role": "PRIOR_METHODOLOGICAL_TEMPLATE_ONLY_NOT_M2_CANONICAL"
+  },
+  "missing_required_revalidation": [
+    "fresh M2 revalidation of local TTFT source/measurement boundaries",
+    "fresh M2 revalidation of factor manipulability for decode-pipeline set and conditioning",
+    "fresh M2 binding of exact target invariants: model, CPU, GPU, driver, OS, power state",
+    "fresh M2 adoption or justified amendment of workloads",
+    "fresh M2 adoption or justified amendment of endpoint semantics",
+    "fresh M2 adoption of session/order/repetition rules",
+    "fresh M2 adoption of falsification and STOP logic",
+    "fresh M2 canonical hashes for the adopted hypotheses/design/contract"
+  ],
+  "authorization": {
+    "target_model_execution": false,
+    "diagnostic_executable_launch": false,
+    "model_load": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "fresh_ttft_observation": false,
+    "mechanism_adjudication": false,
+    "scientific_mutation": false
+  },
+  "scientific_accounting_at_gate": {
+    "fresh_ttft_observations": 0,
+    "target_model_loads": 0,
+    "gpu_dispatches": 0,
+    "performance_measurements": 0,
+    "scientific_result": "NONE"
+  },
+  "anti_rescue_statement": "P8L infrastructure PASS removes the infrastructure blocker but does not itself activate scientific design. Authorizing P9 without a fresh M2 adoption/revalidation would silently promote M1 templates into M2 canonical science, violating P2.",
+  "next": "M2_P9A_FRESH_SCIENTIFIC_DESIGN_ADOPTION_AND_REVALIDATION"
+}

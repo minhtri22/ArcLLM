@@ -3,7 +3,7 @@
   "date": "2026-09-22",
   "program_id": "ARCLLM_TTFT_M2",
   "branch": "research/arcllm-ttft-m2",
-  "status": "TTFT_M2_P8L_PASS_P9_AUTHORIZATION_GATE_ELIGIBLE",
+  "status": "TTFT_M2_P9_AUTHORIZATION_DENIED_AWAITING_P9A_FRESH_DESIGN_ADOPTION",
   "git_history_base": "86ec48ce0cfff28fa43c23c1d8b57b8f881d249e",
   "parents": {
     "ANL64": {
@@ -61,7 +61,8 @@
     "M2_P9_FRESH_MECHANISM_IDENTIFICATION_ONLY_IF_LATER_AUTHORIZED",
     "M2_P10_FINAL_PROGRAM_ADJUDICATION",
     "M2_A1_GOVERNANCE_AMENDMENT_EXECUTION_SUBSTRATE_AND_REPAIR_BUDGET_CORRECTION",
-    "M2_P8L_LOCAL_BUILDONLY_EXECUTION_QUALIFICATION"
+    "M2_P8L_LOCAL_BUILDONLY_EXECUTION_QUALIFICATION",
+    "M2_P9A_FRESH_SCIENTIFIC_DESIGN_ADOPTION_AND_REVALIDATION"
   ],
   "stage_state": {
     "M2_P0": "COMPLETE",
@@ -73,10 +74,11 @@
     "M2_P6": "COMPLETE_PASS_ZERO_SCIENCE_GOVERNANCE",
     "M2_P7": "COMPLETE_AUTHORIZED_EXACT_FROZEN_BUILDONLY",
     "M2_P8": "TERMINAL_STOP_INFRASTRUCTURE_UNSTABLE",
-    "M2_P9": "NOT_OPENED_ELIGIBLE_FOR_EXPLICIT_AUTHORIZATION_GATE",
+    "M2_P9": "DENIED_NOT_OPENED_MISSING_FRESH_M2_DESIGN_ADOPTION",
     "M2_P10": "HISTORICAL_CLOSURE_SUPERSEDED_BY_A1_FOR_INFRASTRUCTURE_CONTINUATION",
     "M2_A1": "COMPLETE_GOVERNANCE_AMENDMENT",
-    "M2_P8L": "COMPLETE_PASS_VALID_LOCAL_BUILDONLY"
+    "M2_P8L": "COMPLETE_PASS_VALID_LOCAL_BUILDONLY",
+    "M2_P9A": "NOT_OPENED_ELIGIBLE_NEXT"
   },
   "lineage": {
     "path": "programs/arcllm_ttft_m2/lineage.md",
@@ -139,7 +141,7 @@
     "stale_reference_anywhere_fails_before_freeze": true
   },
   "authorization": {
-    "specification_only": false,
+    "specification_only": true,
     "package_implementation": false,
     "diagnostic_science_implementation": false,
     "buildonly_execution": false,
@@ -149,7 +151,7 @@
     "performance_measurement": false,
     "fresh_ttft_observation": false
   },
-  "next": "M2_P9_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_AUTHORIZATION_GATE",
+  "next": "M2_P9A_FRESH_SCIENTIFIC_DESIGN_ADOPTION_AND_REVALIDATION",
   "p4": {
     "result": "M2_P4_ZERO_SCIENCE_INFRASTRUCTURE_PACKAGE_IMPLEMENTED",
     "authorization": {
@@ -499,5 +501,26 @@
     "historical_github_failures_block_continuation": false,
     "historical_hosted_runner_narrow_root_cause": "UNRESOLVED",
     "next": "M2_P9_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_AUTHORIZATION_GATE"
+  },
+  "p9_authorization_gate": {
+    "result": "DENY_LEAVE_M2_P9_BLOCKED",
+    "decision": "M2_P9_FRESH_MECHANISM_IDENTIFICATION_NOT_AUTHORIZED",
+    "reason_code": "MISSING_FRESH_M2_SCIENTIFIC_DESIGN_ADOPTION_AND_REVALIDATION",
+    "adjudication_head": "16fb34a21c52195671d99a24e8875ab82d965d1a",
+    "artifact": {
+      "path": "artifacts/TTFT_M2/TTFT_M2_P9_AUTHORIZATION_GATE_v0.1.json",
+      "blob": "9753e25df13d343b1e8c1fa950183c3ea6b1f6f4"
+    },
+    "document": {
+      "path": "docs/research/arcllm-ttft-m2/P9_AUTHORIZATION_GATE.md",
+      "blob": "ea53651831d1b7296229f94af2903149fc20c6e3"
+    },
+    "p8l_prerequisite_pass": true,
+    "infrastructure_blocker_remaining": false,
+    "scientific_design_canonical_in_m2": false,
+    "scientific_execution_authorized": false,
+    "fresh_ttft_observations": 0,
+    "scientific_result": "NONE",
+    "next": "M2_P9A_FRESH_SCIENTIFIC_DESIGN_ADOPTION_AND_REVALIDATION"
   }
 }

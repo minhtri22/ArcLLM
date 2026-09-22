@@ -566,3 +566,48 @@ Next admissible step:
 `M2_P9_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_AUTHORIZATION_GATE`.
 
 P9 is not opened by this P8L adjudication.
+
+
+## 2026-09-22 — M2-P9 EXPLICIT SCIENTIFIC AUTHORIZATION GATE
+
+P9 authorization was reviewed only after P8L valid local BuildOnly PASS.
+
+Infrastructure prerequisite:
+- P8L adjudication blob `b1eda822a3580370ebdeda704af8a169c4991dec`;
+- result `PASS_M2_P8L_LOCAL_BUILDONLY_EXECUTION_QUALIFICATION`;
+- infrastructure blocker: cleared.
+
+Gate decision:
+
+`DENY_LEAVE_M2_P9_BLOCKED`
+
+Canonical decision:
+
+`M2_P9_FRESH_MECHANISM_IDENTIFICATION_NOT_AUTHORIZED`
+
+Reason:
+
+`MISSING_FRESH_M2_SCIENTIFIC_DESIGN_ADOPTION_AND_REVALIDATION`
+
+P2 method-transfer register `825d5b5a6d67fc92f66c667582a12b55de7737c7` explicitly classifies:
+- finite hypotheses as `TEMPLATE_ONLY_REQUIRES_FRESH_M2_ADOPTION_GATE`;
+- 2x2 causal design as `CONDITIONALLY_ADMISSIBLE_AS_DESIGN_TEMPLATE_ONLY`;
+- falsification/STOP contract as `ADMISSIBLE_AS_GOVERNANCE_TEMPLATE_ONLY`;
+- all as non-canonical in M2 until fresh prospective adoption/revalidation.
+
+Historical M1 templates remain prior methodological evidence only:
+- hypotheses `559cf3a60789074045ac0c3f30c4982b99800707`;
+- causal design `66b6ca2bf1da1e05ddc416bf8f9d73074e8f3fdb`;
+- falsification contract `fb856b27385278878114316ebd667b97fb38ba59`.
+
+No target model execution, GPU dispatch, timing, fresh TTFT observation or mechanism adjudication is authorized.
+
+P9 gate evidence:
+- artifact blob `9753e25df13d343b1e8c1fa950183c3ea6b1f6f4`;
+- document blob `ea53651831d1b7296229f94af2903149fc20c6e3`.
+
+Next admissible step:
+
+`M2_P9A_FRESH_SCIENTIFIC_DESIGN_ADOPTION_AND_REVALIDATION`
+
+P9 remains not opened.
