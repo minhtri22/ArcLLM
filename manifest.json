@@ -1060,16 +1060,18 @@
     },
     "governance": {
       "path": "config/arcllm_ttft_mechanism_governance_v0.1.json",
-      "blob": "265e40bce0f9981103e64827c849a5c5bd178394",
-      "status": "P6_IMPLEMENTATION_LOCKED_BUILDONLY_PENDING"
+      "blob": "64d6faffdd20d131938d7178b13acd928f0b5c10",
+      "status": "TTFT_M1_PROGRAM_CLOSED_INFRASTRUCTURE_STOP_NO_MECHANISM_RESULT"
     },
     "lineage": {
       "path": "programs/arcllm_ttft_mechanism/lineage.md",
-      "blob": "80f1e457e9073fc8f9ce25035a61ceac6ffb8d57",
+      "blob": "6ab8d3aa4c36c58f2ae898bbbc9f2efc443f7980",
       "policy": "APPEND_ONLY_WITHIN_THIS_PROGRAM",
       "closed": true,
       "closed_at_stage": "P10_FINAL_PROGRAM_ADJUDICATION",
-      "further_append_permitted": false
+      "further_append_permitted": false,
+      "final_blob": "6ab8d3aa4c36c58f2ae898bbbc9f2efc443f7980",
+      "final_append_commit": "7ac7e7cee576a6ccda3656d0fa8bb399038737bf"
     },
     "stage_state": {
       "P0": "COMPLETE",
