@@ -523,3 +523,46 @@ Preferred return evidence:
 
 Next:
 execute P8L once on the preregistered local Windows workstation, then adjudicate the returned evidence before any repair, rerun or P9 opening.
+
+
+## 2026-09-22 — M2-P8L LOCAL BUILDONLY PASS
+
+The preregistered local Windows substrate executed the exact frozen TTFT_M2 BuildOnly runner successfully.
+
+Execution identity:
+- branch `research/arcllm-ttft-m2`;
+- HEAD `e623bfb878e6e59cb465271905245e83bf720b9e`;
+- tracked worktree clean;
+- exact runner exit code `0`.
+
+P8L adjudication:
+- result `PASS_M2_P8L_LOCAL_BUILDONLY_EXECUTION_QUALIFICATION`;
+- artifact blob `b1eda822a3580370ebdeda704af8a169c4991dec`;
+- document blob `814ed353a5f1e8421ba6583d59d08b598048082a`.
+
+Returned evidence:
+- outer return bundle SHA256 `1BA6CB2393299C6F81CF88110D9B58650D462E602D2EBAC6540708104AA1AAAE`;
+- inner BuildOnly bundle SHA256 `80E25A75F9783D98F39840594E0BC2888DFF9A4BEB6AB1EAF57846B48150D872`;
+- result SHA256 `2A6031607A66A7F8B8D908300AF34DF79FA12F5B338231DCFA361758C0B7119B`;
+- runtime evidence manifest SHA256 `A6E4AC7C12E076C72D486685B9C69FB2200C56F470FF594EDD57ACF02BED708C`;
+- package manifest byte SHA256 `FFE32A007581B38983C2F30A7CF66348AF104C2CE1035F9453EAD91F76E7FDE3`.
+
+Independent adjudication confirmed all sidecar cross-hashes, required bundle membership and Draft 2020-12 schema validation.
+
+Zero-science invariants remained exact:
+- target model load false;
+- diagnostic executable launch false;
+- GPU dispatch false;
+- performance measurement false;
+- fresh TTFT observations 0;
+- scientific result NONE;
+- mechanism adjudication false.
+
+No frozen-package defect was observed. Package repair budget remains 0/1.
+
+Historical GitHub failures remain audit evidence but no longer block M2 continuation. Their narrower hosted-runner cause remains UNRESOLVED.
+
+Next admissible step:
+`M2_P9_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_AUTHORIZATION_GATE`.
+
+P9 is not opened by this P8L adjudication.

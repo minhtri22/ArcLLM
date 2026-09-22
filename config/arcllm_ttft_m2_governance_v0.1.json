@@ -3,7 +3,7 @@
   "date": "2026-09-22",
   "program_id": "ARCLLM_TTFT_M2",
   "branch": "research/arcllm-ttft-m2",
-  "status": "TTFT_M2_P8L_LOCAL_BUILDONLY_AUTHORIZED",
+  "status": "TTFT_M2_P8L_PASS_P9_AUTHORIZATION_GATE_ELIGIBLE",
   "git_history_base": "86ec48ce0cfff28fa43c23c1d8b57b8f881d249e",
   "parents": {
     "ANL64": {
@@ -73,10 +73,10 @@
     "M2_P6": "COMPLETE_PASS_ZERO_SCIENCE_GOVERNANCE",
     "M2_P7": "COMPLETE_AUTHORIZED_EXACT_FROZEN_BUILDONLY",
     "M2_P8": "TERMINAL_STOP_INFRASTRUCTURE_UNSTABLE",
-    "M2_P9": "BLOCKED_PENDING_VALID_P8L_AND_SEPARATE_AUTHORIZATION",
+    "M2_P9": "NOT_OPENED_ELIGIBLE_FOR_EXPLICIT_AUTHORIZATION_GATE",
     "M2_P10": "HISTORICAL_CLOSURE_SUPERSEDED_BY_A1_FOR_INFRASTRUCTURE_CONTINUATION",
     "M2_A1": "COMPLETE_GOVERNANCE_AMENDMENT",
-    "M2_P8L": "AUTHORIZED_READY_LOCAL_EXECUTION"
+    "M2_P8L": "COMPLETE_PASS_VALID_LOCAL_BUILDONLY"
   },
   "lineage": {
     "path": "programs/arcllm_ttft_m2/lineage.md",
@@ -142,14 +142,14 @@
     "specification_only": false,
     "package_implementation": false,
     "diagnostic_science_implementation": false,
-    "buildonly_execution": true,
+    "buildonly_execution": false,
     "target_model_execution": false,
     "model_load": false,
     "gpu_dispatch": false,
     "performance_measurement": false,
     "fresh_ttft_observation": false
   },
-  "next": "M2_P8L_LOCAL_BUILDONLY_EXECUTION_QUALIFICATION",
+  "next": "M2_P9_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_AUTHORIZATION_GATE",
   "p4": {
     "result": "M2_P4_ZERO_SCIENCE_INFRASTRUCTURE_PACKAGE_IMPLEMENTED",
     "authorization": {
@@ -462,33 +462,42 @@
       "further_attempt_required": false
     },
     "local_windows_workstation": {
-      "status": "VIABLE_NOT_YET_ATTEMPTED",
-      "role": "PRIMARY_NEXT_SUBSTRATE"
+      "status": "PASS_VALID_BUILDONLY",
+      "role": "QUALIFIED_BUILDONLY_SUBSTRATE",
+      "exact_execution_head": "e623bfb878e6e59cb465271905245e83bf720b9e",
+      "buildonly_bundle_sha256": "80E25A75F9783D98F39840594E0BC2888DFF9A4BEB6AB1EAF57846B48150D872"
     }
   },
   "p8l": {
-    "status": "AUTHORIZED_READY_LOCAL_EXECUTION",
+    "status": "COMPLETE_PASS_VALID_LOCAL_BUILDONLY",
     "substrate": "LOCAL_WINDOWS_WORKSTATION",
     "authorization": {
       "path": "config/arcllm_ttft_m2_p8l_local_buildonly_authorization_v0.1.json",
       "blob": "fa15f82ee75a3356c21e213d935eb93002d885f7",
       "decision": "M2_P8L_LOCAL_BUILDONLY_AUTHORIZED"
     },
-    "local_wrapper": {
-      "path": "scripts/ttft_m2/p8l_local_oneclick.ps1",
-      "blob": "9b7ebffa37c5c2657a2db95682134e8307ffc163"
+    "adjudication": {
+      "path": "artifacts/TTFT_M2/TTFT_M2_P8L_LOCAL_BUILDONLY_ADJUDICATION_v0.1.json",
+      "blob": "b1eda822a3580370ebdeda704af8a169c4991dec",
+      "result": "PASS_M2_P8L_LOCAL_BUILDONLY_EXECUTION_QUALIFICATION"
     },
     "document": {
-      "path": "docs/research/arcllm-ttft-m2/P8L_LOCAL_BUILDONLY_EXECUTION_QUALIFICATION.md",
-      "blob": "4ac3508b5cc0a34cf6c918fa944f10a1245df8c0"
+      "path": "docs/research/arcllm-ttft-m2/P8L_LOCAL_BUILDONLY_ADJUDICATION.md",
+      "blob": "814ed353a5f1e8421ba6583d59d08b598048082a"
     },
-    "frozen_package_mutation_permitted": false,
-    "target_model_execution_authorized": false,
-    "gpu_dispatch_authorized": false,
-    "performance_measurement_authorized": false,
-    "fresh_ttft_observation_authorized": false,
+    "outer_return_bundle_sha256": "1BA6CB2393299C6F81CF88110D9B58650D462E602D2EBAC6540708104AA1AAAE",
+    "buildonly_bundle_sha256": "80E25A75F9783D98F39840594E0BC2888DFF9A4BEB6AB1EAF57846B48150D872",
+    "buildonly_result_sha256": "2A6031607A66A7F8B8D908300AF34DF79FA12F5B338231DCFA361758C0B7119B",
+    "evidence_manifest_sha256": "A6E4AC7C12E076C72D486685B9C69FB2200C56F470FF594EDD57ACF02BED708C",
+    "package_manifest_sha256": "FFE32A007581B38983C2F30A7CF66348AF104C2CE1035F9453EAD91F76E7FDE3",
+    "runtime_preflight": "PASS",
+    "exact_runner_exit_code": 0,
+    "frozen_package_defect_observed": false,
     "package_repair_budget_consumed": 0,
-    "package_repair_budget_max": 1,
-    "next_on_execution": "P8L_EVIDENCE_OR_FAILURE_DOMAIN_ADJUDICATION"
+    "scientific_result": "NONE",
+    "mechanism_adjudication_performed": false,
+    "historical_github_failures_block_continuation": false,
+    "historical_hosted_runner_narrow_root_cause": "UNRESOLVED",
+    "next": "M2_P9_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_AUTHORIZATION_GATE"
   }
 }

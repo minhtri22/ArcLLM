@@ -1,0 +1,108 @@
+{
+  "schema": "arcllm.ttft_m2.p8l.local_buildonly_adjudication.v0.1",
+  "date": "2026-09-22",
+  "program_id": "ARCLLM_TTFT_M2",
+  "stage": "M2_P8L_LOCAL_BUILDONLY_EXECUTION_QUALIFICATION",
+  "result": "PASS_M2_P8L_LOCAL_BUILDONLY_EXECUTION_QUALIFICATION",
+  "execution_source": {
+    "branch": "research/arcllm-ttft-m2",
+    "git_head": "e623bfb878e6e59cb465271905245e83bf720b9e",
+    "substrate": "LOCAL_WINDOWS_WORKSTATION",
+    "tracked_worktree_clean": true
+  },
+  "authorization": {
+    "path": "config/arcllm_ttft_m2_p8l_local_buildonly_authorization_v0.1.json",
+    "blob": "fa15f82ee75a3356c21e213d935eb93002d885f7",
+    "decision": "M2_P8L_LOCAL_BUILDONLY_AUTHORIZED"
+  },
+  "exact_frozen_bindings": {
+    "runner": {
+      "blob": "4722e86a01453d973ee2122b49229b80bf7d84f6",
+      "match": true
+    },
+    "execution_lock": {
+      "blob": "9af4c7b4c96354223e1f671a43af64b215072330",
+      "match": true
+    },
+    "evidence_manifest_template": {
+      "blob": "bf496e00e4cf0bff86582e0649c6c26bc28b6f60",
+      "match": true
+    },
+    "package_manifest": {
+      "blob": "4629910255580322706b01f318ad9a80044208d7",
+      "match": true
+    },
+    "p7_authorization": {
+      "blob": "8faf0cd91da381333fdf7971e431fc091701a62b",
+      "match": true
+    },
+    "atomic_qa_tool": {
+      "blob": "73b74f2dbc65f0e1bff7cd2c226b4112c34ecfdb",
+      "match": true
+    },
+    "fixture_index": {
+      "blob": "9735e97d5ea264642725466e50ae26a00e8a4951",
+      "match": true
+    }
+  },
+  "runtime_preflight": {
+    "result": "PASS",
+    "errors": [],
+    "mode": "runtime-preflight"
+  },
+  "exact_runner": {
+    "started": true,
+    "exit_code": 0,
+    "status": "M2_INFRASTRUCTURE_BUILDONLY_COMPLETE_AWAITING_ADJUDICATION",
+    "failure_result_present": false
+  },
+  "returned_evidence": {
+    "outer_return_bundle_sha256": "1BA6CB2393299C6F81CF88110D9B58650D462E602D2EBAC6540708104AA1AAAE",
+    "buildonly_bundle_sha256": "80E25A75F9783D98F39840594E0BC2888DFF9A4BEB6AB1EAF57846B48150D872",
+    "buildonly_result_sha256": "2A6031607A66A7F8B8D908300AF34DF79FA12F5B338231DCFA361758C0B7119B",
+    "runtime_evidence_manifest_sha256": "A6E4AC7C12E076C72D486685B9C69FB2200C56F470FF594EDD57ACF02BED708C",
+    "package_manifest_sha256": "FFE32A007581B38983C2F30A7CF66348AF104C2CE1035F9453EAD91F76E7FDE3",
+    "adjudicator_input_cross_hashes_all_match": true,
+    "inner_bundle_required_members_complete": true,
+    "inner_bundle_extra_members": 0,
+    "json_schema_validation": {
+      "draft": "2020-12",
+      "buildonly_result": "PASS",
+      "evidence_manifest": "PASS",
+      "package_manifest": "PASS",
+      "adjudicator_input": "PASS"
+    }
+  },
+  "zero_science": {
+    "target_model_loaded": false,
+    "diagnostic_executable_launched": false,
+    "gpu_dispatch": false,
+    "performance_measurement": false,
+    "fresh_ttft_observations": 0,
+    "scientific_result": "NONE",
+    "mechanism_adjudication_performed": false
+  },
+  "repair_budget": {
+    "frozen_research_package_max": 1,
+    "consumed": 0,
+    "remaining": 1,
+    "package_defect_observed": false
+  },
+  "infrastructure_interpretation": {
+    "frozen_package_valid_buildonly_execution_demonstrated": true,
+    "local_windows_substrate_qualified_for_buildonly": true,
+    "historical_github_failures_block_m2_continuation": false,
+    "historical_github_failure_narrow_root_cause": "UNRESOLVED",
+    "statement": "The unchanged frozen TTFT_M2 package successfully completed its runtime preflight and BuildOnly execution on the preregistered local Windows substrate. Therefore the prior GitHub-hosted failures do not establish a frozen-package defect and no longer block M2 continuation. This adjudication does not identify the narrower cause of the hosted-runner startup failure."
+  },
+  "scientific_boundary": {
+    "any_ttft_mechanism_supported": false,
+    "any_ttft_mechanism_falsified": false,
+    "fresh_mechanism_identification_opened": false
+  },
+  "stage_effect": {
+    "p8l": "COMPLETE_PASS_VALID_LOCAL_BUILDONLY",
+    "p9": "NOT_OPENED_ELIGIBLE_FOR_EXPLICIT_AUTHORIZATION_GATE"
+  },
+  "next": "M2_P9_EXPLICIT_FRESH_MECHANISM_IDENTIFICATION_AUTHORIZATION_GATE"
+}
