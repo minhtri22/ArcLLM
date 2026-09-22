@@ -316,3 +316,44 @@ Zero-science result:
 
 Next:
 `LOCAL_EXACT_I001R_COLLECTION_V0_1_2`
+
+
+## I001R pre-execution native-build query ABI correction — 2026-09-22
+
+Local execution at HEAD `cf362bd08d3d1658e83d983c09b7f6920e3b2c0d` passed static QA and all Q2 shader compilation, then failed in native C++ compilation before model load or GPU execution.
+
+Root cause:
+- I001R introduced Vulkan timestamp-query functions into the repository's minimal hand-declared Vulkan shim;
+- required query aliases/handle/struct/constants were omitted;
+- an additional `VkPhysicalDeviceProperties` dependency was introduced only to obtain `timestampPeriod`.
+
+Repair:
+- imported the query ABI declaration set already used by historical P7-M;
+- removed the new `VkPhysicalDeviceProperties` ABI dependency;
+- amended I001R output from absolute ns/GB/s to raw Vulkan timestamp ticks and scale-invariant ratios;
+- retained exact graph, collection, decision thresholds, and no-rerun rules.
+
+Scientific contamination:
+```text
+model_load=0
+gpu_dispatch=0
+timing_observation=0
+fresh_science=0
+```
+
+Contract lineage:
+- v0.1, v0.1.1, v0.1.2 preserved;
+- v0.1.3 supersedes v0.1.2.
+
+Measurement amendment:
+- scientific question unchanged;
+- decision logic unchanged;
+- collection design unchanged;
+- measurement representation changed from attempted ns conversion to raw ticks;
+- absolute ns conversion is deferred unless needed by the family-specific lower-bound study.
+
+Zero-science QA:
+`PASS_I001R_ZERO_SCIENCE_REVALIDATION_AFTER_QUERY_ABI_CORRECTION`
+
+Next:
+`LOCAL_EXACT_I001R_COLLECTION_V0_1_3`

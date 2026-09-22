@@ -4,10 +4,10 @@ param(
 )
 $ErrorActionPreference="Stop"; Set-StrictMode -Version Latest
 $Root=Split-Path -Parent $MyInvocation.MyCommand.Path
-$ContractPath=Join-Path $Root "config\arcllm_v1_i001r_profile_contract_v0.1.2.json"
+$ContractPath=Join-Path $Root "config\arcllm_v1_i001r_profile_contract_v0.1.3.json"
 if(-not(Test-Path $ContractPath)){throw "I001R contract missing"}
 $C=Get-Content $ContractPath -Raw -Encoding UTF8 | ConvertFrom-Json
-if([string]$C.schema -ne "arcllm.v1.i001r.profile_contract.v0.1.2" -or -not[bool]$C.execution_authorized){
+if([string]$C.schema -ne "arcllm.v1.i001r.profile_contract.v0.1.3" -or -not[bool]$C.execution_authorized){
   throw "I001R contract not authorized"
 }
 
@@ -86,7 +86,7 @@ if([int]$PS.ACLineStatus -ne 1){throw "I001R requires AC online"}
 $Stamp=(Get-Date).ToUniversalTime().ToString("yyyyMMddTHHmmssfffZ")
 $Dir=Join-Path $Root ("results\arcllm_v1_i001r_"+$Stamp)
 New-Item -ItemType Directory -Force -Path $Dir | Out-Null
-Copy-Item $ContractPath (Join-Path $Dir "arcllm_v1_i001r_profile_contract_v0.1.2.json") -Force
+Copy-Item $ContractPath (Join-Path $Dir "arcllm_v1_i001r_profile_contract_v0.1.3.json") -Force
 
 $Build=[ordered]@{
   schema="arcllm.v1.i001r.build_manifest.v0.1"

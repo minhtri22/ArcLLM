@@ -47,7 +47,6 @@ This yields representative early/middle/late context probes without turning ever
 Each profiled probe records:
 
 - exact 469 op names;
-- timestamp period in ns;
 - whole-chain ticks;
 - per-dispatch ticks;
 - barrier/unattributed ticks;
@@ -110,9 +109,11 @@ This is **not measured DRAM traffic**, cache-miss traffic, or a hardware bandwid
 
 The derived quantity:
 
-`logical tensor bytes / timestamp family time`
+`logical tensor bytes / timestamp ticks`
 
-may be used only as a model-throughput indicator.
+may be used only as a relative model-throughput indicator inside this exact device/session contract. It is **not GB/s** because this study deliberately does not depend on `VkPhysicalDeviceProperties::limits.timestampPeriod` in the minimal Vulkan shim.
+
+Absolute nanosecond conversion is deferred to a later family-specific lower-bound study if the dominant-family decision requires it.
 
 ## 7. Validity gates
 
@@ -128,7 +129,7 @@ A valid collection requires:
 8. identical generated 32-token sequence across all measured attempts for the same workload;
 9. exactly three probes per measured attempt at decode indices 0/15/30;
 10. exactly 469 op ticks per probe;
-11. positive timestamp-valid bits and timestamp period;
+11. positive timestamp-valid bits;
 12. 28 normal lifecycle steps per measured attempt;
 13. no automatic/selective rerun.
 
@@ -139,9 +140,9 @@ For each cell and globally:
 - median family share of profiled chain ticks;
 - median barrier/unattributed share;
 - median production lifecycle outside-submit share;
-- p50/p90/p99/max dispatch duration by family;
+- p50/p90/p99/max dispatch duration in raw timestamp ticks by family;
 - sum of median shares for quant-linear families;
-- logical model-weight throughput by family.
+- logical model-weight bytes per timestamp tick by family.
 
 ## 9. Decision rules
 

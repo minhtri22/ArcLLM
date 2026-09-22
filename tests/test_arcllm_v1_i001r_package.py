@@ -6,6 +6,7 @@ q2=(ROOT/"src/q2_benchmark.cpp").read_text(encoding="utf-8")
 prof=(ROOT/"src/arcllm_v1_i001r_7b_decode_profile.cpp").read_text(encoding="utf-8")
 base=(ROOT/"src/p8c_segmented_access_correctness.cpp").read_text(encoding="utf-8")
 rt=(ROOT/"src/arcllm_v1_i001r_p8c_profile_runtime.cpp").read_text(encoding="utf-8")
+p7m=(ROOT/"src/p7m_post_gateup_fusion_profile.cpp").read_text(encoding="utf-8")
 
 def between(s,a,b):
     i=s.find(a); j=s.find(b,i)
@@ -34,11 +35,9 @@ base_exec=between(base,start,"    void destroy_prepared")
 rt_exec=between(rt,start,"    ProfileStats execute_profiled")
 assert base_exec.rstrip()==rt_exec.rstrip(), "normal execute_prepared drifted"
 
-# Instrumentation only: timestamp query path plus three fixed decode probes.
+# Instrumentation only: query-pool timestamp path plus three fixed decode probes.
 for literal in [
     "ProfileStats execute_profiled",
-    "vkGetPhysicalDeviceProperties",
-    "timestamp_period_ns",
     "probe_di={0u,15u,30u}",
     "normal_lifecycle_steps_per_measured_attempt",
     "model_weight_bytes_per_decode_step",
@@ -47,6 +46,29 @@ for literal in [
     r'\"pdep_implementation\":false'
 ]:
     assert literal in (rt+prof), f"missing I001R instrumentation contract: {literal}"
+
+# Query ABI must reuse declarations already exercised by the historical P7-M profiler.
+for literal in [
+    "using VkQueryPoolCreateFlags = uint32_t;",
+    "using VkQueryType = int32_t;",
+    "using VkQueryResultFlags = uint32_t;",
+    "struct VkQueryPool_T; using VkQueryPool = VkQueryPool_T*;",
+    "static constexpr VkStructureType VK_STRUCTURE_TYPE_QUERY_POOL_CREATE_INFO = 11;",
+    "static constexpr VkPipelineStageFlags VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT = 0x00000001;",
+    "static constexpr VkPipelineStageFlags VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT = 0x00002000;",
+    "static constexpr VkQueryType VK_QUERY_TYPE_TIMESTAMP = 2;",
+    "static constexpr VkQueryResultFlags VK_QUERY_RESULT_64_BIT = 0x00000001;",
+    "static constexpr VkQueryResultFlags VK_QUERY_RESULT_WAIT_BIT = 0x00000002;",
+    "struct VkQueryPoolCreateInfo {",
+    "using PFN_vkCreateQueryPool =",
+    "using PFN_vkGetQueryPoolResults ="
+]:
+    assert literal in rt, f"missing I001R query ABI declaration: {literal}"
+    assert literal in p7m, f"query ABI is not inherited from P7-M: {literal}"
+
+assert "VkPhysicalDeviceProperties" not in rt
+assert "timestamp_period_ns" not in rt
+assert "timestamp_period_ns" not in prof
 
 # No successor/optimization payload may enter the exact Q2-safe graph.
 for forbidden in ["anl64_q4_fast.spv","ANL64_P4_LOCKED","persistent_kernel","graph_compression_kernel"]:

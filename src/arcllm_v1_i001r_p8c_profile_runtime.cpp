@@ -49,6 +49,9 @@ using VkPipelineBindPoint = int32_t;
 using VkAccessFlags = uint32_t;
 using VkPipelineStageFlags = uint32_t;
 using VkDependencyFlags = uint32_t;
+using VkQueryPoolCreateFlags = uint32_t;
+using VkQueryType = int32_t;
+using VkQueryResultFlags = uint32_t;
 
 struct VkInstance_T; using VkInstance = VkInstance_T*;
 struct VkPhysicalDevice_T; using VkPhysicalDevice = VkPhysicalDevice_T*;
@@ -69,6 +72,7 @@ struct VkDescriptorSet_T; using VkDescriptorSet = VkDescriptorSet_T*;
 struct VkPipelineCache_T; using VkPipelineCache = VkPipelineCache_T*;
 struct VkSampler_T; using VkSampler = VkSampler_T*;
 struct VkBufferView_T; using VkBufferView = VkBufferView_T*;
+struct VkQueryPool_T; using VkQueryPool = VkQueryPool_T*;
 
 static constexpr VkResult VK_SUCCESS = 0;
 
@@ -79,6 +83,7 @@ static constexpr VkStructureType VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO = 3;
 static constexpr VkStructureType VK_STRUCTURE_TYPE_SUBMIT_INFO = 4;
 static constexpr VkStructureType VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO = 5;
 static constexpr VkStructureType VK_STRUCTURE_TYPE_FENCE_CREATE_INFO = 8;
+static constexpr VkStructureType VK_STRUCTURE_TYPE_QUERY_POOL_CREATE_INFO = 11;
 static constexpr VkStructureType VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO = 12;
 static constexpr VkStructureType VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO = 16;
 static constexpr VkStructureType VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO = 18;
@@ -116,8 +121,13 @@ static constexpr VkBool32 VK_TRUE = 1;
 static constexpr VkAccessFlags VK_ACCESS_SHADER_READ_BIT = 0x00000020;
 static constexpr VkAccessFlags VK_ACCESS_SHADER_WRITE_BIT = 0x00000040;
 static constexpr VkAccessFlags VK_ACCESS_HOST_READ_BIT = 0x00002000;
+static constexpr VkPipelineStageFlags VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT = 0x00000001;
 static constexpr VkPipelineStageFlags VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT = 0x00000800;
+static constexpr VkPipelineStageFlags VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT = 0x00002000;
 static constexpr VkPipelineStageFlags VK_PIPELINE_STAGE_HOST_BIT = 0x00004000;
+static constexpr VkQueryType VK_QUERY_TYPE_TIMESTAMP = 2;
+static constexpr VkQueryResultFlags VK_QUERY_RESULT_64_BIT = 0x00000001;
+static constexpr VkQueryResultFlags VK_QUERY_RESULT_WAIT_BIT = 0x00000002;
 static constexpr uint32_t VK_API_VERSION_1_2 = (1u << 22) | (2u << 12);
 
 struct VkApplicationInfo {
@@ -258,6 +268,14 @@ struct VkMemoryBarrier {
     const void* pNext;
     VkAccessFlags srcAccessMask;
     VkAccessFlags dstAccessMask;
+};
+struct VkQueryPoolCreateInfo {
+    VkStructureType sType;
+    const void* pNext;
+    VkQueryPoolCreateFlags flags;
+    VkQueryType queryType;
+    uint32_t queryCount;
+    VkFlags pipelineStatistics;
 };
 
 struct VkDescriptorSetLayoutBinding {
@@ -414,7 +432,6 @@ using PFN_vkDestroyQueryPool = void (WINAPI*)(VkDevice, VkQueryPool, const void*
 using PFN_vkCmdResetQueryPool = void (WINAPI*)(VkCommandBuffer, VkQueryPool, uint32_t, uint32_t);
 using PFN_vkCmdWriteTimestamp = void (WINAPI*)(VkCommandBuffer, VkPipelineStageFlags, VkQueryPool, uint32_t);
 using PFN_vkGetQueryPoolResults = VkResult (WINAPI*)(VkDevice, VkQueryPool, uint32_t, uint32_t, size_t, void*, VkDeviceSize, VkQueryResultFlags);
-using PFN_vkGetPhysicalDeviceProperties = void (WINAPI*)(VkPhysicalDevice, VkPhysicalDeviceProperties*);
 
 template<typename T>
 static T req(PFN_vkGetInstanceProcAddr gipa, VkInstance inst, const char* name) {
@@ -461,7 +478,6 @@ struct ChainStats {
 struct ProfileStats {
     ChainStats chain;
     uint32_t timestamp_valid_bits = 0;
-    double timestamp_period_ns = 0.0;
     uint64_t chain_ticks = 0;
     uint64_t dispatch_tick_sum = 0;
     uint64_t barrier_or_unattributed_ticks = 0;
@@ -625,7 +641,6 @@ public:
         auto enum_phys = req<PFN_vkEnumeratePhysicalDevices>(gipa_, instance_, "vkEnumeratePhysicalDevices");
         auto get_qprops = req<PFN_vkGetPhysicalDeviceQueueFamilyProperties>(gipa_, instance_, "vkGetPhysicalDeviceQueueFamilyProperties");
         auto get_mem = req<PFN_vkGetPhysicalDeviceMemoryProperties>(gipa_, instance_, "vkGetPhysicalDeviceMemoryProperties");
-        auto get_props = req<PFN_vkGetPhysicalDeviceProperties>(gipa_, instance_, "vkGetPhysicalDeviceProperties");
         auto create_device = req<PFN_vkCreateDevice>(gipa_, instance_, "vkCreateDevice");
         gdpa_ = req<PFN_vkGetDeviceProcAddr>(gipa_, instance_, "vkGetDeviceProcAddr");
 
@@ -638,9 +653,6 @@ public:
         if (enum_phys(instance_, &ndev, devs.data()) != VK_SUCCESS)
             throw std::runtime_error("vkEnumeratePhysicalDevices failed");
         phys_ = devs[0];
-        VkPhysicalDeviceProperties phys_props{};
-        get_props(phys_, &phys_props);
-        timestamp_period_ns_ = double(phys_props.limits.timestampPeriod);
 
         uint32_t nq = 0;
         get_qprops(phys_, &nq, nullptr);
@@ -732,7 +744,6 @@ public:
     uint32_t memory_type_index() const { return memory_type_index_; }
     uint32_t memory_type_flags() const { return memory_type_flags_; }
     uint32_t timestamp_valid_bits() const { return timestamp_valid_bits_; }
-    double timestamp_period_ns() const { return timestamp_period_ns_; }
 
     Buffer make_buffer(uint64_t size, const void* initial = nullptr) {
         Buffer b;
@@ -837,7 +848,6 @@ public:
         };
         ProfileStats ps{};
         ps.timestamp_valid_bits=timestamp_valid_bits_;
-        ps.timestamp_period_ns=timestamp_period_ns_;
         ps.op_ticks.resize(ops.size());
         auto tall0=std::chrono::steady_clock::now();
 
@@ -973,7 +983,6 @@ private:
     uint32_t memory_type_index_ = UINT32_MAX;
     uint32_t memory_type_flags_ = 0;
     uint32_t timestamp_valid_bits_ = 0;
-    double timestamp_period_ns_ = 0.0;
     VkPhysicalDeviceMemoryProperties mem_props_{};
 
     PFN_vkDestroyInstance destroy_instance_ = nullptr;

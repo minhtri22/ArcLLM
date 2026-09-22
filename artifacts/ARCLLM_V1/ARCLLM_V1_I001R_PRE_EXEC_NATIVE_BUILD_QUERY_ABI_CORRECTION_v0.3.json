@@ -1,0 +1,48 @@
+{
+  "schema": "arcllm.v1.i001r.pre_exec_native_build_query_abi_correction.v0.3",
+  "date": "2026-09-22",
+  "branch": "research/arcllm-v1",
+  "failed_package_head": "cf362bd08d3d1658e83d983c09b7f6920e3b2c0d",
+  "failure_stage": "NATIVE_BUILD_AFTER_STATIC_QA_AND_SHADER_COMPILE_BEFORE_MODEL_LOAD",
+  "observed": {
+    "static_qa": "PASS",
+    "shader_compile": "PASS",
+    "native_build": "FAIL",
+    "first_errors": [
+      "VkQueryPool unexpected/undeclared",
+      "VkQueryPoolCreateInfo undeclared",
+      "VK_QUERY_TYPE_TIMESTAMP undeclared",
+      "VkPhysicalDeviceProperties undeclared"
+    ]
+  },
+  "root_cause": "I001R instrumentation extended the repository's minimal hand-declared Vulkan ABI with query APIs but failed to import the associated query aliases/handle/struct/constants already present in the historically compiled P7-M profiler; it also introduced an unnecessary new VkPhysicalDeviceProperties dependency solely for timestampPeriod.",
+  "science_executed": false,
+  "model_load": false,
+  "gpu_dispatches": 0,
+  "timing_observations": 0,
+  "repair": {
+    "query_abi_source": "src/p7m_post_gateup_fusion_profile.cpp",
+    "query_abi_source_blob": "ae2f6424e3d68b5ccfb6ccdee2b939a613831084",
+    "new_runtime_blob": "992f46e866d51f90e9650d9604b1c81cbe55e902",
+    "new_profiler_blob": "d6791cdfb63061c21ec89d8e5ff8f8258c93c37c",
+    "new_analyzer_blob": "4554e960e3e551527e4b1a5645bcd25ad7e560dc",
+    "new_test_blob": "a7ab787162ca9c43e00499c5807410e27568ef08",
+    "new_spec_blob": "33c263f0544f8887acb776d951fe5289a65e3f3c",
+    "new_runner_blob": "85485c2b992754617aee1a96361f62019bc0e41a",
+    "new_contract_blob": "1349ddb0d516110453291372115102cb26909b11",
+    "new_contract_path": "config/arcllm_v1_i001r_profile_contract_v0.1.3.json"
+  },
+  "amendment": {
+    "scientific_question_changed": false,
+    "decision_logic_changed": false,
+    "collection_design_changed": false,
+    "measurement_representation_changed": true,
+    "from": "timestamp ticks + attempted timestampPeriod conversion to ns",
+    "to": "raw timestamp ticks + ratios",
+    "rationale": "Dominant-family, barrier-share, and lifecycle-share adjudication are scale-invariant; absolute timestampPeriod is not needed for this study and would require a new large Vulkan ABI surface.",
+    "absolute_ns_deferred": true,
+    "gbps_claim_allowed": false
+  },
+  "disposition": "REPAIR_ACCEPTED_PRE_EXECUTION_MEASUREMENT_REPRESENTATION_AMENDED_NO_SCIENCE_CONTAMINATION",
+  "next": "LOCAL_EXACT_I001R_COLLECTION_V0_1_3"
+}

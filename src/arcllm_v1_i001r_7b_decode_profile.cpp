@@ -220,7 +220,6 @@ struct I001RProbe {
     uint32_t decode_index=0;
     uint32_t position=0;
     uint32_t timestamp_valid_bits=0;
-    double timestamp_period_ns=0.0;
     uint64_t chain_ticks=0;
     uint64_t dispatch_tick_sum=0;
     uint64_t barrier_or_unattributed_ticks=0;
@@ -539,20 +538,19 @@ int main(int argc,char**argv){
                     if(dops.size()!=EXPECT_DECODE)throw std::runtime_error("I001R dynamic decode census mismatch");
                     const bool probe=!is_warmup&&(di==probe_di[0]||di==probe_di[1]||di==probe_di[2]);
                     if(probe){
-                        ProfileStats ps=vk.execute_profiled(dchain,dops,true);
-                        counts=counts&&ps.chain.dispatch_count==EXPECT_DECODE&&ps.chain.submit_count==1u;
+                        ProfileStats profile_stats=vk.execute_profiled(dchain,dops,true);
+                        counts=counts&&profile_stats.chain.dispatch_count==EXPECT_DECODE&&profile_stats.chain.submit_count==1u;
                         I001RProbe pr{};
-                        pr.decode_index=di;pr.position=pos;pr.timestamp_valid_bits=ps.timestamp_valid_bits;
-                        pr.timestamp_period_ns=ps.timestamp_period_ns;
-                        pr.chain_ticks=ps.chain_ticks;pr.dispatch_tick_sum=ps.dispatch_tick_sum;
-                        pr.barrier_or_unattributed_ticks=ps.barrier_or_unattributed_ticks;
-                        pr.record_submit_wait_ms=ps.chain.record_submit_wait_ms;
-                        pr.submit_wait_ms=ps.chain.submit_wait_ms;
-                        pr.op_ticks=ps.op_ticks;
-                        a.profiled_chain_ticks+=ps.chain_ticks;
-                        a.profiled_dispatch_ticks+=ps.dispatch_tick_sum;
-                        a.profiled_barrier_unattributed_ticks+=ps.barrier_or_unattributed_ticks;
-                        for(size_t oi=0;oi<dops.size();++oi)a.family_ticks[i001r_family(dops[oi].name)]+=ps.op_ticks[oi];
+                        pr.decode_index=di;pr.position=pos;pr.timestamp_valid_bits=profile_stats.timestamp_valid_bits;
+                        pr.chain_ticks=profile_stats.chain_ticks;pr.dispatch_tick_sum=profile_stats.dispatch_tick_sum;
+                        pr.barrier_or_unattributed_ticks=profile_stats.barrier_or_unattributed_ticks;
+                        pr.record_submit_wait_ms=profile_stats.chain.record_submit_wait_ms;
+                        pr.submit_wait_ms=profile_stats.chain.submit_wait_ms;
+                        pr.op_ticks=profile_stats.op_ticks;
+                        a.profiled_chain_ticks+=profile_stats.chain_ticks;
+                        a.profiled_dispatch_ticks+=profile_stats.dispatch_tick_sum;
+                        a.profiled_barrier_unattributed_ticks+=profile_stats.barrier_or_unattributed_ticks;
+                        for(size_t oi=0;oi<dops.size();++oi)a.family_ticks[i001r_family(dops[oi].name)]+=profile_stats.op_ticks[oi];
                         a.probes.push_back(std::move(pr));
                     }else{
                         ChainStats ds=vk.execute_prepared(dchain,dops,true);
@@ -633,7 +631,6 @@ int main(int argc,char**argv){
                 const auto&pr=a.probes[pi];
                 o<<"{\"decode_index\":"<<pr.decode_index<<",\"position\":"<<pr.position
                  <<",\"timestamp_valid_bits\":"<<pr.timestamp_valid_bits
-                 <<",\"timestamp_period_ns\":"<<pr.timestamp_period_ns
                  <<",\"chain_ticks\":"<<pr.chain_ticks
                  <<",\"dispatch_tick_sum\":"<<pr.dispatch_tick_sum
                  <<",\"barrier_or_unattributed_ticks\":"<<pr.barrier_or_unattributed_ticks

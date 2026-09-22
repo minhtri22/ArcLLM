@@ -76,7 +76,6 @@ for key,fn in CELLS.items():
             if pr.get("decode_index") not in [0,15,30]: errors.append(f"{key}/{ai}/{pi}: bad probe")
             if len(pr.get("op_ticks",[]))!=469: errors.append(f"{key}/{ai}/{pi}: op ticks")
             if not (pr.get("timestamp_valid_bits",0)>0): errors.append(f"{key}/{ai}/{pi}: timestamp bits")
-            if not (pr.get("timestamp_period_ns",0)>0): errors.append(f"{key}/{ai}/{pi}: timestamp period")
             if pr.get("chain_ticks",0)<=0 or pr.get("dispatch_tick_sum",0)<=0: errors.append(f"{key}/{ai}/{pi}: zero ticks")
 
 # Cross-cell graph identity.
@@ -108,9 +107,9 @@ if not errors:
     family_shares={f:[] for f in FAMILIES}
     barrier_shares=[]
     lifecycle_outside=[]
-    dispatch_ns={f:[] for f in FAMILIES}
+    dispatch_ticks={f:[] for f in FAMILIES}
     cell_summary={}
-    total_family_ns={f:0.0 for f in FAMILIES}
+    total_family_ticks={f:0.0 for f in FAMILIES}
     total_probes=0
 
     for key,d in data.items():
@@ -130,13 +129,12 @@ if not errors:
             outside=((rec-sub)/rec) if rec>0 else 0.0
             lifecycle_outside.append(outside);cell_life.append(outside)
             for pr in a["probes"]:
-                period=float(pr["timestamp_period_ns"])
                 total_probes+=1
                 for name,ticks in zip(names,pr["op_ticks"]):
                     f=family_of(name)
-                    ns=float(ticks)*period
-                    dispatch_ns[f].append(ns)
-                    total_family_ns[f]+=ns
+                    tv=float(ticks)
+                    dispatch_ticks[f].append(tv)
+                    total_family_ticks[f]+=tv
         cell_summary[key]={
             "family_share_median":{f:median(cell_family[f]) for f in FAMILIES},
             "barrier_unattributed_share_median":median(cell_barrier),
@@ -166,12 +164,12 @@ if not errors:
         decision="DIFFUSE_DEVICE_WORK_NEEDS_DEEPER_BOUND_MODEL"
 
     weight_map=weight_maps[0] if weight_maps else {}
-    logical_gbps={}
+    logical_bytes_per_tick={}
     for f,b in weight_map.items():
-        ns=total_family_ns.get(f,0.0)
+        ns=total_family_ticks.get(f,0.0)
         if ns>0 and total_probes>0:
             logical_bytes=float(b)*total_probes
-            logical_gbps[f]=(logical_bytes/ns) # bytes/ns == GB/s decimal
+            logical_bytes_per_tick[f]=(logical_bytes/ns) # bytes/ns == GB/s decimal
 
     out.update({
       "cell_summary":cell_summary,
@@ -184,12 +182,12 @@ if not errors:
         "top_family":top_family,
         "top_family_share":top_share,
         "top2_family_share":top2_share,
-        "dispatch_duration_ns":{
+        "dispatch_duration_ticks":{
             f:{"p50":q(v,0.50),"p90":q(v,0.90),"p99":q(v,0.99),"max":max(v) if v else None,"n":len(v)}
-            for f,v in dispatch_ns.items()
+            for f,v in dispatch_ticks.items()
         },
-        "logical_model_weight_throughput_GBps":logical_gbps,
-        "logical_weight_throughput_semantics":"exact model tensor payload bytes per profiled step divided by family timestamp time; this is not measured DRAM bandwidth and may include cache reuse",
+        "logical_model_weight_bytes_per_tick":logical_bytes_per_tick,
+        "logical_weight_tick_semantics":"exact model tensor payload bytes per profiled step divided by family timestamp ticks; this is not GB/s, not measured DRAM bandwidth, and may include cache reuse",
       },
       "decision":decision,
       "replacement_implementation_selected":False,

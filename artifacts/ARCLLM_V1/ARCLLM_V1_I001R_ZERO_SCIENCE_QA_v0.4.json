@@ -1,0 +1,36 @@
+{
+  "schema": "arcllm.v1.i001r.zero_science_qa.v0.4",
+  "date": "2026-09-22",
+  "result": "PASS_I001R_ZERO_SCIENCE_REVALIDATION_AFTER_QUERY_ABI_CORRECTION",
+  "scientific_execution_started": false,
+  "model_load": false,
+  "gpu_dispatches": 0,
+  "timing_observations": 0,
+  "checks": {
+    "query_abi_matches_historical_p7m": true,
+    "query_aliases_present": true,
+    "query_handle_present": true,
+    "query_struct_present": true,
+    "query_constants_present": true,
+    "query_pfns_present": true,
+    "unsupported_physical_device_properties_dependency_removed": true,
+    "timestamp_period_dependency_removed": true,
+    "raw_tick_metrics_preserved": true,
+    "family_share_decision_rules_unchanged": true,
+    "graph_builder_byte_identity_requirement_preserved": true,
+    "production_execute_prepared_identity_requirement_preserved": true,
+    "no_anl64_payload": true,
+    "no_pdep_implementation": true
+  },
+  "blobs": {
+    "runtime": "992f46e866d51f90e9650d9604b1c81cbe55e902",
+    "profiler": "d6791cdfb63061c21ec89d8e5ff8f8258c93c37c",
+    "analyzer": "4554e960e3e551527e4b1a5645bcd25ad7e560dc",
+    "static_test": "a7ab787162ca9c43e00499c5807410e27568ef08",
+    "spec": "33c263f0544f8887acb776d951fe5289a65e3f3c",
+    "runner": "85485c2b992754617aee1a96361f62019bc0e41a",
+    "contract": "1349ddb0d516110453291372115102cb26909b11",
+    "p7m_abi_source": "ae2f6424e3d68b5ccfb6ccdee2b939a613831084"
+  },
+  "next": "LOCAL_EXACT_I001R_COLLECTION_V0_1_3"
+}
