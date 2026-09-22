@@ -3,7 +3,7 @@
   "date": "2026-09-22",
   "program_id": "ARCLLM_TTFT_M2",
   "branch": "research/arcllm-ttft-m2",
-  "status": "TTFT_M2_P9D_PASS_H_NULL_SUPPORTED_READY_FOR_FINAL_PROGRAM_ADJUDICATION",
+  "status": "TTFT_M2_PROGRAM_CLOSED_VALID_H_NULL_RESULT_POST_A1",
   "git_history_base": "86ec48ce0cfff28fa43c23c1d8b57b8f881d249e",
   "parents": {
     "ANL64": {
@@ -80,7 +80,7 @@
     "M2_P7": "COMPLETE_AUTHORIZED_EXACT_FROZEN_BUILDONLY",
     "M2_P8": "TERMINAL_STOP_INFRASTRUCTURE_UNSTABLE",
     "M2_P9": "COMPLETE_VALID_FRESH_COLLECTION_H_NULL_SUPPORTED",
-    "M2_P10": "HISTORICAL_CLOSURE_SUPERSEDED_BY_A1_FOR_INFRASTRUCTURE_CONTINUATION",
+    "M2_P10": "COMPLETE_FINAL_CLOSED_POST_A1_H_NULL_SUPPORTED",
     "M2_A1": "COMPLETE_GOVERNANCE_AMENDMENT",
     "M2_P8L": "COMPLETE_PASS_VALID_LOCAL_BUILDONLY",
     "M2_P9A": "COMPLETE_PASS_FRESH_M2_DESIGN_ADOPTED",
@@ -94,10 +94,13 @@
     "path": "programs/arcllm_ttft_m2/lineage.md",
     "policy": "APPEND_ONLY_WITHIN_TTFT_M2",
     "fresh": true,
-    "closed": false,
+    "closed": true,
     "reuse_parent_lineage": false,
     "reopened_by_amendment": "M2_A1_EXECUTION_SUBSTRATE_AND_REPAIR_BUDGET_CORRECTION",
-    "historical_closure_commit": "58d1091ad0a8619c97004f3afb70dfbbbf1160f5"
+    "historical_closure_commit": "58d1091ad0a8619c97004f3afb70dfbbbf1160f5",
+    "final_closed_after_a1": true,
+    "final_scientific_result": "H_NULL_SUPPORTED_NO_STABLE_MATERIAL_REGISTERED_TTFT_MECHANISM",
+    "final_adjudication_artifact_blob": "0f054a12ba240934f7d2e3cf58364a0098ae8871"
   },
   "repair_budget": {
     "historical_v0_1_execution_stage": {
@@ -161,7 +164,7 @@
     "performance_measurement": false,
     "fresh_ttft_observation": false
   },
-  "next": "M2_P10_FINAL_PROGRAM_ADJUDICATION_POST_A1_CONTINUATION",
+  "next": "PROGRAM_CLOSED_NO_FURTHER_TTFT_M2_ACTION",
   "p4": {
     "result": "M2_P4_ZERO_SCIENCE_INFRASTRUCTURE_PACKAGE_IMPLEMENTED",
     "authorization": {
@@ -784,5 +787,42 @@
     "interpretation_scope": "No stable material registered mechanism replicated under the frozen P9A design; not a universal absence-of-mechanism claim.",
     "further_scientific_execution_authorized": false,
     "next": "M2_P10_FINAL_PROGRAM_ADJUDICATION_POST_A1_CONTINUATION"
+  },
+  "p10_post_a1": {
+    "result": "VALID_FRESH_SCIENTIFIC_RESULT_H_NULL_SUPPORTED",
+    "terminal_status": "TTFT_M2_PROGRAM_CLOSED_VALID_H_NULL_RESULT_POST_A1",
+    "adjudication_parent_head": "0d3addb5f7bba471b8826121bdc5718a98c7975e",
+    "artifact": {
+      "path": "artifacts/TTFT_M2/TTFT_M2_P10_FINAL_PROGRAM_ADJUDICATION_POST_A1_v0.2.json",
+      "blob": "0f054a12ba240934f7d2e3cf58364a0098ae8871"
+    },
+    "document": {
+      "path": "docs/research/arcllm-ttft-m2/P10_FINAL_PROGRAM_ADJUDICATION_POST_A1.md",
+      "blob": "a0fb4582e2a222a1e729c0d3d3036fc6b3ee63a6"
+    },
+    "historical_p10_preserved": {
+      "path": "artifacts/TTFT_M2/TTFT_M2_P10_FINAL_PROGRAM_ADJUDICATION_v0.1.json",
+      "blob": "0cbca9efa9754bf45e48ada5c7425ae7a8754d4a",
+      "historical_result": "INFRASTRUCTURE_STOP_NO_MECHANISM_RESULT",
+      "normative_closure_superseded_by_a1": true
+    },
+    "a1_blob": "4e56683b23153d4a4055d1bafd4422f11d186783",
+    "p8l_blob": "b1eda822a3580370ebdeda704af8a169c4991dec",
+    "p9a_blob": "0eccfd37a85738c1d05babaf36f46b66c6b17219",
+    "p9b_blob": "d6a9947694cb35044251bac363236f69b06e4d9f",
+    "p9c_review_1_blob": "5054aded4e6347817c944021a3a613661e8c5ef2",
+    "p9c_a_blob": "0ce4487770a8cdff93de99936ced234b2fd405d9",
+    "p9c_review_2_blob": "84861ddb708c2e9d5ac719eecc7cee4ccbf389d5",
+    "p9d_blob": "228e33410fd5e67c67a08771c5ed0c896e0e51e1",
+    "scientific_classification": "H_NULL_SUPPORTED_NO_STABLE_MATERIAL_REGISTERED_TTFT_MECHANISM",
+    "registered_positive_mechanisms_supported": false,
+    "h_null_supported": true,
+    "universal_no_mechanism_claim": false,
+    "observed_fresh_ttft": 80,
+    "further_scientific_execution_authorized": false,
+    "program_closed": true,
+    "reopen_inside_m2_permitted": false,
+    "future_new_mechanism_or_design_requires_new_independent_program": true,
+    "next": "PROGRAM_CLOSED_NO_FURTHER_TTFT_M2_ACTION"
   }
 }

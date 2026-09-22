@@ -1007,3 +1007,70 @@ No further scientific execution is authorized by P9D.
 
 Next:
 `M2_P10_FINAL_PROGRAM_ADJUDICATION_POST_A1_CONTINUATION`.
+
+
+## 2026-09-22 — M2-P10 FINAL PROGRAM ADJUDICATION AFTER A1
+
+TTFT_M2 is formally closed after the A1-governed continuation.
+
+Terminal status:
+
+`TTFT_M2_PROGRAM_CLOSED_VALID_H_NULL_RESULT_POST_A1`
+
+Final result:
+
+`VALID_FRESH_SCIENTIFIC_RESULT_H_NULL_SUPPORTED`
+
+Canonical scientific classification:
+
+`H_NULL_SUPPORTED_NO_STABLE_MATERIAL_REGISTERED_TTFT_MECHANISM`
+
+The historical P10 remains preserved:
+- artifact `0cbca9efa9754bf45e48ada5c7425ae7a8754d4a`;
+- historical result `INFRASTRUCTURE_STOP_NO_MECHANISM_RESULT`;
+- historical closure evidence was not rewritten or deleted;
+- A1 superseded only its normative closure effect for infrastructure continuation.
+
+A1 `4e56683b23153d4a4055d1bafd4422f11d186783` separated frozen-package defects from orchestration/transport/substrate failures and enabled local P8L without scientific mutation.
+
+Continuation evidence:
+- P8L PASS `b1eda822a3580370ebdeda704af8a169c4991dec`;
+- P9A fresh design PASS `0eccfd37a85738c1d05babaf36f46b66c6b17219`;
+- P9B canonical harness BuildOnly PASS `d6a9947694cb35044251bac363236f69b06e4d9f`;
+- P9C Review 1 fail-closed `5054aded4e6347817c944021a3a613661e8c5ef2`;
+- P9C-A correction PASS `0ce4487770a8cdff93de99936ced234b2fd405d9`;
+- P9C Review 2 authorization PASS `84861ddb708c2e9d5ac719eecc7cee4ccbf389d5`;
+- P9D valid fresh collection `228e33410fd5e67c67a08771c5ed0c896e0e51e1`.
+
+Valid science:
+- F0 PASS;
+- H-ART falsified;
+- 16/16 cells;
+- 80/80 fresh TTFT observations;
+- 0 parent observations reused;
+- no automatic/selective rerun;
+- all semantic/structural guards PASS.
+
+Frozen adjudication:
+- H-DPIPE not supported;
+- H-PRECOND not supported;
+- H-STATE-INTERACTION not supported;
+- H-NULL supported.
+
+The final interpretation is intentionally narrow: no stable material mechanism among the P9A-registered candidates replicated across both workloads and both sessions. This is not a universal absence-of-TTFT-mechanism claim.
+
+No further model/GPU/timing execution, repair, threshold/workload/endpoint mutation, or mechanism rescue is authorized inside TTFT_M2.
+
+Any new TTFT mechanism hypothesis or new causal/measurement design requires a new independent research program.
+
+Final P10 post-A1 artifact:
+- `artifacts/TTFT_M2/TTFT_M2_P10_FINAL_PROGRAM_ADJUDICATION_POST_A1_v0.2.json`;
+- blob `0f054a12ba240934f7d2e3cf58364a0098ae8871`.
+
+Final document:
+- `docs/research/arcllm-ttft-m2/P10_FINAL_PROGRAM_ADJUDICATION_POST_A1.md`;
+- blob `a0fb4582e2a222a1e729c0d3d3036fc6b3ee63a6`.
+
+Final next state:
+
+`PROGRAM_CLOSED_NO_FURTHER_TTFT_M2_ACTION`.
