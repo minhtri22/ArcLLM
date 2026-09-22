@@ -374,3 +374,41 @@ Create:
 `ARCLLM_V1_INTERVENTION_001_SELECTION.md`
 
 The selected intervention must maximize credible E2E headroom **without pretending the cause is already known**.
+
+
+## 16. Headroom Map update after I001 historical cost discriminator — 2026-09-22
+
+The decode plane remains the highest-priority system area, but its internal mechanism ranking changes.
+
+Historical proxy decomposition shows:
+
+```text
+P7-H outside-submit bucket      0.4339%
+P7-M outside-submit bucket      3.6454%
+
+P7-H barrier/unattributed       0.3455%
+P7-M barrier/unattributed       0.3534%
+
+six major device families       ~99.2% device-chain time
+```
+
+ANL64 preserves a 469-node candidate plan and nevertheless produces fresh 7B decode gains of approximately 1.22–3.20×.
+
+Updated interpretation:
+
+| Decode mechanism class | Updated status |
+|---|---|
+| launch/API/lifecycle removal alone | LOW HEADROOM |
+| barrier removal alone | NOT A DOMINANT HISTORICAL EXPLANATION |
+| graph compression based only on reducing 469 dispatch count | NOT JUSTIFIED |
+| region locality/state reuse | UNRESOLVED |
+| kernel/device-work efficiency | HIGHEST NEXT DISCRIMINATION PRIORITY |
+| mixed kernel + locality architecture | POSSIBLE, NOT YET QUANTIFIED |
+
+Therefore `I001-PDEP` is falsified as the first implementation, while the broader **decode device-work plane remains priority #1**.
+
+Exact 7B per-family timestamp evidence is still missing, so no replacement implementation is selected yet.
+
+Next:
+
+`ARCLLM_V1_I001R_EXACT_7B_DECODE_DEVICE_WORK_PROFILE.md`

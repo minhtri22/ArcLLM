@@ -5,7 +5,7 @@
 - `ARCLLM_V1_ARCHITECTURE_REFRAME.md` — blob `5f06a648d200366066e79c9355ae3bb448e1c8fb`
 - `ARCLLM_V1_HEADROOM_MAP.md` — blob `e66a296134d5f9701a6f6b63a5954f52417b71cc`
 
-**Status:** INTERVENTION FAMILY SELECTED / QA-AMENDED / NO IMPLEMENTATION AUTHORIZED
+**Status:** HISTORICAL SELECTION PRESERVED / PDEP FALSIFIED AS FIRST IMPLEMENTATION / NO IMPLEMENTATION AUTHORIZED
 
 ## 0. Intervention terminology and claim boundary
 
@@ -338,3 +338,32 @@ Create a specification-only study:
 Its purpose is to decide whether PDEP has enough **causally attributable recoverable decode cost** to justify implementation.
 
 No ArcLLM v1 performance code should be changed before that discriminator is frozen.
+
+
+## 17. Post-selection historical cost-model discriminator — 2026-09-22
+
+The required pre-implementation discriminator has now been performed from frozen historical evidence.
+
+Canonical discriminator:
+
+`ARCLLM_V1_I001_DECODE_COST_MODEL_AND_MECHANISM_DISCRIMINATOR.md`
+
+Result:
+
+`FALSIFY_I001_PDEP_AS_FIRST_IMPLEMENTATION`
+
+Reasoning boundary:
+
+- P7-H and P7-M retain the 469-dispatch decode topology;
+- outside-submit host/profile lifecycle is only ~0.43–3.65% of profiled wall time;
+- barrier+unattributed device intervals are ~0.35%;
+- ~99.2% of proxy device-chain time is inside six compute families;
+- ANL64 preserves a 469-node plan yet achieves ~1.22–3.20× fresh 7B decode movement by changing quant-linear execution.
+
+Therefore the raw dispatch count and topology-only overhead do not justify PDEP as the first implementation.
+
+This does not falsify all possible future region fusion/persistence. Such mechanisms may be reconsidered only if an exact 7B device-work profile identifies material locality/state-reuse headroom inside dominant compute families.
+
+Next:
+
+`ARCLLM_V1_I001R_EXACT_7B_DECODE_DEVICE_WORK_PROFILE.md`

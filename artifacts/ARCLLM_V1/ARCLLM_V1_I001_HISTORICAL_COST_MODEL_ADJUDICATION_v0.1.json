@@ -1,0 +1,66 @@
+{
+  "schema": "arcllm.v1.i001.historical_cost_model_adjudication.v0.1",
+  "date": "2026-09-22",
+  "branch": "research/arcllm-v1",
+  "parent_head": "ad9a9922948f93d9cafe721545dcdc9f5b20d5fc",
+  "result": "FALSIFY_I001_PDEP_AS_FIRST_IMPLEMENTATION",
+  "scope": "Historical-evidence cost-model discriminator; no new performance execution.",
+  "evidence": {
+    "q2_7b": {
+      "blob": "38dfc5aa0034204e7a321ad04e714429145a2b80",
+      "decode_dispatches_per_step": 469,
+      "ws_decode_tps": 0.318444967889216,
+      "wc_decode_tps": 0.399006323918158,
+      "ws_decode_step_ms": 3140.2600161290366,
+      "wc_decode_step_ms": 2506.225941935483
+    },
+    "p7h_proxy": {
+      "blob": "9e10bbe1f8def2b011d46f40962376da7d6d20c3",
+      "decode_dispatches": 469,
+      "record_submit_wait_ms": 302.3118,
+      "submit_wait_ms": 301.0001,
+      "outside_submit_ms": 1.3117,
+      "outside_submit_share": 0.004338897786986913,
+      "barrier_or_unattributed_share": 0.003454970465021764,
+      "six_major_device_family_share": 0.99222342774
+    },
+    "p7m_proxy": {
+      "blob": "7f43bc2c15191eca31f70eba5caf545131da3457",
+      "decode_dispatches": 469,
+      "record_submit_wait_ms": 283.4147,
+      "submit_wait_ms": 273.0831,
+      "outside_submit_ms": 10.3316,
+      "outside_submit_share": 0.03645400185664322,
+      "barrier_or_unattributed_share": 0.0035336687579900455,
+      "six_major_device_family_share": 0.99207793921
+    },
+    "anl64_7b": {
+      "blob": "56dd01850238e4131d357303d3888fd1826f6eb9",
+      "plan_nodes": 469,
+      "quant_linear_nodes": 215,
+      "fixed_q4_fast_nodes": 140,
+      "decode_speedups": [
+        2.5317805576852384,
+        1.2227960092444075,
+        2.163506424699113,
+        3.200164950615819
+      ]
+    }
+  },
+  "mechanism_classification": {
+    "H_LAUNCH_LIFECYCLE": "LOW_HEADROOM_AS_PRIMARY_MECHANISM",
+    "H_SYNC": "FALSIFIED_AS_DOMINANT_PRIMARY_MECHANISM_BY_HISTORICAL_PROXY",
+    "H_LOCALITY": "UNRESOLVED",
+    "H_KERNEL": "SUPPORTED_AS_DOMINANT_NEXT_DISCRIMINATION_CLASS",
+    "H_MIXED": "POSSIBLE_BUT_UNQUANTIFIED",
+    "H_NULL_I001": "SUPPORTED_FOR_PDEP_AS_FIRST_IMPLEMENTATION"
+  },
+  "interpretation": {
+    "pdep_never_useful": false,
+    "pdep_first_implementation_authorized": false,
+    "dispatch_count_alone_is_cause": false,
+    "decode_plane_remains_priority": true,
+    "exact_7b_family_profile_missing": true
+  },
+  "next": "ARCLLM_V1_I001R_EXACT_7B_DECODE_DEVICE_WORK_PROFILE"
+}

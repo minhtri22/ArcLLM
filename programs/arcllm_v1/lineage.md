@@ -166,3 +166,41 @@ No performance execution or I001 implementation occurred.
 
 Next remains specification-only:
 `ARCLLM_V1_I001_DECODE_COST_MODEL_AND_MECHANISM_DISCRIMINATOR.md`.
+
+
+## I001 historical decode cost-model discriminator — 2026-09-22
+
+Canonical specification/synthesis:
+
+`docs/research/arcllm-v1/ARCLLM_V1_I001_DECODE_COST_MODEL_AND_MECHANISM_DISCRIMINATOR.md`
+
+Formal adjudication:
+
+`artifacts/ARCLLM_V1/ARCLLM_V1_I001_HISTORICAL_COST_MODEL_ADJUDICATION_v0.1.json`
+
+Result:
+
+`FALSIFY_I001_PDEP_AS_FIRST_IMPLEMENTATION`
+
+Key evidence:
+- exact Q2 7B path: 469 decode dispatches per step, ~3140.26 ms/token W-S and ~2506.23 ms/token W-C;
+- P7-H/P7-M 469-dispatch proxy profiles: outside-submit bucket ~0.43–3.65%;
+- device barrier+unattributed ~0.35%;
+- six major compute families account for ~99.2% of device-chain time;
+- ANL64 keeps a 469-node plan while producing ~1.22–3.20× fresh 7B decode speedup through changed quant-linear execution.
+
+Mechanism disposition:
+- H-LAUNCH/LIFECYCLE: LOW_HEADROOM_AS_PRIMARY_MECHANISM;
+- H-SYNC: FALSIFIED_AS_DOMINANT_PRIMARY_MECHANISM_BY_HISTORICAL_PROXY;
+- H-LOCALITY: UNRESOLVED;
+- H-KERNEL: SUPPORTED_AS_DOMINANT_NEXT_DISCRIMINATION_CLASS;
+- H-MIXED: POSSIBLE_BUT_UNQUANTIFIED;
+- H-NULL-I001: SUPPORTED_FOR_PDEP_AS_FIRST_IMPLEMENTATION.
+
+No PDEP code was written.
+
+The decode plane remains priority #1, but the next step is measurement-only:
+
+`ARCLLM_V1_I001R_EXACT_7B_DECODE_DEVICE_WORK_PROFILE.md`
+
+Only after an exact 7B per-family profile may a replacement implementation be selected.
