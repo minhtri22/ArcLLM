@@ -544,3 +544,30 @@ T0 is closed PASS.
 
 Only T1 is eligible for science authorization.
 T3 remains locked pending independent T1 adjudication.
+
+
+## I002 T1-only science authorization — 2026-09-23
+
+Preflight basis:
+`PASS_I002_ZERO_SCIENCE_PACKAGE_BUILD`
+
+Preflight adjudication commit:
+`ef18cd80fb22ecb5ab949d382edcbaf433322891`
+
+Implementation payload HEAD:
+`cf3580c4f6ff15491e6bcfeb2d3c42fa3e3bd9a1`
+
+Authorization:
+```text
+fresh science = true
+T1            = true
+T3            = false
+one-shot T1   = true
+```
+
+The T1 runner binds the implementation payload by exact Git blobs plus the preflight-built executable/SPIR-V hashes. The later authorization commit is required only to be a descendant of the implementation HEAD.
+
+A science-start marker prevents any T1 rerun after fresh execution begins.
+
+Next:
+run the exact T1 authorization once and return the T1 bundle for independent adjudication.

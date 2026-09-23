@@ -1,0 +1,88 @@
+{
+  "schema": "arcllm.v1.i002.science_authorization.v0.2",
+  "date": "2026-09-23",
+  "program": "I002-Q4-GU-SG32",
+  "branch": "research/arcllm-v1",
+  "authorization_basis_commit": "ef18cd80fb22ecb5ab949d382edcbaf433322891",
+  "implementation_head": "cf3580c4f6ff15491e6bcfeb2d3c42fa3e3bd9a1",
+  "preflight_bundle_sha256": "9AC9C320206A6AF1B99A56DED3474F309A4FFC3A5E3ADD7C212C84A0107531E5",
+  "preflight_report_sha256": "9485E07C8F430C5C78E368725B3DBC74A3FDDD549C810806CE317D9AC0D53C09",
+  "preflight_result": "PASS_I002_ZERO_SCIENCE_PACKAGE_BUILD",
+  "fresh_target_model_execution_authorized": true,
+  "t1_execution_authorized": true,
+  "t3_execution_authorized": false,
+  "one_shot_t1": true,
+  "automatic_rerun": false,
+  "selective_rerun": false,
+  "target_model": {
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "bytes": 4683074048
+  },
+  "environment": {
+    "os_build": "26200",
+    "cpu": "Intel(R) Core(TM) Ultra 7 258V",
+    "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "gpu_driver": "32.0.101.8860",
+    "power_scheme_guid": "381b4222-f694-41f0-9685-ff5bb260df2e",
+    "ac_online": true
+  },
+  "candidate": {
+    "source_blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+    "mechanism": "SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW"
+  },
+  "t1_executable_sha256": "3D3F6A5141BB505637E0429948D83FB3A73570C583CD1EB818320CD6A9A00C5E",
+  "t1_executable_bytes": 452608,
+  "t3_executable_sha256": "5B067B047FD069C16C2669EDF52248552FA698B391413FDE91748422CA7FE9BD",
+  "t3_executable_bytes": 443392,
+  "t1_contract": {
+    "cells": [
+      "A_WS",
+      "A_WC",
+      "B_WC",
+      "B_WS"
+    ],
+    "comparisons_per_cell": 18,
+    "total_comparisons": 72,
+    "layers": [
+      0,
+      13,
+      27
+    ],
+    "decode_indices": [
+      0,
+      15,
+      30
+    ],
+    "operators": [
+      "gate",
+      "up"
+    ],
+    "max_abs_max": 0.02,
+    "rmse_max": 0.005,
+    "component_speedup_median_min_each_cell": 1.5
+  },
+  "critical_git_blobs": {
+    "src/arcllm_v1_i002_t1_transfer.cpp": "361cf6eec40dfa428b9d5c829a071bed2552eb2b",
+    "src/arcllm_v1_i001r_p8c_profile_runtime.cpp": "992f46e866d51f90e9650d9604b1c81cbe55e902",
+    "src/q2_benchmark.cpp": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "shaders/sa1_q4k_subgroup_splitk.comp": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "tools/summarize_arcllm_v1_i002_t1.py": "cedab3934ec1e1549c52b452e92c38973e8a81d6",
+    "tools/resolve_p8_target.ps1": "f7434f59720dd2afdc9480cead289ab379614bb0",
+    "run_arcllm_v1_i002_t1.ps1": "a2826b1ccad8afb470af9ef8eb455620bbaefbb8",
+    "config/arcllm_v1_i002_execution_lock_v0.1.1.json": "07c35b301bfce3288972d1189b53b163bab236d4",
+    "docs/research/arcllm-v1/ARCLLM_V1_I002_REAL_MODEL_TRANSFER_AND_CARRY_THROUGH_SPEC.md": "2d62a58b2dab20755a44b3832f76796dde4a3de9",
+    "src/gguf.cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
+    "src/gguf.h": "d71d22cc1db54a9643ecafa6d3b616a96221c726",
+    "src/tensor_store.cpp": "0eb52588d30620bfeb323e62c8546e7191a006d6",
+    "src/tensor_store.h": "fdc8788b72da4c0f9464aabdaa48e680d153fc5d"
+  },
+  "stop_rules": {
+    "any_identity_mismatch": "STOP_BEFORE_SCIENCE",
+    "any_model_or_environment_mismatch": "STOP_BEFORE_SCIENCE",
+    "existing_science_start_marker": "STOP_NO_RERUN",
+    "any_cell_failure": "STOP_NO_SELF_RERUN",
+    "t3": "NOT_AUTHORIZED"
+  },
+  "next_after_collection": "RETURN_T1_BUNDLE_FOR_INDEPENDENT_ADJUDICATION"
+}
