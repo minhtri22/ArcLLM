@@ -94,3 +94,22 @@ I001R localizes the dominant exact-7B family, while SA1 already gives an exact-s
 This specification authorizes implementation planning, zero-science static QA design, and exact candidate provenance binding only. It does not authorize fresh target-model execution.
 
 Next implementation package must provide: 56-node-only integration; T0 proof; T1 real-model transfer harness; paired T3 runner; exact-head lock; zero-science QA. Fresh I002 execution may be authorized only after those pass.
+
+
+## 14. DEV_HOST governance amendment — 2026-09-23
+
+This amendment is prospective and was made before any I002 T3 outcome exposure.
+
+I002 T3 runs on a shared development workstation. Ambient machine load is therefore recorded as context rather than used as a hard eligibility gate.
+
+Rerun policy:
+- manual full-collection rerun is allowed under the exact same payload;
+- every attempt must be retained append-only;
+- no selective cell rerun;
+- no automatic rerun;
+- no kernel/config/threshold/workload mutation between attempts;
+- first complete valid collection is the primary confirmatory dataset;
+- subsequent complete collections are replication/robustness evidence;
+- no later collection may erase or replace the primary result.
+
+T2 semantic guard remains a correctness gate. Identity/model/candidate mismatches remain hard blockers.

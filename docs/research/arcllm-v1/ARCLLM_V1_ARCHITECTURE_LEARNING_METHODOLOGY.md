@@ -481,3 +481,22 @@ Both outcomes are useful.
 The failure mode to avoid is neither losing nor obtaining a negative result.
 
 The real failure mode is continuing to optimize without knowing whether the architecture still has credible system-level headroom.
+
+
+## 16A. Dev-host execution governance — 2026-09-23
+
+ArcLLM v1 may run on a shared development machine.
+
+Dedicated-idle-machine requirements and permanent one-shot execution locks are not hard scientific invariants.
+
+Prospective DEV_HOST rules:
+- ambient CPU/RAM/GPU/process load is metadata, not an automatic blocker;
+- every execution attempt is append-only and receives a unique identity;
+- manual full-collection rerun is allowed under the same frozen payload;
+- no selective cell rerun;
+- no candidate/threshold/workload mutation between attempts;
+- first complete valid collection is primary confirmatory evidence;
+- later complete collections are replication/robustness evidence and cannot replace or erase the primary result;
+- operationally failed/partial attempts remain provenance but do not permanently close the study.
+
+This preserves the four hard invariants: exact provenance, no post-outcome mutation inside an experiment, matched comparison, and immutable historical results.

@@ -4,7 +4,7 @@ $Root=Split-Path -Parent $MyInvocation.MyCommand.Path
 $AuthPath=Join-Path $Root "config\arcllm_v1_i002_science_authorization.json"
 if(-not(Test-Path $AuthPath)){throw "STOP: I002 fresh execution is not authorized"}
 $A=Get-Content $AuthPath -Raw -Encoding UTF8|ConvertFrom-Json
-if([string]$A.schema -ne "arcllm.v1.i002.science_authorization.v0.3" -or -not[bool]$A.fresh_target_model_execution_authorized -or [bool]$A.t1_execution_authorized -or -not[bool]$A.t3_execution_authorized){throw "STOP: I002 T3 authorization false"}
+if([string]$A.schema -ne "arcllm.v1.i002.science_authorization.v0.4" -or -not[bool]$A.fresh_target_model_execution_authorized -or [bool]$A.t1_execution_authorized -or -not[bool]$A.t3_execution_authorized){throw "STOP: I002 T3 authorization false"}
 $Head=(& git -C $Root rev-parse HEAD).Trim();$Branch=(& git -C $Root rev-parse --abbrev-ref HEAD).Trim()
 if($Branch-ne"research/arcllm-v1"){throw "STOP: I002 execution branch mismatch"}
 & git -C $Root merge-base --is-ancestor ([string]$A.implementation_head) $Head
@@ -49,17 +49,39 @@ if(-not("ArcLlmI002T3Power"-as[type])){Add-Type -TypeDefinition $PowerType}
 $PS=New-Object "ArcLlmI002T3Power+SYSTEM_POWER_STATUS"
 if(-not[ArcLlmI002T3Power]::GetSystemPowerStatus([ref]$PS)){throw "STOP: cannot query AC state"}
 if([int]$PS.ACLineStatus-ne1){throw "STOP: AC power required"}
-$StartMarker=Join-Path $Root "results\I002_T3_SCIENCE_STARTED.json"
-if(Test-Path $StartMarker){throw "STOP: I002 T3 science-start marker already exists; rerun forbidden"}
+$Stamp=(Get-Date).ToUniversalTime().ToString("yyyyMMddTHHmmssfffZ")
+$AttemptId=$Stamp+"_"+([guid]::NewGuid().ToString("N").Substring(0,8))
+$Dir=Join-Path $Root ("results\arcllm_v1_i002_t3_"+$AttemptId)
+New-Item -ItemType Directory -Force -Path $Dir|Out-Null
+
+# DEV_HOST context is observational metadata, never a hard blocker.
+$CpuLoad=@($CPU|ForEach-Object {[int]$_.LoadPercentage})
+$TopProcesses=@(Get-Process -ErrorAction SilentlyContinue | Sort-Object WorkingSet64 -Descending | Select-Object -First 20 Name,Id,CPU,WorkingSet64)
+$DevHost=[ordered]@{
+  schema="arcllm.v1.dev_host_context.v0.1"
+  captured_utc=(Get-Date).ToUniversalTime().ToString("o")
+  attempt_id=$AttemptId
+  cpu_load_percent=$CpuLoad
+  memory_total_kb=[int64]$OS.TotalVisibleMemorySize
+  memory_free_kb=[int64]$OS.FreePhysicalMemory
+  top_processes=$TopProcesses
+  ambient_load_is_blocker=$false
+}
+[IO.File]::WriteAllText((Join-Path $Dir "I002_T3_DEV_HOST_CONTEXT.json"),($DevHost|ConvertTo-Json -Depth 8),(New-Object Text.UTF8Encoding($false)))
+
+$AttemptMarker=Join-Path $Root ("results\I002_T3_ATTEMPT_"+$AttemptId+".json")
 $Start=[ordered]@{
-  schema="arcllm.v1.i002.t3.science_start.v0.1"
+  schema="arcllm.v1.i002.t3.attempt_start.v0.2"
+  attempt_id=$AttemptId
   started_utc=(Get-Date).ToUniversalTime().ToString("o")
   authorization_head=$Head
   implementation_head=[string]$A.implementation_head
   t1_bundle_sha256=[string]$A.t1_bundle_sha256
+  governance_class="DEV_HOST"
+  manual_full_collection_rerun_permitted=$true
+  selective_cell_rerun_permitted=$false
 }
-[IO.File]::WriteAllText($StartMarker,($Start|ConvertTo-Json -Depth 6),(New-Object Text.UTF8Encoding($false)))
-$Stamp=(Get-Date).ToUniversalTime().ToString("yyyyMMddTHHmmssfffZ");$Dir=Join-Path $Root ("results\arcllm_v1_i002_t3_"+$Stamp);New-Item -ItemType Directory -Force -Path $Dir|Out-Null
+[IO.File]::WriteAllText($AttemptMarker,($Start|ConvertTo-Json -Depth 6),(New-Object Text.UTF8Encoding($false)))
 $Cells=@(@("A_WS","A","W-S"),@("A_WC","A","W-C"),@("B_WC","B","W-C"),@("B_WS","B","W-S"))
 $Executed=@()
 foreach($C in $Cells){
@@ -72,19 +94,27 @@ $Summary=Join-Path $Dir "I002_T3_SUMMARY.json"
 py -3 (Join-Path $Root "tools\summarize_arcllm_v1_i002_t3.py") --results-dir $Dir --out $Summary
 if($LASTEXITCODE-ne0){throw "STOP: I002 T3 summarizer invalid; no self-rerun"}
 $Meta=[ordered]@{
-  schema="arcllm.v1.i002.t3.run_meta.v0.2"
+  schema="arcllm.v1.i002.t3.run_meta.v0.3"
+  attempt_id=$AttemptId
+  governance_class="DEV_HOST"
   authorization_head=$Head
   implementation_head=[string]$A.implementation_head
   t1_bundle_sha256=[string]$A.t1_bundle_sha256
   executed_cells=$Executed
   automatic_rerun=$false
-  selective_rerun=$false
+  manual_full_collection_rerun_permitted=$true
+  selective_cell_rerun_permitted=$false
+  ambient_load_is_blocker=$false
+  primary_dataset_rule="FIRST_COMPLETE_VALID_COLLECTION"
   t1_execution_authorized=$false
 }
 [IO.File]::WriteAllText((Join-Path $Dir "I002_T3_RUN_META.json"),($Meta|ConvertTo-Json -Depth 6),(New-Object Text.UTF8Encoding($false)))
 Copy-Item $AuthPath (Join-Path $Dir "arcllm_v1_i002_science_authorization.json") -Force
+Copy-Item $AttemptMarker (Join-Path $Dir "I002_T3_ATTEMPT_START.json") -Force
 $Bundle=Join-Path $Dir "arcllm_v1_i002_t3_return_to_chatgpt.zip"
 Compress-Archive -Path (Get-ChildItem -File $Dir|Where-Object {$_.FullName-ne$Bundle}|Select-Object -ExpandProperty FullName) -DestinationPath $Bundle -Force
 Write-Host "I002_T3_COLLECTION_COMPLETE"
+Write-Host "ATTEMPT_ID=$AttemptId"
+Write-Host "DEV_HOST_GOVERNANCE=true"
 Write-Host "RETURN_BUNDLE=$Bundle"
 Write-Host "RETURN_BUNDLE_SHA256=$((Get-FileHash $Bundle -Algorithm SHA256).Hash.ToUpperInvariant())"

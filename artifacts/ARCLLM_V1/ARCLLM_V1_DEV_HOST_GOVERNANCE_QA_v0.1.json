@@ -1,0 +1,24 @@
+{
+  "schema": "arcllm.v1.dev_host_governance_qa.v0.1",
+  "date": "2026-09-23",
+  "result": "PASS_DEV_HOST_GOVERNANCE_QA",
+  "checks": {
+    "prospective_before_t3_outcome": true,
+    "four_hard_scientific_invariants_preserved": true,
+    "ambient_load_not_hard_blocker": true,
+    "exact_model_build_candidate_guards_preserved": true,
+    "t2_semantic_guard_preserved": true,
+    "automatic_rerun_disabled": true,
+    "manual_full_collection_rerun_enabled": true,
+    "selective_cell_rerun_disabled": true,
+    "per_attempt_append_only_marker": true,
+    "permanent_global_science_start_blocker_removed": true,
+    "primary_dataset_rule_first_complete_valid": true,
+    "later_runs_replication_only": true,
+    "no_threshold_candidate_workload_mutation": true,
+    "t1_authorized": false,
+    "t3_authorized": true,
+    "t3_executable_hash_unchanged": true,
+    "candidate_spv_hash_unchanged": true
+  }
+}

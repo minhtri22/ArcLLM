@@ -658,3 +658,38 @@ A T3 science-start marker prevents rerun once fresh T3 begins.
 
 Next:
 run exact T3 once and return bundle for final I002 adjudication.
+
+
+## ArcLLM v1 DEV_HOST governance amendment — 2026-09-23
+
+This amendment was made prospectively before any I002 T3 outcome exposure.
+
+Reason:
+the research machine is also an active development workstation. Governance must preserve provenance and anti-cherry-pick discipline without requiring an unrealistically idle dedicated host.
+
+New rule:
+- ambient CPU/RAM/GPU/process load is metadata, not a hard blocker;
+- manual full-collection rerun is allowed under the exact same frozen payload;
+- every attempt is append-only;
+- no selective cell rerun;
+- no automatic rerun;
+- first complete valid collection is the primary confirmatory dataset;
+- later complete runs are replication/robustness evidence only;
+- no completed primary run may be replaced/deleted;
+- no candidate/threshold/workload mutation after outcome exposure.
+
+I002 T3 changes:
+- permanent global science-start marker removed;
+- unique per-attempt marker added;
+- DEV_HOST context snapshot added;
+- T3 executable/candidate/gates/workloads unchanged;
+- T2 token-semantic guard remains a correctness gate.
+
+Authorization remains T3-only:
+```text
+T1=false
+T3=true
+```
+
+Next:
+run I002 T3 under DEV_HOST governance and return the bundle. Operational rerun is permitted without changing the frozen payload.

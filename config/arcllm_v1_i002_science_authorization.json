@@ -1,5 +1,5 @@
 {
-  "schema": "arcllm.v1.i002.science_authorization.v0.3",
+  "schema": "arcllm.v1.i002.science_authorization.v0.4",
   "date": "2026-09-23",
   "program": "I002-Q4-GU-SG32",
   "branch": "research/arcllm-v1",
@@ -13,7 +13,7 @@
   "fresh_target_model_execution_authorized": true,
   "t1_execution_authorized": false,
   "t3_execution_authorized": true,
-  "one_shot_t3": true,
+  "one_shot_t3": false,
   "automatic_rerun": false,
   "selective_rerun": false,
   "target_model": {
@@ -59,22 +59,38 @@
     "shaders/sa1_q4k_subgroup_splitk.comp": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
     "tools/summarize_arcllm_v1_i002_t3.py": "1b4b8b10c38a9721f17cf7175f4cc88273d394d6",
     "tools/resolve_p8_target.ps1": "f7434f59720dd2afdc9480cead289ab379614bb0",
-    "run_arcllm_v1_i002_t3.ps1": "2a2f48bfa1cdd52a070772d156b81af9dfb0d29a",
-    "config/arcllm_v1_i002_execution_lock_v0.1.1.json": "07c35b301bfce3288972d1189b53b163bab236d4",
-    "docs/research/arcllm-v1/ARCLLM_V1_I002_REAL_MODEL_TRANSFER_AND_CARRY_THROUGH_SPEC.md": "2d62a58b2dab20755a44b3832f76796dde4a3de9",
+    "run_arcllm_v1_i002_t3.ps1": "914920dd21f2db7ca2fa1f5f74da846c2556bb2b",
+    "docs/research/arcllm-v1/ARCLLM_V1_I002_REAL_MODEL_TRANSFER_AND_CARRY_THROUGH_SPEC.md": "e0b137d1d589ea0b08df866389cbbddfb0e669ab",
     "artifacts/ARCLLM_V1/ARCLLM_V1_I002_T1_FORMAL_ADJUDICATION_v0.1.json": "8e172a7b86da14f6e6c2cc237465bdf9f49ff092",
     "src/gguf.cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
     "src/gguf.h": "d71d22cc1db54a9643ecafa6d3b616a96221c726",
     "src/tensor_store.cpp": "0eb52588d30620bfeb323e62c8546e7191a006d6",
-    "src/tensor_store.h": "fdc8788b72da4c0f9464aabdaa48e680d153fc5d"
+    "src/tensor_store.h": "fdc8788b72da4c0f9464aabdaa48e680d153fc5d",
+    "config/arcllm_v1_i002_execution_lock_v0.1.2.json": "3e0d1ff325ae1f906f8cadaadaf28156f26aee06",
+    "docs/research/arcllm-v1/ARCLLM_V1_DEV_HOST_EXECUTION_GOVERNANCE.md": "56c5947799821989f86b2923fac321b114f5a57c"
   },
   "stop_rules": {
     "any_identity_mismatch": "STOP_BEFORE_SCIENCE",
     "any_model_or_environment_mismatch": "STOP_BEFORE_SCIENCE",
-    "existing_science_start_marker": "STOP_NO_RERUN",
-    "any_t2_semantic_guard_failure": "STOP_AFTER_SCIENCE_START_NO_RERUN",
+    "existing_science_start_marker": "NO_LONGER_A_BLOCKER_PER_ATTEMPT_MARKERS_USED",
+    "any_t2_semantic_guard_failure": "SCIENTIFIC_CORRECTNESS_FAILURE_DO_NOT_RECLASSIFY_AS_OPERATIONAL_RERUN",
     "any_cell_failure": "STOP_NO_SELF_RERUN",
-    "t1": "NOT_AUTHORIZED"
+    "t1": "NOT_AUTHORIZED",
+    "ambient_dev_load": "NOT_A_BLOCKER_RECORD_AS_METADATA",
+    "operational_failure": "MANUAL_FULL_COLLECTION_RERUN_ALLOWED_SAME_FROZEN_PAYLOAD"
   },
-  "next_after_collection": "RETURN_T3_BUNDLE_FOR_INDEPENDENT_FINAL_ADJUDICATION"
+  "next_after_collection": "RETURN_PRIMARY_OR_REPLICATION_T3_BUNDLE_FOR_INDEPENDENT_ADJUDICATION",
+  "supersedes_authorization_blob": "68742745d0560dc6e02d95f63b8f70ab2ea47956",
+  "governance_class": "DEV_HOST",
+  "governance_amendment_prospective": true,
+  "ambient_load_is_blocker": false,
+  "manual_full_collection_rerun_permitted": true,
+  "primary_dataset_rule": "FIRST_COMPLETE_VALID_COLLECTION",
+  "replication_policy": {
+    "every_attempt_append_only": true,
+    "later_complete_runs": "REPLICATION_ROBUSTNESS_ONLY",
+    "completed_primary_may_not_be_replaced": true,
+    "partial_operational_attempts_do_not_permanently_close_study": true,
+    "no_candidate_threshold_workload_mutation_between_attempts": true
+  }
 }
