@@ -1,17 +1,19 @@
 {
-  "schema": "arcllm.v1.i002.science_authorization.v0.2.1",
+  "schema": "arcllm.v1.i002.science_authorization.v0.3",
   "date": "2026-09-23",
   "program": "I002-Q4-GU-SG32",
   "branch": "research/arcllm-v1",
-  "authorization_basis_commit": "ef18cd80fb22ecb5ab949d382edcbaf433322891",
+  "authorization_basis_commit": "1c87d1aaa8945384250e79252dc2fb32329a95ed",
   "implementation_head": "cf3580c4f6ff15491e6bcfeb2d3c42fa3e3bd9a1",
   "preflight_bundle_sha256": "9AC9C320206A6AF1B99A56DED3474F309A4FFC3A5E3ADD7C212C84A0107531E5",
-  "preflight_report_sha256": "9485E07C8F430C5C78E368725B3DBC74A3FDDD549C810806CE317D9AC0D53C09",
   "preflight_result": "PASS_I002_ZERO_SCIENCE_PACKAGE_BUILD",
+  "t1_bundle_sha256": "9E731E1438F38B90A50E2C5AC8B91A2F69EF160265932BDB8B6CB118D189293E",
+  "t1_result": "PASS_I002_T1_REAL_MODEL_COMPONENT_TRANSFER",
+  "t1_formal_adjudication_blob": "8e172a7b86da14f6e6c2cc237465bdf9f49ff092",
   "fresh_target_model_execution_authorized": true,
-  "t1_execution_authorized": true,
-  "t3_execution_authorized": false,
-  "one_shot_t1": true,
+  "t1_execution_authorized": false,
+  "t3_execution_authorized": true,
+  "one_shot_t3": true,
   "automatic_rerun": false,
   "selective_rerun": false,
   "target_model": {
@@ -31,47 +33,36 @@
     "spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
     "mechanism": "SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW"
   },
-  "t1_executable_sha256": "3D3F6A5141BB505637E0429948D83FB3A73570C583CD1EB818320CD6A9A00C5E",
-  "t1_executable_bytes": 452608,
   "t3_executable_sha256": "5B067B047FD069C16C2669EDF52248552FA698B391413FDE91748422CA7FE9BD",
   "t3_executable_bytes": 443392,
-  "t1_contract": {
+  "t3_contract": {
     "cells": [
       "A_WS",
       "A_WC",
       "B_WC",
       "B_WS"
     ],
-    "comparisons_per_cell": 18,
-    "total_comparisons": 72,
-    "layers": [
-      0,
-      13,
-      27
-    ],
-    "decode_indices": [
-      0,
-      15,
-      30
-    ],
-    "operators": [
-      "gate",
-      "up"
-    ],
-    "max_abs_max": 0.02,
-    "rmse_max": 0.005,
-    "component_speedup_median_min_each_cell": 1.5
+    "warmups_per_arm_per_cell": 1,
+    "measured_pairs_per_cell": 5,
+    "total_measured_pairs": 20,
+    "t2_token_semantic_guard_before_measurement": true,
+    "decode_latency_ratio_max_each_cell": 0.9,
+    "global_decode_geomean_speedup_min": 1.25,
+    "ttft_ratio_max_each_cell": 1.1,
+    "e2e_ratio_max_each_cell": 1,
+    "pair_order": "alternating; A starts baseline, B starts candidate",
+    "outlier_deletion": false
   },
   "critical_git_blobs": {
-    "src/arcllm_v1_i002_t1_transfer.cpp": "361cf6eec40dfa428b9d5c829a071bed2552eb2b",
-    "src/arcllm_v1_i001r_p8c_profile_runtime.cpp": "992f46e866d51f90e9650d9604b1c81cbe55e902",
+    "src/arcllm_v1_i002_t3_paired.cpp": "50d1c23ac0a674be85eea435bc820374c92c1758",
     "src/q2_benchmark.cpp": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
     "shaders/sa1_q4k_subgroup_splitk.comp": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
-    "tools/summarize_arcllm_v1_i002_t1.py": "cedab3934ec1e1549c52b452e92c38973e8a81d6",
+    "tools/summarize_arcllm_v1_i002_t3.py": "1b4b8b10c38a9721f17cf7175f4cc88273d394d6",
     "tools/resolve_p8_target.ps1": "f7434f59720dd2afdc9480cead289ab379614bb0",
-    "run_arcllm_v1_i002_t1.ps1": "5129617ab16cbd3b784e4d049f66337dba8266d3",
+    "run_arcllm_v1_i002_t3.ps1": "2a2f48bfa1cdd52a070772d156b81af9dfb0d29a",
     "config/arcllm_v1_i002_execution_lock_v0.1.1.json": "07c35b301bfce3288972d1189b53b163bab236d4",
     "docs/research/arcllm-v1/ARCLLM_V1_I002_REAL_MODEL_TRANSFER_AND_CARRY_THROUGH_SPEC.md": "2d62a58b2dab20755a44b3832f76796dde4a3de9",
+    "artifacts/ARCLLM_V1/ARCLLM_V1_I002_T1_FORMAL_ADJUDICATION_v0.1.json": "8e172a7b86da14f6e6c2cc237465bdf9f49ff092",
     "src/gguf.cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
     "src/gguf.h": "d71d22cc1db54a9643ecafa6d3b616a96221c726",
     "src/tensor_store.cpp": "0eb52588d30620bfeb323e62c8546e7191a006d6",
@@ -81,24 +72,9 @@
     "any_identity_mismatch": "STOP_BEFORE_SCIENCE",
     "any_model_or_environment_mismatch": "STOP_BEFORE_SCIENCE",
     "existing_science_start_marker": "STOP_NO_RERUN",
+    "any_t2_semantic_guard_failure": "STOP_AFTER_SCIENCE_START_NO_RERUN",
     "any_cell_failure": "STOP_NO_SELF_RERUN",
-    "t3": "NOT_AUTHORIZED"
+    "t1": "NOT_AUTHORIZED"
   },
-  "next_after_collection": "RETURN_T1_BUNDLE_FOR_INDEPENDENT_ADJUDICATION",
-  "supersedes_authorization_blob": "1eff881b75e40480f175f06e537c35718f54e8ea",
-  "correction_scope": "PRE_SCIENCE_AUTH_SCHEMA_FIELD_PATH_ONLY",
-  "scientific_design_changed": false,
-  "authorization_scope_changed": false,
-  "executable_hashes_changed": false,
-  "candidate_changed": false,
-  "target_model_changed": false,
-  "thresholds_changed": false,
-  "pre_science_failure": {
-    "head": "327605953092a3a12aaec15904597eecbc04b63e",
-    "error": "authorization field candidate_spv_sha256 missing",
-    "science_start_marker_created": false,
-    "model_loaded": false,
-    "gpu_dispatches": 0,
-    "timing_observations": 0
-  }
+  "next_after_collection": "RETURN_T3_BUNDLE_FOR_INDEPENDENT_FINAL_ADJUDICATION"
 }

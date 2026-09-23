@@ -628,3 +628,33 @@ Independent recomputation:
 T1 is closed PASS.
 
 T3 is now eligible for separate one-shot authorization. No T3 evidence was consumed by T1.
+
+
+## I002 T3-only science authorization — 2026-09-23
+
+T1 basis:
+`PASS_I002_T1_REAL_MODEL_COMPONENT_TRANSFER`
+
+T1 bundle:
+`9E731E1438F38B90A50E2C5AC8B91A2F69EF160265932BDB8B6CB118D189293E`
+
+Authorization:
+```text
+fresh science = true
+T1            = false
+T3            = true
+one-shot T3   = true
+```
+
+T3 runner binds:
+- exact implementation ancestry;
+- exact T3-critical blobs;
+- preflight-built T3 executable hash;
+- exact candidate SPIR-V;
+- model/environment/power;
+- T1 formal PASS artifact.
+
+A T3 science-start marker prevents rerun once fresh T3 begins.
+
+Next:
+run exact T3 once and return bundle for final I002 adjudication.

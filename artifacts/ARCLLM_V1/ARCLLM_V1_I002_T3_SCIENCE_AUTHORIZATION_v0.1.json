@@ -1,0 +1,35 @@
+{
+  "schema": "arcllm.v1.i002.t3_science_authorization_adjudication.v0.1",
+  "date": "2026-09-23",
+  "result": "AUTHORIZE_I002_T3_ONLY",
+  "basis": {
+    "t1_result": "PASS_I002_T1_REAL_MODEL_COMPONENT_TRANSFER",
+    "t1_adjudication_commit": "1c87d1aaa8945384250e79252dc2fb32329a95ed",
+    "t1_bundle_sha256": "9E731E1438F38B90A50E2C5AC8B91A2F69EF160265932BDB8B6CB118D189293E",
+    "implementation_head": "cf3580c4f6ff15491e6bcfeb2d3c42fa3e3bd9a1",
+    "preflight_bundle_sha256": "9AC9C320206A6AF1B99A56DED3474F309A4FFC3A5E3ADD7C212C84A0107531E5"
+  },
+  "authorization": {
+    "fresh_target_model_execution": true,
+    "t1": false,
+    "t3": true,
+    "one_shot_t3": true,
+    "automatic_rerun": false,
+    "selective_rerun": false
+  },
+  "payload": {
+    "t3_executable_sha256": "5B067B047FD069C16C2669EDF52248552FA698B391413FDE91748422CA7FE9BD",
+    "t3_executable_bytes": 443392,
+    "candidate_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+    "candidate_source_blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "t3_runner_blob": "2a2f48bfa1cdd52a070772d156b81af9dfb0d29a"
+  },
+  "gates": {
+    "t2_token_semantic_guard": true,
+    "decode_latency_ratio_max_each_cell": 0.9,
+    "global_decode_geomean_speedup_min": 1.25,
+    "ttft_ratio_max_each_cell": 1.1,
+    "e2e_ratio_max_each_cell": 1
+  },
+  "next": "RUN_EXACT_T3_ONCE_AND_RETURN_BUNDLE"
+}
