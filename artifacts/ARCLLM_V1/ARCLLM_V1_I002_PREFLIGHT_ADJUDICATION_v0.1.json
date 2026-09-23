@@ -1,0 +1,40 @@
+{
+  "schema": "arcllm.v1.i002.preflight_adjudication.v0.1",
+  "date": "2026-09-23",
+  "result": "PASS_I002_ZERO_SCIENCE_PACKAGE_BUILD",
+  "bundle_sha256": "9AC9C320206A6AF1B99A56DED3474F309A4FFC3A5E3ADD7C212C84A0107531E5",
+  "implementation_head": "cf3580c4f6ff15491e6bcfeb2d3c42fa3e3bd9a1",
+  "branch": "research/arcllm-v1",
+  "returned_files": {
+    "lock_sha256": "B165EDA3C32E6214E97B02256F536F145E0E3E3B40C55E05D157AE8C0CA5672C",
+    "report_sha256": "9485E07C8F430C5C78E368725B3DBC74A3FDDD549C810806CE317D9AC0D53C09",
+    "i002_shader_provenance_sha256": "9EBAD2448C1F835A47838EDC8430C3E24F3A70C6B9CC4F4185A24330FBA77923",
+    "q2_shader_provenance_sha256": "B94F0F142028A43900AB82CF82E7168F17EFD0C88C0C779CA3C619A5B15F24E9"
+  },
+  "validity": {
+    "critical_git_blobs": "23/23",
+    "critical_git_blob_mismatches": 0,
+    "q2_shader_count": 16,
+    "exact_candidate_source": true,
+    "exact_candidate_spv": true,
+    "t0_static_proof_pass": true,
+    "science_executed": false,
+    "model_loaded": false,
+    "gpu_dispatches": 0,
+    "timing_observations": 0
+  },
+  "build": {
+    "t1_executable_sha256": "3D3F6A5141BB505637E0429948D83FB3A73570C583CD1EB818320CD6A9A00C5E",
+    "t1_executable_bytes": 452608,
+    "t3_executable_sha256": "5B067B047FD069C16C2669EDF52248552FA698B391413FDE91748422CA7FE9BD",
+    "t3_executable_bytes": 443392,
+    "candidate_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569"
+  },
+  "disposition": {
+    "package_build_qualified": true,
+    "t1_authorization_eligible": true,
+    "t3_authorization_eligible": false,
+    "fresh_science_performed": false
+  },
+  "next": "CREATE_T1_ONLY_SCIENCE_AUTHORIZATION"
+}

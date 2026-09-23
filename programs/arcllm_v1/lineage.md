@@ -518,3 +518,29 @@ Fresh I002 science remains locked.
 
 Next:
 run the zero-science Windows preflight against the repair HEAD and return its bundle.
+
+
+## I002 zero-science build preflight adjudication — 2026-09-23
+
+Returned bundle:
+`9AC9C320206A6AF1B99A56DED3474F309A4FFC3A5E3ADD7C212C84A0107531E5`
+
+Exact implementation HEAD:
+`cf3580c4f6ff15491e6bcfeb2d3c42fa3e3bd9a1`
+
+Independent result:
+`PASS_I002_ZERO_SCIENCE_PACKAGE_BUILD`
+
+Verified:
+- 23/23 critical Git blobs;
+- exact SA1 candidate source;
+- exact historical candidate SPIR-V hash;
+- exact 16-shader Q2 baseline provenance;
+- T1 executable built: `3D3F6A...00C5E`, 452608 bytes;
+- T3 executable built: `5B067B...E9BD`, 443392 bytes;
+- science/model/GPU/timing all zero.
+
+T0 is closed PASS.
+
+Only T1 is eligible for science authorization.
+T3 remains locked pending independent T1 adjudication.
