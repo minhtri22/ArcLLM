@@ -693,3 +693,16 @@ T3=true
 
 Next:
 run I002 T3 under DEV_HOST governance and return the bundle. Operational rerun is permitted without changing the frozen payload.
+
+
+## DEV_HOST governance provenance rebind — 2026-09-23
+
+Post-commit audit of execution lock v0.1.2 found one stale historical binding for `run_arcllm_v1_i002_t1.ps1`.
+
+No T3 science had run.
+
+Correction:
+- supersede lock to `v0.1.3`;
+- bind the already-current T1 runner blob `5129617ab16cbd3b784e4d049f66337dba8266d3`;
+- rebind T3 authorization to lock v0.1.3;
+- no candidate, executable, T3 runner, threshold, workload, or governance rule changed.
