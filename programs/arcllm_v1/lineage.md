@@ -571,3 +571,33 @@ A science-start marker prevents any T1 rerun after fresh execution begins.
 
 Next:
 run the exact T1 authorization once and return the T1 bundle for independent adjudication.
+
+
+## I002 T1 pre-science authorization schema-path repair — 2026-09-23
+
+Local T1 invocation at authorization HEAD `327605953092a3a12aaec15904597eecbc04b63e` stopped before the science-start marker.
+
+Observed:
+`PropertyNotFoundStrict: candidate_spv_sha256`
+
+Root cause:
+- authorization JSON correctly stored the candidate hash at `candidate.spv_sha256`;
+- runner incorrectly read a nonexistent top-level `candidate_spv_sha256`.
+
+No science was consumed:
+```text
+science_start_marker=absent
+model_load=0
+gpu_dispatch=0
+timing=0
+```
+
+Repair:
+- T1 runner now reads `candidate.spv_sha256`;
+- authorization schema superseded to `v0.2.1`;
+- exact executable/model/candidate hashes, T1 contract, thresholds and one-shot semantics are unchanged;
+- T1 remains authorized;
+- T3 remains locked.
+
+Revalidation:
+`PASS_I002_T1_AUTHORIZATION_SCHEMA_REVALIDATION`

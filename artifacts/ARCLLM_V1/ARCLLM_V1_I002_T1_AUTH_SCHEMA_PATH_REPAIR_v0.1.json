@@ -1,0 +1,37 @@
+{
+  "schema": "arcllm.v1.i002.t1_authorization_schema_path_repair.v0.1",
+  "date": "2026-09-23",
+  "failed_authorization_head": "327605953092a3a12aaec15904597eecbc04b63e",
+  "failure_stage": "PRE_SCIENCE_AUTHORIZATION_VALIDATION",
+  "observed_error": "PropertyNotFoundStrict: candidate_spv_sha256",
+  "root_cause": "Authorization stores candidate SPIR-V hash at candidate.spv_sha256 while T1 runner read a nonexistent top-level candidate_spv_sha256 field.",
+  "science_start_marker_created": false,
+  "science_executed": false,
+  "model_loaded": false,
+  "gpu_dispatches": 0,
+  "timing_observations": 0,
+  "repair": {
+    "old_runner_blob": "a2826b1ccad8afb470af9ef8eb455620bbaefbb8",
+    "new_runner_blob": "5129617ab16cbd3b784e4d049f66337dba8266d3",
+    "old_authorization_blob": "1eff881b75e40480f175f06e537c35718f54e8ea",
+    "new_authorization_blob": "46b58f09f87f50ae6e25f5d1fd17c0d0b8e4e4ae",
+    "new_schema": "arcllm.v1.i002.science_authorization.v0.2.1",
+    "corrected_field": "candidate.spv_sha256"
+  },
+  "unchanged": {
+    "implementation_head": true,
+    "preflight_bundle": true,
+    "t1_executable_sha256": true,
+    "t3_executable_sha256": true,
+    "candidate_spv_sha256": true,
+    "target_model": true,
+    "environment": true,
+    "t1_contract": true,
+    "thresholds": true,
+    "t1_authorized": true,
+    "t3_authorized": false,
+    "one_shot_policy": true
+  },
+  "disposition": "REPAIR_ACCEPTED_PRE_SCIENCE_NO_SCIENTIFIC_ATTEMPT_CONSUMED",
+  "next": "RERUN_T1_AUTHORIZATION_PRECHECK_THEN_ONE_SHOT_SCIENCE"
+}
