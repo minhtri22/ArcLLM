@@ -441,3 +441,39 @@ No fresh I002 model execution is authorized by this specification alone.
 
 Next:
 I002 bounded implementation package + T0/T1/T3 zero-science QA.
+
+
+## I002 bounded implementation package — 2026-09-23
+
+Intervention:
+`I002-Q4-GU-SG32`
+
+Exact candidate:
+`shaders/sa1_q4k_subgroup_splitk.comp`
+blob `56999d88dc1bef6486e7e1908982f6de4b0f9f6a`
+
+Bounded delta:
+- decode only;
+- 56 Q4_K FFN gate/up nodes/token;
+- prefill unchanged;
+- all non-target decode families unchanged;
+- no kernel search.
+
+Implemented:
+- T0 static/provenance package;
+- T1 real-model correctness + component-timestamp harness;
+- T2 full-model token-semantic guard before T3 measurements;
+- T3 paired carry-through harness;
+- stage-specific T1/T3 science authorization;
+- fail-closed analyzers/runners.
+
+Static source/provenance QA:
+
+`PASS_I002_STATIC_SOURCE_PROVENANCE_QA_PENDING_LOCAL_BUILD`
+
+No model load, GPU dispatch, timing observation, or fresh science occurred during implementation.
+
+Fresh science remains locked.
+
+Next:
+run `run_arcllm_v1_i002_preflight.ps1` locally. This preflight performs only static QA, shader compilation/provenance verification, and native build. It must return a valid zero-science PASS bundle before T1 science authorization can be created.

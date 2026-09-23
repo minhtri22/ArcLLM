@@ -1,0 +1,71 @@
+{
+  "schema": "arcllm.v1.i002.zero_science_static_qa.v0.1",
+  "date": "2026-09-23",
+  "program": "I002-Q4-GU-SG32",
+  "result": "PASS_I002_STATIC_SOURCE_PROVENANCE_QA_PENDING_LOCAL_BUILD",
+  "science_executed": false,
+  "model_loaded": false,
+  "gpu_dispatches": 0,
+  "timing_observations": 0,
+  "fresh_target_model_execution_authorized": false,
+  "checks": {
+    "branch_parent_exact": true,
+    "candidate_exact_historical_sa1_blob": true,
+    "candidate_historical_spv_hash_bound": true,
+    "subgroup32_mechanism_identity": true,
+    "q2_prefill_builder_byte_identical_t1": true,
+    "q2_prefill_builder_byte_identical_t3": true,
+    "t3_candidate_shader_syntactic_sites": 2,
+    "t3_exact_56_node_scope": true,
+    "qkv_candidate_substitution_absent": true,
+    "attention_output_candidate_substitution_absent": true,
+    "ffn_down_candidate_substitution_absent": true,
+    "lm_head_candidate_substitution_absent": true,
+    "t1_exact_layers": [
+      0,
+      13,
+      27
+    ],
+    "t1_exact_decode_indices": [
+      0,
+      15,
+      30
+    ],
+    "t1_exact_operators": [
+      "gate",
+      "up"
+    ],
+    "t1_correctness_max_abs": 0.02,
+    "t1_correctness_rmse": 0.005,
+    "t1_real_component_timestamp_ticks": true,
+    "t1_baseline_state_restored": true,
+    "t3_paired_count_per_cell": 5,
+    "t3_pair_order_counterbalanced": true,
+    "t2_token_guard_before_measured_t3": true,
+    "t1_stage_specific_authorization": true,
+    "t3_stage_specific_authorization": true,
+    "preflight_does_not_load_model": true,
+    "science_authorization_file_present": false
+  },
+  "blobs": {
+    "t1_source": "361cf6eec40dfa428b9d5c829a071bed2552eb2b",
+    "t3_source": "50d1c23ac0a674be85eea435bc820374c92c1758",
+    "candidate_shader": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "build_script": "7cfb4490849dd38ba0a503bd79e2499030aa37db",
+    "compile_script": "6e85ebde08354ba3ed73de3ad6194bf8b37026be",
+    "static_test": "0b8f5db061b149477da613c1e04154fec01f4ef7",
+    "t1_analyzer": "cedab3934ec1e1549c52b452e92c38973e8a81d6",
+    "t3_analyzer": "1b4b8b10c38a9721f17cf7175f4cc88273d394d6",
+    "preflight_runner": "966cf53842ea43d3e5ae6a7e76e34a38be45a3da",
+    "t1_runner": "9b0281c0a6e1bdeed89491f2e096a04e8b268d79",
+    "t3_runner": "c3f8c217fa919eb213e4e96f0745ad754c491b7a",
+    "execution_lock": "973bd848e06807bfb202ba993fce18785a5a7e80"
+  },
+  "package_gate": {
+    "static_qa": "PASS",
+    "local_windows_build_preflight": "PENDING",
+    "full_package_pass": false,
+    "science_locked": true
+  },
+  "next": "RUN_I002_ZERO_SCIENCE_LOCAL_BUILD_PREFLIGHT"
+}
