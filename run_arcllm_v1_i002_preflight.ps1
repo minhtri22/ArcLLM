@@ -1,10 +1,10 @@
 param()
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Root=Split-Path -Parent $MyInvocation.MyCommand.Path
-$LockPath=Join-Path $Root "config\arcllm_v1_i002_execution_lock_v0.1.json"
+$LockPath=Join-Path $Root "config\arcllm_v1_i002_execution_lock_v0.1.1.json"
 if(-not(Test-Path $LockPath)){throw "I002 execution lock missing"}
 $L=Get-Content $LockPath -Raw -Encoding UTF8|ConvertFrom-Json
-if([string]$L.schema -ne "arcllm.v1.i002.execution_lock.v0.1"){throw "I002 lock schema mismatch"}
+if([string]$L.schema -ne "arcllm.v1.i002.execution_lock.v0.1.1"){throw "I002 lock schema mismatch"}
 if([bool]$L.fresh_target_model_execution_authorized){throw "I002 preflight lock unexpectedly authorizes science"}
 
 $Branch=(& git -C $Root rev-parse --abbrev-ref HEAD).Trim()
@@ -17,6 +17,14 @@ foreach($P in $L.critical_git_blobs.PSObject.Properties){
  $Got=(& git -C $Root rev-parse ("HEAD:"+$P.Name)).Trim()
  if($LASTEXITCODE -ne 0 -or $Got -ne [string]$P.Value){throw "I002 critical blob mismatch: $($P.Name)"}
 }
+
+$PythonFiles=@(
+  (Join-Path $Root "tests\test_arcllm_v1_i002_package.py"),
+  (Join-Path $Root "tools\summarize_arcllm_v1_i002_t1.py"),
+  (Join-Path $Root "tools\summarize_arcllm_v1_i002_t3.py")
+)
+& py -3 -m py_compile @PythonFiles
+if($LASTEXITCODE -ne 0){throw "I002 Python syntax preflight failed"}
 
 py -3 (Join-Path $Root "tests\test_arcllm_v1_i002_package.py")
 if($LASTEXITCODE -ne 0){throw "I002 static QA failed"}
@@ -59,7 +67,7 @@ $Report=[ordered]@{
 }
 $ReportPath=Join-Path $Dir "I002_PREFLIGHT_REPORT.json"
 [IO.File]::WriteAllText($ReportPath,($Report|ConvertTo-Json -Depth 8),(New-Object Text.UTF8Encoding($false)))
-Copy-Item $LockPath (Join-Path $Dir "arcllm_v1_i002_execution_lock_v0.1.json") -Force
+Copy-Item $LockPath (Join-Path $Dir "arcllm_v1_i002_execution_lock_v0.1.1.json") -Force
 Copy-Item (Join-Path $Root "results\i002_shader_provenance.json") (Join-Path $Dir "i002_shader_provenance.json") -Force
 Copy-Item (Join-Path $Root "results\q2_arcllm_shader_provenance.json") (Join-Path $Dir "q2_arcllm_shader_provenance.json") -Force
 

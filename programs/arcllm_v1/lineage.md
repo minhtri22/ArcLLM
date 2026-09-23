@@ -477,3 +477,44 @@ Fresh science remains locked.
 
 Next:
 run `run_arcllm_v1_i002_preflight.ps1` locally. This preflight performs only static QA, shader compilation/provenance verification, and native build. It must return a valid zero-science PASS bundle before T1 science authorization can be created.
+
+
+## I002 preflight static-QA Python syntax repair — 2026-09-23
+
+Local zero-science preflight at HEAD `9e7278c6f31980f28819a4219e59cda02cb3fc4e` stopped while Python parsed the static QA file.
+
+Observed:
+`SyntaxError: unterminated string literal`
+
+Failure occurred before:
+- shader compile;
+- native build;
+- model load;
+- GPU dispatch;
+- timing collection.
+
+Scientific contamination:
+```text
+science=0
+model_load=0
+gpu_dispatch=0
+timing=0
+```
+
+Root cause:
+an escape-sensitive C++ JSON source matcher was encoded as an invalid Python string literal.
+
+Repair:
+- removed the escaped-fragment matcher entirely;
+- static QA now locates the source line by the semantic key `candidate_gate_up_nodes_per_step` and checks value `56`;
+- added `python -m py_compile` for all three Python QA/analyzer files before static QA execution;
+- preserved T1/T3 source, exact SA1 candidate, model, thresholds, sessions and no-rerun rules.
+
+Lock lineage:
+`config/arcllm_v1_i002_execution_lock_v0.1.1.json`
+supersedes v0.1.
+
+Fresh I002 science remains locked.
+
+Next:
+run the zero-science Windows preflight against the repair HEAD and return its bundle.

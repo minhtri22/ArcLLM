@@ -1,0 +1,37 @@
+{
+  "schema": "arcllm.v1.i002.preflight_static_qa_syntax_repair.v0.1",
+  "date": "2026-09-23",
+  "failed_head": "9e7278c6f31980f28819a4219e59cda02cb3fc4e",
+  "failure_stage": "PRE_EXEC_STATIC_QA_PYTHON_PARSE",
+  "observed_error": "SyntaxError: unterminated string literal at test_arcllm_v1_i002_package.py line 66",
+  "root_cause": "A source-level matcher embedded an escaped C++ JSON fragment inside a Python double-quoted literal with invalid quoting.",
+  "science_executed": false,
+  "shader_compile_started": false,
+  "native_build_started": false,
+  "model_loaded": false,
+  "gpu_dispatches": 0,
+  "timing_observations": 0,
+  "repair": {
+    "matcher_strategy": "remove escaped-fragment matcher; identify the source line by key and check the literal value 56 on that line",
+    "old_test_blob": "0b8f5db061b149477da613c1e04154fec01f4ef7",
+    "new_test_blob": "d7f3a5a66fd5dc7d069a9d4a33d0740df136dd7c",
+    "old_preflight_runner_blob": "966cf53842ea43d3e5ae6a7e76e34a38be45a3da",
+    "new_preflight_runner_blob": "f611dfa1151af06ffb516ac2963cc07a1164bce1",
+    "old_lock_blob": "973bd848e06807bfb202ba993fce18785a5a7e80",
+    "new_lock_blob": "07c35b301bfce3288972d1189b53b163bab236d4",
+    "new_lock_path": "config/arcllm_v1_i002_execution_lock_v0.1.1.json",
+    "added_systematic_guard": "python -m py_compile for static test, T1 analyzer, and T3 analyzer before QA execution"
+  },
+  "unchanged": {
+    "scientific_question": true,
+    "candidate_shader": true,
+    "t1_source": true,
+    "t3_source": true,
+    "model": true,
+    "thresholds": true,
+    "session_order": true,
+    "no_rerun_rules": true
+  },
+  "disposition": "REPAIR_ACCEPTED_PRE_EXECUTION_NO_SCIENCE_CONTAMINATION",
+  "next": "RERUN_I002_ZERO_SCIENCE_PREFLIGHT_V0_1_1"
+}

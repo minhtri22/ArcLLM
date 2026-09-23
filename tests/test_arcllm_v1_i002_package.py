@@ -15,7 +15,7 @@ t3=txt("src/arcllm_v1_i002_t3_paired.cpp")
 sa=txt("shaders/sa1_q4k_subgroup_splitk.comp")
 sa0=js("artifacts/SA0/SA0_CAP_ADJUDICATION_v0.1.json")
 sa1=js("artifacts/SA1/SA1K1_Q4_ADJUDICATION_v0.1.json")
-lock=js("config/arcllm_v1_i002_execution_lock_v0.1.json")
+lock=js("config/arcllm_v1_i002_execution_lock_v0.1.1.json")
 
 # Exact candidate provenance.
 blob=subprocess.check_output(["git","-C",str(ROOT),"rev-parse","HEAD:shaders/sa1_q4k_subgroup_splitk.comp"],text=True).strip()
@@ -63,7 +63,9 @@ for forbidden in [
     assert forbidden not in t3
 assert 'p+"ffn_gate",candidate?' in t3
 assert 'p+"ffn_up",candidate?' in t3
-assert "candidate_gate_up_nodes_per_step\\":56" in t3
+production_line=next(x for x in t3.splitlines() if "candidate_gate_up_nodes_per_step" in x)
+assert "56" in production_line
+assert 'candidate_gate_up_nodes_per_step' in t3
 assert "T2 full-model token semantic guard failed before T3 measurement" in t3
 assert "t2_semantic_guard_pass" in t3
 assert "EXPECT_PREFILL=441,EXPECT_DECODE=469" in t3

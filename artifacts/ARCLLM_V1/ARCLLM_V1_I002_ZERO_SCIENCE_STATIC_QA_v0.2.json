@@ -1,0 +1,41 @@
+{
+  "schema": "arcllm.v1.i002.zero_science_static_qa.v0.2",
+  "date": "2026-09-23",
+  "result": "PASS_I002_STATIC_QA_REPAIRED_PENDING_LOCAL_PYCOMPILE_SHADER_NATIVE_BUILD",
+  "science_executed": false,
+  "model_loaded": false,
+  "gpu_dispatches": 0,
+  "timing_observations": 0,
+  "fresh_target_model_execution_authorized": false,
+  "checks": {
+    "malformed_python_matcher_removed": true,
+    "escape_sensitive_candidate_node_matcher_removed": true,
+    "safe_source_line_candidate_node_check": true,
+    "python_syntax_preflight_added_for_three_scripts": true,
+    "exact_candidate_shader_unchanged": true,
+    "t1_source_unchanged": true,
+    "t3_source_unchanged": true,
+    "scientific_thresholds_unchanged": true,
+    "stage_authorization_unchanged": true,
+    "local_windows_pycompile_required": true,
+    "local_shader_compile_required": true,
+    "local_native_build_required": true
+  },
+  "blobs": {
+    "test": "d7f3a5a66fd5dc7d069a9d4a33d0740df136dd7c",
+    "preflight_runner": "f611dfa1151af06ffb516ac2963cc07a1164bce1",
+    "execution_lock_v0_1_1": "07c35b301bfce3288972d1189b53b163bab236d4",
+    "t1_source": "361cf6eec40dfa428b9d5c829a071bed2552eb2b",
+    "t3_source": "50d1c23ac0a674be85eea435bc820374c92c1758",
+    "candidate_shader": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a"
+  },
+  "package_gate": {
+    "source_repair_review": "PASS",
+    "local_python_compile": "PENDING",
+    "local_shader_compile": "PENDING",
+    "local_native_build": "PENDING",
+    "full_package_pass": false,
+    "science_locked": true
+  },
+  "next": "RUN_I002_ZERO_SCIENCE_PREFLIGHT_V0_1_1"
+}

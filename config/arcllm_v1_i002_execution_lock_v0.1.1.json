@@ -1,0 +1,167 @@
+{
+  "schema": "arcllm.v1.i002.execution_lock.v0.1.1",
+  "date": "2026-09-23",
+  "program": "I002-Q4-GU-SG32",
+  "branch": "research/arcllm-v1",
+  "parent_spec_commit": "83970b3424722e86bf2d7433ed7dc7fc3a75ed2a",
+  "parent_spec_blob": "2d62a58b2dab20755a44b3832f76796dde4a3de9",
+  "parent_i001r_adjudication_commit": "e4e643262a36e35ef79cb6a190a6a46019dbe39d",
+  "fresh_target_model_execution_authorized": false,
+  "science_authorization_file_expected": false,
+  "stage_authorization": {
+    "t1_execution_authorized": false,
+    "t3_execution_authorized": false,
+    "rule": "T3 may only be authorized after independent T1 PASS; T3 performs a full-model T2 token guard before measured pairs."
+  },
+  "implementation_scope": {
+    "decode_only": true,
+    "target_family": "Q4_K_FFN_GATE_UP",
+    "target_layers": 28,
+    "target_operators_per_layer": 2,
+    "candidate_decode_nodes_per_step": 56,
+    "prefill_modified": false,
+    "qkv_modified": false,
+    "attention_modified": false,
+    "attention_output_modified": false,
+    "ffn_down_modified": false,
+    "lm_head_modified": false,
+    "model_modified": false,
+    "quantization_modified": false,
+    "semantic_decode_nodes_per_step": 469
+  },
+  "candidate": {
+    "mechanism": "SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW",
+    "source_path": "shaders/sa1_q4k_subgroup_splitk.comp",
+    "source_blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+    "local_size_x": 128,
+    "subgroup_size": 32,
+    "rows_per_workgroup": 4,
+    "exact_shape": {
+      "quant": "Q4_K",
+      "batch": 1,
+      "n": 3584,
+      "rows": 18944,
+      "bias": false
+    }
+  },
+  "target_model": {
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "bytes": 4683074048
+  },
+  "environment": {
+    "os_build": "26200",
+    "cpu": "Intel(R) Core(TM) Ultra 7 258V",
+    "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "gpu_driver": "32.0.101.8860",
+    "subgroup_size": 32,
+    "compute_full_subgroups": true
+  },
+  "t0": {
+    "static_candidate_provenance": true,
+    "exact_56_node_scope": true,
+    "exact_prefill_identity": true,
+    "exact_non_target_exclusion": true,
+    "candidate_spv_hash_required": true,
+    "windows_native_build_required_before_science": true
+  },
+  "t1": {
+    "sessions": [
+      "A",
+      "B"
+    ],
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "layers": [
+      0,
+      13,
+      27
+    ],
+    "decode_indices": [
+      0,
+      15,
+      30
+    ],
+    "operators": [
+      "gate",
+      "up"
+    ],
+    "comparisons_per_cell": 18,
+    "total_comparisons": 72,
+    "max_abs_max": 0.02,
+    "rmse_max": 0.005,
+    "component_speedup_median_min_each_cell": 1.5,
+    "arm_order": "alternating; B parity reversed",
+    "real_model_execution_authorized": false
+  },
+  "t2": {
+    "integration": "first unmeasured baseline/candidate full-model pair inside T3 runner before measured pairs",
+    "generated_token_equality_required": true,
+    "final_hidden_logit_bit_identity_required": false,
+    "finite_logits_required": true,
+    "prefill_dispatches": 441,
+    "decode_dispatches_per_step": 469,
+    "fail_before_t3_measurement": true
+  },
+  "t3": {
+    "cells": [
+      "A_WS",
+      "A_WC",
+      "B_WC",
+      "B_WS"
+    ],
+    "warmups_per_arm_per_cell": 1,
+    "measured_pairs_per_cell": 5,
+    "total_measured_pairs": 20,
+    "pair_order": "alternating; A starts baseline, B starts candidate",
+    "decode_latency_ratio_max_each_cell": 0.9,
+    "global_decode_geomean_speedup_min": 1.25,
+    "ttft_ratio_max_each_cell": 1.1,
+    "e2e_ratio_max_each_cell": 1,
+    "outlier_deletion": false,
+    "automatic_rerun": false,
+    "selective_rerun": false,
+    "real_model_execution_authorized": false
+  },
+  "critical_git_blobs": {
+    "src/arcllm_v1_i002_t1_transfer.cpp": "361cf6eec40dfa428b9d5c829a071bed2552eb2b",
+    "src/arcllm_v1_i002_t3_paired.cpp": "50d1c23ac0a674be85eea435bc820374c92c1758",
+    "src/arcllm_v1_i001r_p8c_profile_runtime.cpp": "992f46e866d51f90e9650d9604b1c81cbe55e902",
+    "src/q2_benchmark.cpp": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "shaders/sa1_q4k_subgroup_splitk.comp": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "artifacts/SA0/SA0_CAP_ADJUDICATION_v0.1.json": "9092a5cff7950dfa56874bc86197259d5dfb7700",
+    "artifacts/SA1/SA1K1_Q4_ADJUDICATION_v0.1.json": "f4bda3a8f5b6133c7a0f118c48e153fe1ea04866",
+    "tools/compile_arcllm_v1_i002.ps1": "6e85ebde08354ba3ed73de3ad6194bf8b37026be",
+    "tools/build_arcllm_v1_i002.ps1": "7cfb4490849dd38ba0a503bd79e2499030aa37db",
+    "tools/compile_q2_shaders.ps1": "a7e08a196ee6c6bf94f460ef4d710175a1b85166",
+    "tools/compile_sa1_component.ps1": "22cc5bad45281bb4a6568a9d5e071b324254c458",
+    "tools/resolve_p8_target.ps1": "f7434f59720dd2afdc9480cead289ab379614bb0",
+    "tests/test_arcllm_v1_i002_package.py": "d7f3a5a66fd5dc7d069a9d4a33d0740df136dd7c",
+    "tools/summarize_arcllm_v1_i002_t1.py": "cedab3934ec1e1549c52b452e92c38973e8a81d6",
+    "tools/summarize_arcllm_v1_i002_t3.py": "1b4b8b10c38a9721f17cf7175f4cc88273d394d6",
+    "run_arcllm_v1_i002_preflight.ps1": "f611dfa1151af06ffb516ac2963cc07a1164bce1",
+    "run_arcllm_v1_i002_t1.ps1": "9b0281c0a6e1bdeed89491f2e096a04e8b268d79",
+    "run_arcllm_v1_i002_t3.ps1": "c3f8c217fa919eb213e4e96f0745ad754c491b7a",
+    "docs/research/arcllm-v1/ARCLLM_V1_I002_REAL_MODEL_TRANSFER_AND_CARRY_THROUGH_SPEC.md": "2d62a58b2dab20755a44b3832f76796dde4a3de9",
+    "src/gguf.cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
+    "src/gguf.h": "d71d22cc1db54a9643ecafa6d3b616a96221c726",
+    "src/tensor_store.cpp": "0eb52588d30620bfeb323e62c8546e7191a006d6",
+    "src/tensor_store.h": "fdc8788b72da4c0f9464aabdaa48e680d153fc5d"
+  },
+  "package_gate": {
+    "static_source_qa": "PASS_AFTER_MATCHER_REPAIR",
+    "local_windows_build_preflight": "REQUIRED",
+    "full_package_pass": false,
+    "science_remains_locked": true
+  },
+  "next": "RUN_ZERO_SCIENCE_LOCAL_BUILD_PREFLIGHT_V0_1_1_AND_RETURN_BUNDLE",
+  "supersedes_lock_blob": "973bd848e06807bfb202ba993fce18785a5a7e80",
+  "correction_scope": "PRE_EXEC_STATIC_QA_PYTHON_SYNTAX_MATCHER_ONLY",
+  "scientific_design_changed": false,
+  "implementation_scope_changed": false,
+  "candidate_changed": false,
+  "thresholds_changed": false,
+  "python_syntax_preflight_required": true
+}
