@@ -601,3 +601,30 @@ Repair:
 
 Revalidation:
 `PASS_I002_T1_AUTHORIZATION_SCHEMA_REVALIDATION`
+
+
+## I002 T1 real-model component transfer adjudication — 2026-09-23
+
+Returned T1 bundle:
+`9E731E1438F38B90A50E2C5AC8B91A2F69EF160265932BDB8B6CB118D189293E`
+
+Authorization HEAD:
+`045326009244db56082b281f329d87178125b7f0`
+
+Formal result:
+`PASS_I002_T1_REAL_MODEL_COMPONENT_TRANSFER`
+
+Independent recomputation:
+- 72/72 exact real-model comparisons;
+- 72/72 correctness PASS;
+- max_abs worst 3.8147e-05 vs 0.02 gate;
+- RMSE worst 3.6279e-06 vs 0.005 gate;
+- 72/72 individual component speedups >1.50×;
+- cell medians 3.6897× / 7.7901× / 6.3047× / 9.0023×;
+- global minimum 2.9232×;
+- candidate-first median 6.7958×;
+- baseline-first median 6.4716×.
+
+T1 is closed PASS.
+
+T3 is now eligible for separate one-shot authorization. No T3 evidence was consumed by T1.
