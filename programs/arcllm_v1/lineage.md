@@ -1078,3 +1078,13 @@ VTune availability. No model load, inference, counter collection or quiet-host s
 
 M3-B will be designed only from the actual provider/counter inventory returned by M3-A.
 
+## M3-A capability qualification — PASS / M3-B opened — 2026-09-25
+
+Bundle SHA256 `546E07D4C739AC91D28CD2B6F67AAC1DFAB802F8AD28C0CC4BE7A04F359BB9F3`.
+
+Exact Arc 140V provider result: `VK_KHR_performance_query` present; performance query pools enabled; queue family 0 with 64 timestamp bits; 268 COMMAND-scope counters; all-counter set requires 12 passes; VTune CLI absent. No model, inference or counter collection occurred in M3-A.
+
+Token-XRay counter profile grounded from this evidence: `minhtri22/token-xray@67e34cd8be4b9b36a9b5cc65a6bffad0a576c579`.
+
+M3-B is opened as quiet-host targeted per-dispatch collection using three curated groups (memory/cache, execution/occupancy, stall-cause). Instrumented timing is diagnostic only and cannot replace I003/M1 baseline timing.
+

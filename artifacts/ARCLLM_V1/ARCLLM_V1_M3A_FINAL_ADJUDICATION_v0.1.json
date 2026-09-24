@@ -1,0 +1,49 @@
+{
+  "schema": "arcllm.v1.m3a.final_adjudication.v0.1",
+  "date": "2026-09-25",
+  "result": "PASS_M3A_VULKAN_PERFORMANCE_QUERY_PROVIDER_QUALIFIED",
+  "bundle_sha256": "546E07D4C739AC91D28CD2B6F67AAC1DFAB802F8AD28C0CC4BE7A04F359BB9F3",
+  "collection_head": "9ac0d7206b4f128b7660eef52eb26e5d7533874f",
+  "files_sha256": {
+    "M3A_VULKAN_COUNTER_CAPABILITY_RAW.json": "3EE6DE07C5A3633697DDA5D24FCBF5713D7A32380AF1A0F508D0F3CD49514169",
+    "M3A_VTUNE_CAPABILITY.json": "ED5855370B6422BAC8B361C3F3ED465FDE09F854FA1A532945DEED62EA0E180A",
+    "COUNTER_CAPABILITY.json": "11ADCFECC69FC4F1A66FD32A662ED16AAE04F53C85320DBB51F3A3C614FE4558",
+    "M3A_RUN_META.json": "D2236572B41B67920C55827C3D1F3D81AD949D8B699608F3C84DFA4830D87E9A",
+    "arcllm_v1_m3a_lock_v0.1.json": "BC3892E8B4AACEAB11B67511BF3B64889207B7B3ED09FF22700411570463EEA1"
+  },
+  "device": {
+    "name": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "vendor_id": 32902,
+    "device_id": 25760,
+    "exact_device_match": true
+  },
+  "queue_family": {
+    "index": 0,
+    "queue_count": 1,
+    "timestamp_valid_bits": 64
+  },
+  "provider": {
+    "vk_khr_performance_query_present": true,
+    "performance_counter_query_pools_feature": true,
+    "performance_counter_multiple_query_pools_feature": false,
+    "allow_command_buffer_query_copies": false,
+    "counter_count": 268,
+    "all_counter_scope": "COMMAND",
+    "passes_for_all_counters": 12,
+    "vtune_available": false
+  },
+  "run_class": {
+    "quiet_host_required": false,
+    "model_loaded": false,
+    "inference_executed": false,
+    "counter_collection_executed": false
+  },
+  "interpretation": [
+    "The Arc 140V Windows Vulkan driver exposes a rich COMMAND-scope performance counter set suitable for per-dispatch HardwareLens evidence.",
+    "The full 268-counter inventory requires 12 passes and is not an efficient collection plan.",
+    "All relevant counters are performance-impacting/concurrently-impacted; counter runs must be treated as instrumented diagnostics and collected under quiet-host conditions.",
+    "VTune is not installed but is not required because the Vulkan provider is qualified."
+  ],
+  "decision": "CLOSE_M3A_OPEN_M3B_TARGETED_QUIET_HOST_COLLECTION",
+  "next": "M3B_VULKAN_COMMAND_SCOPE_COUNTER_COLLECTION"
+}

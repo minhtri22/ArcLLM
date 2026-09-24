@@ -1,0 +1,299 @@
+{
+  "schema": "arcllm.v1.m3b.counter_selection.v0.1",
+  "date": "2026-09-25",
+  "provider": "VULKAN_KHR_PERFORMANCE_QUERY",
+  "source_m3a_bundle_sha256": "546E07D4C739AC91D28CD2B6F67AAC1DFAB802F8AD28C0CC4BE7A04F359BB9F3",
+  "token_xray_profile": {
+    "repository": "minhtri22/token-xray",
+    "commit": "67e34cd8be4b9b36a9b5cc65a6bffad0a576c579",
+    "blob": "f005f77d1eac1d3c224f8e15b3e167c22e92e576"
+  },
+  "groups": {
+    "memory_cache": [
+      {
+        "index": 0,
+        "native_name": "GpuTime"
+      },
+      {
+        "index": 2,
+        "native_name": "AvgGpuCoreFrequencyMHz"
+      },
+      {
+        "index": 6,
+        "native_name": "GPGPU_THREADGROUP_COUNT"
+      },
+      {
+        "index": 30,
+        "native_name": "TLB_MISS"
+      },
+      {
+        "index": 31,
+        "native_name": "GPU_MEMORY_REQUEST_QUEUE_FULL"
+      },
+      {
+        "index": 52,
+        "native_name": "LOAD_STORE_CACHE_HIT"
+      },
+      {
+        "index": 53,
+        "native_name": "LOAD_STORE_CACHE_ACCESS"
+      },
+      {
+        "index": 56,
+        "native_name": "GPU_MEMORY_BYTE_READ"
+      },
+      {
+        "index": 57,
+        "native_name": "GPU_MEMORY_BYTE_WRITE"
+      },
+      {
+        "index": 58,
+        "native_name": "LOAD_STORE_CACHE_BYTE_READ"
+      },
+      {
+        "index": 59,
+        "native_name": "LOAD_STORE_CACHE_BYTE_WRITE"
+      },
+      {
+        "index": 71,
+        "native_name": "L3_HIT"
+      },
+      {
+        "index": 72,
+        "native_name": "L3_MISS"
+      },
+      {
+        "index": 73,
+        "native_name": "L3_STALL"
+      },
+      {
+        "index": 74,
+        "native_name": "GPU_MEMORY_L3_READ"
+      },
+      {
+        "index": 75,
+        "native_name": "GPU_MEMORY_L3_WRITE"
+      },
+      {
+        "index": 102,
+        "native_name": "GPU_MEMORY_ACTIVE"
+      },
+      {
+        "index": 110,
+        "native_name": "LOAD_STORE_CACHE_L3_HIT"
+      },
+      {
+        "index": 111,
+        "native_name": "LOAD_STORE_CACHE_L3_READ"
+      },
+      {
+        "index": 112,
+        "native_name": "LOAD_STORE_CACHE_L3_WRITE"
+      },
+      {
+        "index": 117,
+        "native_name": "L3_BUSY"
+      },
+      {
+        "index": 120,
+        "native_name": "L3_SUPERQ_FULL"
+      }
+    ],
+    "execution_occupancy": [
+      {
+        "index": 0,
+        "native_name": "GpuTime"
+      },
+      {
+        "index": 1,
+        "native_name": "GpuCoreClocks"
+      },
+      {
+        "index": 2,
+        "native_name": "AvgGpuCoreFrequencyMHz"
+      },
+      {
+        "index": 4,
+        "native_name": "GPU_BUSY"
+      },
+      {
+        "index": 6,
+        "native_name": "GPGPU_THREADGROUP_COUNT"
+      },
+      {
+        "index": 39,
+        "native_name": "XVE_ACTIVE"
+      },
+      {
+        "index": 40,
+        "native_name": "XVE_INST_EXECUTED_ALU0_ALL"
+      },
+      {
+        "index": 41,
+        "native_name": "XVE_INST_EXECUTED_ALU1_ALL"
+      },
+      {
+        "index": 42,
+        "native_name": "XVE_INST_EXECUTED_SEND_ALL"
+      },
+      {
+        "index": 54,
+        "native_name": "XVE_THREADS_OCCUPANCY_ALL"
+      },
+      {
+        "index": 55,
+        "native_name": "XVE_INST_ISSUED_ALL"
+      },
+      {
+        "index": 64,
+        "native_name": "XVE_STALL"
+      },
+      {
+        "index": 65,
+        "native_name": "XVE_INST_EXECUTED_ALU0_ALL_UTILIZATION"
+      },
+      {
+        "index": 66,
+        "native_name": "XVE_INST_EXECUTED_ALU1_ALL_UTILIZATION"
+      },
+      {
+        "index": 68,
+        "native_name": "XVE_MULTIPLE_PIPE_ACTIVE"
+      },
+      {
+        "index": 172,
+        "native_name": "THREAD_DISPATCH_QUEUE0_ACTIVE"
+      },
+      {
+        "index": 173,
+        "native_name": "THREAD_DISPATCH_QUEUE0_STALL"
+      },
+      {
+        "index": 174,
+        "native_name": "THREAD_DISPATCH_QUEUE1_ACTIVE"
+      },
+      {
+        "index": 175,
+        "native_name": "THREAD_DISPATCH_QUEUE1_STALL"
+      },
+      {
+        "index": 176,
+        "native_name": "THREADGROUP_DISPATCH_QUEUE0_RESOURCE_STALL"
+      },
+      {
+        "index": 177,
+        "native_name": "THREADGROUP_DISPATCH_QUEUE1_RESOURCE_STALL"
+      },
+      {
+        "index": 208,
+        "native_name": "XVE_INST_EXECUTED_BARRIER"
+      },
+      {
+        "index": 212,
+        "native_name": "XVE_INST_EXECUTED_FP32"
+      },
+      {
+        "index": 215,
+        "native_name": "XVE_INST_EXECUTED_INT16"
+      },
+      {
+        "index": 216,
+        "native_name": "XVE_INST_EXECUTED_INT32"
+      },
+      {
+        "index": 218,
+        "native_name": "XVE_INST_EXECUTED_MATH"
+      },
+      {
+        "index": 242,
+        "native_name": "XVE_INST_EXECUTED_ALU0_CS_UTILIZATION"
+      },
+      {
+        "index": 248,
+        "native_name": "XVE_INST_EXECUTED_ALU1_CS_UTILIZATION"
+      }
+    ],
+    "stall_cause": [
+      {
+        "index": 0,
+        "native_name": "GpuTime"
+      },
+      {
+        "index": 31,
+        "native_name": "GPU_MEMORY_REQUEST_QUEUE_FULL"
+      },
+      {
+        "index": 49,
+        "native_name": "XVE_SHARED_FUNCTION_ACCESS_HOLD"
+      },
+      {
+        "index": 64,
+        "native_name": "XVE_STALL"
+      },
+      {
+        "index": 73,
+        "native_name": "L3_STALL"
+      },
+      {
+        "index": 120,
+        "native_name": "L3_SUPERQ_FULL"
+      },
+      {
+        "index": 127,
+        "native_name": "LOAD_STORE_CACHE_INPUT_AVAILABLE"
+      },
+      {
+        "index": 129,
+        "native_name": "LOAD_STORE_CACHE_OUTPUT_READY"
+      },
+      {
+        "index": 226,
+        "native_name": "XVE_STALL_ALUWR"
+      },
+      {
+        "index": 227,
+        "native_name": "XVE_STALL_BARRIER"
+      },
+      {
+        "index": 228,
+        "native_name": "XVE_STALL_CONTROL"
+      },
+      {
+        "index": 229,
+        "native_name": "XVE_STALL_INSTFETCH"
+      },
+      {
+        "index": 230,
+        "native_name": "XVE_STALL_OTHER"
+      },
+      {
+        "index": 231,
+        "native_name": "XVE_STALL_PIPESTALL"
+      },
+      {
+        "index": 233,
+        "native_name": "XVE_STALL_SBID"
+      },
+      {
+        "index": 234,
+        "native_name": "XVE_STALL_SENDWR"
+      }
+    ]
+  },
+  "collection_contract": {
+    "quiet_host_required": true,
+    "scope": "COMMAND",
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "decode_index": 15,
+    "warmups_per_run": 1,
+    "measured_attempts_per_run": 1,
+    "one_process_per_workload_counter_group": true,
+    "selected_group_pass_count": "RECOMPUTE_FROM_DRIVER_AT_RUNTIME",
+    "restore_pre_dispatch_state_before_each_counter_pass": true,
+    "timing_use": "INSTRUMENTED_DIAGNOSTIC_ONLY",
+    "benchmark_substitution_forbidden": true
+  }
+}
