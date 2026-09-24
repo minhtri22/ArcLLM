@@ -68,6 +68,10 @@ $IntegrationHead=(git -C $Root rev-parse "origin/integration/token-xray-phase2")
 if($Head -ne $IntegrationHead){
     throw "Token X-Ray worktree HEAD mismatch. HEAD=$Head origin/integration/token-xray-phase2=$IntegrationHead"
 }
+$Dirty=@(git -C $Root status --porcelain --untracked-files=no)
+if($Dirty.Count -ne 0){
+    throw "Token X-Ray worktree has modified tracked files. Restore the diagnostic worktree before tracing."
+}
 
 Write-Host "=== Token X-Ray Phase 2 ==="
 Write-Host "ArcLLM HEAD       : $Head"
