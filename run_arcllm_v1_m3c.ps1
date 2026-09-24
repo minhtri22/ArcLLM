@@ -85,13 +85,22 @@ $Summary=Join-Path $Dir "M3C_COLLECTION_SUMMARY.json"
 py -3 (Join-Path $Root "tools\parse_arcllm_v1_m3c.py") --results-dir $Dir --out-observations $Obs --out-summary $Summary
 if($LASTEXITCODE -ne 0){throw "M3-C parser failed"}
 $S=Get-Content $Summary -Raw -Encoding UTF8 | ConvertFrom-Json
-if($S.status -ne "PASS" -or $S.dispatch_observations -ne 2814){throw "M3-C collection summary rejected"}
+if($S.status -ne "PASS" -or $S.dispatch_observations -ne 618 -or $S.queried_dispatches_per_run -ne 103){throw "M3-C collection summary rejected"}
+
+$Mechanism=Join-Path $Dir "M3C_MECHANISM_DISCRIMINATION.json"
+py -3 (Join-Path $Root "tools\adjudicate_arcllm_v1_m3c.py") --results-dir $Dir --out $Mechanism
+if($LASTEXITCODE -ne 0){throw "M3-C mechanism discrimination failed"}
+$M=Get-Content $Mechanism -Raw -Encoding UTF8 | ConvertFrom-Json
+if($M.status -ne "PASS"){throw "M3-C mechanism discrimination rejected"}
 
 $Meta=[ordered]@{
   schema="arcllm.v1.m3c.run_meta.v0.1"; status="PASS"; branch=$Branch; head=$Head;
   quiet_host_confirmed=$true; machine_profile_repeated=$false; model_sha256=$MH; model_size_bytes=$MF.Length;
   provider="VULKAN_KHR_PERFORMANCE_QUERY"; scope="COMMAND"; decode_index=15;
-  raw_runs=6; dispatch_observations=2814; token_xray_contract_commit=$Lock.token_xray_contract.commit;
+  raw_runs=6; dispatch_observations=618; queried_dispatches_per_run=103;
+  target_family_counts=[ordered]@{lm_head_q6=19;ffn_down_q4=14;ffn_down_q6=14;split_k_q4_control=56};
+  phase2_basis="LM-head 63.91%, FFN-down 16.27%, split-K gate/up positive control";
+  token_xray_contract_commit=$Lock.token_xray_contract.commit;
   timing_use="INSTRUMENTED_DIAGNOSTIC_ONLY"; benchmark_timing_substitution_forbidden=$true
 }
 $MetaPath=Join-Path $Dir "M3C_RUN_META.json"
@@ -114,7 +123,9 @@ Write-Host ""
 Write-Host "M3_C_RESULT=PASS"
 Write-Host "QUIET_HOST_CONFIRMED=true"
 Write-Host "RAW_RUNS=6"
-Write-Host "DISPATCH_OBSERVATIONS=2814"
+Write-Host "DISPATCH_OBSERVATIONS=618"
+Write-Host "QUERIED_DISPATCHES_PER_RUN=103"
+Write-Host "MECHANISM_DISCRIMINATION=$Mechanism"
 Write-Host "TIMING_USE=INSTRUMENTED_DIAGNOSTIC_ONLY"
 Write-Host "RETURN_BUNDLE=$Zip"
 Write-Host "RETURN_BUNDLE_SHA256=$ZH"
