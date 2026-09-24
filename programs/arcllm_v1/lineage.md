@@ -808,3 +808,31 @@ Repair scope:
   `config/arcllm_v1_i003_execution_lock_v0.1.1.json`;
 - next action is a full zero-science preflight rerun, not a partial retry.
 
+## I003 zero-science preflight repair 2 — 2026-09-24
+
+Observed parent HEAD:
+`2e7540528a4a214f260c810ca32c042f1c1c365f`
+
+The first repair was insufficiently validated. It corrected the intended matcher concept but
+used a Python raw string containing two literal backslashes where the C++ source contains one
+escape backslash. The rerun therefore failed again in static QA before any science.
+
+A full prospective simulation of the static QA then exposed a second latent textual matcher:
+the candidate and llama baseline encode the same frozen W-S token IDs using different C++ syntax.
+The prior assertion incorrectly required one source spelling to exist in both files.
+
+Repair 2:
+- metadata check is structural: exactly one `candidate_shader` source line and it must name
+  `sa1_q4k_subgroup_splitk.spv`;
+- workload checks validate the exact frozen token IDs/formula in each adapter's own syntax;
+- candidate/baseline/workload/metrics/thresholds are unchanged;
+- science measured inferences remain 0;
+- fresh science authorization remains false;
+- full prospective static assertion simulation: 47/47 PASS before this commit.
+
+Superseding lock:
+`config/arcllm_v1_i003_execution_lock_v0.1.2.json`
+
+Next:
+full zero-science preflight rerun from the beginning.
+

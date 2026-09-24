@@ -1,0 +1,45 @@
+{
+  "schema": "arcllm.v1.i003.preflight_repair_adjudication.v0.2",
+  "date": "2026-09-24",
+  "program": "I003-MEB",
+  "observed_at_head": "2e7540528a4a214f260c810ca32c042f1c1c365f",
+  "classification": "PRE_SCIENCE_INFRASTRUCTURE_STATIC_MATCHER_FALSE_NEGATIVE_SECOND_REPAIR",
+  "failures": [
+    {
+      "stage": "static QA",
+      "assertion": "raw-string escaped candidate_shader matcher",
+      "cause": "test required two literal backslashes before quotes while source contains one C++ escape backslash",
+      "scientific_payload_mismatch": false
+    },
+    {
+      "stage": "prospective full static QA simulation",
+      "assertion": "same exact source text for W-S token construction in candidate and baseline",
+      "cause": "candidate uses uint32_t-suffixed assignment syntax while baseline uses initializer-return syntax; token IDs are identical",
+      "scientific_payload_mismatch": false,
+      "caught_before_commit": true
+    }
+  ],
+  "independent_precommit_static_simulation": {
+    "checks": 47,
+    "passed": 47,
+    "failed": 0,
+    "verdict": "PASS_FULL_STATIC_ASSERTION_SIMULATION"
+  },
+  "repair_scope": {
+    "candidate_changed": false,
+    "baseline_changed": false,
+    "workloads_changed": false,
+    "metrics_changed": false,
+    "thresholds_changed": false,
+    "static_qa_matcher_only": true,
+    "preflight_lock_binding_only": true
+  },
+  "science_state": {
+    "science_measured_inferences": 0,
+    "candidate_inference_executed": false,
+    "fresh_measurement_authorized": false,
+    "measured_inferences_authorized": 0
+  },
+  "superseding_lock": "config/arcllm_v1_i003_execution_lock_v0.1.2.json",
+  "next": "RERUN_FULL_ZERO_SCIENCE_I003_PREFLIGHT"
+}

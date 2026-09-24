@@ -15,7 +15,7 @@ base=txt("baseline/i003_llama_adapter.cpp")
 cmake=txt("baseline/CMakeLists.txt")
 runner=txt("run_arcllm_v1_i003.ps1")
 spec=txt("docs/research/arcllm-v1/ARCLLM_V1_I003_MATCHED_EXTERNAL_BASELINE_SPEC.md")
-lock=js("config/arcllm_v1_i003_execution_lock_v0.1.1.json")
+lock=js("config/arcllm_v1_i003_execution_lock_v0.1.2.json")
 
 # Closed I002 candidate identity.
 blob=subprocess.check_output(["git","-C",str(ROOT),"rev-parse","HEAD:shaders/sa1_q4k_subgroup_splitk.comp"],text=True).strip()
@@ -30,7 +30,9 @@ assert between(q2,a,b)==between(cand,a,b)
 
 # Decode delta is exactly gate/up candidate substitution.
 assert cand.count('"sa1_q4k_subgroup_splitk.spv"')==2  # exact unescaped literals: gate + up dispatch sites
-assert r'\\"candidate_shader\\":\\"sa1_q4k_subgroup_splitk.spv\\"' in cand  # JSON output metadata is escaped in C++ source
+metadata_lines=[line for line in cand.splitlines() if "candidate_shader" in line]
+assert len(metadata_lines)==1
+assert "sa1_q4k_subgroup_splitk.spv" in metadata_lines[0]
 assert 'p+"ffn_gate","sa1_q4k_subgroup_splitk.spv"' in cand
 assert 'p+"ffn_up","sa1_q4k_subgroup_splitk.spv"' in cand
 for forbidden in ['p+"q_proj","sa1_', 'p+"k_proj","sa1_', 'p+"v_proj","sa1_', 'p+"o_proj","sa1_', 'p+"ffn_down","sa1_', '"lm_head","sa1_']:
@@ -57,12 +59,15 @@ for x in [
     assert x in base, f"baseline contract drift: {x}"
 assert 'add_executable(i003_llama_adapter i003_llama_adapter.cpp)' in cmake
 
-# Exact raw workloads remain inherited.
-for x in [
-    'return {1,133151,133152,152062};',
-    '1u+((104729u+7919u*i)%152063u)'
-]:
-    assert x in cand and x in base
+# Exact raw workloads remain inherited. Candidate and llama adapters express
+# the same token IDs with different C++ container/type syntax, so validate each
+# representation explicitly instead of requiring byte-identical source text.
+assert 'input_ids={1u,133151u,133152u,152062u};' in cand
+assert 'return {1,133151,133152,152062};' in base
+assert 'input_ids[0]=1u;input_ids[1]=133151u;input_ids[2]=133152u;input_ids[3]=152062u;' in cand
+assert 'v[0]=1;v[1]=133151;v[2]=133152;v[3]=152062;' in base
+assert '1u+((104729u+7919u*i)%152063u)' in cand
+assert '1u+((104729u+7919u*i)%152063u)' in base
 
 # Paired DEV_HOST design.
 for x in [
