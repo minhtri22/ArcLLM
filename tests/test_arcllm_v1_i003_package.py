@@ -15,7 +15,7 @@ base=txt("baseline/i003_llama_adapter.cpp")
 cmake=txt("baseline/CMakeLists.txt")
 runner=txt("run_arcllm_v1_i003.ps1")
 spec=txt("docs/research/arcllm-v1/ARCLLM_V1_I003_MATCHED_EXTERNAL_BASELINE_SPEC.md")
-lock=js("config/arcllm_v1_i003_execution_lock_v0.1.json")
+lock=js("config/arcllm_v1_i003_execution_lock_v0.1.1.json")
 
 # Closed I002 candidate identity.
 blob=subprocess.check_output(["git","-C",str(ROOT),"rev-parse","HEAD:shaders/sa1_q4k_subgroup_splitk.comp"],text=True).strip()
@@ -29,7 +29,8 @@ b='        auto build_decode='
 assert between(q2,a,b)==between(cand,a,b)
 
 # Decode delta is exactly gate/up candidate substitution.
-assert cand.count('"sa1_q4k_subgroup_splitk.spv"')>=3  # 2 dispatch sites + output metadata
+assert cand.count('"sa1_q4k_subgroup_splitk.spv"')==2  # exact unescaped literals: gate + up dispatch sites
+assert r'\\"candidate_shader\\":\\"sa1_q4k_subgroup_splitk.spv\\"' in cand  # JSON output metadata is escaped in C++ source
 assert 'p+"ffn_gate","sa1_q4k_subgroup_splitk.spv"' in cand
 assert 'p+"ffn_up","sa1_q4k_subgroup_splitk.spv"' in cand
 for forbidden in ['p+"q_proj","sa1_', 'p+"k_proj","sa1_', 'p+"v_proj","sa1_', 'p+"o_proj","sa1_', 'p+"ffn_down","sa1_', '"lm_head","sa1_']:

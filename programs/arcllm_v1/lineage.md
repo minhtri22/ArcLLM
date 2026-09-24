@@ -776,3 +776,35 @@ Fresh external comparison remains locked.
 
 Next:
 run `run_arcllm_v1_i003_preflight.ps1` locally and return its zero-science bundle.
+
+## I003 zero-science preflight repair — 2026-09-24
+
+Observed preflight parent HEAD:
+`88fe45b96e78746a3c7b13b48b73235f3610400a`
+
+Observed failure:
+`tests/test_arcllm_v1_i003_package.py` asserted at least three unescaped occurrences of
+`"sa1_q4k_subgroup_splitk.spv"`, but the candidate source contains exactly two unescaped
+dispatch literals (FFN gate and FFN up). The output metadata occurrence is embedded inside
+a C++ JSON string and is therefore escaped in source.
+
+Adjudication:
+`PRE_SCIENCE_INFRASTRUCTURE_STATIC_MATCHER_FALSE_NEGATIVE`
+
+No science was consumed:
+- failure occurred during static QA before shader compile/build/runtime qualification;
+- science measured inferences = 0;
+- candidate inference executed = false;
+- fresh measurement authorization remains false.
+
+Repair scope:
+- no candidate change;
+- no baseline change;
+- no workload/metric/threshold change;
+- matcher now requires exactly two unescaped dispatch literals plus the escaped
+  `candidate_shader` metadata field;
+- original execution lock v0.1 is preserved;
+- superseding execution lock is
+  `config/arcllm_v1_i003_execution_lock_v0.1.1.json`;
+- next action is a full zero-science preflight rerun, not a partial retry.
+

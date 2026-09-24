@@ -1,0 +1,38 @@
+{
+  "schema": "arcllm.v1.i003.preflight_repair_adjudication.v0.1",
+  "date": "2026-09-24",
+  "program": "I003-MEB",
+  "observed_at_head": "88fe45b96e78746a3c7b13b48b73235f3610400a",
+  "classification": "PRE_SCIENCE_INFRASTRUCTURE_STATIC_MATCHER_FALSE_NEGATIVE",
+  "observed_failure": {
+    "stage": "static QA",
+    "file": "tests/test_arcllm_v1_i003_package.py",
+    "assertion": "cand.count('\"sa1_q4k_subgroup_splitk.spv\"')>=3",
+    "observed_unescaped_literal_count": 2,
+    "source_facts": {
+      "gate_dispatch_literal_present": true,
+      "up_dispatch_literal_present": true,
+      "escaped_output_metadata_present": true
+    }
+  },
+  "adjudication": {
+    "candidate_semantics_changed": false,
+    "baseline_changed": false,
+    "workload_changed": false,
+    "metrics_changed": false,
+    "thresholds_changed": false,
+    "science_measured_inferences": 0,
+    "candidate_inference_executed": false,
+    "baseline_runtime_qualification_executed": false,
+    "fresh_measurement_authorized": false,
+    "scientific_evidence_consumed": false
+  },
+  "repair": {
+    "scope": "STATIC_MATCHER_AND_LOCK_PROVENANCE_ONLY",
+    "matcher_rule": "require exactly two unescaped dispatch literals plus escaped candidate_shader metadata",
+    "superseding_lock": "config/arcllm_v1_i003_execution_lock_v0.1.1.json",
+    "old_failed_preflight_preserved": true,
+    "rerun_scope": "FULL_ZERO_SCIENCE_PREFLIGHT"
+  },
+  "next": "RERUN_ZERO_SCIENCE_I003_PREFLIGHT_UNDER_SUPERSEDING_LOCK"
+}

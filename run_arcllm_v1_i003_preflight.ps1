@@ -1,10 +1,10 @@
 param([string]$ModelPath,[string]$OllamaModelsRoot)
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Root=Split-Path -Parent $MyInvocation.MyCommand.Path
-$LockPath=Join-Path $Root "config\arcllm_v1_i003_execution_lock_v0.1.json"
+$LockPath=Join-Path $Root "config\arcllm_v1_i003_execution_lock_v0.1.1.json"
 if(-not(Test-Path $LockPath)){throw "I003 execution lock missing"}
 $L=Get-Content $LockPath -Raw -Encoding UTF8|ConvertFrom-Json
-if([string]$L.schema-ne"arcllm.v1.i003.execution_lock.v0.1"){throw "I003 lock schema mismatch"}
+if([string]$L.schema-ne"arcllm.v1.i003.execution_lock.v0.1.1"){throw "I003 lock schema mismatch"}
 if([bool]$L.fresh_measurement_authorized){throw "I003 preflight lock unexpectedly authorizes measurement"}
 
 $Branch=(& git -C $Root rev-parse --abbrev-ref HEAD).Trim()
@@ -72,6 +72,8 @@ $Dir=Join-Path $Root ("results\arcllm_v1_i003_preflight_"+$Stamp)
 New-Item -ItemType Directory -Force -Path $Dir|Out-Null
 $Report=[ordered]@{
  schema="arcllm.v1.i003.preflight.v0.1"
+ execution_lock_schema=[string]$L.schema
+ execution_lock_file="arcllm_v1_i003_execution_lock_v0.1.1.json"
  result="PASS_I003_ZERO_SCIENCE_MATCHED_PACKAGE"
  git_head=$Head
  branch=$Branch
@@ -92,7 +94,7 @@ $Report=[ordered]@{
  next="RETURN_PREFLIGHT_BUNDLE_FOR_INDEPENDENT_AUTHORIZATION"
 }
 [IO.File]::WriteAllText((Join-Path $Dir "I003_PREFLIGHT_REPORT.json"),($Report|ConvertTo-Json -Depth 8),(New-Object Text.UTF8Encoding($false)))
-Copy-Item $LockPath (Join-Path $Dir "arcllm_v1_i003_execution_lock_v0.1.json") -Force
+Copy-Item $LockPath (Join-Path $Dir "arcllm_v1_i003_execution_lock_v0.1.1.json") -Force
 Copy-Item (Join-Path $Results "i003_shader_provenance.json") (Join-Path $Dir "i003_shader_provenance.json") -Force
 Copy-Item (Join-Path $Results "i003_baseline_qualification.json") (Join-Path $Dir "i003_baseline_qualification.json") -Force
 Copy-Item (Join-Path $Results "i003_baseline_runtime_qualification_W_S.json") (Join-Path $Dir "i003_baseline_runtime_qualification_W_S.json") -Force
