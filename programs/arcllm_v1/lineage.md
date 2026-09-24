@@ -950,3 +950,17 @@ any new mechanism. Historical Q2 shares are not reused as the current localizati
 I003 primary science authorization is now closed. Any later I003 collection is replication/
 robustness only and requires a fresh explicit authorization.
 
+## Hardware-grounding phase — One-Token Hardware Model v0.1 — 2026-09-24
+
+After I003 established a fresh ~10x external gap, the research method moved from dominant-profile-family selection to a hardware-grounded top-down/bottom-up join.
+
+Central artifact: `ARCLLM_V1_ONE_TOKEN_HARDWARE_MODEL`.
+
+v0.1 consumes no fresh performance execution. It statically maps all 469 post-I002 decode dispatch nodes to exact model geometry, current Arc shader/workgroup organization, hardware roofs, pinned llama source organization, and explicit unknown measurement fields.
+
+Key derived findings: logical one-pass weight payload = 4,370,560,992 bytes/token; optimistic 136GB/s weight-only floor ~32.14ms/token; dense-equivalent linear FP32 peak proxy floor ~3.54ms/token; I003 useful-weight throughput Arc ~4.07–6.47GB/s versus llama ~46.93–56.38GB/s.
+
+Source comparison shows gate/up is the only major Arc quant-linear family already converted to subgroup split-K. Q/K/V/O/down/lm-head remain row-owned serial-K shaders, while pinned llama Q4_K/Q6_K Vulkan matvec distributes K across workgroup threads and reduces partials.
+
+No next kernel is selected. Next evidence is metadata-only tensor quant census, then minimal current Arc and pinned-llama node/family timing. Quiet-host counters are deferred unless a concrete hardware hypothesis remains unresolved.
+
