@@ -34,7 +34,6 @@ if($TimestampPeriodNs -le 0){
 
     $Proc=Start-Process `
       -FilePath $VulkanInfo.Source `
-      -ArgumentList @() `
       -RedirectStandardOutput $VkOut `
       -RedirectStandardError $VkErr `
       -NoNewWindow `
