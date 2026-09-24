@@ -1,5 +1,5 @@
 {
-  "schema": "arcllm.v1.m3b.lock.v0.1",
+  "schema": "arcllm.v1.m3b.lock.v0.1.1",
   "date": "2026-09-25",
   "branch": "research/arcllm-v1",
   "role": "QUIET_HOST_VULKAN_COMMAND_SCOPE_COUNTER_COLLECTION",
@@ -54,18 +54,24 @@
   },
   "critical_git_blobs": {
     "src/arcllm_v1_m3b_counter_collection.cpp": "13cc186be24d4aff7920cb71a2ec0b092affbc17",
-    "src/arcllm_v1_m3_counter_runtime.cpp": "16eca52874a9a61b6a07b76102886a902eca263d",
+    "src/arcllm_v1_m3_counter_runtime.cpp": "eac88cd6975792506194299c365c5382695eff72",
     "src/arcllm_v1_m3_counter_shim.h": "32a1b4ce7a9b9ac02f15fada63d8dc8abbd1cec6",
     "src/arcllm_v1_m3_counter_shim.cpp": "a4a28bbfab496ac4d6fc05797a907d0418897db2",
     "third_party/token_xray/token_xray_arcllm_v1_adapter.h": "e70ca7fd0fa5f295ded905f8276bcaa8204921e9",
     "tools/build_arcllm_v1_m3b.ps1": "b439c8b6a0cb3e50be0581318c158e712b882cf7",
     "tools/parse_arcllm_v1_m3b.py": "a84c463ad4ff68ed63d1eecbc19fbd74ad2989d5",
-    "tests/test_arcllm_v1_m3b_package.py": "4cf42b278acc90cc4acbe54368ad6ed394e118fd",
+    "tests/test_arcllm_v1_m3b_package.py": "371cfcf02ff0f65247a6275c69c635e044047631",
     "run_arcllm_v1_m3b.ps1": "095cd0448f4694c06829e4bbdad5ae7d5c212d8a",
     "config/arcllm_v1_m3b_counter_selection_v0.1.json": "8a3f750ba315d9b78a5da7482e9debaccf7dfd11",
     "src/gguf.cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
     "src/tensor_store.cpp": "0eb52588d30620bfeb323e62c8546e7191a006d6",
     "tools/compile_arcllm_v1_i003.ps1": "f4e14baab9fc93c4e19ecda399d28016f7f29354"
   },
-  "next_on_pass": "INDEPENDENT_M3B_ADJUDICATION_PATCH_HARDWARE_MODEL_AND_TOKEN_XRAY_LEDGER"
+  "next_on_pass": "INDEPENDENT_M3B_ADJUDICATION_PATCH_HARDWARE_MODEL_AND_TOKEN_XRAY_LEDGER",
+  "pre_run_vulkan_validity_repair": {
+    "reason": "Performance-query reset cannot share a command buffer with begin/end of the same performance query and must not be repeated between required passes.",
+    "reset_strategy": "Dedicated one-time reset command buffer submitted and completed once under profiling lock before pass 0.",
+    "required_pass_strategy": "Each required pass re-records the same semantic workload without reset and submits with counterPassIndex.",
+    "scientific_payload_changed": false
+  }
 }

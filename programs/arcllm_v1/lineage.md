@@ -1107,3 +1107,9 @@ as a replacement for I003/M1 timing.
 Raw collection emits 469 COMMAND-scope dispatch rows/run and the parser emits 2,814 Token-XRay
 `HARDWARE_OBSERVATION` JSONL records across W-S/W-C × three counter groups.
 
+### M3-B pre-run Vulkan query-reset validity repair
+
+Static/spec review caught a pre-run Vulkan validity issue before any M3-B data collection. A performance query cannot begin in a command buffer that also resets that same query, and resetting between passes would clear all pass state. M3-B now records/submits one dedicated reset-only command buffer under the profiling lock before pass 0. Each required counter pass then re-records the same semantic workload without a reset and submits it with its counterPassIndex.
+
+No M3-B science payload, model, workload, counter selection or semantic mapping changed.
+

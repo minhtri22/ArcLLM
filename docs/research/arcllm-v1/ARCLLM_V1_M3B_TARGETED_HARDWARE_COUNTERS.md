@@ -70,7 +70,7 @@ L3/SuperQ and LSC input/output pressure.
 
 The profiling lock must be held before recording a command buffer containing performance queries
 and while it is recording/executable/pending. Required pass count is selected at submit time with
-`VkPerformanceQuerySubmitInfoKHR.counterPassIndex`. Every selected query must be recorded once for every required pass before results are consumed. `vkCmdResetQueryPool` is issued only before pass 0; resetting between passes would invalidate the accumulated multi-pass query. The final counter values are labeled `COMBINED_AFTER_REQUIRED_PASSES`, not fabricated as per-pass measurements.
+`VkPerformanceQuerySubmitInfoKHR.counterPassIndex`. Every selected query must be recorded once for every required pass before results are consumed. `vkCmdResetQueryPool` is recorded in a dedicated reset-only command buffer, submitted and completed once before pass 0. No performance-query begin/end occurs in that reset command buffer, and no reset occurs between required passes. The final counter values are labeled `COMBINED_AFTER_REQUIRED_PASSES`, not fabricated as per-pass measurements.
 
 
 ## Token-XRay contract binding

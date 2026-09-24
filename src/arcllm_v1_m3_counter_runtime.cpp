@@ -1006,6 +1006,35 @@ public:
                 throw std::runtime_error(std::string("M3 profiling lock failed: ")+err);
             lock_held=true;
 
+            // Performance-query reset must be outside command buffers that begin/end
+            // the same performance queries. Reset all passes exactly once before pass 0.
+            {
+                VkCommandPoolCreateInfo rpci{};rpci.sType=VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+                rpci.flags=VK_COMMAND_POOL_CREATE_TRANSIENT_BIT;rpci.queueFamilyIndex=queue_family_;
+                VkCommandPool rpool=nullptr;VkResult rvr=create_command_pool_(device_,&rpci,nullptr,&rpool);
+                if(rvr!=VK_SUCCESS)throw std::runtime_error("M3 reset vkCreateCommandPool failed");
+                VkCommandBufferAllocateInfo rai{};rai.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+                rai.commandPool=rpool;rai.level=VK_COMMAND_BUFFER_LEVEL_PRIMARY;rai.commandBufferCount=1;
+                VkCommandBuffer rcb=nullptr;rvr=allocate_command_buffers_(device_,&rai,&rcb);
+                if(rvr!=VK_SUCCESS){destroy_command_pool_(device_,rpool,nullptr);throw std::runtime_error("M3 reset vkAllocateCommandBuffers failed");}
+                VkCommandBufferBeginInfo rbi{};rbi.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+                rbi.flags=VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+                rvr=begin_command_buffer_(rcb,&rbi);
+                if(rvr!=VK_SUCCESS){destroy_command_pool_(device_,rpool,nullptr);throw std::runtime_error("M3 reset vkBeginCommandBuffer failed");}
+                cmd_reset_query_pool_(rcb,perf_qp,0,uint32_t(ops.size()));
+                rvr=end_command_buffer_(rcb);
+                if(rvr!=VK_SUCCESS){destroy_command_pool_(device_,rpool,nullptr);throw std::runtime_error("M3 reset vkEndCommandBuffer failed");}
+                VkFenceCreateInfo rfci{};rfci.sType=VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;VkFence rfence=nullptr;
+                rvr=create_fence_(device_,&rfci,nullptr,&rfence);
+                if(rvr!=VK_SUCCESS){destroy_command_pool_(device_,rpool,nullptr);throw std::runtime_error("M3 reset vkCreateFence failed");}
+                VkSubmitInfo rsi{};rsi.sType=VK_STRUCTURE_TYPE_SUBMIT_INFO;rsi.commandBufferCount=1;rsi.pCommandBuffers=&rcb;
+                rvr=queue_submit_(queue_,1,&rsi,rfence);
+                if(rvr!=VK_SUCCESS){destroy_fence_(device_,rfence,nullptr);destroy_command_pool_(device_,rpool,nullptr);throw std::runtime_error("M3 reset vkQueueSubmit failed");}
+                rvr=wait_for_fences_(device_,1,&rfence,VK_TRUE,(std::numeric_limits<uint64_t>::max)());
+                if(rvr!=VK_SUCCESS){destroy_fence_(device_,rfence,nullptr);destroy_command_pool_(device_,rpool,nullptr);throw std::runtime_error("M3 reset vkWaitForFences failed");}
+                destroy_fence_(device_,rfence,nullptr);destroy_command_pool_(device_,rpool,nullptr);
+            }
+
             for(uint32_t pass=0;pass<pass_count;++pass){
                 restore();
                 VkCommandPoolCreateInfo pci{};pci.sType=VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
@@ -1020,7 +1049,6 @@ public:
                 bi.flags=VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
                 vr=begin_command_buffer_(cb,&bi);
                 if(vr!=VK_SUCCESS){destroy_command_pool_(device_,pool,nullptr);throw std::runtime_error("M3 vkBeginCommandBuffer failed");}
-                if(pass==0u)cmd_reset_query_pool_(cb,perf_qp,0,uint32_t(ops.size()));
                 if(cross_submit_compute_barrier){
                     VkMemoryBarrier mb{};mb.sType=VK_STRUCTURE_TYPE_MEMORY_BARRIER;
                     mb.srcAccessMask=VK_ACCESS_SHADER_WRITE_BIT;mb.dstAccessMask=VK_ACCESS_SHADER_READ_BIT|VK_ACCESS_SHADER_WRITE_BIT;
