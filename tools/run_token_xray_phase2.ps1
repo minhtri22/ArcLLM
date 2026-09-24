@@ -68,9 +68,17 @@ $IntegrationHead=(git -C $Root rev-parse "origin/integration/token-xray-phase2")
 if($Head -ne $IntegrationHead){
     throw "Token X-Ray worktree HEAD mismatch. HEAD=$Head origin/integration/token-xray-phase2=$IntegrationHead"
 }
-$Dirty=@(git -C $Root status --porcelain --untracked-files=no)
-if($Dirty.Count -ne 0){
-    throw "Token X-Ray worktree has modified tracked files. Restore the diagnostic worktree before tracing."
+# This repo declares *.ps1 text eol=crlf. On some Windows worktrees Git can
+# report PS1 files modified immediately after checkout/restore even when the
+# only difference is line-ending normalization. Reject real content changes,
+# but tolerate EOL-only differences. Untracked .local outputs are irrelevant.
+git -C $Root diff --quiet --ignore-space-at-eol -- .
+if($LASTEXITCODE -ne 0){
+    throw "Token X-Ray worktree has real tracked content changes (not EOL-only). Restore or inspect them before tracing."
+}
+git -C $Root diff --cached --quiet --ignore-space-at-eol -- .
+if($LASTEXITCODE -ne 0){
+    throw "Token X-Ray worktree has staged tracked content changes. Restore or inspect them before tracing."
 }
 
 Write-Host "=== Token X-Ray Phase 2 ==="
