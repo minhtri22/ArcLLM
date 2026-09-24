@@ -912,3 +912,41 @@ Authorization QA:
 Next:
 run the exact frozen `run_arcllm_v1_i003.ps1` collection. Do not select or optimize another kernel.
 
+## I003-MEB primary collection final adjudication — 2026-09-24
+
+Primary collection:
+`20260924T143132554Z_cf9a222c`
+
+Returned bundle SHA256:
+`2FE89BCCFA9FB1ABE5782D628BF860F0026334F2ADC0BBE69FFF7B8A65253FE6`
+
+Independent raw-evidence audit:
+- 20/20 matched pairs valid;
+- 40 measured inferences represented;
+- zero raw validity issues;
+- exact A/B counterbalanced pair order;
+- all process exit codes zero;
+- all measured attempts successful, finite, and exactly 32 tokens;
+- candidate dispatch census PASS throughout;
+- independent median/min/max/MAD and global geometric-mean recomputation matches the frozen summary exactly.
+
+Final classification:
+`I003_MATCHED_EXTERNAL_CHARACTERIZATION_COMPLETE`
+
+Fresh global post-I002 gap:
+- decode latency candidate/llama geomean = `10.378702063787069×`;
+- E2E latency candidate/llama geomean = `9.972198817849302×`;
+- decode throughput candidate/llama geomean = `0.0963511616244538×`.
+
+Cross-system token identity is not required by the frozen I003 specification. Candidate and llama
+each produced stable within-system hashes across 5/5 repetitions for each workload; the cross-system
+continuations differ and remain recorded as descriptive evidence.
+
+Scientific decision:
+the fresh external gap remains large. I003 selects no next kernel. Per its preregistered decision
+boundary, the next program must be a fresh post-I002 exact device-work profile before selecting
+any new mechanism. Historical Q2 shares are not reused as the current localization.
+
+I003 primary science authorization is now closed. Any later I003 collection is replication/
+robustness only and requires a fresh explicit authorization.
+

@@ -1,0 +1,267 @@
+{
+  "schema": "arcllm.v1.i003.final_adjudication.v0.1",
+  "date": "2026-09-24",
+  "program": "I003-MEB",
+  "scientific_role": "FRESH_MATCHED_EXTERNAL_GAP_CHARACTERIZATION",
+  "classification": "I003_MATCHED_EXTERNAL_CHARACTERIZATION_COMPLETE",
+  "primary_collection_id": "20260924T143132554Z_cf9a222c",
+  "primary_bundle_sha256": "2FE89BCCFA9FB1ABE5782D628BF860F0026334F2ADC0BBE69FFF7B8A65253FE6",
+  "authorization_head": "d45efcb2e9841a923a946226e9b950c2a401ea49",
+  "implementation_head": "0180a410645c2ee40fd1dcd5185e84a7ad6de63f",
+  "active_authorization_blob": "df65b5cad52e7962ae959443097e8c44c1b11ee2",
+  "evidence_integrity": {
+    "zip_file_count": 247,
+    "recorded_pairs": 20,
+    "expected_pairs": 20,
+    "measured_inferences": 40,
+    "raw_pair_validity_issues": 0,
+    "run_meta_issues": 0,
+    "summary_recompute_differences": 0,
+    "pair_orders_exact": true,
+    "all_arm_process_exit_codes_zero": true,
+    "all_measured_attempts_success": true,
+    "all_final_logits_finite": true,
+    "all_generated_lengths_32": true,
+    "candidate_dispatch_census_all_pass": true,
+    "authorization_git_blob_recomputed": "df65b5cad52e7962ae959443097e8c44c1b11ee2",
+    "authorization_git_blob_matches_repo": true
+  },
+  "frozen_contract": {
+    "candidate": "ArcLLM-v1-I002",
+    "candidate_implementation_commit": "cf3580c4f6ff15491e6bcfeb2d3c42fa3e3bd9a1",
+    "candidate_shader": "sa1_q4k_subgroup_splitk.spv",
+    "candidate_gate_up_nodes_per_step": 56,
+    "baseline_release": "v0.4.1",
+    "baseline_commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+    "baseline_backend": "Vulkan",
+    "target_model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "cross_system_token_identity_required": false
+  },
+  "primary_results": {
+    "cells": {
+      "A_WS": {
+        "workload": "W-S",
+        "ttft_latency_ratio": {
+          "median": 7.499302908740796,
+          "min": 5.265135948687187,
+          "max": 16.30433758458101,
+          "mad": 2.2341669600536083
+        },
+        "decode_latency_ratio": {
+          "median": 8.833445556236844,
+          "min": 7.769746353383046,
+          "max": 30.194630962346555,
+          "mad": 1.0636992028537984
+        },
+        "decode_throughput_ratio": {
+          "median": 0.11320610894510526,
+          "min": 0.0331184706727173,
+          "max": 0.12870433016961844,
+          "mad": 0.015498221224513178
+        },
+        "e2e_latency_ratio": {
+          "median": 8.7291042978058,
+          "min": 7.758545033315263,
+          "max": 29.660646294609286,
+          "mad": 0.9705592644905376
+        },
+        "working_set_ratio": {
+          "median": 1.8361018601403543,
+          "min": 1.833212035812125,
+          "max": 1.836134599051463,
+          "mad": 0.000018309933476290396
+        },
+        "private_bytes_ratio": {
+          "median": 0.9704905765915065,
+          "min": 0.9695437656993292,
+          "max": 0.9705091919353459,
+          "mad": 0.000014262034189860273
+        },
+        "absolute_medians": {
+          "candidate_ttft_ms": 771.886,
+          "llama_ttft_ms": 102.9277,
+          "candidate_decode_ms": 20950.8998,
+          "llama_decode_ms": 2402.9951,
+          "candidate_decode_tps": 1.47965005302541,
+          "llama_decode_tps": 12.9005672962046,
+          "candidate_e2e_ms": 21528.4691,
+          "llama_e2e_ms": 2512.6948
+        },
+        "candidate_generated_hash": "f31d4bb9fe5eb9c3",
+        "llama_generated_hash": "1a31529a4fa40742"
+      },
+      "A_WC": {
+        "workload": "W-C",
+        "ttft_latency_ratio": {
+          "median": 8.758430532001498,
+          "min": 7.904206401147665,
+          "max": 9.85545338184238,
+          "mad": 0.49205091696058467
+        },
+        "decode_latency_ratio": {
+          "median": 9.205007060449406,
+          "min": 7.148094000828327,
+          "max": 11.632019195285205,
+          "mad": 2.0569130596210785
+        },
+        "decode_throughput_ratio": {
+          "median": 0.10863652721100456,
+          "min": 0.08596959678379205,
+          "max": 0.13989743278195868,
+          "mad": 0.020303445248331234
+        },
+        "e2e_latency_ratio": {
+          "median": 9.162895369385529,
+          "min": 7.4331463317066255,
+          "max": 10.965662196004482,
+          "mad": 1.2483841459557752
+        },
+        "working_set_ratio": {
+          "median": 1.8287542791779487,
+          "min": 1.8252417246524402,
+          "max": 1.8288519960891236,
+          "mad": 0.00006374522560603779
+        },
+        "private_bytes_ratio": {
+          "median": 0.9666016198003253,
+          "min": 0.9664401790469447,
+          "max": 0.9666428104676852,
+          "mad": 0.00003701729576177648
+        },
+        "absolute_medians": {
+          "candidate_ttft_ms": 13259.8478,
+          "llama_ttft_ms": 1585.5521,
+          "candidate_decode_ms": 22198.3309,
+          "llama_decode_ms": 2672.1339,
+          "candidate_decode_tps": 1.39650139191321,
+          "llama_decode_tps": 11.6012150439018,
+          "candidate_e2e_ms": 35456.9126,
+          "llama_e2e_ms": 4265.2861
+        },
+        "candidate_generated_hash": "471519ddc45b232e",
+        "llama_generated_hash": "d9b495aa8e8764e4"
+      },
+      "B_WC": {
+        "workload": "W-C",
+        "ttft_latency_ratio": {
+          "median": 9.703911042999044,
+          "min": 8.605163658070177,
+          "max": 9.772344431533703,
+          "mad": 0.0684333885346593
+        },
+        "decode_latency_ratio": {
+          "median": 13.036954018289284,
+          "min": 9.410822411590916,
+          "max": 20.777906047186203,
+          "mad": 3.626131606698369
+        },
+        "decode_throughput_ratio": {
+          "median": 0.07670503390570498,
+          "min": 0.0481280451326049,
+          "max": 0.10626063868428147,
+          "mad": 0.025607330068385684
+        },
+        "e2e_latency_ratio": {
+          "median": 11.505483103342392,
+          "min": 9.543277335464671,
+          "max": 16.53803583976524,
+          "mad": 1.9622057678777214
+        },
+        "working_set_ratio": {
+          "median": 1.828804421060827,
+          "min": 1.8287705586872385,
+          "max": 1.8288210391564574,
+          "mad": 0.000013475192171208406
+        },
+        "private_bytes_ratio": {
+          "median": 0.9666315737222254,
+          "min": 0.9666022602503256,
+          "max": 0.9666451072304126,
+          "mad": 0.000010446441478739746
+        },
+        "absolute_medians": {
+          "candidate_ttft_ms": 14421.4695,
+          "llama_ttft_ms": 1595.6173,
+          "candidate_decode_ms": 33275.4028,
+          "llama_decode_ms": 2640.1808,
+          "candidate_decode_tps": 0.93161907569756,
+          "llama_decode_tps": 11.7416201193494,
+          "candidate_e2e_ms": 47575.6294,
+          "llama_e2e_ms": 4302.6459
+        },
+        "candidate_generated_hash": "471519ddc45b232e",
+        "llama_generated_hash": "d9b495aa8e8764e4"
+      },
+      "B_WS": {
+        "workload": "W-S",
+        "ttft_latency_ratio": {
+          "median": 6.164544862703525,
+          "min": 4.990686593936337,
+          "max": 6.605550120954827,
+          "mad": 0.17896064622585506
+        },
+        "decode_latency_ratio": {
+          "median": 10.945655718347043,
+          "min": 7.9098906973281276,
+          "max": 11.742115194636932,
+          "mad": 0.7964594762898898
+        },
+        "decode_throughput_ratio": {
+          "median": 0.09136044707890875,
+          "min": 0.08516353173376631,
+          "max": 0.12642399727948106,
+          "mad": 0.00619691534514244
+        },
+        "e2e_latency_ratio": {
+          "median": 10.746237762614733,
+          "min": 7.788011793240136,
+          "max": 11.53782047223785,
+          "mad": 0.7915827096231176
+        },
+        "working_set_ratio": {
+          "median": 1.8360854356789713,
+          "min": 1.8360745066000859,
+          "max": 1.8360965864635546,
+          "mad": 0.0000060252242133351785
+        },
+        "private_bytes_ratio": {
+          "median": 0.9704748466431075,
+          "min": 0.970468459797371,
+          "max": 0.970483509012564,
+          "mad": 0.00000638684573650572
+        },
+        "absolute_medians": {
+          "candidate_ttft_ms": 761.0142,
+          "llama_ttft_ms": 123.7264,
+          "candidate_decode_ms": 31055.8233,
+          "llama_decode_ms": 2886.9514,
+          "candidate_decode_tps": 0.998202485264656,
+          "llama_decode_tps": 10.7379708574242,
+          "candidate_e2e_ms": 31787.2735,
+          "llama_e2e_ms": 3012.6023
+        },
+        "candidate_generated_hash": "f31d4bb9fe5eb9c3",
+        "llama_generated_hash": "1a31529a4fa40742"
+      }
+    },
+    "global": {
+      "geomean_cell_median_decode_latency_ratio_candidate_over_llama": 10.378702063787069,
+      "geomean_cell_median_e2e_latency_ratio_candidate_over_llama": 9.972198817849302,
+      "geomean_cell_median_decode_throughput_ratio_candidate_over_llama": 0.0963511616244538
+    }
+  },
+  "output_semantics": {
+    "candidate_within_workload_deterministic_5_of_5": true,
+    "llama_within_workload_deterministic_5_of_5": true,
+    "cross_system_token_sequences_differ": true,
+    "validity_effect": "NONE_BY_FROZEN_SPEC"
+  },
+  "scientific_interpretation": {
+    "fresh_post_i002_external_gap_remains_large": true,
+    "no_winner_score_declared": true,
+    "no_next_kernel_selected": true,
+    "historical_q2_not_algebraically_mixed": true,
+    "decision_boundary": "OPEN_FRESH_POST_I002_EXACT_DEVICE_WORK_PROFILE_BEFORE_SELECTING_ANY_NEW_MECHANISM"
+  },
+  "next": "POST_I002_EXACT_DEVICE_WORK_PROFILE_SPECIFICATION_AND_ZERO_SCIENCE_QA"
+}
