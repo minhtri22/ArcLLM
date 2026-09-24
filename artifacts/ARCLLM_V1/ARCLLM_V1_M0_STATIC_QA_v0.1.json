@@ -1,0 +1,36 @@
+{
+  "schema": "arcllm.v1.m0.static_qa.v0.1",
+  "date": "2026-09-24",
+  "result": "PASS_M0_METADATA_ONLY_PACKAGE_READY_FOR_LOCAL_COLLECTION",
+  "package_head": "04dc315a06a1fb5e59e62d585281b10e7656302a",
+  "branch": "research/arcllm-v1",
+  "lock_blob": "d81a7d5c9aca89b2702eadc3f62380464668c5ec",
+  "critical_blobs": {
+    "extractor": "29a4997563c7922b9e08cb6eed663d0650f04b64",
+    "build": "fa360e62efca985a89ef7f8071ac3ae6cc1ab0bc",
+    "runner": "bc3254b1a7791c20dd68aa30bae3b7cd4c1cb138",
+    "test": "23534a460365c8152a271e8551c3b0b7a67d2be4",
+    "spec": "074b7665381bb0bdad7f901e522ec1125cac5a36",
+    "gguf_cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
+    "gguf_h": "d71d22cc1db54a9643ecafa6d3b616a96221c726"
+  },
+  "assertions": {
+    "exact_56_target_scope": true,
+    "exact_v_dims_HxKV": true,
+    "exact_down_dims_FFNxH": true,
+    "authoritative_quant_mix_gate": true,
+    "target_28_q4_28_q6_consistency_gate": true,
+    "patch_manifest_present": true,
+    "model_sha256_gate": true,
+    "model_size_gate": true,
+    "git_blob_gate": true,
+    "vulkan_absent": true,
+    "inference_absent": true,
+    "performance_timing_absent": true,
+    "counters_absent": true,
+    "inference_authorized": false,
+    "performance_measurement_authorized": false
+  },
+  "note": "No model payload or fresh runtime data was accessed during static QA. Exact per-layer mapping remains unknown until local metadata-only collection.",
+  "next": "RUN_M0_METADATA_ONLY_COLLECTION_ON_FROZEN_LOCAL_GGUF_AND_RETURN_ZIP"
+}

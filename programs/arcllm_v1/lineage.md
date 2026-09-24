@@ -964,3 +964,14 @@ Source comparison shows gate/up is the only major Arc quant-linear family alread
 
 No next kernel is selected. Next evidence is metadata-only tensor quant census, then minimal current Arc and pinned-llama node/family timing. Quiet-host counters are deferred unless a concrete hardware hypothesis remains unresolved.
 
+## M0 exact tensor census — static package lock — 2026-09-24
+
+M0 is metadata-only and targets exactly 56 unresolved tensors: blk.0..27.attn_v.weight and blk.0..27.ffn_down.weight.
+
+Static QA PASS at package head `04dc315a06a1fb5e59e62d585281b10e7656302a`.
+No Vulkan, inference, timing, counters, or performance measurement is present or authorized. The runner verifies the exact frozen model SHA256/size and critical Git blobs before reading GGUF tensor descriptors.
+
+The global quant mix implies exactly 28 Q4_K + 28 Q6_K among the 56 target tensors, but this is used only as a consistency gate; layer ownership is never inferred.
+
+M1 remains blocked until local M0 returns PASS, independent adjudication confirms the mapping, and the central one-token hardware model is patched/audited.
+
