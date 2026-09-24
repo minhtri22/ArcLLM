@@ -1,0 +1,39 @@
+{
+  "schema": "arcllm.v1.m0.tensor_census_lock.v0.1",
+  "date": "2026-09-24",
+  "branch": "research/arcllm-v1",
+  "parent_hardware_model_commit": "f2ff1cf9c46e5fa7688462deb39032c298d70818",
+  "execution_class": "METADATA_ONLY_NO_INFERENCE_NO_PERFORMANCE",
+  "target": {
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "size_bytes": 4683074048,
+    "tensor_count": 339,
+    "layers": 28
+  },
+  "authoritative_quant_mix": {
+    "F32": 141,
+    "Q4_K": 169,
+    "Q6_K": 29
+  },
+  "target_scope": [
+    "blk.0..27.attn_v.weight",
+    "blk.0..27.ffn_down.weight"
+  ],
+  "expected_target_summary": {
+    "target_tensor_count": 56,
+    "Q4_K": 28,
+    "Q6_K": 28
+  },
+  "critical_git_blobs": {
+    "src/arcllm_v1_m0_tensor_census.cpp": "29a4997563c7922b9e08cb6eed663d0650f04b64",
+    "src/gguf.cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
+    "src/gguf.h": "d71d22cc1db54a9643ecafa6d3b616a96221c726",
+    "tools/build_arcllm_v1_m0.ps1": "fa360e62efca985a89ef7f8071ac3ae6cc1ab0bc"
+  },
+  "inference_authorized": false,
+  "performance_measurement_authorized": false,
+  "payload_read_required": false,
+  "result_schema": "arcllm.v1.m0.tensor_census.v0.1",
+  "next_on_pass": "INDEPENDENT_M0_ADJUDICATION_AND_PATCH_ONE_TOKEN_HARDWARE_MODEL",
+  "next_on_fail": "STOP_REPAIR_OR_ADJUDICATE_M0"
+}
