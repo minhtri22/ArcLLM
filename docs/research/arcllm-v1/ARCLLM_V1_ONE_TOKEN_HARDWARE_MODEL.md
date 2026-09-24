@@ -155,3 +155,20 @@ M1 bundle `D9345A4B94C3FC278D1459D7127464BDCBAD4AF142598AF3574F4E51934D634F` pas
 
 The decisive M1 result is a **cost inversion after I002**: gate/up is no longer dominant; FFN-down is now the largest coarse family (~35.1%), while LM-head remains ~21.4% despite only ~10.2% logical weight payload. This does not authorize an intervention. M2 must map pinned llama timing for the same semantic shapes before an excess-cost conclusion.
 
+## M2 closure — pinned llama same-semantic timing / excess map
+
+M2 bundle SHA256: `546E07D4C739AC91D28CD2B6F67AAC1DFAB802F8AD28C0CC4BE7A04F359BB9F3`.
+
+Independent recomputation from the two raw Vulkan perf logs matched the bundled summary exactly.
+Each workload contains 64 timing blocks (32 warmup + 32 measured); the final 31 cached-decode
+blocks are the measured decode path and probes 0/15/30 satisfy all frozen semantic call counts.
+
+M2 major-family calibrated shares are stable across W-S/W-C: gate/up ~42%, Q4-down ~10%,
+Q6-down ~17%, LM-head ~8.7%, Q+O ~10%, K+V(Q4) ~1.7%, V(Q6) ~0.8%.
+
+Joining M1/M2 shares to matched I003 practical token latency yields the new cross-runtime
+`ARCLLM_V1_EXCESS_COST_MAP_v0.1`. The mapped families cover >99.96% of logical weight payload.
+
+M3 quiet-host counters are deferred. The next causal discriminator is a Q4_K FFN-down split-K
+sentinel at K=18944 / rows=3584. No intervention is authorized until its specification is frozen.
+

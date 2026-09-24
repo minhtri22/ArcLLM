@@ -1,0 +1,132 @@
+{
+  "schema": "arcllm.v1.m2.final_adjudication.v0.1",
+  "date": "2026-09-25",
+  "result": "PASS_M2_PINNED_LLAMA_SAME_SEMANTIC_MAP",
+  "bundle_sha256": "546E07D4C739AC91D28CD2B6F67AAC1DFAB802F8AD28C0CC4BE7A04F359BB9F3",
+  "collection_head": "687feb276e6c8f46416296d305be971f0fead705",
+  "baseline": {
+    "release": "v0.4.1",
+    "commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+    "adapter_sha256": "62DA22E6384D4F3A426FD23D1664FE2F37AF967F8401DABDE10169C1B81AB242"
+  },
+  "target_model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+  "file_sha256": {
+    "m2_W_S_result.json": "64C6723B30132FB76A9DD2B741BC6AB8DEB9BF7CDD7FBEDE6C9A9E616C33FECF",
+    "m2_W_C_result.json": "C5334C1E700BE9DB86D3CBFB50F2AB96536441C4EDBEC2737A6D302870C52336",
+    "m2_W_S_vulkan_perf.txt": "A271321A15D78CB0349F83C10FC604AB81AD34E9457EEE5A56B7219B392271BF",
+    "m2_W_C_vulkan_perf.txt": "3982EFE7B3C0241A8AB24588AFF63CAC97D61379C921902B6EC80E43161ACBAF",
+    "ARCLLM_V1_M2_LLAMA_MAP.json": "1B625FD50E240756AA637DC111FA0C3D24BF305711A8A12B9893A13627F5EF4F",
+    "M2_RUN_META.json": "5DDF2076C94F136472398876F7AC4A7BAE98B328A715AE2864F9ACB577E244AD",
+    "arcllm_v1_m2_lock_v0.1.2.json": "0B1599B832FE3EFB562D113184FDA89DD8DF4EB8C7DDC22FEBF8A4153596B3FD"
+  },
+  "evidence_integrity": {
+    "zip_files": 7,
+    "bundled_lock_git_blob": "69be8999df57c5fe94773ccd607081328353d1c1",
+    "bundled_lock_matches_repository": true,
+    "workload_results_success": true,
+    "generated_hash_W_S": "1a31529a4fa40742",
+    "generated_hash_W_C": "d9b495aa8e8764e4",
+    "generated_hashes_match_I003": true,
+    "timing_blocks_W_S": 64,
+    "timing_blocks_W_C": 64,
+    "measured_cached_decode_blocks_per_workload": 31,
+    "selected_probe_indices": [
+      0,
+      15,
+      30
+    ],
+    "semantic_call_counts_exact": true,
+    "independent_recompute_summary_differences": 0
+  },
+  "mapped_semantic_families": {
+    "W-S": {
+      "profiled_total_us": 70978.1,
+      "families": {
+        "ffn_gate_up_q4_k": {
+          "median_us": 30626.1,
+          "share": 0.42917549912021835,
+          "calls": 56
+        },
+        "ffn_down_q4_k": {
+          "median_us": 7381.56,
+          "share": 0.10428450939421811,
+          "calls": 14
+        },
+        "ffn_down_q6_k": {
+          "median_us": 12274.8,
+          "share": 0.17293784984382504,
+          "calls": 14
+        },
+        "lm_head_q6_k": {
+          "median_us": 6204.84,
+          "share": 0.08700092000208515,
+          "calls": 1
+        },
+        "q_o_q4_k_combined": {
+          "median_us": 7531.949,
+          "share": 0.10640916096966924,
+          "calls": 56
+        },
+        "k_v_q4_k_combined": {
+          "median_us": 1254.56,
+          "share": 0.017645301860714783,
+          "calls": 42
+        },
+        "v_q6_k": {
+          "median_us": 615.149,
+          "share": 0.00856330332877324,
+          "calls": 14
+        }
+      }
+    },
+    "W-C": {
+      "profiled_total_us": 71396.1,
+      "families": {
+        "ffn_gate_up_q4_k": {
+          "median_us": 30072.9,
+          "share": 0.42121208301293767,
+          "calls": 56
+        },
+        "ffn_down_q4_k": {
+          "median_us": 7221.56,
+          "share": 0.10114782179979018,
+          "calls": 14
+        },
+        "ffn_down_q6_k": {
+          "median_us": 11983.6,
+          "share": 0.17017814233864423,
+          "calls": 14
+        },
+        "lm_head_q6_k": {
+          "median_us": 6206.15,
+          "share": 0.08692561638520871,
+          "calls": 1
+        },
+        "q_o_q4_k_combined": {
+          "median_us": 7428.36,
+          "share": 0.1033208472353682,
+          "calls": 56
+        },
+        "k_v_q4_k_combined": {
+          "median_us": 1208.78,
+          "share": 0.01663694035008609,
+          "calls": 42
+        },
+        "v_q6_k": {
+          "median_us": 605.045,
+          "share": 0.008296681752439168,
+          "calls": 14
+        }
+      }
+    }
+  },
+  "coverage": {
+    "llama_time_share_W_S": 0.9260165445195039,
+    "llama_time_share_W_C": 0.9077181328744742
+  },
+  "decision": "CLOSE_M2_BUILD_EXCESS_COST_MAP",
+  "excess_cost_map_result": "M3_DEFERRED_NEXT_CAUSAL_SENTINEL",
+  "next": "H1_Q4_DOWN_SPLIT_K_SENTINEL_SPEC",
+  "hardware_model_v0_4_blob": "6f41cbad79638f0e32ae7b16def5621ed9016370",
+  "excess_cost_map_blob": "480feb181afd24a8b37914d093473c1a437f14a0"
+}

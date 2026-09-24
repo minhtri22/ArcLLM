@@ -1,0 +1,223 @@
+{
+  "schema": "arcllm.v1.excess_cost_map.v0.1",
+  "date": "2026-09-25",
+  "role": "CROSS_RUNTIME_HARDWARE_GROUNDED_EXCESS_LOCALIZATION",
+  "evidence_chain": {
+    "m0": "exact per-layer quant census",
+    "m1": "post-I002 Arc Vulkan tick-share localization",
+    "m2": "pinned llama Vulkan calibrated timestamp semantic map",
+    "i003": "matched practical decode-token latency scale"
+  },
+  "method": {
+    "arc_family_signal": "M1 workload median Vulkan tick share",
+    "llama_family_signal": "M2 workload median calibrated Vulkan time share",
+    "practical_scale": "I003 per-workload geometric mean across A/B cell median decode_ms/31",
+    "derived_attributed_ms": "practical token ms * family share",
+    "excess_ratio": "Arc derived attributed ms / llama derived attributed ms",
+    "directness": "DERIVED_CROSS_EVIDENCE; not a directly paired family benchmark",
+    "caveat": "M2 perf logger changes observability/synchronization and its wall decode throughput is not substituted for I003 matched practical latency."
+  },
+  "coverage": {
+    "logical_weight_bytes_mapped": 4369225728,
+    "logical_one_pass_weight_bytes": 4370560992,
+    "logical_weight_fraction": 0.999694486817037,
+    "arc_tick_share_W_S": 0.9767217668295106,
+    "arc_tick_share_W_C": 0.9574501867148606,
+    "llama_time_share_W_S": 0.9260165445195039,
+    "llama_time_share_W_C": 0.9077181328744742
+  },
+  "practical_scale": {
+    "W-S": {
+      "arc_ms_per_token": 822.8319933287564,
+      "llama_ms_per_token": 84.96390901866324,
+      "ratio": 9.684488423761346,
+      "basis": "geomean across I003 A/B cell median decode_ms/31"
+    },
+    "W-C": {
+      "arc_ms_per_token": 876.7184120172323,
+      "llama_ms_per_token": 85.68094518717483,
+      "ratio": 10.232361584037054,
+      "basis": "geomean across I003 A/B cell median decode_ms/31"
+    }
+  },
+  "families": {
+    "lm_head_q6_k": {
+      "logical_weight_bytes": 447068160,
+      "optimistic_136gbps_weight_floor_ms": 3.2872658823529415,
+      "ws": {
+        "arc_share": 0.32383752814942085,
+        "llama_share": 0.08700092000208515,
+        "arc_attributed_ms": 266.4638788018452,
+        "llama_attributed_ms": 7.3919382515971614,
+        "excess_ratio": 36.04790377466572
+      },
+      "wc": {
+        "arc_share": 0.1790179969262786,
+        "llama_share": 0.08692561638520871,
+        "arc_attributed_ms": 156.94837398771273,
+        "llama_attributed_ms": 7.447868972862453,
+        "excess_ratio": 21.07292361876668
+      },
+      "geomean_excess_ratio": 27.561471710708442,
+      "mean_attributed_gap_ms": 204.28622278254917,
+      "mean_arc_over_optimistic_weight_floor": 64.40188715226317,
+      "mean_llama_over_optimistic_weight_floor": 2.257165643966356
+    },
+    "ffn_gate_up_q4_k": {
+      "logical_weight_bytes": 2138701824,
+      "optimistic_136gbps_weight_floor_ms": 15.725748705882355,
+      "ws": {
+        "arc_share": 0.1995574079152222,
+        "llama_share": 0.42917549912021835,
+        "arc_attributed_ms": 164.20221973840202,
+        "llama_attributed_ms": 36.46442806028962,
+        "excess_ratio": 4.503079534578551
+      },
+      "wc": {
+        "arc_share": 0.26104894556992597,
+        "llama_share": 0.42121208301293767,
+        "arc_attributed_ms": 228.8664170188384,
+        "llama_attributed_ms": 36.089849396807246,
+        "excess_ratio": 6.341573069548068
+      },
+      "geomean_excess_ratio": 5.343838312160687,
+      "mean_attributed_gap_ms": 160.25717965007178,
+      "mean_arc_over_optimistic_weight_floor": 12.497612803968108,
+      "mean_llama_over_optimistic_weight_floor": 2.3068624208002673
+    },
+    "ffn_down_q6_k": {
+      "logical_weight_bytes": 779735040,
+      "optimistic_136gbps_weight_floor_ms": 5.733345882352942,
+      "ws": {
+        "arc_share": 0.1725899127805548,
+        "llama_share": 0.17293784984382504,
+        "arc_attributed_ms": 142.01250196166012,
+        "llama_attributed_ms": 14.693475740013996,
+        "excess_ratio": 9.665004010924704
+      },
+      "wc": {
+        "arc_share": 0.17290865313864662,
+        "llama_share": 0.17017814233864423,
+        "arc_attributed_ms": 151.5921998037527,
+        "llama_attributed_ms": 14.581024085772611,
+        "excess_ratio": 10.396539976342835
+      },
+      "geomean_excess_ratio": 10.024100985679091,
+      "mean_attributed_gap_ms": 132.1651009698131,
+      "mean_arc_over_optimistic_weight_floor": 25.60500515668511,
+      "mean_llama_over_optimistic_weight_floor": 2.553003117768683
+    },
+    "ffn_down_q4_k": {
+      "logical_weight_bytes": 534675456,
+      "optimistic_136gbps_weight_floor_ms": 3.9314371764705887,
+      "ws": {
+        "arc_share": 0.15054504106822722,
+        "llama_share": 0.10428450939421811,
+        "arc_attributed_ms": 123.8732762279289,
+        "llama_attributed_ms": 8.86041956822628,
+        "excess_ratio": 13.980520366342699
+      },
+      "wc": {
+        "arc_share": 0.17844153046908745,
+        "llama_share": 0.10114782179979018,
+        "arc_attributed_ms": 156.4429752307829,
+        "llama_attributed_ms": 8.66644097542995,
+        "excess_ratio": 18.051582613244722
+      },
+      "geomean_excess_ratio": 15.88617381149991,
+      "mean_attributed_gap_ms": 131.39469545752777,
+      "mean_arc_over_optimistic_weight_floor": 35.650608018918305,
+      "mean_llama_over_optimistic_weight_floor": 2.229065321017136
+    },
+    "q_o_q4_k_combined": {
+      "logical_weight_bytes": 404619264,
+      "optimistic_136gbps_weight_floor_ms": 2.9751416470588232,
+      "ws": {
+        "arc_share": 0.07148727843130954,
+        "llama_share": 0.10640916096966924,
+        "arc_attributed_ms": 58.822019809282246,
+        "llama_attributed_ms": 9.040938271379268,
+        "excess_ratio": 6.506185314359908
+      },
+      "wc": {
+        "arc_share": 0.08887594071971017,
+        "llama_share": 0.1033208472353682,
+        "arc_attributed_ms": 77.91917361432196,
+        "llama_attributed_ms": 8.852627848666048,
+        "excess_ratio": 8.80181285673984
+      },
+      "geomean_excess_ratio": 7.567445113660553,
+      "mean_attributed_gap_ms": 59.42381365177945,
+      "mean_arc_over_optimistic_weight_floor": 22.980619016708722,
+      "mean_llama_over_optimistic_weight_floor": 3.007178857809107
+    },
+    "k_v_q4_k_combined": {
+      "logical_weight_bytes": 43352064,
+      "optimistic_136gbps_weight_floor_ms": 0.3187651764705882,
+      "ws": {
+        "arc_share": 0.04343742034411956,
+        "llama_share": 0.017645301860714783,
+        "arc_attributed_ms": 35.741699166810974,
+        "llama_attributed_ms": 1.4992138219006201,
+        "excess_ratio": 23.840294589533354
+      },
+      "wc": {
+        "arc_share": 0.05747210583221475,
+        "llama_share": 0.01663694035008609,
+        "arc_attributed_ms": 50.386853360505626,
+        "llama_attributed_ms": 1.4254687742180236,
+        "excess_ratio": 35.34756725074289
+      },
+      "geomean_excess_ratio": 29.029233821805427,
+      "mean_attributed_gap_ms": 41.60193496559898,
+      "mean_arc_over_optimistic_weight_floor": 135.09717949893988,
+      "mean_llama_over_optimistic_weight_floor": 4.5875189826271665
+    },
+    "v_q6_k": {
+      "logical_weight_bytes": 21073920,
+      "optimistic_136gbps_weight_floor_ms": 0.15495529411764705,
+      "ws": {
+        "arc_share": 0.015267178140656458,
+        "llama_share": 0.00856330332877324,
+        "arc_attributed_ms": 12.56232262198157,
+        "llama_attributed_ms": 0.7275717249251057,
+        "excess_ratio": 17.26609513759582
+      },
+      "wc": {
+        "arc_share": 0.0196850140589971,
+        "llama_share": 0.008296681752439168,
+        "arc_attributed_ms": 17.25821426634083,
+        "llama_attributed_ms": 0.710867534466174,
+        "excess_ratio": 24.27767963731933
+      },
+      "geomean_excess_ratio": 20.4739035442201,
+      "mean_attributed_gap_ms": 14.19104881446556,
+      "mean_arc_over_optimistic_weight_floor": 96.22303341788918,
+      "mean_llama_over_optimistic_weight_floor": 4.64146535806376
+    }
+  },
+  "conclusions": [
+    "The ~10x practical gap is not explained by one residual family; multiple Arc quantized matvec families remain far above the pinned llama execution envelope.",
+    "I002 split-K moved gate/up into a materially better regime: despite ~48.9% of logical weight payload, its cross-runtime geomean excess is ~5.34x, substantially below the residual row-serial families.",
+    "FFN-down is the largest post-I002 Arc coarse cost (~35.1% ticks combined); Q4-down geomean excess ~15.89x and Q6-down ~10.02x.",
+    "LM-head has the largest single-family mean attributable practical gap (~204ms) and geomean excess ~27.56x despite only ~10.2% of logical weight payload.",
+    "Small-output K/V families show extreme time-per-weight pressure, consistent with poor work partitioning/occupancy/cache-load efficiency in the row-serial Arc mapping.",
+    "Pinned llama major quantized families sit roughly 2.2-4.6x above the optimistic 136GB/s weight-only floor; Arc ranges roughly 12.5-135x on the same family accounting.",
+    "Hardware counters are not required to choose the next causal discriminator: source topology plus same-semantic timing already discriminates row-serial K organization as a high-value mechanism hypothesis."
+  ],
+  "m3_decision": "DEFER_M3_QUIET_HOST_COUNTERS",
+  "m3_reason": "Counters could refine whether the residual tax is cache, occupancy, issue utilization, or physical bandwidth, but they are not necessary before a direct causal work-partitioning intervention.",
+  "next_science": {
+    "hypothesis": "H1_RESIDUAL_SERIAL_K_MAPPING_PENALTY",
+    "first_sentinel": "Q4_K_FFN_DOWN_H18944_R3584",
+    "rationale": [
+      "FFN-down is the largest current coarse Arc family.",
+      "Q4 down alone has ~15.89x cross-runtime geomean excess.",
+      "It uses the same Q4_K quant format as the already-proven gate/up split-K mechanism, isolating shape/work-partition transfer rather than introducing Q6 simultaneously.",
+      "Its K=18944 / rows=3584 geometry is deliberately different and harder than the prior gate/up K=3584 / rows=18944 case.",
+      "A strong sentinel transfer would causally support the row-serial-K hypothesis; a failure would justify deeper M3 counters before expanding to Q6/LM-head."
+    ],
+    "implementation_authorized": false,
+    "next_artifact": "H1_Q4_DOWN_SPLIT_K_SENTINEL_SPEC"
+  }
+}

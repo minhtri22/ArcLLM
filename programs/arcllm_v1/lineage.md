@@ -1022,3 +1022,44 @@ Repair: aggregate all logger rows by semantic shape/type first, then validate th
 
 Scientific payload remains unchanged: exact pinned llama commit/binary, model, W-S/W-C, warmup/measured counts, probes 0/15/30, and perf logger mode.
 
+## M2 pinned llama same-semantic map — PASS / EXCESS-COST MAP — 2026-09-25
+
+Returned bundle SHA256:
+`546E07D4C739AC91D28CD2B6F67AAC1DFAB802F8AD28C0CC4BE7A04F359BB9F3`
+
+Independent adjudication:
+`PASS_M2_PINNED_LLAMA_SAME_SEMANTIC_MAP`
+
+Integrity:
+- exact pinned llama v0.4.1 commit `b29c606e28a01b1bc8c1351026a0fa6e616bf6c4`;
+- exact baseline adapter/model hashes;
+- W-S/W-C generated hashes match I003;
+- 64 Vulkan timing blocks/workload = 32 warmup + 32 measured;
+- measured cached decode = final 31 blocks;
+- probes 0/15/30;
+- all seven semantic call-count contracts exact;
+- independent raw-log recomputation differs from summary by 0.
+
+Cross-runtime excess map now covers 4,369,225,728 / 4,370,560,992 logical weight bytes.
+Derived geomean Arc/llama excess ratios:
+- gate/up split-K ~5.34×;
+- FFN-down Q4_K ~15.89×;
+- FFN-down Q6_K ~10.02×;
+- LM-head Q6_K ~27.56×;
+- Q+O Q4_K ~7.57×;
+- K+V(Q4) ~29.03×;
+- V(Q6) ~20.47×.
+
+Hardware interpretation:
+the successful I002 gate/up split-K family is materially closer to llama than the remaining
+row-serial-K families. The same-semantic timing + source topology is already sufficient to open
+a direct causal work-partitioning discriminator.
+
+M3 quiet-host counters are DEFERRED, not cancelled. They become justified only if the causal
+sentinel fails or leaves cache/bandwidth/occupancy attribution unresolved.
+
+Next artifact:
+`H1_Q4_DOWN_SPLIT_K_SENTINEL_SPEC`
+
+No implementation is authorized yet.
+
