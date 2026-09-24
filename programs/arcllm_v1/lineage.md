@@ -982,3 +982,11 @@ M0 PASS: 56/56 target tensors resolved from exact GGUF metadata with no inferenc
 
 M0 closes the quant-census uncertainty. Next evidence is M1 minimal post-I002 node/family timing; machine profiling is not repeated and quiet-host mode is not required.
 
+## M1 minimal post-I002 node timing — package lock — 2026-09-24
+
+M1 reuses the proven 469-op Vulkan timestamp profiler but binds the current post-I002 gate/up shader `sa1_q4k_subgroup_splitk.spv`. Discovery design is intentionally light: W-S + W-C, one warmup and two measured attempts/workload, probes at decode indices 0/15/30, for 4 measured inferences and 12 profiled token steps.
+
+No machine-profile repeat, quiet-host gate, hardware counters, A/B sessions, or intervention is included. M1 reports raw GPU tick shares plus an explicitly labeled `wall_attributed_ms_proxy`; this proxy is not timestampPeriod-calibrated pure GPU milliseconds.
+
+Next after valid M1: patch the central one-token hardware model and open M2 pinned-llama same-semantic execution mapping.
+

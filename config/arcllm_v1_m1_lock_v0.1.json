@@ -1,0 +1,51 @@
+{
+  "schema": "arcllm.v1.m1.lock.v0.1",
+  "date": "2026-09-24",
+  "branch": "research/arcllm-v1",
+  "role": "MINIMAL_POST_I002_NODE_TIMING_DISCOVERY",
+  "parent_hardware_model": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_ONE_TOKEN_HARDWARE_MODEL_v0.2.json",
+    "blob": "aab5e330b414ba531ab321c7604999a6b5aea070"
+  },
+  "target_model": {
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "bytes": 4683074048
+  },
+  "candidate_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+  "execution": {
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "warmups_per_workload": 1,
+    "measured_attempts_per_workload": 2,
+    "measured_attempts_total": 4,
+    "probe_decode_indices": [
+      0,
+      15,
+      30
+    ],
+    "profiled_decode_steps_total": 12,
+    "decode_dispatches_per_step": 469,
+    "op_timestamp_values": 5628
+  },
+  "governance": {
+    "quiet_host_required": false,
+    "machine_profile_repeat": false,
+    "ambient_load_gate": false,
+    "hardware_counters": false,
+    "intervention": false,
+    "discovery_only": true
+  },
+  "critical_git_blobs": {
+    "src/arcllm_v1_m1_post_i002_node_timing.cpp": "2ff8e0a884af1371743a7b87718b42d37640ef2e",
+    "src/arcllm_v1_i001r_p8c_profile_runtime.cpp": "992f46e866d51f90e9650d9604b1c81cbe55e902",
+    "tools/build_arcllm_v1_m1.ps1": "1d54e7a5deb81807768eb74aabc5acd6f52931a8",
+    "tools/summarize_arcllm_v1_m1.py": "39b72067349b902002b08177a6883edc1da08295",
+    "tests/test_arcllm_v1_m1_package.py": "7a9e2435a3c5da82aa11702abff3920a7d6e696a",
+    "run_arcllm_v1_m1.ps1": "de35a93872a71f228c3a6ccfb3940c0057b46130",
+    "artifacts/ARCLLM_V1/ARCLLM_V1_ONE_TOKEN_HARDWARE_MODEL_v0.2.json": "aab5e330b414ba531ab321c7604999a6b5aea070",
+    "shaders/sa1_q4k_subgroup_splitk.comp": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a"
+  },
+  "next_on_pass": "PATCH_HARDWARE_MODEL_WITH_M1_AND_OPEN_M2_LLAMA_MAP"
+}
