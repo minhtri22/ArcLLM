@@ -1,0 +1,27 @@
+{
+  "schema": "arcllm.v1.m1.final_adjudication.v0.1",
+  "date": "2026-09-24",
+  "result": "PASS_M1_MINIMAL_POST_I002_NODE_TIMING",
+  "bundle_sha256": "D9345A4B94C3FC278D1459D7127464BDCBAD4AF142598AF3574F4E51934D634F",
+  "collection_head": "d7f2c8f58bc0839e7d42f025d48277eaccb674fb",
+  "evidence": {
+    "measured_attempts": 4,
+    "profiled_decode_steps": 12,
+    "op_timestamp_values": 5628,
+    "raw_errors": 0,
+    "summary_status": "PASS",
+    "independent_family_recompute": "MATCH"
+  },
+  "primary_findings": {
+    "post_i002_ffn_down_tick_share": 0.3513229580932601,
+    "post_i002_gate_up_tick_share": 0.21907449803183288,
+    "post_i002_lm_head_tick_share": 0.21375604392744746,
+    "post_i002_attn_qkv_tick_share": 0.10425079458447224,
+    "cost_inversion_vs_i001r": true,
+    "largest_current_coarse_family": "ffn_down",
+    "lm_head_time_pressure_per_logical_weight_ratio": 2.089688955843681,
+    "gate_up_time_pressure_per_logical_weight_ratio": 0.447691212978421
+  },
+  "decision": "CLOSE_M1_OPEN_M2_PINNED_LLAMA_SAME_SEMANTIC_MAP",
+  "hardware_model_v0_3_blob": "4c43e7211beb59af515c4a06d56fc300e787c873"
+}

@@ -990,3 +990,11 @@ No machine-profile repeat, quiet-host gate, hardware counters, A/B sessions, or 
 
 Next after valid M1: patch the central one-token hardware model and open M2 pinned-llama same-semantic execution mapping.
 
+## M1 minimal post-I002 node timing — PASS / hardware model v0.3 — 2026-09-24
+
+Bundle SHA256 `D9345A4B94C3FC278D1459D7127464BDCBAD4AF142598AF3574F4E51934D634F`. Four measured inferences yielded 12 valid 469-op timestamp probes. Independent family recomputation matched the summary.
+
+Post-I002 coarse tick shares: FFN-down ~35.13%; gate/up split-K ~21.91%; LM-head ~21.38%; QKV ~10.43%; O projection ~3.77%. This is a cost inversion relative to historical I001R: gate/up is no longer dominant after the successful I002 mechanism.
+
+No intervention selected. Next: M2 pinned llama same-semantic Vulkan timing map using exact baseline commit; then compute cross-runtime excess map.
+

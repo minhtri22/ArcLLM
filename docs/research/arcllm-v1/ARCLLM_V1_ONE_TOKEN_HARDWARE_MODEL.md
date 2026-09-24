@@ -141,3 +141,17 @@ Independent census: 56/56 target tensors present; `V = 14 Q4_K + 14 Q6_K`; `FFN-
 
 The central machine-readable ledger is superseded by `ARCLLM_V1_ONE_TOKEN_HARDWARE_MODEL_v0.2.json`; all 56 V/down nodes now have exact quant type, exact shader family, exact semantic byte floor and exact branch-specific bandwidth floor. M0 is closed. M1 is now the next evidence step.
 
+## M1 closure — post-I002 Arc timing localization
+
+M1 bundle `D9345A4B94C3FC278D1459D7127464BDCBAD4AF142598AF3574F4E51934D634F` passed: 4 measured inferences, 12 profiled decode steps, 5,628 op timestamp observations, no quiet-host/counter run.
+
+| Coarse family | Post-I002 tick share | Logical weight share | tick/weight-share ratio |
+|---|---:|---:|---:|
+| ffn_down | 35.13% | 30.07% | 1.17x |
+| ffn_gate_up | 21.91% | 48.93% | 0.45x |
+| lm_head | 21.38% | 10.23% | 2.09x |
+| attn_qkv | 10.43% | 6.11% | 1.70x |
+| attn_output | 3.77% | 4.63% | 0.81x |
+
+The decisive M1 result is a **cost inversion after I002**: gate/up is no longer dominant; FFN-down is now the largest coarse family (~35.1%), while LM-head remains ~21.4% despite only ~10.2% logical weight payload. This does not authorize an intervention. M2 must map pinned llama timing for the same semantic shapes before an excess-cost conclusion.
+
