@@ -36,26 +36,27 @@
   "hotspot_recompute": {
     "lm_head": {
       "dispatch_time_ns": 792369077,
-      "share_percent": 63.91,
+      "share_percent": 63.910874568841045,
       "physical_dispatches": 19,
       "semantic_nodes": 1
     },
     "ffn_down": {
-      "dispatch_time_ns": 201665000,
-      "share_percent": 16.27,
+      "dispatch_time_ns": 201664765,
+      "share_percent": 16.265868867153944,
       "semantic_nodes": 28
     },
     "ffn_up": {
-      "dispatch_time_ns": 74557000,
-      "share_percent": 6.01,
+      "dispatch_time_ns": 74556516,
+      "share_percent": 6.0135766029720905,
       "semantic_nodes": 28
     },
     "ffn_gate": {
-      "dispatch_time_ns": 74155000,
-      "share_percent": 5.98,
+      "dispatch_time_ns": 74155265,
+      "share_percent": 5.981212515230664,
       "semantic_nodes": 28
     },
-    "top4_share_percent": 92.17
+    "top4_dispatch_time_ns": 1142745623,
+    "top4_share_percent": 92.17153255419775
   },
   "target_quant_census": {
     "ffn_down_q4_nodes": 14,
