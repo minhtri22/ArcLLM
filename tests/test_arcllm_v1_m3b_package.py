@@ -35,11 +35,12 @@ for x in [
     if x=="counterPassIndex":
         continue
     assert x in m,x
-assert m.count("cmd_reset_query_pool_")==1
+reset_call="cmd_reset_query_pool_(rcb,perf_qp"
+assert m.count(reset_call)==1
 pass_pos=m.index("for(uint32_t pass=0;pass<pass_count;++pass)")
-reset_pos=m.index("cmd_reset_query_pool_(rcb,perf_qp")
+reset_pos=m.index(reset_call)
 assert reset_pos < pass_pos
-assert "cmd_reset_query_pool_" not in m[pass_pos:]
+assert reset_call not in m[pass_pos:]
 assert m.index("m3_perf_acquire_lock") < m.index("begin_command_buffer_(cb,&bi)")
 assert m.index("m3_perf_release_lock") < m.index("m3_perf_get_results")
 assert "VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT" in m

@@ -1,5 +1,5 @@
 {
-  "schema": "arcllm.v1.m3b.lock.v0.1.4",
+  "schema": "arcllm.v1.m3b.lock.v0.1.5",
   "date": "2026-09-25",
   "branch": "research/arcllm-v1",
   "role": "QUIET_HOST_VULKAN_COMMAND_SCOPE_COUNTER_COLLECTION",
@@ -67,7 +67,7 @@
     "third_party/token_xray/token_xray_arcllm_v1_adapter.h": "e70ca7fd0fa5f295ded905f8276bcaa8204921e9",
     "tools/build_arcllm_v1_m3b.ps1": "b439c8b6a0cb3e50be0581318c158e712b882cf7",
     "tools/parse_arcllm_v1_m3b.py": "b1ce75b18a112c8dac547c44f32db0d2110eedf9",
-    "tests/test_arcllm_v1_m3b_package.py": "8a9ce5ed53a6dff9c74704bd73ca43481cf82f68",
+    "tests/test_arcllm_v1_m3b_package.py": "d88502c6d6df7f0a0ffab611b6652e7a7fe721a9",
     "run_arcllm_v1_m3b.ps1": "095cd0448f4694c06829e4bbdad5ae7d5c212d8a",
     "config/arcllm_v1_m3b_counter_selection_v0.1.json": "365999477616431f9f85c9b944556f2927cf9252",
     "src/gguf.cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
@@ -95,6 +95,16 @@
   "pre_run_test_syntax_repair": {
     "classification": "PRE_COLLECTION_STATIC_QA_ONLY",
     "reason": "Python test file contained four literal escaped-newline separators between assert statements.",
+    "scientific_payload_changed": false,
+    "collector_changed": false,
+    "runtime_changed": false,
+    "parser_changed": false,
+    "counter_selection_changed": false
+  },
+  "pre_run_static_qa_symbol_count_repair": {
+    "classification": "PRE_COLLECTION_STATIC_QA_ONLY",
+    "reason": "Static test counted the reset function-pointer member declaration in addition to the single reset call-site.",
+    "implementation_invariant": "Exactly one cmd_reset_query_pool_(rcb,perf_qp...) call exists before the counter-pass loop and none inside it.",
     "scientific_payload_changed": false,
     "collector_changed": false,
     "runtime_changed": false,
