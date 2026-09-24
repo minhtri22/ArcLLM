@@ -745,3 +745,34 @@ I002 is closed. Existing science authorization is closed.
 
 Next:
 fresh matched external baseline comparison of the closed I002 candidate versus pinned llama.cpp under one matched DEV_HOST design. No next kernel is selected yet.
+
+
+## I003-MEB matched external baseline program — 2026-09-24
+
+Parent:
+`PASS_I002_REAL_MODEL_CARRY_THROUGH`
+
+Question:
+what fresh practical gap remains between the closed I002 candidate and exact pinned llama.cpp v0.4.1 under matched DEV_HOST execution?
+
+Frozen design:
+- same exact GGUF;
+- exact W-S/W-C;
+- closed I002 candidate only;
+- llama.cpp commit `b29c606e28a01b1bc8c1351026a0fa6e616bf6c4`;
+- 4 DEV_HOST cells;
+- 5 adjacent candidate/llama pairs per cell;
+- 40 measured inferences total;
+- one warmup before each measured arm;
+- pair order counterbalanced A/B;
+- ambient load recorded, not blocking;
+- no selective pair/cell rerun;
+- no new kernel selection.
+
+Bounded implementation and static QA:
+`PASS_I003_STATIC_SOURCE_PROVENANCE_QA_PENDING_LOCAL_BUILD`
+
+Fresh external comparison remains locked.
+
+Next:
+run `run_arcllm_v1_i003_preflight.ps1` locally and return its zero-science bundle.

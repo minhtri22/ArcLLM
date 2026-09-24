@@ -1,0 +1,38 @@
+{
+  "schema": "arcllm.v1.i003.zero_science_static_qa.v0.1",
+  "date": "2026-09-24",
+  "result": "PASS_I003_STATIC_SOURCE_PROVENANCE_QA_PENDING_LOCAL_BUILD",
+  "science_measured_inferences": 0,
+  "fresh_measurement_authorized": false,
+  "checks": {
+    "parent_i002_closed_pass": true,
+    "candidate_prefill_byte_identical_to_q2": true,
+    "candidate_decode_delta_gate_up_only": true,
+    "candidate_gate_up_nodes_per_step": 56,
+    "candidate_source_exact_sa1": true,
+    "baseline_exact_q2_runtime_contract": true,
+    "baseline_commit_exact": true,
+    "baseline_single_measured_attempt_wrapper": true,
+    "exact_q2_workloads_preserved": true,
+    "paired_cells": 4,
+    "pairs_per_cell": 5,
+    "measured_inferences_total": 40,
+    "counterbalanced_pair_order": true,
+    "dev_host_metadata_not_blocker": true,
+    "manual_full_collection_rerun": true,
+    "selective_pair_cell_rerun": false,
+    "existing_q2_resource_sampler_reused": true,
+    "fresh_authorization_absent": true,
+    "no_new_kernel_selected": true,
+    "winner_threshold_absent": true
+  },
+  "package_gate": {
+    "static_qa": "PASS",
+    "local_candidate_build": "PENDING",
+    "local_llama_build_qualification": "PENDING",
+    "local_llama_runtime_qualification": "PENDING",
+    "full_preflight_pass": false,
+    "fresh_comparison_locked": true
+  },
+  "next": "RUN_I003_ZERO_SCIENCE_PREFLIGHT"
+}

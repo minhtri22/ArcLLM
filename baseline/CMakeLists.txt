@@ -23,3 +23,7 @@ add_subdirectory("${LLAMA_CPP_DIR}" "${CMAKE_BINARY_DIR}/llama-src")
 add_executable(q2_llama_adapter q2_llama_adapter.cpp)
 target_link_libraries(q2_llama_adapter PRIVATE llama)
 target_compile_features(q2_llama_adapter PRIVATE cxx_std_17)
+
+add_executable(i003_llama_adapter i003_llama_adapter.cpp)
+target_link_libraries(i003_llama_adapter PRIVATE llama)
+target_compile_features(i003_llama_adapter PRIVATE cxx_std_17)
