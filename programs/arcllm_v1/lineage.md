@@ -1063,3 +1063,18 @@ Next artifact:
 
 No implementation is authorized yet.
 
+## M3 re-opened as Token-XRay counter foundation — M3-A capability stage — 2026-09-25
+
+The prior excess-cost map deferred M3 because counters were not needed to choose the next causal
+sentinel. M3 is now re-opened for a broader scientific/tooling objective: establish measured
+hardware-counter evidence usable by both ArcLLM and Token-XRay HardwareLens.
+
+Token-XRay Phase-3 counter contract:
+`minhtri22/token-xray@ba19a34c54c0290cbed2f54f6a1175554bcfae16`.
+
+M3-A is zero-science capability qualification only. It enumerates the active Arc 140V Vulkan
+compute queue's `VK_KHR_performance_query` counters and pass requirements, and detects Intel
+VTune availability. No model load, inference, counter collection or quiet-host state is consumed.
+
+M3-B will be designed only from the actual provider/counter inventory returned by M3-A.
+

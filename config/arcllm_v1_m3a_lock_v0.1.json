@@ -1,0 +1,36 @@
+{
+  "schema": "arcllm.v1.m3a.lock.v0.1",
+  "date": "2026-09-25",
+  "branch": "research/arcllm-v1",
+  "role": "COUNTER_PROVIDER_CAPABILITY_ONLY",
+  "parent_excess_map": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_EXCESS_COST_MAP_v0.1.json",
+    "blob": "480feb181afd24a8b37914d093473c1a437f14a0"
+  },
+  "token_xray_contract": {
+    "repository": "minhtri22/token-xray",
+    "branch": "main",
+    "commit": "ba19a34c54c0290cbed2f54f6a1175554bcfae16",
+    "hardware_observation_schema_blob": "e1ac074095689111276e8b54896bc979d5543131",
+    "counter_capability_schema_blob": "488809049ef2f734177750c4d1ff6a097a846209"
+  },
+  "expected_device": {
+    "vendor_id": 32902,
+    "device_id": 25760,
+    "model": "Intel Arc 140V"
+  },
+  "execution": {
+    "model_load": false,
+    "inference": false,
+    "counter_collection": false,
+    "quiet_host_required": false
+  },
+  "critical_git_blobs": {
+    "src/arcllm_v1_m3_vulkan_counter_capability.cpp": "e70744c2f151c51ee304aacc8f64c5e4f9ef7496",
+    "tools/build_arcllm_v1_m3_capability.ps1": "5b1ddfb1b3434582f67381a3a4587c9e6f3fc598",
+    "tools/summarize_arcllm_v1_m3_capability.py": "911e91c5aaf99eab05f856db9f9ed4614120c748",
+    "tests/test_arcllm_v1_m3a_package.py": "c9d01c81e5439bdd5d340b0518552494d3c7607b",
+    "run_arcllm_v1_m3_capability_probe.ps1": "5e6c064df1cf3ac942454da912255b71ae1a8958"
+  },
+  "next_on_pass": "ADJUDICATE_PROVIDER_THEN_IMPLEMENT_M3B_QUIET_HOST_COUNTER_COLLECTION"
+}
