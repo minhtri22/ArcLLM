@@ -64,8 +64,10 @@ if($TimestampPeriodNs -le 0){
 
 $ModelSha=(Get-FileHash -Algorithm SHA256 $Model).Hash.ToUpperInvariant()
 $Head=(git -C $Root rev-parse HEAD).Trim()
-$Branch=(git -C $Root branch --show-current).Trim()
-if($Branch -ne "integration/token-xray-phase2"){throw "Run from integration/token-xray-phase2; current branch is $Branch"}
+$IntegrationHead=(git -C $Root rev-parse "origin/integration/token-xray-phase2").Trim()
+if($Head -ne $IntegrationHead){
+    throw "Token X-Ray worktree HEAD mismatch. HEAD=$Head origin/integration/token-xray-phase2=$IntegrationHead"
+}
 
 Write-Host "=== Token X-Ray Phase 2 ==="
 Write-Host "ArcLLM HEAD       : $Head"
