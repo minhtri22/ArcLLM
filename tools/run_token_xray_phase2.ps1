@@ -25,10 +25,35 @@ if(-not(Test-Path $Profile)){throw "Token X-Ray hardware profile missing: $Profi
 if($TimestampPeriodNs -le 0){
     $VulkanInfo=Get-Command vulkaninfo -ErrorAction SilentlyContinue
     if(-not $VulkanInfo){throw "timestampPeriod is required. Install Vulkan Tools or rerun with -TimestampPeriodNs <value>."}
-    $Raw=(& $VulkanInfo.Source 2>&1 | Out-String)
+
+    # Windows PowerShell 5.1 promotes native stderr lines into ErrorRecord objects.
+    # vulkaninfo can emit benign loader/layer warnings on stderr even when it
+    # succeeds, so capture stdout/stderr outside the PowerShell error pipeline.
+    $Psi=New-Object System.Diagnostics.ProcessStartInfo
+    $Psi.FileName=$VulkanInfo.Source
+    $Psi.UseShellExecute=$false
+    $Psi.CreateNoWindow=$true
+    $Psi.RedirectStandardOutput=$true
+    $Psi.RedirectStandardError=$true
+    $Proc=New-Object System.Diagnostics.Process
+    $Proc.StartInfo=$Psi
+    if(-not $Proc.Start()){throw "Failed to start vulkaninfo."}
+    $StdOut=$Proc.StandardOutput.ReadToEnd()
+    $StdErr=$Proc.StandardError.ReadToEnd()
+    $Proc.WaitForExit()
+    $VulkanExit=$Proc.ExitCode
+    $Proc.Dispose()
+
+    if($VulkanExit -ne 0){
+        throw "vulkaninfo failed with exit code $VulkanExit. STDERR: $StdErr"
+    }
+
+    $Raw=$StdOut+[Environment]::NewLine+$StdErr
     $Matches=[regex]::Matches($Raw,'timestampPeriod\s*=\s*([0-9]+(?:\.[0-9]+)?)')
     $Values=@($Matches | ForEach-Object {[double]$_.Groups[1].Value} | Select-Object -Unique)
-    if($Values.Count -ne 1){throw "Could not resolve one unique Vulkan timestampPeriod from vulkaninfo. Rerun with -TimestampPeriodNs <value>."}
+    if($Values.Count -ne 1){
+        throw "Could not resolve one unique Vulkan timestampPeriod from vulkaninfo. Values=[$($Values -join ',')]. Rerun with -TimestampPeriodNs <value>."
+    }
     $TimestampPeriodNs=$Values[0]
 }
 
