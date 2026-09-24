@@ -22,6 +22,11 @@ New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
 $Profile=Join-Path $TokenXrayRepo "profiles\intel\xe2_lpg\arc_140v_core_ultra_7_258v_32gib.v0.1.json"
 if(-not(Test-Path $Profile)){throw "Token X-Ray hardware profile missing: $Profile"}
 
+$TokenXrayPython=Join-Path $TokenXrayRepo ".venv\Scripts\python.exe"
+if(-not(Test-Path $TokenXrayPython)){
+    throw "Token X-Ray virtual environment missing: $TokenXrayPython. Create it once inside the token-xray repo before running Phase 2."
+}
+
 if($TimestampPeriodNs -le 0){
     $VulkanInfo=Get-Command vulkaninfo -ErrorAction SilentlyContinue
     if(-not $VulkanInfo){throw "timestampPeriod is required. Install Vulkan Tools or rerun with -TimestampPeriodNs <value>."}
@@ -74,7 +79,7 @@ $OldPythonPath=$env:PYTHONPATH
 try{
     $env:PYTHONPATH=(Join-Path $TokenXrayRepo "src")
     $StaticDir=Join-Path $OutputDir "static"
-    python -m token_xray modellens $Model --hardware-profile $Profile --out $StaticDir
+    & $TokenXrayPython -m token_xray modellens $Model --hardware-profile $Profile --out $StaticDir
     if($LASTEXITCODE -ne 0){throw "Token X-Ray ModelLens failed"}
 
     & (Join-Path $Root "tools\build_arcllm_v1_i003_candidate.ps1")
@@ -106,7 +111,7 @@ try{
     $Ledger=Join-Path $StaticDir "NODE_LEDGER.json"
     $Joined=Join-Path $OutputDir "NODE_LEDGER_TRACED.json"
     $Summary=Join-Path $OutputDir "RUNTIME_TRACE_SUMMARY.json"
-    python -m token_xray runtime-trace join --ledger $Ledger --trace $Trace --out $Joined --summary $Summary
+    & $TokenXrayPython -m token_xray runtime-trace join --ledger $Ledger --trace $Trace --out $Joined --summary $Summary
     if($LASTEXITCODE -ne 0){throw "Token X-Ray trace join failed"}
 
     $TraceObj=Get-Content $Trace -Raw | ConvertFrom-Json
