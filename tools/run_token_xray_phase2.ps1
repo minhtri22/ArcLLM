@@ -153,6 +153,13 @@ try{
     if($TraceObj.dispatches.Count -ne 469){throw "Expected 469 traced dispatches; got $($TraceObj.dispatches.Count)"}
     if($SummaryObj.unknown_semantic_ids.Count -ne 0){throw "Trace contains unknown semantic NodeIDs"}
     if($SummaryObj.unmapped_dispatch_ids.Count -ne 0){throw "Trace contains unmapped dispatches"}
+    $JoinedObj=Get-Content $Joined -Raw | ConvertFrom-Json
+    $MissingShaderNodes=@($JoinedObj.nodes | Where-Object {
+      $_.execution.state -eq "MEASURED" -and @($_.execution.shaders).Count -eq 0
+    })
+    if($MissingShaderNodes.Count -ne 0){
+      throw "Joined ledger is missing kernel/shader mapping for $($MissingShaderNodes.Count) measured semantic nodes"
+    }
 
     Write-Host ""
     Write-Host "TOKEN_XRAY_PHASE2=PASS"
