@@ -1,0 +1,125 @@
+{
+  "schema": "arcllm.v1.m3c.lock.v0.1",
+  "date": "2026-09-25",
+  "branch": "research/arcllm-v1-m3c-token-xray-targeted",
+  "role": "PHASE2_LOCALIZED_TARGETED_VULKAN_MECHANISM_DISCRIMINATION",
+  "collection_authorized": true,
+  "parent_m3a_adjudication": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_M3A_FINAL_ADJUDICATION_v0.1.json",
+    "blob": "d59ee2a703e6cbccb8c69e0e06aca692b0eeb031"
+  },
+  "phase2_basis": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_M3C_PHASE2_BASIS_v0.1.json",
+    "blob": "d8fc3ca65cd57cdc7b2ca2fe6c1757cb1864093e",
+    "token_trace_sha256": "26916D4C10915D65FB146D1BD7262E579E2B3BE8097FDA9D9AD251E24A08C51E",
+    "node_ledger_traced_fixed_sha256": "446E78752E2B46D13C69D19AE6E4FD73F6EC602D7DABA50D3944BACE89332360",
+    "runtime_trace_summary_fixed_sha256": "ACA3E006F7AA98B06BD7EFF4E546E33F7E604DB3301D6F87758F83578EEF46B5"
+  },
+  "target_selection": {
+    "path": "config/arcllm_v1_m3c_target_selection_v0.1.json",
+    "blob": "b77e406e4114ee490e31add3dd8c9dd7cd3b616e",
+    "queried_dispatches_per_run": 103,
+    "target_family_counts": {
+      "lm_head_q6": 19,
+      "ffn_down_q4": 14,
+      "ffn_down_q6": 14,
+      "split_k_q4_control": 56
+    }
+  },
+  "inherited_counter_selection": {
+    "path": "config/arcllm_v1_m3b_counter_selection_v0.1.json",
+    "blob": "365999477616431f9f85c9b944556f2927cf9252",
+    "scientific_payload_changed": false
+  },
+  "token_xray_contract": {
+    "repository": "minhtri22/token-xray",
+    "branch": "main",
+    "contract_commit": "4a60e510b3974aa9273b620285711c035cce665b",
+    "counter_profile_commit": "4a60e510b3974aa9273b620285711c035cce665b",
+    "counter_profile_blob": "62578938fa1ade24f9282ffd6cb03827b708fc67",
+    "hardware_observation_schema_blob": "7ddf6dc88cf3ac136214691cc8e03c1d0577bd00"
+  },
+  "target_model": {
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "bytes": 4683074048
+  },
+  "candidate_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+  "semantic_guard": {
+    "W_S_generated_hash": "f31d4bb9fe5eb9c3",
+    "W_C_generated_hash": "471519ddc45b232e"
+  },
+  "execution": {
+    "quiet_host_required": true,
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "groups": [
+      "memory_cache",
+      "execution_occupancy",
+      "stall_cause"
+    ],
+    "processes": 6,
+    "warmups_per_process": 1,
+    "measured_attempts_per_process": 1,
+    "decode_index": 15,
+    "full_decode_dispatches_per_counter_pass": 469,
+    "queried_dispatches_per_run": 103,
+    "expected_dispatch_observations": 618,
+    "scope": "COMMAND",
+    "pass_count": "RECOMPUTE_PER_SELECTED_GROUP_FROM_DRIVER",
+    "pass_semantics": "COMBINED_AFTER_REQUIRED_PASSES",
+    "timing_use": "INSTRUMENTED_DIAGNOSTIC_ONLY",
+    "benchmark_timing_substitution_forbidden": true,
+    "counter_pass_replay_state_contract": "OVERWRITE_BEFORE_READ_IDEMPOTENT_DECODE_REPLAY",
+    "host_restored_state": [
+      "b_dec_id"
+    ],
+    "host_restore_bytes_per_pass": 4,
+    "query_end_barrier": "COMPUTE_TO_BOTTOM_OF_PIPE_ONLY_FOR_TARGETED_QUERIED_DISPATCHES",
+    "non_target_dispatches": "EXECUTE_NORMALLY_WITHOUT_PERFORMANCE_QUERY",
+    "pass_indices_recorded": true
+  },
+  "preregistered_discrimination": {
+    "ratio_high": 1.5,
+    "ratio_low": 0.67,
+    "percent_delta": 10,
+    "clock_ratio_bounds": [
+      0.8,
+      1.25
+    ],
+    "primary_comparisons": [
+      "Q4_DOWN_VS_Q4_SPLIT_K",
+      "Q6_LM_HEAD_VS_Q6_DOWN",
+      "Q6_DOWN_VS_Q4_SPLIT_K_GENERALIZATION"
+    ],
+    "mechanisms": [
+      "EXECUTION_GEOMETRY_DEFICIT",
+      "MEMORY_TRAFFIC_EXCESS",
+      "CACHE_REUSE_DEFICIT",
+      "INSTRUCTION_OR_DEQUANT_COST"
+    ],
+    "causal_status": "DESCRIPTIVE_ONLY_UNTIL_LATER_INTERVENTION"
+  },
+  "critical_git_blobs": {
+    "artifacts/ARCLLM_V1/ARCLLM_V1_M3C_PHASE2_BASIS_v0.1.json": "d8fc3ca65cd57cdc7b2ca2fe6c1757cb1864093e",
+    "config/arcllm_v1_m3c_target_selection_v0.1.json": "b77e406e4114ee490e31add3dd8c9dd7cd3b616e",
+    "config/arcllm_v1_m3b_counter_selection_v0.1.json": "365999477616431f9f85c9b944556f2927cf9252",
+    "src/arcllm_v1_m3c_targeted_counter_collection.cpp": "9536cb4e971d4aac113f4c829dd38c992134f050",
+    "src/arcllm_v1_m3_counter_runtime.cpp": "172c6f89fe049f2769395abf95c8c7362062646b",
+    "src/arcllm_v1_m3_counter_shim.h": "32a1b4ce7a9b9ac02f15fada63d8dc8abbd1cec6",
+    "src/arcllm_v1_m3_counter_shim.cpp": "a4a28bbfab496ac4d6fc05797a907d0418897db2",
+    "third_party/token_xray/token_xray_arcllm_v1_adapter.h": "e70ca7fd0fa5f295ded905f8276bcaa8204921e9",
+    "tools/build_arcllm_v1_m3c.ps1": "1199a6961636b2c0d5f7aaf1788128b42edc52f6",
+    "tools/parse_arcllm_v1_m3c.py": "8b9a0183483bdc7c5fd09e960e32bed4cb370bcd",
+    "tools/adjudicate_arcllm_v1_m3c.py": "3ad45069ae5609f563a2a656a0891ea1c9bd9eba",
+    "tests/test_arcllm_v1_m3c_package.py": "ebdc30f014f8c599c806f58dc082c23bcd771769",
+    "run_arcllm_v1_m3c.ps1": "f51903cdd5ced09cf8d42264e4607268e6256e4d",
+    "docs/research/arcllm-v1/ARCLLM_V1_M3C_TARGETED_MECHANISM_DISCRIMINATION.md": "00098e4c0ef35c2a0f0faa8c18b32cdca1fab297",
+    "src/gguf.cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
+    "src/tensor_store.cpp": "0eb52588d30620bfeb323e62c8546e7191a006d6",
+    "tools/compile_arcllm_v1_i003.ps1": "f4e14baab9fc93c4e19ecda399d28016f7f29354"
+  },
+  "prelock_head": "eee2fd9cdc8e5c1878f32198928557c89498c7e6",
+  "stop_rule": "Run exactly one six-process collection. Do not tune counters or thresholds after data. If no descriptive mechanism pattern is supported, stop unresolved. If one or more are supported, preregister exactly one minimal causal intervention before further execution."
+}
