@@ -26,23 +26,24 @@ if($TimestampPeriodNs -le 0){
     $VulkanInfo=Get-Command vulkaninfo -ErrorAction SilentlyContinue
     if(-not $VulkanInfo){throw "timestampPeriod is required. Install Vulkan Tools or rerun with -TimestampPeriodNs <value>."}
 
-    # Windows PowerShell 5.1 promotes native stderr lines into ErrorRecord objects.
-    # vulkaninfo can emit benign loader/layer warnings on stderr even when it
-    # succeeds, so capture stdout/stderr outside the PowerShell error pipeline.
-    $Psi=New-Object System.Diagnostics.ProcessStartInfo
-    $Psi.FileName=$VulkanInfo.Source
-    $Psi.UseShellExecute=$false
-    $Psi.CreateNoWindow=$true
-    $Psi.RedirectStandardOutput=$true
-    $Psi.RedirectStandardError=$true
-    $Proc=New-Object System.Diagnostics.Process
-    $Proc.StartInfo=$Psi
-    if(-not $Proc.Start()){throw "Failed to start vulkaninfo."}
-    $StdOut=$Proc.StandardOutput.ReadToEnd()
-    $StdErr=$Proc.StandardError.ReadToEnd()
-    $Proc.WaitForExit()
+    # Avoid stdout/stderr pipe deadlock: vulkaninfo can emit a large report.
+    # Redirect both streams to files and read them only after the native process exits.
+    $VkOut=Join-Path $OutputDir "vulkaninfo.stdout.txt"
+    $VkErr=Join-Path $OutputDir "vulkaninfo.stderr.txt"
+    Remove-Item -Force -ErrorAction SilentlyContinue $VkOut,$VkErr
+
+    $Proc=Start-Process `
+      -FilePath $VulkanInfo.Source `
+      -ArgumentList @() `
+      -RedirectStandardOutput $VkOut `
+      -RedirectStandardError $VkErr `
+      -NoNewWindow `
+      -Wait `
+      -PassThru
+
     $VulkanExit=$Proc.ExitCode
-    $Proc.Dispose()
+    $StdOut=if(Test-Path $VkOut){Get-Content $VkOut -Raw}else{""}
+    $StdErr=if(Test-Path $VkErr){Get-Content $VkErr -Raw}else{""}
 
     if($VulkanExit -ne 0){
         throw "vulkaninfo failed with exit code $VulkanExit. STDERR: $StdErr"
