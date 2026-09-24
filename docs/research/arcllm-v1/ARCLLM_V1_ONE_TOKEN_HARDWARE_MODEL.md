@@ -101,3 +101,43 @@ ArcLLM: current I003 candidate source; Vulkan runtime source; P8A2/P8C/P8E autho
 Pinned llama.cpp `b29c606e28a01b1bc8c1351026a0fa6e616bf6c4`: Qwen2 graph, llama-graph, Q4_K/Q6_K Vulkan mul_mat_vec shaders, mul_mat_vec_base, rms_norm.
 
 Hardware: Intel Core Ultra 7 258V specifications; Intel oneAPI Xe2-LPG architecture guide; Intel Xe2 Tech Tour peak metrics; Intel Lunar Lake 136GB/s IP-bandwidth publication.
+
+## M0 closure — exact per-layer V/down quant census
+
+M0 completed as metadata-only evidence. Bundle SHA256: `3BD3102FFE8ABE4C13150E1B88641FE5BE3940610155F532564B255922D32453`.
+
+Independent census: 56/56 target tensors present; `V = 14 Q4_K + 14 Q6_K`; `FFN-down = 14 Q4_K + 14 Q6_K`; no inference and no performance measurement.
+
+| Layer | V | Down |
+|---:|---|---|
+| 0 | Q6_K | Q6_K |
+| 1 | Q6_K | Q6_K |
+| 2 | Q6_K | Q6_K |
+| 3 | Q4_K | Q4_K |
+| 4 | Q4_K | Q4_K |
+| 5 | Q6_K | Q6_K |
+| 6 | Q4_K | Q4_K |
+| 7 | Q4_K | Q4_K |
+| 8 | Q6_K | Q4_K |
+| 9 | Q4_K | Q6_K |
+| 10 | Q4_K | Q6_K |
+| 11 | Q4_K | Q4_K |
+| 12 | Q6_K | Q4_K |
+| 13 | Q4_K | Q6_K |
+| 14 | Q4_K | Q4_K |
+| 15 | Q6_K | Q4_K |
+| 16 | Q4_K | Q6_K |
+| 17 | Q4_K | Q4_K |
+| 18 | Q6_K | Q4_K |
+| 19 | Q4_K | Q4_K |
+| 20 | Q6_K | Q6_K |
+| 21 | Q4_K | Q4_K |
+| 22 | Q4_K | Q4_K |
+| 23 | Q6_K | Q6_K |
+| 24 | Q6_K | Q6_K |
+| 25 | Q6_K | Q6_K |
+| 26 | Q6_K | Q6_K |
+| 27 | Q6_K | Q6_K |
+
+The central machine-readable ledger is superseded by `ARCLLM_V1_ONE_TOKEN_HARDWARE_MODEL_v0.2.json`; all 56 V/down nodes now have exact quant type, exact shader family, exact semantic byte floor and exact branch-specific bandwidth floor. M0 is closed. M1 is now the next evidence step.
+

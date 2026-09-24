@@ -975,3 +975,10 @@ The global quant mix implies exactly 28 Q4_K + 28 Q6_K among the 56 target tenso
 
 M1 remains blocked until local M0 returns PASS, independent adjudication confirms the mapping, and the central one-token hardware model is patched/audited.
 
+## M0 exact tensor census — PASS / hardware model v0.2 — 2026-09-24
+
+Returned bundle SHA256: `3BD3102FFE8ABE4C13150E1B88641FE5BE3940610155F532564B255922D32453`.
+M0 PASS: 56/56 target tensors resolved from exact GGUF metadata with no inference/performance run. V tensors are 14 Q4_K + 14 Q6_K; FFN-down tensors are 14 Q4_K + 14 Q6_K. The exact layer mapping is committed into `ARCLLM_V1_ONE_TOKEN_HARDWARE_MODEL_v0.2.json`.
+
+M0 closes the quant-census uncertainty. Next evidence is M1 minimal post-I002 node/family timing; machine profiling is not repeated and quiet-host mode is not required.
+

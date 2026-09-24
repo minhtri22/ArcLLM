@@ -1,0 +1,28 @@
+{
+  "schema": "arcllm.v1.m0.final_adjudication.v0.1",
+  "date": "2026-09-24",
+  "result": "PASS_M0_EXACT_TENSOR_CENSUS",
+  "bundle_sha256": "3BD3102FFE8ABE4C13150E1B88641FE5BE3940610155F532564B255922D32453",
+  "collection_head": "084a84a7163be3e2f421df85e915ada02c0eea7e",
+  "checks": {
+    "bundled_lock_git_blob": "d81a7d5c9aca89b2702eadc3f62380464668c5ec",
+    "bundled_lock_matches_repo": true,
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "model_size_bytes": 4683074048,
+    "layers": 28,
+    "target_tensors": 56,
+    "exact_dimensions": true,
+    "target_Q4_K": 28,
+    "target_Q6_K": 28,
+    "v_Q4_K": 14,
+    "v_Q6_K": 14,
+    "down_Q4_K": 14,
+    "down_Q6_K": 14,
+    "patch_manifest_entries": 56,
+    "inference_executed": false,
+    "performance_measured": false
+  },
+  "hardware_model_v0_2_blob": "aab5e330b414ba531ab321c7604999a6b5aea070",
+  "decision": "CLOSE_M0_OPEN_M1_MINIMAL_POST_I002_NODE_TIMING",
+  "next": "M1_MINIMAL_POST_I002_NODE_TIMING"
+}
