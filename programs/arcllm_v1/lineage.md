@@ -1122,3 +1122,16 @@ Direct SHA256 of the uploaded M3-A ZIP is `6F0A39836896EAB0755B9A3BE54AF057971E9
 the prior adjudication, so the capability result and counter inventory are unchanged. Token-XRay
 counter profile provenance was corrected at `2e8408f482b9aa5de2f1f0f49133ab8e8ce6af67`.
 
+## M3-B pre-run attribution hardening — 2026-09-25
+
+Before any valid M3-B collection, each COMMAND-scope query was tightened with a
+compute-to-bottom-of-pipe barrier before `vkCmdEndQuery`. Counter timing is diagnostic only.
+
+The prior full transient+KV host restore between required passes was removed because the decode
+graph overwrites those locations before read and the large host memcpy can perturb shared
+LPDDR/cache state on Arc 140V. Only the fixed 4-byte decode token input is restored.
+
+M3-B is rebound to Token-XRay main
+`4a60e510b3974aa9273b620285711c035cce665b`; combined Vulkan observations record all executed
+counter pass indices.
+

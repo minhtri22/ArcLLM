@@ -5,8 +5,8 @@
   "source_m3a_bundle_sha256": "6F0A39836896EAB0755B9A3BE54AF057971E90F9ABE47FC4CA1F397D5B533BAA",
   "token_xray_profile": {
     "repository": "minhtri22/token-xray",
-    "commit": "2e8408f482b9aa5de2f1f0f49133ab8e8ce6af67",
-    "blob": "713123847588e7c46595b5203fc49a4e154e27f3"
+    "commit": "4a60e510b3974aa9273b620285711c035cce665b",
+    "blob": "62578938fa1ade24f9282ffd6cb03827b708fc67"
   },
   "groups": {
     "memory_cache": [
@@ -292,9 +292,16 @@
     "measured_attempts_per_run": 1,
     "one_process_per_workload_counter_group": true,
     "selected_group_pass_count": "RECOMPUTE_FROM_DRIVER_AT_RUNTIME",
-    "restore_pre_dispatch_state_before_each_counter_pass": true,
+    "restore_pre_dispatch_state_before_each_counter_pass": false,
     "timing_use": "INSTRUMENTED_DIAGNOSTIC_ONLY",
-    "benchmark_substitution_forbidden": true
+    "benchmark_substitution_forbidden": true,
+    "counter_pass_replay_state_contract": "OVERWRITE_BEFORE_READ_IDEMPOTENT_DECODE_REPLAY",
+    "host_restored_state": [
+      "b_dec_id"
+    ],
+    "host_restore_bytes_per_pass": 4,
+    "cache_pollution_rule": "Do not memcpy transient or KV arenas between performance-query passes; only restore the fixed decode token scalar.",
+    "query_end_rule": "Insert compute-to-bottom-of-pipe barrier before each vkCmdEndQuery so each COMMAND-scope query encloses completed dispatch work."
   },
   "provenance_correction": "M3-A ZIP hash corrected from direct uploaded bundle; counter selection unchanged."
 }

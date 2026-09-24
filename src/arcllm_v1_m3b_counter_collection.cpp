@@ -500,10 +500,11 @@ int main(int argc,char**argv){
             &b_h0,&b_h1,&b_n1,&b_q,&b_k,&b_v,&b_qr,&b_kr,&b_attn,&b_o,&b_r1,&b_n2,
             &b_g,&b_u,&b_s,&b_d,&b_norm,&b_logits
         };
-        std::vector<Buffer*> m3_restore_buffers=transient;
-        m3_restore_buffers.push_back(&b_kcache);
-        m3_restore_buffers.push_back(&b_vcache);
-        m3_restore_buffers.push_back(&b_dec_id);
+        // Multi-pass replay invariant: every transient and the current KV slot are
+        // overwritten before read by the decode chain. Restoring the full host-visible
+        // working/KV set would pollute shared LPDDR/cache state on this iGPU and bias
+        // the memory counters. Only the fixed token input scalar must be restored.
+        std::vector<Buffer*> m3_restore_buffers={&b_dec_id};
         const std::vector<uint32_t> m3_selected_counters=m3_counter_indices(counter_group);
         auto reset_execution=[&](){
             std::memset(b_kcache.mapped,0,size_t(b_kcache.size));std::memset(b_vcache.mapped,0,size_t(b_vcache.size));

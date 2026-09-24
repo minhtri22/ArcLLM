@@ -1062,6 +1062,10 @@ public:
                     cmd_bind_descriptor_sets_(cb,VK_PIPELINE_BIND_POINT_COMPUTE,p.pipeline_layout,0,1,&p.descriptor_set,0,nullptr);
                     if(!op.push.empty())cmd_push_constants_(cb,p.pipeline_layout,VK_SHADER_STAGE_COMPUTE_BIT,0,uint32_t(op.push.size()),op.push.data());
                     cmd_dispatch_(cb,op.gx,op.gy,op.gz);
+                    // Exact COMMAND-scope attribution: complete the dispatch before
+                    // ending its performance query. Counter-run timing is diagnostic only.
+                    cmd_pipeline_barrier_(cb,VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
+                                          0,0,nullptr,0,nullptr,0,nullptr);
                     m3_perf_cmd_end_query(reinterpret_cast<void*>(cb),reinterpret_cast<void*>(perf_qp),uint32_t(oi));
                     if(oi+1<ops.size()){
                         VkMemoryBarrier mb{};mb.sType=VK_STRUCTURE_TYPE_MEMORY_BARRIER;

@@ -134,6 +134,7 @@ for workload,stemw in [("W-S","W_S"),("W-C","W_C")]:
         "scope":{"kind":"DISPATCH","run_id":f"arcllm-v1-m3b-{workload}-{group}",
                  "dispatch_ids":[int(disp["dispatch_id"])],"semantic_node_ids":[disp["semantic_node_id"]],"token_index":15},
         "collection":{"quiet_host":True,"pass_index":None,"pass_count":int(probe["pass_count"]),
+                      "pass_indices_executed":list(range(int(probe["pass_count"]))),
                       "pass_semantics":"COMBINED_AFTER_REQUIRED_PASSES","repetition_index":0,"repetition_count":1,
                       "concurrently_impacted":True,"profiling_lock":True,"admin_required":False,
                       "notes":["Counter timing is instrumented diagnostic only; do not substitute for I003/M1 timing."]},

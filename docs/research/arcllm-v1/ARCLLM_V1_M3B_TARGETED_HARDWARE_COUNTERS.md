@@ -84,3 +84,21 @@ Each of the six raw runs yields 469 dispatch-scoped observations. Total expected
 The semantic mapping is the existing ArcLLM Token-XRay adapter. LM-head remains 19 dispatch
 observations sharing the stable semantic NodeID `decode.output.lm_head`; aggregation happens only
 after dispatch-level evidence exists.
+
+## Pre-run attribution hardening
+
+Before the first M3-B collection, three validity changes were made without changing the counter
+groups, model, workloads, decode index, shaders, or scientific question.
+
+1. **Exact query boundary.** A compute-to-bottom-of-pipe barrier is recorded after each dispatch
+   and before `vkCmdEndQuery`. This intentionally serializes the instrumented path so each
+   COMMAND-scope observation encloses completed dispatch work. Counter-run timing remains
+   diagnostic only.
+2. **Shared-memory cache-pollution guard.** Full transient/KV host memcpy restoration was removed.
+   The decode graph overwrites those outputs/current-KV slots before read; only the fixed 4-byte
+   `b_dec_id` token input is restored between counter passes. Generated-hash guards remain
+   mandatory.
+3. **Current Token-XRay multi-pass contract.** Final observations record
+   `pass_indices_executed=[0..pass_count-1]`, `pass_index=null`, and
+   `pass_semantics=COMBINED_AFTER_REQUIRED_PASSES`.
+
