@@ -217,7 +217,10 @@ struct Q1ExecutionObs{
 
 int main(int argc,char**argv){
     std::string model,shader_dir,implementation_commit,workload,out="i003_candidate_attempt.json";
-    int warmups=1,measured=5;
+    std::string txr_trace_out,txr_model_sha256;
+    std::string txr_hardware_profile="intel.core_ultra_7_258v.arc_140v.devhost_32gib.v0.1";
+    int warmups=1,measured=5,txr_decode_index=-1;
+    double txr_timestamp_period_ns=0.0;
     try{
         for(int i=1;i<argc;++i){
             std::string a=argv[i];
@@ -229,10 +232,22 @@ int main(int argc,char**argv){
             else if(a=="--warmups")warmups=std::stoi(need("--warmups"));
             else if(a=="--measured")measured=std::stoi(need("--measured"));
             else if(a=="--out")out=need("--out");
+            else if(a=="--token-xray-trace-out")txr_trace_out=need("--token-xray-trace-out");
+            else if(a=="--token-xray-model-sha256")txr_model_sha256=need("--token-xray-model-sha256");
+            else if(a=="--token-xray-hardware-profile")txr_hardware_profile=need("--token-xray-hardware-profile");
+            else if(a=="--token-xray-decode-index")txr_decode_index=std::stoi(need("--token-xray-decode-index"));
+            else if(a=="--token-xray-timestamp-period-ns")txr_timestamp_period_ns=std::stod(need("--token-xray-timestamp-period-ns"));
         }
         if(model.empty()||shader_dir.empty()||implementation_commit.empty()||workload.empty())
             throw std::runtime_error("Q2 required arguments missing");
         if(warmups!=1||measured!=1)throw std::runtime_error("I003 frozen single-attempt repetition mismatch");
+        const bool txr_enabled=!txr_trace_out.empty();
+        if(txr_enabled){
+            if(txr_model_sha256.size()!=64u)throw std::runtime_error("Token X-Ray requires 64-char model SHA256");
+            if(txr_hardware_profile.empty())throw std::runtime_error("Token X-Ray hardware profile id missing");
+            if(txr_decode_index<0||txr_decode_index>=31)throw std::runtime_error("Token X-Ray decode index must be 0..30");
+            if(!(txr_timestamp_period_ns>0.0))throw std::runtime_error("Token X-Ray timestamp period must be >0 ns");
+        }
         auto setup_t0=std::chrono::steady_clock::now();
         GgufInfo gguf=GgufReader(model).read();
         TensorStore store;TensorStoreReport ts=store.inspect(model,gguf);
@@ -484,7 +499,21 @@ int main(int argc,char**argv){
                     const uint32_t pos=seq+di;
                     auto dops=build_decode(pos);
                     if(dops.size()!=EXPECT_DECODE)throw std::runtime_error("Q2 dynamic decode census mismatch");
-                    ChainStats ds=vk.execute_prepared(dchain,dops,true);
+                    ChainStats ds{};
+                    if(txr_enabled&&!is_warmup&&index==0&&int(di)==txr_decode_index){
+                        token_xray::MiniTraceMeta meta{};
+                        meta.run_id="arcllm-token-xray-"+workload+"-decode-"+std::to_string(di);
+                        meta.model_sha256=txr_model_sha256;
+                        meta.hardware_profile_id=txr_hardware_profile;
+                        meta.token_index=pos;
+                        meta.context_length=pos+1u;
+                        meta.input_token_id=int64_t(next);
+                        meta.output_token_id=-1;
+                        ds=vk.execute_prepared_traced(
+                            dchain,dops,meta,txr_trace_out,txr_timestamp_period_ns,true);
+                    }else{
+                        ds=vk.execute_prepared(dchain,dops,true);
+                    }
                     counts=counts&&ds.dispatch_count==EXPECT_DECODE&&ds.submit_count==1u;
                     lp=reinterpret_cast<const float*>(b_logits.mapped);
                     top=q2_top2(lp,VOC);finite=finite&&top.finite;
