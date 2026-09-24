@@ -1,0 +1,104 @@
+param(
+    [Parameter(Mandatory=$true)][string]$Model,
+    [Parameter(Mandatory=$true)][string]$TokenXrayRepo,
+    [ValidateSet("W-S","W-C")][string]$Workload="W-S",
+    [ValidateRange(0,30)][int]$DecodeIndex=0,
+    [double]$TimestampPeriodNs=0,
+    [string]$OutputDir=""
+)
+
+$ErrorActionPreference="Stop"
+Set-StrictMode -Version Latest
+
+$Root=Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
+$Model=(Resolve-Path $Model).Path
+$TokenXrayRepo=(Resolve-Path $TokenXrayRepo).Path
+if(-not $OutputDir){
+    $Stamp=Get-Date -Format "yyyyMMdd-HHmmss"
+    $OutputDir=Join-Path $Root ".local\token_xray_phase2\$Stamp"
+}
+New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
+
+$Profile=Join-Path $TokenXrayRepo "profiles\intel\xe2_lpg\arc_140v_core_ultra_7_258v_32gib.v0.1.json"
+if(-not(Test-Path $Profile)){throw "Token X-Ray hardware profile missing: $Profile"}
+
+if($TimestampPeriodNs -le 0){
+    $VulkanInfo=Get-Command vulkaninfo -ErrorAction SilentlyContinue
+    if(-not $VulkanInfo){throw "timestampPeriod is required. Install Vulkan Tools or rerun with -TimestampPeriodNs <value>."}
+    $Raw=(& $VulkanInfo.Source 2>&1 | Out-String)
+    $Matches=[regex]::Matches($Raw,'timestampPeriod\s*=\s*([0-9]+(?:\.[0-9]+)?)')
+    $Values=@($Matches | ForEach-Object {[double]$_.Groups[1].Value} | Select-Object -Unique)
+    if($Values.Count -ne 1){throw "Could not resolve one unique Vulkan timestampPeriod from vulkaninfo. Rerun with -TimestampPeriodNs <value>."}
+    $TimestampPeriodNs=$Values[0]
+}
+
+$ModelSha=(Get-FileHash -Algorithm SHA256 $Model).Hash.ToUpperInvariant()
+$Head=(git -C $Root rev-parse HEAD).Trim()
+$Branch=(git -C $Root branch --show-current).Trim()
+if($Branch -ne "integration/token-xray-phase2"){throw "Run from integration/token-xray-phase2; current branch is $Branch"}
+
+Write-Host "=== Token X-Ray Phase 2 ==="
+Write-Host "ArcLLM HEAD       : $Head"
+Write-Host "Model SHA256       : $ModelSha"
+Write-Host "Workload           : $Workload"
+Write-Host "Decode index       : $DecodeIndex"
+Write-Host "Timestamp period ns: $TimestampPeriodNs"
+Write-Host "Output             : $OutputDir"
+
+$OldPythonPath=$env:PYTHONPATH
+try{
+    $env:PYTHONPATH=(Join-Path $TokenXrayRepo "src")
+    $StaticDir=Join-Path $OutputDir "static"
+    python -m token_xray modellens $Model --hardware-profile $Profile --out $StaticDir
+    if($LASTEXITCODE -ne 0){throw "Token X-Ray ModelLens failed"}
+
+    & (Join-Path $Root "tools\build_arcllm_v1_i003_candidate.ps1")
+    if($LASTEXITCODE -ne 0){throw "ArcLLM traced candidate build failed"}
+
+    $Exe=Join-Path $Root "arcllm_v1_i003_candidate.exe"
+    $Trace=Join-Path $OutputDir "TOKEN_TRACE.json"
+    $CandidateResult=Join-Path $OutputDir "ARCLLM_TRACE_ATTEMPT.json"
+    $ShaderDir=Join-Path $Root "shaders"
+
+    $Args=@(
+      "--model",$Model,
+      "--shader-dir",$ShaderDir,
+      "--implementation-commit",$Head,
+      "--workload",$Workload,
+      "--warmups","1",
+      "--measured","1",
+      "--out",$CandidateResult,
+      "--token-xray-trace-out",$Trace,
+      "--token-xray-model-sha256",$ModelSha,
+      "--token-xray-hardware-profile","intel.core_ultra_7_258v.arc_140v.devhost_32gib.v0.1",
+      "--token-xray-decode-index",[string]$DecodeIndex,
+      "--token-xray-timestamp-period-ns",[string]$TimestampPeriodNs
+    )
+    & $Exe @Args
+    if($LASTEXITCODE -ne 0){throw "ArcLLM Token X-Ray trace run failed"}
+    if(-not(Test-Path $Trace)){throw "TOKEN_TRACE.json was not produced"}
+
+    $Ledger=Join-Path $StaticDir "NODE_LEDGER.json"
+    $Joined=Join-Path $OutputDir "NODE_LEDGER_TRACED.json"
+    $Summary=Join-Path $OutputDir "RUNTIME_TRACE_SUMMARY.json"
+    python -m token_xray runtime-trace join --ledger $Ledger --trace $Trace --out $Joined --summary $Summary
+    if($LASTEXITCODE -ne 0){throw "Token X-Ray trace join failed"}
+
+    $TraceObj=Get-Content $Trace -Raw | ConvertFrom-Json
+    $SummaryObj=Get-Content $Summary -Raw | ConvertFrom-Json
+    if($TraceObj.dispatches.Count -ne 469){throw "Expected 469 traced dispatches; got $($TraceObj.dispatches.Count)"}
+    if($SummaryObj.unknown_semantic_ids.Count -ne 0){throw "Trace contains unknown semantic NodeIDs"}
+    if($SummaryObj.unmapped_dispatch_ids.Count -ne 0){throw "Trace contains unmapped dispatches"}
+
+    Write-Host ""
+    Write-Host "TOKEN_XRAY_PHASE2=PASS"
+    Write-Host "TRACE=$Trace"
+    Write-Host "JOINED_LEDGER=$Joined"
+    Write-Host "SUMMARY=$Summary"
+    Write-Host "DISPATCHES=$($TraceObj.dispatches.Count)"
+    Write-Host "DEVICE_SPAN_NS=$($TraceObj.timing.device_span_ns)"
+    Write-Host "SUM_DISPATCH_NS=$($TraceObj.timing.sum_dispatch_duration_ns)"
+    Write-Host "UNATTRIBUTED_NS=$($TraceObj.timing.unattributed_device_time_ns)"
+} finally {
+    $env:PYTHONPATH=$OldPythonPath
+}
