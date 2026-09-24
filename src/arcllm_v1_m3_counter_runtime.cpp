@@ -1260,7 +1260,7 @@ public:
             st.physical_dispatch_executions=uint32_t(ops.size())*pass_count;
             m3_perf_release_lock(reinterpret_cast<void*>(device_));lock_held=false;
 
-            st.values.resize(size_t(ops.size())*counter_indices.size());
+            st.values.resize(size_t(query_op_indices.size())*counter_indices.size());
             if(m3_perf_get_results(reinterpret_cast<void*>(device_),reinterpret_cast<void*>(perf_qp),
                                    uint32_t(query_op_indices.size()),uint32_t(counter_indices.size()),
                                    st.counters.data(),st.values.data(),err,sizeof(err))!=0)
