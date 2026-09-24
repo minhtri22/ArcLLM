@@ -12,7 +12,10 @@ if(-not $QuietHostConfirmed){
   throw "M3-C requires quiet-host confirmation. Close/stop avoidable GPU/CPU-heavy workloads, then rerun with -QuietHostConfirmed."
 }
 $Branch=(git -C $Root branch --show-current).Trim()
-if($Branch -ne [string]$Lock.branch){throw "M3-C wrong branch: $Branch"}
+$Head=(git -C $Root rev-parse HEAD).Trim()
+$RemoteRef="origin/"+[string]$Lock.branch
+$RemoteHead=(git -C $Root rev-parse $RemoteRef).Trim()
+if($Head -ne $RemoteHead){throw "M3-C worktree HEAD mismatch: HEAD=$Head remote=$RemoteHead ref=$RemoteRef"}
 foreach($Entry in $Lock.critical_git_blobs.PSObject.Properties){
   $Path=Join-Path $Root $Entry.Name
   if(-not(Test-Path $Path)){throw "M3-C critical file missing: $($Entry.Name)"}
@@ -47,7 +50,6 @@ if($MF.Length -ne [int64]$Lock.target_model.bytes -or $MH -ne ([string]$Lock.tar
 $Dir=Join-Path $Root "results\m3c_targeted_mechanism"
 if(Test-Path $Dir){Remove-Item $Dir -Recurse -Force}
 New-Item -ItemType Directory -Force -Path $Dir | Out-Null
-$Head=(git -C $Root rev-parse HEAD).Trim()
 $ShaderDir=Join-Path $Root "compiled_shaders"
 
 function Invoke-NativeCaptured([string]$FilePath,[string]$ArgumentLine,[string]$StdoutPath,[string]$StderrPath){
