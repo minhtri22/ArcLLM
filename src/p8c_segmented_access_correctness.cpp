@@ -869,7 +869,7 @@ public:
         vr=wait_for_fences_(device_,1,&fence,VK_TRUE,(std::numeric_limits<uint64_t>::max)());if(vr!=VK_SUCCESS)throw std::runtime_error("vkWaitForFences failed Token X-Ray");st.fence_wait_count=1;
         auto ts1=std::chrono::steady_clock::now();st.submit_wait_ms=std::chrono::duration<double,std::milli>(ts1-ts0).count();
         trace.collect_after_fence();trace.write(trace_path);
-        destroy_fence_(device_,fence);destroy_command_pool_(device_,pool);
+        destroy_fence_(device_,fence,nullptr);destroy_command_pool_(device_,pool,nullptr);
         st.record_submit_wait_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-tall0).count();
         return st;
     }
