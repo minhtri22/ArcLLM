@@ -1,0 +1,71 @@
+{
+  "schema": "arcllm.v1.m3c.phase2_basis.v0.1",
+  "date": "2026-09-25",
+  "source": "Token X-Ray Phase-2 accepted local Arc 140V run",
+  "run_id": "arcllm-token-xray-W-S-decode-0",
+  "source_model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+  "hardware_profile_id": "intel.core_ultra_7_258v.arc_140v.devhost_32gib.v0.1",
+  "artifacts": {
+    "TOKEN_TRACE": {
+      "sha256": "26916D4C10915D65FB146D1BD7262E579E2B3BE8097FDA9D9AD251E24A08C51E",
+      "bytes": 456355
+    },
+    "NODE_LEDGER_TRACED_FIXED": {
+      "sha256": "446E78752E2B46D13C69D19AE6E4FD73F6EC602D7DABA50D3944BACE89332360",
+      "bytes": 1108362
+    },
+    "RUNTIME_TRACE_SUMMARY_FIXED": {
+      "sha256": "ACA3E006F7AA98B06BD7EFF4E546E33F7E604DB3301D6F87758F83578EEF46B5",
+      "bytes": 527
+    }
+  },
+  "invariants": {
+    "dispatch_count": 469,
+    "timestamped_dispatch_count": 469,
+    "barrier_count": 470,
+    "measured_semantic_nodes": 451,
+    "exact_timing_nodes": 451,
+    "shared_dispatch_nodes": 0,
+    "unmeasured_semantic_nodes": 0,
+    "unknown_semantic_ids": 0,
+    "unmapped_dispatch_ids": 0,
+    "device_span_ns": 1240766914,
+    "sum_dispatch_duration_ns": 1239803214,
+    "unattributed_device_time_ns": 963700
+  },
+  "hotspot_recompute": {
+    "lm_head": {
+      "dispatch_time_ns": 792369077,
+      "share_percent": 63.91,
+      "physical_dispatches": 19,
+      "semantic_nodes": 1
+    },
+    "ffn_down": {
+      "dispatch_time_ns": 201665000,
+      "share_percent": 16.27,
+      "semantic_nodes": 28
+    },
+    "ffn_up": {
+      "dispatch_time_ns": 74557000,
+      "share_percent": 6.01,
+      "semantic_nodes": 28
+    },
+    "ffn_gate": {
+      "dispatch_time_ns": 74155000,
+      "share_percent": 5.98,
+      "semantic_nodes": 28
+    },
+    "top4_share_percent": 92.17
+  },
+  "target_quant_census": {
+    "ffn_down_q4_nodes": 14,
+    "ffn_down_q6_nodes": 14,
+    "lm_head_q6_nodes": 1,
+    "split_k_q4_control_nodes": 56
+  },
+  "interpretation": [
+    "Phase 2 localizes where time is spent; it does not identify the physical mechanism.",
+    "Unattributed device time is ~0.078% of device span and is not labeled barrier cost.",
+    "M3-C targets LM-head, FFN-down, and split-K gate/up positive control; no whole-graph counter sweep is authorized."
+  ]
+}
