@@ -41,7 +41,9 @@ reset_pos=m.index("cmd_reset_query_pool_(rcb,perf_qp")
 assert reset_pos < pass_pos
 assert "cmd_reset_query_pool_" not in m[pass_pos:]
 assert m.index("m3_perf_acquire_lock") < m.index("begin_command_buffer_(cb,&bi)")
-assert m.index("m3_perf_release_lock") < m.index("m3_perf_get_results")\nassert "VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT" in m\nassert m.index("cmd_dispatch_(cb,op.gx,op.gy,op.gz)") < m.index("VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT", m.index("M3CounterProfileStats execute_counter_profiled")) < m.index("m3_perf_cmd_end_query")
+assert m.index("m3_perf_release_lock") < m.index("m3_perf_get_results")
+assert "VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT" in m
+assert m.index("cmd_dispatch_(cb,op.gx,op.gy,op.gz)") < m.index("VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT", m.index("M3CounterProfileStats execute_counter_profiled")) < m.index("m3_perf_cmd_end_query")
 
 shim=SHIM.read_text(encoding="utf-8")
 for x in [
@@ -127,7 +129,9 @@ with tempfile.TemporaryDirectory() as td0:
     one=json.loads(lines[0])
     assert one["artifact_type"]=="HARDWARE_OBSERVATION"
     assert one["scope"]["kind"]=="DISPATCH"
-    assert one["collection"]["pass_semantics"]=="COMBINED_AFTER_REQUIRED_PASSES"\n    assert one["collection"]["pass_index"] is None\n    assert one["collection"]["pass_indices_executed"]==[0,1]
+    assert one["collection"]["pass_semantics"]=="COMBINED_AFTER_REQUIRED_PASSES"
+    assert one["collection"]["pass_index"] is None
+    assert one["collection"]["pass_indices_executed"]==[0,1]
 
 print("ArcLLM v1 M3-B static + synthetic package PASS")
 
