@@ -1,0 +1,25 @@
+{
+  "schema": "arcllm.v1.m2.pre_rerun_qa.v0.1",
+  "date": "2026-09-25",
+  "result": "PASS_M2_PRE_RERUN_INFRA_AND_PARSER_QA",
+  "basis_head": "6ffd65bebfed1a9376e50c7b17d6105df64b7778",
+  "repaired_blobs": {
+    "runner": "3d813f1bde0a8850f3a0146ea732c1043faed52a",
+    "parser": "1666d127a19d20ba392419ebb6db80f8186ce0a4",
+    "test": "261e150a3f2c39c583593eef49ce5b025211a851",
+    "lock": "69be8999df57c5fe94773ccd607081328353d1c1"
+  },
+  "assertions": {
+    "direct_native_llama_invocation_absent": true,
+    "start_process_capture_present": true,
+    "native_stderr_probe_present": true,
+    "parser_aggregates_duplicate_semantic_shape_rows": true,
+    "synthetic_64_block_parser_test_required": true,
+    "pinned_baseline_unchanged": true,
+    "target_model_unchanged": true,
+    "logger_mode_unchanged": true,
+    "semantic_shape_contract_unchanged": true,
+    "workload_and_probe_contract_unchanged": true
+  },
+  "next": "RERUN_M2_ONLY_AFTER_LOCAL_STATIC_QA_AND_NATIVE_STDERR_PROBE_PASS"
+}

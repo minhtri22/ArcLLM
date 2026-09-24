@@ -1014,3 +1014,11 @@ Repair is infrastructure-only: replace direct `& $Exe ... 1> ... 2> ...` with `S
 
 Pinned llama commit/binary, model, workloads, logger, semantic anchors, probe indices and parser are unchanged. No valid M2 bundle/summary was produced by the failed invocation; it is not scientific evidence.
 
+## M2 pre-rerun parser hardening — 2026-09-25
+
+A deeper pre-rerun audit identified a second prospective infrastructure risk before any valid M2 collection: the Vulkan perf logger may emit the same semantic matmul shape under multiple fusion-name-prefixed logger keys. The original parser rejected the second row as a duplicate even when the aggregate semantic call count was correct.
+
+Repair: aggregate all logger rows by semantic shape/type first, then validate the frozen total call counts. Added a synthetic 64-block perf-log regression where gate/up is split across two logger names (28+28) and must parse to the expected 56 calls. This test runs locally before llama execution.
+
+Scientific payload remains unchanged: exact pinned llama commit/binary, model, W-S/W-C, warmup/measured counts, probes 0/15/30, and perf logger mode.
+

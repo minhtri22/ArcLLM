@@ -1,0 +1,71 @@
+{
+  "schema": "arcllm.v1.m2.lock.v0.1.2",
+  "date": "2026-09-24",
+  "branch": "research/arcllm-v1",
+  "role": "PINNED_LLAMA_SAME_SEMANTIC_VULKAN_MAP",
+  "parent_hardware_model": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_ONE_TOKEN_HARDWARE_MODEL_v0.3.json",
+    "blob": "4c43e7211beb59af515c4a06d56fc300e787c873"
+  },
+  "baseline_commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+  "baseline_release": "v0.4.1",
+  "baseline_vulkan_source_blob": "0dfa44dbf65a452552a7ec7a510fa82b8c7df6ad",
+  "baseline_adapter_sha256": "62DA22E6384D4F3A426FD23D1664FE2F37AF967F8401DABDE10169C1B81AB242",
+  "target_model": {
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "bytes": 4683074048
+  },
+  "logger": {
+    "enabled_env": "GGML_VK_PERF_LOGGER=1",
+    "frequency": 1,
+    "concurrent": false,
+    "timestamp_conversion": "PINNED_LLAMA_VULKAN_timestampPeriod"
+  },
+  "execution": {
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "warmups_per_workload": 1,
+    "measured_attempts_per_workload": 1,
+    "probe_decode_indices": [
+      0,
+      15,
+      30
+    ]
+  },
+  "governance": {
+    "quiet_host_required": false,
+    "machine_profile_repeat": false,
+    "hardware_counters": false,
+    "baseline_source_modification": false,
+    "intervention": false,
+    "discovery_only": true
+  },
+  "critical_git_blobs": {
+    "tools/parse_arcllm_v1_m2_llama_perf.py": "1666d127a19d20ba392419ebb6db80f8186ce0a4",
+    "run_arcllm_v1_m2.ps1": "3d813f1bde0a8850f3a0146ea732c1043faed52a",
+    "tests/test_arcllm_v1_m2_package.py": "261e150a3f2c39c583593eef49ce5b025211a851",
+    "baseline/i003_llama_adapter.cpp": "13b2dc08ffa898af52ec517c38687e7de4ed31fe",
+    "artifacts/ARCLLM_V1/ARCLLM_V1_ONE_TOKEN_HARDWARE_MODEL_v0.3.json": "4c43e7211beb59af515c4a06d56fc300e787c873"
+  },
+  "next_on_pass": "BUILD_ARC_VS_LLAMA_EXCESS_COST_MAP",
+  "supersedes": {
+    "path": "config/arcllm_v1_m2_lock_v0.1.1.json",
+    "blob": "c6bac34ece9eb246a68c1ecf0ff425c692cfbc5c"
+  },
+  "infrastructure_repair": {
+    "classification": "PRE_VALID_COLLECTION_POWERSHELL_NATIVE_STDERR_TRANSPORT",
+    "observed_message": "NativeCommandError on normal ggml_vulkan stderr startup log",
+    "scientific_payload_changed": false,
+    "baseline_changed": false,
+    "parser_changed": false,
+    "model_changed": false,
+    "logger_changed": false,
+    "native_transport_changed": "direct PowerShell invocation -> Start-Process redirected stdout/stderr",
+    "pre_llama_stderr_probe_required": true,
+    "parser_aggregation_hardening": true,
+    "parser_rule": "aggregate all logger rows that resolve to the same semantic shape before validating expected call count",
+    "synthetic_parser_test": true
+  }
+}

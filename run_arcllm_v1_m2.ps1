@@ -1,7 +1,7 @@
 param([string]$ModelPath,[string]$OllamaModelsRoot)
 $ErrorActionPreference="Stop"; Set-StrictMode -Version Latest
 $Root=Split-Path -Parent $MyInvocation.MyCommand.Path
-$LockPath=Join-Path $Root "config\arcllm_v1_m2_lock_v0.1.1.json"
+$LockPath=Join-Path $Root "config\arcllm_v1_m2_lock_v0.1.2.json"
 $Lock=Get-Content $LockPath -Raw -Encoding UTF8 | ConvertFrom-Json
 if((git -C $Root branch --show-current).Trim() -ne [string]$Lock.branch){throw "M2 wrong branch"}
 foreach($Entry in $Lock.critical_git_blobs.PSObject.Properties){

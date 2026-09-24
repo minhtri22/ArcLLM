@@ -15,3 +15,31 @@ assert "-RedirectStandardError" in r and "-RedirectStandardOutput" in r
 assert "& $Exe --model" not in r
 assert "Vulkan Timings:" in r
 print("ArcLLM v1 M2 Windows native-stderr regression PASS")
+
+# Synthetic parser regression: two logger names may map to one semantic family and must aggregate.
+import json, subprocess, sys, tempfile
+from pathlib import Path as _P
+def _m2_block():
+    return "\n".join([
+        "Vulkan Timings:",
+        "MUL_MAT_VEC q4_K m=18944 n=1 k=3584: 28 x 1.0 us = 28.0 us",
+        "FUSED_SILU MUL_MAT_VEC q4_K m=18944 n=1 k=3584: 28 x 1.0 us = 28.0 us",
+        "MUL_MAT_VEC q4_K m=3584 n=1 k=18944: 14 x 1.0 us = 14.0 us",
+        "MUL_MAT_VEC q6_K m=3584 n=1 k=18944: 14 x 1.0 us = 14.0 us",
+        "MUL_MAT_VEC q6_K m=152064 n=1 k=3584: 1 x 1.0 us = 1.0 us",
+        "MUL_MAT_VEC q4_K m=3584 n=1 k=3584: 56 x 1.0 us = 56.0 us",
+        "MUL_MAT_VEC q4_K m=512 n=1 k=3584: 42 x 1.0 us = 42.0 us",
+        "MUL_MAT_VEC q6_K m=512 n=1 k=3584: 14 x 1.0 us = 14.0 us",
+        "Total time: 197.0 us."
+    ])
+with tempfile.TemporaryDirectory() as td:
+    td=_P(td)
+    payload="\n".join([_m2_block() for _ in range(64)])+"\n"
+    ws=td/"ws.txt"; wc=td/"wc.txt"; out=td/"out.json"
+    ws.write_text(payload,encoding="utf-8"); wc.write_text(payload,encoding="utf-8")
+    cp=subprocess.run([sys.executable,str(ROOT/"tools/parse_arcllm_v1_m2_llama_perf.py"),"--ws-log",str(ws),"--wc-log",str(wc),"--out",str(out)],capture_output=True,text=True)
+    assert cp.returncode==0,(cp.stdout,cp.stderr)
+    obj=json.loads(out.read_text(encoding="utf-8"))
+    assert obj["status"]=="PASS",obj
+    assert obj["global_family_metrics"]["ffn_gate_up_q4_k"]["expected_call_count"]==56
+print("ArcLLM v1 M2 synthetic parser aggregation PASS")

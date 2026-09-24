@@ -59,12 +59,17 @@ def map_block(b):
         f=classify(e["name"])
         if f:
             raw.append({"family":f,**e})
-            if f in fam: raise ValueError("duplicate semantic anchor "+f)
-            fam[f]={"count":e["count"],"total_us":e["total_us"],"share":e["total_us"]/b["total_us"] if b["total_us"] else None,"raw_name":e["name"]}
+            if f not in fam:
+                fam[f]={"count":0,"total_us":0.0,"raw_names":[]}
+            fam[f]["count"] += e["count"]
+            fam[f]["total_us"] += e["total_us"]
+            fam[f]["raw_names"].append(e["name"])
     missing=[f for f in EXPECTED_COUNTS if f not in fam]
     if missing: raise ValueError("missing semantic families: "+",".join(missing))
     bad={f:(fam[f]["count"],n) for f,n in EXPECTED_COUNTS.items() if fam[f]["count"]!=n}
-    if bad: raise ValueError("semantic call-count mismatch: "+repr(bad))
+    if bad: raise ValueError("semantic call-count mismatch after aggregation: "+repr(bad))
+    for f in fam:
+        fam[f]["share"] = fam[f]["total_us"]/b["total_us"] if b["total_us"] else None
     return {"total_us":b["total_us"],"families":fam,"raw_semantic_entries":raw}
 
 def median(xs): return statistics.median(xs)
