@@ -873,3 +873,42 @@ Superseding lock:
 Next:
 full zero-science preflight rerun from the beginning.
 
+## I003 zero-science preflight independent adjudication + science authorization — 2026-09-24
+
+Returned preflight bundle SHA256:
+`FF26D03B073CCA099EBD37355D227E0167DCAD70822FDC0F45C2538E50669509`
+
+Implementation HEAD:
+`0180a410645c2ee40fd1dcd5185e84a7ad6de63f`
+
+Independent adjudication:
+`PASS_I003_ZERO_SCIENCE_PREFLIGHT_INDEPENDENTLY_ADJUDICATED`
+
+Verified:
+- bundled execution lock recomputes to exact Git blob `d28f3db39eaf2f51245a37d9183000969e53eaec`;
+- all 29 frozen critical Git blobs match implementation HEAD;
+- exact target model SHA256/size match;
+- candidate SA1 SPIR-V matches historical frozen hash;
+- pinned llama.cpp is v0.4.1 commit `b29c606e28a01b1bc8c1351026a0fa6e616bf6c4`;
+- W-S and W-C baseline runtime qualifications are QUALIFIED with Vulkan full offload 29/29;
+- both runtime qualifications have `decode_executed=false` and `measured_attempts=0`;
+- preflight has `science_measured_inferences=0` and candidate inference was not executed.
+
+Frozen runtime hashes authorized:
+- candidate exe SHA256 `F700AF47AA7E78A29FC96EE52EB47A5A229ADDDA19626832D37B9E9A2B0B7CB3`, bytes 442368;
+- llama exe SHA256 `62DA22E6384D4F3A426FD23D1664FE2F37AF967F8401DABDE10169C1B81AB242`, bytes 47113728;
+- candidate SPIR-V SHA256 `B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569`.
+
+The candidate executable itself is not embedded in the return ZIP; its exact reported hash/size
+is therefore frozen into the authorization and is revalidated by the science launcher before
+any measured inference.
+
+Science authorization:
+`arcllm.v1.i003.science_authorization.v0.1`
+
+Authorization QA:
+`PASS_I003_SCIENCE_AUTHORIZATION_QA`
+
+Next:
+run the exact frozen `run_arcllm_v1_i003.ps1` collection. Do not select or optimize another kernel.
+

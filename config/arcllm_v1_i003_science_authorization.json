@@ -1,0 +1,91 @@
+{
+  "schema": "arcllm.v1.i003.science_authorization.v0.1",
+  "date": "2026-09-24",
+  "program": "I003-MEB",
+  "authorized": true,
+  "role": "FRESH_MATCHED_EXTERNAL_GAP_CHARACTERIZATION",
+  "implementation_head": "0180a410645c2ee40fd1dcd5185e84a7ad6de63f",
+  "preflight_bundle_sha256": "FF26D03B073CCA099EBD37355D227E0167DCAD70822FDC0F45C2538E50669509",
+  "preflight_adjudication_blob": "f60716dca2641da48fd4adeb6567f89519182d33",
+  "execution_lock_schema": "arcllm.v1.i003.execution_lock.v0.1.3",
+  "execution_lock_blob": "d28f3db39eaf2f51245a37d9183000969e53eaec",
+  "candidate_exe_sha256": "F700AF47AA7E78A29FC96EE52EB47A5A229ADDDA19626832D37B9E9A2B0B7CB3",
+  "candidate_exe_bytes": 442368,
+  "llama_exe_sha256": "62DA22E6384D4F3A426FD23D1664FE2F37AF967F8401DABDE10169C1B81AB242",
+  "llama_exe_bytes": 47113728,
+  "candidate_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+  "target_model": {
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "bytes": 4683074048
+  },
+  "baseline": {
+    "release": "v0.4.1",
+    "commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+    "backend": "Vulkan",
+    "full_offload_qualification": "29/29"
+  },
+  "execution": {
+    "cells": [
+      "A_WS",
+      "A_WC",
+      "B_WC",
+      "B_WS"
+    ],
+    "pairs_per_cell": 5,
+    "measured_inferences_per_pair": 2,
+    "measured_inferences_per_complete_collection_authorized": 40,
+    "warmups_per_arm_invocation": 1,
+    "measured_attempts_per_arm_invocation": 1,
+    "adjacent_pairing": true,
+    "pair_order": "A parity candidate-first; B parity llama-first; alternate by pair"
+  },
+  "governance": {
+    "class": "DEV_HOST",
+    "automatic_rerun_permitted": false,
+    "selective_pair_or_cell_rerun_permitted": false,
+    "manual_full_collection_rerun_permitted": true,
+    "primary_dataset_rule": "FIRST_COMPLETE_VALID_COLLECTION",
+    "later_complete_collections": "REPLICATION_ROBUSTNESS_ONLY"
+  },
+  "environment": {
+    "os_build": "26200",
+    "cpu": "Intel(R) Core(TM) Ultra 7 258V",
+    "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "gpu_driver": "32.0.101.8860",
+    "power_scheme_and_ac": "RECORDED_METADATA_NOT_HARD_BLOCKER"
+  },
+  "critical_git_blobs": {
+    "docs/research/arcllm-v1/ARCLLM_V1_I003_MATCHED_EXTERNAL_BASELINE_SPEC.md": "e70e4cda9ba44d27a9ebfe025663090043c7e252",
+    "src/arcllm_v1_i003_candidate_benchmark.cpp": "e7a1812464fa6445bd6c04ac37f91f81851ac816",
+    "baseline/i003_llama_adapter.cpp": "13b2dc08ffa898af52ec517c38687e7de4ed31fe",
+    "baseline/CMakeLists.txt": "f592ddb8662632513b08f60cc9dbf15d56e8a5c7",
+    "tools/build_arcllm_v1_i003_candidate.ps1": "54b441a615291aabaf37c4d840d89cd674ec636f",
+    "tools/compile_arcllm_v1_i003.ps1": "f4e14baab9fc93c4e19ecda399d28016f7f29354",
+    "tools/qualify_arcllm_v1_i003_baseline.ps1": "00720ad4625ae22f1e6936a54c5107b1ae4a9e7c",
+    "tools/summarize_arcllm_v1_i003.py": "c86890671ef1d3fa989d6db78cfc3fd6ca8f02f1",
+    "tests/test_arcllm_v1_i003_package.py": "2f85ef00c2fcff26c5f783fcf5abe1c6869a7aaa",
+    "run_arcllm_v1_i003_preflight.ps1": "caee24619b21708099f14a071b8870bf9a197ef2",
+    "run_arcllm_v1_i003.ps1": "81892abb9ffcaa94b59076be53116f4b65e460b4",
+    "tools/q2_resource_sampler.py": "44f4eec7bdf192ee658db227af757763705eda43",
+    "tools/q2_gpu_sampler.ps1": "ee25104cc415f6d9fe8eb866d4cfeed9742de328",
+    "tools/resolve_p8_target.ps1": "f7434f59720dd2afdc9480cead289ab379614bb0",
+    "tools/compile_arcllm_v1_i002.ps1": "6e85ebde08354ba3ed73de3ad6194bf8b37026be",
+    "tools/compile_q2_shaders.ps1": "a7e08a196ee6c6bf94f460ef4d710175a1b85166",
+    "tools/compile_sa1_component.ps1": "22cc5bad45281bb4a6568a9d5e071b324254c458",
+    "src/q2_benchmark.cpp": "ea1e986e22f6921e7f6c52a4fa5935121cfec663",
+    "baseline/q2_llama_adapter.cpp": "d9781463ce0f4c66b3a00a8fbec9df5b549c5e32",
+    "src/gguf.cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
+    "src/gguf.h": "d71d22cc1db54a9643ecafa6d3b616a96221c726",
+    "src/tensor_store.cpp": "0eb52588d30620bfeb323e62c8546e7191a006d6",
+    "src/tensor_store.h": "fdc8788b72da4c0f9464aabdaa48e680d153fc5d",
+    "shaders/sa1_q4k_subgroup_splitk.comp": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "inputs/q2_formal_result.authoritative.json": "38dfc5aa0034204e7a321ad04e714429145a2b80",
+    "artifacts/ARCLLM_V1/ARCLLM_V1_I002_FINAL_ADJUDICATION_v0.1.json": "5d3d853247900bf0ea19fbf04f8e7a89412b9ebb",
+    "artifacts/ARCLLM_V1/ARCLLM_V1_I003_PREFLIGHT_REPAIR_ADJUDICATION_v0.1.json": "8f494672ccaa18eaeaa2d7871af9063205118bdf",
+    "artifacts/ARCLLM_V1/ARCLLM_V1_I003_PREFLIGHT_REPAIR_ADJUDICATION_v0.2.json": "a5b117a27cbffd3c91af102e0c2473ee395a5d65",
+    "artifacts/ARCLLM_V1/ARCLLM_V1_I003_PREFLIGHT_REPAIR_ADJUDICATION_v0.3.json": "6e2362f9f7f7c8183bc2a59287b2c9937be6ee04",
+    "config/arcllm_v1_i003_execution_lock_v0.1.3.json": "d28f3db39eaf2f51245a37d9183000969e53eaec",
+    "artifacts/ARCLLM_V1/ARCLLM_V1_I003_PREFLIGHT_INDEPENDENT_ADJUDICATION_v0.1.json": "f60716dca2641da48fd4adeb6567f89519182d33"
+  },
+  "next": "RUN_ARCLLM_V1_I003_FROZEN_COLLECTION"
+}

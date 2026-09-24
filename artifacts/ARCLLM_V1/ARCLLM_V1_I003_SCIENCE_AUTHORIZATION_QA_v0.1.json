@@ -1,0 +1,22 @@
+{
+  "schema": "arcllm.v1.i003.science_authorization_qa.v0.1",
+  "date": "2026-09-24",
+  "result": "PASS_I003_SCIENCE_AUTHORIZATION_QA",
+  "authorization_blob": "df65b5cad52e7962ae959443097e8c44c1b11ee2",
+  "checks": {
+    "preflight_independent_adjudication_pass": true,
+    "implementation_head_exact": "0180a410645c2ee40fd1dcd5185e84a7ad6de63f",
+    "execution_lock_exact": true,
+    "candidate_exe_hash_bound": true,
+    "llama_exe_hash_bound": true,
+    "candidate_spv_hash_bound": true,
+    "target_model_hash_and_size_bound": true,
+    "exact_baseline_bound": true,
+    "exact_execution_design_bound": true,
+    "critical_git_blobs_bound": 31,
+    "science_launcher_enforces_executable_spv_model_environment_and_git_identity": true,
+    "preflight_science_measured_inferences_zero": true
+  },
+  "authorization_scope": "FROZEN_COMPLETE_I003_COLLECTIONS_UNDER_DEV_HOST_GOVERNANCE",
+  "next": "RUN_run_arcllm_v1_i003.ps1"
+}
