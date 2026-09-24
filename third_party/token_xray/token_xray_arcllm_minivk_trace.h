@@ -204,7 +204,7 @@ private:
         if(valid_bits_==64)return b-a;uint64_t m=(uint64_t(1)<<valid_bits_)-1u;return(b-a)&m;
     }
     uint64_t to_ns(uint64_t t)const{
-        long double x=long double(t)*period_;if(x>=long double(std::numeric_limits<uint64_t>::max()))return std::numeric_limits<uint64_t>::max();
+        long double x=static_cast<long double>(t)*static_cast<long double>(period_);if(x>=static_cast<long double>(std::numeric_limits<uint64_t>::max()))return std::numeric_limits<uint64_t>::max();
         return uint64_t(std::llround(x));
     }
     static std::string esc(const std::string&s){std::ostringstream o;for(char c:s){if(c=='\\')o<<"\\\\";else if(c=='\"')o<<"\\\"";else if(c=='\n')o<<"\\n";else if(c=='\r')o<<"\\r";else if(c=='\t')o<<"\\t";else o<<c;}return o.str();}

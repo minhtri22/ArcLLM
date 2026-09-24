@@ -410,6 +410,9 @@ using PFN_vkQueueSubmit = VkResult (WINAPI*)(VkQueue, uint32_t, const VkSubmitIn
 using PFN_vkWaitForFences = VkResult (WINAPI*)(VkDevice, uint32_t, const VkFence*, VkBool32, uint64_t);
 using PFN_vkDeviceWaitIdle = VkResult (WINAPI*)(VkDevice);
 
+#include "../third_party/token_xray/token_xray_arcllm_v1_adapter.h"
+#include "../third_party/token_xray/token_xray_arcllm_minivk_trace.h"
+
 template<typename T>
 static T req(PFN_vkGetInstanceProcAddr gipa, VkInstance inst, const char* name) {
     auto p = gipa(inst, name);
@@ -631,6 +634,7 @@ public:
         for (uint32_t i = 0; i < nq; ++i) {
             if ((qprops[i].queueFlags & VK_QUEUE_COMPUTE_BIT) && qprops[i].queueCount > 0) {
                 queue_family_ = i;
+                timestamp_valid_bits_ = qprops[i].timestampValidBits;
                 found = true;
                 break;
             }
@@ -689,6 +693,12 @@ public:
         cmd_dispatch_ = reqd<PFN_vkCmdDispatch>(gdpa_, device_, "vkCmdDispatch");
         cmd_pipeline_barrier_ = reqd<PFN_vkCmdPipelineBarrier>(gdpa_, device_, "vkCmdPipelineBarrier");
 
+        txr_create_query_pool_ = reqd<TXR_PFN_vkCreateQueryPool>(gdpa_, device_, "vkCreateQueryPool");
+        txr_destroy_query_pool_ = reqd<TXR_PFN_vkDestroyQueryPool>(gdpa_, device_, "vkDestroyQueryPool");
+        txr_cmd_reset_query_pool_ = reqd<TXR_PFN_vkCmdResetQueryPool>(gdpa_, device_, "vkCmdResetQueryPool");
+        txr_cmd_write_timestamp_ = reqd<TXR_PFN_vkCmdWriteTimestamp>(gdpa_, device_, "vkCmdWriteTimestamp");
+        txr_get_query_pool_results_ = reqd<TXR_PFN_vkGetQueryPoolResults>(gdpa_, device_, "vkGetQueryPoolResults");
+
         create_fence_ = reqd<PFN_vkCreateFence>(gdpa_, device_, "vkCreateFence");
         destroy_fence_ = reqd<PFN_vkDestroyFence>(gdpa_, device_, "vkDestroyFence");
         queue_submit_ = reqd<PFN_vkQueueSubmit>(gdpa_, device_, "vkQueueSubmit");
@@ -705,6 +715,7 @@ public:
     uint32_t queue_family() const { return queue_family_; }
     uint32_t memory_type_index() const { return memory_type_index_; }
     uint32_t memory_type_flags() const { return memory_type_flags_; }
+    uint32_t timestamp_valid_bits() const { return timestamp_valid_bits_; }
 
     Buffer make_buffer(uint64_t size, const void* initial = nullptr) {
         Buffer b;
@@ -791,6 +802,78 @@ public:
         VkMemoryBarrier hb{};hb.sType=VK_STRUCTURE_TYPE_MEMORY_BARRIER;hb.srcAccessMask=VK_ACCESS_SHADER_WRITE_BIT;hb.dstAccessMask=VK_ACCESS_HOST_READ_BIT;cmd_pipeline_barrier_(cb,VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,VK_PIPELINE_STAGE_HOST_BIT,0,1,&hb,0,nullptr,0,nullptr);st.final_host_barrier_count=1;vr=end_command_buffer_(cb);if(vr!=VK_SUCCESS)throw std::runtime_error("vkEndCommandBuffer failed P7A");VkFenceCreateInfo fci{};fci.sType=VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;VkFence fence=nullptr;vr=create_fence_(device_,&fci,nullptr,&fence);if(vr!=VK_SUCCESS)throw std::runtime_error("vkCreateFence failed P7A");VkSubmitInfo si{};si.sType=VK_STRUCTURE_TYPE_SUBMIT_INFO;si.commandBufferCount=1;si.pCommandBuffers=&cb;auto ts0=std::chrono::steady_clock::now();vr=queue_submit_(queue_,1,&si,fence);if(vr!=VK_SUCCESS)throw std::runtime_error("vkQueueSubmit failed P7A");st.submit_count=1;vr=wait_for_fences_(device_,1,&fence,VK_TRUE,(std::numeric_limits<uint64_t>::max)());if(vr!=VK_SUCCESS)throw std::runtime_error("vkWaitForFences failed P7A");st.fence_wait_count=1;auto ts1=std::chrono::steady_clock::now();st.submit_wait_ms=std::chrono::duration<double,std::milli>(ts1-ts0).count();destroy_fence_(device_,fence,nullptr);destroy_command_pool_(device_,pool,nullptr);st.record_submit_wait_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-tall0).count();return st;
     }
 
+    ChainStats execute_prepared_traced(
+        const PreparedChain& chain,
+        const std::vector<DispatchOp>& ops,
+        const token_xray::MiniTraceMeta& trace_meta,
+        const std::string& trace_path,
+        double timestamp_period_ns,
+        bool cross_submit_compute_barrier=false){
+        if(ops.size()!=chain.prepared.size()||ops.empty())throw std::runtime_error("prepared chain shape mismatch");
+        for(size_t i=0;i<ops.size();++i){const auto&p=chain.prepared[i];if(ops[i].spv_path!=p.spv_path||ops[i].push.size()!=p.push_size||ops[i].buffers.size()!=p.buffers.size())throw std::runtime_error("prepared op signature mismatch: "+ops[i].name);for(size_t j=0;j<ops[i].buffers.size();++j)if(ops[i].buffers[j]!=p.buffers[j])throw std::runtime_error("prepared op buffer mismatch: "+ops[i].name);}
+        if(timestamp_valid_bits_==0u)throw std::runtime_error("Token X-Ray selected queue reports timestampValidBits=0");
+
+        token_xray::MiniVkFns fns{};
+        fns.create_query_pool=txr_create_query_pool_;
+        fns.destroy_query_pool=txr_destroy_query_pool_;
+        fns.cmd_reset_query_pool=txr_cmd_reset_query_pool_;
+        fns.cmd_write_timestamp=txr_cmd_write_timestamp_;
+        fns.get_query_pool_results=txr_get_query_pool_results_;
+        token_xray::MiniVkTrace trace(device_,fns,uint32_t(ops.size()),timestamp_period_ns,timestamp_valid_bits_);
+
+        auto tall0=std::chrono::steady_clock::now();
+        VkCommandPoolCreateInfo pci{};pci.sType=VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;pci.flags=VK_COMMAND_POOL_CREATE_TRANSIENT_BIT;pci.queueFamilyIndex=queue_family_;
+        VkCommandPool pool=nullptr;VkResult vr=create_command_pool_(device_,&pci,nullptr,&pool);if(vr!=VK_SUCCESS)throw std::runtime_error("vkCreateCommandPool failed Token X-Ray");
+        VkCommandBufferAllocateInfo ai{};ai.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;ai.commandPool=pool;ai.level=VK_COMMAND_BUFFER_LEVEL_PRIMARY;ai.commandBufferCount=1;
+        VkCommandBuffer cb=nullptr;vr=allocate_command_buffers_(device_,&ai,&cb);if(vr!=VK_SUCCESS)throw std::runtime_error("vkAllocateCommandBuffers failed Token X-Ray");
+        VkCommandBufferBeginInfo bi{};bi.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;bi.flags=VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+        vr=begin_command_buffer_(cb,&bi);if(vr!=VK_SUCCESS)throw std::runtime_error("vkBeginCommandBuffer failed Token X-Ray");
+        ChainStats st{};trace.begin(cb,trace_meta);
+
+        if(cross_submit_compute_barrier){
+            VkMemoryBarrier mb{};mb.sType=VK_STRUCTURE_TYPE_MEMORY_BARRIER;mb.srcAccessMask=VK_ACCESS_SHADER_WRITE_BIT;mb.dstAccessMask=VK_ACCESS_SHADER_READ_BIT|VK_ACCESS_SHADER_WRITE_BIT;
+            cmd_pipeline_barrier_(cb,VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,0,1,&mb,0,nullptr,0,nullptr);
+            trace.barrier("cross_submit_compute", -1, 0, "COMPUTE_SHADER", "COMPUTE_SHADER", "SHADER_WRITE", "SHADER_READ|SHADER_WRITE");
+            st.initial_compute_barrier_count=1;
+        }
+
+        for(size_t oi=0;oi<ops.size();++oi){
+            const auto&op=ops[oi];const auto&p=chain.prepared[oi];
+            cmd_bind_pipeline_(cb,VK_PIPELINE_BIND_POINT_COMPUTE,p.pipeline);
+            cmd_bind_descriptor_sets_(cb,VK_PIPELINE_BIND_POINT_COMPUTE,p.pipeline_layout,0,1,&p.descriptor_set,0,nullptr);
+            if(!op.push.empty())cmd_push_constants_(cb,p.pipeline_layout,VK_SHADER_STAGE_COMPUTE_BIT,0,uint32_t(op.push.size()),op.push.data());
+            const std::string semantic=token_xray::arcllm_v1_semantic_node_id(op.name);
+            const auto local=token_xray::arcllm_v1_local_size(op.spv_path);
+            const uint32_t did=trace.dispatch_begin(cb,semantic,op.name,token_xray::arcllm_v1_basename(op.spv_path),op.spv_path,
+                                                    op.gx,op.gy,op.gz,local[0],local[1],local[2],
+                                                    token_xray::arcllm_v1_subgroup_size(op.spv_path));
+            cmd_dispatch_(cb,op.gx,op.gy,op.gz);trace.dispatch_end(cb,did);++st.dispatch_count;
+            if(oi+1<ops.size()){
+                VkMemoryBarrier mb{};mb.sType=VK_STRUCTURE_TYPE_MEMORY_BARRIER;mb.srcAccessMask=VK_ACCESS_SHADER_WRITE_BIT;mb.dstAccessMask=VK_ACCESS_SHADER_READ_BIT|VK_ACCESS_SHADER_WRITE_BIT;
+                cmd_pipeline_barrier_(cb,VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,0,1,&mb,0,nullptr,0,nullptr);
+                trace.barrier("compute_to_compute",int64_t(did),int64_t(did+1u),"COMPUTE_SHADER","COMPUTE_SHADER","SHADER_WRITE","SHADER_READ|SHADER_WRITE");
+                ++st.internal_barrier_count;
+            }
+        }
+
+        VkMemoryBarrier hb{};hb.sType=VK_STRUCTURE_TYPE_MEMORY_BARRIER;hb.srcAccessMask=VK_ACCESS_SHADER_WRITE_BIT;hb.dstAccessMask=VK_ACCESS_HOST_READ_BIT;
+        cmd_pipeline_barrier_(cb,VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,VK_PIPELINE_STAGE_HOST_BIT,0,1,&hb,0,nullptr,0,nullptr);
+        trace.barrier("compute_to_host",int64_t(ops.size()-1u),-1,"COMPUTE_SHADER","HOST","SHADER_WRITE","HOST_READ");
+        st.final_host_barrier_count=1;trace.end(cb);
+        vr=end_command_buffer_(cb);if(vr!=VK_SUCCESS)throw std::runtime_error("vkEndCommandBuffer failed Token X-Ray");
+
+        VkFenceCreateInfo fci{};fci.sType=VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;VkFence fence=nullptr;
+        vr=create_fence_(device_,&fci,nullptr,&fence);if(vr!=VK_SUCCESS)throw std::runtime_error("vkCreateFence failed Token X-Ray");
+        VkSubmitInfo si{};si.sType=VK_STRUCTURE_TYPE_SUBMIT_INFO;si.commandBufferCount=1;si.pCommandBuffers=&cb;
+        auto ts0=std::chrono::steady_clock::now();vr=queue_submit_(queue_,1,&si,fence);if(vr!=VK_SUCCESS)throw std::runtime_error("vkQueueSubmit failed Token X-Ray");st.submit_count=1;
+        vr=wait_for_fences_(device_,1,&fence,VK_TRUE,(std::numeric_limits<uint64_t>::max)());if(vr!=VK_SUCCESS)throw std::runtime_error("vkWaitForFences failed Token X-Ray");st.fence_wait_count=1;
+        auto ts1=std::chrono::steady_clock::now();st.submit_wait_ms=std::chrono::duration<double,std::milli>(ts1-ts0).count();
+        trace.collect_after_fence();trace.write(trace_path);
+        destroy_fence_(device_,fence);destroy_command_pool_(device_,pool);
+        st.record_submit_wait_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-tall0).count();
+        return st;
+    }
+
     void destroy_prepared(PreparedChain& chain){for(auto& p:chain.prepared){if(p.descriptor_pool)destroy_descriptor_pool_(device_,p.descriptor_pool,nullptr);if(p.pipeline)destroy_pipeline_(device_,p.pipeline,nullptr);if(p.shader)destroy_shader_module_(device_,p.shader,nullptr);if(p.pipeline_layout)destroy_pipeline_layout_(device_,p.pipeline_layout,nullptr);if(p.set_layout)destroy_descriptor_set_layout_(device_,p.set_layout,nullptr);}chain.prepared.clear();}
 
 private:
@@ -831,6 +914,7 @@ private:
     uint32_t queue_family_ = 0;
     uint32_t memory_type_index_ = UINT32_MAX;
     uint32_t memory_type_flags_ = 0;
+    uint32_t timestamp_valid_bits_ = 0;
     VkPhysicalDeviceMemoryProperties mem_props_{};
 
     PFN_vkDestroyInstance destroy_instance_ = nullptr;
@@ -868,6 +952,11 @@ private:
     PFN_vkCmdPushConstants cmd_push_constants_ = nullptr;
     PFN_vkCmdDispatch cmd_dispatch_ = nullptr;
     PFN_vkCmdPipelineBarrier cmd_pipeline_barrier_ = nullptr;
+    TXR_PFN_vkCreateQueryPool txr_create_query_pool_ = nullptr;
+    TXR_PFN_vkDestroyQueryPool txr_destroy_query_pool_ = nullptr;
+    TXR_PFN_vkCmdResetQueryPool txr_cmd_reset_query_pool_ = nullptr;
+    TXR_PFN_vkCmdWriteTimestamp txr_cmd_write_timestamp_ = nullptr;
+    TXR_PFN_vkGetQueryPoolResults txr_get_query_pool_results_ = nullptr;
     PFN_vkCreateFence create_fence_ = nullptr;
     PFN_vkDestroyFence destroy_fence_ = nullptr;
     PFN_vkQueueSubmit queue_submit_ = nullptr;
