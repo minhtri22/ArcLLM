@@ -34,7 +34,7 @@ Each process:
 - counter query around each of the 469 dispatches;
 - compute selected-group pass count from the driver at runtime;
 - restore the exact pre-dispatch mutable state before every pass;
-- preserve every pass as instrumented raw evidence;
+- preserve the required pass count and pass-index submission contract; emit counter values only after all required passes complete;
 - emit semantic NodeID + dispatch_id + provider-native counter values.
 
 Quiet-host mode is required for M3-B. The machine hardware profile itself is not re-audited.
@@ -70,5 +70,17 @@ L3/SuperQ and LSC input/output pressure.
 
 The profiling lock must be held before recording a command buffer containing performance queries
 and while it is recording/executable/pending. Required pass count is selected at submit time with
-`VkPerformanceQuerySubmitInfoKHR.counterPassIndex`. Every selected query must be recorded once
-for every required pass before results are consumed.
+`VkPerformanceQuerySubmitInfoKHR.counterPassIndex`. Every selected query must be recorded once for every required pass before results are consumed. `vkCmdResetQueryPool` is issued only before pass 0; resetting between passes would invalidate the accumulated multi-pass query. The final counter values are labeled `COMBINED_AFTER_REQUIRED_PASSES`, not fabricated as per-pass measurements.
+
+
+## Token-XRay contract binding
+
+M3-B emits `HARDWARE_OBSERVATION` records compatible with Token-XRay main
+`03e4c7ef5fc0dbba52f99d96669ac40ce18b5e6e`.
+
+Each of the six raw runs yields 469 dispatch-scoped observations. Total expected observations:
+`6 × 469 = 2,814`.
+
+The semantic mapping is the existing ArcLLM Token-XRay adapter. LM-head remains 19 dispatch
+observations sharing the stable semantic NodeID `decode.output.lm_head`; aggregation happens only
+after dispatch-level evidence exists.

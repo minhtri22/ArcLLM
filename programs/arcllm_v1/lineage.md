@@ -1088,3 +1088,22 @@ Token-XRay counter profile grounded from this evidence: `minhtri22/token-xray@67
 
 M3-B is opened as quiet-host targeted per-dispatch collection using three curated groups (memory/cache, execution/occupancy, stall-cause). Instrumented timing is diagnostic only and cannot replace I003/M1 baseline timing.
 
+## M3-B implementation lock — Vulkan command-scope counter collector — 2026-09-25
+
+M3-B collector is bound to the exact M3-A-qualified Vulkan KHR provider and Token-XRay Phase-3
+contract `03e4c7ef5fc0dbba52f99d96669ac40ce18b5e6e`.
+
+The collector profiles decode index 15 for six independent workload/group processes. Every
+selected group asks the driver for its own required pass count. Before each required pass the
+mutable decode state (working buffers, full K/V cache, feedback token) is restored to the exact
+pre-probe snapshot. The performance query pool is reset only before pass 0, then the same semantic
+command sequence is submitted once per required pass using `counterPassIndex`. Results are read
+only after all passes and labeled `COMBINED_AFTER_REQUIRED_PASSES`.
+
+The profiling lock spans command-buffer recording/executable/pending lifetime. Counter runs require
+manual quiet-host confirmation but do not repeat machine profiling. Instrumented timing is forbidden
+as a replacement for I003/M1 timing.
+
+Raw collection emits 469 COMMAND-scope dispatch rows/run and the parser emits 2,814 Token-XRay
+`HARDWARE_OBSERVATION` JSONL records across W-S/W-C × three counter groups.
+
