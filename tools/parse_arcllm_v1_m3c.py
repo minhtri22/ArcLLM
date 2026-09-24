@@ -163,9 +163,9 @@ for workload,stemw in [("W-S","W_S"),("W-C","W_C")]:
 if errors:
   summary={"schema":"arcllm.v1.m3c.collection_summary.v0.1","status":"FAIL","errors":errors,"runs":runs}
   Path(a.out_summary).write_text(json.dumps(summary,indent=2)+"\n",encoding="utf-8")
-  raise SystemExit("M3-B parser FAIL: "+"; ".join(errors[:20]))
+  raise SystemExit("M3-C parser FAIL: "+"; ".join(errors[:20]))
 
-if len(observations)!=618: raise SystemExit(f"M3-B expected 618 observations, got {len(observations)}")
+if len(observations)!=618: raise SystemExit(f"M3-C expected 618 observations, got {len(observations)}")
 with Path(a.out_observations).open("w",encoding="utf-8") as f:
   for x in observations: f.write(json.dumps(x,separators=(",",":"))+"\n")
 summary={
