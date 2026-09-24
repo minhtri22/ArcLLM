@@ -1,7 +1,7 @@
 param([string]$ModelPath,[string]$OllamaModelsRoot)
 $ErrorActionPreference="Stop"; Set-StrictMode -Version Latest
 $Root=Split-Path -Parent $MyInvocation.MyCommand.Path
-$LockPath=Join-Path $Root "config\arcllm_v1_m2_lock_v0.1.json"
+$LockPath=Join-Path $Root "config\arcllm_v1_m2_lock_v0.1.1.json"
 $Lock=Get-Content $LockPath -Raw -Encoding UTF8 | ConvertFrom-Json
 if((git -C $Root branch --show-current).Trim() -ne [string]$Lock.branch){throw "M2 wrong branch"}
 foreach($Entry in $Lock.critical_git_blobs.PSObject.Properties){
@@ -39,6 +39,27 @@ $Dir=Join-Path $Root "results\m2_llama_same_semantic_map"
 if(Test-Path $Dir){Remove-Item $Dir -Recurse -Force}
 New-Item -ItemType Directory -Force -Path $Dir | Out-Null
 
+function Invoke-NativeCaptured(
+  [string]$FilePath,
+  [string[]]$ArgumentList,
+  [string]$StdoutPath,
+  [string]$StderrPath
+){
+  $P=Start-Process -FilePath $FilePath -ArgumentList $ArgumentList -RedirectStandardOutput $StdoutPath -RedirectStandardError $StderrPath -NoNewWindow -Wait -PassThru
+  if($null -eq $P){throw "M2 native process launch returned null"}
+  return [int]$P.ExitCode
+}
+
+# Windows/PowerShell transport probe: native stderr with exit 0 must remain captured data, not a terminating PowerShell error.
+$ProbeOut=Join-Path $Dir "_native_stderr_probe_stdout.txt"
+$ProbeErr=Join-Path $Dir "_native_stderr_probe_stderr.txt"
+$ProbeArgs=@("/d","/s","/c",'"echo M2_STDOUT_PROBE&&echo M2_STDERR_PROBE 1>&2&&exit /b 0"')
+$ProbeCode=Invoke-NativeCaptured -FilePath $env:ComSpec -ArgumentList $ProbeArgs -StdoutPath $ProbeOut -StderrPath $ProbeErr
+if($ProbeCode -ne 0){throw "M2 native stderr transport probe exit=$ProbeCode"}
+if(-not((Get-Content $ProbeOut -Raw -ErrorAction Stop) -match "M2_STDOUT_PROBE")){throw "M2 native stdout transport probe missing marker"}
+if(-not((Get-Content $ProbeErr -Raw -ErrorAction Stop) -match "M2_STDERR_PROBE")){throw "M2 native stderr transport probe missing marker"}
+Remove-Item $ProbeOut,$ProbeErr -Force
+
 function Run-M2([string]$Workload,[string]$Stem){
   $Result=Join-Path $Dir ($Stem+"_result.json")
   $Stdout=Join-Path $Dir ($Stem+"_stdout.txt")
@@ -48,13 +69,18 @@ function Run-M2([string]$Workload,[string]$Stem){
     $env:GGML_VK_PERF_LOGGER="1"
     $env:GGML_VK_PERF_LOGGER_FREQUENCY="1"
     Remove-Item Env:GGML_VK_PERF_LOGGER_CONCURRENT -ErrorAction SilentlyContinue
-    & $Exe --model $ModelPath --workload $Workload --warmups 1 --measured 1 --out $Result 1> $Stdout 2> $Perf
-    if($LASTEXITCODE -ne 0){throw "M2 llama $Workload failed"}
+    $Args=@("--model",('"{0}"' -f $ModelPath),"--workload",$Workload,"--warmups","1","--measured","1","--out",('"{0}"' -f $Result))
+    $Code=Invoke-NativeCaptured -FilePath $Exe -ArgumentList $Args -StdoutPath $Stdout -StderrPath $Perf
+    if($Code -ne 0){throw "M2 llama $Workload failed exit=$Code"}
   } finally {
     if($null -eq $OldPerf){Remove-Item Env:GGML_VK_PERF_LOGGER -ErrorAction SilentlyContinue}else{$env:GGML_VK_PERF_LOGGER=$OldPerf}
     if($null -eq $OldFreq){Remove-Item Env:GGML_VK_PERF_LOGGER_FREQUENCY -ErrorAction SilentlyContinue}else{$env:GGML_VK_PERF_LOGGER_FREQUENCY=$OldFreq}
     if($null -eq $OldConcurrent){Remove-Item Env:GGML_VK_PERF_LOGGER_CONCURRENT -ErrorAction SilentlyContinue}else{$env:GGML_VK_PERF_LOGGER_CONCURRENT=$OldConcurrent}
   }
+  if(-not(Test-Path $Result)){throw "M2 llama $Workload result JSON missing"}
+  if(-not(Test-Path $Perf)){throw "M2 llama $Workload Vulkan perf log missing"}
+  $PerfText=Get-Content $Perf -Raw -Encoding UTF8
+  if($PerfText -notmatch "Vulkan Timings:"){throw "M2 llama $Workload perf logger emitted no Vulkan Timings blocks"}
   $Obj=Get-Content $Result -Raw -Encoding UTF8 | ConvertFrom-Json
   if(-not $Obj.attempts[0].success){throw "M2 llama $Workload semantic attempt failed"}
   $Expected=if($Workload -eq "W-S"){"1a31529a4fa40742"}else{"d9b495aa8e8764e4"}

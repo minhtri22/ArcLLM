@@ -1006,3 +1006,11 @@ M2 uses W-S and W-C, one warmup + one measured attempt each, and selects decode 
 
 After M2 PASS: build the cross-runtime EXCESS-COST MAP using M1 Arc shares, M2 llama shares, and closed I003 practical token latencies.
 
+## M2 pre-valid-collection PowerShell native-stderr transport repair — 2026-09-25
+
+At M2 package HEAD `b505053d7e13812020d853af5c10aec25a026dbd`, the first pinned-llama invocation emitted normal Vulkan startup diagnostics to stderr (`ggml_vulkan: Found 1 Vulkan devices:`). Windows PowerShell surfaced that native stderr as `NativeCommandError`; because the runner used `$ErrorActionPreference="Stop"`, the parent script terminated before producing a valid M2 collection.
+
+Repair is infrastructure-only: replace direct `& $Exe ... 1> ... 2> ...` with `Start-Process` using redirected stdout/stderr and explicit `ExitCode`. A zero-science native stderr probe now runs before llama and must prove that stderr text with exit code 0 is captured without terminating the runner.
+
+Pinned llama commit/binary, model, workloads, logger, semantic anchors, probe indices and parser are unchanged. No valid M2 bundle/summary was produced by the failed invocation; it is not scientific evidence.
+

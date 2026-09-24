@@ -1,0 +1,40 @@
+{
+  "schema": "arcllm.v1.m2.infrastructure_repair.v0.1",
+  "date": "2026-09-25",
+  "classification": "PRE_VALID_COLLECTION_POWERSHELL_NATIVE_STDERR_TRANSPORT",
+  "observed_head": "b505053d7e13812020d853af5c10aec25a026dbd",
+  "observed_failure": "PowerShell NativeCommandError on llama stderr line: ggml_vulkan: Found 1 Vulkan devices:",
+  "root_cause": "Windows PowerShell 5.1 native stderr is surfaced as PowerShell error records; with ErrorActionPreference=Stop, direct native invocation can terminate the runner even when stderr is normal diagnostic output.",
+  "evidence_state": {
+    "valid_m2_bundle_produced": false,
+    "m2_summary_produced": false,
+    "semantic_outcome_exposed": false,
+    "failed_invocation_is_not_scientific_evidence": true
+  },
+  "repair": {
+    "runner_blob": "29d161f788d90874f53fb9435720bcf68312a86e",
+    "test_blob": "414541e28235a166a1c7004f98cfcaa748b295be",
+    "lock_blob": "c6bac34ece9eb246a68c1ecf0ff425c692cfbc5c",
+    "native_launch": "Start-Process -RedirectStandardOutput/-RedirectStandardError -Wait -PassThru",
+    "exit_status_source": "System.Diagnostics.Process.ExitCode",
+    "pre_llama_native_stderr_probe": true
+  },
+  "frozen_science_unchanged": {
+    "baseline_commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+    "baseline_adapter_sha256": "62DA22E6384D4F3A426FD23D1664FE2F37AF967F8401DABDE10169C1B81AB242",
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "warmups": 1,
+    "measured": 1,
+    "probes": [
+      0,
+      15,
+      30
+    ],
+    "logger": "GGML_VK_PERF_LOGGER=1"
+  },
+  "next": "RERUN_M2_FROM_REPAIRED_RUNNER"
+}
