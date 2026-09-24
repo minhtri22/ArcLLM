@@ -706,3 +706,42 @@ Correction:
 - bind the already-current T1 runner blob `5129617ab16cbd3b784e4d049f66337dba8266d3`;
 - rebind T3 authorization to lock v0.1.3;
 - no candidate, executable, T3 runner, threshold, workload, or governance rule changed.
+
+
+## I002 primary T3 final adjudication — 2026-09-24
+
+Primary returned bundle:
+`B198CCDEB1996FCCBB0A7F2BD8275CE4C74D6055E731E6278F95FA7545ABA09E`
+
+Chronology:
+the primary collection was generated under authorization v0.3 / HEAD `d5f144ce...`, before the later DEV_HOST governance amendment. It is therefore adjudicated under the original frozen contract; DEV_HOST governance is future-only.
+
+Independent result:
+`PASS_I002_REAL_MODEL_CARRY_THROUGH`
+
+Evidence:
+- T2 semantic guard PASS 4/4;
+- 20/20 measured pairs semantic-equal;
+- 20/20 decode pairs improve;
+- global decode geomean speedup 2.1998×;
+- G2 PASS all cells;
+- G3 TTFT median PASS all cells;
+- 20/20 E2E pairs improve;
+- global geomean of cell-median E2E speedups 2.0026×;
+- G4 PASS all cells.
+
+I002 scientific chain:
+```text
+T0 PASS
+T1 PASS
+T2 PASS
+G2 PASS
+G3 PASS
+G4 PASS
+→ PASS_I002_REAL_MODEL_CARRY_THROUGH
+```
+
+I002 is closed. Existing science authorization is closed.
+
+Next:
+fresh matched external baseline comparison of the closed I002 candidate versus pinned llama.cpp under one matched DEV_HOST design. No next kernel is selected yet.

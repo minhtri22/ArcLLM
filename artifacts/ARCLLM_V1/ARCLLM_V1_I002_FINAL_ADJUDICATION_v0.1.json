@@ -1,0 +1,110 @@
+{
+  "schema": "arcllm.v1.i002.final_adjudication.v0.1",
+  "date": "2026-09-24",
+  "result": "PASS_I002_REAL_MODEL_CARRY_THROUGH",
+  "bundle_sha256": "B198CCDEB1996FCCBB0A7F2BD8275CE4C74D6055E731E6278F95FA7545ABA09E",
+  "primary_contract": {
+    "authorization_head": "d5f144ce9f4e4a278188038e12c41036dc47a2c0",
+    "authorization_schema": "arcllm.v1.i002.science_authorization.v0.3",
+    "implementation_head": "cf3580c4f6ff15491e6bcfeb2d3c42fa3e3bd9a1",
+    "critical_git_blobs": "13/13",
+    "automatic_rerun": false,
+    "selective_rerun": false,
+    "governance": "ORIGINAL_V0_3_CONTRACT"
+  },
+  "chronology": {
+    "dev_host_amendment_applies_retroactively": false,
+    "primary_collection_predates_dev_host_amendment": true,
+    "future_replications_may_use_dev_host_governance": true
+  },
+  "file_sha256": {
+    "authorization": "BA935837558589FFBA5A145CA18F7820B885B63A984394C9A7F4B0B22BEC48C3",
+    "A_WS": "7566E50A6BC616600E7E7E2355DC1D06772ABDE08065EF1A5DC3A2AF108BF72D",
+    "A_WC": "ECB6A97026E5D51BDEEE5B5F065CABE9BA9919CC465611F18C573AFBAEB9879B",
+    "B_WC": "8ECC62F01660AEE9FB577FDE09321B1C6932A6F54B1F077E64628D95207E34FD",
+    "B_WS": "3597A267358047E845D7E41BCD5BFF5ECBBFDCE8BB7486FF776F74A211B06293",
+    "run_meta": "6BDA0707EC121C019018D6E0896EABD2B178881B8812B84446DF813AC1938E01",
+    "returned_summary": "16D842A07FA0A5AC12850B905D44CD2A45C6EE37092A8342EE8B4A5125B99C3E"
+  },
+  "validity": {
+    "cells": "4/4",
+    "measured_pairs": "20/20",
+    "all_attempts_success": true,
+    "all_logits_finite": true,
+    "all_dispatch_census_pass": true,
+    "measured_pairs_semantic_equal": "20/20",
+    "t2_warmup_semantic_guards": "4/4",
+    "generated_tokens_per_arm": 32
+  },
+  "g2_decode": {
+    "threshold_each_cell_latency_ratio_max": 0.9,
+    "global_geomean_speedup_min": 1.25,
+    "cells": {
+      "A_WS": {
+        "median_latency_ratio": 0.42849043995084085,
+        "median_speedup": 2.3337743547200875
+      },
+      "A_WC": {
+        "median_latency_ratio": 0.4906047525184407,
+        "median_speedup": 2.038300678635216
+      },
+      "B_WC": {
+        "median_latency_ratio": 0.4852738969326556,
+        "median_speedup": 2.060691923305275
+      },
+      "B_WS": {
+        "median_latency_ratio": 0.41858655744543016,
+        "median_speedup": 2.388992150399782
+      }
+    },
+    "global_geomean_speedup": 2.1998280021446233,
+    "individual_pairs_improved": "20/20",
+    "minimum_individual_speedup": 1.4944988743289693,
+    "result": "PASS"
+  },
+  "g3_ttft": {
+    "threshold_each_cell_median_ratio_max": 1.1,
+    "cells": {
+      "A_WS": 0.8840865024612529,
+      "A_WC": 1.0679925017217486,
+      "B_WC": 1.0071443289015805,
+      "B_WS": 1.0344191535339033
+    },
+    "worst_individual_ratio": 1.181480230034726,
+    "result": "PASS"
+  },
+  "g4_e2e": {
+    "threshold_each_cell_median_ratio_max_exclusive": 1,
+    "cells": {
+      "A_WS": {
+        "median_ratio": 0.4335201049462341,
+        "median_speedup": 2.306698094484042
+      },
+      "A_WC": {
+        "median_ratio": 0.5875338772717404,
+        "median_speedup": 1.702029514695524
+      },
+      "B_WC": {
+        "median_ratio": 0.574579988287102,
+        "median_speedup": 1.7404017201871764
+      },
+      "B_WS": {
+        "median_ratio": 0.4248195136559957,
+        "median_speedup": 2.3539408333529748
+      }
+    },
+    "global_geomean_median_speedup": 2.0026300221636375,
+    "individual_pairs_improved": "20/20",
+    "result": "PASS"
+  },
+  "final_chain": {
+    "T0": "PASS",
+    "T1": "PASS",
+    "T2": "PASS",
+    "G2": "PASS",
+    "G3": "PASS",
+    "G4": "PASS"
+  },
+  "claim_boundary": "Internal ArcLLM-v1 real-model carry-through demonstrated; no fresh matched external llama.cpp advantage claim yet.",
+  "next": "FRESH_MATCHED_EXTERNAL_BASELINE_STUDY"
+}

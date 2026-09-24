@@ -470,3 +470,37 @@ The new selected intervention is:
 `I002-Q4-GU-SG32 — Q4 FFN Gate/Up Subgroup32 Split-K Decode Executor`
 
 No production implementation is authorized until its real-model transfer/carry-through specification is frozen.
+
+
+## 18. I002 final carry-through update — PASS
+
+I002 `Q4 FFN Gate/Up Subgroup32 Split-K Decode Executor` is formally closed:
+
+`PASS_I002_REAL_MODEL_CARRY_THROUGH`
+
+Primary T3 result under the original frozen v0.3 contract:
+
+| Cell | Decode speedup | TTFT ratio | E2E speedup |
+|---|---:|---:|---:|
+| A/W-S | 2.3338× | 0.8841 | 2.3067× |
+| A/W-C | 2.0383× | 1.0680 | 1.7020× |
+| B/W-C | 2.0607× | 1.0071 | 1.7404× |
+| B/W-S | 2.3890× | 1.0344 | 2.3539× |
+
+Global decode geomean speedup: `2.1998×`.
+
+Global geomean of cell-median E2E speedups: `2.0026×`.
+
+All 20 measured pairs preserve generated-token semantics and improve decode and E2E latency.
+
+Knowledge update:
+- `ffn_gate_up` was a real dominant maturity-debt source;
+- SA1 subgroup32 split-K transferred from component fixture → real weights/activations → full decode → E2E;
+- carry-through is strong rather than being absorbed elsewhere;
+- generic launch/PDEP remains deprioritized.
+
+Claim boundary:
+this is an internal candidate/reference ArcLLM result. A fresh matched external llama.cpp comparison is still required before any practical external-advantage claim.
+
+Next priority:
+fresh matched external-baseline study first; only then profile the post-I002 candidate to select the next bottleneck.

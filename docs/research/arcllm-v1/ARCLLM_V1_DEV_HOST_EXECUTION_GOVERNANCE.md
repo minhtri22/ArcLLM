@@ -76,3 +76,15 @@ Therefore:
 - first complete valid T3 collection is primary;
 - later complete T3 collections are replication evidence;
 - T2 semantic guard remains a correctness gate.
+
+
+## Chronology correction — primary I002 T3
+
+The first complete I002 T3 bundle was generated under the earlier authorization `v0.3` / HEAD `d5f144ce...` before this DEV_HOST amendment was adopted.
+
+Therefore:
+- that primary T3 collection is adjudicated under its original v0.3 one-shot contract;
+- this DEV_HOST governance is not applied retroactively to change its validity or gates;
+- DEV_HOST rules apply only to future replication/re-execution programs opened after the amendment.
+
+This correction preserves the no-post-outcome-mutation invariant.
