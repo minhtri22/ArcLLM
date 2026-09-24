@@ -998,3 +998,11 @@ Post-I002 coarse tick shares: FFN-down ~35.13%; gate/up split-K ~21.91%; LM-head
 
 No intervention selected. Next: M2 pinned llama same-semantic Vulkan timing map using exact baseline commit; then compute cross-runtime excess map.
 
+## M2 pinned llama same-semantic map — package lock — 2026-09-24
+
+Exact pinned llama Vulkan source already contains `GGML_VK_PERF_LOGGER`; no baseline source patch is needed. M2 enables the logger through environment only, preserves the exact I003 adapter/baseline/model, and maps calibrated Vulkan microseconds for semantic matmul shapes at decode n=1.
+
+M2 uses W-S and W-C, one warmup + one measured attempt each, and selects decode indices 0/15/30 from the measured attempt. No quiet-host gate, machine re-profile, counters, or intervention.
+
+After M2 PASS: build the cross-runtime EXCESS-COST MAP using M1 Arc shares, M2 llama shares, and closed I003 practical token latencies.
+
