@@ -96,13 +96,33 @@ try{
     & $TokenXrayPython -m token_xray modellens $Model --hardware-profile $Profile --out $StaticDir
     if($LASTEXITCODE -ne 0){throw "Token X-Ray ModelLens failed"}
 
+    & (Join-Path $Root "tools\compile_arcllm_v1_i003.ps1")
+    if($LASTEXITCODE -ne 0){throw "ArcLLM traced shader compile/provenance failed"}
+
     & (Join-Path $Root "tools\build_arcllm_v1_i003_candidate.ps1")
     if($LASTEXITCODE -ne 0){throw "ArcLLM traced candidate build failed"}
 
     $Exe=Join-Path $Root "arcllm_v1_i003_candidate.exe"
     $Trace=Join-Path $OutputDir "TOKEN_TRACE.json"
     $CandidateResult=Join-Path $OutputDir "ARCLLM_TRACE_ATTEMPT.json"
-    $ShaderDir=Join-Path $Root "shaders"
+    $ShaderDir=Join-Path $Root "compiled_shaders"
+    $RequiredSpv=@(
+      "p8c_embedding_q4k_segmented_probe.spv",
+      "p7_rmsnorm_seq.spv",
+      "p7_q4k_gemm_2d.spv",
+      "p7_q6k_gemm_2d.spv",
+      "p7_rope_seq.spv",
+      "p7_kv_store.spv",
+      "p7_attention_kv_online.spv",
+      "p7_add.spv",
+      "sa1_q4k_subgroup_splitk.spv",
+      "p7_swiglu.spv",
+      "p8q1_lmhead_q6k_segmented_chunk.spv"
+    )
+    foreach($SpvName in $RequiredSpv){
+      $SpvPath=Join-Path $ShaderDir $SpvName
+      if(-not(Test-Path $SpvPath)){throw "Required traced SPIR-V missing after compile: $SpvPath"}
+    }
 
     $Args=@(
       "--model",$Model,
