@@ -490,7 +490,9 @@ struct M3CounterProfileStats {
     uint32_t pass_count = 0;
     uint32_t logical_dispatch_count = 0;
     uint32_t physical_dispatch_executions = 0;
+    uint32_t queried_dispatch_count = 0;
     uint64_t restored_bytes_per_pass = 0;
+    std::vector<uint32_t> queried_dispatch_ids;
     std::vector<M3PerfCounterMeta> counters;
     std::vector<M3PerfCounterValue> values;
 };
@@ -1099,6 +1101,168 @@ public:
             st.values.resize(size_t(ops.size())*counter_indices.size());
             if(m3_perf_get_results(reinterpret_cast<void*>(device_),reinterpret_cast<void*>(perf_qp),
                                    uint32_t(ops.size()),uint32_t(counter_indices.size()),
+                                   st.counters.data(),st.values.data(),err,sizeof(err))!=0)
+                throw std::runtime_error(std::string("M3 performance results failed: ")+err);
+            m3_perf_destroy_query_pool(reinterpret_cast<void*>(device_),reinterpret_cast<void*>(perf_qp));perf_qp=nullptr;
+            return st;
+        }catch(...){release_all();throw;}
+    }
+
+    M3CounterProfileStats execute_counter_profiled_selected(
+        const PreparedChain& chain,
+        const std::vector<DispatchOp>& ops,
+        const std::vector<uint32_t>& counter_indices,
+        const std::vector<Buffer*>& restore_buffers,
+        const std::vector<uint32_t>& query_op_indices,
+        bool cross_submit_compute_barrier=false){
+        if(ops.size()!=chain.prepared.size()||ops.empty())throw std::runtime_error("M3 counter prepared chain shape mismatch");
+        if(counter_indices.empty())throw std::runtime_error("M3 counter selection empty");
+        if(query_op_indices.empty())throw std::runtime_error("M3 targeted query selection empty");
+        std::vector<uint32_t> query_slot_for_op(ops.size(),UINT32_MAX);
+        uint32_t prev=UINT32_MAX;
+        for(uint32_t qi=0;qi<uint32_t(query_op_indices.size());++qi){
+            const uint32_t oi=query_op_indices[qi];
+            if(oi>=ops.size())throw std::runtime_error("M3 targeted query dispatch index out of range");
+            if(qi>0u&&oi<=prev)throw std::runtime_error("M3 targeted query dispatch indices must be strictly increasing");
+            query_slot_for_op[oi]=qi;prev=oi;
+        }
+        for(size_t i=0;i<ops.size();++i){
+            const auto& p=chain.prepared[i];
+            if(ops[i].spv_path!=p.spv_path||ops[i].push.size()!=p.push_size||ops[i].buffers.size()!=p.buffers.size())
+                throw std::runtime_error("M3 counter op signature mismatch: "+ops[i].name);
+            for(size_t j=0;j<ops[i].buffers.size();++j)
+                if(ops[i].buffers[j]!=p.buffers[j])throw std::runtime_error("M3 counter op buffer mismatch: "+ops[i].name);
+        }
+
+        struct Snap{Buffer* b=nullptr;std::vector<uint8_t> bytes;};
+        std::vector<Snap> snaps;snaps.reserve(restore_buffers.size());
+        uint64_t restore_bytes=0;
+        for(Buffer* b:restore_buffers){
+            if(!b||!b->mapped||!b->size)throw std::runtime_error("M3 invalid restore buffer");
+            Snap x;x.b=b;x.bytes.resize(size_t(b->size));std::memcpy(x.bytes.data(),b->mapped,size_t(b->size));
+            restore_bytes+=b->size;snaps.push_back(std::move(x));
+        }
+        auto restore=[&](){for(const auto&x:snaps)std::memcpy(x.b->mapped,x.bytes.data(),x.bytes.size());};
+
+        M3CounterProfileStats st{};st.logical_dispatch_count=uint32_t(ops.size());
+        st.queried_dispatch_count=uint32_t(query_op_indices.size());st.queried_dispatch_ids=query_op_indices;
+        st.restored_bytes_per_pass=restore_bytes;
+        st.counters.resize(counter_indices.size());
+        void* raw_qp=nullptr;uint32_t pass_count=0;char err[512]{};
+        const int qrc=m3_perf_create_query_pool(
+            reinterpret_cast<void*>(instance_),reinterpret_cast<void*>(phys_),reinterpret_cast<void*>(device_),
+            queue_family_,counter_indices.data(),uint32_t(counter_indices.size()),uint32_t(query_op_indices.size()),
+            &raw_qp,&pass_count,st.counters.data(),err,sizeof(err));
+        if(qrc!=0||!raw_qp)throw std::runtime_error(std::string("M3 create performance query pool failed: ")+err);
+        st.pass_count=pass_count;
+        VkQueryPool perf_qp=reinterpret_cast<VkQueryPool>(raw_qp);
+
+        bool lock_held=false;
+        auto release_all=[&](){
+            if(lock_held){m3_perf_release_lock(reinterpret_cast<void*>(device_));lock_held=false;}
+            if(perf_qp){m3_perf_destroy_query_pool(reinterpret_cast<void*>(device_),reinterpret_cast<void*>(perf_qp));perf_qp=nullptr;}
+        };
+        try{
+            if(m3_perf_acquire_lock(reinterpret_cast<void*>(device_),10000000000ull,err,sizeof(err))!=0)
+                throw std::runtime_error(std::string("M3 profiling lock failed: ")+err);
+            lock_held=true;
+
+            // Performance-query reset must be outside command buffers that begin/end
+            // the same performance queries. Reset all passes exactly once before pass 0.
+            {
+                VkCommandPoolCreateInfo rpci{};rpci.sType=VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+                rpci.flags=VK_COMMAND_POOL_CREATE_TRANSIENT_BIT;rpci.queueFamilyIndex=queue_family_;
+                VkCommandPool rpool=nullptr;VkResult rvr=create_command_pool_(device_,&rpci,nullptr,&rpool);
+                if(rvr!=VK_SUCCESS)throw std::runtime_error("M3 reset vkCreateCommandPool failed");
+                VkCommandBufferAllocateInfo rai{};rai.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+                rai.commandPool=rpool;rai.level=VK_COMMAND_BUFFER_LEVEL_PRIMARY;rai.commandBufferCount=1;
+                VkCommandBuffer rcb=nullptr;rvr=allocate_command_buffers_(device_,&rai,&rcb);
+                if(rvr!=VK_SUCCESS){destroy_command_pool_(device_,rpool,nullptr);throw std::runtime_error("M3 reset vkAllocateCommandBuffers failed");}
+                VkCommandBufferBeginInfo rbi{};rbi.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+                rbi.flags=VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+                rvr=begin_command_buffer_(rcb,&rbi);
+                if(rvr!=VK_SUCCESS){destroy_command_pool_(device_,rpool,nullptr);throw std::runtime_error("M3 reset vkBeginCommandBuffer failed");}
+                cmd_reset_query_pool_(rcb,perf_qp,0,uint32_t(query_op_indices.size()));
+                rvr=end_command_buffer_(rcb);
+                if(rvr!=VK_SUCCESS){destroy_command_pool_(device_,rpool,nullptr);throw std::runtime_error("M3 reset vkEndCommandBuffer failed");}
+                VkFenceCreateInfo rfci{};rfci.sType=VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;VkFence rfence=nullptr;
+                rvr=create_fence_(device_,&rfci,nullptr,&rfence);
+                if(rvr!=VK_SUCCESS){destroy_command_pool_(device_,rpool,nullptr);throw std::runtime_error("M3 reset vkCreateFence failed");}
+                VkSubmitInfo rsi{};rsi.sType=VK_STRUCTURE_TYPE_SUBMIT_INFO;rsi.commandBufferCount=1;rsi.pCommandBuffers=&rcb;
+                rvr=queue_submit_(queue_,1,&rsi,rfence);
+                if(rvr!=VK_SUCCESS){destroy_fence_(device_,rfence,nullptr);destroy_command_pool_(device_,rpool,nullptr);throw std::runtime_error("M3 reset vkQueueSubmit failed");}
+                rvr=wait_for_fences_(device_,1,&rfence,VK_TRUE,(std::numeric_limits<uint64_t>::max)());
+                if(rvr!=VK_SUCCESS){destroy_fence_(device_,rfence,nullptr);destroy_command_pool_(device_,rpool,nullptr);throw std::runtime_error("M3 reset vkWaitForFences failed");}
+                destroy_fence_(device_,rfence,nullptr);destroy_command_pool_(device_,rpool,nullptr);
+            }
+
+            for(uint32_t pass=0;pass<pass_count;++pass){
+                restore();
+                VkCommandPoolCreateInfo pci{};pci.sType=VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+                pci.flags=VK_COMMAND_POOL_CREATE_TRANSIENT_BIT;pci.queueFamilyIndex=queue_family_;
+                VkCommandPool pool=nullptr;VkResult vr=create_command_pool_(device_,&pci,nullptr,&pool);
+                if(vr!=VK_SUCCESS)throw std::runtime_error("M3 vkCreateCommandPool failed");
+                VkCommandBufferAllocateInfo ai{};ai.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+                ai.commandPool=pool;ai.level=VK_COMMAND_BUFFER_LEVEL_PRIMARY;ai.commandBufferCount=1;
+                VkCommandBuffer cb=nullptr;vr=allocate_command_buffers_(device_,&ai,&cb);
+                if(vr!=VK_SUCCESS){destroy_command_pool_(device_,pool,nullptr);throw std::runtime_error("M3 vkAllocateCommandBuffers failed");}
+                VkCommandBufferBeginInfo bi{};bi.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+                bi.flags=VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+                vr=begin_command_buffer_(cb,&bi);
+                if(vr!=VK_SUCCESS){destroy_command_pool_(device_,pool,nullptr);throw std::runtime_error("M3 vkBeginCommandBuffer failed");}
+                if(cross_submit_compute_barrier){
+                    VkMemoryBarrier mb{};mb.sType=VK_STRUCTURE_TYPE_MEMORY_BARRIER;
+                    mb.srcAccessMask=VK_ACCESS_SHADER_WRITE_BIT;mb.dstAccessMask=VK_ACCESS_SHADER_READ_BIT|VK_ACCESS_SHADER_WRITE_BIT;
+                    cmd_pipeline_barrier_(cb,VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,0,1,&mb,0,nullptr,0,nullptr);
+                    st.chain.initial_compute_barrier_count=1;
+                }
+                for(size_t oi=0;oi<ops.size();++oi){
+                    const auto&op=ops[oi];const auto&p=chain.prepared[oi];
+                    const uint32_t qslot=query_slot_for_op[oi];
+                    const bool queried=qslot!=UINT32_MAX;
+                    if(queried)m3_perf_cmd_begin_query(reinterpret_cast<void*>(cb),reinterpret_cast<void*>(perf_qp),qslot);
+                    cmd_bind_pipeline_(cb,VK_PIPELINE_BIND_POINT_COMPUTE,p.pipeline);
+                    cmd_bind_descriptor_sets_(cb,VK_PIPELINE_BIND_POINT_COMPUTE,p.pipeline_layout,0,1,&p.descriptor_set,0,nullptr);
+                    if(!op.push.empty())cmd_push_constants_(cb,p.pipeline_layout,VK_SHADER_STAGE_COMPUTE_BIT,0,uint32_t(op.push.size()),op.push.data());
+                    cmd_dispatch_(cb,op.gx,op.gy,op.gz);
+                    if(queried){
+                        // Exact COMMAND-scope attribution only for frozen target dispatches.
+                        cmd_pipeline_barrier_(cb,VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
+                                              0,0,nullptr,0,nullptr,0,nullptr);
+                        m3_perf_cmd_end_query(reinterpret_cast<void*>(cb),reinterpret_cast<void*>(perf_qp),qslot);
+                    }
+                    if(oi+1<ops.size()){
+                        VkMemoryBarrier mb{};mb.sType=VK_STRUCTURE_TYPE_MEMORY_BARRIER;
+                        mb.srcAccessMask=VK_ACCESS_SHADER_WRITE_BIT;mb.dstAccessMask=VK_ACCESS_SHADER_READ_BIT|VK_ACCESS_SHADER_WRITE_BIT;
+                        cmd_pipeline_barrier_(cb,VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,0,1,&mb,0,nullptr,0,nullptr);
+                    }
+                }
+                VkMemoryBarrier hb{};hb.sType=VK_STRUCTURE_TYPE_MEMORY_BARRIER;
+                hb.srcAccessMask=VK_ACCESS_SHADER_WRITE_BIT;hb.dstAccessMask=VK_ACCESS_HOST_READ_BIT;
+                cmd_pipeline_barrier_(cb,VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,VK_PIPELINE_STAGE_HOST_BIT,0,1,&hb,0,nullptr,0,nullptr);
+                st.chain.final_host_barrier_count=1;
+                vr=end_command_buffer_(cb);
+                if(vr!=VK_SUCCESS){destroy_command_pool_(device_,pool,nullptr);throw std::runtime_error("M3 vkEndCommandBuffer failed");}
+                VkFenceCreateInfo fci{};fci.sType=VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;VkFence fence=nullptr;
+                vr=create_fence_(device_,&fci,nullptr,&fence);
+                if(vr!=VK_SUCCESS){destroy_command_pool_(device_,pool,nullptr);throw std::runtime_error("M3 vkCreateFence failed");}
+                if(m3_perf_submit_pass(reinterpret_cast<void*>(queue_),reinterpret_cast<void*>(cb),reinterpret_cast<void*>(fence),pass,err,sizeof(err))!=0){
+                    destroy_fence_(device_,fence,nullptr);destroy_command_pool_(device_,pool,nullptr);
+                    throw std::runtime_error(std::string("M3 performance submit failed: ")+err);
+                }
+                vr=wait_for_fences_(device_,1,&fence,VK_TRUE,(std::numeric_limits<uint64_t>::max)());
+                if(vr!=VK_SUCCESS){destroy_fence_(device_,fence,nullptr);destroy_command_pool_(device_,pool,nullptr);throw std::runtime_error("M3 vkWaitForFences failed");}
+                destroy_fence_(device_,fence,nullptr);destroy_command_pool_(device_,pool,nullptr);
+                ++st.chain.submit_count;++st.chain.fence_wait_count;
+            }
+            st.chain.dispatch_count=uint32_t(ops.size());
+            st.chain.internal_barrier_count=ops.empty()?0u:uint32_t(ops.size()-1u);
+            st.physical_dispatch_executions=uint32_t(ops.size())*pass_count;
+            m3_perf_release_lock(reinterpret_cast<void*>(device_));lock_held=false;
+
+            st.values.resize(size_t(ops.size())*counter_indices.size());
+            if(m3_perf_get_results(reinterpret_cast<void*>(device_),reinterpret_cast<void*>(perf_qp),
+                                   uint32_t(query_op_indices.size()),uint32_t(counter_indices.size()),
                                    st.counters.data(),st.values.data(),err,sizeof(err))!=0)
                 throw std::runtime_error(std::string("M3 performance results failed: ")+err);
             m3_perf_destroy_query_pool(reinterpret_cast<void*>(device_),reinterpret_cast<void*>(perf_qp));perf_qp=nullptr;
