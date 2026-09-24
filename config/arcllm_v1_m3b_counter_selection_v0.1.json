@@ -2,11 +2,11 @@
   "schema": "arcllm.v1.m3b.counter_selection.v0.1",
   "date": "2026-09-25",
   "provider": "VULKAN_KHR_PERFORMANCE_QUERY",
-  "source_m3a_bundle_sha256": "546E07D4C739AC91D28CD2B6F67AAC1DFAB802F8AD28C0CC4BE7A04F359BB9F3",
+  "source_m3a_bundle_sha256": "6F0A39836896EAB0755B9A3BE54AF057971E90F9ABE47FC4CA1F397D5B533BAA",
   "token_xray_profile": {
     "repository": "minhtri22/token-xray",
-    "commit": "67e34cd8be4b9b36a9b5cc65a6bffad0a576c579",
-    "blob": "f005f77d1eac1d3c224f8e15b3e167c22e92e576"
+    "commit": "2e8408f482b9aa5de2f1f0f49133ab8e8ce6af67",
+    "blob": "713123847588e7c46595b5203fc49a4e154e27f3"
   },
   "groups": {
     "memory_cache": [
@@ -295,5 +295,6 @@
     "restore_pre_dispatch_state_before_each_counter_pass": true,
     "timing_use": "INSTRUMENTED_DIAGNOSTIC_ONLY",
     "benchmark_substitution_forbidden": true
-  }
+  },
+  "provenance_correction": "M3-A ZIP hash corrected from direct uploaded bundle; counter selection unchanged."
 }

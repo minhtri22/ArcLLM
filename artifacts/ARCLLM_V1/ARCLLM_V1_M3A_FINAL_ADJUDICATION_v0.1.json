@@ -2,7 +2,7 @@
   "schema": "arcllm.v1.m3a.final_adjudication.v0.1",
   "date": "2026-09-25",
   "result": "PASS_M3A_VULKAN_PERFORMANCE_QUERY_PROVIDER_QUALIFIED",
-  "bundle_sha256": "546E07D4C739AC91D28CD2B6F67AAC1DFAB802F8AD28C0CC4BE7A04F359BB9F3",
+  "bundle_sha256": "6F0A39836896EAB0755B9A3BE54AF057971E90F9ABE47FC4CA1F397D5B533BAA",
   "collection_head": "9ac0d7206b4f128b7660eef52eb26e5d7533874f",
   "files_sha256": {
     "M3A_VULKAN_COUNTER_CAPABILITY_RAW.json": "3EE6DE07C5A3633697DDA5D24FCBF5713D7A32380AF1A0F508D0F3CD49514169",
@@ -45,5 +45,9 @@
     "VTune is not installed but is not required because the Vulkan provider is qualified."
   ],
   "decision": "CLOSE_M3A_OPEN_M3B_TARGETED_QUIET_HOST_COLLECTION",
-  "next": "M3B_VULKAN_COMMAND_SCOPE_COUNTER_COLLECTION"
+  "next": "M3B_VULKAN_COMMAND_SCOPE_COUNTER_COLLECTION",
+  "bundle_hash_correction": {
+    "corrected_from": "546E07D4C739AC91D28CD2B6F67AAC1DFAB802F8AD28C0CC4BE7A04F359BB9F3",
+    "basis": "Direct SHA256 of uploaded arcllm_v1_m3a_return_to_chatgpt.zip; all inner file hashes unchanged."
+  }
 }

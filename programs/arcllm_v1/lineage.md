@@ -1080,7 +1080,7 @@ M3-B will be designed only from the actual provider/counter inventory returned b
 
 ## M3-A capability qualification — PASS / M3-B opened — 2026-09-25
 
-Bundle SHA256 `546E07D4C739AC91D28CD2B6F67AAC1DFAB802F8AD28C0CC4BE7A04F359BB9F3`.
+Bundle SHA256 `6F0A39836896EAB0755B9A3BE54AF057971E90F9ABE47FC4CA1F397D5B533BAA`.
 
 Exact Arc 140V provider result: `VK_KHR_performance_query` present; performance query pools enabled; queue family 0 with 64 timestamp bits; 268 COMMAND-scope counters; all-counter set requires 12 passes; VTune CLI absent. No model, inference or counter collection occurred in M3-A.
 
@@ -1112,4 +1112,13 @@ Raw collection emits 469 COMMAND-scope dispatch rows/run and the parser emits 2,
 Static/spec review caught a pre-run Vulkan validity issue before any M3-B data collection. A performance query cannot begin in a command buffer that also resets that same query, and resetting between passes would clear all pass state. M3-B now records/submits one dedicated reset-only command buffer under the profiling lock before pass 0. Each required counter pass then re-records the same semantic workload without a reset and submits it with its counterPassIndex.
 
 No M3-B science payload, model, workload, counter selection or semantic mapping changed.
+
+
+
+### M3-A bundle-hash provenance correction
+
+Direct SHA256 of the uploaded M3-A ZIP is `6F0A39836896EAB0755B9A3BE54AF057971E90F9ABE47FC4CA1F397D5B533BAA`. The previously recorded M3-A bundle hash
+`546E07D4C739AC91D28CD2B6F67AAC1DFAB802F8AD28C0CC4BE7A04F359BB9F3` was a stale reused context value. All five inner artifact hashes independently match
+the prior adjudication, so the capability result and counter inventory are unchanged. Token-XRay
+counter profile provenance was corrected at `2e8408f482b9aa5de2f1f0f49133ab8e8ce6af67`.
 
