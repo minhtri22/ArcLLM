@@ -112,7 +112,9 @@ New-Item -ItemType Directory -Force -Path $OutDir|Out-Null
 $OutExe=Join-Path $OutDir "i003_llama_adapter.exe"
 Copy-Item -Force $Exe $OutExe
 $ExeHash=(Get-FileHash $OutExe -Algorithm SHA256).Hash.ToUpperInvariant()
-$CMakeVersion=((& $CMakeExe --version|Select-Object -First 1)|Out-String).Trim()
+$CMakeVersionLines=@(& $CMakeExe --version)
+if($LASTEXITCODE-ne0-or$CMakeVersionLines.Count-lt1){throw "I003 baseline CMake version query failed"}
+$CMakeVersion=([string]$CMakeVersionLines[0]).Trim()
 $Results=Join-Path $Root "results";New-Item -ItemType Directory -Force -Path $Results|Out-Null
 $Q=[ordered]@{
   schema="arcllm.v1.i003.baseline_qualification.v0.1"
@@ -150,3 +152,4 @@ Write-Host "I003 baseline BUILD_API_QUALIFIED"
 Write-Host "  commit=$Head"
 Write-Host "  adapter=$OutExe"
 Write-Host "  sha256=$ExeHash"
+exit 0

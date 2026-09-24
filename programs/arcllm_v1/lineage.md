@@ -836,3 +836,40 @@ Superseding lock:
 Next:
 full zero-science preflight rerun from the beginning.
 
+## I003 zero-science preflight repair 3 — 2026-09-24
+
+Observed parent HEAD:
+`32fc472da8e1e80cae002d6a3acd11f164a59be1`
+
+The preflight passed static QA, shader/provenance compilation, candidate native build, and
+pinned llama.cpp build. The baseline qualifier emitted
+`I003 baseline BUILD_API_QUALIFIED` for exact commit
+`b29c606e28a01b1bc8c1351026a0fa6e616bf6c4`, then the parent preflight falsely threw
+`I003 baseline build qualification failed`.
+
+Adjudication:
+`PRE_SCIENCE_INFRASTRUCTURE_POWERSHELL_STAGE_EXITCODE_LEAK`
+
+Root cause:
+the caller interpreted `$LASTEXITCODE` left by an internal native command of a successful
+child PowerShell script as the status of the child `.ps1` stage.
+
+Bounded repair:
+- baseline qualifier now checks the CMake-version native command explicitly;
+- successful baseline qualifier terminates with explicit `exit 0`;
+- preflight additionally validates the baseline qualification artifact, exact pinned commit,
+  clean source, Vulkan backend, no target-model execution, adapter existence and adapter SHA;
+- candidate, baseline, workloads, metrics and thresholds are unchanged.
+
+Science state:
+- science measured inferences = 0;
+- candidate inference executed = false;
+- baseline runtime model qualification had not started;
+- fresh measurement authorization remains false.
+
+Superseding lock:
+`config/arcllm_v1_i003_execution_lock_v0.1.3.json`
+
+Next:
+full zero-science preflight rerun from the beginning.
+

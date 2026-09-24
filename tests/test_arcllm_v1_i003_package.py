@@ -15,7 +15,9 @@ base=txt("baseline/i003_llama_adapter.cpp")
 cmake=txt("baseline/CMakeLists.txt")
 runner=txt("run_arcllm_v1_i003.ps1")
 spec=txt("docs/research/arcllm-v1/ARCLLM_V1_I003_MATCHED_EXTERNAL_BASELINE_SPEC.md")
-lock=js("config/arcllm_v1_i003_execution_lock_v0.1.2.json")
+lock=js("config/arcllm_v1_i003_execution_lock_v0.1.3.json")
+qualify_baseline=txt("tools/qualify_arcllm_v1_i003_baseline.ps1")
+preflight=txt("run_arcllm_v1_i003_preflight.ps1")
 
 # Closed I002 candidate identity.
 blob=subprocess.check_output(["git","-C",str(ROOT),"rev-parse","HEAD:shaders/sa1_q4k_subgroup_splitk.comp"],text=True).strip()
@@ -40,6 +42,13 @@ for forbidden in ['p+"q_proj","sa1_', 'p+"k_proj","sa1_', 'p+"v_proj","sa1_', 'p
 assert 'candidate_gate_up_nodes_per_step' in cand
 assert 'warmups!=1||measured!=1' in cand
 assert 'for(int i=0;i<measured;++i)' in cand
+
+# Baseline build-stage status must be explicit, not inherited from an internal native command.
+assert qualify_baseline.rstrip().endswith("exit 0")
+assert '$CMakeVersionLines=@(& $CMakeExe --version)' in qualify_baseline
+assert 'I003 baseline CMake version query failed' in qualify_baseline
+assert 'I003 baseline qualification artifact mismatch' in preflight
+assert 'I003 baseline adapter hash mismatch after qualification' in preflight
 
 # External baseline remains exact Q2 runtime contract except 1 measured attempt/process.
 for x in [

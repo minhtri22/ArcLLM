@@ -1,10 +1,10 @@
 param([string]$ModelPath,[string]$OllamaModelsRoot)
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Root=Split-Path -Parent $MyInvocation.MyCommand.Path
-$LockPath=Join-Path $Root "config\arcllm_v1_i003_execution_lock_v0.1.2.json"
+$LockPath=Join-Path $Root "config\arcllm_v1_i003_execution_lock_v0.1.3.json"
 if(-not(Test-Path $LockPath)){throw "I003 execution lock missing"}
 $L=Get-Content $LockPath -Raw -Encoding UTF8|ConvertFrom-Json
-if([string]$L.schema-ne"arcllm.v1.i003.execution_lock.v0.1.2"){throw "I003 lock schema mismatch"}
+if([string]$L.schema-ne"arcllm.v1.i003.execution_lock.v0.1.3"){throw "I003 lock schema mismatch"}
 if([bool]$L.fresh_measurement_authorized){throw "I003 preflight lock unexpectedly authorizes measurement"}
 
 $Branch=(& git -C $Root rev-parse --abbrev-ref HEAD).Trim()
@@ -31,7 +31,14 @@ if($LASTEXITCODE-ne0){throw "I003 shader compile failed"}
 & (Join-Path $Root "tools\build_arcllm_v1_i003_candidate.ps1")
 if($LASTEXITCODE-ne0){throw "I003 candidate build failed"}
 & (Join-Path $Root "tools\qualify_arcllm_v1_i003_baseline.ps1")
-if($LASTEXITCODE-ne0){throw "I003 baseline build qualification failed"}
+if($LASTEXITCODE-ne0){throw "I003 baseline build qualification stage failed"}
+$BaselineQualPath=Join-Path $Root "results\i003_baseline_qualification.json"
+if(-not(Test-Path $BaselineQualPath)){throw "I003 baseline qualification artifact missing"}
+$BaselineQual=Get-Content $BaselineQualPath -Raw -Encoding UTF8|ConvertFrom-Json
+if([string]$BaselineQual.qualification-ne"BUILD_API_QUALIFIED"-or[string]$BaselineQual.commit-ne"b29c606e28a01b1bc8c1351026a0fa6e616bf6c4"-or-not[bool]$BaselineQual.source_clean-or[string]$BaselineQual.build_backend-ne"Vulkan"-or[bool]$BaselineQual.target_model_executed){throw "I003 baseline qualification artifact mismatch"}
+$BaselineStageExe=Join-Path $Root "artifacts\i003_baseline\i003_llama_adapter.exe"
+if(-not(Test-Path $BaselineStageExe)){throw "I003 baseline adapter missing after qualification"}
+if((Get-FileHash $BaselineStageExe -Algorithm SHA256).Hash.ToUpperInvariant()-ne[string]$BaselineQual.adapter_sha256){throw "I003 baseline adapter hash mismatch after qualification"}
 
 if(-not $ModelPath){
   $Resolved=@(& (Join-Path $Root "tools\resolve_p8_target.ps1") -OllamaModelsRoot $OllamaModelsRoot)
@@ -73,7 +80,7 @@ New-Item -ItemType Directory -Force -Path $Dir|Out-Null
 $Report=[ordered]@{
  schema="arcllm.v1.i003.preflight.v0.1"
  execution_lock_schema=[string]$L.schema
- execution_lock_file="arcllm_v1_i003_execution_lock_v0.1.2.json"
+ execution_lock_file="arcllm_v1_i003_execution_lock_v0.1.3.json"
  result="PASS_I003_ZERO_SCIENCE_MATCHED_PACKAGE"
  git_head=$Head
  branch=$Branch
@@ -94,7 +101,7 @@ $Report=[ordered]@{
  next="RETURN_PREFLIGHT_BUNDLE_FOR_INDEPENDENT_AUTHORIZATION"
 }
 [IO.File]::WriteAllText((Join-Path $Dir "I003_PREFLIGHT_REPORT.json"),($Report|ConvertTo-Json -Depth 8),(New-Object Text.UTF8Encoding($false)))
-Copy-Item $LockPath (Join-Path $Dir "arcllm_v1_i003_execution_lock_v0.1.2.json") -Force
+Copy-Item $LockPath (Join-Path $Dir "arcllm_v1_i003_execution_lock_v0.1.3.json") -Force
 Copy-Item (Join-Path $Results "i003_shader_provenance.json") (Join-Path $Dir "i003_shader_provenance.json") -Force
 Copy-Item (Join-Path $Results "i003_baseline_qualification.json") (Join-Path $Dir "i003_baseline_qualification.json") -Force
 Copy-Item (Join-Path $Results "i003_baseline_runtime_qualification_W_S.json") (Join-Path $Dir "i003_baseline_runtime_qualification_W_S.json") -Force
