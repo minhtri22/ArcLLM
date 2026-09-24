@@ -1,0 +1,111 @@
+{
+  "schema": "arcllm.v1.m3c.target_selection.v0.1",
+  "date": "2026-09-25",
+  "scientific_question": "Which hardware mechanism best explains the Phase-2-localized residual cost at LM-head and FFN-down relative to the split-K gate/up positive control?",
+  "phase2_basis": {
+    "run_id": "arcllm-token-xray-W-S-decode-0",
+    "dispatches": 469,
+    "exact_semantic_nodes": 451,
+    "device_span_ns": 1240766914,
+    "sum_dispatch_duration_ns": 1239803214,
+    "unattributed_device_time_ns": 963700,
+    "hotspot_share_percent": {
+      "lm_head": 63.91,
+      "ffn_down": 16.27,
+      "ffn_up": 6.01,
+      "ffn_gate": 5.98
+    }
+  },
+  "target_families": {
+    "lm_head_q6": {
+      "role": "PRIMARY",
+      "semantic_selector": "decode.output.lm_head",
+      "physical_dispatch_count": 19,
+      "semantic_node_count": 1,
+      "semantic_bytes_read_per_node": 447082496,
+      "dense_equivalent_flops_per_node": 1089994752,
+      "comparator": "ffn_down_q6"
+    },
+    "ffn_down_q4": {
+      "role": "SECONDARY_MATCHED_QUANT_GEOMETRY_TARGET",
+      "semantic_selector": "decode.layer.*.ffn.down AND q4k shader",
+      "physical_dispatch_count": 14,
+      "semantic_node_count": 14,
+      "semantic_bytes_read_per_node": 38266880,
+      "dense_equivalent_flops_per_node": 135790592,
+      "comparator": "split_k_q4_control"
+    },
+    "ffn_down_q6": {
+      "role": "SECONDARY_Q6_TARGET",
+      "semantic_selector": "decode.layer.*.ffn.down AND q6k shader",
+      "physical_dispatch_count": 14,
+      "semantic_node_count": 14,
+      "semantic_bytes_read_per_node": 55771136,
+      "dense_equivalent_flops_per_node": 135790592,
+      "comparator": "lm_head_q6"
+    },
+    "split_k_q4_control": {
+      "role": "POSITIVE_CONTROL",
+      "semantic_selector": "decode.layer.*.ffn.gate OR decode.layer.*.ffn.up",
+      "physical_dispatch_count": 56,
+      "semantic_node_count": 56,
+      "semantic_bytes_read_per_node": 38205440,
+      "dense_equivalent_flops_per_node": 135790592
+    }
+  },
+  "target_dispatch_contract": {
+    "full_decode_dispatches_executed_per_pass": 469,
+    "performance_queries_per_run": 103,
+    "expected_family_counts": {
+      "lm_head_q6": 19,
+      "ffn_down_q4": 14,
+      "ffn_down_q6": 14,
+      "split_k_q4_control": 56
+    },
+    "expected_dispatch_ids_formula": {
+      "ffn_gate": "12 + 16*layer, layer=0..27",
+      "ffn_up": "13 + 16*layer, layer=0..27",
+      "ffn_down": "15 + 16*layer, layer=0..27",
+      "lm_head": "450..468"
+    },
+    "rationale": "Execute the complete decode graph for state/dataflow fidelity, but place COMMAND-scope performance queries only around Phase-2-localized target dispatches."
+  },
+  "inherited_counter_groups": {
+    "source": "config/arcllm_v1_m3b_counter_selection_v0.1.json",
+    "groups": [
+      "memory_cache",
+      "execution_occupancy",
+      "stall_cause"
+    ],
+    "provider": "VULKAN_KHR_PERFORMANCE_QUERY",
+    "pass_semantics": "COMBINED_AFTER_REQUIRED_PASSES"
+  },
+  "workloads": [
+    "W-S",
+    "W-C"
+  ],
+  "decode_index": 15,
+  "quiet_host_required": true,
+  "preregistered_discrimination": {
+    "ratio_high": 1.5,
+    "ratio_low": 0.67,
+    "percentage_point_delta": 10,
+    "clock_ratio_bounds": [
+      0.8,
+      1.25
+    ],
+    "primary_comparisons": [
+      "Q4_DOWN_VS_Q4_SPLIT_K",
+      "Q6_LM_HEAD_VS_Q6_DOWN",
+      "Q6_DOWN_VS_Q4_SPLIT_K_GENERALIZATION"
+    ],
+    "mechanisms": [
+      "EXECUTION_GEOMETRY_DEFICIT",
+      "MEMORY_TRAFFIC_EXCESS",
+      "CACHE_REUSE_DEFICIT",
+      "INSTRUCTION_OR_DEQUANT_COST"
+    ],
+    "causal_status": "DESCRIPTIVE_ONLY_UNTIL_LATER_INTERVENTION"
+  },
+  "stop_rule": "After one six-process M3-C collection and frozen adjudication, do not tune thresholds or add counters. If no pattern is supported descriptively, stop unresolved. If a pattern is supported, preregister exactly one minimal causal intervention."
+}
