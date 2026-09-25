@@ -1,0 +1,22 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.native_counter.post_collection_adjudicator_repair.v0.2",
+  "date": "2026-09-26",
+  "status": "PASS_SECOND_POST_COLLECTION_PARSER_REPAIR_NO_RERUN",
+  "prior_recovery_commit": "c842d3b228ba2dd2a69887d09718b2e1e29cb156",
+  "observed_failure": "Recovery parser again stopped at W-S/0 shader before adjudication.",
+  "root_cause": "The v0.1.1 recovery parser used replace('\\\\\\\\','/'), which matches two consecutive backslash characters. After json.loads, a Windows path contains one backslash character per separator, so basename normalization did not occur.",
+  "correction": "Use a shader_basename helper that replaces each single backslash with '/', then takes the final path component.",
+  "regression": "Embedded assertion uses a full Windows compiled_shaders path and must resolve to p7_q4k_gemm_2d.spv.",
+  "science_boundary": {
+    "raw_probe_files_mutated": false,
+    "collector_rerun": false,
+    "counter_probe_rerun": false,
+    "primary_timing_rerun": false,
+    "mechanism_changed": false,
+    "counter_selection_changed": false
+  },
+  "parser_v0_1_1_blob": "3a31cbc366a31d76abc6b7d4f187ff546470bffe",
+  "parser_v0_1_2_blob": "8540f87656da38f312e97d0e860135d6d1f5ec96",
+  "recovery_script_blob": "1f76af4fe2f810b868330bba6094cc0eabd8b405",
+  "next": "RERUN_RECOVERY_SCRIPT_ONLY_ON_EXISTING_RAW_COLLECTION"
+}

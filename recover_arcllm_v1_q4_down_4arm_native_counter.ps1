@@ -9,7 +9,7 @@ if(-not(Test-Path $Dir)){throw "STOP: recorded result_dir missing: $Dir"}
 
 $LockPath=Join-Path $Root "config\arcllm_v1_q4_down_4arm_native_counter_execution_lock_v0.2.json"
 $TimingPath=Join-Path $Root "artifacts\ARCLLM_V1\ARCLLM_V1_Q4_DOWN_4ARM_PRIMARY_TIMING_CANONICAL_v0.1.json"
-$Parser=Join-Path $Root "tools\adjudicate_arcllm_v1_q4_down_4arm_native_counters_recovery_v0_1_1.py"
+$Parser=Join-Path $Root "tools\adjudicate_arcllm_v1_q4_down_4arm_native_counters_recovery_v0_1_2.py"
 foreach($F in @($LockPath,$TimingPath,$Parser)){if(-not(Test-Path $F)){throw "STOP: recovery prerequisite missing: $F"}}
 $LockHash=(Get-FileHash $LockPath -Algorithm SHA256).Hash.ToUpperInvariant()
 if([string]$M.lock_sha256-ne$LockHash){throw "STOP: science-start marker lock hash mismatch"}
@@ -24,7 +24,7 @@ foreach($N in $Required){
   if([string]$O.status-ne"PASS_NATIVE_COUNTER_PROBE"){throw "STOP: raw probe is not PASS: $N"}
   $RawHashes[$N]=(Get-FileHash $P -Algorithm SHA256).Hash.ToUpperInvariant()
 }
-$Adj=Join-Path $Dir "Q4_DOWN_4ARM_NATIVE_COUNTER_ADJUDICATION_RECOVERY_v0.1.1.json"
+$Adj=Join-Path $Dir "Q4_DOWN_4ARM_NATIVE_COUNTER_ADJUDICATION_RECOVERY_v0.1.2.json"
 py -3 $Parser --results-dir $Dir --timing-canonical $TimingPath --out $Adj
 if($LASTEXITCODE-ne0){throw "STOP: recovery adjudication failed; raw counter probes remain immutable"}
 $A=Get-Content $Adj -Raw|ConvertFrom-Json

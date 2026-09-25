@@ -1389,3 +1389,10 @@ All eight authorized counter processes completed before adjudication: W-S and W-
 Source inspection classifies this as a post-collection QA-harness mismatch, not a counter-collection failure. The collector emits `op.spv_path`, which is constructed by `join_path_p8c(shader_dir, sh)` and therefore contains the full compiled-shader path. The original parser compared that field directly with the frozen shader basename. No counter value or mechanism is implicated by this mismatch.
 
 No collector or selective probe rerun is permitted. A separate recovery parser changes only shader identity comparison to normalized basename equality. A recovery script reads the original `result_dir` from the preserved science-start marker, requires all eight raw PASS files, hashes them before and after adjudication to enforce byte identity, and packages the existing collection. Primary timing, Token-XRay, Child-C, counter selection and mechanisms remain unchanged.
+
+
+## Q4-down native counters — second post-collection parser repair — 2026-09-26
+
+The first recovery attempt also stopped before adjudication at `W-S/0 shader`. The v0.1.1 parser normalized `\\\\` (two consecutive backslash characters) rather than each single Windows path separator. After JSON decoding, the emitted shader path contains one backslash per separator, so the basename comparison still failed.
+
+Recovery parser v0.1.2 uses a dedicated `shader_basename()` helper that replaces each single backslash with `/` and takes the final component. A full Windows `compiled_shaders` path regression is embedded. No collector, counter probe, primary timing, mechanism, counter selection, or raw evidence is changed. The existing collection remains the only scientific evidence and recovery-only execution remains required.
