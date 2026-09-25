@@ -102,7 +102,7 @@ $Meta=[ordered]@{
   raw_runs=6; dispatch_observations=618; queried_dispatches_per_run=103;
   target_family_counts=[ordered]@{lm_head_q6=19;ffn_down_q4=14;ffn_down_q6=14;split_k_q4_control=56};
   phase2_basis="LM-head 63.91%, FFN-down 16.27%, split-K gate/up positive control";
-  token_xray_contract_commit=$Lock.token_xray_contract.commit;
+  token_xray_contract_commit=$Lock.token_xray_contract.contract_commit;
   timing_use="INSTRUMENTED_DIAGNOSTIC_ONLY"; benchmark_timing_substitution_forbidden=$true
 }
 $MetaPath=Join-Path $Dir "M3C_RUN_META.json"
