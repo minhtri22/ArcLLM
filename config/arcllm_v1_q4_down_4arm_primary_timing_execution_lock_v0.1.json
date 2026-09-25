@@ -1,9 +1,9 @@
 {
   "schema": "arcllm.v1.q4_down.4arm.primary_timing_execution_lock.v0.1",
   "date": "2026-09-25",
-  "status": "FROZEN_CANDIDATE_AWAITING_DEV_HOST_NATIVE_BUILDONLY",
+  "status": "FROZEN_CANDIDATE_AWAITING_DEV_HOST_NATIVE_BUILDONLY_AFTER_COMPILE_REPAIR",
   "branch": "research/arcllm-v1",
-  "implementation_commit": "3ce860465ffa4a16bc2cc49b6f22e2b39dc08532",
+  "implementation_commit": "79f67de7df1e1bd6e6da43dbe712f6b5130308d9",
   "authorization_source": {
     "path": "config/arcllm_v1_q4_down_4arm_primary_timing_authorization_v0.1.json",
     "blob": "95a315585d3745af2a26bc10a3f06761dd81f7a5"
@@ -97,7 +97,7 @@
     "src/q4_down_exec148_materializer.h": "611efe8a087b2a5d00d887287034e2fb4f63a58f"
   },
   "critical_git_blobs": {
-    "src/arcllm_v1_q4_down_4arm_primary_timing.cpp": "a145f81aca9bc07c62a41077aa9cf551c1bc9d65",
+    "src/arcllm_v1_q4_down_4arm_primary_timing.cpp": "a198ee0c8e2ebaf1788f659fbf7c5b61b4ae1d6d",
     "src/arcllm_v1_q4_down_4arm_timing_runtime.cpp": "985e51981e1080f902c4cdfbb4435489580028dc",
     "tools/adjudicate_arcllm_v1_q4_down_4arm_primary_timing.py": "31dc89431c7102f9dd725693e4006ca6a0971edc",
     "tests/test_arcllm_v1_q4_down_4arm_primary_timing.py": "044271b6c52bf69cffdc13721164499ba4c6c974",
@@ -133,5 +133,16 @@
     "child_c": false,
     "mechanism_search": false
   },
-  "stop_rule": "Do not execute primary timing under v0.1. Only a reviewed PASS_DEV_HOST_ZERO_SCIENCE_BUILDONLY bundle may create immutable v0.2 with execution_authorized=true."
+  "stop_rule": "Do not execute primary timing under v0.1. Re-run DEV_HOST zero-science native build-only after the compile repair. Only an independently reviewed PASS_DEV_HOST_ZERO_SCIENCE_BUILDONLY bundle may create immutable v0.2 with execution_authorized=true.",
+  "compile_repair": {
+    "trigger": "DEV_HOST_ZERO_SCIENCE_MSVC_BUILD",
+    "observed_failure": "C3493 lambda could not access frozen Q4_DOWN_LAYERS because capture list was empty",
+    "correction": "Changed only q4_names initializer lambda capture from [] to [&].",
+    "scientific_payload_changed": false,
+    "mechanism_changed": false,
+    "measurement_design_changed": false,
+    "performance_observed_before_repair": false,
+    "model_loaded_before_repair": false,
+    "gpu_dispatch_before_repair": false
+  }
 }

@@ -1306,3 +1306,10 @@ Bounded primary-timing implementation candidate is frozen at implementation head
 GitHub Actions run `36103464653` failed twice before any workflow step was allocated. This is CI infrastructure only, not implementation or scientific failure.
 
 Candidate execution lock v0.1 remains `execution_authorized=false`. Backlog/gate: obtain one DEV_HOST zero-science native build-only PASS and independently review its return bundle. Only then may immutable execution lock v0.2 authorize the first measured timing block.
+
+
+## Q4-down 4-arm primary timing — pre-measurement MSVC compile repair — 2026-09-25
+
+DEV_HOST zero-science build reached static QA and full frozen shader provenance PASS, then stopped before executable creation with MSVC C3493 in the `q4_names` initializer lambda. No model load, GPU dispatch, timing, counter collection, or performance outcome occurred.
+
+The repair changes only the lambda capture list from `[]` to `[&]` so the already-frozen `Q4_DOWN_LAYERS` set can be read while constructing the exact 14 target names. No mechanism, arm routing, decode graph, measurement scope, campaign order, threshold, or analysis rule changed. Candidate execution remains unauthorized pending a fresh DEV_HOST native build-only PASS.

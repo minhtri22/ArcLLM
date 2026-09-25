@@ -1,0 +1,30 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.primary_timing.compile_repair.v0.1",
+  "date": "2026-09-25",
+  "status": "PASS_ZERO_SCIENCE_IMPLEMENTATION_REPAIR_AWAITING_REBUILD",
+  "failing_head": "c811b19854ba8ce9ecf5208cb0cd7a1740e5390f",
+  "repair_source_commit": "79f67de7df1e1bd6e6da43dbe712f6b5130308d9",
+  "old_timing_harness_blob": "a145f81aca9bc07c62a41077aa9cf551c1bc9d65",
+  "new_timing_harness_blob": "a198ee0c8e2ebaf1788f659fbf7c5b61b4ae1d6d",
+  "exact_change": "q4_names initializer lambda capture [] -> [&]",
+  "reason": "MSVC C3493: Q4_DOWN_LAYERS could not be implicitly captured with empty capture list.",
+  "boundaries": {
+    "source_lines_changed": 1,
+    "correctness_harness_changed": false,
+    "shaders_changed": false,
+    "materializer_changed": false,
+    "arm_routing_changed": false,
+    "decode_graph_changed": false,
+    "timing_scope_changed": false,
+    "campaign_order_changed": false,
+    "thresholds_changed": false,
+    "bootstrap_changed": false,
+    "model_loaded": false,
+    "gpu_dispatch_executed": false,
+    "primary_timing_executed": false,
+    "hardware_counters_executed": false,
+    "token_xray": false,
+    "child_c": false
+  },
+  "next": "RERUN_DEV_HOST_ZERO_SCIENCE_NATIVE_BUILDONLY"
+}
