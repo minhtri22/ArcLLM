@@ -12,8 +12,8 @@ $Head=(git -C $Root rev-parse HEAD).Trim()
 $Remote=(git -C $Root rev-parse ("origin/"+[string]$L.branch)).Trim()
 if($Head-ne$Remote){throw "STOP: causal worktree HEAD does not match remote"}
 foreach($P in $L.critical_git_blobs.PSObject.Properties){
-  $Got=(git -C $Root hash-object -- $P.Name).Trim()
-  if($Got-ne[string]$P.Value){throw "STOP: critical blob mismatch: $($P.Name)"}
+  $Got=(git -C $Root rev-parse ("HEAD:"+$P.Name)).Trim()
+  if($LASTEXITCODE-ne0-or$Got-ne[string]$P.Value){throw "STOP: critical blob mismatch: $($P.Name)"}
 }
 
 py -3 (Join-Path $Root "tests\test_arcllm_v1_q4_down_splitk_causal.py")
