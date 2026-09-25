@@ -1,13 +1,47 @@
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <windows.h>
+#include "gguf.h"
+#include "tensor_store.h"
+#include <algorithm>
+#include <array>
+#include <atomic>
+#include <chrono>
+#include <cmath>
+#include <cstdint>
+#include <cstring>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <limits>
+#include <map>
+#include <ratio>
+#include <set>
+#include <sstream>
+#include <stdexcept>
+#include <string>
+#include <thread>
+#include <vector>
+
+// Correctness qualification must not execute timing. Preload headers, then
+// redirect only inherited std::chrono references to a zero-clock namespace.
+// The historical p8c source remains byte-for-byte unchanged.
+namespace std { namespace arcllm_no_timing {
+struct tick {};
+inline tick operator-(tick, tick) noexcept { return {}; }
+struct steady_clock { static tick now() noexcept { return {}; } };
+template<class Rep, class Period = std::ratio<1>>
+struct duration {
+    explicit duration(tick) noexcept {}
+    Rep count() const noexcept { return Rep(0); }
+};
+}}
+#define chrono arcllm_no_timing
 #define main p8c_main_disabled
 #include "p8c_segmented_access_correctness.cpp"
 #undef main
+#undef chrono
 
-#include <map>
-#include <set>
-#include <array>
-#include <limits>
-#include <thread>
-#include <atomic>
 #include "q4_down_exec148_materializer.h"
 
 struct P8GArena { uint64_t start=0,end=0; };
@@ -484,13 +518,13 @@ int main(int argc,char**argv){
         std::ofstream o(out,std::ios::binary);if(!o)throw std::runtime_error("cannot write Q4-down correctness JSON");o<<std::setprecision(15);
         o<<"{\n\"schema\":\"arcllm.v1.q4_down.4arm.correctness.v0.1\",\"status\":\""<<(all?"PASS_Q4_DOWN_4ARM_CORRECTNESS_QUALIFICATION":"FAIL_Q4_DOWN_4ARM_CORRECTNESS_QUALIFICATION")<<"\",\"workload\":\""<<workload<<"\",\"implementation_commit\":\""<<p8g_escape(implementation_commit)<<"\",\n";
         o<<"\"performance\":{\"authorized\":false,\"latency_fields_emitted\":false,\"hardware_counters_executed\":false,\"materialization_time_ms\":null,\"validation_time_ms\":null},\n";
-        o<<"\"target\":{\"layers\":[3,4,6,7,8,11,12,14,15,17,18,19,21,22],\"quant\":\"Q4_K\",\"k\":18944,\"rows\":3584,\"decode_only\":true},\n";
+        o<<"\"target\":{\"layers\":[3,4,6,7,8,11,12,14,15,17,18,19,21,22],\"quant\":\"Q4_K\",\"k\":18944,\"rows\":3584,\"decode_only\":true,\"prompt_hash_fnv1a64\":\""<<prompt_hash<<"\",\"memory_flags_pass\":"<<json_bool(memory_flags_pass)<<"},\n";
         o<<"\"exec148\":{\"block_bytes\":148,\"row_bytes\":10952,\"layer_bytes\":39251968,\"family_bytes\":549527552,\"incremental_resident_bytes\":549527552,\"family_source_sha256\":\""<<family_source_sha256<<"\",\"family_exec_sha256\":\""<<family_exec_sha256<<"\",\"tensor_validation\":[";
         for(size_t i=0;i<tuple_validation.size();++i){if(i)o<<",";o<<"{\"layer\":"<<Q4_DOWN_LAYERS[i]<<",\"exact\":"<<json_bool(tuple_validation[i].exact)<<",\"blocks\":"<<tuple_validation[i].blocks_checked<<",\"source_sha256\":\""<<tuple_validation[i].source_sha256<<"\",\"exec_sha256\":\""<<tuple_validation[i].exec_sha256<<"\"}";}o<<"]},\n";
         auto ec=[&](const char*n,const ComponentAgg&g){o<<"\""<<n<<"\":{\"finite\":"<<json_bool(g.finite)<<",\"max_abs\":"<<g.max_abs<<",\"rmse\":"<<rmse(g)<<",\"n\":"<<g.n<<",\"pass\":"<<json_bool(cpass(g))<<"}";};o<<"\"real_weight_component\":{\"gate\":{\"max_abs\":0.02,\"rmse\":0.005},";ec("A",compA);o<<",";ec("B",compB);o<<",";ec("AB",compAB);o<<"},\n";
         o<<"\"generated_expected\":{\"tokens\":32,\"hash_fnv1a64\":\""<<expected_hash<<"\"},\"arms\":[";
         for(size_t ai=0;ai<arms.size();++ai){const auto&a=arms[ai];if(ai)o<<",";o<<"{\"arm\":\""<<arm_name(a.arm)<<"\",\"success\":"<<json_bool(a.success)<<",\"dispatch_census_pass\":"<<json_bool(a.census)<<",\"generated_hash_fnv1a64\":\""<<a.hash<<"\",\"final_logits_hash_fnv1a64\":\""<<a.logits_hash<<"\",\"final_hidden_hash_fnv1a64\":\""<<a.hidden_hash<<"\",\"generated_token_ids\":[";for(size_t i=0;i<a.gen.size();++i){if(i)o<<",";o<<a.gen[i];}o<<"],\"error\":\""<<p8g_escape(a.error)<<"\"}";}o<<"],\n";
-        o<<"\"residency\":{\"original_weights_retained\":true,\"exec148_incremental_bytes\":549527552,\"requested_total_bytes\":"<<total_requested<<",\"frozen_usable_envelope_bytes\":"<<P8_USABLE_BUDGET<<"},\"governance\":{\"bounded_correctness_only\":true,\"prefill_unchanged\":true,\"q6_down_unchanged\":true,\"performance_authorized\":false,\"hardware_counters_authorized\":false}}\n";o.close();
+        o<<"\"residency\":{\"original_weights_retained\":true,\"parent_resident_bytes\":"<<P8B_TOTAL_RESIDENT<<",\"exec148_incremental_bytes\":549527552,\"requested_total_bytes\":"<<total_requested<<",\"frozen_usable_envelope_bytes\":"<<P8_USABLE_BUDGET<<"},\"governance\":{\"bounded_correctness_only\":true,\"prefill_unchanged\":true,\"q6_down_unchanged\":true,\"performance_authorized\":false,\"hardware_counters_authorized\":false}}\n";o.close();
         vk.destroy_prepared(dcAB);vk.destroy_prepared(dcB);vk.destroy_prepared(dcA);vk.destroy_prepared(dc0);vk.destroy_prepared(ppchain);
         std::vector<Buffer*>scratch={&b_vcache,&b_kcache,&b_logits,&b_norm,&b_d,&b_s,&b_u,&b_g,&b_n2,&b_r1,&b_o,&b_attn,&b_kr,&b_qr,&b_v,&b_k,&b_q,&b_n1,&b_h1,&b_h0,&b_dummy,&b_dec_id,&b_ids};
         for(Buffer*p:scratch)vk.destroy_buffer(*p);
