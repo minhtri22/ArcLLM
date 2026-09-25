@@ -1,0 +1,183 @@
+{
+  "schema": "arcllm.v1.m3c.independent_adjudication.v0.1",
+  "date": "2026-09-25",
+  "result": "STOP_M3C_UNRESOLVED_COUNTER_ADEQUACY",
+  "branch": "research/arcllm-v1-m3c-token-xray-targeted",
+  "collection_head": "9ace722cea2e51001d47834ce09a65aa7c1ca7a1",
+  "finalization_head": "5eb1c61e253fbf0e94d07618461b445791ac1335",
+  "return_bundle": {
+    "sha256": "5B1C79F0E75406B19FFB40A15E75EA5DF3EA23519502573F0EAB57DABF049C03",
+    "files_sha256": {
+      "M3C_W_S_memory_cache.json": "237A6C17B1CA0A527670F825591ABB353F3FE4A88685EE39F5F4A86F11D4EFAE",
+      "M3C_W_S_execution_occupancy.json": "3353FBBCFD5C8660EF5A424C01C0C5ED4A07B79917E6C37C1108101EF922A1FC",
+      "M3C_W_S_stall_cause.json": "A8AE2C47BF15770F78E025283617666B30911BBE186EF5A2ADAD833AF527D880",
+      "M3C_W_C_memory_cache.json": "B6217207B13BA56BFE7DF1E7186AC032E434686592BA800825887434ADA3A271",
+      "M3C_W_C_execution_occupancy.json": "C574C46C127F64AA8ADEAF29CB7A456DBFC54343A5748CBE55A252E8D74D81AE",
+      "M3C_W_C_stall_cause.json": "83FDC42D363A921B011B971C24724D5091A187806A17E6E7647724F0A40B21F1",
+      "HARDWARE_OBSERVATIONS.jsonl": "A8FAC400DCD5E38C755E5455B19A9BD456D9F288FE5B6480FE57D5F97F89674E",
+      "M3C_COLLECTION_SUMMARY.json": "1BDFC9902859E39E8646BD19F5675DC5701CE27E95C0C18DB9DF58D22AEC39F8",
+      "M3C_MECHANISM_DISCRIMINATION.json": "8C80F160C17EEC76123494C197F96FBB17ECA2138124D51E1464AAAFC0F49371",
+      "M3C_RUN_META.json": "7274782B392653B930F8C75F793C0D1228B58DE6BFC1D7569EB66A44ACD166B7",
+      "arcllm_v1_m3c_lock_v0.1.json": "311A79B1E17086FCAC1F2C7EB875412EEA5E00851B947E09E21CCBDD06B2FD24"
+    }
+  },
+  "integrity": {
+    "collection": "PASS",
+    "raw_runs": 6,
+    "hardware_observations": 618,
+    "queried_dispatches_per_run": 103,
+    "full_decode_dispatches_per_pass": 469,
+    "target_family_counts": {
+      "lm_head_q6": 19,
+      "ffn_down_q4": 14,
+      "ffn_down_q6": 14,
+      "split_k_q4_control": 56
+    },
+    "pass_counts": {
+      "memory_cache": 3,
+      "execution_occupancy": 3,
+      "stall_cause": 2
+    },
+    "semantic_guards": {
+      "W_S": "f31d4bb9fe5eb9c3",
+      "W_C": "471519ddc45b232e"
+    },
+    "counter_collection_rerun": false
+  },
+  "frozen_adjudicator": {
+    "execution": "PASS",
+    "mechanism_support": "NONE_FORMALLY_SUPPORTED",
+    "formal_status": "UNRESOLVED_CLOCK_CONFOUND",
+    "reason": "The preregistered clock guard cannot be evaluated because AvgGpuCoreFrequencyMHz is zero for all 103 queried dispatches in both workloads and both groups that collect it; target/control clock ratios are null."
+  },
+  "counter_adequacy": {
+    "result": "PARTIAL",
+    "usable_signal_families": [
+      "GPU_MEMORY_BYTE_READ",
+      "LOAD_STORE_CACHE_HIT",
+      "LOAD_STORE_CACHE_ACCESS",
+      "TLB_MISS",
+      "XVE_STALL from stall_cause group",
+      "XVE_STALL_SBID",
+      "XVE_STALL_ALUWR",
+      "XVE_STALL_INSTFETCH",
+      "XVE_STALL_PIPESTALL",
+      "XVE_INST_EXECUTED_ALU0_ALL_UTILIZATION",
+      "XVE_INST_EXECUTED_ALU1_ALL_UTILIZATION"
+    ],
+    "unavailable_or_zero_critical": [
+      "GpuTime",
+      "AvgGpuCoreFrequencyMHz",
+      "GpuCoreClocks",
+      "GPGPU_THREADGROUP_COUNT",
+      "XVE_THREADS_OCCUPANCY_ALL",
+      "XVE_ACTIVE",
+      "XVE_INST_ISSUED_ALL"
+    ],
+    "cross_group_inconsistency": [
+      "XVE_STALL is identically zero in execution_occupancy but nonzero for all 103 dispatches in stall_cause.",
+      "GPU_MEMORY_REQUEST_QUEUE_FULL has nonzero samples in memory_cache but is identically zero in stall_cause.",
+      "GpuTime is identically zero in all three counter groups."
+    ],
+    "interpretation": "This is a measurement-adequacy limitation of the selected Vulkan counter group/provider configuration, not evidence that physical GPU frequency or occupancy was zero."
+  },
+  "directional_observations_nonconfirmatory": {
+    "lm_head_q6_vs_ffn_down_q6": {
+      "dram_read_amplification": {
+        "W_S": {
+          "lm_head": 4.268301481433976,
+          "ffn_down_q6": 1.4361131074785967,
+          "ratio": 2.9721206910560767
+        },
+        "W_C": {
+          "lm_head": 1.9997640882813716,
+          "ffn_down_q6": 1.212300785840188,
+          "ratio": 1.649560993145303
+        }
+      },
+      "lsc_hit_fraction": {
+        "W_S": {
+          "lm_head": 0.1028187376463002,
+          "ffn_down_q6": 0.7378655903161401
+        },
+        "W_C": {
+          "lm_head": 0.36537196323126186,
+          "ffn_down_q6": 0.9108360290614789
+        }
+      },
+      "xve_stall_sbid_percent_median": {
+        "W_S": {
+          "lm_head": 81.7758483886719,
+          "ffn_down_q6": 56.496503829956055
+        },
+        "W_C": {
+          "lm_head": 80.117790222168,
+          "ffn_down_q6": 56.12561988830565
+        }
+      },
+      "alu1_utilization_percent_median": {
+        "W_S": {
+          "lm_head": 1.580669,
+          "ffn_down_q6": 13.838084
+        },
+        "W_C": {
+          "lm_head": 1.145836,
+          "ffn_down_q6": 14.036891
+        }
+      }
+    },
+    "ffn_down_q4_vs_split_k_q4_control": {
+      "dram_read_amplification": {
+        "W_S": {
+          "ffn_down_q4": 1.5845292251232845,
+          "control": 1.0427348566068078,
+          "ratio": 1.5195897740289845
+        },
+        "W_C": {
+          "ffn_down_q4": 1.0436465461217936,
+          "control": 1.0061648064479074,
+          "ratio": 1.0372520877630467
+        }
+      },
+      "lsc_hit_fraction": {
+        "W_S": {
+          "ffn_down_q4": 0.8447062692923447,
+          "control": 0.9821152088234837
+        },
+        "W_C": {
+          "ffn_down_q4": 0.9964684538057093,
+          "control": 0.9832540006810276
+        }
+      },
+      "xve_stall_sbid_percent_median": {
+        "W_S": {
+          "ffn_down_q4": 55.1567840576172,
+          "control": 4.5195415019989
+        },
+        "W_C": {
+          "ffn_down_q4": 55.56590080261235,
+          "control": 5.385221481323245
+        }
+      },
+      "alu1_utilization_percent_median": {
+        "W_S": {
+          "ffn_down_q4": 11.001395,
+          "control": 87.356327
+        },
+        "W_C": {
+          "ffn_down_q4": 11.054241,
+          "control": 87.398823
+        }
+      }
+    },
+    "restriction": "These patterns are preserved as directional observations only. They do not override the frozen adjudicator and are not causal claims."
+  },
+  "causal_result": "NONE",
+  "scientific_close": {
+    "m3c": "FORMALLY_CLOSED_UNRESOLVED",
+    "do_not_reinterpret_zero_frequency_as_physical_zero": true,
+    "do_not_tune_thresholds_post_hoc": true,
+    "do_not_add_counters_to_m3c_post_hoc": true,
+    "next": "STOP_M3C. Any further work must be a separately preregistered counter-validity or causal study; it is not an M3-C rerun."
+  }
+}
