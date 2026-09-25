@@ -21,9 +21,9 @@ for x in [
     'm3c_target_counts["ffn_down_q4"]!=14u',
     'm3c_target_counts["ffn_down_q6"]!=14u',
     'm3c_target_counts["split_k_q4_control"]!=56u',
-    '"queried_dispatches"',
-    '"queried_dispatch_executions"',
-    '"query_slot"',
+    "queried_dispatches",
+    "queried_dispatch_executions",
+    "query_slot",
 ]:
     assert x in s,x
 
