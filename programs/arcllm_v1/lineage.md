@@ -1278,3 +1278,22 @@ Gate:
 
 Next:
 implement and freeze the exact bounded performance execution package before the first measured block.
+
+
+## Q4-down 4-arm primary timing execution package — implementation freeze candidate — 2026-09-25
+
+Canonical four-arm correctness is frozen and primary timing is separately authorized under the
+pre-registered 2x2 design. A bounded timing surface is now implemented without changing any arm,
+workload, shader mechanism, EXEC148 representation, correctness threshold, or analysis threshold.
+
+The measurement surface places calibrated Vulkan timestamp queries only around the exact 14 Q4_K
+FFN-down dispatches on each of the 31 decode steps. The primary per-attempt statistic remains the
+median of those 31 family sums. The exact eight-block arm order is embedded in the harness.
+Hardware performance counters, Token-XRay and Child-C remain closed.
+
+EXEC148 materialization and logical-tuple validation wall times are recorded separately. W-S is
+pre-designated as the canonical architecture-cost reference; W-C records an integrity replicate.
+No measured primary timing has been executed at this stage.
+
+Next gate: zero-science static/native-build qualification of the exact package. Only a PASS may
+freeze the execution lock and permit the first measured block.

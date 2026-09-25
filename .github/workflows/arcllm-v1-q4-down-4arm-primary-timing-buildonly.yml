@@ -1,0 +1,41 @@
+name: ArcLLM v1 Q4 Down 4-Arm Primary Timing BuildOnly
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/arcllm-v1]
+    paths:
+      - ".github/workflows/arcllm-v1-q4-down-4arm-primary-timing-buildonly.yml"
+      - "src/arcllm_v1_q4_down_4arm_primary_timing.cpp"
+      - "src/arcllm_v1_q4_down_4arm_timing_runtime.cpp"
+      - "tests/test_arcllm_v1_q4_down_4arm_primary_timing.py"
+      - "tools/build_arcllm_v1_q4_down_4arm_primary_timing.ps1"
+      - "tools/qualify_arcllm_v1_q4_down_4arm_primary_timing_buildonly.ps1"
+      - "tools/adjudicate_arcllm_v1_q4_down_4arm_primary_timing.py"
+      - "run_arcllm_v1_q4_down_4arm_primary_timing.ps1"
+permissions:
+  contents: read
+jobs:
+  zero-science-buildonly:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - name: Static and native build-only QA
+        shell: pwsh
+        run: powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\qualify_arcllm_v1_q4_down_4arm_primary_timing_buildonly.ps1
+      - name: Emit evidence
+        if: always()
+        shell: pwsh
+        run: |
+          if(Test-Path results\Q4_DOWN_4ARM_PRIMARY_TIMING_BUILDONLY.json){Get-Content results\Q4_DOWN_4ARM_PRIMARY_TIMING_BUILDONLY.json -Raw}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: q4-down-4arm-primary-timing-buildonly
+          if-no-files-found: warn
+          path: |
+            results/Q4_DOWN_4ARM_PRIMARY_TIMING_BUILDONLY.json
+            results/q4_down_4arm_shader_provenance.json
+            arcllm_v1_q4_down_4arm_primary_timing.exe
