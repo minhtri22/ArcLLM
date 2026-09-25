@@ -1,0 +1,175 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.primary_timing.canonical_evidence.v0.1",
+  "date": "2026-09-25",
+  "status": "PASS_PRIMARY_TIMING_EVIDENCE_FROZEN",
+  "study": "Q4_DOWN_ARCHITECTURE_CAUSAL_DECOMPOSITION",
+  "source_bundle": {
+    "filename": "Q4_DOWN_4ARM_PRIMARY_TIMING_RETURN_TO_CHATGPT.zip",
+    "sha256": "B16EE3747D1B64F4B28E449003749B18DD3B8468D03DBD606CA36AB41B292F2C",
+    "inner_files": {
+      "ARCLLM_V1_Q4_DOWN_4ARM_PRIMARY_TIMING_BUILDONLY_CANONICAL_v0.1.json": "3DEB67F2EC70E40F80FF98F6827D5CE469CAFF413C4704D4AF6AC212B5FD2E54",
+      "arcllm_v1_q4_down_4arm_primary_timing_execution_lock_v0.2.json": "84755518206899023F0ED96141E9C3A8337FD5B4257724A5CA06977E0F328558",
+      "primary_timing_W_C.json": "E42E1D52D3431B1CE4F710AEFC3BAF0B9919DA754900B4E0C40C1941A5FA109B",
+      "primary_timing_W_S.json": "DC29BF275EB30D10A187B289284A587C51D07B0D953D36EA6CBFDC563C7199FD",
+      "Q4_DOWN_4ARM_PRIMARY_TIMING_ADJUDICATION.json": "C6EE7D6BE8FF771BF54A0E675E0BE281411D865E2F2AD5D77FF5E47D249F4A5C"
+    }
+  },
+  "provenance": {
+    "execution_authorization_commit": "d97fb3272ccf1d92e70206adafb4e49b2687af81",
+    "qualified_source_head": "875b45004d3e16b694731a67ed47153c316be1f6",
+    "execution_lock_path": "config/arcllm_v1_q4_down_4arm_primary_timing_execution_lock_v0.2.json",
+    "execution_lock_blob": "5c9437bbf51bb4f5ae469af4d822b628a11ad3e9",
+    "buildonly_canonical_blob": "18c8b2aac82b8e927c3e166dd5186b2e6b4e803a",
+    "target_model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "qualified_exe_sha256": "233343628E6D08E0374693613CD3512DECD34A270995B44442AD34C99E727364"
+  },
+  "validity": {
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "measured_attempts_per_workload": 32,
+    "measured_attempts_total": 64,
+    "all_attempts_success": true,
+    "frozen_arm_order_exact": true,
+    "decode_samples_per_attempt": 31,
+    "target_dispatches_per_decode": 14,
+    "all_dispatch_census_pass": true,
+    "all_generated_hashes_match": true,
+    "exec148_tuple_exact": true,
+    "timestamp_period_ns": 52.0833320617676,
+    "timestamp_valid_bits": 64,
+    "hardware_counters_executed": false,
+    "token_xray_executed": false,
+    "child_c_executed": false,
+    "mechanism_search_executed": false
+  },
+  "independent_recompute": {
+    "method": "Exact preregistered workload-specific medians plus 10,000 paired bootstrap resamples over 8 blocks; seed 1980 for W-S and 2080 for W-C.",
+    "matches_returned_adjudicator_exactly": true,
+    "W-S": {
+      "cell_medians_ms": {
+        "0": 100.581013169409,
+        "A": 38.37338447981645,
+        "B": 24.18914003444485,
+        "AB": 34.4085668682804
+      },
+      "ratios": {
+        "A_over_0": 0.38151717974031546,
+        "B_over_0": 0.24049409796362844,
+        "AB_over_A": 0.896677927545811,
+        "AB_over_B": 1.4224799566782156
+      },
+      "ci95": {
+        "A_over_0": [
+          0.37219021101100086,
+          0.3874445415390683
+        ],
+        "B_over_0": [
+          0.23339633464037468,
+          0.2675316575849731
+        ],
+        "AB_over_A": [
+          0.8698787826869125,
+          0.9105651767896077
+        ],
+        "AB_over_B": [
+          1.2346911828128595,
+          1.4567917097226972
+        ],
+        "G_INT_ms": [
+          -74.78585234084042,
+          -68.81721186155885
+        ]
+      },
+      "G_A_ms": 62.20762868959255,
+      "G_B_ms": 76.39187313496416,
+      "G_INT_ms": -72.42705552342811
+    },
+    "W-C": {
+      "cell_medians_ms": {
+        "0": 213.3338229166545,
+        "A": 37.83515532629015,
+        "B": 31.41302006641385,
+        "AB": 34.2426293723316
+      },
+      "ratios": {
+        "A_over_0": 0.17735188358327797,
+        "B_over_0": 0.1472481936382227,
+        "AB_over_A": 0.9050479395954205,
+        "AB_over_B": 1.0900775952116464
+      },
+      "ci95": {
+        "A_over_0": [
+          0.0855514039963093,
+          0.30015386252116794
+        ],
+        "B_over_0": [
+          0.07269018313350886,
+          0.2588359516033202
+        ],
+        "AB_over_A": [
+          0.8704139957637277,
+          0.9276580818879511
+        ],
+        "AB_over_B": [
+          1.0073768580611324,
+          1.1587783826676747
+        ],
+        "G_INT_ms": [
+          -420.4801199427047,
+          -89.2776019870374
+        ]
+      },
+      "G_A_ms": 175.49866759036433,
+      "G_B_ms": 181.92080285024065,
+      "G_INT_ms": -178.32827689628212
+    }
+  },
+  "timing_stage_adjudication": {
+    "A_latency_condition": true,
+    "B_latency_condition": true,
+    "composition_supported": false,
+    "reason_composition_fails": "AB is faster than A but slower than B in both workloads; AB/B CI lower bound is >1 in both workloads.",
+    "interaction_classification": "ANTAGONISTIC_INTERACTION",
+    "interaction_rule_met": "G_INT 95% CI upper bound < 0 in both workloads.",
+    "full_A_supported": "PENDING_PREREGISTERED_COUNTER_EVIDENCE",
+    "full_B_supported": "PENDING_PREREGISTERED_COUNTER_EVIDENCE",
+    "timing_stage_claim_boundary": "Primary timing establishes latency effects and interaction only; mechanism-supported A/B claims remain closed until native counters."
+  },
+  "architecture_cost": {
+    "canonical_materialization_time_ms": 231.6382,
+    "canonical_validation_time_ms": 13749.3995,
+    "extra_ram_bytes": 549527552,
+    "dominated_arms": {
+      "0": "Dominated by A: same no-materialization/no-extra-image architecture-cost class, higher latency in both workloads.",
+      "AB": "Dominated by B: same EXEC148 materialization/RAM class, higher latency in both workloads."
+    },
+    "non_dominated_frontier": [
+      "A",
+      "B"
+    ],
+    "preregistered_pairwise_crossover_completion": {
+      "note": "Returned adjudicator omitted the preregistered non-dominated A-vs-B crossover; this value is an independent deterministic recompute from frozen formulas, not a new rule.",
+      "A_vs_B_tokens": {
+        "W-S": 16.330668925801323,
+        "W-C": 36.068720235030014
+      },
+      "interpretation": "Below crossover A has lower total cost because it avoids materialization; above crossover B has lower total cost under the frozen one-time materialization formula."
+    }
+  },
+  "descriptive_variability_observation": {
+    "gate_effect": "NONE; recorded descriptively only.",
+    "W-S_arm0_range_ms": [
+      100.27525796854,
+      262.242962347584
+    ],
+    "W-C_arm0_range_ms": [
+      100.32577880064,
+      606.230193532791
+    ],
+    "note": "Arm 0 is substantially more variable, especially W-C. The preregistered balanced block design, median cell estimator and paired bootstrap are preserved; no rerun or post-hoc exclusion is performed."
+  },
+  "formal_result": "PASS_VALID_PRIMARY_TIMING_WITH_ANTAGONISTIC_INTERACTION",
+  "next": "OPEN_SEPARATE_PREREGISTERED_NATIVE_4_COUNTER_CAMPAIGN_AUTHORIZATION"
+}

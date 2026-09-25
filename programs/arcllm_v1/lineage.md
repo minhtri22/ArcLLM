@@ -1322,3 +1322,16 @@ DEV_HOST zero-science native build-only PASS at source head `875b45004d3e16b6947
 Build-only evidence and shader provenance are canonicalized. Final execution lock v0.2 authorizes only the already-preregistered 0/A/B/AB primary timing campaign. The runner verifies the exact qualified binary and no longer rebuilds it before measurement; it reruns only static QA and deterministic shader compilation/provenance, then checks the frozen DEV_HOST environment/model.
 
 Native counter campaign, Token-XRay, Child-C and all post-hoc mechanism/layout/threshold search remain closed. Next: one complete exact primary timing collection; no selective reruns after valid measured outcomes are exposed.
+
+
+## Q4-down 4-arm primary timing — canonical PASS / antagonistic interaction — 2026-09-25
+
+Returned primary timing bundle SHA256 `B16EE3747D1B64F4B28E449003749B18DD3B8468D03DBD606CA36AB41B292F2C`. Independent audit validates all 64 measured attempts, exact frozen arm order, 31 decode samples/attempt, generated hashes, dispatch census, EXEC148 tuple identity, and zero counter/Token-XRay/Child-C leakage.
+
+Workload medians (ms/token for the 14 Q4-down family): W-S `0=100.5810, A=38.3734, B=24.1891, AB=34.4086`; W-C `0=213.3338, A=37.8352, B=31.4130, AB=34.2426`. A/0 and B/0 latency CIs are fully below 1 in both workloads. AB/A is below 1, but AB/B is above 1 in both workloads. `G_INT` is negative with 95% CI fully below zero in both workloads. Timing-stage result is therefore `ANTAGONISTIC_INTERACTION`; preregistered composition support fails.
+
+Architecture-cost frontier is A vs B: arm 0 is dominated by A and AB is dominated by B. Using the frozen canonical materialization time 231.6382 ms, the preregistered A-vs-B total-cost crossover is 16.3307 tokens for W-S and 36.0687 tokens for W-C. This fills an omitted deterministic report item in the returned adjudicator; no raw result, threshold, or rule is changed.
+
+Arm 0 timing is descriptively variable, especially W-C; no post-hoc exclusion or rerun is performed. Full A/B mechanism-supported claims remain pending the preregistered native-counter stage.
+
+A separate counter authorization now opens only bounded implementation + zero-science QA for the exact four native counters at decode index 15. Fresh counter execution remains locked until an exact counter package is frozen. Token-XRay and Child-C remain closed.

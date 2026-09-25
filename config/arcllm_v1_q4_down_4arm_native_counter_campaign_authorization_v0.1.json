@@ -1,0 +1,86 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.native_counter_campaign_authorization.v0.1",
+  "date": "2026-09-25",
+  "status": "PREREGISTERED_NATIVE_COUNTER_IMPLEMENTATION_AUTHORIZED_EXECUTION_LOCK_REQUIRED",
+  "branch": "research/arcllm-v1",
+  "timing_evidence": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_Q4_DOWN_4ARM_PRIMARY_TIMING_CANONICAL_v0.1.json",
+    "blob": "97ba2ede658e8a63a08c60f7fc3ead5fcf574fdd",
+    "source_bundle_sha256": "B16EE3747D1B64F4B28E449003749B18DD3B8468D03DBD606CA36AB41B292F2C",
+    "formal_result": "PASS_VALID_PRIMARY_TIMING_WITH_ANTAGONISTIC_INTERACTION"
+  },
+  "preregistration_source": {
+    "path": "artifacts/ARCLLM_V1/Q4_DOWN_ARCHITECTURE_CAUSAL_DECOMPOSITION_PRELOCK_v0.1.json",
+    "blob": "97a92e2ae6f49056a599f0c71206fe112f2b34a6"
+  },
+  "frozen_campaign": {
+    "after_primary_timing": true,
+    "arms": [
+      "0",
+      "A",
+      "B",
+      "AB"
+    ],
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "probes_per_arm_workload": 1,
+    "total_arm_workload_probes": 8,
+    "decode_index": 15,
+    "scope": "COMMAND",
+    "quiet_host": true,
+    "selected_native_counters": [
+      {
+        "index": 56,
+        "name": "GPU_MEMORY_BYTE_READ",
+        "derived": "device_read_over_weight = sum_14_dispatch_bytes / 534675456"
+      },
+      {
+        "index": 66,
+        "name": "XVE_INST_EXECUTED_ALU1_ALL_UTILIZATION",
+        "derived": "arithmetic mean across 14 Q4-down dispatches"
+      },
+      {
+        "index": 64,
+        "name": "XVE_STALL",
+        "derived": "arithmetic mean across 14 Q4-down dispatches"
+      },
+      {
+        "index": 233,
+        "name": "XVE_STALL_SBID",
+        "derived": "arithmetic mean across 14 Q4-down dispatches"
+      }
+    ],
+    "pass_count_rule": "RECOMPUTE_FROM_DRIVER_FOR_EXACT_FOUR_COUNTER_SELECTION",
+    "target_dispatches": "exact 14 Q4_K FFN-down dispatches only",
+    "counter_timing_as_primary_forbidden": true,
+    "primary_timing_rerun_forbidden": true
+  },
+  "preregistered_claim_tests": {
+    "A_supported": "Requires both-workload A/0 latency CI upper <1 from frozen timing evidence AND ALU1 up while XVE_STALL and XVE_STALL_SBID down at counter probe.",
+    "B_supported": "Requires both-workload B/0 latency CI upper <1 from frozen timing evidence AND device_read_over_weight lower than fresh arm 0.",
+    "composition_timing_result": "Already fails preregistered composition_supported because AB/B >1; counter evidence cannot rescue that timing criterion.",
+    "interaction_timing_result": "ANTAGONISTIC_INTERACTION already established by frozen timing evidence."
+  },
+  "authorization": {
+    "bounded_counter_harness_implementation": true,
+    "zero_science_static_build_qa": true,
+    "fresh_counter_execution": false,
+    "primary_timing_execution": false,
+    "token_xray": false,
+    "child_c": false,
+    "new_mechanism": false,
+    "new_arm": false,
+    "posthoc_counter_selection": false
+  },
+  "execution_gate": [
+    "Reuse exact 0/A/B/AB mechanisms from the frozen timing/correctness package.",
+    "Bind exact four counter indices and decode index 15 before any counter observation.",
+    "Recompute provider pass count from the driver for exactly the frozen four-counter set.",
+    "Counter timing is diagnostic and may not replace primary timing.",
+    "Freeze exact counter execution package and pass zero-science QA before fresh counter execution.",
+    "Token-XRay remains out of scope for this campaign even though M3-B/Token-XRay prior work may be reused as implementation precedent."
+  ],
+  "next": "IMPLEMENT_AND_FREEZE_EXACT_BOUNDED_NATIVE_4_COUNTER_EXECUTION_PACKAGE_NO_COUNTER_EXECUTION_YET"
+}
