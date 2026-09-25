@@ -91,7 +91,7 @@ $Meta=[ordered]@{
   schema="arcllm.v1.m3b.run_meta.v0.1"; status="PASS"; branch=$Branch; head=$Head;
   quiet_host_confirmed=$true; machine_profile_repeated=$false; model_sha256=$MH; model_size_bytes=$MF.Length;
   provider="VULKAN_KHR_PERFORMANCE_QUERY"; scope="COMMAND"; decode_index=15;
-  raw_runs=6; dispatch_observations=2814; token_xray_contract_commit=$Lock.token_xray_contract.commit;
+  raw_runs=6; dispatch_observations=2814; token_xray_contract_commit=$Lock.token_xray_contract.contract_commit;
   timing_use="INSTRUMENTED_DIAGNOSTIC_ONLY"; benchmark_timing_substitution_forbidden=$true
 }
 $MetaPath=Join-Path $Dir "M3B_RUN_META.json"

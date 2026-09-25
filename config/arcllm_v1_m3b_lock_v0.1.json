@@ -1,5 +1,5 @@
 {
-  "schema": "arcllm.v1.m3b.lock.v0.1.5",
+  "schema": "arcllm.v1.m3b.lock.v0.1.6",
   "date": "2026-09-25",
   "branch": "research/arcllm-v1",
   "role": "QUIET_HOST_VULKAN_COMMAND_SCOPE_COUNTER_COLLECTION",
@@ -68,11 +68,13 @@
     "tools/build_arcllm_v1_m3b.ps1": "b439c8b6a0cb3e50be0581318c158e712b882cf7",
     "tools/parse_arcllm_v1_m3b.py": "b1ce75b18a112c8dac547c44f32db0d2110eedf9",
     "tests/test_arcllm_v1_m3b_package.py": "d88502c6d6df7f0a0ffab611b6652e7a7fe721a9",
-    "run_arcllm_v1_m3b.ps1": "095cd0448f4694c06829e4bbdad5ae7d5c212d8a",
+    "run_arcllm_v1_m3b.ps1": "d54fb618309246bac2c005925297a522d8c08434",
     "config/arcllm_v1_m3b_counter_selection_v0.1.json": "365999477616431f9f85c9b944556f2927cf9252",
     "src/gguf.cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
     "src/tensor_store.cpp": "0eb52588d30620bfeb323e62c8546e7191a006d6",
-    "tools/compile_arcllm_v1_i003.ps1": "f4e14baab9fc93c4e19ecda399d28016f7f29354"
+    "tools/compile_arcllm_v1_i003.ps1": "f4e14baab9fc93c4e19ecda399d28016f7f29354",
+    "recover_arcllm_v1_m3b_bundle.ps1": "5e500f918a4b92bf5998ca9d6a434b89918b64b7",
+    "tests/test_arcllm_v1_m3b_recovery.py": "181a1ab95b23e0489b42850030a747ed0e5d2f3f"
   },
   "next_on_pass": "INDEPENDENT_M3B_ADJUDICATION_PATCH_ARCLLM_HARDWARE_MODEL",
   "pre_run_vulkan_validity_repair": {
@@ -110,5 +112,15 @@
     "runtime_changed": false,
     "parser_changed": false,
     "counter_selection_changed": false
+  },
+  "post_collection_packaging_repair": {
+    "classification": "POST_COLLECTION_POST_PARSER_PACKAGING_ONLY",
+    "observed_failure": "StrictMode property lookup failed for token_xray_contract.commit after M3_B_PARSER=PASS and OBSERVATIONS=2814.",
+    "corrected_property": "token_xray_contract.contract_commit",
+    "valid_collection_preserved": true,
+    "rerun_forbidden": true,
+    "recovery_script": "recover_arcllm_v1_m3b_bundle.ps1",
+    "expected_collection_head": "818c522c8c31d845c0ae6c358a769ebe0da5fc7b",
+    "scientific_payload_changed": false
   }
 }
