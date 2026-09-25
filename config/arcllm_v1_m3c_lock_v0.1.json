@@ -113,7 +113,7 @@
     "tools/build_arcllm_v1_m3c.ps1": "1199a6961636b2c0d5f7aaf1788128b42edc52f6",
     "tools/parse_arcllm_v1_m3c.py": "8b9a0183483bdc7c5fd09e960e32bed4cb370bcd",
     "tools/adjudicate_arcllm_v1_m3c.py": "3ad45069ae5609f563a2a656a0891ea1c9bd9eba",
-    "tests/test_arcllm_v1_m3c_package.py": "ebdc30f014f8c599c806f58dc082c23bcd771769",
+    "tests/test_arcllm_v1_m3c_package.py": "a07a040e6e63854e7378b9305b4b3272f08958bd",
     "run_arcllm_v1_m3c.ps1": "ea878fdfa0b645f31c0722bcd23e7de21ed239b1",
     "docs/research/arcllm-v1/ARCLLM_V1_M3C_TARGETED_MECHANISM_DISCRIMINATION.md": "00098e4c0ef35c2a0f0faa8c18b32cdca1fab297",
     "src/gguf.cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
@@ -122,5 +122,15 @@
   },
   "prelock_head": "eee2fd9cdc8e5c1878f32198928557c89498c7e6",
   "stop_rule": "Run exactly one six-process collection. Do not tune counters or thresholds after data. If no descriptive mechanism pattern is supported, stop unresolved. If one or more are supported, preregister exactly one minimal causal intervention before further execution.",
-  "worktree_policy": "Local branch name is irrelevant; runner requires HEAD == origin/research/arcllm-v1-m3c-token-xray-targeted and exact critical blobs."
+  "worktree_policy": "Local branch name is irrelevant; runner requires HEAD == origin/research/arcllm-v1-m3c-token-xray-targeted and exact critical blobs.",
+  "pre_run_static_qa_repair": {
+    "classification": "PRE_COLLECTION_STATIC_QA_ONLY",
+    "reason": "The test searched quoted JSON field literals in C++ source, but the source contains escaped quotes inside string literals. The semantic fields existed; the matcher was too strict.",
+    "scientific_payload_changed": false,
+    "collector_changed": false,
+    "runtime_changed": false,
+    "parser_changed": false,
+    "counter_selection_changed": false,
+    "fix": "Assert escape-insensitive field tokens: queried_dispatches, queried_dispatch_executions, query_slot."
+  }
 }
