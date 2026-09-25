@@ -123,8 +123,14 @@
   },
   "buildonly_independent_adjudication": {
     "path": "artifacts/ARCLLM_V1/Q4_DOWN_SPLITK_CAUSAL_BUILDONLY_INDEPENDENT_ADJUDICATION_v0.1.json",
-    "blob": "7b9f705b97316b39fd0b05635dbf585c098fb3c7",
+    "blob": "344c86f0d78094e080b289c3a6384927d83c4e69",
     "verdict": "PASS_BUILDONLY_READY_FOR_REAL_MODEL_CORRECTNESS",
-    "bundle_sha256": "459D05ADB374804EA1EA9B7DA0E1644F9696F03BAD8A7DC2FF74FCA0C26B32C9"
+    "bundle_sha256": "459D05ADB374804EA1EA9B7DA0E1644F9696F03BAD8A7DC2FF74FCA0C26B32C9",
+    "provenance_repair": {
+      "classification": "LOCK_REFERENCE_ONLY",
+      "scientific_payload_changed": false,
+      "authorization_changed": false,
+      "reason": "Correct the recorded Git blob SHA of the already-committed independent build-only adjudication artifact."
+    }
   }
 }
