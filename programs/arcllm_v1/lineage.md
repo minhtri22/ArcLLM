@@ -1380,3 +1380,12 @@ Token-XRay is pinned for future ArcLLM instrumentation revalidation at `minhtri2
 Frozen acceptance for that future validation is: 469 dispatches, 469 timestamped, 451 measured semantic nodes, 451 exact timing nodes, no unknown semantic IDs, no unmapped dispatch IDs, and execution domain `gpu.arc_140v` propagated to every measured semantic node. The hardware profile may represent CPU/GPU/NPU independently, but this ArcLLM Vulkan path must not imply NPU execution or aggregate cross-domain TOPS.
 
 This update does not modify or reopen the currently authorized Q4-down eight-probe native-counter campaign. Token-XRay remains disabled in that campaign. The fresh one-token Token-XRay revalidation is a separate future instrumentation-validation task, not an ArcLLM mechanism study.
+
+
+## Q4-down 4-arm native counters — post-collection adjudicator recovery — 2026-09-26
+
+All eight authorized counter processes completed before adjudication: W-S and W-C crossed with 0/A/B/AB, each reporting driver pass_count=2. The original adjudicator then stopped at `W-S/0 shader`.
+
+Source inspection classifies this as a post-collection QA-harness mismatch, not a counter-collection failure. The collector emits `op.spv_path`, which is constructed by `join_path_p8c(shader_dir, sh)` and therefore contains the full compiled-shader path. The original parser compared that field directly with the frozen shader basename. No counter value or mechanism is implicated by this mismatch.
+
+No collector or selective probe rerun is permitted. A separate recovery parser changes only shader identity comparison to normalized basename equality. A recovery script reads the original `result_dir` from the preserved science-start marker, requires all eight raw PASS files, hashes them before and after adjudication to enforce byte identity, and packages the existing collection. Primary timing, Token-XRay, Child-C, counter selection and mechanisms remain unchanged.
