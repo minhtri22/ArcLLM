@@ -57,6 +57,7 @@ $Meta=[ordered]@{
   status="PASS"
   recovery_class="POST_COLLECTION_PACKAGING_ONLY"
   collection_head=$CollectionHead
+  collection_lock_blob="707321e3876b0fb05289e2690dd4d29fcba9ced6"
   finalization_head=$FinalizationHead
   quiet_host_confirmed=$true
   machine_profile_repeated=$false
