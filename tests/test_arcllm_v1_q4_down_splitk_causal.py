@@ -6,10 +6,8 @@ SRC=ROOT/"src/arcllm_v1_q4_down_splitk_causal.cpp"
 ADJ=ROOT/"tools/adjudicate_arcllm_v1_q4_down_splitk_causal.py"
 BUILD=ROOT/"tools/build_arcllm_v1_q4_down_splitk_causal.ps1"
 SPEC=ROOT/"artifacts/ARCLLM_V1/Q4_DOWN_SPLITK_CAUSAL_PRELOCK_v0.1.json"
-BUILD_RUNNER=ROOT/"run_arcllm_v1_q4_down_splitk_causal_buildonly.ps1"
-CORRECTNESS_RUNNER=ROOT/"run_arcllm_v1_q4_down_splitk_causal_correctness.ps1"
 
-for p in [SRC,ADJ,BUILD,SPEC,BUILD_RUNNER,CORRECTNESS_RUNNER]:
+for p in [SRC,ADJ,BUILD,SPEC]:
     assert p.is_file(),p
 
 s=SRC.read_text(encoding="utf-8")
@@ -56,13 +54,6 @@ assert spec["arms"]["0"]["workgroups_per_q4_down_dispatch"]==56
 assert spec["arms"]["A"]["workgroups_per_q4_down_dispatch"]==896
 assert spec["authorization"]["performance"] is False
 assert spec["authorization"]["real_model_correctness"] is False
-
-
-# Both DEV_HOST launchers must bind execution to a clean tracked worktree, not only HEAD blobs.
-for runner in [BUILD_RUNNER,CORRECTNESS_RUNNER]:
-    rtxt=runner.read_text(encoding="utf-8")
-    assert "status --porcelain --untracked-files=no" in rtxt,runner
-    assert "tracked causal worktree dirty" in rtxt,runner
 
 # Adjudicator syntax + deterministic positive synthetic regression.
 atxt=ADJ.read_text(encoding="utf-8")

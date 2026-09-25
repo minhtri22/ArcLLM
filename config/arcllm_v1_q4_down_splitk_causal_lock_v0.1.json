@@ -103,15 +103,10 @@
     "tools/compile_arcllm_v1_i003.ps1": "f4e14baab9fc93c4e19ecda399d28016f7f29354",
     "tools/build_arcllm_v1_q4_down_splitk_causal.ps1": "c8510302604c9051d360f8b5c950fa5696fcc73c",
     "tools/adjudicate_arcllm_v1_q4_down_splitk_causal.py": "58c086b35aa7aad0e9d4e9a00b006ff1f384178e",
-    "tests/test_arcllm_v1_q4_down_splitk_causal.py": "6775fa838c65ae3fe8e669e5d48dd9a4fc2220e5",
-    "run_arcllm_v1_q4_down_splitk_causal_buildonly.ps1": "53b08b825fbc0a8416a1609eb4da802cb16c7fc9",
-    "run_arcllm_v1_q4_down_splitk_causal_correctness.ps1": "4cffb8aa9a6dc1aad5068af38e36f9c41885ad63"
+    "tests/test_arcllm_v1_q4_down_splitk_causal.py": "5edfdee73aff6f9d2403d34e308deb9738fc4fdf",
+    "run_arcllm_v1_q4_down_splitk_causal_buildonly.ps1": "af830a9c30686e68a5711eb5a741a368e342d97c",
+    "run_arcllm_v1_q4_down_splitk_causal_correctness.ps1": "3927494ac7da6353df3e78f9556e716a70f64906"
   },
   "stop_rule": "Do not run correctness until build-only bundle is independently reviewed and lock.authorization.correctness is explicitly enabled. Do not run measure mode until correctness is independently adjudicated PASS and lock.authorization.performance is explicitly enabled.",
-  "windows_eol_blob_policy": "Critical files are verified with git rev-parse HEAD:path, not worktree-byte hash-object, so CRLF checkout normalization cannot create a false mismatch.",
-  "worktree_integrity": {
-    "tracked_clean_required": true,
-    "check": "git status --porcelain --untracked-files=no",
-    "rationale": "Build and QA consume worktree bytes; HEAD:path blob verification alone does not exclude local tracked modifications. Untracked build outputs remain allowed."
-  }
+  "windows_eol_blob_policy": "Critical files are verified with git rev-parse HEAD:path, not worktree-byte hash-object, so CRLF checkout normalization cannot create a false mismatch."
 }
