@@ -136,7 +136,13 @@
   "status": "CLOSED_FROZEN_ARCHIVE_DO_NOT_CONTINUE",
   "closure": {
     "path": "artifacts/ARCLLM_V1/Q4_DOWN_SPLITK_CAUSAL_CLOSURE_v0.1.json",
-    "blob": "9ba44c7dfec12d7a30dbf4af5a48570da5530d3c",
-    "terminal": "CLOSED_DUPLICATE_SCOPE_BEFORE_REAL_MODEL_CORRECTNESS"
+    "blob": "287afd5ccb0b7e5b86ec53a8da85011244ed6a94",
+    "terminal": "CLOSED_DUPLICATE_SCOPE_BEFORE_REAL_MODEL_CORRECTNESS",
+    "provenance_repair": {
+      "classification": "LOCK_REFERENCE_ONLY",
+      "scientific_payload_changed": false,
+      "authorization_changed": false,
+      "reason": "Correct recorded Git blob SHA for the already-committed closure artifact."
+    }
   }
 }
