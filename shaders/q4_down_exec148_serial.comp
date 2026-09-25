@@ -1,0 +1,6 @@
+#version 450
+layout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
+layout(std430,binding=0) readonly buffer WBuf{uint w[];}W;layout(std430,binding=1) readonly buffer XBuf{float x[];}X;layout(std430,binding=2) readonly buffer BiasBuf{float bias[];}B;layout(std430,binding=3) writeonly buffer YBuf{float y[];}Y;
+layout(push_constant) uniform PC{uint n;uint rows;uint batch;uint row_bytes;uint add_bias;uint w_base_bytes;uint bias_base;}pc;
+uint u8(uint o){uint v=W.w[o>>2u];return(v>>((o&3u)*8u))&255u;}uint u16(uint o){return u8(o)|(u8(o+1u)<<8u);}float f16(uint o){return unpackHalf2x16(u16(o)).x;}
+void main(){uint row=gl_GlobalInvocationID.x,token=gl_WorkGroupID.y;if(row>=pc.rows||token>=pc.batch)return;float sum=(pc.add_bias!=0u)?B.bias[pc.bias_base+row]:0.0;uint rb=pc.w_base_bytes+row*pc.row_bytes,xb=token*pc.n;for(uint ib=0u;ib<pc.n/256u;++ib){uint base=rb+ib*148u;float d=f16(base),dm=f16(base+2u);for(uint kin=0u;kin<256u;++kin){uint j=kin>>5u,sc=u8(base+4u+2u*j),mn=u8(base+5u+2u*j),qb=u8(base+20u+(kin>>1u)),q=(kin&1u)!=0u?(qb>>4u):(qb&15u);sum+=(d*float(sc)*float(q)-dm*float(mn))*X.x[xb+ib*256u+kin];}}Y.y[token*pc.rows+row]=sum;}
