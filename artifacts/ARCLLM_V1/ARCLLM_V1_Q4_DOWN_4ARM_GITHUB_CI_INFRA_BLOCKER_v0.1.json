@@ -1,0 +1,57 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.github_ci_infra_blocker.v0.1",
+  "date": "2026-09-25",
+  "program": "ARCLLM_V1_Q4_DOWN_ARCH_DECOMPOSITION",
+  "workflow": "ArcLLM v1 Q4 Down 4-Arm BuildOnly",
+  "run_id": 36096216075,
+  "workflow_head": "3a09911dbb6f8a8cc8e18fc977bce285c37b4b61",
+  "classification": "GITHUB_ACTIONS_RUNNER_NOT_ALLOCATED",
+  "scientific_execution": false,
+  "target_model_loaded": false,
+  "gpu_dispatch_executed": false,
+  "timing_executed": false,
+  "performance_authorized": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "job_id": 107948925052,
+      "conclusion": "failure",
+      "runner_id": 0,
+      "runner_name": "",
+      "steps_count": 0,
+      "started_at": "2026-09-25T04:52:37Z",
+      "completed_at": "2026-09-25T04:52:40Z"
+    },
+    {
+      "attempt": 2,
+      "job_id": 107949480781,
+      "conclusion": "failure",
+      "runner_id": 0,
+      "runner_name": "",
+      "steps_count": 0,
+      "started_at": "2026-09-25T04:55:22Z",
+      "completed_at": "2026-09-25T04:55:25Z"
+    }
+  ],
+  "independent_static_audit": {
+    "pass": true,
+    "critical_blobs_exact": true,
+    "target_layers_exact": true,
+    "exec148_geometry_exact": true,
+    "residency_within_frozen_envelope": true,
+    "performance_lock_intact": true,
+    "timing_neutralization_present": true,
+    "four_arm_wiring_exact": true,
+    "independent_tuple_validators_present": true
+  },
+  "portable_synthetic_replay": {
+    "canonical": false,
+    "purpose": "implementation sanity only; not a substitute for Windows DEV_HOST build-only qualification",
+    "result": "PASS",
+    "blocks_checked": 148,
+    "canonical_sha256": "07a88f6ad82633186b99cd632cc7f3194b3547230e4c638a944deb10418e98f5"
+  },
+  "next": "RUN_DEV_HOST_ZERO_SCIENCE_BUILDONLY_ONLY",
+  "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\\run_arcllm_v1_q4_down_4arm_buildonly.ps1",
+  "hard_stop": "Do not run real-model correctness or any performance timing until the DEV_HOST build-only return bundle is independently reviewed and accepted."
+}
