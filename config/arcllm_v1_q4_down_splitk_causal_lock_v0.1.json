@@ -86,10 +86,10 @@
   "authorization": {
     "implementation": true,
     "buildonly": true,
-    "correctness": false,
+    "correctness": true,
     "performance": false,
     "hardware_counters": false,
-    "reason": "Only zero-science build/static qualification is authorized. Real-model correctness requires independent review of the DEV_HOST build-only return bundle; performance requires a later independent correctness PASS and explicit authorization."
+    "reason": "Independent build-only adjudication PASS authorizes exact-model correctness mode only. Performance/timestamp campaign and hardware counters remain forbidden until independent correctness adjudication PASS."
   },
   "critical_git_blobs": {
     "artifacts/ARCLLM_V1/Q4_DOWN_SPLITK_CAUSAL_PRELOCK_v0.1.json": "be5df9f9c4dd4f06a1dee32cb8c39afc05c38fc2",
@@ -107,7 +107,7 @@
     "run_arcllm_v1_q4_down_splitk_causal_buildonly.ps1": "af830a9c30686e68a5711eb5a741a368e342d97c",
     "run_arcllm_v1_q4_down_splitk_causal_correctness.ps1": "3927494ac7da6353df3e78f9556e716a70f64906"
   },
-  "stop_rule": "Do not run correctness until build-only bundle is independently reviewed and lock.authorization.correctness is explicitly enabled. Do not run measure mode until correctness is independently adjudicated PASS and lock.authorization.performance is explicitly enabled.",
+  "stop_rule": "Run exact-model correctness mode only. Do not run measure mode until correctness is independently adjudicated PASS and lock.authorization.performance is explicitly enabled.",
   "windows_eol_blob_policy": "Critical files are verified with git rev-parse HEAD:path, not worktree-byte hash-object, so CRLF checkout normalization cannot create a false mismatch.",
   "pre_build_static_qa_repair": {
     "classification": "PRE_BUILD_STATIC_QA_ONLY",
@@ -120,5 +120,11 @@
     "thresholds_changed": false,
     "authorization_changed": false,
     "fix": "Replace formatting-specific literal match with structural checks for Q4 target condition, baseline Q4/Q6 selector, split-K intervention shader, 56-to-896 geometry, and unchanged non-target shader/geometry."
+  },
+  "buildonly_independent_adjudication": {
+    "path": "artifacts/ARCLLM_V1/Q4_DOWN_SPLITK_CAUSAL_BUILDONLY_INDEPENDENT_ADJUDICATION_v0.1.json",
+    "blob": "7b9f705b97316b39fd0b05635dbf585c098fb3c7",
+    "verdict": "PASS_BUILDONLY_READY_FOR_REAL_MODEL_CORRECTNESS",
+    "bundle_sha256": "459D05ADB374804EA1EA9B7DA0E1644F9696F03BAD8A7DC2FF74FCA0C26B32C9"
   }
 }
