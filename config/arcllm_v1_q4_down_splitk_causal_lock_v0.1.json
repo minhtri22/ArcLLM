@@ -1,0 +1,111 @@
+{
+  "schema": "arcllm.v1.q4_down_splitk_causal.lock.v0.1",
+  "date": "2026-09-25",
+  "branch": "research/arcllm-v1-q4down-splitk-causal",
+  "role": "MINIMAL_TWO_ARM_Q4_DOWN_WORK_DECOMPOSITION_CAUSAL_STUDY",
+  "parent_research_head": "15f77d64dc2ea61751384aec2d1c527d9d0a300f",
+  "study_spec": {
+    "path": "artifacts/ARCLLM_V1/Q4_DOWN_SPLITK_CAUSAL_PRELOCK_v0.1.json",
+    "blob": "be5df9f9c4dd4f06a1dee32cb8c39afc05c38fc2"
+  },
+  "evidence_basis": {
+    "phase2_summary_sha256": "ACA3E006F7AA98B06BD7EFF4E546E33F7E604DB3301D6F87758F83578EEF46B5",
+    "m3c_bundle_sha256": "5B1C79F0E75406B19FFB40A15E75EA5DF3EA23519502573F0EAB57DABF049C03",
+    "m3c_closeout_commit": "ce1a13e8c65fe4d36c04c66d85eecc0ac95b7ea2",
+    "m3c_use": "DIRECTIONAL_MOTIVATION_ONLY"
+  },
+  "target_model": {
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "bytes": 4683074048
+  },
+  "target": {
+    "operator": "ffn_down",
+    "quant": "Q4_K",
+    "layers": [
+      3,
+      4,
+      6,
+      7,
+      8,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      19,
+      21,
+      22
+    ],
+    "layer_count": 14,
+    "rows": 3584,
+    "k": 18944,
+    "source_row_bytes": 10656,
+    "logical_weight_bytes_family": 534675456
+  },
+  "intervention": {
+    "baseline_shader": "p7_q4k_gemm_2d.spv",
+    "intervention_shader": "sa1_q4k_subgroup_splitk.spv",
+    "baseline_workgroups": 56,
+    "intervention_workgroups": 896,
+    "subgroup_size": 32,
+    "representation_changed": false,
+    "extra_resident_bytes": 0,
+    "q6_down_changed": false,
+    "prefill_changed": false,
+    "other_decode_nodes_changed": false
+  },
+  "correctness": {
+    "component_max_abs": 0.02,
+    "component_rmse": 0.005,
+    "generated_hashes": {
+      "W-S": "f31d4bb9fe5eb9c3",
+      "W-C": "471519ddc45b232e"
+    },
+    "dispatches_per_decode": 469
+  },
+  "measurement": {
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "blocks_per_workload": 8,
+    "component_probe_decode_index": 15,
+    "component_metric": "sum timestamp ticks across exactly 14 Q4-down dispatches",
+    "carry_metrics": [
+      "decode_ms",
+      "e2e_ms"
+    ],
+    "counter_dependency": false,
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 1980,
+    "estimator": "geometric mean of paired A/0 block ratios",
+    "support_rule": "95% paired bootstrap CI upper bound < 1 separately in both workloads"
+  },
+  "candidate_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+  "authorization": {
+    "implementation": true,
+    "buildonly": true,
+    "correctness": false,
+    "performance": false,
+    "hardware_counters": false,
+    "reason": "Only zero-science build/static qualification is authorized. Real-model correctness requires independent review of the DEV_HOST build-only return bundle; performance requires a later independent correctness PASS and explicit authorization."
+  },
+  "critical_git_blobs": {
+    "artifacts/ARCLLM_V1/Q4_DOWN_SPLITK_CAUSAL_PRELOCK_v0.1.json": "be5df9f9c4dd4f06a1dee32cb8c39afc05c38fc2",
+    "src/arcllm_v1_q4_down_splitk_causal.cpp": "a476b7661f61032325028d4f3d039a3d6d0f543f",
+    "src/arcllm_v1_i001r_p8c_profile_runtime.cpp": "992f46e866d51f90e9650d9604b1c81cbe55e902",
+    "src/p8c_segmented_access_correctness.cpp": "8432ca554b36a2167429b640c5ec6779cf2b3e6b",
+    "src/gguf.cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
+    "src/tensor_store.cpp": "0eb52588d30620bfeb323e62c8546e7191a006d6",
+    "shaders/sa1_q4k_subgroup_splitk.comp": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "shaders/p7_q4k_gemm_2d.comp": "fb1fb14192ff7d275a4af38c6dd9be7d1b500a7a",
+    "tools/compile_arcllm_v1_i003.ps1": "f4e14baab9fc93c4e19ecda399d28016f7f29354",
+    "tools/build_arcllm_v1_q4_down_splitk_causal.ps1": "c8510302604c9051d360f8b5c950fa5696fcc73c",
+    "tools/adjudicate_arcllm_v1_q4_down_splitk_causal.py": "58c086b35aa7aad0e9d4e9a00b006ff1f384178e",
+    "tests/test_arcllm_v1_q4_down_splitk_causal.py": "5edfdee73aff6f9d2403d34e308deb9738fc4fdf",
+    "run_arcllm_v1_q4_down_splitk_causal_buildonly.ps1": "e97327f2e52f51a2f821dce5dc40e88d017e978e",
+    "run_arcllm_v1_q4_down_splitk_causal_correctness.ps1": "2a9b2bdedbea11ec9d0e988e45130316773b6047"
+  },
+  "stop_rule": "Do not run correctness until build-only bundle is independently reviewed and lock.authorization.correctness is explicitly enabled. Do not run measure mode until correctness is independently adjudicated PASS and lock.authorization.performance is explicitly enabled."
+}
