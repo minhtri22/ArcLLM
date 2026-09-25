@@ -1,0 +1,70 @@
+{
+  "schema": "arcllm.v1.token_xray_core_v0_1_completeness_pin.v0.1",
+  "date": "2026-09-25",
+  "status": "PINNED_PENDING_FRESH_ARCLLM_ONE_TOKEN_REVALIDATION",
+  "role": "INSTRUMENTATION_INTEGRATION_PROVENANCE_ONLY",
+  "token_xray": {
+    "repository": "minhtri22/token-xray",
+    "branch": "freeze/token-xray-core-v0.1-completeness-validated",
+    "pin_commit": "2359f68175bf2e231722c1fe6694ebd2e2d11aeb",
+    "completeness_freeze": {
+      "path": "artifacts/TOKEN_XRAY_CORE_COMPLETENESS_FREEZE_v0.1.json",
+      "blob": "b29ce9ab7f7fb0024cfcad7ec1749d571da53bfa",
+      "status": "READY_FOR_ARCLLM_REVALIDATION",
+      "tested_core_head": "100ccb070d12a0c34ecd241015bb1b1f62761d58",
+      "local_qa_blob": "0d74f54c32595a34121ba8274e4a0d87ec9de5ef",
+      "local_qa_status": "PASS_LOCAL_CORE_COMPLETENESS_QA"
+    },
+    "handoff": {
+      "path": "docs/ARCLLM_REVALIDATION_HANDOFF.md",
+      "blob": "53ea5fd355ae7dcd497328b745af8eb1698df199"
+    }
+  },
+  "frozen_acceptance": {
+    "dispatch_count": 469,
+    "timestamped_dispatch_count": 469,
+    "measured_semantic_nodes": 451,
+    "exact_timing_nodes": 451,
+    "unknown_semantic_ids": [],
+    "unmapped_dispatch_ids": [],
+    "execution_domain_id": "gpu.arc_140v",
+    "every_measured_semantic_node_execution_domain_id": "gpu.arc_140v"
+  },
+  "compute_domain_contract": {
+    "cpu": "cpu.core_ultra_7_258v",
+    "gpu": "gpu.arc_140v",
+    "npu": "npu.intel_ai_boost",
+    "aggregate_platform_tops_roof": false,
+    "cross_domain_projection_rejected": true,
+    "note": "Hardware profile retains NPU capability, but ArcLLM Vulkan execution must be attributed specifically to gpu.arc_140v."
+  },
+  "interpretation_boundary": {
+    "may_claim_on_pass": [
+      "Token-XRay core can represent multiple compute domains.",
+      "The ArcLLM Vulkan runtime path is attributed specifically to gpu.arc_140v."
+    ],
+    "may_not_claim": [
+      "NPU is idle system-wide.",
+      "NPU cannot help ArcLLM.",
+      "CPU/GPU/NPU peak TOPS are jointly schedulable for this workload.",
+      "Any new ArcLLM speedup or causal mechanism."
+    ]
+  },
+  "current_arcllm_counter_campaign_boundary": {
+    "current_counter_execution_lock": "config/arcllm_v1_q4_down_4arm_native_counter_execution_lock_v0.2.json",
+    "current_counter_campaign_token_xray": false,
+    "current_counter_campaign_unchanged": true,
+    "no_integration_into_current_eight_probe_campaign": true
+  },
+  "required_future_return_evidence": [
+    "exact ArcLLM repo/branch/HEAD",
+    "exact Token-XRay pinned commit",
+    "exact model SHA256",
+    "MODEL_GRAPH.json",
+    "TOKEN_TRACE.json",
+    "NODE_LEDGER_TRACED.json",
+    "RUNTIME_TRACE_SUMMARY.json",
+    "static/schema/SDK integration QA result"
+  ],
+  "next": "FRESH_ARCLLM_ONE_TOKEN_TOKEN_XRAY_REVALIDATION_AS_SEPARATE_INSTRUMENTATION_VALIDATION"
+}

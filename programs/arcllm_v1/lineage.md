@@ -1371,3 +1371,12 @@ DEV_HOST zero-science native-counter build-only PASS at HEAD `c8f7495fa166c9758c
 Build-only evidence and shader provenance are canonicalized. Final counter execution lock v0.2 authorizes exactly eight independent arm-workload probes: W-S and W-C crossed with 0/A/B/AB, one warmup and one measured inference per process, with the only performance query at decode index 15 and only the 14 frozen Q4-down dispatches queried for counters 56/66/64/233. Driver-derived multipass semantics remain unchanged.
 
 The execution runner verifies the exact qualified binary, exact environment/model, quiet-host confirmation and critical blobs, and writes a one-shot science-start marker before the first process. Primary timing rerun, Token-XRay, Child-C, new mechanisms/arms, post-hoc counter selection and threshold changes remain closed.
+
+
+## Token-XRay core v0.1 completeness pin — provenance update — 2026-09-25
+
+Token-XRay is pinned for future ArcLLM instrumentation revalidation at `minhtri22/token-xray` branch `freeze/token-xray-core-v0.1-completeness-validated`, commit `2359f68175bf2e231722c1fe6694ebd2e2d11aeb`. The freeze artifact records tested core head `100ccb070d12a0c34ecd241015bb1b1f62761d58` with `PASS_LOCAL_CORE_COMPLETENESS_QA`; release remains blocked pending a fresh ArcLLM one-token runtime revalidation.
+
+Frozen acceptance for that future validation is: 469 dispatches, 469 timestamped, 451 measured semantic nodes, 451 exact timing nodes, no unknown semantic IDs, no unmapped dispatch IDs, and execution domain `gpu.arc_140v` propagated to every measured semantic node. The hardware profile may represent CPU/GPU/NPU independently, but this ArcLLM Vulkan path must not imply NPU execution or aggregate cross-domain TOPS.
+
+This update does not modify or reopen the currently authorized Q4-down eight-probe native-counter campaign. Token-XRay remains disabled in that campaign. The fresh one-token Token-XRay revalidation is a separate future instrumentation-validation task, not an ArcLLM mechanism study.
