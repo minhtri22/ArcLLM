@@ -1,0 +1,164 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.native_counter_execution_lock.v0.1",
+  "date": "2026-09-25",
+  "status": "FROZEN_COUNTER_PACKAGE_CANDIDATE_AWAITING_DEV_HOST_BUILDONLY",
+  "branch": "research/arcllm-v1",
+  "implementation_payload_commit": "3f7f9eca6ea5e9d9fd9f282f1769bcc8f8381119",
+  "timing_evidence": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_Q4_DOWN_4ARM_PRIMARY_TIMING_CANONICAL_v0.1.json",
+    "blob": "97ba2ede658e8a63a08c60f7fc3ead5fcf574fdd",
+    "source_bundle_sha256": "B16EE3747D1B64F4B28E449003749B18DD3B8468D03DBD606CA36AB41B292F2C",
+    "formal_result": "PASS_VALID_PRIMARY_TIMING_WITH_ANTAGONISTIC_INTERACTION"
+  },
+  "authorization_source": {
+    "path": "config/arcllm_v1_q4_down_4arm_native_counter_campaign_authorization_v0.1.json",
+    "blob": "d142a78cf7722d26fdd0c2df1012c4383266539e"
+  },
+  "target_model": {
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "bytes": 4683074048
+  },
+  "environment": {
+    "os_build": "26200",
+    "cpu": "Intel(R) Core(TM) Ultra 7 258V",
+    "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "gpu_driver": "32.0.101.8860"
+  },
+  "frozen_campaign": {
+    "provider": "VULKAN_KHR_PERFORMANCE_QUERY",
+    "scope": "COMMAND",
+    "quiet_host_required": true,
+    "arms": [
+      "0",
+      "A",
+      "B",
+      "AB"
+    ],
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "process_order": [
+      [
+        "W-S",
+        "0"
+      ],
+      [
+        "W-S",
+        "A"
+      ],
+      [
+        "W-S",
+        "B"
+      ],
+      [
+        "W-S",
+        "AB"
+      ],
+      [
+        "W-C",
+        "0"
+      ],
+      [
+        "W-C",
+        "A"
+      ],
+      [
+        "W-C",
+        "B"
+      ],
+      [
+        "W-C",
+        "AB"
+      ]
+    ],
+    "warmups_per_process": 1,
+    "measured_inferences_per_process": 1,
+    "counter_probes_per_process": 1,
+    "total_counter_probes": 8,
+    "decode_index": 15,
+    "full_decode_graph_dispatches": 469,
+    "target_q4_down_dispatches": 14,
+    "target_layers": [
+      3,
+      4,
+      6,
+      7,
+      8,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      19,
+      21,
+      22
+    ],
+    "selected_counter_indices": [
+      56,
+      66,
+      64,
+      233
+    ],
+    "selected_counter_names": [
+      "GPU_MEMORY_BYTE_READ",
+      "XVE_INST_EXECUTED_ALU1_ALL_UTILIZATION",
+      "XVE_STALL",
+      "XVE_STALL_SBID"
+    ],
+    "pass_count": "RECOMPUTE_FROM_DRIVER_FOR_EXACT_FOUR_COUNTER_SET",
+    "pass_semantics": "COMBINED_AFTER_REQUIRED_PASSES",
+    "restore_state": [
+      "b_dec_id"
+    ],
+    "restore_bytes_per_pass": 4,
+    "query_end_barrier": "COMPUTE_TO_BOTTOM_OF_PIPE_BEFORE_END_QUERY",
+    "timing_use": "INSTRUMENTED_DIAGNOSTIC_ONLY",
+    "primary_timing_rerun_forbidden": true
+  },
+  "M3B_proven_infrastructure": {
+    "base_runtime_blob": "dfa14a82268a7ef5ace40715cdcf40afbd9ad30b",
+    "counter_shim_header_blob": "32a1b4ce7a9b9ac02f15fada63d8dc8abbd1cec6",
+    "counter_shim_cpp_blob": "a4a28bbfab496ac4d6fc05797a907d0418897db2",
+    "proven_collection_result": "PASS_M3B_COMMAND_SCOPE_COUNTER_COLLECTION_WITH_PARTIAL_COUNTER_SUPPORT",
+    "adaptation": "Full 469-dispatch graph replay retained; query pool/begin/end narrowed to exact 14 Q4-down target dispatches."
+  },
+  "critical_git_blobs": {
+    "src/arcllm_v1_q4_down_4arm_counter_runtime.cpp": "f53e2e78424b602b0b8fe5cb5140e6b0d1415951",
+    "src/arcllm_v1_q4_down_4arm_counter_collection.cpp": "bd9a82a8cb5305fa29f51c577af98e027e2f9d00",
+    "tools/adjudicate_arcllm_v1_q4_down_4arm_native_counters.py": "cec568049c33c5a9c0242d13f1b1b26ad02c19ab",
+    "tests/test_arcllm_v1_q4_down_4arm_native_counter.py": "487aa9c67cb63205175a1b1370976ee1fc736812",
+    "tools/build_arcllm_v1_q4_down_4arm_native_counter.ps1": "49dc12294ffc13e0d2b7e7320c2fa17a974d9c7e",
+    "tools/qualify_arcllm_v1_q4_down_4arm_native_counter_buildonly.ps1": "74e43c39053ce231bfcea02ff8bc970462225d28",
+    "run_arcllm_v1_q4_down_4arm_native_counter_buildonly.ps1": "e313b86cce8e4e9518529039f81b7e92bdc5a28f",
+    "run_arcllm_v1_q4_down_4arm_native_counter.ps1": "9cc411cd847fbbfcac15277506b2dcc97fc190bb",
+    "src/arcllm_v1_m3_counter_shim.h": "32a1b4ce7a9b9ac02f15fada63d8dc8abbd1cec6",
+    "src/arcllm_v1_m3_counter_shim.cpp": "a4a28bbfab496ac4d6fc05797a907d0418897db2",
+    "src/arcllm_v1_q4_down_4arm_primary_timing.cpp": "a198ee0c8e2ebaf1788f659fbf7c5b61b4ae1d6d",
+    "src/q4_down_exec148_materializer.h": "611efe8a087b2a5d00d887287034e2fb4f63a58f",
+    "shaders/sa1_q4k_subgroup_splitk.comp": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "shaders/q4_down_exec148_serial.comp": "56de6602e7aca31c84a3d7764b10c0c55eb2fef5",
+    "shaders/q4_down_exec148_splitk32.comp": "5a828eac2514f4404ab94278a63322e403617bee",
+    "tools/compile_arcllm_v1_q4_down_4arm.ps1": "075dc97d71c9309e4cf8bbf58be320d0c73ebd29",
+    "config/arcllm_v1_q4_down_4arm_native_counter_campaign_authorization_v0.1.json": "d142a78cf7722d26fdd0c2df1012c4383266539e",
+    "artifacts/ARCLLM_V1/ARCLLM_V1_Q4_DOWN_4ARM_PRIMARY_TIMING_CANONICAL_v0.1.json": "97ba2ede658e8a63a08c60f7fc3ead5fcf574fdd",
+    "artifacts/ARCLLM_V1/ARCLLM_V1_Q4_DOWN_4ARM_NATIVE_COUNTER_STATIC_AUDIT_v0.1.json": "2b523ea7072b919aecedc9e434704d44866dc746"
+  },
+  "independent_static_audit": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_Q4_DOWN_4ARM_NATIVE_COUNTER_STATIC_AUDIT_v0.1.json",
+    "blob": "2b523ea7072b919aecedc9e434704d44866dc746",
+    "status": "PASS_INDEPENDENT_STATIC_AUDIT_NATIVE_BUILD_PENDING"
+  },
+  "authorization": {
+    "buildonly_authorized": true,
+    "counter_execution_authorized": false,
+    "primary_timing": false,
+    "token_xray": false,
+    "child_c": false,
+    "new_mechanism": false,
+    "new_arm": false,
+    "posthoc_counter_selection": false
+  },
+  "stop_rule": "Do not execute any native counter probe under v0.1. Only a reviewed DEV_HOST zero-science native build-only PASS may create immutable v0.2 with counter_execution_authorized=true."
+}

@@ -1,0 +1,43 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.native_counter.static_audit.v0.1",
+  "date": "2026-09-25",
+  "status": "PASS_INDEPENDENT_STATIC_AUDIT_NATIVE_BUILD_PENDING",
+  "implementation_payload_commit": "3f7f9eca6ea5e9d9fd9f282f1769bcc8f8381119",
+  "checks": {
+    "exact_four_arm_add_decode_down_byte_equal_to_frozen_timing": true,
+    "exact_four_arm_build_decode_byte_equal_to_frozen_timing": true,
+    "exact_counter_indices_56_66_64_233": true,
+    "exact_probe_decode_index_15": true,
+    "exact_target_dispatch_count_14": true,
+    "full_decode_graph_dispatch_count_469": true,
+    "restore_only_b_dec_id_4_bytes_per_pass": true,
+    "targeted_query_pool_count_14": true,
+    "target_only_query_begin_end": true,
+    "driver_recomputed_pass_count": true,
+    "profiling_lock_before_multipass": true,
+    "dedicated_reset_before_pass0": true,
+    "no_reset_inside_pass_loop": true,
+    "counter_pass_index_submission": true,
+    "compute_to_bottom_of_pipe_before_target_query_end": true,
+    "M3B_proven_counter_shim_reused": true,
+    "primary_timing_profiler_absent": true,
+    "primary_timing_rerun_false": true,
+    "token_xray_adapter_absent": true,
+    "token_xray_false": true,
+    "child_c_false": true,
+    "exact_eight_arm_workload_probe_runner": true,
+    "quiet_host_confirmation_required": true,
+    "one_shot_science_start_marker_present": true,
+    "execution_runner_does_not_native_rebuild": true,
+    "parser_binds_frozen_timing_evidence": true,
+    "parser_has_synthetic_eight_probe_regression": true
+  },
+  "boundary": {
+    "native_windows_build_pass": false,
+    "model_loaded": false,
+    "gpu_dispatch_executed": false,
+    "counter_probe_executed": false,
+    "primary_timing_executed": false
+  },
+  "next": "DEV_HOST_ZERO_SCIENCE_NATIVE_BUILDONLY"
+}

@@ -1346,3 +1346,12 @@ The collector reuses the proven M3-B `VK_KHR_performance_query` multipass contra
 Each arm/workload is one independent process with one unmeasured warmup and one measured inference; the complete campaign is exactly 8 probes. Counter timing remains diagnostic only. Primary timing rerun, Token-XRay, Child-C, new mechanisms/arms, and post-hoc counter selection remain forbidden.
 
 Fresh counter execution is not authorized by this implementation commit. Next gate: independent static audit + DEV_HOST native build-only PASS, followed by an immutable execution lock.
+
+
+## Q4-down 4-arm native-counter package — independent static audit PASS / candidate lock — 2026-09-25
+
+Independent structural audit PASS on implementation payload `3f7f9eca6ea5e9d9fd9f282f1769bcc8f8381119`: exact four-arm routing/decode graph matches the frozen timing harness byte-for-byte; counter set is exactly 56/66/64/233; probe index is exactly decode 15; performance query begin/end is limited to the 14 frozen Q4-down nodes while the full 469-dispatch graph executes for state correctness. M3-B multipass/reset/profiling-lock semantics are retained.
+
+Candidate execution lock v0.1 is frozen with `counter_execution_authorized=false`. Native Windows build remains unqualified at this point. No model load, GPU dispatch, performance query, primary timing rerun, Token-XRay or Child-C execution has occurred.
+
+Next gate: DEV_HOST zero-science native build-only and return bundle for independent review. Only then may final lock v0.2 authorize the eight probes.
