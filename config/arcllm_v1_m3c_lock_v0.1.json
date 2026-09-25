@@ -114,11 +114,12 @@
     "tools/parse_arcllm_v1_m3c.py": "8b9a0183483bdc7c5fd09e960e32bed4cb370bcd",
     "tools/adjudicate_arcllm_v1_m3c.py": "3ad45069ae5609f563a2a656a0891ea1c9bd9eba",
     "tests/test_arcllm_v1_m3c_package.py": "a07a040e6e63854e7378b9305b4b3272f08958bd",
-    "run_arcllm_v1_m3c.ps1": "ea878fdfa0b645f31c0722bcd23e7de21ed239b1",
+    "run_arcllm_v1_m3c.ps1": "1c522e13dcd56984bded42047a1671904d7484ed",
     "docs/research/arcllm-v1/ARCLLM_V1_M3C_TARGETED_MECHANISM_DISCRIMINATION.md": "00098e4c0ef35c2a0f0faa8c18b32cdca1fab297",
     "src/gguf.cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
     "src/tensor_store.cpp": "0eb52588d30620bfeb323e62c8546e7191a006d6",
-    "tools/compile_arcllm_v1_i003.ps1": "f4e14baab9fc93c4e19ecda399d28016f7f29354"
+    "tools/compile_arcllm_v1_i003.ps1": "f4e14baab9fc93c4e19ecda399d28016f7f29354",
+    "tools/finalize_arcllm_v1_m3c.ps1": "6c25c9cd3a7b6feff897b68c67fa6d663006d810"
   },
   "prelock_head": "eee2fd9cdc8e5c1878f32198928557c89498c7e6",
   "stop_rule": "Run exactly one six-process collection. Do not tune counters or thresholds after data. If no descriptive mechanism pattern is supported, stop unresolved. If one or more are supported, preregister exactly one minimal causal intervention before further execution.",
@@ -132,5 +133,14 @@
     "parser_changed": false,
     "counter_selection_changed": false,
     "fix": "Assert escape-insensitive field tokens: queried_dispatches, queried_dispatch_executions, query_slot."
+  },
+  "post_collection_packaging_repair": {
+    "classification": "POST_COLLECTION_PACKAGING_ONLY",
+    "reason": "All six counter runs, parser, and frozen mechanism adjudicator completed PASS. Packaging failed because runner referenced token_xray_contract.commit instead of contract_commit.",
+    "counter_collection_rerun": false,
+    "scientific_payload_changed": false,
+    "raw_results_reused": true,
+    "collection_head_required": "9ace722cea2e51001d47834ce09a65aa7c1ca7a1",
+    "finalize_script": "tools/finalize_arcllm_v1_m3c.ps1"
   }
 }
