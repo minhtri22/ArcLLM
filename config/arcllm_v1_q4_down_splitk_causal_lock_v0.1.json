@@ -84,12 +84,12 @@
   },
   "candidate_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
   "authorization": {
-    "implementation": true,
-    "buildonly": true,
-    "correctness": true,
+    "implementation": false,
+    "buildonly": false,
+    "correctness": false,
     "performance": false,
     "hardware_counters": false,
-    "reason": "Independent build-only adjudication PASS authorizes exact-model correctness mode only. Performance/timestamp campaign and hardware counters remain forbidden until independent correctness adjudication PASS."
+    "reason": "Branch formally closed as duplicate scope before real-model correctness. Preserve evidence only; no further execution is authorized."
   },
   "critical_git_blobs": {
     "artifacts/ARCLLM_V1/Q4_DOWN_SPLITK_CAUSAL_PRELOCK_v0.1.json": "be5df9f9c4dd4f06a1dee32cb8c39afc05c38fc2",
@@ -107,7 +107,7 @@
     "run_arcllm_v1_q4_down_splitk_causal_buildonly.ps1": "af830a9c30686e68a5711eb5a741a368e342d97c",
     "run_arcllm_v1_q4_down_splitk_causal_correctness.ps1": "3927494ac7da6353df3e78f9556e716a70f64906"
   },
-  "stop_rule": "Run exact-model correctness mode only. Do not run measure mode until correctness is independently adjudicated PASS and lock.authorization.performance is explicitly enabled.",
+  "stop_rule": "HARD STOP. Do not run build-only, correctness, measure mode, hardware counters, or merge this descendant into canonical ArcLLM. Preserve as frozen archive unless a new explicit governance decision reopens it.",
   "windows_eol_blob_policy": "Critical files are verified with git rev-parse HEAD:path, not worktree-byte hash-object, so CRLF checkout normalization cannot create a false mismatch.",
   "pre_build_static_qa_repair": {
     "classification": "PRE_BUILD_STATIC_QA_ONLY",
@@ -132,5 +132,11 @@
       "authorization_changed": false,
       "reason": "Correct the recorded Git blob SHA of the already-committed independent build-only adjudication artifact."
     }
+  },
+  "status": "CLOSED_FROZEN_ARCHIVE_DO_NOT_CONTINUE",
+  "closure": {
+    "path": "artifacts/ARCLLM_V1/Q4_DOWN_SPLITK_CAUSAL_CLOSURE_v0.1.json",
+    "blob": "9ba44c7dfec12d7a30dbf4af5a48570da5530d3c",
+    "terminal": "CLOSED_DUPLICATE_SCOPE_BEFORE_REAL_MODEL_CORRECTNESS"
   }
 }
