@@ -1,0 +1,84 @@
+{
+  "schema": "arcllm.v1.q4_down.child_a.splitk32.design.v0.1",
+  "date": "2026-09-25",
+  "status": "FROZEN_SOURCE_LEVEL_DESIGN_NO_PERFORMANCE_EXECUTION",
+  "parent_study": "Q4_DOWN_ARCHITECTURE_CAUSAL_DECOMPOSITION",
+  "factor": "WORK_DECOMPOSITION",
+  "arm": "A",
+  "target": {
+    "quant": "Q4_K",
+    "layers": [
+      3,
+      4,
+      6,
+      7,
+      8,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      19,
+      21,
+      22
+    ],
+    "shape": {
+      "k": 18944,
+      "rows": 3584,
+      "batch": 1
+    },
+    "source_row_bytes": 10656,
+    "logical_weight_bytes_family": 534675456
+  },
+  "minimal_transfer": {
+    "source_shader": "shaders/sa1_q4k_subgroup_splitk.comp",
+    "source_blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "frozen_spirv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+    "rule": "Reuse the exact proven SA1 shader/binary unchanged. Child A changes only which 14 decode ffn_down Q4_K nodes bind that shader and their dispatch geometry.",
+    "no_new_shader_source": true
+  },
+  "execution_geometry": {
+    "local_size_x": 128,
+    "required_subgroup_width": 32,
+    "subgroups_per_workgroup": 4,
+    "rows_per_workgroup": 4,
+    "dispatch_x": 896,
+    "row_mapping": "row = gl_WorkGroupID.x * 4 + gl_SubgroupID",
+    "lane_mapping": "k = lane; k < 18944; k += 32",
+    "k_contributions_per_lane": 592,
+    "q4_blocks_per_row": 74,
+    "q_values_per_lane_per_block": 8,
+    "reduction": "subgroupAdd(partial); lane0 writes row result",
+    "shared_local_memory_bytes": 0
+  },
+  "decode_binding": {
+    "push_constants": {
+      "n": 18944,
+      "rows": 3584,
+      "batch": 1,
+      "row_bytes": 10656,
+      "add_bias": 0,
+      "bias_base": 0
+    },
+    "weight_binding": "Original storage-native Q4_K arena/binding for that layer.",
+    "input_binding": "Existing SwiGLU output b_s.",
+    "output_binding": "Existing b_d.",
+    "prefill": "UNCHANGED baseline path.",
+    "q6_down": "UNCHANGED."
+  },
+  "isolation": [
+    "No representation/materialization change.",
+    "No logical Split-K64/128.",
+    "No tiling search.",
+    "No fusion.",
+    "No changes outside the 14 Q4_K decode ffn_down nodes."
+  ],
+  "zero_science_requirements": [
+    "Static prove all 14 target layers are exactly Q4_K and all other down layers remain unchanged.",
+    "Static prove exact SA1 source blob and SPIR-V SHA256.",
+    "Synthetic exact-shape component correctness against CPU Q4_K oracle before any timing.",
+    "Real-model component correctness max_abs <= 0.02 and RMSE <= 0.005 before performance authorization."
+  ],
+  "performance_authorized": false
+}

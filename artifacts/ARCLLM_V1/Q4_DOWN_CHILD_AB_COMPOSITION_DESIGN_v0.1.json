@@ -1,0 +1,51 @@
+{
+  "schema": "arcllm.v1.q4_down.child_ab.mechanical_composition.design.v0.1",
+  "date": "2026-09-25",
+  "status": "DERIVED_FROZEN_COMPOSITION_NO_AB_ONLY_MECHANISM",
+  "parent_study": "Q4_DOWN_ARCHITECTURE_CAUSAL_DECOMPOSITION",
+  "arm": "AB",
+  "inputs": {
+    "child_a_blob": "a91711720bf641370359bf84df7f76cb4c255d92",
+    "child_b_blob": "305bda16bff4ad643ea6bab86be903b5d7eb1b89"
+  },
+  "rule": "AB is generated mechanically: exact Child A row/subgroup/lane decomposition and reduction + exact Child B EXEC148 reader/image. No other source change is allowed.",
+  "geometry": {
+    "local_size_x": 128,
+    "required_subgroup_width": 32,
+    "subgroups_per_workgroup": 4,
+    "rows_per_workgroup": 4,
+    "dispatch_x": 896,
+    "row_mapping": "row = gl_WorkGroupID.x * 4 + gl_SubgroupID",
+    "lane_mapping": "k = lane; k < 18944; k += 32",
+    "k_contributions_per_lane": 592,
+    "q4_blocks_per_row": 74,
+    "q_values_per_lane_per_block": 8,
+    "reduction": "subgroupAdd(partial); lane0 writes row result",
+    "shared_local_memory_bytes": 0
+  },
+  "representation": {
+    "id": "Q4K_SERIAL_K_EXEC148_V0_1",
+    "block_bytes": 148,
+    "row_bytes": 10952,
+    "family_image_bytes": 549527552
+  },
+  "source_derivation": [
+    "Start from exact SA1 Split-K32 source logic.",
+    "Keep local_size_x=128, four subgroup32 rows/workgroup, lane-stride32 and subgroupAdd unchanged.",
+    "Replace only storage-native Q4_K block reader with the frozen EXEC148 block reader.",
+    "Bind the exact same materialized buffer/image produced for arm B."
+  ],
+  "push_constants": {
+    "n": 18944,
+    "rows": 3584,
+    "batch": 1,
+    "row_bytes": 10952,
+    "add_bias": 0,
+    "bias_base": 0
+  },
+  "dispatch_x": 896,
+  "prohibited": [
+    "No AB-specific tiling, prefetch, SLM staging, unrolling, vectorization, fusion or materialization variant."
+  ],
+  "performance_authorized": false
+}

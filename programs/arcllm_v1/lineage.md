@@ -1200,3 +1200,29 @@ arms and crossover token horizons rather than assuming an arbitrary usage horizo
 
 No implementation or fresh performance execution is authorized by this parent freeze.
 
+## Q4-down Child A/B source + data-layout design freeze — 2026-09-25
+
+Child A is the minimum possible transfer: reuse the exact proven SA1 Q4_K subgroup32 source/blob and
+SPIR-V unchanged for the 14 Q4_K decode ffn_down nodes. At K=18944, rows=3584 this gives 896
+workgroups, four subgroup32-owned rows/workgroup, and 592 K contributions/lane. No width search,
+layout change, fusion or prefill change is allowed.
+
+Child B freezes execution image `Q4K_SERIAL_K_EXEC148_V0_1`. Each source 144-byte Q4_K block becomes
+148 bytes: raw d/dmin bits, eight direct uint8 scale/min pairs, then 128 bytes packing q values in
+strict increasing-K pairs. Serial-K row ownership and k=0..18943 accumulation order remain unchanged.
+
+The 14-layer B image is 549,527,552 bytes. Its format expansion over the source family is only
+14,852,096 bytes, but the factorial harness must retain original residency for arms 0/A and prefill,
+so architecture cost records the full 549,527,552 incremental resident bytes.
+
+B materializes once on CPU directly into the final mapped UMA Vulkan buffer; no per-token CPU model
+math and no full FP16/F32 dequantization. Independent canonical logical-tuple reconstruction
+(d/dmin bits, 8 scale/min pairs, 256 q values) must match byte-exact for every block before model
+correctness.
+
+AB is mechanically derived: exact A subgroup/lane/reduction geometry + exact B EXEC148 image/reader,
+with no AB-only optimization.
+
+Bounded implementation and correctness-only qualification are now authorized. Fresh performance
+timing and hardware counters remain unauthorized.
+

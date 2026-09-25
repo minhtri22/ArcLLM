@@ -1,0 +1,151 @@
+{
+  "schema": "arcllm.v1.q4_down.child_b.materialized_q4.design.v0.1",
+  "date": "2026-09-25",
+  "status": "FROZEN_SOURCE_DATA_LAYOUT_DESIGN_NO_PERFORMANCE_EXECUTION",
+  "parent_study": "Q4_DOWN_ARCHITECTURE_CAUSAL_DECOMPOSITION",
+  "factor": "EXECUTION_MATERIALIZATION",
+  "arm": "B",
+  "target": {
+    "quant": "Q4_K",
+    "layers": [
+      3,
+      4,
+      6,
+      7,
+      8,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      19,
+      21,
+      22
+    ],
+    "shape": {
+      "k": 18944,
+      "rows": 3584,
+      "batch": 1
+    },
+    "source_block_bytes": 144,
+    "source_row_bytes": 10656,
+    "source_layer_bytes": 38191104,
+    "source_family_bytes": 534675456
+  },
+  "execution_image": {
+    "id": "Q4K_SERIAL_K_EXEC148_V0_1",
+    "storage": "One contiguous HOST_VISIBLE|HOST_COHERENT|DEVICE_LOCAL Vulkan storage buffer on the existing UMA memory type.",
+    "block_bytes": 148,
+    "row_bytes": 10952,
+    "layer_bytes": 39251968,
+    "family_image_bytes": 549527552,
+    "format_expansion_bytes": 14852096,
+    "format_expansion_ratio": 1.0277777777777777,
+    "four_arm_harness_incremental_resident_bytes": 549527552,
+    "four_arm_harness_total_resident_bytes": 5897297924,
+    "frozen_residency_budget_bytes": 16374562816,
+    "frozen_budget_margin_bytes": 10477264892,
+    "layer_order": [
+      3,
+      4,
+      6,
+      7,
+      8,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      19,
+      21,
+      22
+    ],
+    "layer_base_rule": "slot_index * 39,251,968 bytes"
+  },
+  "block148_layout": [
+    {
+      "offset": 0,
+      "size": 2,
+      "name": "d_bits_fp16",
+      "semantics": "Exact raw source Q4_K bytes 0..1; no float conversion during materialization."
+    },
+    {
+      "offset": 2,
+      "size": 2,
+      "name": "dmin_bits_fp16",
+      "semantics": "Exact raw source Q4_K bytes 2..3."
+    },
+    {
+      "offset": 4,
+      "size": 16,
+      "name": "scale_min_direct",
+      "semantics": "For j=0..7: byte[4+2*j]=sc[j], byte[5+2*j]=mn[j], exact 6-bit logical integers expanded to uint8."
+    },
+    {
+      "offset": 20,
+      "size": 128,
+      "name": "q_korder_pairs",
+      "semantics": "For p=0..127: low nibble=q[2p], high nibble=q[2p+1]. q[k] is the exact logical 4-bit value decoded from source Q4_K layout."
+    }
+  ],
+  "materializer": {
+    "execution_time": "Exactly once before all arm warmups/measured blocks.",
+    "destination": "Write directly into final mapped Vulkan execution-image buffer; no full-image temporary copy.",
+    "cpu_parallelism": "Implementation may use the existing CPU threads for one-time materialization, but thread count is not a study factor and must be frozen before timing. Materialization time includes the chosen frozen implementation.",
+    "per_token_cpu_math": false,
+    "gpu_materialization": false,
+    "floating_point_math": false,
+    "algorithm": [
+      "For each target layer in frozen ascending layer order, each row 0..3583, each source block 0..73:",
+      "Copy source d/dmin raw bits.",
+      "Decode source scale/min bitfields with the exact existing scale_min semantics and store direct uint8 pairs.",
+      "Decode each source q[k] as exact nibble integer and repack consecutive k pairs into q_korder_pairs."
+    ]
+  },
+  "logical_semantics_guard": {
+    "canonical_block_tuple": "d_bits16 || dmin_bits16 || for j=0..7(sc8,mn8) || for k=0..255(q8)",
+    "canonical_block_tuple_bytes": 276,
+    "validator": "Independently decode source block and EXEC148 block into the canonical tuple stream and require byte-exact equality for every block of all 14 tensors.",
+    "tensor_hash": "SHA256 over concatenated canonical block tuples per tensor.",
+    "family_hash": "SHA256 over the 14 tensor canonical streams in frozen layer order.",
+    "float_oracle": "After tuple equality, component output must still satisfy max_abs <= 0.02 and RMSE <= 0.005."
+  },
+  "serial_kernel_contract": {
+    "local_size_x": 64,
+    "dispatch_x": 56,
+    "work_decomposition": "Exactly baseline Serial-K: one invocation owns one output row.",
+    "accumulation_order": "For ib=0..73, kin=0..255, accumulate in increasing k order exactly as baseline.",
+    "block_reader": [
+      "d=fp16(offset+0); dmin=fp16(offset+2)",
+      "j=kin>>5; sc=u8(offset+4+2*j); mn=u8(offset+5+2*j)",
+      "qbyte=u8(offset+20+(kin>>1)); q=(kin&1)?qbyte>>4:qbyte&15",
+      "wv=d*float(sc)*float(q)-dmin*float(mn); sum += wv * X[ib*256+kin]"
+    ],
+    "push_constants": {
+      "n": 18944,
+      "rows": 3584,
+      "batch": 1,
+      "row_bytes": 10952,
+      "add_bias": 0,
+      "bias_base": 0
+    },
+    "weight_binding": "Q4K_SERIAL_K_EXEC148_V0_1 buffer; w_base_bytes = layer slot base.",
+    "prefill": "UNCHANGED baseline path using original model weights."
+  },
+  "architecture_cost_semantics": {
+    "extra_ram_bytes": "549,527,552 in the 4-arm harness because original model residency must remain for 0/A and unchanged prefill.",
+    "format_only_expansion_bytes": "14,852,096 versus the source 14-tensor Q4_K payload; report separately and never substitute it for incremental resident RAM.",
+    "materialization_time": "CPU wall time from start of direct writes into final mapped buffer until all 14 images are complete and logically validated; validation time must be reported separately, not hidden inside materialization."
+  },
+  "prohibited": [
+    "No FP16/F32 full dequantized weight image.",
+    "No change to Serial-K ownership or accumulation order.",
+    "No per-token CPU producer/feed.",
+    "No GPU predecode/materialization.",
+    "No layout search after measured performance is visible.",
+    "No changes outside the 14 Q4_K decode ffn_down nodes."
+  ],
+  "performance_authorized": false
+}

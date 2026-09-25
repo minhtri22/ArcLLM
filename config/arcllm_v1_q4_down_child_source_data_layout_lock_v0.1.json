@@ -1,0 +1,52 @@
+{
+  "schema": "arcllm.v1.q4_down.child_source_data_layout.lock.v0.1",
+  "date": "2026-09-25",
+  "branch": "research/arcllm-v1",
+  "parent_head": "2b876e659ef73c61c8327c32eae028ec4ef7b7e3",
+  "parent_study": {
+    "path": "artifacts/ARCLLM_V1/Q4_DOWN_ARCHITECTURE_CAUSAL_DECOMPOSITION_PRELOCK_v0.1.json",
+    "blob": "97a92e2ae6f49056a599f0c71206fe112f2b34a6"
+  },
+  "child_a": {
+    "path": "artifacts/ARCLLM_V1/Q4_DOWN_CHILD_A_SPLITK32_DESIGN_v0.1.json",
+    "blob": "a91711720bf641370359bf84df7f76cb4c255d92"
+  },
+  "child_b": {
+    "path": "artifacts/ARCLLM_V1/Q4_DOWN_CHILD_B_EXEC148_DESIGN_v0.1.json",
+    "blob": "305bda16bff4ad643ea6bab86be903b5d7eb1b89"
+  },
+  "child_ab": {
+    "path": "artifacts/ARCLLM_V1/Q4_DOWN_CHILD_AB_COMPOSITION_DESIGN_v0.1.json",
+    "blob": "4d1179b54a3d880f18de61a801a9a55a6ee0abdc"
+  },
+  "invariants": {
+    "target_layers": [
+      3,
+      4,
+      6,
+      7,
+      8,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      19,
+      21,
+      22
+    ],
+    "A_reuses_exact_sa1_binary": true,
+    "B_serial_k_unchanged": true,
+    "B_logical_q4_exact": true,
+    "B_incremental_resident_bytes": 549527552,
+    "AB_exact_mechanical_composition": true
+  },
+  "authorization": {
+    "bounded_implementation": true,
+    "allowed": "Create source/materializer/validator/4-arm harness and compile artifacts; run static, synthetic, and correctness-only qualification.",
+    "fresh_performance_execution": false,
+    "hardware_counter_execution": false
+  },
+  "next": "BOUNDED_IMPLEMENTATION_PLUS_ZERO_SCIENCE_AND_CORRECTNESS_QUALIFICATION_ONLY"
+}
