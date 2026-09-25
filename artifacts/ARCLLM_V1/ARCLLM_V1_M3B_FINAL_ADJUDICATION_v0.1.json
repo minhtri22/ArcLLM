@@ -1,0 +1,77 @@
+{
+  "schema": "arcllm.v1.m3b.final_adjudication.v0.1",
+  "date": "2026-09-25",
+  "result": "PASS_M3B_COMMAND_SCOPE_COUNTER_COLLECTION_WITH_PARTIAL_COUNTER_SUPPORT",
+  "bundle_sha256": "C425DC6C32794B8214BA9DC3088DFC3279AF8AF32E6241089E5E94E780CCAF42",
+  "bundle_integrity": "MATCH_USER_RETURN_SHA256",
+  "provenance": {
+    "collection_head": "818c522c8c31d845c0ae6c358a769ebe0da5fc7b",
+    "packaging_head": "03173d2262f80398efa6297477cd61d486d09693",
+    "collector_reexecuted_during_recovery": false,
+    "counter_collection_reexecuted_during_recovery": false
+  },
+  "evidence": {
+    "raw_runs": 6,
+    "dispatch_observations": 2814,
+    "unique_semantic_nodes_per_run": 451,
+    "pass_counts": {
+      "memory_cache": 3,
+      "execution_occupancy": 3,
+      "stall_cause": 2
+    },
+    "generated_hashes": {
+      "W_S": "f31d4bb9fe5eb9c3",
+      "W_C": "471519ddc45b232e"
+    },
+    "restored_bytes_per_pass": 4,
+    "parser_status": "PASS",
+    "quiet_host": true
+  },
+  "counter_support": {
+    "memory_cache": {
+      "selected": 22,
+      "nonzero_at_least_once": 8,
+      "all_zero": 14,
+      "informative": [
+        "TLB_MISS",
+        "GPU_MEMORY_REQUEST_QUEUE_FULL",
+        "LOAD_STORE_CACHE_HIT",
+        "LOAD_STORE_CACHE_ACCESS",
+        "GPU_MEMORY_BYTE_READ",
+        "GPU_MEMORY_BYTE_WRITE",
+        "LOAD_STORE_CACHE_BYTE_READ",
+        "LOAD_STORE_CACHE_BYTE_WRITE"
+      ]
+    },
+    "execution_occupancy": {
+      "selected": 28,
+      "nonzero_at_least_once": 4,
+      "unique_informative_signals": 2,
+      "all_zero": 24,
+      "informative": [
+        "XVE_INST_EXECUTED_ALU0_ALL_UTILIZATION",
+        "XVE_INST_EXECUTED_ALU1_ALL_UTILIZATION"
+      ],
+      "note": "CS utilization aliases equal ALL utilization for every dispatch; direct occupancy counter is all-zero."
+    },
+    "stall_cause": {
+      "selected": 16,
+      "nonzero_at_least_once": 10,
+      "all_zero": 6,
+      "informative": [
+        "XVE_SHARED_FUNCTION_ACCESS_HOLD",
+        "XVE_STALL",
+        "XVE_STALL_ALUWR",
+        "XVE_STALL_BARRIER",
+        "XVE_STALL_CONTROL",
+        "XVE_STALL_INSTFETCH",
+        "XVE_STALL_OTHER",
+        "XVE_STALL_PIPESTALL",
+        "XVE_STALL_SBID",
+        "XVE_STALL_SENDWR"
+      ]
+    }
+  },
+  "decision": "CLOSE_M3B_PATCH_HARDWARE_MODEL_OPEN_Q4_DOWN_CAUSAL_SENTINEL_SPEC",
+  "hardware_mechanism_map_blob": "1dd8cb6ef4c66e92b6f38fab7908dd709d20af83"
+}

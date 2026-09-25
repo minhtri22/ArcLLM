@@ -1135,3 +1135,35 @@ M3-B is rebound to Token-XRay main
 `4a60e510b3974aa9273b620285711c035cce665b`; combined Vulkan observations record all executed
 counter pass indices.
 
+## M3-B quiet-host hardware counters — PASS / mechanism localized — 2026-09-25
+
+Returned bundle SHA256:
+`C425DC6C32794B8214BA9DC3088DFC3279AF8AF32E6241089E5E94E780CCAF42`
+
+Final adjudication:
+`PASS_M3B_COMMAND_SCOPE_COUNTER_COLLECTION_WITH_PARTIAL_COUNTER_SUPPORT`
+
+Collection provenance:
+- collection HEAD `818c522c8c31d845c0ae6c358a769ebe0da5fc7b`;
+- packaging/recovery HEAD `03173d2262f80398efa6297477cd61d486d09693`;
+- 6/6 raw runs valid;
+- 2,814 COMMAND-scope dispatch observations;
+- memory/cache and execution groups require 3 passes; stall-cause requires 2;
+- recovery reran no collector/counter science.
+
+Hardware mechanism:
+- I002 gate/up split-K: ~1.02x device-read/weight, ~98.3% LSC hit, ~87% ALU1 utilization, ~6% XVE stall.
+- Q/O row-serial-K: ~1.08-1.15x device-read/weight and ~99% LSC hit, but ~16% ALU1 and ~71% XVE stall, SBID ~61%.
+- Q4 FFN-down: ~3.34-4.40x device-read/weight, ~11% ALU1, ~61-66% XVE stall, SBID ~55-59%.
+- Q6 FFN-down: ~1.27-1.36x device-read/weight, ~13% ALU1, ~70-74% XVE stall.
+- LM-head: ~2.4-3.7% ALU1, ~82-91% stall/SBID, ~16-33% LSC hit; W-C physical reads are ~19x W-S and are pinned as a separate context-conditioned observation.
+
+Provider limitation:
+direct occupancy, GpuTime, and several L3/activity counters are all-zero at COMMAND scope and are
+not interpreted. M1/I003 remain timing authority.
+
+H1 residual serial-K penalty is now mechanistically supported but not causally proven. The next
+scientific artifact is the Q4 FFN-down split-K sentinel specification, with frozen predictions that
+traffic amplification falls, ALU utilization rises, SBID/XVE stall falls, component latency improves,
+and semantic correctness remains exact.
+

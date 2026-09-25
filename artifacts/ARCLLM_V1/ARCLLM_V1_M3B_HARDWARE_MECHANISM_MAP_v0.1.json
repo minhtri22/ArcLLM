@@ -1,0 +1,213 @@
+{
+  "schema": "arcllm.v1.m3b.hardware_mechanism_map.v0.1",
+  "date": "2026-09-25",
+  "result": "PASS_M3B_HARDWARE_MECHANISM_LOCALIZATION_WITH_PARTIAL_COUNTER_SUPPORT",
+  "bundle_sha256": "C425DC6C32794B8214BA9DC3088DFC3279AF8AF32E6241089E5E94E780CCAF42",
+  "collection_head": "818c522c8c31d845c0ae6c358a769ebe0da5fc7b",
+  "packaging_head": "03173d2262f80398efa6297477cd61d486d09693",
+  "collection": {
+    "raw_runs": 6,
+    "dispatch_observations": 2814,
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "groups": [
+      "memory_cache",
+      "execution_occupancy",
+      "stall_cause"
+    ],
+    "decode_index": 15,
+    "quiet_host": true,
+    "scope": "COMMAND",
+    "passes": {
+      "memory_cache": 3,
+      "execution_occupancy": 3,
+      "stall_cause": 2
+    }
+  },
+  "counter_support": {
+    "memory_cache": {
+      "selected": 22,
+      "nonzero_at_least_once": 8,
+      "all_zero": 14,
+      "informative": [
+        "TLB_MISS",
+        "GPU_MEMORY_REQUEST_QUEUE_FULL",
+        "LOAD_STORE_CACHE_HIT",
+        "LOAD_STORE_CACHE_ACCESS",
+        "GPU_MEMORY_BYTE_READ",
+        "GPU_MEMORY_BYTE_WRITE",
+        "LOAD_STORE_CACHE_BYTE_READ",
+        "LOAD_STORE_CACHE_BYTE_WRITE"
+      ]
+    },
+    "execution_occupancy": {
+      "selected": 28,
+      "nonzero_at_least_once": 4,
+      "unique_informative_signals": 2,
+      "all_zero": 24,
+      "informative": [
+        "XVE_INST_EXECUTED_ALU0_ALL_UTILIZATION",
+        "XVE_INST_EXECUTED_ALU1_ALL_UTILIZATION"
+      ],
+      "note": "CS utilization aliases equal ALL utilization for every dispatch; direct occupancy counter is all-zero."
+    },
+    "stall_cause": {
+      "selected": 16,
+      "nonzero_at_least_once": 10,
+      "all_zero": 6,
+      "informative": [
+        "XVE_SHARED_FUNCTION_ACCESS_HOLD",
+        "XVE_STALL",
+        "XVE_STALL_ALUWR",
+        "XVE_STALL_BARRIER",
+        "XVE_STALL_CONTROL",
+        "XVE_STALL_INSTFETCH",
+        "XVE_STALL_OTHER",
+        "XVE_STALL_PIPESTALL",
+        "XVE_STALL_SBID",
+        "XVE_STALL_SENDWR"
+      ]
+    }
+  },
+  "family_metrics": {
+    "ffn_gate_up": {
+      "logical_weight_bytes": 2138701824,
+      "W_S": {
+        "device_read_bytes": 2197520896,
+        "device_read_over_weight": 1.0275022311852668,
+        "lsc_hit_rate": 0.9830102862648218,
+        "alu1_util_pct": 87.1278953552246,
+        "xve_stall_pct": 6.221203088760375,
+        "sbid_stall_pct": 5.675271034240725
+      },
+      "W_C": {
+        "device_read_bytes": 2185347072,
+        "device_read_over_weight": 1.021810075381504,
+        "lsc_hit_rate": 0.9832562436900835,
+        "alu1_util_pct": 87.2319450378418,
+        "xve_stall_pct": 5.975910902023315,
+        "sbid_stall_pct": 4.705257177352905
+      }
+    },
+    "ffn_down_q4": {
+      "logical_weight_bytes": 534675456,
+      "W_S": {
+        "device_read_bytes": 1784723456,
+        "device_read_over_weight": 3.3379565790280075,
+        "lsc_hit_rate": 0.9756772909214989,
+        "alu1_util_pct": 11.087218761444099,
+        "xve_stall_pct": 65.7193145751953,
+        "sbid_stall_pct": 59.496625900268555
+      },
+      "W_C": {
+        "device_read_bytes": 2350691328,
+        "device_read_over_weight": 4.396482579518294,
+        "lsc_hit_rate": 0.9642456657970804,
+        "alu1_util_pct": 11.1102538108826,
+        "xve_stall_pct": 61.421113967895494,
+        "sbid_stall_pct": 55.2468128204346
+      }
+    },
+    "ffn_down_q6": {
+      "logical_weight_bytes": 779735040,
+      "W_S": {
+        "device_read_bytes": 986924544,
+        "device_read_over_weight": 1.265717831534158,
+        "lsc_hit_rate": 0.9629648614097146,
+        "alu1_util_pct": 12.97763395309445,
+        "xve_stall_pct": 73.82615280151364,
+        "sbid_stall_pct": 60.8676166534424
+      },
+      "W_C": {
+        "device_read_bytes": 1063497728,
+        "device_read_over_weight": 1.3639219394321436,
+        "lsc_hit_rate": 0.9668619415680397,
+        "alu1_util_pct": 13.69725465774535,
+        "xve_stall_pct": 70.1531410217285,
+        "sbid_stall_pct": 56.06771087646485
+      }
+    },
+    "lm_head": {
+      "logical_weight_bytes": 447068160,
+      "W_S": {
+        "device_read_bytes": 879165952,
+        "device_read_over_weight": 1.9665143498476831,
+        "lsc_hit_rate": 0.33061216368228874,
+        "alu1_util_pct": 3.65451860427856,
+        "xve_stall_pct": 91.0311508178711,
+        "sbid_stall_pct": 91.0831985473633,
+        "tlb_miss": 38539795
+      },
+      "W_C": {
+        "device_read_bytes": 16835438592,
+        "device_read_over_weight": 37.65743145743146,
+        "lsc_hit_rate": 0.15622770617405415,
+        "alu1_util_pct": 2.44601702690125,
+        "xve_stall_pct": 82.2543106079102,
+        "sbid_stall_pct": 82.3303604125977,
+        "tlb_miss": 355201059
+      }
+    },
+    "q_proj": {
+      "logical_weight_bytes": 202309632,
+      "W_S": {
+        "device_read_over_weight": 1.143864390994493,
+        "lsc_hit_rate": 0.9867084864105363,
+        "alu1_util_pct": 16.20393180847165,
+        "xve_stall_pct": 71.1495590209961,
+        "sbid_stall_pct": 61.4622402191162
+      },
+      "W_C": {
+        "device_read_over_weight": 1.0844949586977648,
+        "lsc_hit_rate": 0.9974302100999106,
+        "alu1_util_pct": 16.606129646301298,
+        "xve_stall_pct": 71.5312728881836,
+        "sbid_stall_pct": 61.4645462036133
+      }
+    },
+    "o_proj": {
+      "logical_weight_bytes": 202309632,
+      "W_S": {
+        "device_read_over_weight": 1.1521045918367347,
+        "lsc_hit_rate": 0.9869392499620925,
+        "alu1_util_pct": 16.28674793243405,
+        "xve_stall_pct": 71.02935791015625,
+        "sbid_stall_pct": 61.25858879089355
+      },
+      "W_C": {
+        "device_read_over_weight": 1.0828195861678005,
+        "lsc_hit_rate": 0.9973889920195215,
+        "alu1_util_pct": 16.3583402633667,
+        "xve_stall_pct": 71.70260620117185,
+        "sbid_stall_pct": 61.78485107421875
+      }
+    }
+  },
+  "interpretation": [
+    "I002 gate/up split-K is the healthy hardware control: device-memory reads are ~1.02x logical weight payload, LSC hit ~98.3%, ALU1 utilization ~87%, and XVE stall ~6%.",
+    "Q/O row-serial-K are not primarily DRAM-bandwidth limited: device-memory reads remain ~1.08-1.15x weight and LSC hit ~98.7-99.7%, yet ALU1 utilization is only ~16% and XVE stall ~71%, dominated by SBID ~61%.",
+    "FFN-down row-serial-K combines dependency stalls with traffic amplification. Q4-down reads ~3.34x/4.40x its weight payload and has ~61-66% XVE stall with ~55-59% SBID; Q6-down reads ~1.27x/1.36x weight with ~70-74% stall and ~56-61% SBID.",
+    "LM-head is the strongest dependency/cache-pressure outlier: ALU1 utilization ~2.4-3.7%, XVE stall ~82-91%, SBID ~82-91%, and LSC hit only ~16-33%. W-C device-memory reads are ~19.15x W-S and TLB misses ~9.22x W-S; this context-conditioned amplification is descriptive from one counter probe/workload and should not be generalized without replication.",
+    "Direct occupancy remains unresolved because XVE_THREADS_OCCUPANCY_ALL returned zero for every observed dispatch; no occupancy conclusion is authorized.",
+    "Instrumented GpuTime and many L3/activity counters were all-zero and are non-informative in this COMMAND-scope provider path; M1/I003 remain the timing authority."
+  ],
+  "hypothesis_update": {
+    "prior": "H1_RESIDUAL_SERIAL_K_MAPPING_PENALTY",
+    "after_m3b": "SUPPORTED_MECHANISTICALLY_NOT_YET_CAUSALLY_PROVEN",
+    "mechanism": "ROW_SERIAL_K -> LOW_ALU_PIPE_UTILIZATION + HIGH_SCOREBOARD_DEPENDENCY_STALL; Q4_DOWN additionally shows device-memory traffic amplification.",
+    "causal_test_required": true
+  },
+  "next_science": {
+    "experiment": "H1_Q4_DOWN_SPLIT_K_SENTINEL",
+    "predictions": [
+      "Q4-down device_read_over_weight should fall materially from the observed 3.34x-4.40x regime toward the split-K gate/up regime (~1.02x).",
+      "Q4-down ALU1 utilization should rise materially above ~11%.",
+      "Q4-down XVE stall and SBID stall should fall materially below the current ~61-66% and ~55-59% regimes.",
+      "Component latency must improve; counter changes without latency improvement are insufficient.",
+      "Semantic output hashes/correctness must remain exact."
+    ],
+    "lm_head_followup": "PIN context-conditioned LM-head memory amplification as a separate later study; do not mix it into the Q4-down sentinel."
+  }
+}

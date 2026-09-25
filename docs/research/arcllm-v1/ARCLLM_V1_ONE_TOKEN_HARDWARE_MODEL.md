@@ -172,3 +172,31 @@ Joining M1/M2 shares to matched I003 practical token latency yields the new cros
 M3 quiet-host counters are deferred. The next causal discriminator is a Q4_K FFN-down split-K
 sentinel at K=18944 / rows=3584. No intervention is authorized until its specification is frozen.
 
+## M3-B closure — measured hardware mechanism map
+
+Returned bundle SHA256: `C425DC6C32794B8214BA9DC3088DFC3279AF8AF32E6241089E5E94E780CCAF42`.
+
+M3-B completed six quiet-host COMMAND-scope collections and produced 2,814 dispatch observations.
+Recovery did not rerun the collector; collection HEAD is `818c522...` and packaging HEAD is
+`03173d2...`.
+
+The strongest internal control is the already-successful I002 gate/up split-K path: physical
+device-memory reads are ~1.02x logical weight payload, LSC hit ~98.3%, ALU1 utilization ~87%, and
+XVE stall ~6%. Q/O row-serial-K keeps similarly efficient physical reads (~1.08-1.15x weight)
+and very high LSC hit (~99%), yet ALU1 utilization is only ~16% and XVE stall ~71%, dominated by
+SBID ~61%. This rules against simple DRAM-bandwidth saturation as the main Q/O explanation.
+
+FFN-down shows both dependency pressure and traffic amplification: Q4-down reads ~3.34x W-S and
+~4.40x W-C weight payload, with ALU1 ~11%, XVE stall ~61-66%, SBID ~55-59%. Q6-down traffic is
+closer to weight payload (~1.27-1.36x) but stall remains ~70-74%.
+
+LM-head is the strongest dependency/cache-pressure outlier. Its ALU1 utilization is only ~2.4-3.7%,
+XVE stall/SBID ~82-91%, and LSC hit ~16-33%. W-C physical reads are ~19x W-S; this context-conditioned
+amplification is pinned as a separate descriptive finding because M3-B has only one probe/workload.
+
+Direct occupancy is unresolved: the provider's occupancy counter returned zero for all dispatches.
+Many other exposed counters, including instrumented GpuTime and L3 counters, were also all-zero.
+They are explicitly non-informative; M1/I003 remain timing authority.
+
+Next: freeze the Q4_K FFN-down split-K causal sentinel with pre-intervention counter predictions.
+
