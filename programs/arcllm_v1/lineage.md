@@ -1335,3 +1335,14 @@ Architecture-cost frontier is A vs B: arm 0 is dominated by A and AB is dominate
 Arm 0 timing is descriptively variable, especially W-C; no post-hoc exclusion or rerun is performed. Full A/B mechanism-supported claims remain pending the preregistered native-counter stage.
 
 A separate counter authorization now opens only bounded implementation + zero-science QA for the exact four native counters at decode index 15. Fresh counter execution remains locked until an exact counter package is frozen. Token-XRay and Child-C remain closed.
+
+
+## Q4-down 4-arm native-counter package — bounded implementation candidate — 2026-09-25
+
+Primary timing evidence is frozen with antagonistic interaction; full A/B mechanism claims remain pending the preregistered counter evidence. A bounded native-counter package is implemented without reopening timing or changing any 0/A/B/AB mechanism.
+
+The collector reuses the proven M3-B `VK_KHR_performance_query` multipass contract (profiling lock, dedicated reset-before-pass0, driver-derived pass count, `counterPassIndex`, compute-to-bottom-of-pipe query end, and only 4-byte decode-token host restore). The exact 469-dispatch decode graph still executes, but performance queries are opened only around the 14 frozen Q4_K `ffn_down` dispatches. The selected counter set is exactly indices `{56,66,64,233}` and the only counter probe is decode index 15.
+
+Each arm/workload is one independent process with one unmeasured warmup and one measured inference; the complete campaign is exactly 8 probes. Counter timing remains diagnostic only. Primary timing rerun, Token-XRay, Child-C, new mechanisms/arms, and post-hoc counter selection remain forbidden.
+
+Fresh counter execution is not authorized by this implementation commit. Next gate: independent static audit + DEV_HOST native build-only PASS, followed by an immutable execution lock.
