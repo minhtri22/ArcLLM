@@ -1,0 +1,143 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.correctness_canonical.v0.1",
+  "date": "2026-09-25",
+  "status": "PASS_CANONICAL_CORRECTNESS_EVIDENCE_FROZEN",
+  "study": "Q4_DOWN_ARCHITECTURE_CAUSAL_DECOMPOSITION",
+  "stage": "FOUR_ARM_CORRECTNESS_GATE",
+  "source_bundle": {
+    "filename": "Q4_DOWN_4ARM_CORRECTNESS_RETURN_TO_CHATGPT.zip",
+    "sha256": "EA6894D76816215D7BF01435C36BE0DB34942B0E4CD9685A3250021B7A6EAB2",
+    "inner_files": {
+      "ARCLLM_V1_Q4_DOWN_4ARM_BUILDONLY_QA.json": "07D94625E554DA314B1BE782849C3282F24DF398F88B9D113F3B8B6167B592A0",
+      "Q4_DOWN_4ARM_CORRECTNESS_QUALIFICATION.json": "0F4FD55E7EA8A270654AFABCF217A6D152A21CE2ED97E2E86E3CBFC83834FB87",
+      "arcllm_v1_q4_down_4arm_correctness_lock_v0.1.json": "850F378390784F8B85229C9587A7EDB4795A2A9DABCD2FC215528E6076D613E4",
+      "correctness_W_C.json": "DA3467989160A35AFB33BD25446C9C3B8BF42416CE97EA1294A9856292AA4800",
+      "correctness_W_S.json": "FB3B52BE22FA7AC18473A544D4C57048A97A58C573AE9FEAF2B4AAE2FFAACA4F",
+      "q4_down_4arm_shader_provenance.json": "061D7611AFF2F165F1581E027ACE862498C19CC22BD101EE41DCF89AE287D9E2"
+    }
+  },
+  "provenance": {
+    "implementation_commit": "15f77d64dc2ea61751384aec2d1c527d9d0a300f",
+    "correctness_lock_path": "config/arcllm_v1_q4_down_4arm_correctness_lock_v0.1.json",
+    "correctness_lock_git_blob": "3f325c38fe77f1a0c584a4ff66e8ff54d2334cad",
+    "parent_prelock_path": "artifacts/ARCLLM_V1/Q4_DOWN_ARCHITECTURE_CAUSAL_DECOMPOSITION_PRELOCK_v0.1.json",
+    "parent_prelock_git_blob": "97a92e2ae6f49056a599f0c71206fe112f2b34a6",
+    "target_model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463"
+  },
+  "target": {
+    "quant": "Q4_K",
+    "operator": "ffn_down",
+    "layers": [
+      3,
+      4,
+      6,
+      7,
+      8,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      19,
+      21,
+      22
+    ],
+    "rows": 3584,
+    "k": 18944,
+    "decode_only": true
+  },
+  "arms": [
+    "0",
+    "A",
+    "B",
+    "AB"
+  ],
+  "exec148_validation": {
+    "all_14_tensors_exact": true,
+    "family_source_sha256": "60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2",
+    "family_exec_sha256": "60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2",
+    "canonical_tuple_equality_required_and_met": true
+  },
+  "component_correctness": {
+    "gate": {
+      "max_abs_max": 0.02,
+      "rmse_max": 0.005
+    },
+    "A": {
+      "max_abs": 0.0000352859497070312,
+      "rmse": 0.00000367509652515174,
+      "n": 50176,
+      "pass": true
+    },
+    "B": {
+      "max_abs": 0,
+      "rmse": 0,
+      "n": 50176,
+      "pass": true
+    },
+    "AB": {
+      "max_abs": 0.0000352859497070312,
+      "rmse": 0.00000367509652515174,
+      "n": 50176,
+      "pass": true
+    }
+  },
+  "workload_correctness": {
+    "W-S": {
+      "result_sha256": "FB3B52BE22FA7AC18473A544D4C57048A97A58C573AE9FEAF2B4AAE2FFAACA4F",
+      "expected_generated_hash_fnv1a64": "f31d4bb9fe5eb9c3",
+      "all_four_arms_success": true,
+      "all_four_dispatch_census_pass": true,
+      "all_four_generated_hash_match": true,
+      "floating_hash_classes": {
+        "0_B": {
+          "final_logits": "852d0943223fcb29",
+          "final_hidden": "c2a07a030bd3cdcc"
+        },
+        "A_AB": {
+          "final_logits": "89bbe1eebefe8aef",
+          "final_hidden": "b76b7acb288c5002"
+        }
+      }
+    },
+    "W-C": {
+      "result_sha256": "DA3467989160A35AFB33BD25446C9C3B8BF42416CE97EA1294A9856292AA4800",
+      "expected_generated_hash_fnv1a64": "471519ddc45b232e",
+      "all_four_arms_success": true,
+      "all_four_dispatch_census_pass": true,
+      "all_four_generated_hash_match": true,
+      "floating_hash_classes": {
+        "0_B": {
+          "final_logits": "afd40d47a7234794",
+          "final_hidden": "8ca3449cf9ae715a"
+        },
+        "A_AB": {
+          "final_logits": "25c05508c7ecc319",
+          "final_hidden": "5c97ba64802b06fd"
+        }
+      }
+    }
+  },
+  "residency_observation": {
+    "original_weights_retained": true,
+    "parent_resident_bytes": 5347770372,
+    "exec148_incremental_bytes": 549527552,
+    "requested_total_bytes": 5797157896,
+    "frozen_usable_envelope_bytes": 16374562816,
+    "envelope_pass": true
+  },
+  "governance": {
+    "correctness_gate_closed": true,
+    "correctness_rerun_required": false,
+    "performance_executed": false,
+    "timing_executed": false,
+    "hardware_counters_executed": false,
+    "performance_claim_allowed": false,
+    "floating_hash_policy": "Final hidden/logit hashes are descriptive only; preregistered correctness does not require bit identity for Split-K because FP32 accumulation order changes.",
+    "token_xray_opened_by_this_freeze": false,
+    "child_c_opened_by_this_freeze": false
+  },
+  "formal_result": "PASS_Q4_DOWN_4ARM_CORRECTNESS_QUALIFICATION",
+  "next": "OPEN_SEPARATE_PREREGISTERED_PRIMARY_PERFORMANCE_AUTHORIZATION"
+}

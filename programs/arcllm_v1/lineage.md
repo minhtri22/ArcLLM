@@ -1226,3 +1226,25 @@ with no AB-only optimization.
 Bounded implementation and correctness-only qualification are now authorized. Fresh performance
 timing and hardware counters remain unauthorized.
 
+
+
+## Q4-down 4-arm correctness canonical freeze — 2026-09-25
+
+Returned correctness bundle SHA256:
+`EA6894D76816215D7BF01435C36BE0DB34942B0E4CD9685A3250021B7A6EAB2`.
+
+Formal result:
+`PASS_Q4_DOWN_4ARM_CORRECTNESS_QUALIFICATION`.
+
+The exact 0/A/B/AB implementation at `15f77d64dc2ea61751384aec2d1c527d9d0a300f` passed the frozen real-model correctness gate on W-S and W-C. All four arms produced the exact preregistered 32-token workload hashes and passed dispatch census. B is component-bit-equivalent to arm 0; A/AB remain far inside the inherited max_abs/RMSE limits while final hidden/logit hashes differ as preregistered for a changed FP32 reduction order.
+
+EXEC148 logical validation is exact for all 14 target tensors; source and execution-image canonical family SHA256 are both
+`60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2`.
+
+No latency, materialization timing, validation timing, hardware counter, Token-XRay or Child-C evidence is opened by this result. Correctness is now closed and does not require rerun.
+
+Canonical evidence:
+`ARCLLM_V1_Q4_DOWN_4ARM_CORRECTNESS_CANONICAL_v0.1.json`.
+
+Next:
+open a separate authorization for the already-preregistered four-arm primary timing campaign. Mechanism counters remain a later stage.
