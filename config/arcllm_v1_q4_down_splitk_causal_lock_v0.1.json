@@ -104,8 +104,9 @@
     "tools/build_arcllm_v1_q4_down_splitk_causal.ps1": "c8510302604c9051d360f8b5c950fa5696fcc73c",
     "tools/adjudicate_arcllm_v1_q4_down_splitk_causal.py": "58c086b35aa7aad0e9d4e9a00b006ff1f384178e",
     "tests/test_arcllm_v1_q4_down_splitk_causal.py": "5edfdee73aff6f9d2403d34e308deb9738fc4fdf",
-    "run_arcllm_v1_q4_down_splitk_causal_buildonly.ps1": "e97327f2e52f51a2f821dce5dc40e88d017e978e",
-    "run_arcllm_v1_q4_down_splitk_causal_correctness.ps1": "2a9b2bdedbea11ec9d0e988e45130316773b6047"
+    "run_arcllm_v1_q4_down_splitk_causal_buildonly.ps1": "af830a9c30686e68a5711eb5a741a368e342d97c",
+    "run_arcllm_v1_q4_down_splitk_causal_correctness.ps1": "3927494ac7da6353df3e78f9556e716a70f64906"
   },
-  "stop_rule": "Do not run correctness until build-only bundle is independently reviewed and lock.authorization.correctness is explicitly enabled. Do not run measure mode until correctness is independently adjudicated PASS and lock.authorization.performance is explicitly enabled."
+  "stop_rule": "Do not run correctness until build-only bundle is independently reviewed and lock.authorization.correctness is explicitly enabled. Do not run measure mode until correctness is independently adjudicated PASS and lock.authorization.performance is explicitly enabled.",
+  "windows_eol_blob_policy": "Critical files are verified with git rev-parse HEAD:path, not worktree-byte hash-object, so CRLF checkout normalization cannot create a false mismatch."
 }
