@@ -1,0 +1,51 @@
+{
+  "schema": "arcllm.v1.q4_down_splitk_causal.buildonly_independent_adjudication.v0.1",
+  "date": "2026-09-25",
+  "verdict": "PASS_BUILDONLY_READY_FOR_REAL_MODEL_CORRECTNESS",
+  "branch": "research/arcllm-v1-q4down-splitk-causal",
+  "reviewed_collection_head": "b034430bdb16bf3277b9bfc171ddda27e25f0f68",
+  "bundle": {
+    "name": "Q4_DOWN_SPLITK_CAUSAL_BUILDONLY_RETURN_TO_CHATGPT.zip",
+    "sha256": "459D05ADB374804EA1EA9B7DA0E1644F9696F03BAD8A7DC2FF74FCA0C26B32C9",
+    "files": {
+      "Q4_DOWN_SPLITK_CAUSAL_BUILDONLY.json": "CD79BC7E76A5E2781F229F1C4CD4B1290116C702488C418126D86BDD8ABA6DDF",
+      "arcllm_v1_q4_down_splitk_causal_lock_v0.1.json": "6893A9F3DE25E61229995EADB262A5224A855FA09F4016119C9291548E928B2A",
+      "Q4_DOWN_SPLITK_CAUSAL_PRELOCK_v0.1.json": "062434DC47FE596EAA0DD7662A4002B85DC0230931784DFFAB1423536E7B0D94"
+    }
+  },
+  "checks": {
+    "schema_exact": true,
+    "status_pass_buildonly": true,
+    "head_exact": true,
+    "source_blob_exact": true,
+    "splitk_spv_sha256_exact": true,
+    "target_model_loaded_false": true,
+    "gpu_dispatch_executed_false": true,
+    "wall_timing_executed_false": true,
+    "timestamp_queries_executed_false": true,
+    "hardware_counters_executed_false": true,
+    "performance_authorized_false": true,
+    "current_remote_head_matches_bundle_head": true,
+    "current_source_blob_matches_bundle_source_blob": true,
+    "current_static_qa_blob_matches_lock": true,
+    "current_build_script_blob_matches_lock": true,
+    "current_adjudicator_blob_matches_lock": true
+  },
+  "reviewed_values": {
+    "source_blob": "a476b7661f61032325028d4f3d039a3d6d0f543f",
+    "executable_sha256": "0C782EDC1DB817CA215C646C568C2210085E8CA44DE212CF29B223D82296E2C8",
+    "splitk_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+    "target_model_loaded": false,
+    "gpu_dispatch_executed": false,
+    "wall_timing_executed": false,
+    "timestamp_queries_executed": false,
+    "hardware_counters_executed": false
+  },
+  "interpretation": [
+    "This adjudication qualifies only the static/synthetic/native build package.",
+    "No real-model correctness evidence or performance evidence has been consumed.",
+    "The only newly permitted next step is exact-model correctness qualification in correctness mode.",
+    "Performance, timestamp measurement campaign, and hardware counters remain forbidden."
+  ],
+  "next": "AUTHORIZE_REAL_MODEL_CORRECTNESS_ONLY"
+}
