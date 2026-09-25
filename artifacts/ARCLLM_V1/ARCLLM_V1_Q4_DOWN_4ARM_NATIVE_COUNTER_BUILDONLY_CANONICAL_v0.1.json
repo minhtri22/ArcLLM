@@ -1,0 +1,45 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.native_counter.buildonly_canonical.v0.1",
+  "date": "2026-09-25",
+  "status": "PASS_DEV_HOST_NATIVE_COUNTER_ZERO_SCIENCE_BUILDONLY_CANONICAL",
+  "source_bundle": {
+    "filename": "Q4_DOWN_4ARM_NATIVE_COUNTER_BUILDONLY_RETURN_TO_CHATGPT.zip",
+    "sha256": "22D57FB624C0F46D2933CE38F5AE2E68ED1798338AC810EF730E1C6C1956E28F",
+    "inner_files": {
+      "arcllm_v1_q4_down_4arm_native_counter.exe": "D0DCA49801D9C4A817CCF9DC3E60C8FD221760FACBAB4BCC6B952836AE9F1B42",
+      "arcllm_v1_q4_down_4arm_native_counter_execution_lock_v0.1.json": "3891EF8E9B9594D5D3C5EB65359EEBF67CA978E83BC152F72575D09F36E53C06",
+      "Q4_DOWN_4ARM_NATIVE_COUNTER_BUILDONLY.json": "1D454F7B36CEA620373D7AB43E0661973FD69D84AEF82794A6DC5AF4D9C2D94C",
+      "Q4_DOWN_4ARM_NATIVE_COUNTER_DEV_HOST_BUILDONLY_RETURN.json": "72EC6FDF9B21A0874F7EC1DBB69480A851435041E91EF527DE18842FD0B1F2DE",
+      "q4_down_4arm_shader_provenance.json": "061D7611AFF2F165F1581E027ACE862498C19CC22BD101EE41DCF89AE287D9E2"
+    }
+  },
+  "qualified_build": {
+    "source_head": "c8f7495fa166c9758c9c145fa82dc30c6cdf330b",
+    "executable_sha256": "D0DCA49801D9C4A817CCF9DC3E60C8FD221760FACBAB4BCC6B952836AE9F1B42",
+    "executable_bytes": 482304,
+    "build_status": "PASS_NATIVE_COUNTER_BUILDONLY",
+    "return_status": "PASS_DEV_HOST_NATIVE_COUNTER_ZERO_SCIENCE_BUILDONLY"
+  },
+  "zero_science_boundary": {
+    "model_loaded": false,
+    "gpu_dispatch_executed": false,
+    "counter_probe_executed": false,
+    "primary_timing_executed": false,
+    "performance_outcome_observed": false
+  },
+  "shader_provenance": {
+    "child_a_source_blob": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "child_a_spv_sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+    "B_source_blob": "56de6602e7aca31c84a3d7764b10c0c55eb2fef5",
+    "B_spv_sha256": "140B8C7ADF5E88D4F1A50C4F8807874F4978070F301FCEEFC67A6A51A383D2A3",
+    "AB_source_blob": "5a828eac2514f4404ab94278a63322e403617bee",
+    "AB_spv_sha256": "5070AD8EE3BB4419D06E4FDDA52AF9F404D9CAA1388BFB66771ED206B2D06B43"
+  },
+  "warnings": {
+    "compiler_warning_class": "MSVC C4996 strncpy deprecation warnings in reused M3-B counter shim",
+    "build_blocking": false,
+    "scientific_payload_changed": false
+  },
+  "formal_result": "PASS_DEV_HOST_NATIVE_COUNTER_ZERO_SCIENCE_BUILDONLY",
+  "next": "AUTHORIZE_EXACT_QUALIFIED_BINARY_FOR_PREREGISTERED_EIGHT_NATIVE_COUNTER_PROBES"
+}

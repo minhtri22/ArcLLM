@@ -1362,3 +1362,12 @@ Next gate: DEV_HOST zero-science native build-only and return bundle for indepen
 DEV_HOST build-only stopped in the Python static test before shader build, native compilation, model load, GPU dispatch, or counter execution. The failing assertion incorrectly required the literal `counterPassIndex` to appear in the targeted runtime source. In the proven M3-B layering, the targeted runtime calls `m3_perf_submit_pass(...)`; the unchanged counter shim constructs `VkPerformanceQuerySubmitInfoKHR` and assigns `counterPassIndex`.
 
 The repair changes only the static test: runtime must contain `m3_perf_submit_pass`, while the unchanged M3-B shim must contain `VkPerformanceQuerySubmitInfoKHR` and `counterPassIndex`. Collector, runtime, shim, counter set, decode index, 14-node target scope, campaign order, and all scientific payload remain unchanged. Candidate execution remains unauthorized pending a fresh DEV_HOST build-only PASS.
+
+
+## Q4-down 4-arm native counters — DEV_HOST build-only PASS / exact eight-probe execution authorized — 2026-09-25
+
+DEV_HOST zero-science native-counter build-only PASS at HEAD `c8f7495fa166c9758c9c145fa82dc30c6cdf330b`. Return bundle SHA256 `22D57FB624C0F46D2933CE38F5AE2E68ED1798338AC810EF730E1C6C1956E28F`. Qualified executable SHA256 `D0DCA49801D9C4A817CCF9DC3E60C8FD221760FACBAB4BCC6B952836AE9F1B42`, 482,304 bytes. No model load, GPU dispatch, counter probe or primary-timing science occurred during qualification. MSVC C4996 `strncpy` deprecation warnings in the reused M3-B shim were non-blocking and do not change the scientific payload.
+
+Build-only evidence and shader provenance are canonicalized. Final counter execution lock v0.2 authorizes exactly eight independent arm-workload probes: W-S and W-C crossed with 0/A/B/AB, one warmup and one measured inference per process, with the only performance query at decode index 15 and only the 14 frozen Q4-down dispatches queried for counters 56/66/64/233. Driver-derived multipass semantics remain unchanged.
+
+The execution runner verifies the exact qualified binary, exact environment/model, quiet-host confirmation and critical blobs, and writes a one-shot science-start marker before the first process. Primary timing rerun, Token-XRay, Child-C, new mechanisms/arms, post-hoc counter selection and threshold changes remain closed.

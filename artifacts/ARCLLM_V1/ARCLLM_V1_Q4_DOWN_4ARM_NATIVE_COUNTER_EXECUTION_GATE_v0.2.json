@@ -1,0 +1,23 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.native_counter.execution_authorization_gate.v0.2",
+  "date": "2026-09-25",
+  "status": "PASS_OPEN_EXACT_EIGHT_NATIVE_COUNTER_PROBES",
+  "timing_evidence_blob": "97ba2ede658e8a63a08c60f7fc3ead5fcf574fdd",
+  "counter_authorization_blob": "d142a78cf7722d26fdd0c2df1012c4383266539e",
+  "canonical_buildonly_blob": "84f55d521d3cdba3b78893813e9e7f2a1c2cbbc3",
+  "execution_lock_blob": "bc56d8185ed6495c0a799515632ae3e0ef71f439",
+  "qualified_source_head": "c8f7495fa166c9758c9c145fa82dc30c6cdf330b",
+  "qualified_exe_sha256": "D0DCA49801D9C4A817CCF9DC3E60C8FD221760FACBAB4BCC6B952836AE9F1B42",
+  "opened": [
+    "exact eight arm-workload native counter probes at decode index 15 using counters 56/66/64/233"
+  ],
+  "still_closed": [
+    "primary timing rerun",
+    "Token-XRay",
+    "Child-C",
+    "new mechanism/arm",
+    "post-hoc counter selection",
+    "post-hoc threshold changes"
+  ],
+  "note": "Execution runner verifies the exact qualified native binary and contains a one-shot science-start marker. No native rebuild occurs before counter collection."
+}
