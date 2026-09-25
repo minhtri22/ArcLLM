@@ -1396,3 +1396,14 @@ No collector or selective probe rerun is permitted. A separate recovery parser c
 The first recovery attempt also stopped before adjudication at `W-S/0 shader`. The v0.1.1 parser normalized `\\\\` (two consecutive backslash characters) rather than each single Windows path separator. After JSON decoding, the emitted shader path contains one backslash per separator, so the basename comparison still failed.
 
 Recovery parser v0.1.2 uses a dedicated `shader_basename()` helper that replaces each single backslash with `/` and takes the final component. A full Windows `compiled_shaders` path regression is embedded. No collector, counter probe, primary timing, mechanism, counter selection, or raw evidence is changed. The existing collection remains the only scientific evidence and recovery-only execution remains required.
+
+
+## Q4-down 4-arm native counters — canonical adjudication — 2026-09-26
+
+Recovered bundle SHA256 `EC1838E8ADA61DDDEC687E7CBC40155A46E974228A9984B10DA1BA17B662447F` preserves all eight original raw counter probes byte-for-byte. Independent recompute passes all collection integrity guards: 8/8 PASS probes, pass_count=2 each, decode index 15, 14 target Q4-down dispatches per probe, 469 full-graph dispatches, exact generated hashes, dispatch census and EXEC148 tuple guards.
+
+Counter informativeness is partial: `GPU_MEMORY_BYTE_READ` (56), `XVE_INST_EXECUTED_ALU1_ALL_UTILIZATION` (66), and `XVE_STALL` (64) are exactly zero for all 112 target observations; `XVE_STALL_SBID` (233) is nonzero for all 112. Therefore the preregistered A and B counter conditions are not met, so `A_supported=false` and `B_supported=false` mechanically, but this is recorded as non-confirmation under an inadequate counter channel rather than evidence that the mechanisms are absent.
+
+The informative partial result is stable across workloads: A reduces mean SBID from 55.3871 to 5.62477 in W-S and from 54.8939 to 5.55194 in W-C (about 89.8% reduction in both). This satisfies only one of A's three required hardware-direction conditions. B's required memory-read condition cannot be adjudicated because counter 56 is structurally zero.
+
+Frozen primary-timing conclusions remain unchanged: A and B latency conditions pass; composition is not supported; interaction is antagonistic; architecture frontier remains A vs B. Formal scientific result: `VALID_CAUSAL_INTERVENTION_TIMING_WITH_UNRESOLVED_MECHANISM_ATTRIBUTION`. No counter rerun, selective rerun, post-hoc counter substitution, Token-XRay, or Child-C is authorized by this close. Reopen lower-level mechanism work only if it would change a concrete architecture decision.

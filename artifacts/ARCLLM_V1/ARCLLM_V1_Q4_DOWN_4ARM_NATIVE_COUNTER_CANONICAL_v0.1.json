@@ -1,0 +1,199 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.native_counter_canonical.v0.1",
+  "date": "2026-09-26",
+  "status": "PASS_VALID_NATIVE_COUNTER_COLLECTION_WITH_PARTIAL_COUNTER_INFORMATIVENESS",
+  "source_bundle": {
+    "filename": "Q4_DOWN_4ARM_NATIVE_COUNTER_RETURN_TO_CHATGPT_RECOVERED.zip",
+    "sha256": "EC1838E8ADA61DDDEC687E7CBC40155A46E974228A9984B10DA1BA17B662447F"
+  },
+  "recovery": {
+    "status": "PASS_POST_COLLECTION_RECOVERY_ONLY",
+    "recovery_head": "da132ddf79f583f978c2847fd44de71a59ed6a6e",
+    "collector_rerun": false,
+    "counter_probe_rerun": false,
+    "primary_timing_rerun": false,
+    "original_collection_preserved": true,
+    "original_failure": "Original/recovery-v0.1.1 adjudicators compared full Windows shader paths incorrectly; recovery-v0.1.2 normalized basename only."
+  },
+  "raw_probe_sha256": {
+    "Q4_COUNTER_W_S_0.json": "8A63B0F8CF753670A619175836C6E431288D0E2E934D84E8D7BA81321C17EF50",
+    "Q4_COUNTER_W_S_A.json": "44E72DED69B8D1ACE8ACA00B0AAC5AC2A1E1B093A4E37F4ADF90AF1B11D2C02B",
+    "Q4_COUNTER_W_S_B.json": "55E33BFADEED7F914DED7ED8E437450C59826AC165268DA5981D69FC7D87D35F",
+    "Q4_COUNTER_W_S_AB.json": "E61DA62DC753EFFAB4AD37E68AB3EC41EB41BB370B40127E00A20ED7629F4D4A",
+    "Q4_COUNTER_W_C_0.json": "5D0AEA094AEB7E44E4BF000CDFCAC8C9D96BC79FFAF05A23AF205281FF3774ED",
+    "Q4_COUNTER_W_C_A.json": "26AED89BF2B1DE3F88CA79130E9AEB22377A359DA45EC5916854DC12FA2C30A9",
+    "Q4_COUNTER_W_C_B.json": "7AC3738966952E847A3B8AB43C54D5BFC07ED75BE2E2ED4B80798F5B954C68C1",
+    "Q4_COUNTER_W_C_AB.json": "01C46B3EE297D1637780CB900F8EB047AA6197CC4C61A179AB3F2361B5E3A861"
+  },
+  "collection_integrity": {
+    "probes": 8,
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "arms": [
+      "0",
+      "A",
+      "B",
+      "AB"
+    ],
+    "pass_count_each": 2,
+    "decode_index": 15,
+    "target_dispatches_per_probe": 14,
+    "full_graph_dispatches_per_probe": 469,
+    "total_target_observations": 112,
+    "selected_counter_indices": [
+      56,
+      66,
+      64,
+      233
+    ],
+    "exact_generated_hash_guard_pass": true,
+    "dispatch_census_pass": true,
+    "exec148_tuple_exact": true,
+    "execution_lock_sha256": "221B5C4111D95AAB4D5E20D36F23815DCF41F33D5250C2075E461BD3A4A70EE5",
+    "raw_probe_hashes_match_recovery_meta": true
+  },
+  "counter_informativeness": {
+    "56_GPU_MEMORY_BYTE_READ": {
+      "nonzero_observations": 0,
+      "total_observations": 112,
+      "informative": false
+    },
+    "66_XVE_INST_EXECUTED_ALU1_ALL_UTILIZATION": {
+      "nonzero_observations": 0,
+      "total_observations": 112,
+      "informative": false
+    },
+    "64_XVE_STALL": {
+      "nonzero_observations": 0,
+      "total_observations": 112,
+      "informative": false
+    },
+    "233_XVE_STALL_SBID": {
+      "nonzero_observations": 112,
+      "total_observations": 112,
+      "informative": true
+    }
+  },
+  "recomputed_cells": {
+    "W-S": {
+      "0": {
+        "device_read_over_weight": 0,
+        "alu1_util_mean": 0,
+        "xve_stall_mean": 0,
+        "sbid_stall_mean": 55.3871239253453
+      },
+      "A": {
+        "device_read_over_weight": 0,
+        "alu1_util_mean": 0,
+        "xve_stall_mean": 0,
+        "sbid_stall_mean": 5.624774898801531
+      },
+      "B": {
+        "device_read_over_weight": 0,
+        "alu1_util_mean": 0,
+        "xve_stall_mean": 0,
+        "sbid_stall_mean": 46.448384966169094
+      },
+      "AB": {
+        "device_read_over_weight": 0,
+        "alu1_util_mean": 0,
+        "xve_stall_mean": 0,
+        "sbid_stall_mean": 3.687897886548723
+      }
+    },
+    "W-C": {
+      "0": {
+        "device_read_over_weight": 0,
+        "alu1_util_mean": 0,
+        "xve_stall_mean": 0,
+        "sbid_stall_mean": 54.893873759678435
+      },
+      "A": {
+        "device_read_over_weight": 0,
+        "alu1_util_mean": 0,
+        "xve_stall_mean": 0,
+        "sbid_stall_mean": 5.551944119589669
+      },
+      "B": {
+        "device_read_over_weight": 0,
+        "alu1_util_mean": 0,
+        "xve_stall_mean": 0,
+        "sbid_stall_mean": 48.61298860822404
+      },
+      "AB": {
+        "device_read_over_weight": 0,
+        "alu1_util_mean": 0,
+        "xve_stall_mean": 0,
+        "sbid_stall_mean": 4.478768842560904
+      }
+    }
+  },
+  "preregistered_directional_adjudication": {
+    "W-S": {
+      "A_alu1_up": false,
+      "A_xve_stall_down": false,
+      "A_sbid_down": true,
+      "B_device_read_over_weight_down": false
+    },
+    "W-C": {
+      "A_alu1_up": false,
+      "A_xve_stall_down": false,
+      "A_sbid_down": true,
+      "B_device_read_over_weight_down": false
+    },
+    "A_counter_condition": false,
+    "B_counter_condition": false,
+    "A_supported": false,
+    "B_supported": false,
+    "interpretation": "Preregistered support conditions are not met. Because three required counters are structurally zero across all 112 observations, this is non-confirmation under measurement inadequacy, not evidence that the corresponding mechanisms are absent."
+  },
+  "informative_partial_evidence": {
+    "sbid": {
+      "W-S": {
+        "base": 55.3871239253453,
+        "A": 5.624774898801531,
+        "A_over_0": 0.10155383598511096,
+        "A_reduction_fraction": 0.8984461640148891
+      },
+      "W-C": {
+        "base": 54.893873759678435,
+        "A": 5.551944119589669,
+        "A_over_0": 0.10113959426320857,
+        "A_reduction_fraction": 0.8988604057367915
+      },
+      "interpretation": "A shows a large directional SBID reduction in both workloads, satisfying only one of A's three preregistered hardware-direction conditions."
+    }
+  },
+  "frozen_timing_context": {
+    "A_latency_condition": true,
+    "B_latency_condition": true,
+    "composition_supported": false,
+    "interaction_classification": "ANTAGONISTIC_INTERACTION",
+    "architecture_frontier": [
+      "A",
+      "B"
+    ],
+    "note": "Timing conclusions remain unchanged; counter timing is not used."
+  },
+  "scientific_conclusion": {
+    "A_latency_effect": "SUPPORTED",
+    "B_latency_effect": "SUPPORTED",
+    "A_mechanism_attribution": "NOT_CONFIRMED_COUNTER_CHANNEL_INADEQUATE",
+    "B_mechanism_attribution": "NOT_CONFIRMED_COUNTER_CHANNEL_INADEQUATE",
+    "composition": "NOT_SUPPORTED",
+    "interaction": "ANTAGONISTIC",
+    "architecture_selection": "A_VS_B_FRONTIER_REMAINS",
+    "formal_result": "VALID_CAUSAL_INTERVENTION_TIMING_WITH_UNRESOLVED_MECHANISM_ATTRIBUTION"
+  },
+  "governance": {
+    "no_counter_rerun": true,
+    "no_selective_rerun": true,
+    "no_posthoc_counter_substitution": true,
+    "no_posthoc_threshold_change": true,
+    "token_xray": false,
+    "child_c": false,
+    "next_rule": "Do not reopen lower-level counter work unless resolving the exact hardware mechanism would change a concrete ArcLLM architecture decision. Otherwise carry forward the validated latency primitives and A-vs-B architecture frontier."
+  }
+}
