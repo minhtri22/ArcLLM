@@ -119,7 +119,7 @@
     "src/gguf.cpp": "bda721b3f856d4bfb9dd2a56208dc2c3c2ae974b",
     "src/tensor_store.cpp": "0eb52588d30620bfeb323e62c8546e7191a006d6",
     "tools/compile_arcllm_v1_i003.ps1": "f4e14baab9fc93c4e19ecda399d28016f7f29354",
-    "tools/finalize_arcllm_v1_m3c.ps1": "6c25c9cd3a7b6feff897b68c67fa6d663006d810"
+    "tools/finalize_arcllm_v1_m3c.ps1": "1c1b3f49c999cb5f93790d6cb3a17c595f9a7778"
   },
   "prelock_head": "eee2fd9cdc8e5c1878f32198928557c89498c7e6",
   "stop_rule": "Run exactly one six-process collection. Do not tune counters or thresholds after data. If no descriptive mechanism pattern is supported, stop unresolved. If one or more are supported, preregister exactly one minimal causal intervention before further execution.",
@@ -141,6 +141,7 @@
     "scientific_payload_changed": false,
     "raw_results_reused": true,
     "collection_head_required": "9ace722cea2e51001d47834ce09a65aa7c1ca7a1",
-    "finalize_script": "tools/finalize_arcllm_v1_m3c.ps1"
+    "finalize_script": "tools/finalize_arcllm_v1_m3c.ps1",
+    "collection_lock_blob": "707321e3876b0fb05289e2690dd4d29fcba9ced6"
   }
 }
