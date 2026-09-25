@@ -1,0 +1,30 @@
+{
+  "schema": "arcllm.v1.q4_down_splitk_causal.closure.v0.1",
+  "date": "2026-09-25",
+  "status": "CLOSED_FROZEN_ARCHIVE_DO_NOT_CONTINUE",
+  "branch": "research/arcllm-v1-q4down-splitk-causal",
+  "closure_head_parent": "7690dfe009ea4003bb572906e71d06954427c6c7",
+  "reason": "Scope governance closure. This descendant was opened from M3-C to test a minimal Q4-down split-K causal intervention, but that question overlaps work already progressed on the independently active canonical ArcLLM research branch. This branch is therefore frozen to avoid duplicate science and cross-agent interference.",
+  "scientific_result": {
+    "buildonly": "PASS_BUILDONLY_READY_FOR_REAL_MODEL_CORRECTNESS",
+    "real_model_correctness": "NOT_EXECUTED_ON_THIS_BRANCH",
+    "performance": "NOT_EXECUTED_ON_THIS_BRANCH",
+    "hardware_counters": "NOT_EXECUTED_ON_THIS_BRANCH",
+    "causal_adjudication": "NOT_REACHED",
+    "interpretation": "No positive or negative causal conclusion may be drawn from this branch."
+  },
+  "governance": {
+    "no_further_correctness": true,
+    "no_performance": true,
+    "no_hardware_counters": true,
+    "no_merge_into_canonical_arcllm": true,
+    "no_reopen_without_explicit_new_governance_decision": true,
+    "preserve_history_and_artifacts": true
+  },
+  "handoff_boundary": {
+    "token_xray": "Frozen Token-XRay core remains an independent measurement/diagnostic product. Other projects may fork/integrate it independently.",
+    "arcllm": "ArcLLM work continues under its separate agent/workstream; this closure does not authorize, modify, or redirect that work.",
+    "nax": "Any NAX use of Token-XRay must fork or integrate the frozen Token-XRay interfaces independently."
+  },
+  "terminal": "CLOSED_DUPLICATE_SCOPE_BEFORE_REAL_MODEL_CORRECTNESS"
+}
