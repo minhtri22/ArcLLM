@@ -1,0 +1,51 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.primary_timing_authorization_gate.v0.1",
+  "date": "2026-09-25",
+  "status": "PASS_OPEN_PRIMARY_4ARM_TIMING",
+  "reviewed_correctness_canonical": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_Q4_DOWN_4ARM_CORRECTNESS_CANONICAL_v0.1.json",
+    "blob": "a6f25630437307dbeabb7c88efe8002d0dde2555",
+    "status": "PASS_CANONICAL_CORRECTNESS_EVIDENCE_FROZEN",
+    "formal_result": "PASS_Q4_DOWN_4ARM_CORRECTNESS_QUALIFICATION",
+    "performance_executed": false,
+    "hardware_counters_executed": false
+  },
+  "frozen_design_checks": {
+    "parent_prelock_blob_exact": true,
+    "parent_lock_blob_exact": true,
+    "child_A_blob_exact": true,
+    "child_B_blob_exact": true,
+    "child_AB_blob_exact": true,
+    "arms_exact": [
+      "0",
+      "A",
+      "B",
+      "AB"
+    ],
+    "workloads_exact": [
+      "W-S",
+      "W-C"
+    ],
+    "measured_blocks_per_workload": 8,
+    "arm_order_unchanged": true,
+    "metric_unchanged": true,
+    "bootstrap_resamples_unchanged": 10000,
+    "correctness_thresholds_unchanged": true
+  },
+  "opened_now": [
+    "bounded primary-timing harness implementation",
+    "zero-science build/static QA",
+    "fresh preregistered primary 0/A/B/AB timing",
+    "materialization and separate validation wall-time architecture-cost measurement"
+  ],
+  "still_closed": [
+    "native 4-counter mechanism campaign",
+    "Token-XRay",
+    "Child-C",
+    "new kernel/layout/subgroup search",
+    "posthoc threshold changes"
+  ],
+  "authorization_config_path": "config/arcllm_v1_q4_down_4arm_primary_timing_authorization_v0.1.json",
+  "authorization_config_blob": "95a315585d3745af2a26bc10a3f06761dd81f7a5",
+  "next": "FREEZE_EXACT_PERFORMANCE_EXECUTION_PACKAGE_BEFORE_FIRST_MEASURED_BLOCK"
+}

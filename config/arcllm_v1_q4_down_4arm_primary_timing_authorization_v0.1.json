@@ -1,0 +1,236 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.primary_timing_authorization.v0.1",
+  "date": "2026-09-25",
+  "status": "PRIMARY_4_ARM_TIMING_AUTHORIZED_UNDER_FROZEN_PREREGISTRATION",
+  "branch": "research/arcllm-v1",
+  "correctness_freeze": {
+    "commit": "b109b0ac974ddb6995548527a08878074cab9400",
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_Q4_DOWN_4ARM_CORRECTNESS_CANONICAL_v0.1.json",
+    "blob": "a6f25630437307dbeabb7c88efe8002d0dde2555",
+    "source_bundle_sha256": "EA6894D76816215D7BF01435C36BE0DB34942B0E4CD9685A3250021B7A6EAB2",
+    "formal_result": "PASS_Q4_DOWN_4ARM_CORRECTNESS_QUALIFICATION"
+  },
+  "preregistration": {
+    "parent_prelock": {
+      "path": "artifacts/ARCLLM_V1/Q4_DOWN_ARCHITECTURE_CAUSAL_DECOMPOSITION_PRELOCK_v0.1.json",
+      "blob": "97a92e2ae6f49056a599f0c71206fe112f2b34a6"
+    },
+    "parent_lock": {
+      "path": "config/arcllm_v1_q4_down_arch_causal_decomposition_lock_v0.1.json",
+      "blob": "c343567129856d0777bd15fff51f280964d90cdc"
+    },
+    "child_A": {
+      "path": "artifacts/ARCLLM_V1/Q4_DOWN_CHILD_A_SPLITK32_DESIGN_v0.1.json",
+      "blob": "a91711720bf641370359bf84df7f76cb4c255d92"
+    },
+    "child_B": {
+      "path": "artifacts/ARCLLM_V1/Q4_DOWN_CHILD_B_EXEC148_DESIGN_v0.1.json",
+      "blob": "305bda16bff4ad643ea6bab86be903b5d7eb1b89"
+    },
+    "child_AB": {
+      "path": "artifacts/ARCLLM_V1/Q4_DOWN_CHILD_AB_COMPOSITION_DESIGN_v0.1.json",
+      "blob": "4d1179b54a3d880f18de61a801a9a55a6ee0abdc"
+    },
+    "correctness_lock": {
+      "path": "config/arcllm_v1_q4_down_4arm_correctness_lock_v0.1.json",
+      "blob": "3f325c38fe77f1a0c584a4ff66e8ff54d2334cad"
+    }
+  },
+  "frozen_scientific_scope": {
+    "target_model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "operator": "ffn_down",
+    "quant": "Q4_K",
+    "layers": [
+      3,
+      4,
+      6,
+      7,
+      8,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      19,
+      21,
+      22
+    ],
+    "shape": {
+      "k": 18944,
+      "rows": 3584,
+      "batch_decode": 1
+    },
+    "arms": {
+      "0": {
+        "work_decomposition": "SERIAL_K_CURRENT",
+        "representation": "STORAGE_NATIVE_Q4_K"
+      },
+      "A": {
+        "work_decomposition": "SPLIT_K32_NATIVE_SUBGROUP",
+        "representation": "STORAGE_NATIVE_Q4_K"
+      },
+      "B": {
+        "work_decomposition": "SERIAL_K_CURRENT",
+        "representation": "CPU_ONE_TIME_RAM_EXECUTION_IMAGE"
+      },
+      "AB": {
+        "work_decomposition": "SPLIT_K32_NATIVE_SUBGROUP",
+        "representation": "CPU_ONE_TIME_RAM_EXECUTION_IMAGE"
+      }
+    },
+    "mechanism_change_after_correctness_forbidden": true,
+    "arm_addition_or_removal_forbidden": true,
+    "workload_change_forbidden": true,
+    "threshold_change_forbidden": true,
+    "layout_search_forbidden": true,
+    "subgroup_width_search_forbidden": true,
+    "ab_only_optimization_forbidden": true
+  },
+  "mechanism_provenance_must_remain_exact": {
+    "shaders/sa1_q4k_subgroup_splitk.comp": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "shaders/q4_down_exec148_serial.comp": "56de6602e7aca31c84a3d7764b10c0c55eb2fef5",
+    "shaders/q4_down_exec148_splitk32.comp": "5a828eac2514f4404ab94278a63322e403617bee",
+    "src/q4_down_exec148_materializer.h": "611efe8a087b2a5d00d887287034e2fb4f63a58f",
+    "src/p8c_segmented_access_correctness.cpp": "8432ca554b36a2167429b640c5ec6779cf2b3e6b"
+  },
+  "primary_timing_campaign": {
+    "authorized": true,
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "warmup": "One unmeasured complete inference per arm/workload before measured blocks.",
+    "measured_blocks_per_workload": 8,
+    "arm_order_by_block": [
+      [
+        "0",
+        "A",
+        "B",
+        "AB"
+      ],
+      [
+        "A",
+        "B",
+        "AB",
+        "0"
+      ],
+      [
+        "B",
+        "AB",
+        "0",
+        "A"
+      ],
+      [
+        "AB",
+        "0",
+        "A",
+        "B"
+      ],
+      [
+        "AB",
+        "B",
+        "A",
+        "0"
+      ],
+      [
+        "0",
+        "AB",
+        "B",
+        "A"
+      ],
+      [
+        "A",
+        "0",
+        "AB",
+        "B"
+      ],
+      [
+        "B",
+        "A",
+        "0",
+        "AB"
+      ]
+    ],
+    "output_tokens": 32,
+    "paired_unit": "block within workload",
+    "primary_metric": {
+      "name": "Q4_DOWN_COMPONENT_LATENCY_MS_PER_TOKEN",
+      "acquisition": "Calibrated Vulkan timestamps around the exact 14 Q4_K FFN-down dispatches; identical instrumentation in all four arms.",
+      "per_attempt": "For each of 31 decode steps, sum the 14 Q4-down dispatch durations; take the median of those 31 family sums.",
+      "cell_summary": "Median across 8 measured paired blocks per workload."
+    },
+    "performance_counters_during_primary_timing": false,
+    "counter_timing_as_primary_forbidden": true
+  },
+  "architecture_cost_measurement": {
+    "authorized": true,
+    "materialization_time_ms": {
+      "authorized": true,
+      "definition": "CPU wall time from start of direct writes into the final mapped EXEC148 buffer until all 14 execution images are complete.",
+      "applies_to": [
+        "B",
+        "AB"
+      ],
+      "no_overlap_with_measured_decode": true
+    },
+    "validation_time_ms": {
+      "authorized": true,
+      "definition": "Logical-tuple validation wall time reported separately from materialization; never hidden inside materialization time."
+    },
+    "extra_ram_bytes": {
+      "frozen_incremental_bytes": 549527552,
+      "source_logical_family_bytes": 534675456
+    },
+    "break_even_and_total_cost_curve": "Compute only from preregistered formulas after primary timing; do not introduce a fixed deployment horizon."
+  },
+  "analysis_lock": {
+    "bootstrap_resamples": 10000,
+    "paired_bootstrap_over_blocks": true,
+    "ci": "95% percentile",
+    "workload_specific_primary": true,
+    "cross_workload_geometric_mean": "DESCRIPTIVE_ONLY",
+    "additive_effects": {
+      "G_A": "L0 - LA",
+      "G_B": "L0 - LB",
+      "G_INT": "LA + LB - L0 - LAB"
+    },
+    "multiplicative_effects": {
+      "g_A": "ln(L0 / LA)",
+      "g_B": "ln(L0 / LB)",
+      "g_INT": "ln((LA * LB) / (L0 * LAB))"
+    },
+    "primary_timing_stage_claim_boundary": "Timing may establish latency ratios/gains and composition timing evidence only. Full preregistered A/B mechanism-supported claims remain blocked until the later native-counter campaign."
+  },
+  "authorization": {
+    "bounded_timing_harness_implementation": true,
+    "zero_science_build_and_static_qa": true,
+    "fresh_primary_4arm_timing_execution": true,
+    "architecture_cost_measurement": true,
+    "native_hardware_counter_campaign": false,
+    "token_xray": false,
+    "child_c": false,
+    "new_mechanism": false,
+    "new_arm": false
+  },
+  "execution_gate": {
+    "before_first_measured_timing": [
+      "Performance harness must be a new bounded measurement surface; do not mutate the frozen correctness evidence or correctness result files.",
+      "Exact mechanism source blobs listed above must still match.",
+      "Harness must statically prove only the 14 exact Q4_K ffn_down decode nodes differ by arm.",
+      "No hardware performance counters may be collected during primary timing.",
+      "Build/static QA must PASS and the exact performance execution package must be frozen before first measured block.",
+      "Generated 32-token hashes must continue to match the already-frozen correctness hashes during timing attempts; any mismatch STOP_INTEGRITY_OR_CORRECTNESS."
+    ],
+    "stop_on_any_correctness_drift": true
+  },
+  "explicitly_still_closed": {
+    "targeted_4_counter_mechanism_campaign": true,
+    "token_xray": true,
+    "child_c": true,
+    "posthoc_kernel_search": true,
+    "posthoc_layout_search": true,
+    "posthoc_threshold_change": true
+  },
+  "next": "IMPLEMENT_AND_FREEZE_BOUNDED_PRIMARY_TIMING_EXECUTION_PACKAGE_THEN_RUN_EXACT_PREREGISTERED_0_A_B_AB_CAMPAIGN"
+}

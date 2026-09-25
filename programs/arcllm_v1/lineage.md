@@ -1248,3 +1248,33 @@ Canonical evidence:
 
 Next:
 open a separate authorization for the already-preregistered four-arm primary timing campaign. Mechanism counters remain a later stage.
+
+
+## Q4-down 4-arm primary timing authorization — 2026-09-25
+
+Correctness canonical evidence at commit `b109b0ac974ddb6995548527a08878074cab9400` independently closes the required hard gate. A separate authorization now opens only the preregistered primary performance stage.
+
+Authorized now:
+- bounded timing-harness implementation and zero-science QA;
+- fresh 0/A/B/AB primary timing on W-S and W-C;
+- exactly 8 paired measured blocks/workload with the frozen arm order;
+- calibrated Q4-down component timing exactly as preregistered;
+- one-time materialization time and separate validation time for architecture-cost accounting.
+
+Still closed:
+- the targeted four-native-counter mechanism campaign;
+- Token-XRay;
+- Child-C;
+- any new kernel/layout/subgroup-width search;
+- any arm, workload, metric, threshold or mechanism change after correctness.
+
+Primary timing by itself may establish latency ratios/gains and timing composition evidence, but it cannot close the full preregistered A/B mechanism-support claims because those still require the later counter stage.
+
+Authorization:
+`arcllm_v1_q4_down_4arm_primary_timing_authorization_v0.1.json`.
+
+Gate:
+`PASS_OPEN_PRIMARY_4ARM_TIMING`.
+
+Next:
+implement and freeze the exact bounded performance execution package before the first measured block.
