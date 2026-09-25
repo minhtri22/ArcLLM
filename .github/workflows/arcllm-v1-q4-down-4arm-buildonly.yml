@@ -1,0 +1,55 @@
+name: ArcLLM v1 Q4 Down 4-Arm BuildOnly
+
+on:
+  push:
+    branches: [research/arcllm-v1]
+    paths:
+      - ".github/workflows/arcllm-v1-q4-down-4arm-buildonly.yml"
+      - "src/arcllm_v1_q4_down_arch_4arm.cpp"
+      - "src/q4_down_exec148_materializer.h"
+      - "shaders/q4_down_exec148_serial.comp"
+      - "shaders/q4_down_exec148_splitk32.comp"
+      - "tests/q4_down_exec148_synthetic.cpp"
+      - "tests/test_arcllm_v1_q4_down_4arm_package.py"
+      - "tools/compile_arcllm_v1_q4_down_4arm.ps1"
+      - "tools/build_arcllm_v1_q4_down_4arm.ps1"
+      - "tools/qualify_arcllm_v1_q4_down_4arm_buildonly.ps1"
+      - "config/arcllm_v1_q4_down_4arm_correctness_lock_v0.1.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-synthetic-buildonly:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Static + synthetic + build-only qualification
+        shell: pwsh
+        run: powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\qualify_arcllm_v1_q4_down_4arm_buildonly.ps1
+
+      - name: Assert zero-science boundary
+        shell: pwsh
+        run: |
+          $R=Get-Content results\ARCLLM_V1_Q4_DOWN_4ARM_BUILDONLY_QA.json -Raw|ConvertFrom-Json
+          if($R.status-ne"PASS_STATIC_SYNTHETIC_BUILDONLY"){throw "build-only QA not PASS"}
+          if($R.target_model_loaded -or $R.gpu_dispatch_executed -or $R.performance_authorized -or $R.hardware_counters_authorized -or $R.timing_executed){throw "zero-science boundary violated"}
+
+      - name: Upload BuildOnly evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: arcllm-v1-q4-down-4arm-buildonly
+          if-no-files-found: warn
+          path: |
+            results/ARCLLM_V1_Q4_DOWN_4ARM_BUILDONLY_QA.json
+            results/q4_down_4arm_buildonly.json
+            results/q4_down_4arm_shader_provenance.json
+            arcllm_v1_q4_down_4arm.exe
+            q4_down_exec148_synthetic.exe
