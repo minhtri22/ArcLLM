@@ -1,0 +1,20 @@
+{
+  "schema": "arcllm.v1.q4_down_splitk_causal.worktree_integrity_repair.v0.1",
+  "date": "2026-09-25",
+  "status": "PASS_ZERO_SCIENCE_GOVERNANCE_REPAIR",
+  "parent_head": "42a2255491a7940336bd6afeb74f6e1b4ac0d343",
+  "issue": "HEAD:path blob checks verified committed provenance but did not prove that tracked worktree bytes consumed by Python/cl.exe matched HEAD.",
+  "correction": "Both build-only and correctness launchers now STOP on any tracked worktree modification; static QA asserts this guard remains present.",
+  "science_changed": false,
+  "shader_changed": false,
+  "harness_cpp_changed": false,
+  "thresholds_changed": false,
+  "authorizations_changed": false,
+  "untracked_outputs_allowed": true,
+  "rebound_blobs": {
+    "buildonly_launcher": "53b08b825fbc0a8416a1609eb4da802cb16c7fc9",
+    "correctness_launcher": "4cffb8aa9a6dc1aad5068af38e36f9c41885ad63",
+    "static_qa": "6775fa838c65ae3fe8e669e5d48dd9a4fc2220e5",
+    "lock": "24d92612cfde30d624a20c25bf7d3101b2c5b9f5"
+  }
+}

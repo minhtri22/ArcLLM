@@ -11,6 +11,8 @@ git -C $Root fetch origin | Out-Null
 $Head=(git -C $Root rev-parse HEAD).Trim()
 $Remote=(git -C $Root rev-parse ("origin/"+[string]$L.branch)).Trim()
 if($Head-ne$Remote){throw "STOP: causal worktree HEAD does not match remote"}
+$Tracked=(git -C $Root status --porcelain --untracked-files=no|Out-String)
+if(-not[string]::IsNullOrWhiteSpace($Tracked)){throw "STOP: tracked causal worktree dirty"}
 foreach($P in $L.critical_git_blobs.PSObject.Properties){
   $Got=(git -C $Root rev-parse ("HEAD:"+$P.Name)).Trim()
   if($LASTEXITCODE-ne0-or$Got-ne[string]$P.Value){throw "STOP: critical blob mismatch: $($P.Name)"}
