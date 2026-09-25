@@ -1297,3 +1297,12 @@ No measured primary timing has been executed at this stage.
 
 Next gate: zero-science static/native-build qualification of the exact package. Only a PASS may
 freeze the execution lock and permit the first measured block.
+
+
+## Q4-down 4-arm primary timing package — static PASS / CI infra-blocked native build — 2026-09-25
+
+Bounded primary-timing implementation candidate is frozen at implementation head `3ce860465ffa4a16bc2cc49b6f22e2b39dc08532`. Independent static audit PASS confirms exact four-arm order, mechanism routing equality with the correctness harness, 14-target-only timestamp scope, 31 decode samples/attempt, calibrated timestamp-period path, separate materialization/validation wall times, and no native performance-counter/Token-XRay/Child-C path.
+
+GitHub Actions run `36103464653` failed twice before any workflow step was allocated. This is CI infrastructure only, not implementation or scientific failure.
+
+Candidate execution lock v0.1 remains `execution_authorized=false`. Backlog/gate: obtain one DEV_HOST zero-science native build-only PASS and independently review its return bundle. Only then may immutable execution lock v0.2 authorize the first measured timing block.

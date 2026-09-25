@@ -1,7 +1,7 @@
 param([string]$ModelPath,[string]$OllamaModelsRoot)
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Root=Split-Path -Parent $MyInvocation.MyCommand.Path
-$LockPath=Join-Path $Root "config\arcllm_v1_q4_down_4arm_primary_timing_execution_lock_v0.1.json"
+$LockPath=Join-Path $Root "config\arcllm_v1_q4_down_4arm_primary_timing_execution_lock_v0.2.json"
 if(-not(Test-Path $LockPath)){throw "STOP: frozen primary timing execution lock missing"}
 $L=Get-Content $LockPath -Raw|ConvertFrom-Json
 if(-not[bool]$L.authorization.execution_authorized){throw "STOP: primary timing execution package not authorized"}

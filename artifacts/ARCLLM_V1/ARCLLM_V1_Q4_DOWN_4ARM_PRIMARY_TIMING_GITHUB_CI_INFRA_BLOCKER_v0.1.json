@@ -1,0 +1,24 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.primary_timing.github_ci_infra_blocker.v0.1",
+  "date": "2026-09-25",
+  "status": "GITHUB_ACTIONS_RUNNER_NOT_ALLOCATED",
+  "workflow": "ArcLLM v1 Q4 Down 4-Arm Primary Timing BuildOnly",
+  "run_id": 36103464653,
+  "head": "3ce860465ffa4a16bc2cc49b6f22e2b39dc08532",
+  "attempts": [
+    {
+      "attempt": 1,
+      "conclusion": "failure",
+      "job_id": 107970765491,
+      "steps": null
+    },
+    {
+      "attempt": 2,
+      "conclusion": "failure",
+      "job_id": 107970937897,
+      "steps": null
+    }
+  ],
+  "classification": "CI_INFRASTRUCTURE_ONLY_NOT_IMPLEMENTATION_FAIL_NOT_SCIENTIFIC_FAIL",
+  "next": "DEV_HOST_ZERO_SCIENCE_NATIVE_BUILDONLY"
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.primary_timing.static_audit.v0.1",
+  "date": "2026-09-25",
+  "status": "PASS_INDEPENDENT_STATIC_AUDIT_NATIVE_BUILD_NOT_YET_QUALIFIED",
+  "implementation_commit": "3ce860465ffa4a16bc2cc49b6f22e2b39dc08532",
+  "checks": {
+    "authorization_status_exact": true,
+    "canonical_correctness_status_exact": true,
+    "arm_order_exact": true,
+    "eight_blocks_per_workload": true,
+    "counters_closed": true,
+    "token_xray_closed": true,
+    "child_c_closed": true,
+    "decode_routing_byte_exact_to_correctness_harness": true,
+    "decode_graph_byte_exact_to_correctness_harness": true,
+    "exact_14_target_dispatch_scope": true,
+    "exact_31_decode_samples_per_attempt": true,
+    "exact_32_measured_attempts_per_workload": true,
+    "calibrated_timestamp_period_path_present": true,
+    "targeted_timestamp_queries_only": true,
+    "no_VK_KHR_performance_query": true,
+    "no_profiling_lock_KHR": true,
+    "materialization_and_validation_times_separate": true,
+    "W_S_architecture_cost_reference_frozen": true,
+    "W_C_architecture_cost_integrity_replicate_frozen": true,
+    "generated_hashes_frozen": true,
+    "bootstrap_10000_seed_1980": true,
+    "mechanism_claim_boundary_closed_without_counters": true
+  },
+  "boundary": {
+    "native_windows_build_pass": false,
+    "model_loaded": false,
+    "gpu_dispatch_executed": false,
+    "primary_timing_executed": false,
+    "counters_executed": false
+  },
+  "next": "DEV_HOST_ZERO_SCIENCE_NATIVE_BUILDONLY"
+}
