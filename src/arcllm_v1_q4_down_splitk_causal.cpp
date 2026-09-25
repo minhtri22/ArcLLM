@@ -245,7 +245,7 @@ static std::string i001r_family(const std::string& name){
 }
 
 int main(int argc,char**argv){
-    std::string model,shader_dir,implementation_commit,workload,out="q4_down_splitk_causal.json";
+    std::string model,shader_dir,implementation_commit,workload,mode="correctness",out="q4_down_splitk_causal.json";
     try{
         for(int i=1;i<argc;++i){
             std::string a=argv[i];
@@ -254,11 +254,12 @@ int main(int argc,char**argv){
             else if(a=="--shader-dir")shader_dir=need("--shader-dir");
             else if(a=="--implementation-commit")implementation_commit=need("--implementation-commit");
             else if(a=="--workload")workload=need("--workload");
+            else if(a=="--mode")mode=need("--mode");
             else if(a=="--out")out=need("--out");
         }
         if(model.empty()||shader_dir.empty()||implementation_commit.empty()||workload.empty())
             throw std::runtime_error("Q4-down split-K causal required arguments missing");
-        auto setup_t0=std::chrono::steady_clock::now();
+        if(mode!="correctness"&&mode!="measure")throw std::runtime_error("Q4-down split-K causal mode must be correctness or measure");
         GgufInfo gguf=GgufReader(model).read();
         TensorStore store;TensorStoreReport ts=store.inspect(model,gguf);
         if(!ts.mapped||!ts.all_bounds_valid||!ts.no_overlap||!ts.supported_types_only||!ts.q4_k_direct_access)
@@ -551,6 +552,54 @@ int main(int argc,char**argv){
         if(!component_correct)throw std::runtime_error("Q4-down split-K component correctness gate failed");
 
         const std::string expected_hash=workload=="W-S"?"f31d4bb9fe5eb9c3":"471519ddc45b232e";
+
+        struct SemanticResult{std::string arm;bool success=false,finite=false,census=false;std::vector<uint32_t>generated;std::string hash,logits_hash,hidden_hash,error;};
+        auto run_semantic=[&](const std::string&arm,bool splitk,const PreparedChain&dchain)->SemanticResult{
+            SemanticResult a;a.arm=arm;reset_execution();
+            try{
+                ChainStats ps=vk.execute_prepared(ppchain,ppops,false);
+                const float*lp=reinterpret_cast<const float*>(b_logits.mapped);Q2Top2 top=q2_top2(lp,VOC);
+                a.generated.push_back(top.top1);bool finite=top.finite;bool counts=ps.dispatch_count==EXPECT_PREFILL&&ps.submit_count==1u;
+                uint32_t next=top.top1;std::memcpy(b_dec_id.mapped,&next,sizeof(next));
+                for(uint32_t di=0;di<31u;++di){
+                    auto dops=build_decode(seq+di,splitk);
+                    ChainStats ds=vk.execute_prepared(dchain,dops,true);
+                    counts=counts&&ds.dispatch_count==EXPECT_DECODE&&ds.submit_count==1u;
+                    lp=reinterpret_cast<const float*>(b_logits.mapped);top=q2_top2(lp,VOC);finite=finite&&top.finite;
+                    next=top.top1;a.generated.push_back(next);std::memcpy(b_dec_id.mapped,&next,sizeof(next));
+                }
+                a.finite=finite;a.census=counts;a.hash=q2_hex64(q2_fnv1a64(a.generated.data(),a.generated.size()*sizeof(uint32_t)));
+                lp=reinterpret_cast<const float*>(b_logits.mapped);a.logits_hash=q2_hex64(q2_fnv1a64(lp,uint64_t(VOC)*sizeof(float)));
+                const float*hp=reinterpret_cast<const float*>(b_norm.mapped);a.hidden_hash=q2_hex64(q2_fnv1a64(hp,uint64_t(H)*sizeof(float)));
+                a.success=finite&&counts&&a.generated.size()==32u&&a.hash==expected_hash;
+                if(!a.success)a.error="Q4-down causal semantic correctness invariant failure";
+            }catch(const std::exception&e){a.error=e.what();}
+            return a;
+        };
+
+        if(mode=="correctness"){
+            SemanticResult c0=run_semantic("0",false,d0chain),cA=run_semantic("A",true,dAchain);
+            const bool pass=c0.success&&cA.success&&component_correct;
+            std::ofstream o(out,std::ios::binary);if(!o)throw std::runtime_error("cannot write Q4-down causal correctness JSON");
+            o<<std::setprecision(15);
+            auto emit_sem=[&](const SemanticResult&a){
+                o<<"{\"arm\":\""<<a.arm<<"\",\"success\":"<<json_bool(a.success)<<",\"dispatch_census_pass\":"<<json_bool(a.census)
+                 <<",\"generated_hash_fnv1a64\":\""<<a.hash<<"\",\"final_logits_hash_fnv1a64\":\""<<a.logits_hash
+                 <<"\",\"final_hidden_hash_fnv1a64\":\""<<a.hidden_hash<<"\",\"error\":\""<<p8g_escape(a.error)<<"\"}";
+            };
+            o<<"{\n  \"schema\":\"arcllm.v1.q4_down_splitk_causal.correctness.v0.1\",\n";
+            o<<"  \"status\":\""<<(pass?"PASS_CORRECTNESS":"FAIL_CORRECTNESS")<<"\",\"workload\":\""<<workload<<"\",\"implementation_commit\":\""<<p8g_escape(implementation_commit)<<"\",\n";
+            o<<"  \"component_correctness\":{\"finite\":"<<json_bool(comp.finite)<<",\"max_abs\":"<<comp.max_abs<<",\"rmse\":"<<component_rmse<<",\"n\":"<<comp.n<<",\"pass\":"<<json_bool(component_correct)<<"},\n";
+            o<<"  \"expected_generated_hash_fnv1a64\":\""<<expected_hash<<"\",\"arms\":[";
+            emit_sem(c0);o<<",";emit_sem(cA);o<<"],\n";
+            o<<"  \"performance\":{\"authorized\":false,\"wall_timing_executed\":false,\"timestamp_queries_executed\":false,\"hardware_counters_executed\":false},\n";
+            o<<"  \"isolation\":{\"q4_down_layers\":[3,4,6,7,8,11,12,14,15,17,18,19,21,22],\"only_work_decomposition_differs\":true,\"extra_resident_bytes\":0}\n}\n";
+            o.close();
+            vk.destroy_prepared(dAchain);vk.destroy_prepared(d0chain);vk.destroy_prepared(ppchain);
+            std::vector<Buffer*>scratch={&b_vcache,&b_kcache,&b_logits,&b_norm,&b_d,&b_s,&b_u,&b_g,&b_n2,&b_r1,&b_o,&b_attn,&b_kr,&b_qr,&b_v,&b_k,&b_q,&b_n1,&b_h1,&b_h0,&b_dummy,&b_dec_id,&b_ids};
+            for(Buffer*p:scratch)vk.destroy_buffer(*p);for(auto&b:arenas)vk.destroy_buffer(b);
+            return pass?0:3;
+        }
         struct Attempt{
             int block=-1;std::string arm,phase;bool success=false,final_logits_finite=false,dispatch_census_pass=false;
             double ttft_ms=0,decode_ms=0,e2e_ms=0,decode_tps=0;
@@ -620,7 +669,7 @@ int main(int argc,char**argv){
         std::ofstream o(out,std::ios::binary);if(!o)throw std::runtime_error("cannot write Q4-down causal result JSON");
         o<<std::setprecision(15);
         o<<"{\n  \"schema\":\"arcllm.v1.q4_down_splitk_causal.collection.v0.1\",\n";
-        o<<"  \"status\":\"PASS_COLLECTION\",\"workload\":\""<<workload<<"\",\"implementation_commit\":\""<<p8g_escape(implementation_commit)<<"\",\n";
+        o<<"  \"status\":\"PASS_COLLECTION\",\"mode\":\"measure\",\"workload\":\""<<workload<<"\",\"implementation_commit\":\""<<p8g_escape(implementation_commit)<<"\",\n";
         o<<"  \"prompt_tokens\":"<<seq<<",\"output_tokens\":32,\"prompt_hash_fnv1a64\":\""<<prompt_hash<<"\",\"expected_generated_hash_fnv1a64\":\""<<expected_hash<<"\",\n";
         o<<"  \"isolation\":{\"q4_down_layers\":[3,4,6,7,8,11,12,14,15,17,18,19,21,22],\"q4_down_dispatches_per_decode\":14,\"baseline_shader\":\"p7_q4k_gemm_2d.spv\",\"intervention_shader\":\"sa1_q4k_subgroup_splitk.spv\",\"baseline_workgroups\":56,\"intervention_workgroups\":896,\"q6_down_unchanged\":true,\"prefill_unchanged\":true,\"extra_resident_bytes\":0},\n";
         o<<"  \"component_correctness\":{\"finite\":"<<json_bool(comp.finite)<<",\"max_abs\":"<<comp.max_abs<<",\"rmse\":"<<component_rmse<<",\"n\":"<<comp.n<<",\"pass\":"<<json_bool(component_correct)<<"},\n";
