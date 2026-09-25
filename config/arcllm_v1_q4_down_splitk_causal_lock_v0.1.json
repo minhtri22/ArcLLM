@@ -103,10 +103,22 @@
     "tools/compile_arcllm_v1_i003.ps1": "f4e14baab9fc93c4e19ecda399d28016f7f29354",
     "tools/build_arcllm_v1_q4_down_splitk_causal.ps1": "c8510302604c9051d360f8b5c950fa5696fcc73c",
     "tools/adjudicate_arcllm_v1_q4_down_splitk_causal.py": "58c086b35aa7aad0e9d4e9a00b006ff1f384178e",
-    "tests/test_arcllm_v1_q4_down_splitk_causal.py": "5edfdee73aff6f9d2403d34e308deb9738fc4fdf",
+    "tests/test_arcllm_v1_q4_down_splitk_causal.py": "1fb692c34dabe1104279781e4dcaf4df3cb40618",
     "run_arcllm_v1_q4_down_splitk_causal_buildonly.ps1": "af830a9c30686e68a5711eb5a741a368e342d97c",
     "run_arcllm_v1_q4_down_splitk_causal_correctness.ps1": "3927494ac7da6353df3e78f9556e716a70f64906"
   },
   "stop_rule": "Do not run correctness until build-only bundle is independently reviewed and lock.authorization.correctness is explicitly enabled. Do not run measure mode until correctness is independently adjudicated PASS and lock.authorization.performance is explicitly enabled.",
-  "windows_eol_blob_policy": "Critical files are verified with git rev-parse HEAD:path, not worktree-byte hash-object, so CRLF checkout normalization cannot create a false mismatch."
+  "windows_eol_blob_policy": "Critical files are verified with git rev-parse HEAD:path, not worktree-byte hash-object, so CRLF checkout normalization cannot create a false mismatch.",
+  "pre_build_static_qa_repair": {
+    "classification": "PRE_BUILD_STATIC_QA_ONLY",
+    "parent_head": "f413e29e0fae95b9356b49241576ff6b69daa0ad",
+    "reason": "Static QA expected a formatting-specific direct Q4 baseline addop literal, while the implementation selects Q4/Q6 baseline shaders through a ternary expression. The implemented intervention and isolation contract were already correct.",
+    "scientific_payload_changed": false,
+    "collector_cpp_changed": false,
+    "shader_changed": false,
+    "adjudicator_changed": false,
+    "thresholds_changed": false,
+    "authorization_changed": false,
+    "fix": "Replace formatting-specific literal match with structural checks for Q4 target condition, baseline Q4/Q6 selector, split-K intervention shader, 56-to-896 geometry, and unchanged non-target shader/geometry."
+  }
 }
