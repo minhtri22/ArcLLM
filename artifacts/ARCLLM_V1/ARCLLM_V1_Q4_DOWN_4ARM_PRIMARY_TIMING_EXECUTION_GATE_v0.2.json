@@ -1,0 +1,22 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.primary_timing.execution_authorization_gate.v0.2",
+  "date": "2026-09-25",
+  "status": "PASS_OPEN_EXACT_PRIMARY_4ARM_TIMING_EXECUTION",
+  "canonical_correctness_blob": "a6f25630437307dbeabb7c88efe8002d0dde2555",
+  "canonical_buildonly_blob": "18c8b2aac82b8e927c3e166dd5186b2e6b4e803a",
+  "execution_lock_blob": "5c9437bbf51bb4f5ae469af4d822b628a11ad3e9",
+  "qualified_source_head": "875b45004d3e16b694731a67ed47153c316be1f6",
+  "qualified_exe_sha256": "233343628E6D08E0374693613CD3512DECD34A270995B44442AD34C99E727364",
+  "opened": [
+    "exact preregistered primary 0/A/B/AB timing",
+    "authorized architecture-cost materialization/validation timing"
+  ],
+  "still_closed": [
+    "native 4-counter mechanism campaign",
+    "Token-XRay",
+    "Child-C",
+    "kernel/layout/subgroup search",
+    "posthoc threshold changes"
+  ],
+  "note": "Runner v0.2 verifies the exact qualified executable and does not rebuild it before measurement."
+}

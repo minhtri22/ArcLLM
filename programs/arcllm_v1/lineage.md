@@ -1313,3 +1313,12 @@ Candidate execution lock v0.1 remains `execution_authorized=false`. Backlog/gate
 DEV_HOST zero-science build reached static QA and full frozen shader provenance PASS, then stopped before executable creation with MSVC C3493 in the `q4_names` initializer lambda. No model load, GPU dispatch, timing, counter collection, or performance outcome occurred.
 
 The repair changes only the lambda capture list from `[]` to `[&]` so the already-frozen `Q4_DOWN_LAYERS` set can be read while constructing the exact 14 target names. No mechanism, arm routing, decode graph, measurement scope, campaign order, threshold, or analysis rule changed. Candidate execution remains unauthorized pending a fresh DEV_HOST native build-only PASS.
+
+
+## Q4-down 4-arm primary timing — DEV_HOST build-only PASS / exact execution authorized — 2026-09-25
+
+DEV_HOST zero-science native build-only PASS at source head `875b45004d3e16b694731a67ed47153c316be1f6`. Returned bundle SHA256 `ACDE58AE0269D6233FD13BB013E08403B82423F78B66A338BD9D65C21FB95230`. Qualified executable SHA256 `233343628E6D08E0374693613CD3512DECD34A270995B44442AD34C99E727364`, 475,648 bytes. No model load, GPU dispatch, primary timing or hardware-counter science occurred.
+
+Build-only evidence and shader provenance are canonicalized. Final execution lock v0.2 authorizes only the already-preregistered 0/A/B/AB primary timing campaign. The runner verifies the exact qualified binary and no longer rebuilds it before measurement; it reruns only static QA and deterministic shader compilation/provenance, then checks the frozen DEV_HOST environment/model.
+
+Native counter campaign, Token-XRay, Child-C and all post-hoc mechanism/layout/threshold search remain closed. Next: one complete exact primary timing collection; no selective reruns after valid measured outcomes are exposed.

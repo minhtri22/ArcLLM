@@ -1,0 +1,155 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.primary_timing_execution_lock.v0.2",
+  "date": "2026-09-25",
+  "status": "PRIMARY_TIMING_EXECUTION_AUTHORIZED_EXACT_BUILD",
+  "branch": "research/arcllm-v1",
+  "authorization_source": {
+    "path": "config/arcllm_v1_q4_down_4arm_primary_timing_authorization_v0.1.json",
+    "blob": "95a315585d3745af2a26bc10a3f06761dd81f7a5"
+  },
+  "canonical_correctness": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_Q4_DOWN_4ARM_CORRECTNESS_CANONICAL_v0.1.json",
+    "blob": "a6f25630437307dbeabb7c88efe8002d0dde2555",
+    "source_bundle_sha256": "EA6894D76816215D7BF01435C36BE0DB34942B0E4CD9685A3250021B7A6EAB2"
+  },
+  "canonical_buildonly": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_Q4_DOWN_4ARM_PRIMARY_TIMING_BUILDONLY_CANONICAL_v0.1.json",
+    "blob": "18c8b2aac82b8e927c3e166dd5186b2e6b4e803a",
+    "source_bundle_sha256": "ACDE58AE0269D6233FD13BB013E08403B82423F78B66A338BD9D65C21FB95230"
+  },
+  "qualified_build": {
+    "source_head": "875b45004d3e16b694731a67ed47153c316be1f6",
+    "exe_sha256": "233343628E6D08E0374693613CD3512DECD34A270995B44442AD34C99E727364",
+    "exe_bytes": 475648,
+    "target_spv_sha256": {
+      "child_a": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+      "B": "140B8C7ADF5E88D4F1A50C4F8807874F4978070F301FCEEFC67A6A51A383D2A3",
+      "AB": "5070AD8EE3BB4419D06E4FDDA52AF9F404D9CAA1388BFB66771ED206B2D06B43"
+    },
+    "rebuild_before_measurement_forbidden": true
+  },
+  "target_model": {
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "bytes": 4683074048
+  },
+  "environment": {
+    "os_build": "26200",
+    "cpu": "Intel(R) Core(TM) Ultra 7 258V",
+    "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "gpu_driver": "32.0.101.8860"
+  },
+  "frozen_campaign": {
+    "arms": [
+      "0",
+      "A",
+      "B",
+      "AB"
+    ],
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "warmup": "one unmeasured complete inference per arm/workload",
+    "measured_blocks_per_workload": 8,
+    "decode_samples_per_attempt": 31,
+    "output_tokens": 32,
+    "arm_order_by_block": [
+      [
+        "0",
+        "A",
+        "B",
+        "AB"
+      ],
+      [
+        "A",
+        "B",
+        "AB",
+        "0"
+      ],
+      [
+        "B",
+        "AB",
+        "0",
+        "A"
+      ],
+      [
+        "AB",
+        "0",
+        "A",
+        "B"
+      ],
+      [
+        "AB",
+        "B",
+        "A",
+        "0"
+      ],
+      [
+        "0",
+        "AB",
+        "B",
+        "A"
+      ],
+      [
+        "A",
+        "0",
+        "AB",
+        "B"
+      ],
+      [
+        "B",
+        "A",
+        "0",
+        "AB"
+      ]
+    ],
+    "primary_metric": "Q4_DOWN_COMPONENT_LATENCY_MS_PER_TOKEN",
+    "target_dispatches_per_decode": 14,
+    "timestamp_calibration": "VkPhysicalDeviceProperties.limits.timestampPeriod",
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 1980,
+    "architecture_cost_reference_workload": "W-S",
+    "architecture_cost_replicate_workload": "W-C",
+    "correctness_hashes": {
+      "W-S": "f31d4bb9fe5eb9c3",
+      "W-C": "471519ddc45b232e"
+    }
+  },
+  "critical_git_blobs": {
+    "run_arcllm_v1_q4_down_4arm_primary_timing.ps1": "f76a09ca764b97e5c4924b0dc664d9a44fd5bae2",
+    "src/arcllm_v1_q4_down_4arm_primary_timing.cpp": "a198ee0c8e2ebaf1788f659fbf7c5b61b4ae1d6d",
+    "src/arcllm_v1_q4_down_4arm_timing_runtime.cpp": "985e51981e1080f902c4cdfbb4435489580028dc",
+    "tools/adjudicate_arcllm_v1_q4_down_4arm_primary_timing.py": "31dc89431c7102f9dd725693e4006ca6a0971edc",
+    "tests/test_arcllm_v1_q4_down_4arm_primary_timing.py": "044271b6c52bf69cffdc13721164499ba4c6c974",
+    "tools/compile_arcllm_v1_q4_down_4arm.ps1": "075dc97d71c9309e4cf8bbf58be320d0c73ebd29",
+    "src/arcllm_v1_q4_down_arch_4arm.cpp": "4d88dbd867da39c42bbfcbe3697acc7b8ebeb3fa",
+    "src/q4_down_exec148_materializer.h": "611efe8a087b2a5d00d887287034e2fb4f63a58f",
+    "shaders/sa1_q4k_subgroup_splitk.comp": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "shaders/q4_down_exec148_serial.comp": "56de6602e7aca31c84a3d7764b10c0c55eb2fef5",
+    "shaders/q4_down_exec148_splitk32.comp": "5a828eac2514f4404ab94278a63322e403617bee",
+    "config/arcllm_v1_q4_down_4arm_primary_timing_authorization_v0.1.json": "95a315585d3745af2a26bc10a3f06761dd81f7a5",
+    "artifacts/ARCLLM_V1/ARCLLM_V1_Q4_DOWN_4ARM_CORRECTNESS_CANONICAL_v0.1.json": "a6f25630437307dbeabb7c88efe8002d0dde2555",
+    "artifacts/ARCLLM_V1/ARCLLM_V1_Q4_DOWN_4ARM_PRIMARY_TIMING_BUILDONLY_CANONICAL_v0.1.json": "18c8b2aac82b8e927c3e166dd5186b2e6b4e803a"
+  },
+  "authorization": {
+    "execution_authorized": true,
+    "primary_timing_only": true,
+    "architecture_cost_measurement": true,
+    "hardware_counters": false,
+    "token_xray": false,
+    "child_c": false,
+    "mechanism_search": false,
+    "posthoc_layout_search": false,
+    "posthoc_threshold_change": false
+  },
+  "stop_rules": [
+    "STOP on any critical Git blob mismatch.",
+    "STOP if exact qualified executable SHA256/size differs.",
+    "STOP on OS/CPU/GPU/driver drift.",
+    "STOP on model hash/size drift.",
+    "STOP on any generated-token/hash or dispatch-census drift.",
+    "STOP if performance counters or Token-XRay appear in primary timing.",
+    "Do not rerun/selectively rerun a measured arm/block after valid outcome exposure."
+  ],
+  "next": "RUN_EXACT_PREREGISTERED_PRIMARY_4ARM_TIMING_ONCE_AND_RETURN_COMPLETE_BUNDLE"
+}
