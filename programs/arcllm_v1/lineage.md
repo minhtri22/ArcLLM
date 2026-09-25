@@ -1167,3 +1167,36 @@ scientific artifact is the Q4 FFN-down split-K sentinel specification, with froz
 traffic amplification falls, ALU utilization rises, SBID/XVE stall falls, component latency improves,
 and semantic correctness remains exact.
 
+## Q4_DOWN_ARCHITECTURE_CAUSAL_DECOMPOSITION — parent freeze — 2026-09-25
+
+M3-B motivates two separable candidate mechanisms for exact Q4_K FFN-down:
+(1) row-serial-K work decomposition causing low ALU utilization / high scoreboard stall, and
+(2) execution representation causing physical device-read amplification.
+
+A four-arm 2x2 causal study is now frozen before implementation:
+
+```text
+0  = Serial-K + storage-native Q4_K
+A  = Split-K32 + storage-native Q4_K
+B  = Serial-K + one-time CPU materialized RAM image
+AB = exact A Split-K32 + exact B image
+```
+
+Only the 14 Q4_K down layers are in scope. A cannot change representation; B cannot change
+parallelism; AB cannot add a third mechanism. B/AB perform no per-token CPU model math and may not
+fully dequantize the Q4_K weights.
+
+Frozen evaluation vector:
+component latency; device-read/weight; ALU1 utilization; XVE stall; SBID stall; exact generated
+tokens/hash + I002 component correctness limits; materialization time; extra RAM; break-even tokens.
+
+The identity
+`L0-LAB = (L0-LA) + (L0-LB) + (LA+LB-L0-LAB)`
+will report work-decomposition gain, representation gain, and interaction gain explicitly.
+
+Eight balanced paired timing blocks/workload are frozen. Mechanism counters are collected only
+after timing and cannot substitute for timing. Architecture selection will report non-dominated
+arms and crossover token horizons rather than assuming an arbitrary usage horizon.
+
+No implementation or fresh performance execution is authorized by this parent freeze.
+

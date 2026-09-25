@@ -1,0 +1,363 @@
+{
+  "schema": "arcllm.v1.q4_down_architecture_causal_decomposition.prelock.v0.1",
+  "date": "2026-09-25",
+  "status": "FROZEN_PARENT_STUDY_NO_IMPLEMENTATION_AUTHORIZED",
+  "study_id": "Q4_DOWN_ARCHITECTURE_CAUSAL_DECOMPOSITION",
+  "scientific_question": "For the exact Q4_K FFN-down path, how much of the component latency and hardware inefficiency is caused by work decomposition, how much by execution representation/materialization, and is there a measurable interaction between the two?",
+  "parents": {
+    "hardware_model": {
+      "path": "artifacts/ARCLLM_V1/ARCLLM_V1_ONE_TOKEN_HARDWARE_MODEL_v0.5.json",
+      "blob": "7e40f3af89fc969731310035bd7514918010fe2f"
+    },
+    "m3b_mechanism_map": {
+      "path": "artifacts/ARCLLM_V1/ARCLLM_V1_M3B_HARDWARE_MECHANISM_MAP_v0.1.json",
+      "blob": "1dd8cb6ef4c66e92b6f38fab7908dd709d20af83"
+    },
+    "i002_transfer_spec": {
+      "path": "docs/research/arcllm-v1/ARCLLM_V1_I002_REAL_MODEL_TRANSFER_AND_CARRY_THROUGH_SPEC.md",
+      "blob": "e0b137d1d589ea0b08df866389cbbddfb0e669ab"
+    }
+  },
+  "target": {
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "tensor_family": "ffn_down.weight",
+    "quant": "Q4_K",
+    "layers": [
+      3,
+      4,
+      6,
+      7,
+      8,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      19,
+      21,
+      22
+    ],
+    "layer_count": 14,
+    "shape": {
+      "k": 18944,
+      "rows": 3584,
+      "batch_decode": 1
+    },
+    "q4_blocks_per_row": 74,
+    "q4_row_bytes": 10656,
+    "logical_weight_bytes_per_layer": 38191104,
+    "logical_weight_bytes_family": 534675456,
+    "baseline_shader": "p7_q4k_gemm_2d.spv"
+  },
+  "frozen_factors": {
+    "work_decomposition": {
+      "level_0": "SERIAL_K_CURRENT",
+      "level_1": "SPLIT_K32_NATIVE_SUBGROUP",
+      "level_1_constraints": [
+        "Exactly one native subgroup of 32 lanes cooperates on one output row.",
+        "K is partitioned lane-stride 32 and reduced within that subgroup.",
+        "No logical Split-K64/128 search is part of this parent study.",
+        "No fusion with other semantic nodes."
+      ]
+    },
+    "execution_representation": {
+      "level_0": "STORAGE_NATIVE_Q4_K",
+      "level_1": "CPU_ONE_TIME_RAM_EXECUTION_IMAGE",
+      "level_1_constraints": [
+        "Materialization occurs once before measured inference; zero per-token CPU model math.",
+        "No GPU-assisted materialization in this study.",
+        "No full dequantization to FP16/F32.",
+        "Logical Q4_K value domain is preserved: q nibbles, FP16 d/dmin, integer scale/min semantics must reconstruct exactly.",
+        "Reorder and metadata duplication are allowed; exact layout must be frozen in a child implementation lock before any fresh performance execution.",
+        "B retains serial k=0..18943 accumulation order; materialization must not introduce additional K parallelism."
+      ]
+    }
+  },
+  "arms": {
+    "0": {
+      "name": "BASELINE",
+      "work_decomposition": "SERIAL_K_CURRENT",
+      "representation": "STORAGE_NATIVE_Q4_K",
+      "purpose": "Fresh contemporaneous control."
+    },
+    "A": {
+      "name": "WORK_DECOMPOSITION",
+      "work_decomposition": "SPLIT_K32_NATIVE_SUBGROUP",
+      "representation": "STORAGE_NATIVE_Q4_K",
+      "purpose": "Isolate causal effect of work decomposition."
+    },
+    "B": {
+      "name": "EXECUTION_MATERIALIZATION",
+      "work_decomposition": "SERIAL_K_CURRENT",
+      "representation": "CPU_ONE_TIME_RAM_EXECUTION_IMAGE",
+      "purpose": "Isolate causal effect of representation/materialization."
+    },
+    "AB": {
+      "name": "COMPOSITION",
+      "work_decomposition": "SPLIT_K32_NATIVE_SUBGROUP",
+      "representation": "CPU_ONE_TIME_RAM_EXECUTION_IMAGE",
+      "purpose": "Measure composition and interaction.",
+      "orthogonality": "Must consume the exact materialized image produced by B and use the exact Split-K32 decomposition used by A; no AB-only optimization."
+    }
+  },
+  "isolation_contract": [
+    "Only the 14 exact Q4_K FFN-down nodes may differ among arms.",
+    "All Q6_K FFN-down nodes remain unchanged.",
+    "All Q/K/V/O, gate/up, attention, norms, embedding and LM-head nodes remain unchanged.",
+    "Workloads, model, decode length, token policy and runtime semantics are identical.",
+    "A cannot change representation; B cannot change work decomposition; AB cannot add a third mechanism.",
+    "No parameter/tile/subgroup search after fresh measured outcomes are exposed."
+  ],
+  "evaluation_vector": {
+    "primary": {
+      "metric": "Q4_DOWN_COMPONENT_LATENCY_MS_PER_TOKEN",
+      "acquisition": "Calibrated Vulkan timestamps around the 14 Q4_K FFN-down dispatches; instrument identically in all four arms.",
+      "per_attempt": "For each of 31 decode steps, sum the 14 Q4-down dispatch durations; take the median of those 31 family sums.",
+      "cell_summary": "Median across 8 measured paired blocks per workload.",
+      "timing_authority": "Uninstrumented-by-performance-counters timing phase only."
+    },
+    "mechanism": {
+      "probe_decode_index": 15,
+      "quiet_host": true,
+      "scope": "COMMAND",
+      "native_counters": [
+        {
+          "index": 56,
+          "name": "GPU_MEMORY_BYTE_READ",
+          "derived": "device_read_over_weight = sum_14_dispatch_bytes / 534675456"
+        },
+        {
+          "index": 66,
+          "name": "XVE_INST_EXECUTED_ALU1_ALL_UTILIZATION",
+          "derived": "arithmetic mean across 14 Q4-down dispatches"
+        },
+        {
+          "index": 64,
+          "name": "XVE_STALL",
+          "derived": "arithmetic mean across 14 Q4-down dispatches"
+        },
+        {
+          "index": 233,
+          "name": "XVE_STALL_SBID",
+          "derived": "arithmetic mean across 14 Q4-down dispatches"
+        }
+      ],
+      "pass_count": "RECOMPUTE_FROM_DRIVER_FOR_EXACT_FOUR_COUNTER_SELECTION",
+      "timing_use": "COUNTER_RUN_TIMING_FORBIDDEN_AS_PRIMARY"
+    },
+    "correctness": {
+      "hard_gate": true,
+      "generated_tokens": 32,
+      "expected_hashes": {
+        "W_S": "f31d4bb9fe5eb9c3",
+        "W_C": "471519ddc45b232e"
+      },
+      "component_oracle": {
+        "max_abs_max": 0.02,
+        "rmse_max": 0.005,
+        "origin": "Inherited from I002 proven transfer contract."
+      },
+      "floating_hash_policy": "Final hidden/logit hashes are recorded but not required bit-identical because Split-K changes FP32 accumulation order.",
+      "materialization_gate": "For B/AB, independently reconstruct and hash logical Q4_K tuples for all 14 tensors; exact logical tuple equality with source tensors is mandatory before performance execution."
+    },
+    "architecture_cost": {
+      "materialization_time_ms": "Measure one-time CPU wall time from source Q4_K bytes to complete RAM execution image, before inference.",
+      "extra_ram_bytes": "Exact additional resident bytes attributable to materialized Q4-down image.",
+      "extra_ram_ratio": "extra_ram_bytes / 534675456",
+      "cpu_runtime_rule": "No materialization or CPU model math may overlap measured decode.",
+      "break_even": [
+        "N_B_vs_0 = Tmat_B / (L0 - LB) when LB < L0, else infinity/not-reached.",
+        "N_AB_vs_A = Tmat_AB / (LA - LAB) when LAB < LA, else infinity/not-reached.",
+        "Also report pairwise total-cost crossover N for every non-dominated arm pair."
+      ],
+      "total_cost_curve": [
+        "C0(N) = N * L0",
+        "CA(N) = N * LA",
+        "CB(N) = Tmat_B + N * LB",
+        "CAB(N) = Tmat_AB + N * LAB"
+      ]
+    }
+  },
+  "timing_campaign": {
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "warmup": "One unmeasured complete inference per arm/workload before measured blocks.",
+    "measured_blocks_per_workload": 8,
+    "arm_order_by_block": [
+      [
+        "0",
+        "A",
+        "B",
+        "AB"
+      ],
+      [
+        "A",
+        "B",
+        "AB",
+        "0"
+      ],
+      [
+        "B",
+        "AB",
+        "0",
+        "A"
+      ],
+      [
+        "AB",
+        "0",
+        "A",
+        "B"
+      ],
+      [
+        "AB",
+        "B",
+        "A",
+        "0"
+      ],
+      [
+        "0",
+        "AB",
+        "B",
+        "A"
+      ],
+      [
+        "A",
+        "0",
+        "AB",
+        "B"
+      ],
+      [
+        "B",
+        "A",
+        "0",
+        "AB"
+      ]
+    ],
+    "balance_property": "Each arm appears in each ordinal position exactly twice.",
+    "output_tokens": 32,
+    "paired_unit": "block within workload",
+    "no_counter_collection_during_primary_timing": true
+  },
+  "counter_campaign": {
+    "after_primary_timing": true,
+    "arms": [
+      "0",
+      "A",
+      "B",
+      "AB"
+    ],
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "probes_per_arm_workload": 1,
+    "decode_index": 15,
+    "selected_native_counter_indices": [
+      56,
+      66,
+      64,
+      233
+    ],
+    "total_arm_workload_probes": 8,
+    "quiet_host": true
+  },
+  "effect_decomposition": {
+    "latency_symbols": "L0, LA, LB, LAB are workload-specific cell latency estimates.",
+    "additive_ms": {
+      "work_decomposition_gain": "G_A = L0 - LA",
+      "representation_gain": "G_B = L0 - LB",
+      "interaction_gain": "G_INT = LA + LB - L0 - LAB",
+      "identity": "L0 - LAB = G_A + G_B + G_INT",
+      "sign": "Positive gain is better; positive G_INT means synergistic latency reduction."
+    },
+    "multiplicative_log": {
+      "work_decomposition_gain": "g_A = ln(L0 / LA)",
+      "representation_gain": "g_B = ln(L0 / LB)",
+      "interaction_gain": "g_INT = ln((LA * LB) / (L0 * LAB))",
+      "identity": "ln(L0 / LAB) = g_A + g_B + g_INT"
+    },
+    "uncertainty": "10,000 paired bootstrap resamples over the 8 measured blocks, separately per workload; report 95% percentile CI for latency ratios and gain contrasts.",
+    "pooling": "Workload-specific results are primary. Cross-workload geometric means are descriptive and may not override opposite workload directions."
+  },
+  "preregistered_predictions": {
+    "A": [
+      "Component latency decreases versus 0.",
+      "ALU1 utilization increases versus 0.",
+      "XVE stall decreases versus 0.",
+      "SBID stall decreases versus 0.",
+      "device_read_over_weight may improve but is not required for H1-A support."
+    ],
+    "B": [
+      "device_read_over_weight decreases versus 0.",
+      "Component latency decreases if representation overhead is causally important.",
+      "Large ALU1/SBID improvement is not required; if stalls remain while traffic falls, representation and work-decomposition mechanisms are separable."
+    ],
+    "AB": [
+      "If mechanisms compose, LAB is lower than both LA and LB.",
+      "Positive G_INT indicates synergy; CI containing zero is additive/no-detectable-interaction; negative G_INT indicates antagonism.",
+      "AB must not be credited for any optimization absent from A or B."
+    ]
+  },
+  "adjudication": {
+    "correctness_first": "Any arm failing correctness is scientifically failed; no speed result rescues it.",
+    "A_supported": "For both workloads, paired latency ratio A/0 has 95% CI upper bound < 1 AND ALU1 moves up while XVE stall and SBID move down at the counter probe.",
+    "B_supported": "For both workloads, paired latency ratio B/0 has 95% CI upper bound < 1 AND device_read_over_weight is lower than fresh arm 0.",
+    "B_mechanism_only": "If device_read_over_weight falls but latency support fails, classify representation mechanism observed but architecture benefit not established.",
+    "composition_supported": "For both workloads, AB is faster than both A and B with paired 95% CI upper bound < 1 for AB/A and AB/B.",
+    "interaction_synergy": "G_INT 95% CI lower bound > 0 in both workloads.",
+    "additive_composition": "Composition supported but G_INT CI includes 0.",
+    "antagonistic_interaction": "G_INT 95% CI upper bound < 0 in either workload.",
+    "architecture_selection": "Do not force a single winner. Remove strictly dominated arms using latency, materialization time and extra RAM; report non-dominated arms plus total-cost crossover token counts.",
+    "no_arbitrary_horizon": "No fixed expected-token horizon is assumed in this study."
+  },
+  "m3b_priors_not_thresholds": {
+    "arm0_expected_context": {
+      "W_S": {
+        "device_read_over_weight": 3.3379565790280075,
+        "alu1_util_pct": 11.087218761444099,
+        "xve_stall_pct": 65.7193145751953,
+        "sbid_stall_pct": 59.496625900268555
+      },
+      "W_C": {
+        "device_read_over_weight": 4.396482579518294,
+        "alu1_util_pct": 11.1102538108826,
+        "xve_stall_pct": 61.421113967895494,
+        "sbid_stall_pct": 55.2468128204346
+      }
+    },
+    "healthy_control_gate_up": {
+      "W_S": {
+        "device_read_over_weight": 1.0275022311852668,
+        "alu1_util_pct": 87.1278953552246,
+        "xve_stall_pct": 6.221203088760375,
+        "sbid_stall_pct": 5.675271034240725
+      },
+      "W_C": {
+        "device_read_over_weight": 1.021810075381504,
+        "alu1_util_pct": 87.2319450378418,
+        "xve_stall_pct": 5.975910902023315,
+        "sbid_stall_pct": 4.705257177352905
+      }
+    },
+    "note": "These values motivate directional predictions only. Fresh arm 0 is the contemporaneous causal baseline; M3-B values are not pass/fail thresholds."
+  },
+  "execution_sequence": [
+    "FREEZE_PARENT_STUDY",
+    "DESIGN_AND_FREEZE_CHILD_A_SPLITK32_IMPLEMENTATION",
+    "DESIGN_AND_FREEZE_CHILD_B_MATERIALIZED_Q4_LAYOUT",
+    "DERIVE_AB_MECHANICALLY_FROM_EXACT_A_PLUS_EXACT_B",
+    "ZERO_SCIENCE_STATIC_AND_CORRECTNESS_PREFLIGHT",
+    "INDEPENDENT_LOCK_VERIFICATION",
+    "PRIMARY_4_ARM_TIMING_CAMPAIGN",
+    "TARGETED_4_COUNTER_MECHANISM_CAMPAIGN",
+    "INDEPENDENT_FACTORIAL_RECOMPUTE_AND_ADJUDICATION"
+  ],
+  "authorization": {
+    "implementation": false,
+    "fresh_performance_execution": false,
+    "reason": "Parent causal decomposition is frozen first. Child A/B representations and exact binaries/shaders must be independently locked before any measured execution."
+  }
+}
