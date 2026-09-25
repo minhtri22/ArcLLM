@@ -1355,3 +1355,10 @@ Independent structural audit PASS on implementation payload `3f7f9eca6ea5e9d9fd9
 Candidate execution lock v0.1 is frozen with `counter_execution_authorized=false`. Native Windows build remains unqualified at this point. No model load, GPU dispatch, performance query, primary timing rerun, Token-XRay or Child-C execution has occurred.
 
 Next gate: DEV_HOST zero-science native build-only and return bundle for independent review. Only then may final lock v0.2 authorize the eight probes.
+
+
+## Q4-down 4-arm native-counter package — pre-collection static-QA repair — 2026-09-25
+
+DEV_HOST build-only stopped in the Python static test before shader build, native compilation, model load, GPU dispatch, or counter execution. The failing assertion incorrectly required the literal `counterPassIndex` to appear in the targeted runtime source. In the proven M3-B layering, the targeted runtime calls `m3_perf_submit_pass(...)`; the unchanged counter shim constructs `VkPerformanceQuerySubmitInfoKHR` and assigns `counterPassIndex`.
+
+The repair changes only the static test: runtime must contain `m3_perf_submit_pass`, while the unchanged M3-B shim must contain `VkPerformanceQuerySubmitInfoKHR` and `counterPassIndex`. Collector, runtime, shim, counter set, decode index, 14-node target scope, campaign order, and all scientific payload remain unchanged. Candidate execution remains unauthorized pending a fresh DEV_HOST build-only PASS.

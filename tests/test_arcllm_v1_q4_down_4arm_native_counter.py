@@ -22,6 +22,7 @@ assert fc["total_arm_workload_probes"]==8
 
 s=SRC.read_text(encoding="utf-8")
 r=RT.read_text(encoding="utf-8")
+shim=SHIM.read_text(encoding="utf-8")
 t=TIMING.read_text(encoding="utf-8")
 for x in [
   "arcllm.v1.q4_down.4arm.native_counter_probe.v0.1",
@@ -38,13 +39,16 @@ for x in [
   "execute_counter_profiled_targeted",
   "m3_perf_acquire_lock",
   "m3_perf_submit_pass",
-  "counterPassIndex",
   "cmd_reset_query_pool_(rcb,perf_qp,0,query_count)",
   "if(qi>=0)m3_perf_cmd_begin_query",
   "if(qi>=0){",
   "VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT",
 ]:
     assert x in r,x
+# Submit-pass contract crosses the runtime/shim boundary: runtime calls the proven shim; shim binds VkPerformanceQuerySubmitInfoKHR.counterPassIndex.
+assert "m3_perf_submit_pass" in r
+assert "VkPerformanceQuerySubmitInfoKHR" in shim
+assert "counterPassIndex" in shim
 # Proven M3-B multipass core remains present; targeted method adds only target query mapping.
 assert r.count("m3_perf_acquire_lock")>=2
 assert r.count("m3_perf_submit_pass")>=2

@@ -1,0 +1,27 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.native_counter.static_qa_repair.v0.1",
+  "date": "2026-09-25",
+  "status": "PASS_ZERO_SCIENCE_STATIC_QA_REPAIR_AWAITING_REBUILD",
+  "failing_head": "203aca38690960f5d7a1149892e4f5b5b4485ace",
+  "failing_test_blob": "487aa9c67cb63205175a1b1370976ee1fc736812",
+  "repaired_test_blob": "cb79d2fc294584843e60b7b00f5d9de61bb46c4e",
+  "failure": "AssertionError: counterPassIndex",
+  "root_cause": "The static test searched the targeted runtime source for counterPassIndex, but the frozen architecture delegates submit-pass construction to the reused M3-B shim. The runtime correctly calls m3_perf_submit_pass; the shim owns VkPerformanceQuerySubmitInfoKHR.counterPassIndex.",
+  "exact_correction": [
+    "Remove counterPassIndex literal from runtime-local required-token list.",
+    "Require m3_perf_submit_pass in targeted runtime.",
+    "Require VkPerformanceQuerySubmitInfoKHR and counterPassIndex in the unchanged M3-B shim."
+  ],
+  "science_payload_changed": false,
+  "collector_changed": false,
+  "runtime_changed": false,
+  "shim_changed": false,
+  "selected_counters_changed": false,
+  "decode_index_changed": false,
+  "target_dispatch_scope_changed": false,
+  "model_loaded": false,
+  "gpu_dispatch_executed": false,
+  "counter_probe_executed": false,
+  "primary_timing_executed": false,
+  "next": "RERUN_DEV_HOST_ZERO_SCIENCE_NATIVE_BUILDONLY"
+}
