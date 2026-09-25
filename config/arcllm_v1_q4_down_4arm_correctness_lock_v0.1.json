@@ -1,0 +1,127 @@
+{
+  "schema": "arcllm.v1.q4_down.4arm.correctness_lock.v0.1",
+  "date": "2026-09-25",
+  "program": "ARCLLM_V1_Q4_DOWN_ARCH_DECOMPOSITION",
+  "branch": "research/arcllm-v1",
+  "design_parent_head": "af2e84701f6aaf93511683b49489456ec96143bb",
+  "scientific_role": "BOUNDED_IMPLEMENTATION_AND_CORRECTNESS_QUALIFICATION_ONLY",
+  "target_model": {
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "bytes": 4683074048
+  },
+  "target": {
+    "operator": "ffn_down",
+    "quant": "Q4_K",
+    "layers": [
+      3,
+      4,
+      6,
+      7,
+      8,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      19,
+      21,
+      22
+    ],
+    "rows": 3584,
+    "k": 18944,
+    "blocks_per_row": 74,
+    "decode_only": true
+  },
+  "arms": {
+    "0": {
+      "layout": "source_Q4_K",
+      "kernel": "p7_q4k_gemm_2d",
+      "workgroups": 56
+    },
+    "A": {
+      "layout": "source_Q4_K",
+      "kernel": "sa1_q4k_subgroup_splitk",
+      "subgroup_size": 32,
+      "workgroups": 896
+    },
+    "B": {
+      "layout": "EXEC148",
+      "kernel": "q4_down_exec148_serial",
+      "workgroups": 56
+    },
+    "AB": {
+      "layout": "EXEC148",
+      "kernel": "q4_down_exec148_splitk32",
+      "subgroup_size": 32,
+      "workgroups": 896
+    }
+  },
+  "exec148": {
+    "source_block_bytes": 144,
+    "exec_block_bytes": 148,
+    "source_row_bytes": 10656,
+    "exec_row_bytes": 10952,
+    "source_tensor_bytes": 38191104,
+    "exec_tensor_bytes": 39251968,
+    "per_tensor_overhead_bytes": 1060864,
+    "family_overhead_bytes": 14852096,
+    "incremental_resident_bytes": 549527552,
+    "materialization_threads": 8,
+    "materialization_stage": "after_model_load_before_decode",
+    "lazy_materialization": false,
+    "original_weights_retained": true,
+    "canonical_tuple": "d_raw_2 || dmin_raw_2 || [scale_u8,min_u8]x8 || q_u8x256"
+  },
+  "residency": {
+    "parent_resident_bytes": 5347770372,
+    "max_correctness_resident_bytes": 5897297924,
+    "frozen_usable_envelope_bytes": 16374562816
+  },
+  "correctness": {
+    "component_max_abs": 0.02,
+    "component_rmse": 0.005,
+    "workloads": {
+      "W-S": {
+        "prompt_tokens": 4,
+        "output_tokens": 32,
+        "prompt_hash_fnv1a64": "93833ffb49890aba",
+        "generated_hash_fnv1a64": "f31d4bb9fe5eb9c3"
+      },
+      "W-C": {
+        "prompt_tokens": 256,
+        "output_tokens": 32,
+        "prompt_hash_fnv1a64": "5973d0cfd8ad6313",
+        "generated_hash_fnv1a64": "471519ddc45b232e"
+      }
+    }
+  },
+  "performance_authorized": false,
+  "hardware_counters_authorized": false,
+  "timing_authorized": false,
+  "materialization_time_ms": null,
+  "validation_time_ms": null,
+  "prefill_modified": false,
+  "q6_down_modified": false,
+  "token_xray_in_scope": false,
+  "environment": {
+    "os_build": "26200",
+    "cpu": "Intel(R) Core(TM) Ultra 7 258V",
+    "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "gpu_driver": "32.0.101.8860"
+  },
+  "critical_git_blobs": {
+    "src/arcllm_v1_q4_down_arch_4arm.cpp": "4d88dbd867da39c42bbfcbe3697acc7b8ebeb3fa",
+    "src/q4_down_exec148_materializer.h": "611efe8a087b2a5d00d887287034e2fb4f63a58f",
+    "shaders/q4_down_exec148_serial.comp": "56de6602e7aca31c84a3d7764b10c0c55eb2fef5",
+    "shaders/q4_down_exec148_splitk32.comp": "5a828eac2514f4404ab94278a63322e403617bee",
+    "tests/q4_down_exec148_synthetic.cpp": "aa8ed0769410544ba24447b6c6d0d2e9bea2da77",
+    "shaders/sa1_q4k_subgroup_splitk.comp": "56999d88dc1bef6486e7e1908982f6de4b0f9f6a",
+    "src/p8c_segmented_access_correctness.cpp": "8432ca554b36a2167429b640c5ec6779cf2b3e6b",
+    "tools/compile_arcllm_v1_q4_down_4arm.ps1": "075dc97d71c9309e4cf8bbf58be320d0c73ebd29",
+    "tools/build_arcllm_v1_q4_down_4arm.ps1": "51e6bfef50b23670c775d69337e0c55c220e76f3",
+    "tools/qualify_arcllm_v1_q4_down_4arm_buildonly.ps1": "faef0246cf3c6b3b61b59aec8a3e66bb24b25625",
+    "run_arcllm_v1_q4_down_4arm_correctness.ps1": "3aa4bb3d1089c272ca37604346bb34f78d9b64aa"
+  },
+  "hard_stop": "Do not execute performance timing, hardware counters, Token-XRay, or Child-C before a frozen PASS_Q4_DOWN_4ARM_CORRECTNESS_QUALIFICATION package exists."
+}
