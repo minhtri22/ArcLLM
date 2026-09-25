@@ -1,0 +1,211 @@
+{
+  "schema": "arcllm.v1.q4_down_splitk_causal.prelock.v0.1",
+  "date": "2026-09-25",
+  "status": "FROZEN_MINIMAL_CAUSAL_STUDY_IMPLEMENTATION_ALLOWED_PERFORMANCE_FORBIDDEN",
+  "study_id": "Q4_DOWN_SPLITK_CAUSAL",
+  "scientific_question": "For the exact 14 Q4_K FFN-down decode nodes, does changing only work decomposition from the current serial-K kernel to the already-qualified native subgroup32 split-K kernel causally reduce Q4-down component latency, and does that reduction carry through to decode and E2E latency?",
+  "basis": {
+    "token_xray_phase2": {
+      "run_id": "arcllm-token-xray-W-S-decode-0",
+      "summary_sha256": "ACA3E006F7AA98B06BD7EFF4E546E33F7E604DB3301D6F87758F83578EEF46B5",
+      "finding": "FFN-down accounts for 16.27% of Phase-2 dispatch time; split-K gate/up provides an internal positive control."
+    },
+    "m3c": {
+      "branch": "research/arcllm-v1-m3c-token-xray-targeted",
+      "closeout_commit": "ce1a13e8c65fe4d36c04c66d85eecc0ac95b7ea2",
+      "bundle_sha256": "5B1C79F0E75406B19FFB40A15E75EA5DF3EA23519502573F0EAB57DABF049C03",
+      "formal_result": "STOP_M3C_UNRESOLVED_COUNTER_ADEQUACY",
+      "directional_only": [
+        "Q4-down SBID stall ~55% versus split-K Q4 control ~4.5-5.4%.",
+        "Q4-down ALU1 utilization ~11% versus split-K Q4 control ~87%."
+      ],
+      "use": "MOTIVATION_ONLY_NOT_PASS_FAIL_THRESHOLD"
+    },
+    "existing_child_A": {
+      "source_program": "Q4_DOWN_ARCHITECTURE_CAUSAL_DECOMPOSITION",
+      "implementation_shader": "sa1_q4k_subgroup_splitk.spv",
+      "prior_design_head": "af2e84701f6aaf93511683b49489456ec96143bb",
+      "note": "Reuse only the already-frozen Child-A work-decomposition intervention; materialization arms B/AB are out of scope."
+    }
+  },
+  "target": {
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "q4_down_layers": [
+      3,
+      4,
+      6,
+      7,
+      8,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      19,
+      21,
+      22
+    ],
+    "layer_count": 14,
+    "shape": {
+      "k": 18944,
+      "rows": 3584,
+      "batch_decode": 1
+    },
+    "source_quant": "Q4_K",
+    "source_row_bytes": 10656,
+    "logical_weight_bytes_per_layer": 38191104,
+    "logical_weight_bytes_family": 534675456
+  },
+  "arms": {
+    "0": {
+      "name": "BASELINE_SERIAL_K",
+      "shader": "p7_q4k_gemm_2d.spv",
+      "source_representation": "ORIGINAL_Q4_K",
+      "workgroups_per_q4_down_dispatch": 56
+    },
+    "A": {
+      "name": "SPLIT_K32_ONLY",
+      "shader": "sa1_q4k_subgroup_splitk.spv",
+      "source_representation": "ORIGINAL_Q4_K",
+      "subgroup_size": 32,
+      "workgroups_per_q4_down_dispatch": 896
+    }
+  },
+  "isolation_contract": [
+    "Only the 14 exact Q4_K FFN-down decode dispatches may differ between arm 0 and arm A.",
+    "Weights, source bytes, tensor offsets, Q4_K representation, shapes and push constants are identical.",
+    "All 14 Q6_K FFN-down nodes remain unchanged.",
+    "Gate/up remain the already-established split-K implementation in both arms.",
+    "Q/K/V/O, attention, norms, embedding, LM-head and prefill remain unchanged.",
+    "No materialization, reordering, extra resident execution image, fusion, width search or additional mechanism is allowed.",
+    "Both arms execute the same prompts, token feedback policy and 32 generated tokens."
+  ],
+  "correctness_gate": {
+    "required_before_performance": true,
+    "component_probe": {
+      "input": "same deterministic fixed FFN activation vector for both arms",
+      "max_abs_max": 0.02,
+      "rmse_max": 0.005,
+      "all_14_q4_down_layers": true
+    },
+    "generated_hashes": {
+      "W_S": "f31d4bb9fe5eb9c3",
+      "W_C": "471519ddc45b232e"
+    },
+    "dispatch_census": 469
+  },
+  "timing_campaign": {
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "blocks_per_workload": 8,
+    "warmup": "one full unmeasured inference per arm before block 0",
+    "arm_order_by_block": [
+      [
+        "0",
+        "A"
+      ],
+      [
+        "A",
+        "0"
+      ],
+      [
+        "0",
+        "A"
+      ],
+      [
+        "A",
+        "0"
+      ],
+      [
+        "A",
+        "0"
+      ],
+      [
+        "0",
+        "A"
+      ],
+      [
+        "A",
+        "0"
+      ],
+      [
+        "0",
+        "A"
+      ]
+    ],
+    "mode_order_by_block": [
+      [
+        "carry",
+        "component"
+      ],
+      [
+        "component",
+        "carry"
+      ],
+      [
+        "carry",
+        "component"
+      ],
+      [
+        "component",
+        "carry"
+      ],
+      [
+        "component",
+        "carry"
+      ],
+      [
+        "carry",
+        "component"
+      ],
+      [
+        "component",
+        "carry"
+      ],
+      [
+        "carry",
+        "component"
+      ]
+    ],
+    "carry": {
+      "instrumentation": "NONE",
+      "primary_metrics": [
+        "decode_ms",
+        "e2e_ms"
+      ],
+      "note": "No Vulkan timestamp queries in carry runs."
+    },
+    "component": {
+      "probe_decode_index": 15,
+      "instrumentation": "VULKAN_TIMESTAMP_QUERY",
+      "primary_metric": "sum of timestamp ticks over exactly 14 Q4-down dispatches",
+      "note": "Component run is separate from carry run; its wall-clock timing is never used for carry-through."
+    },
+    "paired_unit": "block within workload"
+  },
+  "adjudication": {
+    "bootstrap_resamples": 10000,
+    "deterministic_seed": 1980,
+    "component_supported": "For both workloads, paired A/0 component-tick ratio 95% CI upper bound < 1.",
+    "decode_carry_supported": "For both workloads, paired A/0 decode-ms ratio 95% CI upper bound < 1.",
+    "e2e_carry_supported": "For both workloads, paired A/0 E2E-ms ratio 95% CI upper bound < 1.",
+    "formal_outcomes": [
+      "PASS_CAUSAL_Q4_DOWN_WORK_DECOMPOSITION_WITH_E2E_CARRY",
+      "PASS_CAUSAL_Q4_DOWN_WORK_DECOMPOSITION_NO_E2E_CARRY",
+      "NEGATIVE_Q4_DOWN_WORK_DECOMPOSITION",
+      "STOP_INTEGRITY_OR_CORRECTNESS"
+    ],
+    "no_counter_dependency": true,
+    "no_posthoc_threshold_change": true
+  },
+  "authorization": {
+    "implementation": true,
+    "zero_science_build_qa": true,
+    "real_model_correctness": false,
+    "performance": false,
+    "reason": "Implementation and zero-science QA may proceed. Real-model correctness must independently PASS before a separate performance authorization."
+  }
+}
