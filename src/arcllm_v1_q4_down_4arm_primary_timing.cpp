@@ -511,7 +511,7 @@ int main(int argc,char**argv){
             std::vector<uint32_t>gen;std::string hash,error;
         };
         const std::string expected_hash=workload=="W-S"?"f31d4bb9fe5eb9c3":"471519ddc45b232e";
-        const std::set<std::string> q4_names=[](){
+        const std::set<std::string> q4_names=[&](){
             std::set<std::string>x;
             for(uint32_t l:Q4_DOWN_LAYERS)x.insert(std::string("L")+(l<10?"0":"")+std::to_string(l)+".ffn_down");
             return x;
