@@ -15,7 +15,8 @@ for x in [
     "Q4_DOWN_LAYERS={3u,4u,6u,7u,8u,11u,12u,14u,15u,17u,18u,19u,21u,22u}",
     'mode="correctness"',
     'mode!="correctness"&&mode!="measure"',
-    'p+"ffn_down","p7_q4k_gemm_2d.spv"',
+    'if(z.dw->ggml_type==Q4&&splitk_q4_down)',
+    'z.dw->ggml_type==Q4?"p7_q4k_gemm_2d.spv":"p7_q6k_gemm_2d.spv"',
     'p+"ffn_down","sa1_q4k_subgroup_splitk.spv"',
     'if(b.gx!=56u||a.gx!=896u)',
     'q4_down_dispatch_ids.size()!=14u',
@@ -27,6 +28,12 @@ for x in [
     "materialization_used",
 ]:
     assert x in s,x
+
+
+# Structural isolation: baseline/intervention must differ only on Q4-down kernel/workgroup geometry.
+assert 'if(b.spv_path.find("p7_q4k_gemm_2d.spv")==std::string::npos||a.spv_path.find("sa1_q4k_subgroup_splitk.spv")==std::string::npos)' in s
+assert 'if(b.gx!=56u||a.gx!=896u)' in s
+assert 'if(b.spv_path!=a.spv_path||b.gx!=a.gx)' in s
 
 for forbidden in [
     "q4_down_exec148",
