@@ -12,7 +12,7 @@ on:
       - 'src/registrations/arcllm_v1_q4k_down_reference_registration.*'
       - 'tests/arcllm_v1_generic_policy_engine_zero_science.cpp'
       - 'tests/test_arcllm_v1_generic_policy_engine_static.py'
-      - 'config/arcllm_v1_phase2_generic_policy_engine_contract_v0.1.json'
+      - 'config/arcllm_v1_phase2_generic_policy_engine_contract_v0.2.json'
       - '.github/workflows/arcllm-v1-phase2-generic-policy-engine.yml'
   workflow_dispatch:
 

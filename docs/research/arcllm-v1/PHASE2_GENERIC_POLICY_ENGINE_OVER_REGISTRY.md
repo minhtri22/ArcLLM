@@ -55,3 +55,10 @@ A synthetic independent family is used to prove that the same engine handles dif
 The engine is still decision-only. It does not bind acquisition/primitive IDs to Vulkan, files, CPU code, or other execution mechanisms.
 
 Next: `PHASE2_GENERIC_BACKEND_BINDING_INTERFACE`.
+
+## Reference migration equivalence boundary
+
+The 114,688-state reference comparison requires exact equality for route primitive, lifecycle action, acquisition path, and residency-preservation behavior. Every nonzero threshold emitted by frozen B1 must also match exactly.
+
+One legacy diagnostic asymmetry is intentionally normalized rather than generalized: when only the tertiary CPU-direct path is available but reuse is below its threshold, frozen B1 falls through with threshold metadata equal to zero. The generic engine reports the registry-derived tertiary threshold while preserving the same fallback route and no-acquisition decision. Encoding a family/path-specific "report zero" exception into generic machinery would reduce scalability without preserving a scientific decision.
+

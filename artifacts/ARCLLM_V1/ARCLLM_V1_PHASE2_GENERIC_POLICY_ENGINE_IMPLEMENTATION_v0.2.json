@@ -1,0 +1,37 @@
+{
+  "schema": "arcllm.v1.phase2.generic_policy_engine_implementation.v0.2",
+  "date": "2026-09-26",
+  "status": "IMPLEMENTED_AWAITING_ZERO_SCIENCE_QA_V0_2",
+  "supersedes": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_PHASE2_GENERIC_POLICY_ENGINE_IMPLEMENTATION_v0.1.json",
+    "blob": "5d4630411fb80f567fcd373b0f692a4d96c41424",
+    "reason": "Reference-equivalence diagnostic-threshold repair and contract clarification before canonical freeze."
+  },
+  "parents": {
+    "registry_lifecycle_completeness_repair_blob": "8bde48a5f1d598d22a826fa4642867950c67c849",
+    "policy_equivalence_repair_blob": "cbe8d51088720945631fb3bb1a341be6520c159a",
+    "generic_policy_contract_v0_2_blob": "8ecd57dd0fea6a5dc4f4aa8e14181d9233f5039e"
+  },
+  "exact_sources": {
+    "registry_model": "b99c5b647fb8edd33c7fee10dbdc8b18ba5a3720",
+    "registry_api": "53fa0d2beff6b55846624077cd3fb84e99dc352d",
+    "registry_core": "d878e15dd272a3788074e4c56334dabaf3958bad",
+    "reference_registration": "f539c25540b7494e3494aa15775c07c3b80dd195",
+    "policy_header": "07134b51ba3c66539376d9ec9d55516752b44750",
+    "policy_source": "6d448d87358289914aca1cc839512f4a5ca242bf",
+    "zero_science_test": "38b4f65f419337937b49ffd89d048971ca28af14",
+    "static_test": "24273dea9cc155f51aacc7cb90c055ee30205746",
+    "workflow": "4b5f6c2af64428b39bac98ecb3a3f53829e777fc"
+  },
+  "acceptance": {
+    "reference_decision_equivalence_cases": 114688,
+    "synthetic_family_without_engine_change": true,
+    "nonzero_legacy_thresholds_preserved": true,
+    "legacy_missing_tertiary_threshold_metadata_normalized": true,
+    "family_specific_literals_in_engine": false
+  },
+  "science_changed": false,
+  "performance_execution": false,
+  "placement_research_reopened": false,
+  "next": "ZERO_SCIENCE_QA_THEN_FREEZE_GENERIC_POLICY_ENGINE"
+}

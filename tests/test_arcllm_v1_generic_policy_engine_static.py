@@ -4,13 +4,13 @@ R=Path(__file__).resolve().parents[1]
 H=(R/"include/arcllm/v1/generic_policy_engine.h").read_text()
 C=(R/"src/arcllm_v1_generic_policy_engine.cpp").read_text()
 T=(R/"tests/arcllm_v1_generic_policy_engine_zero_science.cpp").read_text()
-K=json.loads((R/"config/arcllm_v1_phase2_generic_policy_engine_contract_v0.1.json").read_text())
+K=json.loads((R/"config/arcllm_v1_phase2_generic_policy_engine_contract_v0.2.json").read_text())
 M=(R/"include/arcllm/v1/primitive_registry_model.h").read_text()
 
 def req(x,m):
     if not x: raise AssertionError(m)
 
-req(K["status"]=="FROZEN_PHASE2_GENERIC_POLICY_ENGINE_CONTRACT","contract status")
+req(K["status"]=="FROZEN_PHASE2_GENERIC_POLICY_ENGINE_CONTRACT_V0_2","contract status")
 for token in ["PrimitiveRuntimeState","AcquisitionRuntimeState","PolicyRequest","PolicyDecision","evaluate"]:
     req(token in H,f"header missing {token}")
 
@@ -24,6 +24,7 @@ for token in ["evict_on_execution_unavailable","evict_on_model_unload"]:
     req(token in M and token in C,f"lifecycle completeness missing {token}")
 
 req("REFERENCE_EQUIVALENCE_CASES" in T and "114688" in T,"reference exhaustive equivalence missing")
+req("generic tertiary diagnostic threshold normalization" in T,"legacy diagnostic normalization coverage missing")
 req("SYNTHETIC_POLICY_FAMILY" in T,"synthetic policy proof missing")
 req("CAPABILITY_GATED" in T and "DISABLED_BY_EVIDENCE" in T,"evidence-state filtering proof missing")
 req(K["generic_rules"]["family_specific_literals_in_engine"] is False,"family literal contract")

@@ -82,7 +82,9 @@ static void reference_equivalence(){
                 req(nd.route==map_route(od.decision.route),"reference route equivalence");
                 req(nd.lifecycle==map_lifecycle(od.decision.lifecycle),"reference lifecycle equivalence");
                 req(nd.acquisition==map_acquisition(od.decision.lifecycle),"reference acquisition equivalence");
-                req(nd.threshold_units==od.decision.threshold_tokens,"reference threshold equivalence");
+                if (od.decision.threshold_tokens != 0) {
+                    req(nd.threshold_units==od.decision.threshold_tokens,"reference emitted-threshold equivalence");
+                }
                 req(nd.preserve_existing_representation==od.decision.preserve_existing_b,"reference preserve equivalence");
                 if(nd.lifecycle==gp::LifecycleAction::ACQUIRE){
                     req(nd.requested_residency_bytes==549527552ull,"reference acquisition residency");
@@ -93,6 +95,48 @@ static void reference_equivalence(){
         }
     }
     req(cases==114688,"reference equivalence case count");
+
+    // Legacy B1 leaves tertiary below-threshold diagnostic metadata at zero.
+    // Generic policy normalizes that metadata from the registry without changing
+    // route/lifecycle/acquisition.
+    {
+        b1::RuntimeSignals old{};
+        old.workload=b1::Workload::WS;
+        old.current_request_in_validated_domain=true;
+        old.model_loaded=true;
+        old.b_resident=false;
+        old.residency_lease_granted=true;
+        old.future_reuse_known=true;
+        old.future_reuse_tokens=16;
+        old.acquisition_allowed=true;
+        old.p1_available=false;
+        old.p3_cold_available=false;
+        old.p0_cpu_available=true;
+        const auto legacy=b1::make_runtime_plan(old);
+        req(legacy.decision.route==b1::Route::A_SPLIT_K32 &&
+            legacy.decision.lifecycle==b1::Lifecycle::NONE &&
+            legacy.decision.threshold_tokens==0,
+            "legacy tertiary below-threshold diagnostic baseline");
+
+        gp::PrimitiveRuntimeState ps[]={{ref::kPrimitiveB,false,false,true,true}};
+        gp::AcquisitionRuntimeState as[]={
+            {ref::kAcquirePrimary,false,false},
+            {ref::kAcquireSecondary,false,false},
+            {ref::kAcquireTertiary,true,false}
+        };
+        gp::PolicyRequest r{};
+        r.capability=ref::kCapability;r.profile=ref::kProfile0;
+        r.current_request_in_validated_domain=true;r.model_loaded=true;
+        r.future_reuse_known=true;r.future_reuse_units=16;r.acquisition_allowed=true;
+        r.primitive_states=ps;r.primitive_state_count=1;
+        r.acquisition_states=as;r.acquisition_state_count=3;
+        const auto normalized=gp::evaluate(registry,r);
+        req(normalized.route==ref::kPrimitiveA &&
+            normalized.lifecycle==gp::LifecycleAction::NONE &&
+            !normalized.acquisition &&
+            normalized.threshold_units==17,
+            "generic tertiary diagnostic threshold normalization");
+    }
     std::cout<<"REFERENCE_EQUIVALENCE_CASES="<<cases<<"\n";
 }
 

@@ -187,9 +187,9 @@ PolicyDecision evaluate(
         return fallback(capability->fallback_primitive, PolicyReason::ACQUISITION_GLOBALLY_VETOED);
 
     Candidate best{};
+    Candidate best_below{};
     bool saw_active_path = false;
     bool saw_runtime_available_path = false;
-    bool saw_below_threshold = false;
 
     for (std::size_t b=0;b<registry.bundle_count();++b) {
         const auto* bundle = registry.bundle_at(b);
@@ -212,22 +212,27 @@ PolicyDecision evaluate(
             if (!threshold || !active(threshold->state)) continue;
             if (threshold->reuse_metric != profile->reuse_metric) continue;
 
-            if (r.future_reuse_units < threshold->minimum_reuse_units) {
-                saw_below_threshold = true;
-                continue;
-            }
-
             const auto* target = registry.find_primitive(path.target_primitive);
             if (!target || !active(target->state) || target->capability != capability->id) continue;
 
             Candidate c{&path, threshold, target};
+            if (r.future_reuse_units < threshold->minimum_reuse_units) {
+                if (better_candidate(c, best_below)) best_below = c;
+                continue;
+            }
+
             if (better_candidate(c, best)) best = c;
         }
     }
 
     if (!best.path) {
-        if (saw_below_threshold)
-            return fallback(capability->fallback_primitive, PolicyReason::BELOW_ALL_ACTIVE_THRESHOLDS);
+        if (best_below.path) {
+            PolicyDecision d = fallback(
+                capability->fallback_primitive,
+                PolicyReason::BELOW_ALL_ACTIVE_THRESHOLDS);
+            d.threshold_units = best_below.threshold->minimum_reuse_units;
+            return d;
+        }
         if (saw_active_path && !saw_runtime_available_path)
             return fallback(capability->fallback_primitive, PolicyReason::NO_AVAILABLE_ACQUISITION_PATH);
         return fallback(capability->fallback_primitive, PolicyReason::NO_AVAILABLE_ACQUISITION_PATH);

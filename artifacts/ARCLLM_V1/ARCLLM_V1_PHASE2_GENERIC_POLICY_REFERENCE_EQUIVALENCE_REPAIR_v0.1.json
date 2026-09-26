@@ -1,0 +1,15 @@
+{
+  "schema": "arcllm.v1.phase2.generic_policy_reference_equivalence_repair.v0.1",
+  "date": "2026-09-26",
+  "status": "PRE_CANONICAL_ZERO_SCIENCE_POLICY_REPAIR",
+  "failed_head": "2dbd232ba0e0cd6f8c86f7e60584158932678df0",
+  "classification": "REFERENCE_POLICY_OBSERVABLE_METADATA_DIVERGENCE",
+  "observed": "When the active acquisition path was available but future reuse was below its threshold, route/lifecycle matched frozen B1 but generic threshold_units returned 0 instead of the active path threshold.",
+  "repair": "Track the highest-priority below-threshold eligible path and return its threshold_units on fallback.",
+  "science_changed": false,
+  "routing_changed": false,
+  "acquisition_changed": false,
+  "thresholds_changed": false,
+  "performance_execution": false,
+  "new_source_blob": "6d448d87358289914aca1cc839512f4a5ca242bf"
+}

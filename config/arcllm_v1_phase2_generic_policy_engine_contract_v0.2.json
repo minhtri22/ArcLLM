@@ -1,0 +1,54 @@
+{
+  "schema": "arcllm.v1.phase2.generic_policy_engine_contract.v0.2",
+  "date": "2026-09-26",
+  "status": "FROZEN_PHASE2_GENERIC_POLICY_ENGINE_CONTRACT_V0_2",
+  "supersedes": {
+    "path": "config/arcllm_v1_phase2_generic_policy_engine_contract_v0.1.json",
+    "blob": "97e7960d1fef1003942841be52fe51461a49e940",
+    "reason": "Reference-equivalence QA clarified decision equivalence versus legacy missing diagnostic threshold metadata."
+  },
+  "parents": {
+    "generic_registry_freeze_v1_blob": "3805127db353a8928d6990f79fd55be8017e14d2",
+    "generic_registry_contract_v0_2_blob": "7346f10fb184a3ba1fbabe4a217792ce5b19071d",
+    "b1_policy_zero_science_canonical_blob": "a6dac8ca686baab98131fc2f3a9a603e00c5fd5f"
+  },
+  "generic_rules": {
+    "family_specific_literals_in_engine": false,
+    "validated_state_only": true,
+    "resident_hysteresis": true,
+    "lifecycle_eviction_driven_by_descriptor": true,
+    "outside_domain_preservation_driven_by_descriptor": true,
+    "acquisition_candidates_must_target_preferred_resident_primitive": true,
+    "acquisition_candidate_requires_runtime_availability": true,
+    "acquisition_candidate_requires_lease": true,
+    "acquisition_candidate_requires_profile_threshold": true,
+    "eligible_candidate_selection": "lowest numeric priority among threshold-satisfied active paths; ties by lowest opaque acquisition id",
+    "below_threshold_metadata": "return threshold of highest-priority active/available/leased candidate that is below threshold",
+    "hidden_retry_chain": false,
+    "runtime_duplicate_ids_invalid": true
+  },
+  "reference_migration_equivalence": {
+    "exhaustive_cases": 114688,
+    "must_match_exactly": [
+      "route primitive",
+      "lifecycle action",
+      "acquisition path",
+      "preserve-existing-representation behavior"
+    ],
+    "threshold_rule": "Whenever frozen B1 emits a nonzero threshold, generic policy must emit the same threshold.",
+    "normalized_legacy_gap": "Frozen B1 leaves tertiary P0 below-threshold metadata at zero; generic policy returns the registry-derived P0 threshold without changing route/lifecycle/acquisition.",
+    "scientific_decision_changed": false
+  },
+  "proof_requirements": {
+    "synthetic_second_family_policy_without_engine_change": true,
+    "disabled_by_evidence_path_ignored": true,
+    "capability_gated_path_ignored": true,
+    "priority_and_threshold_interaction_tested": true
+  },
+  "science": {
+    "new_performance_execution": false,
+    "new_placement_benchmark": false,
+    "lower_level_placement_reopened": false
+  },
+  "next": "PHASE2_GENERIC_BACKEND_BINDING_INTERFACE"
+}
