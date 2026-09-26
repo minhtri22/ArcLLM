@@ -1,0 +1,22 @@
+{
+  "schema": "arcllm.v1.phase2.package_zero_science_ci_infra_blocker.v0.1",
+  "date": "2026-09-26",
+  "status": "GITHUB_RUNNER_ALLOCATION_BLOCKER_NO_QA_STEP_EXECUTED",
+  "head": "462b3b28657c79ac4de5ae2166641f028cab898e",
+  "workflow_run": {
+    "id": 36242976947,
+    "job_id": 108406854847,
+    "workflow": "arcllm-v1-phase2-package-zero-science",
+    "labels": [
+      "ubuntu-latest"
+    ],
+    "status": "completed",
+    "conclusion": "failure",
+    "runner_id": 0,
+    "runner_name": "",
+    "steps": []
+  },
+  "classification": "INFRASTRUCTURE_ONLY",
+  "code_execution_on_github": false,
+  "science_execution": false
+}

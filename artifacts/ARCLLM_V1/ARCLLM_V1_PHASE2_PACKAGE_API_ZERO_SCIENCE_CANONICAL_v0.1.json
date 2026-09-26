@@ -1,0 +1,99 @@
+{
+  "schema": "arcllm.v1.phase2.package_api_zero_science_canonical.v0.1",
+  "date": "2026-09-26",
+  "status": "PASS_PHASE2_PACKAGE_API_BOUNDARY_ZERO_SCIENCE_QA",
+  "implementation_head": "462b3b28657c79ac4de5ae2166641f028cab898e",
+  "active_contract": {
+    "path": "config/arcllm_v1_phase2_package_contract_v0.2.json",
+    "blob": "effe19c0da5123ea857732fdde05dccb675abee9",
+    "status": "FROZEN_PHASE2_PACKAGE_API_BOUNDARY_V0_2",
+    "api_version": {
+      "major": 1,
+      "minor": 0
+    }
+  },
+  "exact_committed_blobs": {
+    "public_api": "13846e531bc149f814c662ebd52c3b41889dfb9a",
+    "backend_api": "1b33d7cf8aa42d9d54445f44fb9a110a610ba022",
+    "implementation": "0cacbb5fcc39aa4524cd68f0ca209f993a765701",
+    "b1_policy": "242bd710c5181051c6a08aa8b893c4833d027000",
+    "b1_runtime_hook": "da3364ed36fabd510693c096a1380625bea6e7b4",
+    "zero_science_test": "8d25dc1cb4962d90e734d94457d41e69d0e584ef",
+    "static_qa": "bea023453e3771a79154d57eff20aa8356dd9da2"
+  },
+  "exact_source_static_review": {
+    "verdict": "PASS",
+    "checks": [
+      "API version is 1.0.",
+      "Public headers expose no Vulkan, shader/SPIR-V, EXEC148 layout, sidecar path, workgroup, timing, or benchmark-control surface.",
+      "PROFILE_0/PROFILE_1 remain opaque evidence profiles; no semantic workload classifier is claimed.",
+      "One lifecycle plan performs at most one acquisition path and no hidden alternate-acquisition retry.",
+      "First backend/lifecycle failure is preserved across fallback A.",
+      "Cleanup status is independently visible.",
+      "Unreleased opaque representation is surfaced when cleanup cannot be confirmed.",
+      "Eviction release failure preserves PackageState B handle.",
+      "Requested B residency remains exactly 549,527,552 bytes."
+    ]
+  },
+  "portable_native_semantic_qa": {
+    "verdict": "PASS",
+    "compiler": "g++ C++17",
+    "scope": "Portable semantic compile/run of the frozen public contract, B1 policy mapping, backend seam, and cleanup/error behavior; no hardware path.",
+    "tested": [
+      "PROFILE_0 primary threshold 2 and PROFILE_1 primary threshold 4",
+      "secondary P3-cold and tertiary P0 mapping",
+      "resident-B hysteresis",
+      "outside-domain A route with B residency preservation",
+      "unsupported profile fail-closed to A",
+      "successful acquire -> validate -> resolve B",
+      "validation failure -> cleanup -> fallback A with original failure preserved",
+      "validation failure plus cleanup failure -> both statuses and unreleased handle surfaced",
+      "acquisition failure -> fallback A with no hidden retry",
+      "eviction success",
+      "eviction release failure -> handle preserved and cleanup failure surfaced"
+    ],
+    "output": [
+      "PHASE2_PACKAGE_API_ZERO_SCIENCE_QA=PASS",
+      "NO MODEL LOAD. NO GPU. NO VULKAN. NO TIMING. NO PLACEMENT BENCHMARK."
+    ],
+    "provenance_boundary": "GitHub-hosted runner did not execute because no runner was allocated. Exact committed blobs were separately audited statically; the portable native run validates the same frozen API/policy semantics but is not represented as a GitHub exact-byte build."
+  },
+  "github_ci": {
+    "verdict": "INFRA_BLOCKED_NOT_CODE_FAIL",
+    "blocker_artifact_blob": "1b9feb6bb3dc4826f46f0c205155e78b117367ce",
+    "workflow_run_id": 36242976947,
+    "job_id": 108406854847,
+    "runner_id": 0,
+    "steps_executed": 0
+  },
+  "package_boundary": {
+    "upper_layer_visible": [
+      "CapabilityId",
+      "EvidenceProfileId",
+      "PrimitiveId",
+      "PlanRequest/Plan",
+      "LifecycleAction",
+      "AcquisitionId",
+      "BackendStatus",
+      "opaque RepresentationHandle/PrimitiveHandle"
+    ],
+    "backend_hidden": [
+      "Vulkan objects",
+      "shader/SPIR-V files",
+      "EXEC148 byte layout",
+      "filesystem sidecar paths",
+      "workgroup geometry",
+      "measurement harnesses"
+    ],
+    "memory_lease_authority": "external runtime resource manager",
+    "semantic_classifier_in_scope": false,
+    "production_end_to_end_runtime_in_scope": false
+  },
+  "science": {
+    "new_performance_execution": false,
+    "new_placement_benchmark": false,
+    "lower_level_placement_reopened": false
+  },
+  "lineage_append": false,
+  "next": "PHASE2_BACKEND_BINDING_FOR_VALIDATED_A_B_P1_PRIMITIVES"
+}

@@ -1,0 +1,42 @@
+{
+  "schema": "arcllm.v1.phase2.package_api_freeze.v1.0",
+  "date": "2026-09-26",
+  "status": "FROZEN_PHASE2_V1_PACKAGE_API",
+  "api_version": {
+    "major": 1,
+    "minor": 0
+  },
+  "contract_blob": "effe19c0da5123ea857732fdde05dccb675abee9",
+  "canonical_qa_blob": "d082f0ef28bdd033ef21a3d9fbc60e609419f747",
+  "stable_ids": {
+    "capability_Q4K_DECODE_FFN_DOWN": "0x00010001",
+    "profile_0": "0x00005101",
+    "profile_1": "0x00005102",
+    "primitive_A_SPLIT_K32": "0x0000A001",
+    "primitive_B_EXEC148": "0x0000B001",
+    "acquisition_GPU_IN_PLACE": "0x0000C101",
+    "acquisition_COLD_UNBUFFERED_SIDECAR": "0x0000C102",
+    "acquisition_CPU_DIRECT": "0x0000C103"
+  },
+  "compatibility_rule": {
+    "major": "Required for incompatible public-contract changes.",
+    "minor": "May add backward-compatible descriptors/statuses without changing existing numeric IDs or semantics."
+  },
+  "frozen_guarantees": [
+    "No hardware implementation detail in public headers.",
+    "Opaque evidence profiles remain opaque until a semantic classifier is separately validated.",
+    "At most one acquisition action per plan.",
+    "Exact post-acquisition validation before B use.",
+    "No hidden P1->P3->P0 retry chain.",
+    "First operation failure preserved.",
+    "Cleanup failure independently surfaced.",
+    "Unreleased representation handle never silently discarded.",
+    "Resource manager owns the 549,527,552-byte residency lease decision."
+  ],
+  "scope_boundary": {
+    "complete_model_runtime": false,
+    "end_to_end_production_binding": false,
+    "validated_primitive_package_boundary": true
+  },
+  "next": "PHASE2_BACKEND_BINDING_FOR_VALIDATED_A_B_P1_PRIMITIVES"
+}
