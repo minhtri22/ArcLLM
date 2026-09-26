@@ -1,0 +1,25 @@
+name: arcllm-v1-phase2-package-zero-science
+
+on:
+  push:
+    branches: [research/arcllm-v1]
+    paths:
+      - 'include/arcllm/v1/package_api.h'
+      - 'include/arcllm/v1/backend_api.h'
+      - 'src/arcllm_v1_phase2_package.cpp'
+      - 'src/arcllm_v1_b1_policy.h'
+      - 'src/arcllm_v1_b1_policy_runtime_hook.h'
+      - 'tests/arcllm_v1_phase2_package_zero_science.cpp'
+      - 'tests/test_arcllm_v1_phase2_package_static.py'
+      - 'config/arcllm_v1_phase2_package_contract_v0.1.json'
+      - '.github/workflows/arcllm-v1-phase2-package-zero-science.yml'
+  workflow_dispatch:
+
+jobs:
+  zero-science:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tests/test_arcllm_v1_phase2_package_static.py
+      - run: g++ -std=c++17 -O2 -Wall -Wextra -pedantic -Iinclude -Isrc tests/arcllm_v1_phase2_package_zero_science.cpp src/arcllm_v1_phase2_package.cpp -o /tmp/arcllm_v1_phase2_package_zero_science
+      - run: /tmp/arcllm_v1_phase2_package_zero_science

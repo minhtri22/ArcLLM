@@ -1,0 +1,57 @@
+{
+  "schema": "arcllm.v1.phase2.package_api_boundary.v0.1",
+  "date": "2026-09-26",
+  "status": "FROZEN_PHASE2_PACKAGE_API_BOUNDARY",
+  "api_version": {
+    "major": 1,
+    "minor": 0
+  },
+  "parent_policy_canonical_blob": "a6dac8ca686baab98131fc2f3a9a603e00c5fd5f",
+  "public_surface": {
+    "capability": "Q4K_DECODE_FFN_DOWN",
+    "primitive_ids": [
+      "A_SPLIT_K32",
+      "B_EXEC148"
+    ],
+    "evidence_profiles": [
+      "PROFILE_0",
+      "PROFILE_1"
+    ],
+    "profile_mapping_internal_only": {
+      "PROFILE_0": "W-S",
+      "PROFILE_1": "W-C"
+    },
+    "represented_residency_bytes": 549527552,
+    "lifecycle": [
+      "NONE",
+      "ACQUIRE",
+      "EVICT"
+    ],
+    "acquisition_classes": [
+      "GPU_IN_PLACE",
+      "COLD_UNBUFFERED_SIDECAR",
+      "CPU_DIRECT"
+    ]
+  },
+  "boundaries": {
+    "public_api_exposes_vulkan": false,
+    "public_api_exposes_shader_or_spirv": false,
+    "public_api_exposes_exec148_layout": false,
+    "public_api_exposes_sidecar_paths": false,
+    "public_api_exposes_benchmark_controls": false,
+    "semantic_workload_classifier_claimed": false,
+    "automatic_acquisition_retry_chain": false,
+    "backend_requires_post_acquisition_validation": true,
+    "memory_lease_decision_owned_by_resource_manager": true
+  },
+  "compatibility": {
+    "major_change": "incompatible public contract",
+    "minor_change": "backward-compatible extension"
+  },
+  "scope": {
+    "universal_operator_api": false,
+    "complete_model_runtime_api": false,
+    "end_to_end_production_runtime": false,
+    "validated_q4k_decode_ffn_down_boundary": true
+  }
+}

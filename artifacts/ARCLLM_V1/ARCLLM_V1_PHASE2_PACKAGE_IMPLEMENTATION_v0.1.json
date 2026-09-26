@@ -1,0 +1,45 @@
+{
+  "schema": "arcllm.v1.phase2.package_manifest.v0.1",
+  "date": "2026-09-26",
+  "status": "IMPLEMENTED_AWAITING_ZERO_SCIENCE_QA",
+  "api_version": {
+    "major": 1,
+    "minor": 0
+  },
+  "parent": {
+    "b1_policy_zero_science_canonical_blob": "a6dac8ca686baab98131fc2f3a9a603e00c5fd5f",
+    "b1_active_policy_blob": "e34ebe2af17aaee811531756301d4700f6c41734",
+    "b1_performance_canonical_blob": "339053906653e522cf711f43cc0a5fccad6e8f14"
+  },
+  "package_files": {
+    "public_api": "13846e531bc149f814c662ebd52c3b41889dfb9a",
+    "backend_api": "8758883ac05c674d2e1ed9a77cd4247f964f78ad",
+    "implementation": "100c304840f8dc02631be3ff837792be03bb5320",
+    "zero_science_test": "c1ec59852774dd6b664a7c8b2b94cb27a930152c",
+    "static_qa": "e25eb1182061dfd47890c4ee7105eef9a5862eea"
+  },
+  "public_contract": {
+    "upper_layer_sees": [
+      "capability",
+      "opaque evidence profile",
+      "primitive id",
+      "route",
+      "lifecycle",
+      "acquisition class",
+      "reason",
+      "residency bytes",
+      "validation requirement"
+    ],
+    "upper_layer_does_not_see": [
+      "Vulkan",
+      "shader/SPIR-V",
+      "EXEC148 layout",
+      "sidecar path",
+      "workgroup geometry",
+      "benchmark/timing surfaces"
+    ],
+    "single_action_no_hidden_retry": true,
+    "first_backend_failure_preserved": true
+  },
+  "next": "ZERO_SCIENCE_PACKAGE_QA_THEN_FREEZE_PHASE2_V1_BOUNDARY"
+}
