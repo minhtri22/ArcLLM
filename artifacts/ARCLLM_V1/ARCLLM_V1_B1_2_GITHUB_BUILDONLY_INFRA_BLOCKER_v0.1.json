@@ -1,0 +1,32 @@
+{
+  "schema": "arcllm.v1.b1_2.github_buildonly_infra_blocker.v0.1",
+  "date": "2026-09-26",
+  "status": "GITHUB_WINDOWS_RUNNER_ALLOCATION_BLOCKER_NO_PACKAGE_CODE_EXECUTED",
+  "workflow_run": {
+    "id": 36207401533,
+    "head_sha": "458b21aa9dcd671d22864906655a89f9582e8bc1",
+    "workflow": "ArcLLM v1 B1.2 zero-science build-only",
+    "event": "push",
+    "conclusion": "failure",
+    "job_id": 108306702434,
+    "job_name": "buildonly",
+    "labels": [
+      "windows-latest"
+    ],
+    "runner_id": 0,
+    "runner_name": "",
+    "steps_count": 0
+  },
+  "classification": "INFRASTRUCTURE_BLOCKER_NOT_IMPLEMENTATION_FAILURE_NOT_SCIENTIFIC_FAILURE",
+  "evidence_boundary": {
+    "static_qa_executed_on_github": false,
+    "shader_compile_executed_on_github": false,
+    "native_compile_executed_on_github": false,
+    "model_loaded": false,
+    "gpu_dispatch": false,
+    "acquisition_timing": false,
+    "performance_execution": false
+  },
+  "package_head_before_workflow": "e60b79c09799ae2a5457cba2feca89e24bc96224",
+  "next": "DEV_HOST_ZERO_SCIENCE_QUALIFICATION_USING_RUN_ARCLLM_V1_B1_2_ZERO_SCIENCE_PS1"
+}
