@@ -1,0 +1,23 @@
+{
+  "schema": "arcllm.v1.b1.policy_zero_science_ci_infra_blocker.v0.1",
+  "date": "2026-09-26",
+  "status": "GITHUB_RUNNER_ALLOCATION_BLOCKER_NO_QA_STEP_EXECUTED",
+  "head": "0832b822b7e416aa748467e645bad7dfe26b7846",
+  "workflow_run": {
+    "id": 36234002877,
+    "job_id": 108382352915,
+    "workflow": "arcllm-v1-b1-policy-zero-science",
+    "labels": [
+      "ubuntu-latest"
+    ],
+    "status": "completed",
+    "conclusion": "failure",
+    "runner_id": 0,
+    "runner_name": "",
+    "steps": []
+  },
+  "classification": "INFRASTRUCTURE_ONLY",
+  "code_execution_on_github": false,
+  "scientific_execution": false,
+  "note": "The workflow failed before runner allocation. It is not evidence against the policy implementation or zero-science QA."
+}

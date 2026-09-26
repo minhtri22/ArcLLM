@@ -121,3 +121,12 @@ If P1 cannot be used, P3-COLD then P0 CPU may be considered in that order under 
 This document is an architecture-policy lock. It does not itself authorize production runtime hook implementation or new performance execution.
 
 Next: bounded deterministic policy evaluator + runtime-hook integration with zero-science QA only.
+
+## Runtime-hook clarification v0.2
+
+The executable policy integration separates **request routing** from **representation residency**. A request outside the frozen B evidence domain routes through A, but that routing choice does not itself destroy a valid resident B image. B is preserved when its exact identity and execution path remain valid, the 549,527,552-byte residency lease remains granted, and future same-image reuse is not known to be zero.
+
+The deterministic runtime hook consumes only explicit runtime signals: domain eligibility, model/representation validity, B residency, lease state, future-reuse estimate, acquisition permission, and P1/P3-cold/P0 availability. It emits a route plus at most one lifecycle command: no-op, acquire through P1, acquire through P3-cold, acquire through P0, or evict B.
+
+The hook does not measure performance, invent a memory-pressure threshold, load a model, invoke Vulkan, or automatically chain acquisition retries. Any B acquisition must pass exact post-acquisition representation validation before B may be used; a failed acquisition routes A and is reevaluated later with updated availability.
+

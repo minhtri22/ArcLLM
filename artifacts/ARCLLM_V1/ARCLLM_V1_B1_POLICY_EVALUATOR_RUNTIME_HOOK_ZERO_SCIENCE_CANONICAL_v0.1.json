@@ -1,0 +1,96 @@
+{
+  "schema": "arcllm.v1.b1.policy_evaluator_runtime_hook_zero_science_canonical.v0.1",
+  "date": "2026-09-26",
+  "status": "PASS_BOUNDED_POLICY_EVALUATOR_AND_RUNTIME_HOOK_ZERO_SCIENCE_QA",
+  "implementation_head": "0832b822b7e416aa748467e645bad7dfe26b7846",
+  "active_policy": {
+    "path": "config/arcllm_v1_b1_selection_lifetime_policy_v0.2.json",
+    "blob": "e34ebe2af17aaee811531756301d4700f6c41734",
+    "status": "FROZEN_B1_SELECTION_LIFETIME_POLICY_V0_2"
+  },
+  "exact_committed_blobs": {
+    "policy_core": "242bd710c5181051c6a08aa8b893c4833d027000",
+    "runtime_hook": "da3364ed36fabd510693c096a1380625bea6e7b4",
+    "cpp_zero_science_test": "51f2a10858c43b56ca57290638b18947d57d6ab6",
+    "static_qa": "91e971e4d040df5f29bac4d180ef8c0377056827",
+    "windows_build_qa": "ba0c00248134801236f1764a26e9dabdcf07e582",
+    "portable_ci_workflow": "757aea0881af123d290a2d547da8a71caca1a69c"
+  },
+  "exact_source_static_review": {
+    "verdict": "PASS",
+    "checks": [
+      "All expected Git blobs match the implementation freeze.",
+      "EXEC148 residency is exactly 549,527,552 bytes.",
+      "P1 thresholds are 2 W-S / 4 W-C.",
+      "P3-cold thresholds are 15 W-S / 33 W-C.",
+      "P0 thresholds are 17 W-S / 37 W-C.",
+      "P3-warm remains disabled.",
+      "Outside-domain routing preserves a valid resident B instead of implicitly evicting it.",
+      "Runtime hook requires exact post-acquisition identity validation.",
+      "Policy core contains no model load, GPU/Vulkan, timing, or placement-benchmark surface."
+    ]
+  },
+  "portable_native_reference_qa": {
+    "verdict": "PASS",
+    "language": "C++17",
+    "compiler_family": "g++",
+    "scope": "Portable semantic compile/run of the frozen evaluator and runtime-hook logic; no hardware path.",
+    "cases": 57344,
+    "acquisitions": 416,
+    "evictions": 26944,
+    "resident_B_routes": 864,
+    "boundary_checks": [
+      "P1 W-S 1->A, 2->P1",
+      "P1 W-C 3->A, 4->P1",
+      "P3-cold W-S 14->A, 15->P3",
+      "P3-cold W-C 32->A, 33->P3",
+      "P0 W-S 16->A, 17->P0",
+      "P0 W-C 36->A, 37->P0",
+      "resident B ignores creation crossover",
+      "lease revocation evicts B",
+      "identity invalidation evicts B",
+      "known zero future reuse evicts B",
+      "outside-domain request routes A and preserves valid B",
+      "unknown H never speculatively acquires absent B"
+    ],
+    "invariant_checks": [
+      "deterministic decision on identical input",
+      "at most one acquisition action",
+      "no acquisition and eviction in same decision",
+      "exclusive A/B route",
+      "no acquisition outside validated domain",
+      "no acquisition without positive known H, residency lease, or acquisition permission",
+      "every acquisition requires exact post-acquisition identity validation",
+      "eviction requires resident B"
+    ],
+    "output": [
+      "cases=57344 acquisitions=416 evictions=26944 resident_routes=864",
+      "B1_POLICY_ZERO_SCIENCE_QA=PASS",
+      "NO MODEL LOAD. NO GPU. NO VULKAN. NO PERFORMANCE TIMING. NO PLACEMENT BENCHMARK."
+    ],
+    "provenance_boundary": "GitHub-hosted runner did not execute due allocation failure; exact committed bytes were separately verified by static contract. The portable native run validates the same frozen evaluator/hook semantics but is not represented as a GitHub CI execution."
+  },
+  "github_ci": {
+    "verdict": "INFRA_BLOCKED_NOT_CODE_FAIL",
+    "blocker_artifact_blob": "d33e6d564a3b579fa729722a767db4c7ca96529d",
+    "workflow_run_id": 36234002877,
+    "job_id": 108382352915,
+    "runner_id": 0,
+    "steps_executed": 0
+  },
+  "architecture_integration": {
+    "route_and_residency_are_separate": true,
+    "resource_manager_owns_lease_decision": true,
+    "policy_invents_memory_threshold": false,
+    "acquisition_is_single_action_not_retry_chain": true,
+    "sunk_cost_hysteresis_preserved": true,
+    "lower_level_placement_research_reopened": false
+  },
+  "scope_boundary": {
+    "production_runtime_wiring_complete": false,
+    "statement": "This closes the bounded policy core and runtime-hook seam. It does not claim that an existing full inference runtime has been wired to execute these commands end-to-end.",
+    "no_new_scientific_performance_result": true
+  },
+  "lineage_append": false,
+  "next": "PHASE_2_PACKAGE_API_BOUNDARY_FOR_POLICY_AND_VALIDATED_PRIMITIVES"
+}
