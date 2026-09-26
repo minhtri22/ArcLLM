@@ -1,0 +1,52 @@
+{
+  "schema": "arcllm.v1.b1_2.github_buildonly_infra_blocker.v0.2",
+  "date": "2026-09-26",
+  "status": "REPEATED_GITHUB_WINDOWS_RUNNER_ALLOCATION_BLOCKER_NO_PACKAGE_CODE_EXECUTED",
+  "latest_package_head": "1317424d4d2a8ea3cb8f08c1218ab76d8f608bdd",
+  "observed_runs": [
+    {
+      "run_id": 36207401533,
+      "head_sha": "458b21aa9dcd671d22864906655a89f9582e8bc1",
+      "job_id": 108306702434,
+      "runner_id": 0,
+      "steps_count": 0,
+      "conclusion": "failure"
+    },
+    {
+      "run_id": 36207529483,
+      "head_sha": "33e538391608551bc60afd8cf34d56617b91f7f3",
+      "job_id": 108307097785,
+      "runner_id": 0,
+      "steps_count": 0,
+      "conclusion": "failure"
+    },
+    {
+      "run_id": 36207726018,
+      "head_sha": "1317424d4d2a8ea3cb8f08c1218ab76d8f608bdd",
+      "job_id": 108307684614,
+      "runner_id": 0,
+      "steps_count": 0,
+      "conclusion": "failure"
+    }
+  ],
+  "classification": "INFRASTRUCTURE_BLOCKER_NOT_IMPLEMENTATION_FAILURE_NOT_SCIENTIFIC_FAILURE",
+  "package_execution_on_github": {
+    "static_qa": false,
+    "shader_compile": false,
+    "native_compile": false,
+    "model_load": false,
+    "gpu_dispatch": false,
+    "sidecar_io": false,
+    "acquisition_timing": false,
+    "performance_execution": false
+  },
+  "current_package": {
+    "implementation_artifact_path": "artifacts/ARCLLM_V1/ARCLLM_V1_B1_2_P1_P3_BOUNDED_IMPLEMENTATION_PACKAGE_v0.1.json",
+    "implementation_artifact_blob": "d7f965f0080d9a9e17c02fe001330d39113773a9",
+    "qualifier_source_blob": "9c80d40dbada86fdca9fb7566c02be129277475b",
+    "p1_shader_blob": "bfb6471eec374e39194dd24ddc6d38c7d76e516f",
+    "static_test_blob": "2eeb26ae2299b377ea77c9f07dea2b1d4df71171",
+    "runner_blob": "26e66c92c2479022d38f4b1666b4bda23e9b56ac"
+  },
+  "next": "DEV_HOST_ZERO_SCIENCE_QUALIFICATION"
+}
