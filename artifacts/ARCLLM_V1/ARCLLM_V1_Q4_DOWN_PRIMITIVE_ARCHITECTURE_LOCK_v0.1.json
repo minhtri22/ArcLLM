@@ -1,0 +1,100 @@
+{
+  "schema": "arcllm.v1.q4_down.primitive_architecture_lock.v0.1",
+  "date": "2026-09-26",
+  "status": "FROZEN_PRIMITIVE_ARCHITECTURE_BASELINE_FOR_B1",
+  "parent_evidence": {
+    "primary_timing_path": "artifacts/ARCLLM_V1/ARCLLM_V1_Q4_DOWN_4ARM_PRIMARY_TIMING_CANONICAL_v0.1.json",
+    "primary_timing_blob": "97ba2ede658e8a63a08c60f7fc3ead5fcf574fdd",
+    "native_counter_path": "artifacts/ARCLLM_V1/ARCLLM_V1_Q4_DOWN_4ARM_NATIVE_COUNTER_CANONICAL_v0.1.json",
+    "native_counter_blob": "af8c29fbdad3ee7f853a957b80edd68fd0e8c372",
+    "child_b_design_path": "artifacts/ARCLLM_V1/Q4_DOWN_CHILD_B_EXEC148_DESIGN_v0.1.json",
+    "child_b_design_blob": "305bda16bff4ad643ea6bab86be903b5d7eb1b89"
+  },
+  "validated_domain": {
+    "hardware": "Intel Arc 140V / Vulkan development host used by frozen evidence",
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "operator": "decode ffn_down",
+    "quant": "Q4_K",
+    "shape": {
+      "k": 18944,
+      "rows": 3584,
+      "batch": 1
+    },
+    "layers": [
+      3,
+      4,
+      6,
+      7,
+      8,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      19,
+      21,
+      22
+    ],
+    "workloads": [
+      "W-S",
+      "W-C"
+    ]
+  },
+  "primitive_A": {
+    "id": "A_SPLIT_K32",
+    "class": "COMPUTE_PARALLELISM_PRIMITIVE",
+    "intervention": "Split-K32 work decomposition using the frozen subgroup32 execution family",
+    "status": "VALIDATED",
+    "role": "DEFAULT_NO_EXTRA_REPRESENTATION_EXECUTION_PRIMITIVE_WITHIN_VALIDATED_Q4_DOWN_DOMAIN",
+    "measured_component_latency_ms_per_token": {
+      "W-S": 38.37338447981645,
+      "W-C": 37.83515532629015
+    },
+    "prior_baseline_latency_ms_per_token": {
+      "W-S": 100.581013169409,
+      "W-C": 213.3338229166545
+    },
+    "speedup_vs_prior_baseline": {
+      "W-S": 2.621107226702638,
+      "W-C": 5.638510300285713
+    },
+    "latency_reduction_fraction_vs_prior_baseline": {
+      "W-S": 0.6184828202596845,
+      "W-C": 0.822648116416722
+    },
+    "mechanism_note": "Exact physical mechanism attribution remains incomplete; this does not block A's measured causal latency value or default role inside the frozen domain.",
+    "scope_guard": "Default does not imply universal transfer to other operators, shapes, quants, models, hardware, or workload regimes."
+  },
+  "primitive_B": {
+    "id": "B_EXEC148",
+    "class": "EXECUTION_REPRESENTATION_PRIMITIVE",
+    "intervention": "Materialize source Q4_K into Q4K_SERIAL_K_EXEC148_V0_1 and execute the frozen serial EXEC148 reader",
+    "status": "VALIDATED_PERFORMANCE_VALUE",
+    "role": "ARCHITECTURE_PLACEMENT_UNRESOLVED",
+    "measured_component_latency_ms_per_token": {
+      "W-S": 24.18914003444485,
+      "W-C": 31.41302006641385
+    },
+    "current_reference_materialization_ms": 231.6382,
+    "current_reference_incremental_resident_bytes": 549527552,
+    "current_reference_storage": "One contiguous HOST_VISIBLE|HOST_COHERENT|DEVICE_LOCAL Vulkan buffer on existing UMA memory type.",
+    "current_reference_creator": "CPU direct-write materializer",
+    "measured_A_vs_B_crossover_tokens_under_reference_placement": {
+      "W-S": 16.330668925801323,
+      "W-C": 36.068720235030014
+    }
+  },
+  "composition": {
+    "default_policy": "A_OR_B_SELECTION_NOT_A_PLUS_B_COMPOSITION",
+    "AB_status": "NOT_SUPPORTED",
+    "interaction": "ANTAGONISTIC",
+    "rule": "AB remains experimental historical evidence only; it is not the architecture target or default composition."
+  },
+  "policy_baseline": {
+    "comparison_reference_for_future_B_placement": "A_SPLIT_K32",
+    "reason": "A dominates the prior arm-0 no-materialization path and is now the default no-extra-representation primitive inside the validated domain.",
+    "fallback_rule": "If B placement is unavailable, unjustified, not resident, or fails total-cost/resource constraints, choose A."
+  },
+  "next": "B1_EXECUTION_REPRESENTATION_PLACEMENT_ARCHITECTURE"
+}

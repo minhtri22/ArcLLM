@@ -1,0 +1,176 @@
+{
+  "schema": "arcllm.v1.b1.execution_representation_placement_architecture.v0.1",
+  "date": "2026-09-26",
+  "status": "ARCHITECTURE_PROBLEM_FORMULATION_FROZEN_NO_PLACEMENT_EXECUTION_AUTHORIZED",
+  "parent_architecture_lock": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_Q4_DOWN_PRIMITIVE_ARCHITECTURE_LOCK_v0.1.json",
+    "blob": "5c696b924038de13de8d5176b724fcd814cdcc8e"
+  },
+  "exact_open_question": "Given that EXEC148 provides validated latency value but incurs materialization and residency costs, which system resource should create, host, and maintain the execution representation, and under what workload lifetime/reuse conditions does each placement dominate?",
+  "decision_reframe": {
+    "baseline": "A_SPLIT_K32",
+    "candidate": "B_EXEC148_WITH_PLACEMENT_POLICY",
+    "objective": "Determine when a B placement has lower total system cost than A without assuming any particular unused hardware resource is beneficial.",
+    "non_objective": "Do not search for a single globally optimal kernel or force A+B composition."
+  },
+  "placement_tuple": {
+    "notation": "P=(creator_compute_domain,residency_memory_domain,transfer_path,lifetime_policy,maintenance_policy)",
+    "dimensions": {
+      "creator_compute_domain": [
+        "CPU",
+        "GPU",
+        "NPU",
+        "OFFLINE_PREMATERIALIZED_ARTIFACT",
+        "OTHER_CAPABILITY_PROVEN_ENGINE"
+      ],
+      "residency_memory_domain": [
+        "CURRENT_UMA_GPU_ACCESSIBLE_BUFFER",
+        "SYSTEM_MEMORY_NONEXECUTION_STAGING",
+        "DEVICE_LOCAL_MEMORY_WHERE_PHYSICALLY_DISTINCT",
+        "PERSISTENT_STORAGE_SIDE_CAR_THEN_LOAD",
+        "OTHER_CAPABILITY_PROVEN_MEMORY_TIER"
+      ],
+      "transfer_path": [
+        "DIRECT_WRITE_FINAL_EXECUTION_BUFFER",
+        "CREATE_THEN_COPY",
+        "DEVICE_TO_DEVICE_OR_SHARED_MEMORY_HANDOFF",
+        "LOAD_PREMATERIALIZED_IMAGE",
+        "OTHER_CAPABILITY_PROVEN_PATH"
+      ],
+      "lifetime_policy": [
+        "MODEL_LOAD",
+        "FIRST_USE_LAZY",
+        "SESSION",
+        "MULTI_SESSION_CACHE",
+        "PERSISTENT_VERSIONED_CACHE"
+      ],
+      "maintenance_policy": [
+        "KEEP_RESIDENT",
+        "EVICT_ON_MEMORY_PRESSURE",
+        "RECREATE_ON_DEMAND",
+        "CACHE_WITH_VERSION_AND_CORRECTNESS_IDENTITY"
+      ]
+    }
+  },
+  "current_reference_placement": {
+    "id": "P_REF_CPU_DIRECT_UMA",
+    "creator_compute_domain": "CPU",
+    "residency_memory_domain": "CURRENT_UMA_GPU_ACCESSIBLE_BUFFER",
+    "transfer_path": "DIRECT_WRITE_FINAL_EXECUTION_BUFFER",
+    "lifetime_observed": "one materialization before measured campaign, retained for the campaign",
+    "materialization_ms": 231.6382,
+    "incremental_resident_bytes": 549527552,
+    "note": "This is a measured reference placement, not an architecture winner."
+  },
+  "critical_architecture_distinction": {
+    "statement": "Creator domain and residency domain are independent axes. On the current UMA host, labels such as CPU, GPU and RAM cannot be treated as mutually exclusive physical placement choices.",
+    "consequence": "A GPU-created EXEC148 image and a CPU-created EXEC148 image may still reside in the same physical shared-memory pool; B1 must account separately for creator cost, transfer/copy cost, execution accessibility, contention and lifetime."
+  },
+  "total_cost_model": {
+    "notation": "Total_B(P,H,S)=C_create(P)+C_transfer(P)+C_maintenance(P,H,S)+C_memory_pressure(P,H,S)+H*L_B(P,S)",
+    "baseline": "Total_A(H,S)=H*L_A(S) for the incremental B-vs-A decision, plus only costs common to both paths.",
+    "dominance_rule": "B placement P dominates A only when Total_B(P,H,S) < Total_A(H,S) and correctness, capacity, accessibility and resource-contention constraints all pass.",
+    "H": "Total future decode-token reuse of the same valid EXEC148 image before eviction/invalidation.",
+    "S": "Relevant runtime/resource state: memory pressure, concurrent work, power/thermal state, model lifetime and device availability.",
+    "exclusions": [
+      "Scientific validation wall time is not a deployment/runtime materialization cost.",
+      "Historical arm-0 latency is no longer the B1 decision baseline.",
+      "Do not treat unused nominal TOPS as available execution value without a data-access and scheduling path."
+    ]
+  },
+  "candidate_classes": {
+    "P0_CPU_DIRECT_UMA": {
+      "role": "MEASURED_REFERENCE",
+      "known": [
+        "correctness",
+        "materialization wall time",
+        "incremental residency",
+        "B component latency"
+      ],
+      "unknown": [
+        "production lifetime policy",
+        "memory-pressure opportunity cost",
+        "multi-session reuse value"
+      ]
+    },
+    "P1_GPU_CREATE_IN_PLACE": {
+      "role": "CANDIDATE",
+      "hypothesis": "GPU may create EXEC148 directly where it is consumed and may reduce host materialization or copy cost.",
+      "required_before_execution": [
+        "bounded creator algorithm",
+        "proof it does not steal more critical-path GPU time than it saves",
+        "exact semantics guard",
+        "explicit overlap/serialization contract"
+      ]
+    },
+    "P2_NPU_CREATE_OR_MAINTAIN": {
+      "role": "CAPABILITY_GATED_CANDIDATE",
+      "hypothesis": "An otherwise underused NPU could absorb representation work if it can read source Q4_K and produce an execution image accessible to the Vulkan GPU at acceptable handoff cost.",
+      "required_before_execution": [
+        "programming/runtime availability",
+        "source/destination memory accessibility",
+        "exact byte-level transform feasibility",
+        "handoff/copy/coherency cost bound",
+        "no assumption from vendor TOPS alone"
+      ]
+    },
+    "P3_OFFLINE_PREMATERIALIZED_SIDECAR": {
+      "role": "CANDIDATE",
+      "hypothesis": "Move creation out of inference runtime by storing a versioned EXEC148 sidecar and pay storage/load cost instead of runtime transform cost.",
+      "required_before_execution": [
+        "model/quant/version identity",
+        "storage expansion accounting",
+        "load/mmap path",
+        "correctness hash binding",
+        "cold-start and warm-cache cost model"
+      ]
+    },
+    "P4_OTHER_ENGINE": {
+      "role": "CAPABILITY_GATED_ONLY",
+      "hypothesis": "DMA/DSP/audio or another engine is admissible only if it exposes programmable transformation or useful data movement and can participate in the required memory path.",
+      "rule": "Do not name or benchmark a device merely because it is idle; first prove capability and accessible dataflow."
+    }
+  },
+  "decision_variables_to_observe_or_bound": [
+    "creator wall time",
+    "creator critical-path occupancy",
+    "bytes read from source representation",
+    "bytes written to execution representation",
+    "extra copies and transfer bytes",
+    "handoff/coherency/synchronization cost",
+    "resident bytes and memory-pressure/eviction effect",
+    "B execution latency after placement",
+    "representation reuse tokens before invalidation/eviction",
+    "cold-start versus warm-resident behavior",
+    "ability to overlap creation with otherwise unavoidable work",
+    "resource contention with prefill/decode/KV or other system activity"
+  ],
+  "architecture_decision_outputs": [
+    "For each feasible placement class, a dominance region over reuse horizon/resource state versus A.",
+    "A fallback rule when B is not yet amortized or cannot be kept resident.",
+    "A residency/lifetime policy for B independent of its creator.",
+    "A capability gate that rejects speculative hardware resources before performance experiments.",
+    "An explicit domain-of-validity boundary; no universal placement winner is required."
+  ],
+  "falsification_and_kill_rules": [
+    "Kill a placement class before implementation if the resource cannot access required source/destination data without an unavoidable copy whose lower bound removes plausible advantage.",
+    "Kill a placement class before performance work if it cannot preserve the exact EXEC148 semantic tuple.",
+    "Kill a placement class if minimum unavoidable creator+transfer+maintenance cost cannot beat A for any plausible reuse horizon under the target regime.",
+    "Do not rescue a failed placement by changing EXEC148 semantics, A baseline, workload, or decision metric post outcome."
+  ],
+  "immediate_next_study": {
+    "id": "B1.1_PLACEMENT_CAPABILITY_AND_BOUND_SURVEY",
+    "type": "ARCHITECTURE_ANALYSIS_NO_PERFORMANCE_EXECUTION",
+    "question": "For P0/P1/P2/P3/P4, which placement classes are physically/software feasible on the current platform, what data path would each require, and what optimistic lower bound on creation+handoff cost determines whether a runtime experiment is worth opening?",
+    "output": "feasibility matrix + cost-bound ledger + shortlist of only decision-relevant placements",
+    "forbidden": [
+      "new EXEC148 implementation",
+      "GPU/NPU benchmark",
+      "counter campaign",
+      "Token-XRay science run",
+      "soundcard/DSP experiment without capability proof",
+      "A retest",
+      "AB retest"
+    ]
+  }
+}

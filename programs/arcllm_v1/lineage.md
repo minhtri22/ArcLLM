@@ -1407,3 +1407,14 @@ Counter informativeness is partial: `GPU_MEMORY_BYTE_READ` (56), `XVE_INST_EXECU
 The informative partial result is stable across workloads: A reduces mean SBID from 55.3871 to 5.62477 in W-S and from 54.8939 to 5.55194 in W-C (about 89.8% reduction in both). This satisfies only one of A's three required hardware-direction conditions. B's required memory-read condition cannot be adjudicated because counter 56 is structurally zero.
 
 Frozen primary-timing conclusions remain unchanged: A and B latency conditions pass; composition is not supported; interaction is antagonistic; architecture frontier remains A vs B. Formal scientific result: `VALID_CAUSAL_INTERVENTION_TIMING_WITH_UNRESOLVED_MECHANISM_ATTRIBUTION`. No counter rerun, selective rerun, post-hoc counter substitution, Token-XRay, or Child-C is authorized by this close. Reopen lower-level mechanism work only if it would change a concrete architecture decision.
+
+
+## Q4-down primitive architecture lock / B1 execution-representation placement — 2026-09-26
+
+ArcLLM freezes the current Q4-down architecture as two independent primitives rather than a default composition. A / Split-K32 is `VALIDATED` and becomes the default no-extra-representation execution primitive within the frozen Q4-down domain. B / EXEC148 has `VALIDATED PERFORMANCE VALUE` but its creation/residency/lifetime architecture remains unresolved. The historical AB arm is not the target architecture because composition was not supported and interaction was antagonistic.
+
+Future B decisions now use A, not arm 0, as the architecture baseline. Under the measured CPU-direct-UMA reference placement, B's materialization cost is 231.6382 ms, incremental resident image is 549,527,552 bytes, and the frozen A-vs-B crossover is about 16.33 tokens for W-S and 36.07 tokens for W-C.
+
+B1 asks which resource should create, host and maintain EXEC148 and under what reuse/lifetime/resource-state conditions each placement dominates. Placement is explicitly modeled as `(creator compute domain, residency memory domain, transfer path, lifetime policy, maintenance policy)`. CPU/GPU/NPU/RAM are not treated as one mutually exclusive axis, especially on the current UMA host.
+
+Candidate classes are CPU-direct-UMA reference, GPU in-place creation, capability-gated NPU creation/maintenance, offline prematerialized sidecar, and other capability-proven engines. No placement benchmark is authorized yet. The next study is `B1.1_PLACEMENT_CAPABILITY_AND_BOUND_SURVEY`: feasibility + exact data path + optimistic creation/handoff bound, with kill-before-build rules. A retest, AB retest, counter work, Token-XRay science, and speculative soundcard/DSP experiments remain closed.
