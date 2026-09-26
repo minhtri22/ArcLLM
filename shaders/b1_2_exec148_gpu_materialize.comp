@@ -1,0 +1,75 @@
+#version 450
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
+
+layout(set = 0, binding = 0, std430) readonly buffer SrcQ4K { uint src_words[]; };
+layout(set = 0, binding = 1, std430) writeonly buffer DstExec148 { uint dst_words[]; };
+
+layout(push_constant) uniform PC {
+    uint src_base_bytes;
+    uint dst_base_bytes;
+    uint block_count;
+    uint reserved;
+} pc;
+
+uint load_u8(uint rel_byte) {
+    uint byte_addr = pc.src_base_bytes + rel_byte;
+    uint w = src_words[byte_addr >> 2u];
+    return (w >> ((byte_addr & 3u) * 8u)) & 0xffu;
+}
+
+uint q4_value(uint block_base, uint k) {
+    uint x = k & 63u;
+    uint qb = load_u8(block_base + 16u + (k >> 6u) * 32u + (x & 31u));
+    return x < 32u ? (qb & 15u) : (qb >> 4u);
+}
+
+uint scale_value(uint block_base, uint j) {
+    if (j < 4u) return load_u8(block_base + 4u + j) & 63u;
+    uint qj = load_u8(block_base + 8u + j);
+    return (qj & 15u) | ((load_u8(block_base + j) >> 6u) << 4u);
+}
+
+uint min_value(uint block_base, uint j) {
+    if (j < 4u) return load_u8(block_base + 8u + j) & 63u;
+    uint qj = load_u8(block_base + 8u + j);
+    return (qj >> 4u) | ((load_u8(block_base + 4u + j) >> 6u) << 4u);
+}
+
+uint qpair(uint block_base, uint p) {
+    uint q0 = q4_value(block_base, 2u * p);
+    uint q1 = q4_value(block_base, 2u * p + 1u);
+    return q0 | (q1 << 4u);
+}
+
+void main() {
+    uint block_id = gl_GlobalInvocationID.x;
+    if (block_id >= pc.block_count) return;
+
+    uint sb = block_id * 144u;
+    uint db_word = (pc.dst_base_bytes + block_id * 148u) >> 2u;
+
+    dst_words[db_word + 0u] =
+        load_u8(sb + 0u) |
+        (load_u8(sb + 1u) << 8u) |
+        (load_u8(sb + 2u) << 16u) |
+        (load_u8(sb + 3u) << 24u);
+
+    for (uint w = 0u; w < 4u; ++w) {
+        uint j0 = 2u * w;
+        uint j1 = j0 + 1u;
+        dst_words[db_word + 1u + w] =
+            scale_value(sb, j0) |
+            (min_value(sb, j0) << 8u) |
+            (scale_value(sb, j1) << 16u) |
+            (min_value(sb, j1) << 24u);
+    }
+
+    for (uint w = 0u; w < 32u; ++w) {
+        uint p = 4u * w;
+        dst_words[db_word + 5u + w] =
+            qpair(sb, p + 0u) |
+            (qpair(sb, p + 1u) << 8u) |
+            (qpair(sb, p + 2u) << 16u) |
+            (qpair(sb, p + 3u) << 24u);
+    }
+}

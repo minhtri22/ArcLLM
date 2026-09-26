@@ -1,0 +1,100 @@
+{
+  "schema": "arcllm.v1.b1_2.p1_p3_bounded_implementation_package.v0.1",
+  "date": "2026-09-26",
+  "status": "IMPLEMENTED_AWAITING_DEV_HOST_ZERO_SCIENCE_QUALIFICATION",
+  "authorization_blob": "e1903e256b4fa99889d171229fd9dc8069de26ca",
+  "scientific_prelock_blob": "11a7e57087cd27c82f328ad8ab25fc0c1b6d6b52",
+  "independent_review_blob": "9a664d4aa1f53fb53030377b7b0d5be3c47fe497",
+  "package": {
+    "p1_shader": {
+      "path": "shaders/b1_2_exec148_gpu_materialize.comp",
+      "blob": "bfb6471eec374e39194dd24ddc6d38c7d76e516f",
+      "local_size_x": 256,
+      "block_mapping": "one invocation per source Q4_K block",
+      "blocks_per_layer": 265216,
+      "workgroups_per_layer": 1036,
+      "dispatches": 14,
+      "source_block_bytes": 144,
+      "destination_block_bytes": 148,
+      "floating_point": false,
+      "atomics": false,
+      "destination": "final EXEC148 Vulkan buffer"
+    },
+    "qualifier_source": {
+      "path": "src/arcllm_v1_b1_2_zero_science.cpp",
+      "blob": "2c22ed0521f2b5689a3865140e8d101318f4e75e",
+      "modes": [
+        "P1",
+        "P3"
+      ],
+      "timing_output_forbidden": true
+    },
+    "static_test": {
+      "path": "tests/test_arcllm_v1_b1_2_zero_science.py",
+      "blob": "a433751067ced5bae4711bd9c683a81177241a88"
+    },
+    "compile_script": {
+      "path": "tools/compile_arcllm_v1_b1_2_zero_science.ps1",
+      "blob": "c6920d1dda77d79a2e0bca8b2bef2c5470b5d13e"
+    },
+    "build_script": {
+      "path": "tools/build_arcllm_v1_b1_2_zero_science.ps1",
+      "blob": "48c916778b470995194f02b26efd10d430e97ec5"
+    },
+    "qualification_runner": {
+      "path": "run_arcllm_v1_b1_2_zero_science.ps1",
+      "blob": "901efa34d967cf95a767b64bf7003ffe969d9b8f"
+    }
+  },
+  "P1_frozen_implementation": {
+    "transform": "exact Q4_K 144-byte block to EXEC148 148-byte block",
+    "dispatch_order": "14 frozen layers in [3,4,6,7,8,11,12,14,15,17,18,19,21,22]",
+    "source_base_supported": true,
+    "destination_slot_rule": "slot * 39,251,968 bytes",
+    "full_image_cpu_staging": false,
+    "correctness": [
+      "canonical family hash exact",
+      "frozen B component max_abs <= 0.02",
+      "frozen B component RMSE <= 0.005"
+    ]
+  },
+  "P3_frozen_implementation": {
+    "sidecar_payload": "uncompressed exact concatenated EXEC148 layer images",
+    "payload_bytes": 549527552,
+    "warm_path": {
+      "preload": "full untimed buffered preload",
+      "measured_future_path": "buffered 4 MiB chunks directly into final mapped Vulkan buffer"
+    },
+    "cold_path": {
+      "flags": [
+        "FILE_FLAG_NO_BUFFERING",
+        "FILE_FLAG_SEQUENTIAL_SCAN"
+      ],
+      "chunk_bytes": 4194304,
+      "staging": "VirtualAlloc aligned staging",
+      "copy": "staging to final mapped Vulkan buffer",
+      "sector_contract": "volume sector must divide 4096 and 4 MiB and payload byte count"
+    },
+    "manifest_identity": [
+      "source model SHA256",
+      "EXEC148 id",
+      "payload bytes",
+      "canonical family hash",
+      "raw payload SHA256",
+      "layer list",
+      "shape"
+    ],
+    "compression": false
+  },
+  "zero_science_boundary": {
+    "real_model_correctness_allowed": true,
+    "gpu_dispatch_correctness_only_allowed": true,
+    "sidecar_functional_io_allowed": true,
+    "acquisition_timing": false,
+    "gpu_creator_timing": false,
+    "storage_timing": false,
+    "P0_comparison": false,
+    "performance_adjudication": false
+  },
+  "next": "RUN_DEV_HOST_ZERO_SCIENCE_QUALIFICATION_AND_RETURN_BUNDLE_FOR_INDEPENDENT_REVIEW"
+}
