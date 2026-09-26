@@ -1,7 +1,7 @@
 {
   "schema": "arcllm.v1.b1_2.p1_p3_bounded_implementation_package.v0.1",
   "date": "2026-09-26",
-  "status": "IMPLEMENTED_AWAITING_DEV_HOST_ZERO_SCIENCE_QUALIFICATION_AFTER_NATIVE_COMPILE_REPAIR",
+  "status": "IMPLEMENTED_AWAITING_DEV_HOST_ZERO_SCIENCE_QUALIFICATION_AFTER_STATIC_QA_REGEX_REPAIR",
   "authorization_blob": "e1903e256b4fa99889d171229fd9dc8069de26ca",
   "scientific_prelock_blob": "11a7e57087cd27c82f328ad8ab25fc0c1b6d6b52",
   "independent_review_blob": "9a664d4aa1f53fb53030377b7b0d5be3c47fe497",
@@ -31,7 +31,7 @@
     },
     "static_test": {
       "path": "tests/test_arcllm_v1_b1_2_zero_science.py",
-      "blob": "1455891bb1e238abf76d541c79cb011f40ccfd08"
+      "blob": "eb23f5e47a7a9664c132019bbe2027da6964cd86"
     },
     "compile_script": {
       "path": "tools/compile_arcllm_v1_b1_2_zero_science.ps1",
@@ -39,11 +39,11 @@
     },
     "build_script": {
       "path": "tools/build_arcllm_v1_b1_2_zero_science.ps1",
-      "blob": "48c916778b470995194f02b26efd10d430e97ec5"
+      "blob": "f2405f20ff4025325427aa2066724b2ba9f210e5"
     },
     "qualification_runner": {
       "path": "run_arcllm_v1_b1_2_zero_science.ps1",
-      "blob": "26e66c92c2479022d38f4b1666b4bda23e9b56ac"
+      "blob": "fc19b94774462d93571547d1623d00d9a0ae54a5"
     }
   },
   "P1_frozen_implementation": {
@@ -127,5 +127,19 @@
     "gpu_dispatch_during_failed_attempt": false,
     "acquisition_timing_during_failed_attempt": false,
     "performance_outcome_seen": false
+  },
+  "static_qa_regex_repair": {
+    "classification": "PRE_MODEL_PRE_GPU_QA_HARNESS_REPAIR",
+    "root_cause": "Python raw regex accidentally contained doubled escape sequences, producing re.error: missing ), unterminated subpattern.",
+    "changes": [
+      "Correct regex to use single regex escapes for whitespace/word/literal-parenthesis tokens.",
+      "Capture Python stderr/exit code under temporary PowerShell ErrorActionPreference=Continue so future static-QA traceback is fully surfaced."
+    ],
+    "cpp_changed": false,
+    "shader_changed": false,
+    "scientific_contract_changed": false,
+    "model_loaded_during_failed_attempt": false,
+    "gpu_dispatch_during_failed_attempt": false,
+    "acquisition_timing_during_failed_attempt": false
   }
 }

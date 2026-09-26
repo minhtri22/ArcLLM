@@ -66,7 +66,7 @@ req("component_oracle" in SRC and "max_abs<=0.02" in SRC and "rmse(g)<=0.005" in
 req("src_base_bytes" in SRC and "dst_base_bytes" in SRC,"P1 source/destination base contract")
 
 # Prevent MSVC most-vexing-parse declarations for size_t(...) vectors.
-req(re.search(r"std::vector<[^>]+>\\s+\\w+\\s*\\(\\s*size_t\\s*\\(", SRC) is None,
+req(re.search(r"std::vector<[^>]+>\s+\w+\s*\(\s*size_t\s*\(", SRC) is None,
     "ambiguous vector(size_t(...)) declaration")
 
 # Shader is exactly block-parallel EXEC148 transformation.

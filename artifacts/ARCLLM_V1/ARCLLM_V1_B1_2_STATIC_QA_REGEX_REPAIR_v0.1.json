@@ -1,0 +1,29 @@
+{
+  "schema": "arcllm.v1.b1_2.static_qa_regex_repair.v0.1",
+  "date": "2026-09-26",
+  "status": "QA_HARNESS_REPAIR_READY_FOR_DEV_HOST_RETRY",
+  "failed_head": "a570baf9ae32f8132e80c0f60703b98017b68bd6",
+  "classification": "PRE_MODEL_PRE_GPU_STATIC_QA_HARNESS_ERROR",
+  "root_cause": {
+    "file": "tests/test_arcllm_v1_b1_2_zero_science.py",
+    "bad_pattern": "raw regex used doubled backslash escapes such as \\\\s and \\\\(, causing the regex parser to see a literal backslash followed by an unmatched group opener",
+    "observed_effect": "Python traceback written to stderr; PowerShell ErrorActionPreference=Stop surfaced only NativeCommandError before the runner could print the full static-QA failure."
+  },
+  "repair": {
+    "static_test_blob": "eb23f5e47a7a9664c132019bbe2027da6964cd86",
+    "runner_blob": "fc19b94774462d93571547d1623d00d9a0ae54a5",
+    "build_script_blob": "f2405f20ff4025325427aa2066724b2ba9f210e5",
+    "cpp_qualifier_blob_unchanged": "eb2f8b2617d031947d86048ac5e1f43431d14e59",
+    "p1_shader_blob_unchanged": "bfb6471eec374e39194dd24ddc6d38c7d76e516f",
+    "scientific_prelock_unchanged": true,
+    "performance_scope_unchanged_closed": true
+  },
+  "failed_attempt_execution": {
+    "model_loaded": false,
+    "gpu_dispatch": false,
+    "sidecar_io": false,
+    "acquisition_timing": false,
+    "performance_execution": false
+  },
+  "retry_policy": "Safe to rerun the zero-science qualification."
+}

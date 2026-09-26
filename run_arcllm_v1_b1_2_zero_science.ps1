@@ -29,8 +29,12 @@ foreach($P in $Critical.Keys){
  if($LASTEXITCODE-ne0-or$Got-ne[string]$Critical[$P]){throw "STOP: critical scientific blob mismatch: $P"}
 }
 
+$PrevEap=$ErrorActionPreference
+$ErrorActionPreference="Continue"
 $StaticOut=(py -3 (Join-Path $Root "tests\test_arcllm_v1_b1_2_zero_science.py") 2>&1|Out-String).Trim()
-if($LASTEXITCODE-ne0-or$StaticOut-notlike"*B1_2_ZERO_SCIENCE_STATIC_QA=PASS*"){throw "STOP: B1.2 static QA failed: $StaticOut"}
+$StaticCode=$LASTEXITCODE
+$ErrorActionPreference=$PrevEap
+if($StaticCode-ne0-or$StaticOut-notlike"*B1_2_ZERO_SCIENCE_STATIC_QA=PASS*"){throw "STOP: B1.2 static QA failed (`$StaticCode=$StaticCode): `n$StaticOut"}
 
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Root "tools\build_arcllm_v1_b1_2_zero_science.ps1")
 if($LASTEXITCODE-ne0){throw "STOP: B1.2 build failed"}

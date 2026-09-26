@@ -6,8 +6,13 @@ $Root=Split-Path -Parent $Here
 $Results=Join-Path $Root "results"
 New-Item -ItemType Directory -Force -Path $Results|Out-Null
 
-py -3 (Join-Path $Root "tests\test_arcllm_v1_b1_2_zero_science.py")
-if($LASTEXITCODE-ne0){throw "B1.2 static QA failed"}
+$PrevEap=$ErrorActionPreference
+$ErrorActionPreference="Continue"
+$StaticOut=(py -3 (Join-Path $Root "tests\test_arcllm_v1_b1_2_zero_science.py") 2>&1|Out-String).Trim()
+$StaticCode=$LASTEXITCODE
+$ErrorActionPreference=$PrevEap
+if($StaticCode-ne0){throw "B1.2 static QA failed (`$StaticCode=$StaticCode): `n$StaticOut"}
+Write-Host $StaticOut
 
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Root "tools\compile_arcllm_v1_b1_2_zero_science.ps1")
 if($LASTEXITCODE-ne0){throw "B1.2 shader compile failed"}
