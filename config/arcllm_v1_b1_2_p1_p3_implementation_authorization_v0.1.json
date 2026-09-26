@@ -1,0 +1,86 @@
+{
+  "schema": "arcllm.v1.b1_2.p1_p3_implementation_authorization.v0.1",
+  "date": "2026-09-26",
+  "status": "BOUNDED_P1_P3_IMPLEMENTATION_AND_ZERO_SCIENCE_QUALIFICATION_AUTHORIZED",
+  "parent_prelock": {
+    "path": "config/arcllm_v1_b1_2_p1_p3_placement_experiment_prelock_v0.1.json",
+    "blob": "11a7e57087cd27c82f328ad8ab25fc0c1b6d6b52"
+  },
+  "independent_review": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_B1_2_INDEPENDENT_PRELOCK_REVIEW_v0.1.json",
+    "blob": "9a664d4aa1f53fb53030377b7b0d5be3c47fe497",
+    "verdict": "PASS"
+  },
+  "scope": {
+    "P1_GPU_CREATE_IN_PLACE": {
+      "implementation": true,
+      "allowed_zero_science_qualification": [
+        "static/source contract QA",
+        "shader compile/provenance",
+        "exact model/target-layer binding QA",
+        "real-model correctness-only generation of EXEC148",
+        "canonical tuple-family hash validation",
+        "component correctness oracle validation",
+        "buffer memory-type/visibility/barrier contract QA"
+      ],
+      "forbidden": [
+        "acquisition wall timing",
+        "GPU creator performance timing",
+        "comparison to 231.6382 ms",
+        "geometry search using performance outcomes",
+        "overlap experiment"
+      ]
+    },
+    "P3_OFFLINE_PREMATERIALIZED_SIDECAR": {
+      "implementation": true,
+      "allowed_zero_science_qualification": [
+        "sidecar manifest/version implementation",
+        "offline exact sidecar generation",
+        "raw payload SHA256 identity",
+        "canonical tuple-family hash validation",
+        "buffered warm-load path functional QA without timing",
+        "unbuffered cold-path flags/alignment/chunk/staging functional QA without timing",
+        "final loaded EXEC148 correctness and component oracle validation"
+      ],
+      "forbidden": [
+        "warm acquisition timing",
+        "cold acquisition timing",
+        "storage benchmark",
+        "comparison to 231.6382 ms",
+        "chunk-size search using performance outcomes",
+        "compression or representation change"
+      ]
+    }
+  },
+  "shared_constraints": {
+    "exact_exec148_family_hash": "60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2",
+    "exact_exec_image_bytes": 549527552,
+    "exact_source_model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "A_baseline_frozen": true,
+    "B_steady_state_frozen": true,
+    "AB_closed": true,
+    "counters_closed": true,
+    "token_xray_science_closed": true,
+    "P2_performance_closed": true,
+    "P4_closed": true
+  },
+  "implementation_freeze_required_before_performance": [
+    "exact P1 source/SPIR-V and workgroup/dispatch geometry",
+    "exact P1 timer-anchor implementation contract",
+    "exact P3 sidecar schema and payload raw SHA256",
+    "exact P3 warm buffered load path",
+    "exact P3 cold unbuffered flags/alignment/chunk/staging/copy path",
+    "exact timer anchors for both P3 states",
+    "zero-science qualification evidence for both candidates"
+  ],
+  "authorization": {
+    "bounded_implementation": true,
+    "zero_science_qualification": true,
+    "P1_performance_execution": false,
+    "P3_performance_execution": false,
+    "any_acquisition_timing": false,
+    "execution_lock_creation": false
+  },
+  "stop_rule": "No acquisition/performance timing may be emitted or inspected until an independent implementation-package review passes and a separate immutable performance execution lock authorizes P1/P3 timing.",
+  "next": "IMPLEMENT_P1_P3_BOUNDED_PACKAGE_AND_RETURN_ZERO_SCIENCE_QUALIFICATION_EVIDENCE"
+}

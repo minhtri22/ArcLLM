@@ -1,0 +1,69 @@
+{
+  "schema": "arcllm.v1.b1_2.independent_prelock_review.v0.1",
+  "date": "2026-09-26",
+  "status": "PASS_INDEPENDENT_B1_2_PRELOCK_REVIEW",
+  "reviewed_head": "010d265f51de3fa895931b62bcbb003a20aa89e7",
+  "reviewed_design": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_B1_2_P1_P3_PLACEMENT_EXPERIMENT_DESIGN_v0.1.json",
+    "blob": "613d8d335bc7f638a9c42c0853741388ca88a54e"
+  },
+  "reviewed_prelock": {
+    "path": "config/arcllm_v1_b1_2_p1_p3_placement_experiment_prelock_v0.1.json",
+    "blob": "11a7e57087cd27c82f328ad8ab25fc0c1b6d6b52"
+  },
+  "independent_checks": {
+    "parent_provenance_exact": true,
+    "frozen_A_B_evidence_reused_without_outcome_mutation": true,
+    "exec148_semantics_frozen": true,
+    "steady_state_B_kernel_frozen": true,
+    "A_not_retested": true,
+    "AB_not_retested": true,
+    "P1_and_P3_change_acquisition_path_only": true,
+    "P1_and_P3_independently_adjudicated_against_P0": true,
+    "primary_metric_exact": "ACQUISITION_WALL_MS",
+    "primary_repeats": 8,
+    "estimator": "median",
+    "quiet_host_required": true,
+    "no_overlap_primary": true,
+    "P3_warm_and_cold_states_operationally_distinct": true,
+    "posthoc_overlap_compression_geometry_search_forbidden": true,
+    "implementation_not_authorized_by_reviewed_prelock": true,
+    "performance_execution_not_authorized_by_reviewed_prelock": true
+  },
+  "arithmetic_recompute": {
+    "source_blocks_total": 3713024,
+    "exec_image_bytes": 549527552,
+    "delta_ms_per_token": {
+      "W-S": 14.1842444453716,
+      "W-C": 6.422135259876299
+    },
+    "P0_reference_ms": 231.6382,
+    "P0_crossover_tokens": {
+      "W-S": 16.330668925801323,
+      "W-C": 36.068720235030014
+    },
+    "matches_prelock": true
+  },
+  "P0_timing_boundary_source_review": {
+    "source_path": "src/arcllm_v1_q4_down_4arm_primary_timing.cpp",
+    "source_blob": "a198ee0c8e2ebaf1788f659fbf7c5b61b4ae1d6d",
+    "final_exec_buffer_allocation_before_timer": true,
+    "materialization_inside_timer": true,
+    "materialization_timer_stops_before_tuple_validation": true,
+    "validation_timed_separately": true,
+    "conclusion": "P1/P3 acquisition timing boundary is comparable to the canonical P0 materialization reference."
+  },
+  "claim_boundaries": [
+    "231.6382 ms is a frozen canonical P0 reference observation, not an estimate of the P0 population median. Candidate PASS means lower median acquisition than this canonical reference under the frozen protocol; it does not establish general statistical superiority over all possible P0 runs.",
+    "P3 COLD_UNBUFFERED refers only to the frozen cache-bypassing Windows I/O path; it must not be generalized to universal cold-storage performance.",
+    "P1 serialized acquisition excludes any future overlap benefit. Any overlap study must be separately preregistered after this experiment.",
+    "A/B steady-state latency and EXEC148 residency remain inherited frozen evidence, not re-estimated in B1.2."
+  ],
+  "non_blocking_observations": [
+    "The historical P0 canonical materialization is a single frozen reference value; the design intentionally uses it as a deterministic architecture threshold rather than as a sampled baseline distribution.",
+    "P1 and P3 implementation-specific geometry/chunking are still intentionally unresolved but must be frozen before any performance execution.",
+    "P3 sidecar should bind an exact raw payload identity in implementation in addition to the canonical tuple-family identity; this is an integrity requirement and does not change the scientific endpoint."
+  ],
+  "verdict": "PASS",
+  "next": "OPEN_BOUNDED_P1_P3_IMPLEMENTATION_AND_ZERO_SCIENCE_QUALIFICATION_NO_PERFORMANCE_EXECUTION"
+}
