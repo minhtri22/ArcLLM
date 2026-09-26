@@ -1,0 +1,98 @@
+{
+  "schema": "arcllm.v1.b1_2.independent_performance_lock_review.v0.1",
+  "date": "2026-09-26",
+  "status": "PASS_INDEPENDENT_B1_2_PERFORMANCE_LOCK_REVIEW",
+  "reviewed_head": "b6dd2586cb6289bc6b9f19400d136584230d7ab2",
+  "reviewed_lock": {
+    "path": "config/arcllm_v1_b1_2_performance_execution_lock_v0.3.json",
+    "blob": "6be447f84a1c11930657e7060337a0e66ef3a743",
+    "status": "FROZEN_IMMUTABLE_B1_2_PERFORMANCE_EXECUTION_LOCK_V0_3"
+  },
+  "buildonly_binding": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_B1_2_PERFORMANCE_BUILDONLY_CANONICAL_BINDING_v0.1.json",
+    "blob": "be71c67a5acab4b498b9fc7af3a4d3fe87e9fd11",
+    "exact_executable_sha256": "329AEEB80AC43BDC188A56B5D94D69BFA55960EDB907647B933F240F6FE557B9",
+    "exact_executable_bytes": 390656
+  },
+  "checks": {
+    "current_head_equals_build_head": true,
+    "exact_lock_blob_matches_bundle": true,
+    "performance_source_blob_matches_lock": true,
+    "zero_science_source_blob_matches_lock": true,
+    "transitive_runtime_blob_matches_lock": true,
+    "p1_shader_source_blob_matches_lock": true,
+    "static_test_blob_matches_lock": true,
+    "buildonly_script_blob_matches_lock": true,
+    "buildonly_runner_blob_matches_lock": true,
+    "one_shot_runner_blob_matches_lock": true,
+    "p1_spv_matches_lock": true,
+    "q4_reference_spv_matches_lock": true,
+    "b_serial_spv_matches_lock": true,
+    "exact_executable_hash_consistent_across_archive_build_evidence_and_dev_host_return": true,
+    "exact_executable_size_consistent": true,
+    "buildonly_scope_no_model": true,
+    "buildonly_scope_no_gpu": true,
+    "buildonly_scope_no_sidecar_io": true,
+    "buildonly_scope_no_performance_execution": true,
+    "buildonly_scope_no_science_marker": true
+  },
+  "protocol_review": {
+    "metric": "ACQUISITION_WALL_MS",
+    "blocks": 8,
+    "fixed_order": [
+      "P1",
+      "P3-WARM",
+      "P3-COLD"
+    ],
+    "samples_each": 8,
+    "warmup_attempts": 0,
+    "retries": false,
+    "quiet_host_required": true,
+    "P1_primary_field": "record_submit_wait_ms",
+    "P3_warm_timer": "buffered_load only",
+    "P3_cold_timer": "unbuffered_load only",
+    "validation_after_each_attempt": true,
+    "validation_outside_primary_timer": true,
+    "no_partial_readout": true,
+    "P0_reference_ms": 231.6382,
+    "P0_reference_type": "canonical_fixed_reference",
+    "protocol_drift": false
+  },
+  "one_shot_review": {
+    "gate_required_by_runner": true,
+    "gate_status_required": "PASS_OPEN_B1_2_ONE_SHOT_PERFORMANCE_EXECUTION",
+    "exact_lock_blob_checked_by_runner": true,
+    "exact_executable_sha_and_bytes_checked_by_runner": true,
+    "exact_spv_hashes_checked_by_runner": true,
+    "exact_model_hash_and_bytes_checked_by_runner": true,
+    "exact_sidecar_hash_and_bytes_checked_by_runner": true,
+    "quiet_host_explicit_flag_required": true,
+    "marker_absence_required": true,
+    "marker_created_before_executable_invocation": true,
+    "failure_after_marker_consumes_attempt": true,
+    "selective_rerun_forbidden": true,
+    "result_requires_complete_24_attempt_collection": true
+  },
+  "findings": {
+    "blockers": [],
+    "non_blocking_claim_boundaries": [
+      "231.6382 ms remains a canonical fixed P0 reference, not a sampled P0 population estimate.",
+      "P3-COLD is the frozen Windows unbuffered path and must not be generalized as universal cold-storage performance.",
+      "P1 primary timing is record_submit_wait_ms and must not be replaced by submit_wait_ms.",
+      "Any failure after the science-start marker consumes this one-shot attempt."
+    ]
+  },
+  "adjudication": {
+    "verdict": "PASS",
+    "exact_executable_bound": true,
+    "immutable_protocol_ready": true,
+    "one_shot_runner_ready": true,
+    "performance_execution_gate_creation_authorized": true,
+    "performance_execution_not_yet_started": true
+  },
+  "governance": {
+    "lineage_append": false,
+    "reason": "Lock/build readiness review only; no performance result exists yet.",
+    "next": "CREATE_B1_2_PERFORMANCE_EXECUTION_GATE_V0_3"
+  }
+}
