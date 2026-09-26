@@ -80,9 +80,9 @@ int main(){
     constexpr DomainId badD{0xD2000001ull};
     constexpr CapabilityId badC{0x12000001ull};
     constexpr PrimitiveId missing{0xA20000FFull};
-    constexpr DomainDescriptor badDomains[]={{badD,ValidationState::VALIDATED,"BAD_DOMAIN",synthetic::PROV}};
-    constexpr CapabilityDescriptor badCaps[]={{badC,badD,missing,ValidationState::VALIDATED,"BAD_CAP",synthetic::PROV}};
-    constexpr RegistrationBundle badBundle{
+    static constexpr DomainDescriptor badDomains[]={{badD,ValidationState::VALIDATED,"BAD_DOMAIN",synthetic::PROV}};
+    static constexpr CapabilityDescriptor badCaps[]={{badC,badD,missing,ValidationState::VALIDATED,"BAD_CAP",synthetic::PROV}};
+    static constexpr RegistrationBundle badBundle{
         "INVALID_REFERENCE_BUNDLE",
         badDomains,1,nullptr,0,nullptr,0,nullptr,0,nullptr,0,badCaps,1,
         nullptr,0,nullptr,0,nullptr,0,nullptr,0,nullptr,0

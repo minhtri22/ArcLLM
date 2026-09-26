@@ -1,0 +1,16 @@
+{
+  "schema": "arcllm.v1.phase2.generic_registry_zero_science_test_fixture_repair.v0.1",
+  "date": "2026-09-26",
+  "status": "PRE_CANONICAL_ZERO_SCIENCE_QA_REPAIR",
+  "failed_head": "c6b1ff07aae8d353b56f8275e49d3cc4cd9a357a",
+  "classification": "CPP_TEST_FIXTURE_STORAGE_DURATION",
+  "observed": "GCC rejected a local constexpr RegistrationBundle containing pointers to local constexpr arrays.",
+  "repair": "Make badDomains, badCaps and badBundle static constexpr so the negative-test pointer graph has constant storage.",
+  "generic_model_changed": false,
+  "registry_api_changed": false,
+  "registry_core_changed": false,
+  "reference_registration_changed": false,
+  "scientific_evidence_changed": false,
+  "performance_execution": false,
+  "new_test_blob": "4f89ac2a6e308ec8215a5c77e8a5ef41edd9b68e"
+}

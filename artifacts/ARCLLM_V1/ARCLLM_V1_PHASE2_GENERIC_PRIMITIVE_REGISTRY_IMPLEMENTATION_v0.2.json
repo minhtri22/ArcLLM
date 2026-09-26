@@ -1,0 +1,27 @@
+{
+  "schema": "arcllm.v1.phase2.generic_primitive_registry_implementation.v0.2",
+  "date": "2026-09-26",
+  "status": "IMPLEMENTED_AWAITING_ZERO_SCIENCE_QA_V0_2",
+  "supersedes": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_PHASE2_GENERIC_PRIMITIVE_REGISTRY_IMPLEMENTATION_v0.1.json",
+    "blob": "e7c362035742b9596d4d0192fac88c00691e3679",
+    "reason": "QA-only C++ negative-test fixture storage-duration repair."
+  },
+  "repair_blob": "239239a76d2b9b005117c012da213f1cedc6b278",
+  "contract_blob": "0ce5531e3a410ddb5832616b795d74a9e0c5e302",
+  "generic_core": {
+    "model": "1f807ae4785a70ebe70858221fb271061bedd3a4",
+    "api": "53fa0d2beff6b55846624077cd3fb84e99dc352d",
+    "implementation": "d878e15dd272a3788074e4c56334dabaf3958bad"
+  },
+  "reference_registration": {
+    "header": "9855354a7c54a8a7589a2a6becbab363eebcc945",
+    "source": "e0f12438e6c40904fbe272bdc4080a52060f2e16"
+  },
+  "qa": {
+    "cpp_test": "4f89ac2a6e308ec8215a5c77e8a5ef41edd9b68e",
+    "static_test": "068179fe8807933a27e03fa8a704addcace07695"
+  },
+  "no_science_change": true,
+  "next": "ZERO_SCIENCE_QA_THEN_CANONICAL_GENERIC_REGISTRY_CLOSE"
+}
