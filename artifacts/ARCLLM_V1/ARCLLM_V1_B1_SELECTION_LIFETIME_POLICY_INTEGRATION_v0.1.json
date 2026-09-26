@@ -1,0 +1,59 @@
+{
+  "schema": "arcllm.v1.b1.selection_lifetime_policy_integration.v0.1",
+  "date": "2026-09-26",
+  "status": "PASS_B1_SELECTION_LIFETIME_POLICY_INTEGRATION",
+  "parent_evidence": {
+    "B1_2_performance_path": "artifacts/ARCLLM_V1/ARCLLM_V1_B1_2_P1_P3_PERFORMANCE_CANONICAL_v0.1.json",
+    "B1_2_performance_blob": "339053906653e522cf711f43cc0a5fccad6e8f14",
+    "primitive_architecture_lock_blob": "5c696b924038de13de8d5176b724fcd814cdcc8e",
+    "B1_placement_architecture_blob": "95a341ab6693530a240cbcdd447ccaa1dffbe082"
+  },
+  "policy_config": {
+    "path": "config/arcllm_v1_b1_selection_lifetime_policy_v0.1.json",
+    "blob": "f2e66bec59f23ccef82db8ca803a387bfc8edcd1"
+  },
+  "integrated_decisions": {
+    "A_role": "Default/fallback when B is absent and cannot justify acquisition, when memory lease is unavailable, or when outside the validated domain.",
+    "B_create_primary": "Create exact EXEC148 with P1 GPU in-place only when the representation is absent, a 549,527,552-byte residency lease is granted, no external acquisition veto applies, and expected same-image reuse reaches the strict workload threshold.",
+    "P1_thresholds_tokens": {
+      "W-S": 2,
+      "W-C": 4
+    },
+    "B_retention": "Once valid B is resident, acquisition cost is sunk. Keep and use B for any positive future reuse while the residency lease remains granted.",
+    "B_eviction": "Evict on memory-lease revocation, model/representation invalidation, execution-path invalidation, correctness identity failure, model unload, or known zero future reuse.",
+    "no_idle_TTL": "No evidence-based time TTL exists; none is introduced.",
+    "P3_cold": "Secondary acquisition path only if P1 is unavailable/vetoed and H reaches 15 W-S / 33 W-C tokens.",
+    "P0_cpu": "Tertiary proven acquisition reference if P1/P3-cold are unavailable and H reaches 17 W-S / 37 W-C tokens.",
+    "P3_warm": "Disabled for the current acquisition-improvement policy."
+  },
+  "key_architecture_result": {
+    "name": "SUNK_ACQUISITION_HYSTERESIS",
+    "statement": "Creation and retention use different gates. Crossover thresholds apply only before B exists; after acquisition, do not fall back to A merely because remaining H falls below the creation threshold.",
+    "benefit": "Prevents A↔B thrash and avoids double-counting acquisition cost."
+  },
+  "memory_pressure_result": {
+    "known_cost_bytes": 549527552,
+    "policy": "Lease-based admission and revocation.",
+    "why_no_numeric_pressure_threshold": "The resident bytes are measured, but the opportunity cost of memory pressure is not. A universal free-memory threshold would be invented rather than evidence-derived."
+  },
+  "lower_level_research_policy": {
+    "status": "CLOSED_BY_DEFAULT",
+    "exact_reopen_rule": "A lower-level placement study must name a current policy state and show how plausible evidence could flip its route, retention, eviction, or acquisition-path decision.",
+    "examples_that_can_reopen": [
+      "A new creator that lowers acquisition enough to make B win at a horizon currently routed to A.",
+      "A memory placement that changes whether the 549,527,552-byte lease can remain granted.",
+      "A fallback path that preserves B availability when P1 is unavailable at lower valid total cost."
+    ],
+    "examples_that_do_not_reopen": [
+      "Faster microbenchmark with no route flip.",
+      "Unused NPU/DSP capacity without exact data path.",
+      "Additional mechanism attribution that does not alter selection/lifetime policy."
+    ]
+  },
+  "scientific_boundary": {
+    "no_new_performance_execution": true,
+    "no_new_placement_benchmark": true,
+    "policy_derived_from_frozen_B1_2_evidence": true
+  },
+  "next": "BOUNDED_POLICY_EVALUATOR_AND_RUNTIME_HOOK_INTEGRATION_WITH_ZERO_SCIENCE_QA"
+}

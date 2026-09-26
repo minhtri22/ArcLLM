@@ -1,0 +1,251 @@
+{
+  "schema": "arcllm.v1.b1.selection_lifetime_policy.v0.1",
+  "date": "2026-09-26",
+  "status": "FROZEN_B1_SELECTION_LIFETIME_POLICY",
+  "validated_domain": {
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "operator": "decode ffn_down",
+    "quant": "Q4_K",
+    "shape": {
+      "k": 18944,
+      "rows": 3584,
+      "batch": 1
+    },
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "exec148_id": "Q4K_SERIAL_K_EXEC148_V0_1",
+    "exec148_bytes": 549527552,
+    "canonical_family_sha256": "60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2"
+  },
+  "primitives": {
+    "A": {
+      "id": "A_SPLIT_K32",
+      "role": "NO_EXTRA_REPRESENTATION_FALLBACK",
+      "latency_ms_per_token": {
+        "W-S": 38.37338447981645,
+        "W-C": 37.83515532629015
+      }
+    },
+    "B": {
+      "id": "B_EXEC148",
+      "role": "LOWER_STEADY_STATE_LATENCY_WITH_RESIDENCY_COST",
+      "latency_ms_per_token": {
+        "W-S": 24.18914003444485,
+        "W-C": 31.41302006641385
+      },
+      "resident_bytes": 549527552
+    }
+  },
+  "acquisition_paths": {
+    "P1_GPU_CREATE_IN_PLACE": {
+      "role": "PRIMARY",
+      "median_ms": 23.2235,
+      "strict_create_threshold_tokens": {
+        "W-S": 2,
+        "W-C": 4
+      },
+      "required": [
+        "P1_AVAILABLE",
+        "RESIDENCY_LEASE_GRANTED",
+        "REPRESENTATION_IDENTITY_VALID_AFTER_CREATE"
+      ]
+    },
+    "P3_COLD_UNBUFFERED": {
+      "role": "SECONDARY_ONLY_IF_P1_UNAVAILABLE_OR_VETOED",
+      "median_ms": 211.915,
+      "strict_create_threshold_tokens": {
+        "W-S": 15,
+        "W-C": 33
+      },
+      "required": [
+        "VALID_EXACT_SIDECAR",
+        "RESIDENCY_LEASE_GRANTED"
+      ],
+      "claim_boundary": "Frozen Windows cold-unbuffered path only."
+    },
+    "P0_CPU_DIRECT": {
+      "role": "TERTIARY_PROVEN_REFERENCE_IF_P1_AND_P3_COLD_UNAVAILABLE",
+      "reference_ms": 231.6382,
+      "strict_create_threshold_tokens": {
+        "W-S": 17,
+        "W-C": 37
+      },
+      "required": [
+        "CPU_DIRECT_PATH_AVAILABLE",
+        "RESIDENCY_LEASE_GRANTED"
+      ]
+    },
+    "P3_WARM_PAGE_CACHE": {
+      "role": "DISABLED_FOR_CURRENT_P0_IMPROVEMENT_POLICY",
+      "median_ms": 279.87045,
+      "enabled": false
+    }
+  },
+  "state_machine": {
+    "states": [
+      "A_ONLY",
+      "CREATE_B_P1",
+      "ACQUIRE_B_P3_COLD",
+      "CREATE_B_P0_CPU",
+      "B_RESIDENT",
+      "EVICT_B"
+    ],
+    "ordered_rules": [
+      {
+        "priority": 1,
+        "when": [
+          "OUTSIDE_VALIDATED_DOMAIN"
+        ],
+        "action": "USE_A",
+        "next_state": "A_ONLY"
+      },
+      {
+        "priority": 2,
+        "when": [
+          "B_RESIDENT",
+          "B_IDENTITY_INVALID_OR_MODEL_UNLOADED_OR_EXECUTION_PATH_INVALID"
+        ],
+        "action": "EVICT_B_THEN_USE_A",
+        "next_state": "A_ONLY"
+      },
+      {
+        "priority": 3,
+        "when": [
+          "B_RESIDENT",
+          "RESIDENCY_LEASE_REVOKED"
+        ],
+        "action": "EVICT_B_THEN_USE_A",
+        "next_state": "A_ONLY"
+      },
+      {
+        "priority": 4,
+        "when": [
+          "B_RESIDENT",
+          "EXPECTED_FUTURE_REUSE_TOKENS_EQUALS_ZERO"
+        ],
+        "action": "EVICT_B",
+        "next_state": "A_ONLY"
+      },
+      {
+        "priority": 5,
+        "when": [
+          "B_RESIDENT",
+          "B_IDENTITY_VALID",
+          "RESIDENCY_LEASE_GRANTED",
+          "EXPECTED_FUTURE_REUSE_TOKENS_GREATER_THAN_ZERO_OR_UNKNOWN"
+        ],
+        "action": "USE_B_AND_KEEP_RESIDENT",
+        "next_state": "B_RESIDENT",
+        "note": "Do not reapply the creation crossover after B is resident; acquisition is already sunk."
+      },
+      {
+        "priority": 6,
+        "when": [
+          "B_ABSENT",
+          "EXPECTED_FUTURE_REUSE_UNKNOWN"
+        ],
+        "action": "USE_A",
+        "next_state": "A_ONLY",
+        "note": "No speculative B acquisition without a reuse estimate."
+      },
+      {
+        "priority": 7,
+        "when": [
+          "B_ABSENT",
+          "P1_AVAILABLE",
+          "RESIDENCY_LEASE_GRANTED",
+          "NO_EXTERNAL_ACQUISITION_VETO",
+          "H_AT_OR_ABOVE_P1_THRESHOLD"
+        ],
+        "action": "CREATE_B_WITH_P1_VALIDATE_THEN_USE_B",
+        "next_state": "B_RESIDENT"
+      },
+      {
+        "priority": 8,
+        "when": [
+          "B_ABSENT",
+          "P1_UNAVAILABLE_OR_VETOED",
+          "P3_COLD_AVAILABLE",
+          "RESIDENCY_LEASE_GRANTED",
+          "H_AT_OR_ABOVE_P3_COLD_THRESHOLD"
+        ],
+        "action": "ACQUIRE_B_WITH_P3_COLD_VALIDATE_THEN_USE_B",
+        "next_state": "B_RESIDENT"
+      },
+      {
+        "priority": 9,
+        "when": [
+          "B_ABSENT",
+          "P1_UNAVAILABLE_OR_VETOED",
+          "P3_COLD_UNAVAILABLE_OR_BELOW_THRESHOLD",
+          "P0_CPU_AVAILABLE",
+          "RESIDENCY_LEASE_GRANTED",
+          "H_AT_OR_ABOVE_P0_THRESHOLD"
+        ],
+        "action": "CREATE_B_WITH_P0_CPU_VALIDATE_THEN_USE_B",
+        "next_state": "B_RESIDENT"
+      },
+      {
+        "priority": 10,
+        "when": [
+          "OTHERWISE"
+        ],
+        "action": "USE_A",
+        "next_state": "A_ONLY"
+      }
+    ]
+  },
+  "residency_lease": {
+    "bytes": 549527552,
+    "domain": "SYSTEM_UMA_GPU_ACCESSIBLE_MEMORY",
+    "acquisition_precondition": "A 549,527,552-byte lease must be granted before creating or loading B.",
+    "retention_precondition": "The lease must remain granted while B is retained.",
+    "eviction_rule": "If the resource manager revokes the lease under memory pressure, evict B and route to A.",
+    "no_fixed_free_memory_threshold": true,
+    "reason": "B1 has measured B bytes but has not measured the opportunity-cost curve needed to justify a universal free-memory percentage or byte reserve."
+  },
+  "invalidation": {
+    "evict_on": [
+      "MODEL_UNLOAD",
+      "MODEL_SHA_MISMATCH",
+      "QUANT_OR_SHAPE_OR_LAYER_SET_MISMATCH",
+      "EXEC148_SCHEMA_OR_CANONICAL_IDENTITY_MISMATCH",
+      "B_EXECUTION_PATH_UNAVAILABLE",
+      "CORRECTNESS_IDENTITY_FAILURE"
+    ],
+    "no_time_based_ttl_authorized": true,
+    "note": "No idle-time eviction threshold is supported by current evidence."
+  },
+  "hysteresis": {
+    "creation_threshold_applies_only_when_B_absent": true,
+    "retention_threshold_is_not_creation_threshold": true,
+    "retain_rule": "Once valid B is resident, use B for any positive future reuse while its memory lease remains granted.",
+    "rationale": "B has lower measured steady-state latency than A in W-S and W-C; reapplying the acquisition crossover after acquisition would double-count sunk cost and cause avoidable thrash."
+  },
+  "external_vetoes": {
+    "acquisition_latency_budget": "Allowed as a runtime constraint, but B1 does not calibrate an SLA threshold.",
+    "resource_manager_lease": "Authoritative for memory-pressure admission/eviction."
+  },
+  "placement_research_reopen_gate": {
+    "default": "CLOSED",
+    "reopen_only_if_candidate_evidence_can_change_at_least_one_of": [
+      "A_VS_B_CREATION_DECISION_FOR_A_CURRENTLY_A_ROUTED_HORIZON",
+      "ABILITY_TO_RETAIN_B_UNDER_A_RESOURCE_STATE_THAT_CURRENTLY_REQUIRES_EVICTION",
+      "ABILITY_TO_ACQUIRE_B_WHEN_P1_IS_UNAVAILABLE_WITH_LOWER_VALID_TOTAL_COST",
+      "REPRESENTATION_VALIDITY_OR_ACCESSIBILITY_CONSTRAINT"
+    ],
+    "insufficient_reasons": [
+      "LOWER_MICROBENCHMARK_TIME_WITH_NO_POLICY_ROUTE_CHANGE",
+      "IDLE_HARDWARE_EXISTS",
+      "MORE_NOMINAL_TOPS",
+      "NEW_COUNTER_OR_MECHANISM_CURIOSITY_WITHOUT_ARCHITECTURE_DECISION_VALUE"
+    ]
+  },
+  "implementation_boundary": {
+    "this_file": "ARCHITECTURE_POLICY_LOCK",
+    "production_runtime_integration": "NOT_YET_AUTHORIZED_BY_THIS_ARTIFACT",
+    "next": "BOUNDED_POLICY_EVALUATOR_AND_RUNTIME_HOOK_INTEGRATION_WITH_ZERO_SCIENCE_QA"
+  }
+}
