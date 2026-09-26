@@ -1,0 +1,67 @@
+{
+  "schema": "arcllm.v1.phase2.direct_execution_holdout_generalization_gate.v0.1",
+  "date": "2026-09-27",
+  "status": "FROZEN_DIRECT_EXECUTION_PRIMITIVE_HOLDOUT_GENERALIZATION_GATE",
+  "question": "Can the frozen v2 capability/acquisition semantics represent an independently validated direct-execution primitive family whose preferred primitive requires neither a new resident representation nor an acquisition action, without abusing residency state, inventing acquisition/lifetime semantics, or changing the v2 registry/policy core?",
+  "frozen_v2": {
+    "freeze_blob": "a0fbf2b16932088f262e81983aa2ef53555037c4",
+    "registry_header_blob": "a024fdde92225af6f909a2985a3988a9ae7bb1b3",
+    "registry_core_blob": "8c2649ecbeb0fb8e3a3285209e2253790ec29680",
+    "policy_header_blob": "8a872f671c23f5f508955121c8ffebc0091365f9",
+    "policy_source_blob": "13fa329a5416aec06e68c7d94c24d25f5875fa52"
+  },
+  "holdout_family": {
+    "id": "I002_Q4_GATE_UP_SUBGROUP32_SPLITK_DIRECT_EXECUTION",
+    "evidence_blob": "5d3d853247900bf0ea19fbf04f8e7a89412b9ebb",
+    "result": "PASS_I002_REAL_MODEL_CARRY_THROUGH",
+    "independent_of_v2_design": true,
+    "operator_surface": "56 batch-1 decode ffn_gate/ffn_up Q4_K nodes",
+    "mechanism": "SUBGROUP32_SPLIT_K_PER_OUTPUT_ROW",
+    "representation_change": false,
+    "additional_residency": false,
+    "acquisition_action": false,
+    "lifetime_policy": false,
+    "validated_baseline_fallback": true,
+    "evidence_summary": {
+      "semantic_equal_pairs": "20/20",
+      "global_decode_geomean_speedup": 2.1998280021446233,
+      "global_e2e_geomean_median_speedup": 2.0026300221636375,
+      "ttft_nonregression": "PASS"
+    }
+  },
+  "frozen_oracle": {
+    "inside_scope_preferred_available": "ROUTE_PREFERRED_DIRECT_EXECUTION_WITH_LIFECYCLE_NONE",
+    "inside_scope_preferred_unavailable": "ROUTE_VALIDATED_BASELINE_FALLBACK_WITH_LIFECYCLE_NONE",
+    "outside_scope": "ROUTE_VALIDATED_BASELINE_FALLBACK",
+    "reuse_required": false,
+    "acquisition_required": false,
+    "residency_required": false
+  },
+  "falsification_cases": [
+    {
+      "id": "EVIDENCE_FAITHFUL_DIRECT_ENCODING",
+      "encoding": "Preferred direct primitive + validated baseline fallback; no acquisition paths; preferred has PRIMITIVE_NO_EXTRA_REPRESENTATION and zero residency.",
+      "expected": "Preferred route when direct execution is available.",
+      "fail_condition": "Frozen v2 reaches no acquisition candidate and routes fallback even when preferred execution_available=true."
+    },
+    {
+      "id": "RESIDENCY_OVERLOAD_WORKAROUND",
+      "encoding": "Set runtime resident=true for the preferred direct primitive solely to enter v2 preferred-reuse branch.",
+      "prohibited_reason": "The holdout has no new resident representation or residency lifecycle. resident=true would overload representation residency as generic readiness."
+    },
+    {
+      "id": "FAKE_ACQUISITION_WORKAROUND",
+      "encoding": "Add a synthetic mandatory or amortized acquisition path for I002.",
+      "prohibited_reason": "I002 evidence contains no acquisition action; this invents semantics solely to fit the abstraction."
+    },
+    {
+      "id": "SELF_FALLBACK_WORKAROUND",
+      "encoding": "Use preferred I002 primitive as its own fallback.",
+      "prohibited_reason": "Erases the independently valid baseline fallback and cannot express preferred-unavailable -> baseline decision."
+    }
+  ],
+  "pass_rule": "An evidence-faithful registration with no acquisition/residency abuse reproduces all frozen oracle decisions using byte-identical v2 generic files.",
+  "fail_rule": "Correct preferred-direct selection requires residency overloading, invented acquisition semantics, loss of the real fallback, or a v2 generic-file change.",
+  "backend_binding_authorized": false,
+  "performance_execution": false
+}

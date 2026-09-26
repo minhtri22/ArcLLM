@@ -1,0 +1,22 @@
+{
+  "schema": "arcllm.v1.phase2.direct_execution_holdout_generalization_implementation.v0.1",
+  "date": "2026-09-27",
+  "status": "IMPLEMENTED_AWAITING_ZERO_SCIENCE_ADJUDICATION",
+  "parent_redesign_adjudication_blob": "4c2e59aa3f147d9e19f9e3b9758aaeeed2c08dc5",
+  "holdout_evidence_blob": "5d3d853247900bf0ea19fbf04f8e7a89412b9ebb",
+  "gate_contract_blob": "79b03e71bb1c20ae6bcb2407e728f062c351e5b5",
+  "gate_harness_blob": "ff9ef9ab98a4aedbd854076aa92443e89d34b28e",
+  "static_qa_blob": "45d262fca32b9fde104dc657dd95afa739281271",
+  "workflow_blob": "a89f6c51d5db7a12e34ef7629d7126e8e2d3a6ca",
+  "frozen_v2_blobs": {
+    "registry_header": "a024fdde92225af6f909a2985a3988a9ae7bb1b3",
+    "registry_core": "8c2649ecbeb0fb8e3a3285209e2253790ec29680",
+    "policy_header": "8a872f671c23f5f508955121c8ffebc0091365f9",
+    "policy_source": "13fa329a5416aec06e68c7d94c24d25f5875fa52"
+  },
+  "frozen_v2_modified": false,
+  "science_execution": false,
+  "performance_execution": false,
+  "backend_binding_authorized": false,
+  "next": "RUN_ZERO_SCIENCE_HOLDOUT_AND_ADJUDICATE"
+}
