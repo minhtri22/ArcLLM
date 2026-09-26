@@ -1,0 +1,39 @@
+name: ArcLLM v1 B1.2 zero-science build-only
+
+on:
+  push:
+    branches:
+      - research/arcllm-v1
+    paths:
+      - "src/arcllm_v1_b1_2_zero_science.cpp"
+      - "shaders/b1_2_exec148_gpu_materialize.comp"
+      - "tests/test_arcllm_v1_b1_2_zero_science.py"
+      - "tools/compile_arcllm_v1_b1_2_zero_science.ps1"
+      - "tools/build_arcllm_v1_b1_2_zero_science.ps1"
+      - ".github/workflows/arcllm-v1-b1-2-zero-science-buildonly.yml"
+  workflow_dispatch:
+
+jobs:
+  buildonly:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static + shader + native build only
+        shell: powershell
+        run: |
+          powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\build_arcllm_v1_b1_2_zero_science.ps1
+      - name: Assert zero-science build evidence
+        shell: powershell
+        run: |
+          $r=Get-Content .\results\B1_2_ZERO_SCIENCE_BUILD.json -Raw | ConvertFrom-Json
+          if([string]$r.status -ne "PASS_STATIC_SHADER_NATIVE_BUILD"){ throw "invalid build evidence" }
+          if([bool]$r.target_model_loaded -or [bool]$r.gpu_dispatch_executed -or [bool]$r.sidecar_io_executed -or [bool]$r.acquisition_timing_authorized){ throw "zero-science scope violation" }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: b1-2-zero-science-buildonly
+          path: |
+            results/B1_2_ZERO_SCIENCE_BUILD.json
+            results/B1_2_ZERO_SCIENCE_SHADER_PROVENANCE.json
+            arcllm_v1_b1_2_zero_science.exe
+          if-no-files-found: error
