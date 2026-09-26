@@ -1,0 +1,42 @@
+{
+  "schema": "arcllm.v1.phase2.generic_primitive_registry_v1_1_canonical.v0.1",
+  "date": "2026-09-26",
+  "status": "PASS_GENERIC_REGISTRY_LIFECYCLE_COMPLETENESS_V1_1",
+  "qualified_head": "5562e413e76131ea067a53f3b52907fb5852c6cd",
+  "supersedes_freeze_blob": "3805127db353a8928d6990f79fd55be8017e14d2",
+  "repair_blob": "8bde48a5f1d598d22a826fa4642867950c67c849",
+  "contract_blob": "7346f10fb184a3ba1fbabe4a217792ce5b19071d",
+  "exact_blobs": {
+    "model": "b99c5b647fb8edd33c7fee10dbdc8b18ba5a3720",
+    "api": "53fa0d2beff6b55846624077cd3fb84e99dc352d",
+    "core": "d878e15dd272a3788074e4c56334dabaf3958bad",
+    "reference_registration": "f539c25540b7494e3494aa15775c07c3b80dd195"
+  },
+  "change": {
+    "added_lifecycle_fields": [
+      "evict_on_execution_unavailable",
+      "evict_on_model_unload"
+    ],
+    "registry_core_changed": false,
+    "ids_changed": false,
+    "thresholds_changed": false,
+    "evidence_changed": false
+  },
+  "validation": {
+    "exact_source_static_audit": "PASS",
+    "reference_registration_consumed_by_generic_policy_equivalence": true,
+    "lifecycle_conditions_exercised": [
+      "execution unavailable -> eviction",
+      "model unload -> eviction",
+      "lease revoke -> eviction",
+      "identity invalid -> eviction",
+      "zero future reuse -> eviction"
+    ]
+  },
+  "science": {
+    "new_performance_execution": false,
+    "new_placement_benchmark": false,
+    "lower_level_placement_reopened": false
+  },
+  "lineage_append": false
+}

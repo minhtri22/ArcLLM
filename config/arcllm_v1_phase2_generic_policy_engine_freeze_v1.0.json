@@ -1,0 +1,25 @@
+{
+  "schema": "arcllm.v1.phase2.generic_policy_engine_freeze.v1.0",
+  "date": "2026-09-26",
+  "status": "FROZEN_PHASE2_GENERIC_POLICY_ENGINE_V1",
+  "canonical_qa_blob": "02fe7d583e2c7294889021c1496357c172d250bf",
+  "contract_blob": "8ecd57dd0fea6a5dc4f4aa8e14181d9233f5039e",
+  "registry_freeze_blob": "1c86b0bc5223a59f7f700d42ad8aaa35f0a8f8e1",
+  "frozen_guarantees": [
+    "Policy engine contains no family-specific primitive/path/profile literals.",
+    "Runtime inputs grow by opaque-ID state entries, not family-specific request fields.",
+    "Only validated registry descriptors are selectable.",
+    "Resident reuse does not reapply acquisition thresholds.",
+    "Lifecycle eviction and outside-domain preservation are descriptor-driven.",
+    "Acquisition choice is threshold- and priority-driven from registry data.",
+    "One decision selects at most one acquisition path; no hidden retry chain.",
+    "Reference family decision behavior is preserved across the exhaustive frozen state matrix.",
+    "A second family is selectable without changing generic policy source."
+  ],
+  "scope_boundary": {
+    "backend_binding_complete": false,
+    "backend_execution_complete": false,
+    "production_runtime_complete": false
+  },
+  "next": "PHASE2_GENERIC_BACKEND_BINDING_INTERFACE"
+}

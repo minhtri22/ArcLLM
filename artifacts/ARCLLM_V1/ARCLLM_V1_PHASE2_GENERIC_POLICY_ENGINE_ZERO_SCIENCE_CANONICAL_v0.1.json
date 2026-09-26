@@ -1,0 +1,88 @@
+{
+  "schema": "arcllm.v1.phase2.generic_policy_engine_zero_science_canonical.v0.1",
+  "date": "2026-09-26",
+  "status": "PASS_PHASE2_GENERIC_POLICY_ENGINE_OVER_REGISTRY",
+  "qualified_head": "5562e413e76131ea067a53f3b52907fb5852c6cd",
+  "parents": {
+    "registry_v1_1_canonical_blob": "ecce841d1bd8872c68c6fc28ea0b6e4c3c3437c3",
+    "registry_v1_1_freeze_blob": "1c86b0bc5223a59f7f700d42ad8aaa35f0a8f8e1",
+    "policy_contract_blob": "8ecd57dd0fea6a5dc4f4aa8e14181d9233f5039e",
+    "policy_equivalence_repair_blob": "cbe8d51088720945631fb3bb1a341be6520c159a"
+  },
+  "exact_committed_blobs": {
+    "policy_header": "07134b51ba3c66539376d9ec9d55516752b44750",
+    "policy_source": "6d448d87358289914aca1cc839512f4a5ca242bf",
+    "registry_model": "b99c5b647fb8edd33c7fee10dbdc8b18ba5a3720",
+    "registry_api": "53fa0d2beff6b55846624077cd3fb84e99dc352d",
+    "registry_core": "d878e15dd272a3788074e4c56334dabaf3958bad",
+    "reference_registration": "f539c25540b7494e3494aa15775c07c3b80dd195",
+    "zero_science_test": "38b4f65f419337937b49ffd89d048971ca28af14",
+    "static_test": "24273dea9cc155f51aacc7cb90c055ee30205746"
+  },
+  "exact_source_static_audit": {
+    "verdict": "PASS",
+    "findings": [
+      "Generic policy header/source contain no Q4K, EXEC148, Split-K32, P1/P3, W-S/W-C, family residency constant, or first-family numeric-ID literals.",
+      "Runtime state is keyed by opaque PrimitiveId and AcquisitionPathId rather than family-specific fields.",
+      "Selection consumes registry capability/profile/evidence state, resident preference, lifecycle, acquisition priority and threshold metadata.",
+      "Only VALIDATED descriptors participate in active decisions.",
+      "CAPABILITY_GATED and DISABLED_BY_EVIDENCE paths remain knowledge but are not selectable."
+    ]
+  },
+  "portable_native_zero_science": {
+    "verdict": "PASS",
+    "reference_equivalence": {
+      "cases": 114688,
+      "exact_decision_fields": [
+        "route primitive",
+        "lifecycle action",
+        "acquisition path",
+        "preserve-existing-representation behavior"
+      ],
+      "threshold_rule": "All nonzero thresholds emitted by frozen B1 are preserved exactly.",
+      "diagnostic_normalization": "Legacy tertiary below-threshold fallthrough emitted threshold 0; generic policy reports the registry-derived tertiary threshold while preserving fallback/no-acquisition."
+    },
+    "synthetic_family": {
+      "verdict": "PASS",
+      "proved": [
+        "Independent opaque family is selected by the same engine with no engine source change.",
+        "CAPABILITY_GATED and DISABLED_BY_EVIDENCE paths are ignored even when runtime marks them available.",
+        "A threshold-satisfied lower-priority path can win when a higher-priority active path has not met its threshold.",
+        "When multiple active paths meet thresholds, lowest numeric priority wins.",
+        "Resident hysteresis, outside-domain preservation, execution-unavailable eviction, model-unload eviction, lease-revoke eviction and zero-reuse eviction are registry driven.",
+        "Duplicate runtime IDs fail closed."
+      ]
+    },
+    "output": [
+      "REFERENCE_EQUIVALENCE_CASES=114688",
+      "SYNTHETIC_POLICY_FAMILY=PASS",
+      "PHASE2_GENERIC_POLICY_ENGINE_ZERO_SCIENCE_QA=PASS",
+      "NO MODEL LOAD. NO GPU. NO VULKAN. NO TIMING. NO PLACEMENT BENCHMARK."
+    ],
+    "provenance_boundary": "GitHub-hosted exact-byte native build did not execute because no runner was allocated. Exact committed blobs passed static audit. Portable native compilation exercised the same policy semantics but is not represented as a GitHub exact-byte build."
+  },
+  "architecture_result": {
+    "registry_driven_selection": true,
+    "family_specific_policy_branches": false,
+    "new_family_requires_policy_engine_change": false,
+    "new_family_requires_registration_bundle": true,
+    "runtime_state_extends_by_opaque_id_entries_not_new_struct_fields": true,
+    "hidden_acquisition_retry_chain": false,
+    "generic_backend_binding_complete": false
+  },
+  "github_ci": {
+    "verdict": "INFRA_BLOCKED_NOT_CODE_FAIL",
+    "blocker_artifact_blob": "8c708d62bf9573c8ea59dd97e40d32c126013445",
+    "run_id": 36249745379,
+    "job_id": 108425427440,
+    "runner_id": 0,
+    "steps_executed": 0
+  },
+  "science": {
+    "new_performance_execution": false,
+    "new_placement_benchmark": false,
+    "lower_level_placement_reopened": false
+  },
+  "lineage_append": false,
+  "next": "PHASE2_GENERIC_BACKEND_BINDING_INTERFACE"
+}

@@ -1,0 +1,23 @@
+{
+  "schema": "arcllm.v1.phase2.generic_primitive_registry_freeze.v1.1",
+  "date": "2026-09-26",
+  "status": "FROZEN_PHASE2_GENERIC_PRIMITIVE_REGISTRY_V1_1",
+  "supersedes": {
+    "path": "config/arcllm_v1_phase2_generic_primitive_registry_freeze_v1.0.json",
+    "blob": "3805127db353a8928d6990f79fd55be8017e14d2"
+  },
+  "canonical_qa_blob": "ecce841d1bd8872c68c6fc28ea0b6e4c3c3437c3",
+  "contract_blob": "7346f10fb184a3ba1fbabe4a217792ce5b19071d",
+  "registry_api_version": {
+    "major": 1,
+    "minor": 1
+  },
+  "frozen_guarantees": [
+    "Generic core remains family-agnostic.",
+    "Family facts enter through RegistrationBundle data.",
+    "Lifecycle metadata can encode lease, identity, execution-path, model-unload and zero-reuse eviction conditions.",
+    "Evidence validation state and provenance remain first-class.",
+    "New families do not extend legacy family enums or require new packages."
+  ],
+  "next": "PHASE2_GENERIC_POLICY_ENGINE_OVER_REGISTRY"
+}
