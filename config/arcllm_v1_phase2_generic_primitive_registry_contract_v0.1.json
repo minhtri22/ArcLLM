@@ -1,0 +1,74 @@
+{
+  "schema": "arcllm.v1.phase2.generic_primitive_capability_registry_contract.v0.1",
+  "date": "2026-09-26",
+  "status": "FROZEN_GENERIC_PRIMITIVE_CAPABILITY_MODEL_AND_REGISTRY_CONTRACT",
+  "parent": {
+    "phase2_v1_package_freeze_blob": "a30816781f7a8d683c28403febbbcf6f2fbab8ed",
+    "b1_policy_zero_science_canonical_blob": "a6dac8ca686baab98131fc2f3a9a603e00c5fd5f"
+  },
+  "architecture": {
+    "universal_scientific_primitive_claim": false,
+    "universal_primitive_representation_model": true,
+    "generic_registration_mechanism": true,
+    "family_specific_facts_live_in_registration_bundles": true,
+    "generic_core_contains_no_family_specific_ids_or_thresholds": true,
+    "evidence_state_is_first_class": true,
+    "provenance_is_first_class": true
+  },
+  "descriptor_model": [
+    "DomainDescriptor",
+    "ReuseMetricDescriptor",
+    "EvidenceSetDescriptor",
+    "EvidenceProfileDescriptor",
+    "PrimitiveFamilyDescriptor",
+    "CapabilityDescriptor",
+    "PrimitiveDescriptor",
+    "AcquisitionPathDescriptor",
+    "AcquisitionThresholdDescriptor",
+    "ResidentPreferenceDescriptor",
+    "LifecycleDescriptor"
+  ],
+  "registry_contract": {
+    "max_bundles": 64,
+    "global_id_uniqueness_per_descriptor_namespace": true,
+    "reference_integrity_validation": true,
+    "policy_key_uniqueness": true,
+    "atomic_rejection_of_invalid_bundle": true,
+    "dynamic_family_count_without_core_enum_growth": true
+  },
+  "scaling_contract": {
+    "new_family_requires_generic_registry_core_change": false,
+    "new_family_requires_public_enum_extension": false,
+    "new_family_requires_new_package": false,
+    "new_family_requires_registration_bundle": true,
+    "new_family_requires_evidence_and_provenance": true,
+    "generic_policy_engine_not_yet_complete": true
+  },
+  "legacy_v1_package": {
+    "status": "FROZEN_REFERENCE_COMPATIBILITY_ONLY",
+    "new_family_enum_extension_forbidden": true,
+    "note": "The hard-coded Phase 2 v1 package remains historical/reference compatibility. New primitive families must use the generic registry path."
+  },
+  "current_reference_family": {
+    "role": "FIRST_FULLY_VALIDATED_REGISTRATION",
+    "active_primitives": [
+      "A",
+      "B"
+    ],
+    "active_acquisition_paths": [
+      "P1",
+      "P3_COLD",
+      "P0"
+    ],
+    "disabled_by_evidence": [
+      "P3_WARM"
+    ],
+    "profiles_are_opaque": true
+  },
+  "science": {
+    "new_performance_execution": false,
+    "new_placement_benchmark": false,
+    "lower_level_placement_reopened": false
+  },
+  "next": "PHASE2_GENERIC_POLICY_ENGINE_OVER_REGISTRY"
+}
