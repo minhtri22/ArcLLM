@@ -1,0 +1,28 @@
+{
+  "schema": "arcllm.v1.phase2.generic_primitive_registry_freeze.v1.0",
+  "date": "2026-09-26",
+  "status": "FROZEN_PHASE2_GENERIC_PRIMITIVE_REGISTRY_V1",
+  "canonical_qa_blob": "f2e449ea3c15319cea2ce8153db841031596666b",
+  "contract_blob": "0ce5531e3a410ddb5832616b795d74a9e0c5e302",
+  "registry_api_version": {
+    "major": 1,
+    "minor": 0
+  },
+  "frozen_guarantees": [
+    "Generic core is family-agnostic.",
+    "Primitive-family facts enter through RegistrationBundle data.",
+    "Opaque IDs prevent public enum growth per family.",
+    "Evidence validation state and provenance remain first-class.",
+    "PASS and FAIL paths can coexist; disabled-by-evidence entries are retained but not active.",
+    "Duplicate IDs/policy keys and broken references are rejected atomically.",
+    "The frozen Phase 2 package API v1 is reference compatibility only and is not extended for new families."
+  ],
+  "scaling_rule": {
+    "add_new_family": "provide a structurally valid registration bundle with evidence/provenance",
+    "edit_generic_registry_core": false,
+    "create_new_family_package": false,
+    "extend_legacy_family_enums": false
+  },
+  "current_limit": "Registry representation is generic; selection policy execution is not yet registry-driven.",
+  "next": "PHASE2_GENERIC_POLICY_ENGINE_OVER_REGISTRY"
+}

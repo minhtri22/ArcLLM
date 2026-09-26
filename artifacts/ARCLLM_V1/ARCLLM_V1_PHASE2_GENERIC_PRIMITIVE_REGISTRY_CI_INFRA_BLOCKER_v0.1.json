@@ -1,0 +1,21 @@
+{
+  "schema": "arcllm.v1.phase2.generic_primitive_registry_ci_infra_blocker.v0.1",
+  "date": "2026-09-26",
+  "status": "GITHUB_RUNNER_ALLOCATION_BLOCKER_NO_QA_STEP_EXECUTED",
+  "head": "d6e25e589fe16fd239124242e060f5b12cde95c3",
+  "workflow_run": {
+    "id": 36245827904,
+    "job_id": 108414719508,
+    "workflow": "arcllm-v1-phase2-generic-primitive-registry",
+    "labels": [
+      "ubuntu-latest"
+    ],
+    "conclusion": "failure",
+    "runner_id": 0,
+    "runner_name": "",
+    "steps": []
+  },
+  "classification": "INFRASTRUCTURE_ONLY",
+  "code_execution_on_github": false,
+  "science_execution": false
+}

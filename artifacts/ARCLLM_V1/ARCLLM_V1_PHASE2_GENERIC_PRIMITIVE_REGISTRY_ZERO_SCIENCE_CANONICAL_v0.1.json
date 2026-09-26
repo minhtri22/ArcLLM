@@ -1,0 +1,100 @@
+{
+  "schema": "arcllm.v1.phase2.generic_primitive_registry_zero_science_canonical.v0.1",
+  "date": "2026-09-26",
+  "status": "PASS_PHASE2_GENERIC_PRIMITIVE_CAPABILITY_MODEL_AND_REGISTRY",
+  "qualified_head": "d6e25e589fe16fd239124242e060f5b12cde95c3",
+  "contract": {
+    "path": "config/arcllm_v1_phase2_generic_primitive_registry_contract_v0.1.json",
+    "blob": "0ce5531e3a410ddb5832616b795d74a9e0c5e302",
+    "status": "FROZEN_GENERIC_PRIMITIVE_CAPABILITY_MODEL_AND_REGISTRY_CONTRACT"
+  },
+  "exact_committed_blobs": {
+    "model": "1f807ae4785a70ebe70858221fb271061bedd3a4",
+    "registry_api": "53fa0d2beff6b55846624077cd3fb84e99dc352d",
+    "registry_core": "d878e15dd272a3788074e4c56334dabaf3958bad",
+    "reference_registration_header": "9855354a7c54a8a7589a2a6becbab363eebcc945",
+    "reference_registration_source": "e0f12438e6c40904fbe272bdc4080a52060f2e16",
+    "zero_science_test": "4f89ac2a6e308ec8215a5c77e8a5ef41edd9b68e",
+    "static_test": "068179fe8807933a27e03fa8a704addcace07695",
+    "implementation_manifest": "c8cdfa3da0c9566d62e7774ffdacd39ef6aa7e60"
+  },
+  "exact_source_static_audit": {
+    "verdict": "PASS",
+    "findings": [
+      "Generic model/API/core contain no Q4K, EXEC148, Split-K32, P1/P3, W-S/W-C, 549,527,552-byte, or first-family numeric-ID literals.",
+      "Opaque IDs replace family-specific public enum growth.",
+      "ValidationState and ProvenanceRef are first-class descriptor fields.",
+      "RegistrationBundle covers domain, reuse metric, evidence set/profile, family, capability, primitive, acquisition path, threshold, resident preference, and lifecycle.",
+      "Registry rejects duplicate IDs, duplicate policy keys, and broken references before retaining the bundle.",
+      "Invalid-bundle rejection is atomic via rollback."
+    ]
+  },
+  "reference_family_migration": {
+    "verdict": "PASS",
+    "role": "FIRST_FULLY_VALIDATED_REFERENCE_REGISTRATION",
+    "facts_moved_to_registration_data": [
+      "A fallback/no-extra-representation primitive",
+      "B represented/resident primitive with 549,527,552-byte cost",
+      "P1 primary thresholds 2/4",
+      "P3-COLD secondary thresholds 15/33",
+      "P0 tertiary thresholds 17/37",
+      "resident-B preference over A",
+      "B lifetime/eviction semantics",
+      "P3-WARM retained as DISABLED_BY_EVIDENCE"
+    ],
+    "scientific_claim_generalized": false
+  },
+  "scalability_zero_science_qa": {
+    "verdict": "PASS",
+    "portable_native_semantic_run": {
+      "compiler": "g++ C++17",
+      "output": [
+        "PHASE2_GENERIC_PRIMITIVE_REGISTRY_ZERO_SCIENCE_QA=PASS",
+        "REFERENCE_BUNDLES=1 SYNTHETIC_ADDITIONAL_FAMILIES=1",
+        "NO MODEL LOAD. NO GPU. NO VULKAN. NO TIMING. NO PLACEMENT BENCHMARK."
+      ],
+      "proved": [
+        "A second family with independent domain/profile/family/primitive/acquisition IDs registers through data only.",
+        "The second family is queryable through the same generic lookup API.",
+        "Re-adding the same family is rejected as duplicate without changing bundle_count.",
+        "A bundle with a broken fallback reference is rejected without changing bundle_count."
+      ]
+    },
+    "provenance_boundary": "GitHub-hosted exact-byte native build did not execute because no runner was allocated. Exact committed blobs passed static structural audit. Portable native compilation validated the same registry semantics; it is not represented as a GitHub exact-byte build."
+  },
+  "architecture_result": {
+    "universal_primitive": false,
+    "universal_primitive_descriptor_model": true,
+    "generic_registry": true,
+    "new_family_requires_new_package": false,
+    "new_family_requires_generic_core_change": false,
+    "new_family_requires_public_enum_extension": false,
+    "new_family_requires_registration_bundle": true,
+    "new_family_requires_evidence_and_provenance": true,
+    "pass_fail_knowledge_preserved_in_registry": true
+  },
+  "legacy_phase2_v1_package": {
+    "status": "FROZEN_REFERENCE_COMPATIBILITY_ONLY",
+    "extension_point_for_new_families": false
+  },
+  "scope_boundary": {
+    "generic_policy_engine_complete": false,
+    "backend_binding_complete": false,
+    "production_runtime_complete": false
+  },
+  "github_ci": {
+    "verdict": "INFRA_BLOCKED_NOT_CODE_FAIL",
+    "blocker_artifact_blob": "11a9a9d6e3d825ab5f6eedafc24293be1c0a2fe3",
+    "run_id": 36245827904,
+    "job_id": 108414719508,
+    "runner_id": 0,
+    "steps_executed": 0
+  },
+  "science": {
+    "new_performance_execution": false,
+    "new_placement_benchmark": false,
+    "lower_level_placement_reopened": false
+  },
+  "lineage_append": false,
+  "next": "PHASE2_GENERIC_POLICY_ENGINE_OVER_REGISTRY"
+}
