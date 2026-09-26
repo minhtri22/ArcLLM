@@ -1,0 +1,65 @@
+{
+  "schema": "arcllm.v1.phase2.capability_acquisition_semantics_redesign_gate.v0.1",
+  "date": "2026-09-27",
+  "status": "FROZEN_CAPABILITY_ACQUISITION_SEMANTICS_REDESIGN_GATE",
+  "parent": {
+    "failed_generalization_adjudication_blob": "a7430a4fd941b555b9262c464a3473bd3d7cf942",
+    "failed_generalization_close_blob": "81a0271a5a976f2ab4b1c1de02c687cdf2223f23"
+  },
+  "question": "Can one minimal generic capability model distinguish optional amortized acquisition from mandatory feasibility acquisition, allow capabilities with no validated fallback, and preserve explicit not-ready/outside-evidence decisions, while simultaneously preserving all 114,688 first-family decisions and satisfying the frozen P8 bounded oracle?",
+  "frozen_v1_blobs": {
+    "registry_model": "b99c5b647fb8edd33c7fee10dbdc8b18ba5a3720",
+    "registry_api": "53fa0d2beff6b55846624077cd3fb84e99dc352d",
+    "registry_core": "d878e15dd272a3788074e4c56334dabaf3958bad",
+    "policy_header": "07134b51ba3c66539376d9ec9d55516752b44750",
+    "policy_source": "6d448d87358289914aca1cc839512f4a5ca242bf"
+  },
+  "minimal_redesign": {
+    "capability_preferred_primitive_required": true,
+    "capability_fallback_primitive_optional": true,
+    "evidence_profile_reuse_metric_optional": true,
+    "acquisition_trigger_classes": [
+      "REUSE_AMORTIZED",
+      "MANDATORY_FOR_FEASIBILITY"
+    ],
+    "mandatory_acquisition_threshold_forbidden": true,
+    "reuse_amortized_threshold_semantics_preserved": true,
+    "not_ready_first_class": true,
+    "outside_validated_capability_first_class": true,
+    "evidence_scope_token": "DomainId plus runtime request_within_capability_evidence_scope"
+  },
+  "proof_obligations": {
+    "first_family_exhaustive_equivalence_cases": 114688,
+    "first_family_fields": [
+      "status",
+      "route",
+      "lifecycle",
+      "acquisition",
+      "threshold_units",
+      "requested_residency_bytes",
+      "preserve_existing_representation",
+      "require_post_acquisition_identity_validation"
+    ],
+    "p8_oracle": [
+      "no validated fallback",
+      "no reuse metric",
+      "no acquisition threshold",
+      "unknown reuse still acquires mandatory representation",
+      "zero reuse still acquires mandatory representation",
+      "unavailable acquisition returns NOT_READY with no route",
+      "resident valid representation routes normally",
+      "outside bounded evidence scope returns OUTSIDE_VALIDATED_CAPABILITY with no route",
+      "invalid resident representation evicts without inventing a fallback",
+      "P8 zero reuse does not invent eviction semantics"
+    ]
+  },
+  "fail_conditions": [
+    "Any frozen v1 generic file must be modified to make the candidate pass.",
+    "Any first-family decision field in the frozen equivalence set diverges.",
+    "P8 requires an invented fallback, reuse metric, or reuse threshold.",
+    "P8 can route a nonresident segmented primitive without ACQUIRE.",
+    "P8 outside its evidence scope is treated as authorized."
+  ],
+  "pass_condition": "All proof obligations pass using the candidate v2 semantics while frozen v1 files remain byte-identical.",
+  "backend_binding_authorized_by_this_gate": false
+}

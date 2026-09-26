@@ -1,0 +1,25 @@
+{
+  "schema": "arcllm.v1.phase2.capability_acquisition_semantics_redesign_implementation.v0.1",
+  "date": "2026-09-27",
+  "status": "IMPLEMENTED_AWAITING_ZERO_SCIENCE_GATE",
+  "parent_adjudication_blob": "a7430a4fd941b555b9262c464a3473bd3d7cf942",
+  "gate_contract_blob": "517a51e36a2e74bbb389b4b6169decc24b097212",
+  "frozen_v1_unchanged": true,
+  "candidate_v2": {
+    "registry_header": "a024fdde92225af6f909a2985a3988a9ae7bb1b3",
+    "registry_core": "8c2649ecbeb0fb8e3a3285209e2253790ec29680",
+    "policy_header": "8a872f671c23f5f508955121c8ffebc0091365f9",
+    "policy_source": "13fa329a5416aec06e68c7d94c24d25f5875fa52",
+    "first_family_registration_header": "323d99135fa12c6d86ab33fa59bbb5c9c77b0fff",
+    "first_family_registration_source": "1dd4f81621d0ec78fa85453dbad05b3f538ca72e",
+    "p8_registration_header": "438bbd8406d8ad5e32ba85083045d956975f31ef",
+    "p8_registration_source": "bbfde2dd900caa68469ab55336866e78d450de79"
+  },
+  "qa": {
+    "native_test": "f97c4b72cb263a79de08d20e9fa4fe2dae5329c6",
+    "static_test": "38512f9332a0bc34262e6b0807fabaee5f579189"
+  },
+  "backend_binding": false,
+  "performance_execution": false,
+  "next": "RUN_ZERO_SCIENCE_REDESIGN_GATE_AND_ADJUDICATE"
+}

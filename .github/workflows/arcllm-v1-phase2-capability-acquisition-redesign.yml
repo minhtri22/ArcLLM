@@ -1,0 +1,35 @@
+name: arcllm-v1-phase2-capability-acquisition-redesign
+
+on:
+  push:
+    branches: [research/arcllm-v1]
+    paths:
+      - 'include/arcllm/v1/primitive_registry_v2.h'
+      - 'include/arcllm/v1/generic_policy_engine_v2.h'
+      - 'src/arcllm_v1_primitive_registry_v2.cpp'
+      - 'src/arcllm_v1_generic_policy_engine_v2.cpp'
+      - 'src/registrations/arcllm_v1_*_registration_v2.*'
+      - 'tests/arcllm_v1_capability_acquisition_semantics_redesign_gate.cpp'
+      - 'tests/test_arcllm_v1_capability_acquisition_semantics_redesign_gate_static.py'
+      - 'config/arcllm_v1_phase2_capability_acquisition_semantics_redesign_gate_v0.1.json'
+      - '.github/workflows/arcllm-v1-phase2-capability-acquisition-redesign.yml'
+  workflow_dispatch:
+
+jobs:
+  zero-science:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tests/test_arcllm_v1_capability_acquisition_semantics_redesign_gate_static.py
+      - run: >
+          g++ -std=c++17 -O2 -Wall -Wextra -pedantic -Iinclude -Isrc
+          tests/arcllm_v1_capability_acquisition_semantics_redesign_gate.cpp
+          src/arcllm_v1_generic_policy_engine.cpp
+          src/arcllm_v1_primitive_registry.cpp
+          src/registrations/arcllm_v1_q4k_down_reference_registration.cpp
+          src/arcllm_v1_generic_policy_engine_v2.cpp
+          src/arcllm_v1_primitive_registry_v2.cpp
+          src/registrations/arcllm_v1_q4k_down_reference_registration_v2.cpp
+          src/registrations/arcllm_v1_p8_segmented_reference_registration_v2.cpp
+          -o /tmp/arcllm_redesign_gate
+      - run: /tmp/arcllm_redesign_gate
