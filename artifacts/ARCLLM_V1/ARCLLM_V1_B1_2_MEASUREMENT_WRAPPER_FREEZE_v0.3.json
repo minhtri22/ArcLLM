@@ -1,0 +1,71 @@
+{
+  "schema": "arcllm.v1.b1_2.performance.measurement_wrapper_freeze.v0.3",
+  "date": "2026-09-26",
+  "status": "FROZEN_MEASUREMENT_WRAPPER_SOURCE_V0_3_NO_PERFORMANCE_EXECUTION",
+  "supersedes": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_B1_2_MEASUREMENT_WRAPPER_FREEZE_v0.2.json",
+    "blob": "62894f1a4dc25c6085f74f781c2e96de7cb34768",
+    "reason": "Runner/lock-status governance repair only; measurement source and scientific protocol unchanged."
+  },
+  "repair_blob": "3606c54b6d435d069453e8d76171eb9540f0ceeb",
+  "files": {
+    "performance_source": {
+      "path": "src/arcllm_v1_b1_2_performance.cpp",
+      "blob": "e581a8d544c7736d2c9df033c1ae5fa38e5a5560"
+    },
+    "zero_science_helper_source": {
+      "path": "src/arcllm_v1_b1_2_zero_science.cpp",
+      "blob": "076af07cfcff2558259d8ec3e2d2a6e571941215"
+    },
+    "static_test": {
+      "path": "tests/test_arcllm_v1_b1_2_performance_lock.py",
+      "blob": "6d4bd58c9ce8e1f50f85c3f5cd1d97c7b8b369ec"
+    },
+    "buildonly_script": {
+      "path": "tools/build_arcllm_v1_b1_2_performance_buildonly.ps1",
+      "blob": "38661fa1eb3373ca52144b824b658dcba573bcab"
+    },
+    "buildonly_runner": {
+      "path": "run_arcllm_v1_b1_2_performance_buildonly.ps1",
+      "blob": "fd5d0287bfdeddb93accb67c4801459bbe93a9a4"
+    },
+    "one_shot_runner": {
+      "path": "run_arcllm_v1_b1_2_performance_one_shot.ps1",
+      "blob": "12be10439b2989cda0d440a0bdf50923b53d5252"
+    }
+  },
+  "measurement_contract": {
+    "unchanged_from_v0_2": true,
+    "blocks": 8,
+    "order_per_block": [
+      "P1",
+      "P3-WARM",
+      "P3-COLD"
+    ],
+    "samples_per_state": 8,
+    "warmup_attempts": 0,
+    "candidate_specific_retries": false,
+    "estimator": "median",
+    "descriptive": [
+      "min",
+      "max",
+      "median",
+      "MAD"
+    ],
+    "quiet_host_required": true,
+    "P1_primary": "ChainStats.record_submit_wait_ms",
+    "P3_WARM_primary": "buffered_load wall time only",
+    "P3_COLD_primary": "unbuffered_load wall time only",
+    "validation_after_every_attempt": true,
+    "validation_outside_primary_timer": true,
+    "no_partial_readout": true
+  },
+  "execution_state": {
+    "buildonly_required": true,
+    "exact_executable_not_yet_bound": true,
+    "independent_lock_review_required": true,
+    "separate_execution_gate_required": true,
+    "performance_execution_authorized": false
+  },
+  "lineage_append": false
+}

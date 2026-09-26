@@ -14,14 +14,14 @@ if($Branch-ne"research/arcllm-v1"){throw "STOP: wrong branch"}
 $Tracked=(git -C $Root status --porcelain --untracked-files=no|Out-String)
 if(-not[string]::IsNullOrWhiteSpace($Tracked)){throw "STOP: tracked worktree dirty"}
 
-$LockPath=Join-Path $Root "config\arcllm_v1_b1_2_performance_execution_lock_v0.2.json"
-$GatePath=Join-Path $Root "config\arcllm_v1_b1_2_performance_execution_gate_v0.2.json"
+$LockPath=Join-Path $Root "config\arcllm_v1_b1_2_performance_execution_lock_v0.3.json"
+$GatePath=Join-Path $Root "config\arcllm_v1_b1_2_performance_execution_gate_v0.3.json"
 if(-not(Test-Path $LockPath)){throw "STOP: immutable B1.2 performance lock missing"}
 if(-not(Test-Path $GatePath)){throw "STOP: B1.2 performance execution gate missing; execution remains CLOSED"}
 
 $Lock=Get-Content $LockPath -Raw|ConvertFrom-Json
 $Gate=Get-Content $GatePath -Raw|ConvertFrom-Json
-if([string]$Lock.status-ne"FROZEN_IMMUTABLE_B1_2_PERFORMANCE_EXECUTION_LOCK"){throw "STOP: invalid B1.2 lock status"}
+if([string]$Lock.status-ne"FROZEN_IMMUTABLE_B1_2_PERFORMANCE_EXECUTION_LOCK_V0_3"){throw "STOP: invalid B1.2 lock status"}
 if([string]$Gate.status-ne"PASS_OPEN_B1_2_ONE_SHOT_PERFORMANCE_EXECUTION" -or -not[bool]$Gate.execution_authorized){
   throw "STOP: B1.2 performance execution not authorized"
 }
@@ -31,7 +31,7 @@ $Critical=[ordered]@{
  "src/arcllm_v1_b1_2_zero_science.cpp"=[string]$Lock.implementation.zero_science_source_blob
  "src/arcllm_v1_q4_down_4arm_timing_runtime.cpp"=[string]$Lock.implementation.transitive_runtime_blob
  "shaders/b1_2_exec148_gpu_materialize.comp"=[string]$Lock.implementation.p1_shader_source_blob
- "config/arcllm_v1_b1_2_performance_execution_lock_v0.2.json"=[string]$Gate.lock_blob
+ "config/arcllm_v1_b1_2_performance_execution_lock_v0.3.json"=[string]$Gate.lock_blob
 }
 foreach($P in $Critical.Keys){
   $Got=(& git -C $Root rev-parse ("HEAD:"+$P)).Trim()
@@ -83,12 +83,12 @@ New-Item -ItemType Directory -Force -Path $Dir|Out-Null
 $Result=Join-Path $Dir "B1_2_PERFORMANCE_RESULT.json"
 
 $MarkerObj=[ordered]@{
- schema="arcllm.v1.b1_2.performance.science_start.v0.1"
+ schema="arcllm.v1.b1_2.performance.science_start.v0.3"
  status="SCIENCE_ATTEMPT_CONSUMED"
  timestamp_utc=$Stamp
  git_head=((& git -C $Root rev-parse HEAD).Trim())
  lock_blob=[string]$Gate.lock_blob
- gate_blob=((& git -C $Root rev-parse "HEAD:config/arcllm_v1_b1_2_performance_execution_gate_v0.2.json").Trim())
+ gate_blob=((& git -C $Root rev-parse "HEAD:config/arcllm_v1_b1_2_performance_execution_gate_v0.3.json").Trim())
  executable_sha256=$ExeHash
  model_sha256=[string]$Lock.inputs.model_sha256
  sidecar_raw_sha256=$SideHash
@@ -112,7 +112,7 @@ Copy-Item (Join-Path $Root "artifacts\ARCLLM_V1\ARCLLM_V1_B1_2_INDEPENDENT_IMPLE
 Copy-Item (Join-Path $Root "artifacts\ARCLLM_V1\ARCLLM_V1_B1_2_P1_P3_ZERO_SCIENCE_QUALIFICATION_CANONICAL_v0.1.json") $Dir -Force
 
 $Return=[ordered]@{
- schema="arcllm.v1.b1_2.performance.dev_host_return.v0.1"
+ schema="arcllm.v1.b1_2.performance.dev_host_return.v0.3"
  status="PASS_COMPLETE_24_ATTEMPT_COLLECTION"
  git_head=((& git -C $Root rev-parse HEAD).Trim())
  executable_sha256=$ExeHash

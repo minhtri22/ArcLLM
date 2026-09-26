@@ -8,8 +8,8 @@ if($Branch-ne"research/arcllm-v1"){throw "STOP: wrong branch"}
 $Tracked=(git -C $Root status --porcelain --untracked-files=no|Out-String)
 if(-not[string]::IsNullOrWhiteSpace($Tracked)){throw "STOP: tracked worktree dirty"}
 
-$LockPath=Join-Path $Root "config\arcllm_v1_b1_2_performance_execution_lock_v0.2.json"
-$FreezePath=Join-Path $Root "artifacts\ARCLLM_V1\ARCLLM_V1_B1_2_MEASUREMENT_WRAPPER_FREEZE_v0.1.json"
+$LockPath=Join-Path $Root "config\arcllm_v1_b1_2_performance_execution_lock_v0.3.json"
+$FreezePath=Join-Path $Root "artifacts\ARCLLM_V1\ARCLLM_V1_B1_2_MEASUREMENT_WRAPPER_FREEZE_v0.3.json"
 $ReviewPath=Join-Path $Root "artifacts\ARCLLM_V1\ARCLLM_V1_B1_2_INDEPENDENT_IMPLEMENTATION_PACKAGE_REVIEW_v0.1.json"
 $ZeroPath=Join-Path $Root "artifacts\ARCLLM_V1\ARCLLM_V1_B1_2_P1_P3_ZERO_SCIENCE_QUALIFICATION_CANONICAL_v0.1.json"
 foreach($P in @($LockPath,$FreezePath,$ReviewPath,$ZeroPath)){
@@ -17,12 +17,12 @@ foreach($P in @($LockPath,$FreezePath,$ReviewPath,$ZeroPath)){
 }
 
 $Lock=Get-Content $LockPath -Raw|ConvertFrom-Json
-if([string]$Lock.status-ne"FROZEN_IMMUTABLE_B1_2_PERFORMANCE_EXECUTION_LOCK"){throw "STOP: invalid lock status"}
+if([string]$Lock.status-ne"FROZEN_IMMUTABLE_B1_2_PERFORMANCE_EXECUTION_LOCK_V0_3"){throw "STOP: invalid lock status"}
 if(-not[bool]$Lock.execution_authorization.buildonly_authorized){throw "STOP: build-only is not authorized"}
 if([bool]$Lock.execution_authorization.performance_execution){throw "STOP: performance execution unexpectedly open"}
 if([bool]$Lock.execution_authorization.execution_gate_present){throw "STOP: execution gate must not be present during build-only qualification"}
 
-$GatePath=Join-Path $Root "config\arcllm_v1_b1_2_performance_execution_gate_v0.2.json"
+$GatePath=Join-Path $Root "config\arcllm_v1_b1_2_performance_execution_gate_v0.3.json"
 if(Test-Path $GatePath){throw "STOP: performance execution gate already exists; build-only binding stage expected gate absence"}
 
 $Critical=[ordered]@{
@@ -32,6 +32,7 @@ $Critical=[ordered]@{
  "shaders/b1_2_exec148_gpu_materialize.comp"=[string]$Lock.implementation.p1_shader_source_blob
  "tests/test_arcllm_v1_b1_2_performance_lock.py"=[string]$Lock.implementation.static_test_blob
  "tools/build_arcllm_v1_b1_2_performance_buildonly.ps1"=[string]$Lock.implementation.buildonly_script_blob
+ "run_arcllm_v1_b1_2_performance_buildonly.ps1"=[string]$Lock.implementation.buildonly_runner_blob
  "run_arcllm_v1_b1_2_performance_one_shot.ps1"=[string]$Lock.implementation.one_shot_runner_blob
 }
 foreach($P in $Critical.Keys){
@@ -72,7 +73,7 @@ $Dir=Join-Path $Root ("results\b1_2_performance_buildonly_"+$Stamp)
 New-Item -ItemType Directory -Force -Path $Dir|Out-Null
 
 $Return=[ordered]@{
- schema="arcllm.v1.b1_2.performance.buildonly.dev_host_return.v0.2"
+ schema="arcllm.v1.b1_2.performance.buildonly.dev_host_return.v0.3"
  status="PASS_DEV_HOST_PERFORMANCE_WRAPPER_BUILDONLY"
  git_head=((& git -C $Root rev-parse HEAD).Trim())
  scope=[ordered]@{
@@ -83,8 +84,8 @@ $Return=[ordered]@{
   science_marker_created=$false
  }
  lock=[ordered]@{
-  path="config/arcllm_v1_b1_2_performance_execution_lock_v0.2.json"
-  blob=((& git -C $Root rev-parse "HEAD:config/arcllm_v1_b1_2_performance_execution_lock_v0.2.json").Trim())
+  path="config/arcllm_v1_b1_2_performance_execution_lock_v0.3.json"
+  blob=((& git -C $Root rev-parse "HEAD:config/arcllm_v1_b1_2_performance_execution_lock_v0.3.json").Trim())
  }
  executable=[ordered]@{
   filename="arcllm_v1_b1_2_performance.exe"

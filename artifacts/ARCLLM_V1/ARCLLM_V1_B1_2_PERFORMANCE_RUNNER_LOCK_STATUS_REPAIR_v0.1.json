@@ -1,0 +1,39 @@
+{
+  "schema": "arcllm.v1.b1_2.performance_runner_lock_status_repair.v0.1",
+  "date": "2026-09-26",
+  "status": "PRE_BUILDONLY_QA_GOVERNANCE_REPAIR_FROZEN",
+  "failed_head": "08130219b325a9f7a674d4b3e4a66b8ce54a0377",
+  "classification": "PRE_BUILDONLY_FAIL_CLOSED_RUNNER_STATUS_MISMATCH",
+  "observed_state": {
+    "performance_buildonly_started": false,
+    "static_qa_started": false,
+    "native_build_started": false,
+    "model_loaded": false,
+    "gpu_dispatch": false,
+    "sidecar_io": false,
+    "performance_execution": false,
+    "science_marker_created": false
+  },
+  "root_cause": [
+    "build-only runner pointed to lock v0.2 but still required status FROZEN_IMMUTABLE_B1_2_PERFORMANCE_EXECUTION_LOCK",
+    "build-only runner still packaged measurement wrapper freeze v0.1 instead of active v0.2",
+    "one-shot runner also pointed to lock/gate v0.2 while still checking the old unversioned lock status"
+  ],
+  "repair": {
+    "buildonly_runner_blob": "fd5d0287bfdeddb93accb67c4801459bbe93a9a4",
+    "one_shot_runner_blob": "12be10439b2989cda0d440a0bdf50923b53d5252",
+    "performance_source_unchanged": "e581a8d544c7736d2c9df033c1ae5fa38e5a5560",
+    "zero_science_source_unchanged": "076af07cfcff2558259d8ec3e2d2a6e571941215",
+    "static_test_unchanged": "6d4bd58c9ce8e1f50f85c3f5cd1d97c7b8b369ec",
+    "buildonly_script_unchanged": "38661fa1eb3373ca52144b824b658dcba573bcab",
+    "protocol_changed": false,
+    "timer_boundaries_changed": false,
+    "attempt_order_changed": false,
+    "thresholds_changed": false
+  },
+  "governance": {
+    "supersede_lock_v0_2": true,
+    "active_successor": "v0.3",
+    "performance_execution_remains_closed": true
+  }
+}
