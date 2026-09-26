@@ -1,0 +1,214 @@
+{
+  "schema": "arcllm.v1.b1_2.p1_p3_placement_experiment_design.v0.1",
+  "date": "2026-09-26",
+  "status": "FROZEN_EXPERIMENT_DESIGN_NO_IMPLEMENTATION_OR_PERFORMANCE_EXECUTION_AUTHORIZED",
+  "parent": {
+    "primitive_architecture_lock_blob": "5c696b924038de13de8d5176b724fcd814cdcc8e",
+    "b1_architecture_blob": "95a341ab6693530a240cbcdd447ccaa1dffbe082",
+    "b1_1_survey_blob": "611a03978815f9c5eabdcdbd757f31b1f992ac1a",
+    "exec148_design_blob": "305bda16bff4ad643ea6bab86be903b5d7eb1b89",
+    "q4_correctness_canonical_blob": "a6f25630437307dbeabb7c88efe8002d0dde2555",
+    "q4_timing_canonical_blob": "97ba2ede658e8a63a08c60f7fc3ead5fcf574fdd"
+  },
+  "scientific_question": "Can P1 GPU in-place creation or P3 offline-sidecar acquisition obtain the exact frozen EXEC148 image at lower runtime acquisition cost than the proven P0 CPU-direct reference, thereby expanding the reuse-horizon region in which B dominates the default A primitive?",
+  "fixed_architecture_state": {
+    "A": {
+      "id": "A_SPLIT_K32",
+      "role": "DEFAULT_WITHIN_VALIDATED_Q4_DOWN_DOMAIN",
+      "latency_ms_per_token": {
+        "W-S": 38.37338447981645,
+        "W-C": 37.83515532629015
+      }
+    },
+    "B": {
+      "id": "B_EXEC148_Q4K_SERIAL_K_EXEC148_V0_1",
+      "role": "OPTIONAL_EXECUTION_REPRESENTATION_PRIMITIVE",
+      "latency_ms_per_token": {
+        "W-S": 24.18914003444485,
+        "W-C": 31.41302006641385
+      },
+      "active_resident_bytes": 549527552,
+      "source_family_bytes": 534675456,
+      "canonical_family_hash": "60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2"
+    },
+    "P0_reference": {
+      "creator": "CPU_DIRECT_UMA",
+      "acquisition_ms": 231.6382,
+      "crossover_tokens": {
+        "W-S": 16.330668925801323,
+        "W-C": 36.068720235030014
+      }
+    },
+    "excluded_from_retest": [
+      "A steady-state latency",
+      "B steady-state latency",
+      "AB composition",
+      "counter mechanism attribution"
+    ]
+  },
+  "shared_experiment_contract": {
+    "target_model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "target_operator": "14 Q4_K decode ffn_down tensors",
+    "shape": {
+      "k": 18944,
+      "rows": 3584,
+      "batch": 1
+    },
+    "target_layers": [
+      3,
+      4,
+      6,
+      7,
+      8,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      19,
+      21,
+      22
+    ],
+    "source_block_bytes": 144,
+    "exec_block_bytes": 148,
+    "source_blocks_total": 3713024,
+    "exec_image_bytes": 549527552,
+    "exact_semantics": "d_bits16 || dmin_bits16 || 8*(sc8,mn8) || 256*q8 per source block",
+    "correctness_primary": "Full canonical tuple-family SHA256 must equal 60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2.",
+    "correctness_secondary": "Frozen component oracle remains max_abs <= 0.02 and RMSE <= 0.005; correctness timing is not part of acquisition timing.",
+    "timing_boundary": "Measure only runtime acquisition of an already-defined final EXEC148 image. Buffer allocation, model load, pipeline creation, scientific tuple validation, and component correctness validation are outside the primary acquisition timer and reported separately where applicable.",
+    "primary_architecture_metric": "ACQUISITION_WALL_MS",
+    "repeats": 8,
+    "estimator": "median of 8 independent acquisition attempts",
+    "descriptive_variability": [
+      "min",
+      "max",
+      "median",
+      "MAD"
+    ],
+    "quiet_host_required": true,
+    "no_overlap_primary": true,
+    "no_posthoc_tuning": true,
+    "frozen_decision_formula": {
+      "delta_ms_per_token": {
+        "W-S": 14.1842444453716,
+        "W-C": 6.422135259876299
+      },
+      "crossover_real": "H_star = C_acquisition / (L_A - L_B)",
+      "minimum_integer_tokens_for_strict_B_win": "floor(H_star)+1",
+      "report_horizons": [
+        1,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    }
+  },
+  "P1": {
+    "id": "P1_GPU_CREATE_IN_PLACE",
+    "hypothesis": "A GPU materializer can produce the exact canonical EXEC148 image directly in the final GPU-accessible UMA buffer with acquisition wall time below the frozen P0 CPU-direct reference.",
+    "exact_data_path": [
+      "Source Q4_K tensors are already resident and GPU-readable.",
+      "Final 549,527,552-byte EXEC148 Vulkan storage buffer is allocated before timing.",
+      "GPU transformation processes the 3,713,024 independent blocks and writes canonical EXEC148 bytes directly to final buffer.",
+      "Required queue completion and visibility barrier complete before acquisition timer stops.",
+      "No full-image CPU staging copy is allowed in the primary P1 path."
+    ],
+    "primary_endpoint": "Median serialized ACQUISITION_WALL_MS across 8 independent attempts.",
+    "secondary_endpoints": [
+      "Derived W-S and W-C A-vs-B crossover horizons from frozen A/B latencies.",
+      "Creator GPU device time may be reported diagnostically but cannot replace wall time.",
+      "Independent scientific validation wall time is reported separately and excluded from architecture acquisition cost."
+    ],
+    "pass_and_kill_rules": {
+      "correctness_gate": "All 8 images must match the canonical family hash and component correctness oracle.",
+      "keep_P1": "correctness PASS AND median acquisition wall < 231.6382 ms",
+      "strict_architecture_meaning": "P1 then strictly expands B's runtime acquisition region versus P0 because steady-state B and active residency are frozen equal.",
+      "kill_current_serialized_P1": "correctness FAIL OR median acquisition wall >= 231.6382 ms",
+      "no_rescue": "A failed serialized P1 may not be rescued post hoc by overlap, altered EXEC148 semantics, different work decomposition, or different target tensors. Any overlap study is a new prospective lifecycle study."
+    },
+    "implementation_parameters_to_freeze_before_execution": [
+      "exact GPU materializer source/SPIR-V identity",
+      "workgroup/subgroup geometry",
+      "dispatch geometry/order over 14 tensors",
+      "final buffer memory type/flags",
+      "command-buffer lifecycle and timer anchors",
+      "barrier/visibility contract"
+    ]
+  },
+  "P3": {
+    "id": "P3_OFFLINE_PREMATERIALIZED_SIDECAR",
+    "hypothesis": "A versioned pre-materialized EXEC148 sidecar can reduce runtime acquisition cost below P0 in at least one explicitly controlled cache/storage state while preserving exact canonical bytes.",
+    "sidecar_contract": {
+      "payload_bytes": 549527552,
+      "payload_semantics": "Exact concatenated EXEC148 layer images in frozen layer order; no compression or alternate representation in B1.2.",
+      "required_identity_fields": [
+        "source model SHA256",
+        "EXEC148 schema/id",
+        "target layer list and shape",
+        "payload byte count",
+        "canonical family hash",
+        "format/version identity"
+      ],
+      "offline_creation_timing": "Not a runtime performance endpoint. Sidecar creation happens outside inference runtime and is only correctness-qualified."
+    },
+    "runtime_states": {
+      "WARM_PAGE_CACHE": {
+        "definition": "Before each measured attempt, perform an untimed complete preload of the exact sidecar so its file data is eligible to be resident in the OS page cache; then measure the fixed buffered load path into the already-allocated final mapped Vulkan buffer.",
+        "primary_endpoint": "Median ACQUISITION_WALL_MS across 8 attempts.",
+        "interpretation": "Measures warm/cached sidecar acquisition, not cold storage."
+      },
+      "COLD_UNBUFFERED": {
+        "definition": "Measure a cache-bypassing sequential file-read path using an execution-lock-frozen Windows unbuffered-I/O contract. Any required aligned staging and copy into the final mapped Vulkan buffer are included in acquisition wall time.",
+        "primary_endpoint": "Median ACQUISITION_WALL_MS across 8 attempts.",
+        "qualification_requirement": "Exact unbuffered flags, alignment, chunking and staging/copy path must be frozen and zero-science qualified before performance execution; otherwise COLD_UNBUFFERED remains unauthorized.",
+        "interpretation": "Measures the frozen explicit cold path only; it is not a universal SSD benchmark."
+      }
+    },
+    "shared_timing_anchor": "Start immediately before the first runtime sidecar read/copy action and stop only when all payload bytes are present and visible in the final EXEC148 execution buffer. File generation and scientific full-image validation are excluded.",
+    "secondary_endpoints": [
+      "Derived W-S and W-C A-vs-B crossover horizons per cache state.",
+      "Persistent sidecar storage bytes.",
+      "Peak temporary/staging bytes required by the frozen load path.",
+      "Scientific validation wall time reported separately."
+    ],
+    "pass_and_kill_rules": {
+      "correctness_gate": "Sidecar payload and all 8 loaded final images per state must match the canonical family hash and component correctness oracle.",
+      "warm_keep": "WARM correctness PASS AND warm median acquisition < 231.6382 ms",
+      "cold_keep": "COLD correctness PASS AND cold median acquisition < 231.6382 ms",
+      "warm_pass_cold_fail_policy": "P3 remains a warm-cache placement only; cold-start policy falls back to P0 or A.",
+      "both_fail": "If both warm and cold median acquisition are >= 231.6382 ms, P3 is dominated by P0 for runtime performance under B1 assumptions and is killed for current B1.",
+      "no_rescue": "Do not change sidecar compression, representation, cache definition, I/O mode or EXEC148 semantics after timing is visible."
+    },
+    "implementation_parameters_to_freeze_before_execution": [
+      "sidecar manifest/version schema",
+      "payload file identity/hash",
+      "buffered warm-load API/path",
+      "unbuffered cold-load flags/alignment/chunk size",
+      "any staging allocation and copy path",
+      "timer anchors"
+    ]
+  },
+  "cross_candidate_rule": {
+    "no_direct_winner_predeclared": true,
+    "rule": "P1 and P3 are adjudicated independently against P0. Only after both frozen results exist may ArcLLM choose the lower valid acquisition cost for a given runtime state.",
+    "B_already_resident": "If a valid EXEC148 image is already resident, acquisition cost is zero and placement-creation choice is bypassed.",
+    "memory_pressure": "B1.2 does not change the 549,527,552-byte active residency. Eviction under memory pressure falls back to A and is not a failure of P1/P3 acquisition."
+  },
+  "forbidden": [
+    "A retest",
+    "steady-state B performance retest as a primary endpoint",
+    "AB retest",
+    "EXEC148 semantic/layout change",
+    "counter campaign",
+    "Token-XRay science execution",
+    "NPU performance benchmark",
+    "P4/audio-DSP experiment",
+    "post-outcome overlap or compression rescue",
+    "post-outcome workgroup/chunk-size search"
+  ],
+  "next": "INDEPENDENT_B1_2_PRELOCK_REVIEW_BEFORE_ANY_IMPLEMENTATION"
+}

@@ -1442,3 +1442,12 @@ The architecture decision for B is therefore a lifetime/resource-state decision 
 B1.1 establishes that on the current Lunar Lake UMA platform, creator compute domain and active residency domain are separate architectural variables. CPU, GPU and NPU creation do not imply separate capacity pools for EXEC148; active B residency remains system-memory cost. The minimum source-read plus EXEC148-write traffic is 1,084,203,008 bytes, giving a 7.972 ms bandwidth-only optimistic floor under the frozen 136 GB/s IP roof, versus the measured 231.6382 ms CPU-direct creation cost.
 
 Placement knowledge after B1.1: CPU-direct UMA is the proven reference; GPU in-place creation and an offline prematerialized sidecar are the two decision-relevant placement candidates; NPU creation remains capability-gated because exact transform support and memory interoperability are unproven; audio-DSP/other idle-engine placement is not decision-relevant for current B1 without a supported exact-transform and Vulkan-accessible data path.
+
+
+## B1.2 scientific prelock — P1/P3 acquisition-path discrimination — 2026-09-26
+
+B1.2 narrows the unresolved B placement question to acquisition cost only. A remains the frozen default primitive and B's steady-state execution value remains frozen; the scientific discriminator is whether an alternative path can obtain the same canonical EXEC148 image more cheaply than the measured 231.6382 ms CPU-direct reference.
+
+P1 asks whether GPU in-place creation can reduce serialized acquisition wall time while preserving the exact EXEC148 family identity. P3 asks whether a pre-materialized sidecar can reduce runtime acquisition cost under explicitly separated warm-page-cache and cold-unbuffered states. Both candidates are evaluated independently against P0 rather than against each other.
+
+The decision rule is architectural rather than kernel-specific: for acquisition cost C, B's crossover against A is H* = C/(L_A-L_B). A candidate expands B's usable region only if it preserves exact representation correctness and lowers acquisition cost below P0. Active EXEC148 residency remains unchanged, so placement success does not remove the memory-pressure fallback to A.

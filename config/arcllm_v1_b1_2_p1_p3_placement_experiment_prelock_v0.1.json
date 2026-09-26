@@ -1,0 +1,59 @@
+{
+  "schema": "arcllm.v1.b1_2.p1_p3_placement_experiment_prelock.v0.1",
+  "date": "2026-09-26",
+  "status": "FROZEN_PRELOCK_AWAITING_INDEPENDENT_REVIEW",
+  "design_path": "artifacts/ARCLLM_V1/ARCLLM_V1_B1_2_P1_P3_PLACEMENT_EXPERIMENT_DESIGN_v0.1.json",
+  "design_blob": "613d8d335bc7f638a9c42c0853741388ca88a54e",
+  "parent_head": "9ebcbb38cd127f1964cee02b248a8ba1f18e6095",
+  "immutable_scientific_contract": {
+    "architecture_baseline": "A_SPLIT_K32",
+    "placement_reference": "P0_CPU_DIRECT_UMA_231.6382_MS",
+    "candidates": [
+      "P1_GPU_CREATE_IN_PLACE",
+      "P3_OFFLINE_PREMATERIALIZED_SIDECAR"
+    ],
+    "exact_exec148_family_hash": "60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2",
+    "exec_image_bytes": 549527552,
+    "repeats_per_primary_state": 8,
+    "estimator": "median",
+    "primary_metric": "ACQUISITION_WALL_MS",
+    "P3_states": [
+      "WARM_PAGE_CACHE",
+      "COLD_UNBUFFERED"
+    ],
+    "no_overlap_primary": true,
+    "decision_reference_ms": 231.6382,
+    "frozen_A_latency_ms": {
+      "W-S": 38.37338447981645,
+      "W-C": 37.83515532629015
+    },
+    "frozen_B_latency_ms": {
+      "W-S": 24.18914003444485,
+      "W-C": 31.41302006641385
+    }
+  },
+  "authorization": {
+    "architecture_design": true,
+    "implementation": false,
+    "zero_science_build_qa": false,
+    "performance_execution": false,
+    "P1_execution": false,
+    "P3_execution": false,
+    "P2_capability_probe": false,
+    "P2_performance": false,
+    "P4": false,
+    "A_retest": false,
+    "B_retest": false,
+    "AB_retest": false
+  },
+  "independent_review_must_check": [
+    "A and B frozen evidence/provenance are reused without outcome mutation.",
+    "P1/P3 only change acquisition path; EXEC148 bytes/semantics and steady-state B kernel remain fixed.",
+    "P1 and P3 are independently adjudicated against P0 rather than tuned against each other.",
+    "Primary timers exclude common setup and scientific validation but include all placement-specific runtime acquisition work.",
+    "P3 warm and cold states are operationally distinct and frozen before timing.",
+    "No post-hoc overlap/compression/workgroup/chunk-size search is permitted.",
+    "No implementation or performance execution is authorized by this prelock."
+  ],
+  "next_on_pass": "OPEN_BOUNDED_P1_AND_P3_IMPLEMENTATION_PACKAGE_WITH_ZERO_SCIENCE_QUALIFICATION_ONLY"
+}
