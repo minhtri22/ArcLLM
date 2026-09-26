@@ -1429,3 +1429,16 @@ The minimum source-read + EXEC148-write traffic is 1,084,203,008 bytes. Against 
 Feasibility adjudication: P0 CPU-direct-UMA remains the proven reference and is already beneficial after ~16.33 W-S or ~36.07 W-C reuse tokens. P1 GPU in-place creation is shortlisted because the transform is block-independent and can target the existing final Vulkan UMA buffer. P3 versioned offline EXEC148 sidecar is shortlisted because it can remove runtime transform work, while retaining explicit cold/warm load and active-residency costs. P2 NPU remains capability-gated only: platform memory-sharing APIs exist, but exact EXEC148 bit-transform compilation and compatibility with ArcLLM's Vulkan allocation path are unproven. P4 audio-DSP/other idle-engine use is killed for current B1 because no supported application-level exact-transform + Vulkan-memory data path is established.
 
 Next: B1.2_P1_P3_PLACEMENT_EXPERIMENT_DESIGN_AND_PRELOCK. No placement benchmark is authorized by B1.1. P2 may only receive a separate zero-science compile/memory-interop capability probe; it does not block P1/P3.
+
+
+## Scientific state consolidation — Q4-down primitives and B1.1 placement — 2026-09-26
+
+Within the validated Q4_K decode ffn_down domain, Split-K32 is the validated default no-extra-representation primitive. Its causal latency advantage over the prior serial path is established, while exact physical mechanism attribution remains incomplete and is not required for this default-role decision.
+
+EXEC148 is a distinct validated execution-representation primitive. It reduces steady-state Q4-down latency further than Split-K32 in the measured workloads, but pays a one-time acquisition/materialization cost and 549,527,552 bytes of active representation residency. Direct A+B composition is not the architecture target because the measured interaction is antagonistic and AB is slower than B.
+
+The architecture decision for B is therefore a lifetime/resource-state decision against A: use B when the cost of obtaining and keeping a valid EXEC148 image is amortized by future reuse; otherwise retain A as the fallback. Under the measured CPU-direct reference, the A↔B crossover is approximately 16.33 tokens for W-S and 36.07 tokens for W-C.
+
+B1.1 establishes that on the current Lunar Lake UMA platform, creator compute domain and active residency domain are separate architectural variables. CPU, GPU and NPU creation do not imply separate capacity pools for EXEC148; active B residency remains system-memory cost. The minimum source-read plus EXEC148-write traffic is 1,084,203,008 bytes, giving a 7.972 ms bandwidth-only optimistic floor under the frozen 136 GB/s IP roof, versus the measured 231.6382 ms CPU-direct creation cost.
+
+Placement knowledge after B1.1: CPU-direct UMA is the proven reference; GPU in-place creation and an offline prematerialized sidecar are the two decision-relevant placement candidates; NPU creation remains capability-gated because exact transform support and memory interoperability are unproven; audio-DSP/other idle-engine placement is not decision-relevant for current B1 without a supported exact-transform and Vulkan-accessible data path.
