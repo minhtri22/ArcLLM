@@ -51,9 +51,9 @@ for required in [
     "buffered_preload(sidecar)",
     "buffered_load(sidecar",
     "unbuffered_load(sidecar",
-    '"acquisition_timing_emitted\\":false',
-    '"gpu_timing_emitted\\":false',
-    '"storage_timing_emitted\\":false',
+    '\\"acquisition_timing_emitted\\":false',
+    '\\"gpu_timing_emitted\\":false',
+    '\\"storage_timing_emitted\\":false',
 ]:
     req(required in SRC,f"missing frozen zero-science contract: {required}")
 

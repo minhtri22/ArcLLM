@@ -1,7 +1,7 @@
 {
   "schema": "arcllm.v1.b1_2.p1_p3_bounded_implementation_package.v0.1",
   "date": "2026-09-26",
-  "status": "IMPLEMENTED_AWAITING_DEV_HOST_ZERO_SCIENCE_QUALIFICATION",
+  "status": "IMPLEMENTED_AWAITING_DEV_HOST_ZERO_SCIENCE_QUALIFICATION_AFTER_STATIC_QA_REPAIR",
   "authorization_blob": "e1903e256b4fa99889d171229fd9dc8069de26ca",
   "scientific_prelock_blob": "11a7e57087cd27c82f328ad8ab25fc0c1b6d6b52",
   "independent_review_blob": "9a664d4aa1f53fb53030377b7b0d5be3c47fe497",
@@ -31,7 +31,7 @@
     },
     "static_test": {
       "path": "tests/test_arcllm_v1_b1_2_zero_science.py",
-      "blob": "a433751067ced5bae4711bd9c683a81177241a88"
+      "blob": "4727fe5fa5bc1da4730515e73813e01db48f8248"
     },
     "compile_script": {
       "path": "tools/compile_arcllm_v1_b1_2_zero_science.ps1",
@@ -96,5 +96,11 @@
     "P0_comparison": false,
     "performance_adjudication": false
   },
-  "next": "RUN_DEV_HOST_ZERO_SCIENCE_QUALIFICATION_AND_RETURN_BUNDLE_FOR_INDEPENDENT_REVIEW"
+  "next": "RUN_DEV_HOST_ZERO_SCIENCE_QUALIFICATION_AND_RETURN_BUNDLE_FOR_INDEPENDENT_REVIEW",
+  "static_qa_repair": {
+    "classification": "PRE_DEV_HOST_ZERO_SCIENCE_QA_ONLY",
+    "change": "Fix Python source-text escaping in forbidden-timing literal checks; no C++/shader/sidecar/scientific contract change.",
+    "prior_test_blob": "a433751067ced5bae4711bd9c683a81177241a88",
+    "current_test_blob": "4727fe5fa5bc1da4730515e73813e01db48f8248"
+  }
 }
