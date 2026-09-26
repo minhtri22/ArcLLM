@@ -1,0 +1,52 @@
+{
+  "schema": "arcllm.v1.phase2.generic_policy_engine_implementation.v0.1",
+  "date": "2026-09-26",
+  "status": "IMPLEMENTED_AWAITING_ZERO_SCIENCE_QA",
+  "parents": {
+    "generic_registry_freeze_v1_blob": "3805127db353a8928d6990f79fd55be8017e14d2",
+    "registry_lifecycle_repair_blob": "8bde48a5f1d598d22a826fa4642867950c67c849",
+    "generic_policy_contract_blob": "97e7960d1fef1003942841be52fe51461a49e940"
+  },
+  "registry_v1_1_candidate": {
+    "model_blob": "b99c5b647fb8edd33c7fee10dbdc8b18ba5a3720",
+    "registry_api_blob": "53fa0d2beff6b55846624077cd3fb84e99dc352d",
+    "registry_core_blob": "d878e15dd272a3788074e4c56334dabaf3958bad",
+    "reference_registration_blob": "f539c25540b7494e3494aa15775c07c3b80dd195"
+  },
+  "engine": {
+    "header": {
+      "path": "include/arcllm/v1/generic_policy_engine.h",
+      "blob": "07134b51ba3c66539376d9ec9d55516752b44750"
+    },
+    "source": {
+      "path": "src/arcllm_v1_generic_policy_engine.cpp",
+      "blob": "a2c456f6deb08b070ac0414d5d054254479d9f75"
+    }
+  },
+  "qa": {
+    "zero_science_test": {
+      "path": "tests/arcllm_v1_generic_policy_engine_zero_science.cpp",
+      "blob": "06371bb3264edb15989d35c09c8d628b719403a1"
+    },
+    "static_test": {
+      "path": "tests/test_arcllm_v1_generic_policy_engine_static.py",
+      "blob": "aeebc2c242833f6e84977ceee9232a508035edda"
+    },
+    "build_script": {
+      "path": "tools/build_arcllm_v1_generic_policy_engine_zero_science.ps1",
+      "blob": "88c81c54e698f3655dd52e791bf92232a28707ae"
+    },
+    "workflow": {
+      "path": ".github/workflows/arcllm-v1-phase2-generic-policy-engine.yml",
+      "blob": "1fb72a2557a681043478b3648c7e20f365bdfa7a"
+    }
+  },
+  "acceptance": {
+    "exhaustive_reference_equivalence_cases": 114688,
+    "synthetic_family_policy_without_engine_change": true,
+    "family_specific_literals_in_engine": false,
+    "no_model_gpu_vulkan_timing_or_placement_execution": true
+  },
+  "science_changed": false,
+  "next": "ZERO_SCIENCE_QA_THEN_FREEZE_GENERIC_POLICY_ENGINE"
+}

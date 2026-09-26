@@ -145,6 +145,8 @@ struct LifecycleDescriptor {
     bool preserve_residency_outside_domain = false;
     bool evict_on_lease_revoke = false;
     bool evict_on_identity_invalid = false;
+    bool evict_on_execution_unavailable = false;
+    bool evict_on_model_unload = false;
     bool evict_on_zero_future_reuse = false;
     ProvenanceRef provenance{};
 };

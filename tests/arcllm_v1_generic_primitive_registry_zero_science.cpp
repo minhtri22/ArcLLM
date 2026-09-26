@@ -34,7 +34,7 @@ constexpr PrimitiveDescriptor primitives[]={
 constexpr AcquisitionPathDescriptor acquisitions[]={{X,B,0,ValidationState::VALIDATED,"SYNTH_X",PROV}};
 constexpr AcquisitionThresholdDescriptor thresholds[]={{C,P,X,M,7,ValidationState::VALIDATED,PROV}};
 constexpr ResidentPreferenceDescriptor prefs[]={{C,P,B,A,ValidationState::VALIDATED,PROV}};
-constexpr LifecycleDescriptor life[]={{B,true,true,true,true,PROV}};
+constexpr LifecycleDescriptor life[]={{B,true,true,true,true,true,true,PROV}};
 constexpr RegistrationBundle bundle{
     "SYNTHETIC_SECOND_FAMILY",
     domains,1,metrics,1,evidence,1,profiles,1,families,1,capabilities,1,
@@ -64,7 +64,7 @@ int main(){
     const auto* pref=registry.find_resident_preference(ref::kCapability,ref::kProfile0);
     req(pref&&pref->preferred_when_resident==ref::kPrimitiveB&&pref->fallback_primitive==ref::kPrimitiveA,"resident preference");
     const auto* life=registry.find_lifecycle(ref::kPrimitiveB);
-    req(life&&life->preserve_residency_outside_domain&&life->evict_on_lease_revoke&&life->evict_on_identity_invalid&&life->evict_on_zero_future_reuse,"lifecycle");
+    req(life&&life->preserve_residency_outside_domain&&life->evict_on_lease_revoke&&life->evict_on_identity_invalid&&life->evict_on_execution_unavailable&&life->evict_on_model_unload&&life->evict_on_zero_future_reuse,"lifecycle");
 
     // Scalability proof: second family is data-only. Generic registry core/API is unchanged.
     req(registry.add_bundle(synthetic::bundle,&err)==RegistryStatus::OK,"synthetic family add");

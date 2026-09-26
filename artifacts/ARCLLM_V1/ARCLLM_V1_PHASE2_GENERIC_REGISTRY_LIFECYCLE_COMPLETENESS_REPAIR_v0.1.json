@@ -1,0 +1,21 @@
+{
+  "schema": "arcllm.v1.phase2.generic_registry_lifecycle_completeness_repair.v0.1",
+  "date": "2026-09-26",
+  "status": "PRE_POLICY_ENGINE_REGISTRY_MODEL_REPAIR",
+  "classification": "GENERIC_LIFECYCLE_DESCRIPTOR_COMPLETENESS",
+  "prior_freeze_blob": "3805127db353a8928d6990f79fd55be8017e14d2",
+  "gap": [
+    "B1 policy evicts on execution-path invalidation, but registry v1 LifecycleDescriptor could not encode that condition.",
+    "B1 policy evicts on model unload, but registry v1 LifecycleDescriptor could not encode that condition independently."
+  ],
+  "repair": [
+    "Add evict_on_execution_unavailable.",
+    "Add evict_on_model_unload.",
+    "Set both true in the Q4K-down reference registration.",
+    "Extend zero-science migration QA to require both flags."
+  ],
+  "science_changed": false,
+  "thresholds_changed": false,
+  "performance_execution": false,
+  "placement_research_reopened": false
+}

@@ -63,7 +63,7 @@ constexpr ResidentPreferenceDescriptor kPreferences[] = {
     {kCapability,kProfile1,kPrimitiveB,kPrimitiveA,ValidationState::VALIDATED,kPolicy}
 };
 constexpr LifecycleDescriptor kLifecycles[] = {
-    {kPrimitiveB,true,true,true,true,kPolicy}
+    {kPrimitiveB,true,true,true,true,true,true,kPolicy}
 };
 
 constexpr RegistrationBundle kBundle{
