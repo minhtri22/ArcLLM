@@ -1,0 +1,69 @@
+{
+  "schema": "arcllm.v1.b1_2.independent_performance_lock_review.v0.2",
+  "date": "2026-09-26",
+  "status": "PASS_INDEPENDENT_B1_2_PERFORMANCE_LOCK_REVIEW_V0_2",
+  "reviewed_base_head": "5c1730735c014867b9c1317d50c5b3f63ad84594",
+  "reviewed_lock": {
+    "path": "config/arcllm_v1_b1_2_performance_execution_lock_v0.4.json",
+    "blob": "f0f323861cb0afc3ea74eb9a7263ac00336d84ca",
+    "status": "FROZEN_IMMUTABLE_B1_2_PERFORMANCE_EXECUTION_LOCK_V0_4"
+  },
+  "transition": {
+    "prior_lock_blob": "6be447f84a1c11930657e7060337a0e66ef3a743",
+    "prior_gate_blob": "b43ac3d6a5f5018cd4a99234f0c51dae01d22335",
+    "repair_blob": "cb8fb09e8e8b97a197b7cc66d0f676cc7b84736a",
+    "failure_occurred_before_science_marker": true,
+    "one_shot_attempt_consumed": false
+  },
+  "executable_review": {
+    "buildonly_binding_blob": "be71c67a5acab4b498b9fc7af3a4d3fe87e9fd11",
+    "sha256": "329AEEB80AC43BDC188A56B5D94D69BFA55960EDB907647B933F240F6FE557B9",
+    "bytes": 390656,
+    "compiled_input_sources_changed_since_binding": false,
+    "rebuild_required": false
+  },
+  "runner_review": {
+    "blob": "1c733795ca7be3621cde567f3bb0e62d9166b52e",
+    "stale_Gate_lock_blob_occurrences": 0,
+    "nested_gate_lock_blob_used": true,
+    "self_blob_pinned_in_critical_checks": true,
+    "lock_path_v0_4": true,
+    "gate_path_v0_4": true,
+    "marker_schema_v0_4": true,
+    "return_schema_v0_4": true,
+    "marker_created_after_all_preflight_hash_and_input_checks": true,
+    "marker_created_before_executable_invocation": true
+  },
+  "protocol_review": {
+    "protocol_changed": false,
+    "blocks": 8,
+    "order_per_block": [
+      "P1",
+      "P3-WARM",
+      "P3-COLD"
+    ],
+    "samples_each": 8,
+    "warmup_attempts": 0,
+    "retries": false,
+    "quiet_host_required": true,
+    "P1_primary_field": "record_submit_wait_ms",
+    "P3_warm_timer": "buffered_load only",
+    "P3_cold_timer": "unbuffered_load only",
+    "no_partial_readout": true,
+    "P0_reference_ms": 231.6382
+  },
+  "findings": {
+    "blockers": []
+  },
+  "adjudication": {
+    "verdict": "PASS",
+    "exact_executable_binding_still_valid": true,
+    "one_shot_runner_ready": true,
+    "performance_execution_gate_v0_4_creation_authorized": true,
+    "performance_execution_not_yet_started": true
+  },
+  "governance": {
+    "lineage_append": false,
+    "next": "CREATE_B1_2_PERFORMANCE_EXECUTION_GATE_V0_4"
+  }
+}

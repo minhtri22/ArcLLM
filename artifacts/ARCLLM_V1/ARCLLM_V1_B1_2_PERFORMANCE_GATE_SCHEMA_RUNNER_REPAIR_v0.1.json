@@ -1,0 +1,52 @@
+{
+  "schema": "arcllm.v1.b1_2.performance_gate_schema_runner_repair.v0.1",
+  "date": "2026-09-26",
+  "status": "PRE_MARKER_GATE_SCHEMA_REPAIR_FROZEN",
+  "failed_head": "5c1730735c014867b9c1317d50c5b3f63ad84594",
+  "classification": "PRE_SCIENCE_MARKER_FAIL_CLOSED_RUNNER_SCHEMA_MISMATCH",
+  "observed_failure": "PowerShell StrictMode PropertyNotFoundStrict at Gate.lock_blob before science marker creation.",
+  "observed_state": {
+    "model_loaded": false,
+    "gpu_dispatch": false,
+    "sidecar_io": false,
+    "performance_executable_invoked": false,
+    "timing_started": false,
+    "science_marker_created": false,
+    "one_shot_attempt_consumed": false
+  },
+  "root_cause": {
+    "gate_schema": "arcllm.v1.b1_2.performance_execution_gate.v0.3",
+    "actual_lock_field": "Gate.lock.blob",
+    "stale_runner_field": "Gate.lock_blob",
+    "stale_occurrences": 2
+  },
+  "repair": {
+    "one_shot_runner_blob": "1c733795ca7be3621cde567f3bb0e62d9166b52e",
+    "changes": [
+      "Use Gate.lock.blob for critical lock-blob comparison.",
+      "Use Gate.lock.blob in science marker provenance.",
+      "Advance lock/gate/marker/return references to v0.4.",
+      "Pin the one-shot runner's own Git blob through the active lock critical checks."
+    ],
+    "performance_source_changed": false,
+    "zero_science_source_changed": false,
+    "native_executable_changed": false,
+    "shader_changed": false,
+    "timer_boundaries_changed": false,
+    "attempt_order_changed": false,
+    "thresholds_changed": false,
+    "scientific_protocol_changed": false
+  },
+  "executable_binding_reuse": {
+    "authorized": true,
+    "reason": "The repaired file is PowerShell orchestration only and is not compiled into arcllm_v1_b1_2_performance.exe.",
+    "sha256": "329AEEB80AC43BDC188A56B5D94D69BFA55960EDB907647B933F240F6FE557B9",
+    "bytes": 390656
+  },
+  "governance": {
+    "supersede_lock_v0_3": true,
+    "supersede_gate_v0_3": true,
+    "independent_v0_4_lock_review_required": true,
+    "performance_execution_closed_until_new_gate": true
+  }
+}
