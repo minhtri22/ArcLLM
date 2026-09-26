@@ -1,7 +1,7 @@
 {
   "schema": "arcllm.v1.b1_2.p1_p3_bounded_implementation_package.v0.1",
   "date": "2026-09-26",
-  "status": "IMPLEMENTED_AWAITING_DEV_HOST_ZERO_SCIENCE_QUALIFICATION_FINALIZED",
+  "status": "IMPLEMENTED_AWAITING_DEV_HOST_ZERO_SCIENCE_QUALIFICATION_AFTER_NATIVE_COMPILE_REPAIR",
   "authorization_blob": "e1903e256b4fa99889d171229fd9dc8069de26ca",
   "scientific_prelock_blob": "11a7e57087cd27c82f328ad8ab25fc0c1b6d6b52",
   "independent_review_blob": "9a664d4aa1f53fb53030377b7b0d5be3c47fe497",
@@ -22,7 +22,7 @@
     },
     "qualifier_source": {
       "path": "src/arcllm_v1_b1_2_zero_science.cpp",
-      "blob": "9c80d40dbada86fdca9fb7566c02be129277475b",
+      "blob": "eb2f8b2617d031947d86048ac5e1f43431d14e59",
       "modes": [
         "P1",
         "P3"
@@ -31,7 +31,7 @@
     },
     "static_test": {
       "path": "tests/test_arcllm_v1_b1_2_zero_science.py",
-      "blob": "2eeb26ae2299b377ea77c9f07dea2b1d4df71171"
+      "blob": "1455891bb1e238abf76d541c79cb011f40ccfd08"
     },
     "compile_script": {
       "path": "tools/compile_arcllm_v1_b1_2_zero_science.ps1",
@@ -111,5 +111,21 @@
     "scientific_contract_changed": false,
     "performance_outcome_seen": false
   },
-  "shared_byte_identity_gate": "P1 generated EXEC148 raw SHA256 must equal P3 sidecar raw SHA256, in addition to both matching the canonical tuple-family hash."
+  "shared_byte_identity_gate": "P1 generated EXEC148 raw SHA256 must equal P3 sidecar raw SHA256, in addition to both matching the canonical tuple-family hash.",
+  "native_compile_repair": {
+    "classification": "PRE_MODEL_PRE_GPU_IMPLEMENTATION_COMPILE_REPAIR",
+    "observed_failure": "MSVC parsed vector(size_t(...)) declarations as function declarations in P3 sidecar buffer setup.",
+    "corrections": [
+      "Use unambiguous two-argument std::vector<uint8_t> construction for the EXEC148 layer scratch buffer.",
+      "Use unambiguous two-argument std::vector<char> construction for the warm-preload chunk buffer.",
+      "Add static QA guard against recurrence of vector(size_t(...)) declarations."
+    ],
+    "scientific_contract_changed": false,
+    "P1_geometry_changed": false,
+    "P3_io_contract_changed": false,
+    "model_loaded_during_failed_attempt": false,
+    "gpu_dispatch_during_failed_attempt": false,
+    "acquisition_timing_during_failed_attempt": false,
+    "performance_outcome_seen": false
+  }
 }

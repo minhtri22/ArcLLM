@@ -1,0 +1,36 @@
+{
+  "schema": "arcllm.v1.b1_2.native_compile_repair.v0.1",
+  "date": "2026-09-26",
+  "status": "IMPLEMENTATION_COMPILE_REPAIR_READY_FOR_DEV_HOST_RETRY",
+  "failed_head": "5328cb417ac69924045971c858b4d9426dc7d3d8",
+  "classification": "PRE_MODEL_PRE_GPU_IMPLEMENTATION_COMPILE_FAILURE",
+  "observed_build_state": {
+    "static_qa": "PASS",
+    "shader_build": "PASS",
+    "native_cpp_build": "FAIL",
+    "model_loaded": false,
+    "gpu_dispatch": false,
+    "sidecar_io": false,
+    "acquisition_timing": false,
+    "performance_execution": false
+  },
+  "root_cause": {
+    "file": "src/arcllm_v1_b1_2_zero_science.cpp",
+    "declarations": [
+      "std::vector<uint8_t>layer(size_t(kExecLayerBytes));",
+      "std::vector<char>buf(size_t(kP3ChunkBytes));"
+    ],
+    "diagnosis": "MSVC most-vexing-parse ambiguity: declarations can be parsed as function declarations, causing .data()/.size() member errors and invalid calls."
+  },
+  "repair": {
+    "qualifier_source_blob": "eb2f8b2617d031947d86048ac5e1f43431d14e59",
+    "static_test_blob": "1455891bb1e238abf76d541c79cb011f40ccfd08",
+    "scientific_prelock_unchanged": true,
+    "implementation_authorization_unchanged": true,
+    "P1_shader_unchanged": true,
+    "sidecar_format_unchanged": true,
+    "cold_io_flags_chunking_unchanged": true,
+    "timing_surface_unchanged_closed": true
+  },
+  "retry_policy": "Safe to rerun the zero-science qualification because no model load, GPU dispatch, sidecar I/O, acquisition timing, or performance outcome occurred in the failed attempt."
+}

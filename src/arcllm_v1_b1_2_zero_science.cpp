@@ -202,7 +202,7 @@ static std::string write_sidecar(
     if(p.has_parent_path())std::filesystem::create_directories(p.parent_path());
     std::ofstream f(sidecar,std::ios::binary|std::ios::trunc);
     if(!f)throw std::runtime_error("cannot create P3 sidecar");
-    std::vector<uint8_t>layer(size_t(kExecLayerBytes));
+    std::vector<uint8_t> layer(static_cast<size_t>(kExecLayerBytes), uint8_t{0});
     Sha256 raw;
     for(uint32_t slot=0;slot<14u;++slot){
         materialize_tensor(src[slot],layer.data());
@@ -232,7 +232,7 @@ static std::string write_sidecar(
 static void buffered_preload(const std::string&sidecar){
     std::ifstream f(sidecar,std::ios::binary);
     if(!f)throw std::runtime_error("cannot open sidecar for warm preload");
-    std::vector<char>buf(size_t(kP3ChunkBytes));
+    std::vector<char> buf(static_cast<size_t>(kP3ChunkBytes), char{0});
     uint64_t total=0;
     while(total<kExecFamilyBytes){
         uint64_t want=(std::min)(kP3ChunkBytes,kExecFamilyBytes-total);
