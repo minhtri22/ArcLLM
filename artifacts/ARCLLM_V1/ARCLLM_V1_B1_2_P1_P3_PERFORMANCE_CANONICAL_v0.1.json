@@ -1,0 +1,221 @@
+{
+  "schema": "arcllm.v1.b1_2.p1_p3.performance_canonical.v0.1",
+  "date": "2026-09-26",
+  "status": "PASS_B1_2_PLACEMENT_DISCRIMINATION",
+  "execution_head": "302a54119a02ce8c868939ccdd1b0d482b8e9676",
+  "evidence": {
+    "return_bundle": {
+      "filename": "B1_2_PERFORMANCE_RETURN_TO_CHATGPT.zip",
+      "sha256": "DF8898C350FFF696FC8CB2A451787A4858B72E4FDEC35CCB49586EAEDA12CB0E",
+      "bytes": 13866
+    },
+    "science_marker": {
+      "sha256": "F59E0EACEFF8EE3C25A1A04C515590E34BB6BF31F62962CB83A46C6E9696AFD8",
+      "status": "SCIENCE_ATTEMPT_CONSUMED",
+      "timestamp_utc": "20260926T043740438Z",
+      "git_head": "302a54119a02ce8c868939ccdd1b0d482b8e9676",
+      "lock_blob": "f0f323861cb0afc3ea74eb9a7263ac00336d84ca",
+      "gate_blob": "549767c8bd63e3588dfc8f8ee3773f973641ffa7",
+      "executable_sha256": "329AEEB80AC43BDC188A56B5D94D69BFA55960EDB907647B933F240F6FE557B9",
+      "quiet_host_confirmed": true
+    },
+    "result": {
+      "sha256": "9D374545A327623BA76150559544BD00A921E9174284557EDFEB896CA8C6F579",
+      "status": "PASS_COMPLETE_24_ATTEMPT_COLLECTION"
+    },
+    "dev_host_return": {
+      "sha256": "3BFCEC81C21B8546F63CBB5A64BBEBA427ACBF591D80A7F07A9736F96A755E6F",
+      "status": "PASS_COMPLETE_24_ATTEMPT_COLLECTION"
+    },
+    "frozen_lock": {
+      "path": "config/arcllm_v1_b1_2_performance_execution_lock_v0.4.json",
+      "blob": "f0f323861cb0afc3ea74eb9a7263ac00336d84ca",
+      "file_sha256": "3D6F5A64AAF2F255C3EAD257AC844716DAB560CE0EF35589F8158BF6CBB4AFEE"
+    },
+    "frozen_gate": {
+      "path": "config/arcllm_v1_b1_2_performance_execution_gate_v0.4.json",
+      "blob": "549767c8bd63e3588dfc8f8ee3773f973641ffa7",
+      "file_sha256": "4BA5237BD5AA29EE3E04D315199698E287A4BFFC67C619CE1BC67588A55C69ED"
+    }
+  },
+  "protocol": {
+    "metric": "ACQUISITION_WALL_MS",
+    "blocks": 8,
+    "order_per_block": [
+      "P1",
+      "P3-WARM",
+      "P3-COLD"
+    ],
+    "samples_each": 8,
+    "attempts_total": 24,
+    "warmup_attempts": 0,
+    "candidate_specific_retries": false,
+    "quiet_host": true,
+    "P1_primary": "record_submit_wait_ms",
+    "P3_WARM_primary": "wall_ms_buffered_load",
+    "P3_COLD_primary": "wall_ms_unbuffered_load",
+    "validation_after_every_attempt": true,
+    "validation_outside_primary_timer": true,
+    "partial_readout": false,
+    "A_retest": false,
+    "B_steady_state_retest": false,
+    "AB_retest": false,
+    "overlap": false,
+    "posthoc_tuning": false
+  },
+  "frozen_reference": {
+    "P0_cpu_direct_ms": 231.6382,
+    "type": "canonical_fixed_reference_not_population_estimate",
+    "A_minus_B_ms_per_token": {
+      "W-S": 14.1842444453716,
+      "W-C": 6.422135259876299
+    },
+    "P0_crossover": {
+      "W-S": {
+        "H_star": 16.330668925801323,
+        "strict_integer_tokens": 17
+      },
+      "W-C": {
+        "H_star": 36.068720235030014,
+        "strict_integer_tokens": 37
+      }
+    }
+  },
+  "integrity": {
+    "exec148_bytes": 549527552,
+    "canonical_family_sha256": "60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2",
+    "raw_exec148_sha256": "3f168749256e8acbbbe61da06196ca0e51a249b3923938e5651a4da6f50ab43f",
+    "all_attempts_correctness_pass": true
+  },
+  "results": {
+    "P1_GPU_CREATE_IN_PLACE": {
+      "samples_ms": [
+        39.91,
+        23.5657,
+        21.4089,
+        23.6143,
+        24.4753,
+        21.8834,
+        22.0894,
+        22.8813
+      ],
+      "min_ms": 21.4089,
+      "max_ms": 39.91,
+      "median_ms": 23.2235,
+      "MAD_ms": 1.19295,
+      "samples_below_P0": 8,
+      "beats_P0_reference": true,
+      "delta_vs_P0_ms": -208.4147,
+      "reduction_vs_P0_pct": 89.97423568306091,
+      "crossover": {
+        "W-S": {
+          "H_star": 1.63727437788045,
+          "strict_integer_tokens": 2
+        },
+        "W-C": {
+          "H_star": 3.61616488290023,
+          "strict_integer_tokens": 4
+        }
+      },
+      "correctness_all_attempts": true,
+      "verdict": "KEEP_PRIMARY_RUNTIME_ACQUISITION_PATH"
+    },
+    "P3_WARM_PAGE_CACHE": {
+      "samples_ms": [
+        279.0681,
+        283.4903,
+        276.6922,
+        280.34,
+        279.1313,
+        285.4789,
+        284.7268,
+        279.4009
+      ],
+      "min_ms": 276.6922,
+      "max_ms": 285.4789,
+      "median_ms": 279.87045,
+      "MAD_ms": 1.9903,
+      "samples_below_P0": 0,
+      "beats_P0_reference": false,
+      "delta_vs_P0_ms": 48.23225,
+      "increase_vs_P0_pct": 20.822234847274753,
+      "crossover": {
+        "W-S": {
+          "H_star": 19.7310791616626,
+          "strict_integer_tokens": 20
+        },
+        "W-C": {
+          "H_star": 43.5790338687745,
+          "strict_integer_tokens": 44
+        }
+      },
+      "correctness_all_attempts": true,
+      "verdict": "KILL_AS_P0_IMPROVING_RUNTIME_ACQUISITION_PATH"
+    },
+    "P3_COLD_UNBUFFERED": {
+      "samples_ms": [
+        219.8139,
+        207.4347,
+        211.1986,
+        206.0834,
+        212.6314,
+        208.0348,
+        225.8151,
+        243.0171
+      ],
+      "min_ms": 206.0834,
+      "max_ms": 243.0171,
+      "median_ms": 211.915,
+      "MAD_ms": 5.15595,
+      "samples_below_P0": 7,
+      "beats_P0_reference": true,
+      "delta_vs_P0_ms": -19.7232,
+      "reduction_vs_P0_pct": 8.51465777233635,
+      "sector_bytes": 512,
+      "chunk_bytes": 4194304,
+      "crossover": {
+        "W-S": {
+          "H_star": 14.9401683548361,
+          "strict_integer_tokens": 15
+        },
+        "W-C": {
+          "H_star": 32.9975921441558,
+          "strict_integer_tokens": 33
+        }
+      },
+      "correctness_all_attempts": true,
+      "verdict": "KEEP_VALIDATED_SECONDARY_RUNTIME_ACQUISITION_PATH"
+    }
+  },
+  "adjudication": {
+    "P1_gate": "PASS",
+    "P3_WARM_gate": "FAIL",
+    "P3_COLD_gate": "PASS",
+    "current_host_acquisition_order_by_median": [
+      "P1_GPU_CREATE_IN_PLACE",
+      "P3_COLD_UNBUFFERED",
+      "P0_CPU_DIRECT_REFERENCE",
+      "P3_WARM_PAGE_CACHE"
+    ],
+    "architecture_result": "P1_GPU_IN_PLACE_IS_THE_PRIMARY_B_ACQUISITION_PATH_ON_THE_FROZEN_CURRENT_HOST",
+    "B_region_expansion": {
+      "P1": "Large: strict crossover moves from P0 17/37 tokens to 2/4 tokens for W-S/W-C.",
+      "P3_COLD": "Small: strict crossover moves from P0 17/37 tokens to 15/33 tokens.",
+      "P3_WARM": "None versus P0; it worsens the P0 acquisition reference."
+    },
+    "claim_boundaries": [
+      "The decision is for the frozen current host, exact EXEC148 image, exact P1/P3 paths, and frozen W-S/W-C steady-state deltas.",
+      "P3-COLD passes the preregistered median gate even though one of eight samples exceeds P0; no claim of per-attempt dominance is made.",
+      "No mechanism claim is made for why P3-WARM is slower than P3-COLD.",
+      "Active EXEC148 residency remains 549,527,552 bytes in system UMA; acquisition success does not remove memory-pressure fallback to A.",
+      "A remains the no-extra-representation fallback when expected reuse is below the relevant crossover or B residency is not acceptable."
+    ]
+  },
+  "scientific_close": {
+    "B1_2": "CLOSED_WITH_DISCRIMINATING_RESULT",
+    "P1": "VALIDATED_PRIMARY",
+    "P3_WARM": "KILLED_FOR_CURRENT_P0_IMPROVEMENT_QUESTION",
+    "P3_COLD": "VALIDATED_SECONDARY",
+    "next_architecture_question": "Integrate P1 into B selection/lifetime policy; do not reopen lower-level placement work unless it changes a concrete routing, residency, or lifetime decision."
+  }
+}
