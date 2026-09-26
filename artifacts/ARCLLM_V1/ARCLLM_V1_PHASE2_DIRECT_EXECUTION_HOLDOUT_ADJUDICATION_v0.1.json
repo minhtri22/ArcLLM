@@ -1,0 +1,60 @@
+{
+  "schema": "arcllm.v1.phase2.direct_execution_holdout_generalization_adjudication.v0.1",
+  "date": "2026-09-27",
+  "status": "FAIL_DIRECT_EXECUTION_HOLDOUT_ABSTRACTION_INCOMPLETE",
+  "question": "Can the frozen v2 capability/acquisition semantics represent an independently validated direct-execution primitive family whose preferred primitive requires neither a new resident representation nor an acquisition action, without abusing residency state, inventing acquisition/lifetime semantics, or changing the v2 registry/policy core?",
+  "answer": "NO",
+  "holdout": "I002_Q4_GATE_UP_SUBGROUP32_SPLITK_DIRECT_EXECUTION",
+  "holdout_evidence_blob": "5d3d853247900bf0ea19fbf04f8e7a89412b9ebb",
+  "gate_contract_blob": "79b03e71bb1c20ae6bcb2407e728f062c351e5b5",
+  "exact_source_counterexample_blob": "70984e03320b9fcfa4caa968f0df5e3f10f4355d",
+  "frozen_v2_integrity": {
+    "registry_header": "a024fdde92225af6f909a2985a3988a9ae7bb1b3",
+    "registry_core": "8c2649ecbeb0fb8e3a3285209e2253790ec29680",
+    "policy_header": "8a872f671c23f5f508955121c8ffebc0091365f9",
+    "policy_source": "13fa329a5416aec06e68c7d94c24d25f5875fa52",
+    "modified_during_gate": false
+  },
+  "scientific_result": {
+    "v2_claim_narrowed_to": [
+      "optional reuse-amortized represented primitives with a validated fallback",
+      "mandatory feasibility-enabling represented primitives with no validated fallback"
+    ],
+    "holdout_failure_class": "DIRECT_EXECUTION_READINESS_WITHOUT_REPRESENTATION_RESIDENCY_OR_ACQUISITION",
+    "missing_abstraction": [
+      "Primitive readiness/executability independent of representation residency.",
+      "Direct preferred selection with lifecycle NONE and acquisition NONE.",
+      "Validated fallback when direct preferred execution is unavailable.",
+      "Readiness state must not overload residency state."
+    ]
+  },
+  "counterexample": {
+    "evidence_faithful_direct_ready": {
+      "preferred_execution_available": true,
+      "preferred_resident": false,
+      "acquisition_paths": 0,
+      "correct_oracle": "ROUTE_PREFERRED_DIRECT",
+      "frozen_v2_behavior": "ROUTE_VALIDATED_BASELINE_FALLBACK"
+    },
+    "semantic_abuse_needed_to_force_preferred": "Set resident=true despite no represented residency."
+  },
+  "non_findings": [
+    "This does not invalidate I002.",
+    "This does not invalidate the v2 PASS for A/B/P1 or P8.",
+    "This does not authorize any backend binding.",
+    "This does not reopen placement research."
+  ],
+  "github_ci": {
+    "verdict": "INFRA_BLOCKED_NOT_CODE_FAIL",
+    "blocker_blob": "c95f8993239ab3187f2634498e461585548f5ed0",
+    "run_id": 36279198106,
+    "job_id": 108507672895,
+    "runner_id": 0,
+    "steps_executed": 0
+  },
+  "backend_binding_authorized": false,
+  "next_scientific_step": {
+    "id": "PHASE2_PRIMITIVE_ACTIVATION_SEMANTICS_REDESIGN_GATE",
+    "question": "Can one minimal generic activation/readiness model decouple direct execution readiness from representation residency and acquisition, while preserving all 114,688 first-family decisions, the frozen P8 mandatory-feasibility oracle, and the I002 direct-execution holdout oracle without family-specific branches?"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "arcllm.v1.phase2.direct_execution_holdout_ci_infra_blocker.v0.1",
+  "date": "2026-09-27",
+  "status": "GITHUB_RUNNER_ALLOCATION_BLOCKER_NO_QA_STEP_EXECUTED",
+  "head": "b7c70c393e44879858e66007fcadc14a8e851351",
+  "workflow_run": {
+    "id": 36279198106,
+    "job_id": 108507672895,
+    "workflow": "arcllm-v1-phase2-direct-execution-holdout",
+    "labels": [
+      "ubuntu-latest"
+    ],
+    "conclusion": "failure",
+    "runner_id": 0,
+    "runner_name": "",
+    "steps": []
+  },
+  "classification": "INFRASTRUCTURE_ONLY",
+  "code_execution_on_github": false,
+  "science_execution": false
+}

@@ -1490,3 +1490,12 @@ The redesigned semantics preserve the complete 114,688-state decision surface of
 
 The resulting genericity claim remains bounded. One model now covers two empirically demonstrated family classes: optional reuse-amortized represented primitives with a validated fallback, and mandatory feasibility-enabling represented primitives without one. This does not establish universality across all future primitive families. The next independent test must use a real family not used to design this distinction, specifically a direct-execution primitive whose preferred path needs neither a new resident representation nor an acquisition action.
 
+## Phase 2 direct-execution primitive holdout generalization — I002 — 2026-09-27
+
+The capability/acquisition v2 semantics were tested against closed I002 as an independent real holdout family. I002 is a direct execution primitive: it changes Q4_K FFN gate/up work partitioning, passed real-model carry-through, and requires no new represented tensor image, no additional representation residency, no acquisition action, and no separate lifetime policy.
+
+The frozen v2 abstraction **fails this holdout**. Its preferred-primitive path is entered only when the preferred primitive is represented in runtime state as `resident=true`. An evidence-faithful I002 registration instead has a direct preferred primitive with execution availability but no representation residency and no acquisition paths. In that state the engine falls through to acquisition scanning and routes the validated baseline fallback even when the preferred direct executor is available.
+
+The only ways to force the preferred I002 route under frozen v2 are evidence-inconsistent: overload `resident=true` as generic readiness, invent an acquisition action that I002 does not have, or erase the real baseline fallback by making the preferred primitive its own fallback. Therefore v2 generality is narrowed to the two demonstrated representation-bearing classes used in its redesign; it does not yet cover direct execution readiness independent of residency/acquisition.
+
+The missing abstraction is primitive activation/readiness independent of representation residency. Backend binding remains premature. The next scientific gate must seek one minimal activation model that preserves the full first-family decision surface, preserves the bounded P8 mandatory-feasibility behavior, and satisfies the I002 direct-execution oracle without family-specific policy branches.

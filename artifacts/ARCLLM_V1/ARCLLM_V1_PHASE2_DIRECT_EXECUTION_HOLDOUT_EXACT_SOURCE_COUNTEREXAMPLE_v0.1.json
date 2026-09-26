@@ -1,0 +1,41 @@
+{
+  "schema": "arcllm.v1.phase2.direct_execution_holdout_exact_source_counterexample.v0.1",
+  "date": "2026-09-27",
+  "status": "PASS_EXACT_SOURCE_COUNTEREXAMPLE_PROOF",
+  "qualified_head": "b7c70c393e44879858e66007fcadc14a8e851351",
+  "frozen_v2_blobs": {
+    "registry_header": "a024fdde92225af6f909a2985a3988a9ae7bb1b3",
+    "registry_core": "8c2649ecbeb0fb8e3a3285209e2253790ec29680",
+    "policy_header": "8a872f671c23f5f508955121c8ffebc0091365f9",
+    "policy_source": "13fa329a5416aec06e68c7d94c24d25f5875fa52"
+  },
+  "holdout_evidence": {
+    "blob": "5d3d853247900bf0ea19fbf04f8e7a89412b9ebb",
+    "result": "PASS_I002_REAL_MODEL_CARRY_THROUGH",
+    "representation_change": false,
+    "acquisition_action": false,
+    "additional_residency": false
+  },
+  "exact_source_clauses": [
+    {
+      "clause": "Preferred-path readiness is entered only through `if(pr&&pr->resident)`.",
+      "consequence": "A direct primitive with execution_available=true but resident=false cannot enter preferred reuse."
+    },
+    {
+      "clause": "If preferred is not treated as resident, policy falls through to acquisition-path scanning.",
+      "consequence": "I002 has no evidence-backed acquisition path, so an evidence-faithful bundle has no candidate."
+    },
+    {
+      "clause": "With a validated fallback and no acquisition candidate, policy routes fallback.",
+      "consequence": "I002 direct-ready state is incorrectly routed to baseline."
+    }
+  ],
+  "invalid_workarounds": [
+    "Set resident=true for a no-residency direct primitive.",
+    "Invent an acquisition path absent from I002 evidence.",
+    "Make the preferred primitive its own fallback and lose validated baseline fallback semantics."
+  ],
+  "verdict": "CURRENT_V2_CANNOT_EXPRESS_DIRECT_READY_EXECUTION_WITHOUT_RESIDENCY_OR_ACQUISITION",
+  "model_execution": false,
+  "performance_execution": false
+}
