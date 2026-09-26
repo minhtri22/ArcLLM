@@ -1,0 +1,17 @@
+{
+  "schema": "arcllm.v1.phase2.real_second_family_generalization_gate_close.v0.1",
+  "date": "2026-09-27",
+  "status": "CLOSED_FAIL_ABSTRACTION_INCOMPLETE",
+  "adjudication_blob": "a7430a4fd941b555b9262c464a3473bd3d7cf942",
+  "generic_core_mutated": false,
+  "backend_binding_authorized": false,
+  "redesign_required_before_backend_binding": true,
+  "missing_abstraction": [
+    "OPTIONAL_OR_ABSENT_VALIDATED_FALLBACK",
+    "ACQUISITION_TRIGGER_CLASS",
+    "MANDATORY_FOR_FEASIBILITY",
+    "NOT_READY_OR_UNAVAILABLE_DECISION",
+    "EVIDENCE_BOUNDED_CAPABILITY_SCOPE"
+  ],
+  "next": "PHASE2_CAPABILITY_ACQUISITION_SEMANTICS_REDESIGN_GATE"
+}

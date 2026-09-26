@@ -1,0 +1,18 @@
+{
+  "schema": "arcllm.v1.phase2.real_second_family_generalization_ci_infra_blocker.v0.1",
+  "date": "2026-09-27",
+  "status": "GITHUB_RUNNER_ALLOCATION_BLOCKER_NO_QA_STEP_EXECUTED",
+  "head": "c7695fef0bdac73d3e7df5b9d376beffb56de76e",
+  "workflow_run": {
+    "id": 36276841712,
+    "job_id": 108501139541,
+    "workflow": "arcllm-v1-phase2-real-second-family-generalization",
+    "conclusion": "failure",
+    "runner_id": 0,
+    "runner_name": "",
+    "steps": []
+  },
+  "classification": "INFRASTRUCTURE_ONLY",
+  "code_execution_on_github": false,
+  "science_execution": false
+}

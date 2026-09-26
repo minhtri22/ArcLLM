@@ -1,0 +1,74 @@
+{
+  "schema": "arcllm.v1.phase2.real_second_family_generalization_adjudication.v0.1",
+  "date": "2026-09-27",
+  "status": "FAIL_REAL_SECOND_FAMILY_GENERALIZATION_ABSTRACTION_INCOMPLETE",
+  "question": "Can the frozen Generic Primitive Registry plus Generic Policy Engine represent and reproduce the correct decisions for a real, independently evidenced second primitive family with materially different operator/representation/acquisition/lifetime semantics, without changing registry model/core or generic policy engine?",
+  "answer": "NO",
+  "selected_real_family": "P8_SEGMENTED_RESIDENCY_AND_GRAPH_BINDING_FAMILY",
+  "selection_blob": "c6a764f6cbf6bb4cb45884a1228f4392e97f4148",
+  "gate_contract_blob": "d3c4ece99d0cbc72f57ab8570b6209308d9999d5",
+  "frozen_generic_integrity": {
+    "registry_model_blob": "b99c5b647fb8edd33c7fee10dbdc8b18ba5a3720",
+    "registry_api_blob": "53fa0d2beff6b55846624077cd3fb84e99dc352d",
+    "registry_core_blob": "d878e15dd272a3788074e4c56334dabaf3958bad",
+    "policy_header_blob": "07134b51ba3c66539376d9ec9d55516752b44750",
+    "policy_source_blob": "6d448d87358289914aca1cc839512f4a5ca242bf",
+    "all_match_pre_gate_freeze": true,
+    "modified_during_gate": false
+  },
+  "p8_evidence_chain": {
+    "contiguous_plan": "FAIL",
+    "segmented_plan": "PASS",
+    "segmented_residency": "PASS",
+    "segmented_gpu_access": "PASS",
+    "graph_binding": "PASS",
+    "single_layer": "PASS",
+    "two_layer": "PASS",
+    "larger_prefix": "FAIL",
+    "full_inference_permitted": false
+  },
+  "exact_source_counterexample_proof": {
+    "verdict": "PASS",
+    "mode": "STATIC_STRUCTURAL_COUNTEREXAMPLE_ON_EXACT_COMMITTED_SOURCE",
+    "clause_1": {
+      "frozen_engine_assumption": "Capability fallback primitive must exist and be VALIDATED/active.",
+      "p8_fact": "The contiguous representation is the natural fallback candidate but is DISABLED_BY_EVIDENCE because P8-A failed the frozen <=256 MiB single-tensor arena contract.",
+      "consequence": "Evidence-faithful encoding is rejected by policy as REGISTRY_POLICY_INCOMPLETE before mandatory segmented acquisition can be selected."
+    },
+    "clause_2": {
+      "frozen_engine_assumption": "For an absent represented primitive, future reuse must be known and >0 before acquisition paths are scanned.",
+      "p8_fact": "Segmented acquisition is required for representation feasibility and has no evidence-backed reuse-amortization prerequisite.",
+      "consequence": "Self-fallback encoding routes the nonresident segmented primitive with no acquisition when reuse is unknown/zero; positive reuse metadata must be invented to reach acquisition."
+    },
+    "why_counterexample_is_decisive": "Either encoding violates the P8 oracle: the evidence-faithful encoding cannot be selected, while the schema-satisfying self-fallback encoding can claim a route before mandatory representation acquisition."
+  },
+  "scientific_result": {
+    "previous_claim_narrowed_to": "The frozen registry/policy machinery generalizes across optional, amortized representation families with an active validated fallback.",
+    "disproven_broader_claim": "The frozen machinery is not yet general across all validated primitive families.",
+    "newly_identified_family_class": "MANDATORY_FEASIBILITY_REPRESENTATION",
+    "distinguishing_properties": [
+      "May have no validated fallback primitive.",
+      "Acquisition may be required for feasibility rather than justified by reuse amortization.",
+      "Not-ready/unavailable must be a first-class decision.",
+      "Capability scope must preserve bounded PASS/FAIL frontiers rather than promoting a partial representation PASS to full-inference authorization."
+    ]
+  },
+  "non_findings": [
+    "This does not invalidate B1/A-B-P1 results.",
+    "This does not invalidate the generic registry within its demonstrated optional-representation class.",
+    "This does not authorize full P8 inference.",
+    "This does not reopen lower-level placement research."
+  ],
+  "github_ci": {
+    "verdict": "INFRA_BLOCKED_NOT_CODE_FAIL",
+    "blocker_artifact_blob": "d7395424b5bad09c108b46e5ca778157b3dc620b",
+    "run_id": 36276841712,
+    "job_id": 108501139541,
+    "runner_id": 0,
+    "steps_executed": 0
+  },
+  "next_scientific_step": {
+    "id": "PHASE2_CAPABILITY_ACQUISITION_SEMANTICS_REDESIGN_GATE",
+    "question": "Can one minimal generic capability model distinguish optional amortized acquisition from mandatory feasibility acquisition, allow capabilities with no validated fallback, and preserve explicit not-ready/outside-evidence decisions, while simultaneously preserving all 114,688 first-family decisions and satisfying the frozen P8 bounded oracle?"
+  }
+}
