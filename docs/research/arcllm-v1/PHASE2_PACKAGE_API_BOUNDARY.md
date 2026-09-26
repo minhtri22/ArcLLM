@@ -80,3 +80,12 @@ Stable numeric IDs are package ABI identifiers, not experiment labels.
 Phase 2 v1 exposes the validated primitive/policy boundary and a backend seam. It does not claim a universal operator API, a complete model-runtime API, or end-to-end production inference integration.
 
 Lower-level placement research remains closed unless new evidence can change a package-visible routing, acquisition, retention, eviction, or accessibility decision.
+
+## Cleanup/error transparency
+
+The package preserves the first lifecycle/backend failure even when it successfully resolves A as a fallback. Cleanup is reported independently through `cleanup_status`.
+
+If backend release cannot be confirmed, the package returns the opaque `unreleased_representation` handle. For eviction, the package also preserves the B handle in `PackageState` rather than pretending residency was released. This prevents silent resource loss/leak accounting at the API boundary.
+
+Cleanup failure never triggers a hidden alternate acquisition path. Upper layers or the resource manager decide how and when to retry cleanup.
+

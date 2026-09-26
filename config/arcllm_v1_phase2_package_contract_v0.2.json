@@ -1,0 +1,69 @@
+{
+  "schema": "arcllm.v1.phase2.package_api_boundary.v0.2",
+  "date": "2026-09-26",
+  "status": "FROZEN_PHASE2_PACKAGE_API_BOUNDARY_V0_2",
+  "supersedes": {
+    "path": "config/arcllm_v1_phase2_package_contract_v0.1.json",
+    "blob": "34da2ff53919d530f60e61129bdbc214330f1056",
+    "reason": "Pre-canonical lifecycle cleanup semantics repair. Public v1 API was not yet released; scientific policy and thresholds are unchanged."
+  },
+  "api_version": {
+    "major": 1,
+    "minor": 0
+  },
+  "parent": {
+    "b1_policy_zero_science_canonical_blob": "a6dac8ca686baab98131fc2f3a9a603e00c5fd5f",
+    "b1_active_policy_blob": "e34ebe2af17aaee811531756301d4700f6c41734"
+  },
+  "public_surface": {
+    "capability": "Q4K_DECODE_FFN_DOWN",
+    "primitive_ids": [
+      "A_SPLIT_K32",
+      "B_EXEC148"
+    ],
+    "evidence_profiles": [
+      "PROFILE_0",
+      "PROFILE_1"
+    ],
+    "profile_mapping_internal_only": {
+      "PROFILE_0": "W-S",
+      "PROFILE_1": "W-C"
+    },
+    "represented_residency_bytes": 549527552,
+    "lifecycle": [
+      "NONE",
+      "ACQUIRE",
+      "EVICT"
+    ],
+    "acquisition_classes": [
+      "GPU_IN_PLACE",
+      "COLD_UNBUFFERED_SIDECAR",
+      "CPU_DIRECT"
+    ]
+  },
+  "lifecycle_error_contract": {
+    "first_operation_failure_preserved": true,
+    "cleanup_status_separate": true,
+    "unreleased_representation_returned_on_cleanup_failure": true,
+    "eviction_release_failure_preserves_package_handle": true,
+    "automatic_alternate_acquisition_retry": false
+  },
+  "opacity": {
+    "vulkan": false,
+    "shader_spirv": false,
+    "exec148_layout": false,
+    "sidecar_path": false,
+    "workgroup_geometry": false,
+    "timing_benchmark_controls": false
+  },
+  "semantic_boundary": {
+    "semantic_workload_classifier_claimed": false,
+    "profile_ids_are_opaque_evidence_profiles": true
+  },
+  "scope": {
+    "universal_operator_api": false,
+    "complete_model_runtime_api": false,
+    "end_to_end_production_runtime": false,
+    "validated_q4k_decode_ffn_down_boundary": true
+  }
+}

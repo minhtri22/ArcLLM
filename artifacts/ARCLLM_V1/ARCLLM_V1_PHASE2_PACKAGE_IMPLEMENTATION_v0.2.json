@@ -1,0 +1,31 @@
+{
+  "schema": "arcllm.v1.phase2.package_implementation.v0.2",
+  "date": "2026-09-26",
+  "status": "IMPLEMENTED_AWAITING_ZERO_SCIENCE_QA_V0_2",
+  "supersedes": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_PHASE2_PACKAGE_IMPLEMENTATION_v0.1.json",
+    "blob": "f334d0344d7455f0addd2d05d6fe617469ec52b9",
+    "reason": "Pre-canonical cleanup/error transparency repair."
+  },
+  "contract_blob": "effe19c0da5123ea857732fdde05dccb675abee9",
+  "package_files": {
+    "public_api": "13846e531bc149f814c662ebd52c3b41889dfb9a",
+    "backend_api": "1b33d7cf8aa42d9d54445f44fb9a110a610ba022",
+    "implementation": "0cacbb5fcc39aa4524cd68f0ca209f993a765701",
+    "zero_science_test": "8d25dc1cb4962d90e734d94457d41e69d0e584ef",
+    "static_qa": "bea023453e3771a79154d57eff20aa8356dd9da2"
+  },
+  "guarantees": [
+    "opaque evidence profiles; no invented semantic classifier",
+    "hardware implementation details absent from public headers",
+    "one lifecycle plan performs at most one acquisition action",
+    "exact post-acquisition validation required before B is usable",
+    "first backend failure preserved across fallback A",
+    "cleanup failure separately observable",
+    "unreleased representation handle preserved/surfaced",
+    "resource manager owns memory lease decision"
+  ],
+  "science_changed": false,
+  "placement_research_reopened": false,
+  "next": "ZERO_SCIENCE_PACKAGE_QA_THEN_CANONICAL_PHASE2_V1_FREEZE"
+}

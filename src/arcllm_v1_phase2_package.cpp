@@ -84,8 +84,6 @@ Plan fallback_unsupported(PlanStatus status) noexcept {
     Plan p{};
     p.status = status;
     p.route = PrimitiveId::A_SPLIT_K32;
-    p.lifecycle = LifecycleAction::NONE;
-    p.acquisition = AcquisitionId::NONE;
     p.reason = PlanReason::UNSUPPORTED_REQUEST;
     p.requested_residency_bytes = b1::kExec148ResidentBytes;
     return p;
@@ -121,6 +119,17 @@ BackendStatus fallback_a(
         backend,
         result,
         preserve_existing_failure);
+}
+
+void record_cleanup(
+    BackendStatus cleanup,
+    RepresentationHandle representation,
+    ApplyResult& result) noexcept {
+
+    result.cleanup_status = cleanup;
+    if (cleanup != BackendStatus::OK) {
+        result.unreleased_representation = representation;
+    }
 }
 
 } // namespace
@@ -186,13 +195,16 @@ ApplyResult apply_plan(
 
     if (requested.lifecycle == LifecycleAction::EVICT) {
         if (state.b_representation) {
-            const BackendStatus release_status = backend.release(state.b_representation);
-            state.b_representation = {};
+            const RepresentationHandle existing = state.b_representation;
+            const BackendStatus release_status = backend.release(existing);
             if (release_status != BackendStatus::OK) {
                 result.backend_status = release_status;
+                record_cleanup(release_status, existing, result);
+                // Keep the handle because backend did not confirm release.
                 fallback_a(backend, result, true);
                 return result;
             }
+            state.b_representation = {};
         }
         fallback_a(backend, result, false);
         return result;
@@ -211,8 +223,9 @@ ApplyResult apply_plan(
         }
 
         if (!requested.require_post_acquisition_identity_validation) {
-            backend.release(candidate);
             result.backend_status = BackendStatus::VALIDATION_FAILED;
+            const BackendStatus cleanup = backend.release(candidate);
+            record_cleanup(cleanup, candidate, result);
             fallback_a(backend, result, true);
             return result;
         }
@@ -220,7 +233,8 @@ ApplyResult apply_plan(
         s = backend.validate(candidate, CapabilityId::Q4K_DECODE_FFN_DOWN);
         result.backend_status = s;
         if (s != BackendStatus::OK) {
-            backend.release(candidate);
+            const BackendStatus cleanup = backend.release(candidate);
+            record_cleanup(cleanup, candidate, result);
             fallback_a(backend, result, true);
             return result;
         }
@@ -228,8 +242,14 @@ ApplyResult apply_plan(
         state.b_representation = candidate;
         s = resolve_route(PrimitiveId::B_EXEC148, backend, result, false);
         if (s != BackendStatus::OK) {
-            backend.release(state.b_representation);
-            state.b_representation = {};
+            const BackendStatus primary_failure = result.backend_status;
+            const BackendStatus cleanup = backend.release(state.b_representation);
+            const RepresentationHandle unreleased = state.b_representation;
+            if (cleanup == BackendStatus::OK) {
+                state.b_representation = {};
+            }
+            result.backend_status = primary_failure;
+            record_cleanup(cleanup, unreleased, result);
             fallback_a(backend, result, true);
         }
         return result;

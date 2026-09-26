@@ -1,0 +1,18 @@
+{
+  "schema": "arcllm.v1.phase2.package_cleanup_semantics_repair.v0.1",
+  "date": "2026-09-26",
+  "status": "PRE_CANONICAL_API_REPAIR_FROZEN",
+  "classification": "PACKAGE_BOUNDARY_LIFECYCLE_CLEANUP_TRANSPARENCY",
+  "prior_head": "8fd0c95dc76809af29af766bc06fd031daf0a2b9",
+  "issue": "release() failure could drop or hide an opaque representation handle/cleanup failure at the package boundary.",
+  "repair": [
+    "Add cleanup_status to ApplyResult.",
+    "Return unreleased_representation when cleanup cannot be confirmed.",
+    "Preserve PackageState B handle when eviction release fails.",
+    "Preserve first operation failure while separately surfacing cleanup failure.",
+    "Keep one-plan/one-acquisition/no-hidden-retry semantics."
+  ],
+  "science_changed": false,
+  "policy_thresholds_changed": false,
+  "performance_execution": false
+}

@@ -50,7 +50,13 @@ struct PackageState {
 
 struct ApplyResult {
     Plan plan{};
+    // First failure of the requested lifecycle/route operation. Fallback-to-A
+    // resolution must not overwrite it.
     BackendStatus backend_status = BackendStatus::OK;
+    // Cleanup is independently visible because release failure can leave an
+    // opaque representation allocated even after the requested action failed.
+    BackendStatus cleanup_status = BackendStatus::OK;
+    RepresentationHandle unreleased_representation{};
     PrimitiveHandle primitive{};
     bool ready = false;
     bool fell_back_to_a = false;

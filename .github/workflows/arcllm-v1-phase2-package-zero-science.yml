@@ -11,7 +11,7 @@ on:
       - 'src/arcllm_v1_b1_policy_runtime_hook.h'
       - 'tests/arcllm_v1_phase2_package_zero_science.cpp'
       - 'tests/test_arcllm_v1_phase2_package_static.py'
-      - 'config/arcllm_v1_phase2_package_contract_v0.1.json'
+      - 'config/arcllm_v1_phase2_package_contract_v0.2.json'
       - '.github/workflows/arcllm-v1-phase2-package-zero-science.yml'
   workflow_dispatch:
 
