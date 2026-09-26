@@ -72,10 +72,13 @@ $P3=Get-Content $P3Out -Raw|ConvertFrom-Json
 if([string]$P3.status-ne"PASS_P3_ZERO_SCIENCE_CORRECTNESS"){throw "STOP: invalid P3 qualification status"}
 if([bool]$P3.performance.authorized -or [bool]$P3.performance.acquisition_timing_emitted -or [bool]$P3.performance.storage_timing_emitted){throw "STOP: forbidden P3 timing/performance output"}
 if(-not[bool]$P3.warm.pass -or -not[bool]$P3.cold_unbuffered.pass){throw "STOP: P3 functional correctness evidence incomplete"}
+$Canonical="60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2"
+if([string]$P3.warm.exec_family_sha256-ne$Canonical -or [string]$P3.cold_unbuffered.exec_family_sha256-ne$Canonical){throw "STOP: P3 canonical family hash mismatch"}
 if(-not(Test-Path $Sidecar)-or-not(Test-Path $SideManifest)){throw "STOP: P3 sidecar/manifest missing"}
 if((Get-Item $Sidecar).Length-ne549527552){throw "STOP: P3 sidecar bytes mismatch"}
 $SideHash=(Get-FileHash $Sidecar -Algorithm SHA256).Hash.ToLowerInvariant()
 if($SideHash-ne[string]$P3.sidecar.payload_raw_sha256){throw "STOP: P3 sidecar raw SHA mismatch"}
+if([string]$P1.exec148.raw_sha256-ne$SideHash){throw "STOP: P1 and P3 do not converge to byte-identical EXEC148 images"}
 
 $StaticEvidence=[ordered]@{
  schema="arcllm.v1.b1_2.zero_science.static_qa.v0.1"

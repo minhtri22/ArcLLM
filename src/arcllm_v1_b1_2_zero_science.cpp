@@ -433,11 +433,13 @@ int main(int argc,char**argv){
              <<"\",\"payload_bytes\":"<<kExecFamilyBytes<<",\"payload_raw_sha256\":\""<<sidecar_raw
              <<"\",\"canonical_family_hash\":\""<<kCanonicalFamilyHash<<"\",\"compression\":false},\n";
             o<<"\"warm\":{\"raw_sha256\":\""<<warm_raw<<"\",\"tuple_exact\":"<<(warm_v.exact?"true":"false")
+             <<",\"source_family_sha256\":\""<<warm_v.source_family_hash<<"\",\"exec_family_sha256\":\""<<warm_v.exec_family_hash<<"\""
              <<",\"component_max_abs\":"<<std::setprecision(15)<<warm_c.max_abs<<",\"component_rmse\":"<<rmse(warm_c)
              <<",\"component_n\":"<<warm_c.n<<",\"component_pass\":"<<(component_pass(warm_c)?"true":"false")
              <<",\"pass\":"<<(warm_pass?"true":"false")<<"},\n";
             o<<"\"cold_unbuffered\":{\"raw_sha256\":\""<<cold_raw<<"\",\"sector_bytes\":"<<sector
              <<",\"chunk_bytes\":"<<kP3ChunkBytes<<",\"staging\":\"VirtualAlloc\",\"tuple_exact\":"<<(cold_v.exact?"true":"false")
+             <<",\"source_family_sha256\":\""<<cold_v.source_family_hash<<"\",\"exec_family_sha256\":\""<<cold_v.exec_family_hash<<"\""
              <<",\"component_max_abs\":"<<cold_c.max_abs<<",\"component_rmse\":"<<rmse(cold_c)
              <<",\"component_n\":"<<cold_c.n<<",\"component_pass\":"<<(component_pass(cold_c)?"true":"false")
              <<",\"pass\":"<<(cold_pass?"true":"false")<<"}\n}\n";

@@ -1,7 +1,7 @@
 {
   "schema": "arcllm.v1.b1_2.p1_p3_bounded_implementation_package.v0.1",
   "date": "2026-09-26",
-  "status": "IMPLEMENTED_AWAITING_DEV_HOST_ZERO_SCIENCE_QUALIFICATION_AFTER_TOPOLOGY_HARDENING",
+  "status": "IMPLEMENTED_AWAITING_DEV_HOST_ZERO_SCIENCE_QUALIFICATION_FINALIZED",
   "authorization_blob": "e1903e256b4fa99889d171229fd9dc8069de26ca",
   "scientific_prelock_blob": "11a7e57087cd27c82f328ad8ab25fc0c1b6d6b52",
   "independent_review_blob": "9a664d4aa1f53fb53030377b7b0d5be3c47fe497",
@@ -22,7 +22,7 @@
     },
     "qualifier_source": {
       "path": "src/arcllm_v1_b1_2_zero_science.cpp",
-      "blob": "7753065e6d736d453a6415040e1456d87733b8d0",
+      "blob": "9c80d40dbada86fdca9fb7566c02be129277475b",
       "modes": [
         "P1",
         "P3"
@@ -43,7 +43,7 @@
     },
     "qualification_runner": {
       "path": "run_arcllm_v1_b1_2_zero_science.ps1",
-      "blob": "901efa34d967cf95a767b64bf7003ffe969d9b8f"
+      "blob": "26e66c92c2479022d38f4b1666b4bda23e9b56ac"
     }
   },
   "P1_frozen_implementation": {
@@ -110,5 +110,6 @@
     "change": "Qualifier now recreates the exact frozen 19-arena weight residency and binds each target Q4-down tensor by arena + byte base instead of using 14 dedicated duplicate buffers.",
     "scientific_contract_changed": false,
     "performance_outcome_seen": false
-  }
+  },
+  "shared_byte_identity_gate": "P1 generated EXEC148 raw SHA256 must equal P3 sidecar raw SHA256, in addition to both matching the canonical tuple-family hash."
 }
