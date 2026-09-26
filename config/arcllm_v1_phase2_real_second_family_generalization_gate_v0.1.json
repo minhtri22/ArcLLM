@@ -1,0 +1,107 @@
+{
+  "schema": "arcllm.v1.phase2.real_second_family_generalization_gate.v0.1",
+  "date": "2026-09-27",
+  "status": "FROZEN_REAL_SECOND_FAMILY_GENERALIZATION_GATE",
+  "question": "Can the frozen Generic Primitive Registry plus Generic Policy Engine represent and reproduce the correct decisions for a real, independently evidenced second primitive family with materially different operator/representation/acquisition/lifetime semantics, without changing registry model/core or generic policy engine?",
+  "frozen_generic_inputs": {
+    "head": "853ffde64db3ea77cb1f73fb3c44bb3c9931118b",
+    "registry_model_blob": "b99c5b647fb8edd33c7fee10dbdc8b18ba5a3720",
+    "registry_api_blob": "53fa0d2beff6b55846624077cd3fb84e99dc352d",
+    "registry_core_blob": "d878e15dd272a3788074e4c56334dabaf3958bad",
+    "policy_header_blob": "07134b51ba3c66539376d9ec9d55516752b44750",
+    "policy_source_blob": "6d448d87358289914aca1cc839512f4a5ca242bf"
+  },
+  "candidate_selection": {
+    "selected": "P8_SEGMENTED_RESIDENCY_AND_GRAPH_BINDING_FAMILY",
+    "rejected_easy_candidate": {
+      "id": "I002_Q4_GATE_UP_SPLITK",
+      "reason": "Real PASS primitive, but too close to family #1: same Q4_K/subgroup Split-K mechanism class, no independent representation acquisition/lifetime semantics."
+    },
+    "selected_reason": [
+      "Different operator surface: segmented embedding and LM-head access plus graph binding, not FFN-down.",
+      "Different representation: one logical vocab tensor maps to two row-aligned physical segments.",
+      "Different acquisition/residency: 19 arenas, exact full byte copy, simultaneous weight/KV/working residency.",
+      "Different lifetime: model/graph residency prerequisite rather than per-request amortized optional representation.",
+      "Independent PASS/FAIL evidence chain exists before this gate."
+    ]
+  },
+  "p8_evidence": {
+    "p8a_contiguous_plan": {
+      "status": "FAIL",
+      "summary_blob": "c7025c575b923eee3acc9926f357bbf90f32ad81",
+      "plan_blob": "34e0b3d80696d2c6851bd582f423682b8cabe83f",
+      "obstruction": "token_embd.weight and output.weight exceed the frozen 256 MiB single-tensor arena contract despite total capacity passing."
+    },
+    "p8a2_segmented_plan": {
+      "status": "PASS",
+      "summary_blob": "cb38fd3670ad1f4de0aee66882de9c02b1fe1d87"
+    },
+    "p8b_residency": {
+      "status": "PASS",
+      "results_blob": "0936c049810a4d5a8a8e05d43f0a4d2135c478c9",
+      "requested_bytes": 5347770372
+    },
+    "p8c_access": {
+      "status": "PASS",
+      "results_blob": "681cd81eff68c5717246ee3ccbcb7b4aa2a1dac6"
+    },
+    "p8d_graph_binding": {
+      "status": "PASS",
+      "results_blob": "95b303c6d8d64c03deb16baeb4e1132445ae9616"
+    },
+    "p8e_single_layer": {
+      "status": "PASS",
+      "results_blob": "feba036e91c41a3238a766f5400e5105f65e79c6"
+    },
+    "p8f_two_layer": {
+      "status": "PASS",
+      "results_blob": "8f5c3799f8a5a8190a80c11d3128f0ee6b3ff345"
+    },
+    "p8g_larger_prefix": {
+      "status": "FAIL",
+      "summary_blob": "5b6660b0ee29c4db3f0cf3073043e00a3bd99af8"
+    },
+    "p8g6_followup": {
+      "status": "COMPLETE_DIAGNOSTIC_P8G_FAIL_FROZEN",
+      "summary_blob": "ddb9889aa70cfc8ef2a3fd82cced1e5fd2bd9f8c"
+    },
+    "full_inference_permitted": false
+  },
+  "frozen_p8_oracle": {
+    "bounded_capability": "Establish/use the validated segmented representation and graph binding for scopes no broader than the closed PASS evidence.",
+    "contiguous_fallback_validated": false,
+    "segmented_representation_required_for_feasibility_under_256MiB_cap": true,
+    "acquisition_trigger": "REPRESENTATION_FEASIBILITY_REQUIRED",
+    "acquisition_trigger_is_reuse_amortization": false,
+    "reuse_metric_required_by_evidence": false,
+    "correct_absent_representation_decision": "ACQUIRE_SEGMENTED_REPRESENTATION when the bounded capability is requested and required resources are available.",
+    "correct_resident_valid_decision": "USE_SEGMENTED_REPRESENTATION within the bounded validated scope.",
+    "full_inference_decision": "NOT_AUTHORIZED / OUTSIDE_VALIDATED_CAPABILITY"
+  },
+  "falsification_cases": [
+    {
+      "id": "EVIDENCE_FAITHFUL_DISABLED_FALLBACK",
+      "encoding": "Register failed contiguous representation as DISABLED_BY_EVIDENCE fallback and segmented representation as VALIDATED preferred primitive.",
+      "expected_generic_behavior_if_sufficient": "Still select/acquire mandatory segmented representation.",
+      "fail_condition": "Engine returns REGISTRY_POLICY_INCOMPLETE because frozen policy requires active validated fallback."
+    },
+    {
+      "id": "SELF_FALLBACK_SEGMENTED",
+      "encoding": "Use segmented representation itself as validated fallback and preferred primitive, with acquisition threshold 0.",
+      "expected_generic_behavior_if_sufficient": "When representation is absent, acquire it independently of reuse metadata.",
+      "fail_condition": "With future reuse unknown or zero, engine returns segmented primitive with lifecycle NONE rather than ACQUIRE, because frozen engine treats reuse as a prerequisite before acquisition scan."
+    }
+  ],
+  "prohibited_during_gate": [
+    "Modify frozen registry model.",
+    "Modify frozen registry core.",
+    "Modify frozen generic policy engine.",
+    "Invent a validated contiguous fallback.",
+    "Invent a scientific reuse threshold for P8.",
+    "Treat P8-G FAIL as full-inference PASS."
+  ],
+  "adjudication_rule": {
+    "pass": "At least one evidence-faithful encoding reproduces all frozen P8 oracle decisions without changing frozen generic files or inventing unsupported evidence.",
+    "fail": "Every evidence-faithful encoding requires either a frozen generic-file change or an evidence-inconsistent fallback/reuse assumption."
+  }
+}

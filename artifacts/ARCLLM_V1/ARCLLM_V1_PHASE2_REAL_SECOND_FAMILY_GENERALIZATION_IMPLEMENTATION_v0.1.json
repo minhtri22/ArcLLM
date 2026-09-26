@@ -1,0 +1,21 @@
+{
+  "schema": "arcllm.v1.phase2.real_second_family_generalization_gate_implementation.v0.1",
+  "date": "2026-09-27",
+  "status": "IMPLEMENTED_AWAITING_ZERO_SCIENCE_ADJUDICATION",
+  "selection_blob": "c6a764f6cbf6bb4cb45884a1228f4392e97f4148",
+  "gate_contract_blob": "d3c4ece99d0cbc72f57ab8570b6209308d9999d5",
+  "gate_harness_blob": "663fd3ed21d7401cc60792f1826a5c69b45025df",
+  "static_qa_blob": "c8baa1c2c1b14626a15837a9aa95db08bb1919d9",
+  "workflow_blob": "071a16ff11701cc8a1f9b3c9f217d3ee82543cc3",
+  "frozen_generic_blobs": {
+    "registry_model": "b99c5b647fb8edd33c7fee10dbdc8b18ba5a3720",
+    "registry_api": "53fa0d2beff6b55846624077cd3fb84e99dc352d",
+    "registry_core": "d878e15dd272a3788074e4c56334dabaf3958bad",
+    "policy_header": "07134b51ba3c66539376d9ec9d55516752b44750",
+    "policy_source": "6d448d87358289914aca1cc839512f4a5ca242bf"
+  },
+  "frozen_generic_files_modified": false,
+  "science_execution": false,
+  "hardware_execution": false,
+  "next": "RUN_ZERO_SCIENCE_COUNTEREXAMPLE_GATE_AND_ADJUDICATE"
+}

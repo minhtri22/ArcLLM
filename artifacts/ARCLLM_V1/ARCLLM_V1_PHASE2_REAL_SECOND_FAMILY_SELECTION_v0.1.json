@@ -1,0 +1,38 @@
+{
+  "schema": "arcllm.v1.phase2.real_second_family_selection.v0.1",
+  "date": "2026-09-27",
+  "status": "FROZEN_REAL_SECOND_FAMILY_SELECTION",
+  "selected": "P8_SEGMENTED_RESIDENCY_AND_GRAPH_BINDING_FAMILY",
+  "considered": [
+    {
+      "candidate": "I002_Q4_GATE_UP_SPLITK",
+      "evidence": "PASS_I002_REAL_MODEL_CARRY_THROUGH",
+      "selected": false,
+      "reason": "Too close to family #1 for a strong generalization test: same Q4_K/subgroup Split-K execution-mechanism class and no separate representation/acquisition/lifetime model."
+    },
+    {
+      "candidate": "P8_SEGMENTED_RESIDENCY_AND_GRAPH_BINDING_FAMILY",
+      "selected": true,
+      "evidence_chain": [
+        "P8-A FAIL",
+        "P8-A2 PASS",
+        "P8-B PASS",
+        "P8-C PASS",
+        "P8-D PASS",
+        "P8-E PASS",
+        "P8-F PASS",
+        "P8-G FAIL",
+        "P8-G6 diagnostic COMPLETE"
+      ],
+      "reason": "Real historical family with a mandatory segmented representation, large model-scope residency acquisition, graph binding, and a bounded correctness frontier."
+    }
+  ],
+  "anti_cherry_pick_rule": "Candidate was selected for structural dissimilarity and evidence maturity, not for compatibility with the current abstraction.",
+  "generic_files_read_only": [
+    "include/arcllm/v1/primitive_registry_model.h",
+    "include/arcllm/v1/primitive_registry_api.h",
+    "src/arcllm_v1_primitive_registry.cpp",
+    "include/arcllm/v1/generic_policy_engine.h",
+    "src/arcllm_v1_generic_policy_engine.cpp"
+  ]
+}
