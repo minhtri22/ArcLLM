@@ -1,0 +1,231 @@
+{
+  "schema": "arcllm.v1.b1_1.placement_capability_and_bound_survey.v0.1",
+  "date": "2026-09-26",
+  "status": "PASS_B1_1_SHORTLIST_P1_P3_P2_CAPABILITY_GATED_P4_KILLED",
+  "parent": {
+    "b1_path": "artifacts/ARCLLM_V1/ARCLLM_V1_B1_EXECUTION_REPRESENTATION_PLACEMENT_ARCHITECTURE_v0.1.json",
+    "b1_blob": "95a341ab6693530a240cbcdd447ccaa1dffbe082",
+    "primitive_lock_blob": "5c696b924038de13de8d5176b724fcd814cdcc8e"
+  },
+  "exact_question": "For P0/P1/P2/P3/P4, which placement classes are physically/software feasible on the current platform, what exact data path would each require, and what optimistic lower bound on creation+handoff cost determines whether a runtime experiment is worth opening?",
+  "decision_baseline": {
+    "primitive": "A_SPLIT_K32",
+    "latency_ms_per_token": {
+      "W-S": 38.37338447981645,
+      "W-C": 37.83515532629015
+    }
+  },
+  "B_execution": {
+    "primitive": "B_EXEC148",
+    "latency_ms_per_token": {
+      "W-S": 24.18914003444485,
+      "W-C": 31.41302006641385
+    },
+    "incremental_gain_vs_A_ms_per_token": {
+      "W-S": 14.1842444453716,
+      "W-C": 6.422135259876299
+    },
+    "source_bytes": 534675456,
+    "exec_image_bytes": 549527552,
+    "minimum_transform_memory_traffic_bytes": 1084203008,
+    "active_resident_bytes": 549527552
+  },
+  "current_platform": {
+    "cpu": "Intel Core Ultra 7 258V",
+    "gpu": "Intel Arc 140V",
+    "npu": "Intel AI Boost",
+    "memory_model": "system UMA",
+    "gpu_dedicated_vram_bytes": 0,
+    "usable_runtime_budget_bytes": 16374562816,
+    "baseline_runtime_planned_bytes": 5347770372,
+    "B_extra_fraction_of_usable_budget": 0.03355983046234631,
+    "remaining_margin_with_B_bytes": 10477264892,
+    "optimistic_shared_ip_bandwidth_roof_gbps": 136,
+    "caveat": "136 GB/s is a vendor/IP roof already frozen in the hardware model, not measured sustained workload bandwidth."
+  },
+  "key_architecture_result": {
+    "statement": "On the current Lunar Lake host, CPU/GPU/NPU creator choice does not imply a separate active residency capacity domain; the validated execution image remains a GPU-accessible system-UMA allocation. Creator, residency, handoff, and lifetime must be reasoned independently.",
+    "consequence": [
+      "Moving creation to GPU or NPU does not remove the ~549.5 MB active EXEC148 residency cost.",
+      "P3 sidecar can move creation out of inference runtime but still needs a GPU-accessible active image when B executes.",
+      "Under memory pressure the clean policy is evict B and fall back to A, not assume an NPU/GPU private-memory refuge exists."
+    ]
+  },
+  "common_bounds": {
+    "transform_bandwidth_only_floor_ms": 7.972080941176471,
+    "derivation": "(534,675,456 source bytes + 549,527,552 destination bytes) / 136 GB/s",
+    "current_P0_materialization_ms": 231.6382,
+    "current_P0_over_bandwidth_floor_x": 29.056177641595326,
+    "max_one_time_overhead_for_B_to_beat_A_ms": {
+      "H1": {
+        "W-S": 14.1842444453716,
+        "W-C": 6.422135259876299
+      },
+      "H8": {
+        "W-S": 113.4739555629728,
+        "W-C": 51.37708207901039
+      },
+      "H16": {
+        "W-S": 226.9479111259456,
+        "W-C": 102.75416415802079
+      },
+      "H32": {
+        "W-S": 453.8958222518912,
+        "W-C": 205.50832831604157
+      },
+      "H64": {
+        "W-S": 907.7916445037824,
+        "W-C": 411.01665663208314
+      },
+      "H128": {
+        "W-S": 1815.5832890075649,
+        "W-C": 822.0333132641663
+      }
+    },
+    "decision_formula": "For one-time placement overhead C with no additional steady-state penalty, B beats A after H > C/(L_A-L_B)."
+  },
+  "feasibility_matrix": {
+    "P0_CPU_DIRECT_UMA": {
+      "physical_feasibility": "PROVEN",
+      "software_feasibility": "PROVEN",
+      "exact_path": "resident source Q4_K -> CPU exact-byte materializer -> mapped final Vulkan HOST_VISIBLE|HOST_COHERENT|DEVICE_LOCAL UMA buffer -> B kernel",
+      "measured_create_handoff_ms": 231.6382,
+      "optimistic_floor_ms": 7.972080941176471,
+      "active_residency_bytes": 549527552,
+      "measured_crossover_tokens": {
+        "W-S": 16.330668925801323,
+        "W-C": 36.068720235030014
+      },
+      "verdict": "KEEP_AS_REFERENCE_AND_ALREADY_USABLE_NO_NEW_PLACEMENT_BENCHMARK_REQUIRED",
+      "note": "CPU optimization itself is implementation-maturity work, not a new placement class."
+    },
+    "P1_GPU_CREATE_IN_PLACE": {
+      "physical_feasibility": "SUPPORTED_BY_EXISTING_VULKAN_DATA_PATH",
+      "software_feasibility": "DESIGN_FEASIBLE_NOT_IMPLEMENTED",
+      "exact_path": "resident source Q4_K Vulkan buffers -> Vulkan compute materializer over independent blocks -> final EXEC148 storage buffer in same UMA memory domain -> barrier -> B kernel",
+      "transform_parallel_units": 3713024,
+      "optimistic_floor_ms": 7.972080941176471,
+      "optimistic_floor_crossover_tokens": {
+        "W-S": 0.5620377575893939,
+        "W-C": 1.2413442910465928
+      },
+      "key_risk": "GPU creation can contend with the same GPU needed by prefill/decode if performed lazily on the critical path.",
+      "verdict": "SHORTLIST_FOR_BOUNDED_EXPERIMENT",
+      "prerequisite": "Freeze exact GPU materializer, correctness tuple, and serialized-versus-overlapped lifecycle contract before timing."
+    },
+    "P2_NPU_CREATE_OR_MAINTAIN": {
+      "physical_feasibility": "HARDWARE_PRESENT",
+      "software_feasibility": "CAPABILITY_GATED_UNPROVEN_FOR_EXACT_EXEC148_TRANSFORM",
+      "interop_fact": "Current OpenVINO NPU Remote Tensor APIs document Windows NT-handle/shared-memory interop with native APIs including Vulkan, but ArcLLM's existing Vulkan allocations were not proven exportable/importable under that path.",
+      "exact_best_case_path": "shared/exportable source Q4_K -> NPU exact transform -> shared/exportable EXEC148 allocation -> Vulkan import/use",
+      "best_case_optimistic_floor_ms": 7.972080941176471,
+      "if_one_destination_copy_floor_ms": 16.053368470588236,
+      "if_source_and_destination_copy_floor_ms": 23.916242823529412,
+      "transform_support_gap": "OpenVINO defines required bitwise operations at framework level, but device support is plugin-specific; exact Lunar Lake NPU compilation of the EXEC148 byte/bit graph has not been proven.",
+      "verdict": "KEEP_CAPABILITY_GATED_NOT_PERFORMANCE_SHORTLIST",
+      "next_allowed": "Compile-only/static capability probe for exact transform ops + memory-handle compatibility. No performance benchmark until both pass.",
+      "dependency_rule": "Only promote if P1/P3 results leave a concrete architecture reason to offload creation away from GPU/CPU."
+    },
+    "P3_OFFLINE_PREMATERIALIZED_SIDECAR": {
+      "physical_feasibility": "YES",
+      "software_feasibility": "ARCHITECTURALLY_FEASIBLE_NOT_IMPLEMENTED",
+      "exact_path": "offline/install-time exact EXEC148 creator -> versioned 549,527,552-byte sidecar -> runtime identity/hash check -> load/copy into final GPU-accessible UMA Vulkan buffer -> B kernel",
+      "runtime_transform_cost": "ZERO_BY_DESIGN",
+      "active_residency_bytes": 549527552,
+      "warm_page_cache_copy_bandwidth_floor_ms": 8.081287529411764,
+      "cold_load_bound": "Storage bandwidth is not measured in the frozen host evidence; cold-load cost remains parameterized by effective sidecar-to-final-buffer throughput.",
+      "required_effective_storage_throughput_gbps_for_direct_load_to_amortize": {
+        "H1": {
+          "W-S": 38.74210953684698,
+          "W-C": 85.56773250063637
+        },
+        "H5": {
+          "W-S": 7.748421907369397,
+          "W-C": 17.113546500127274
+        },
+        "H10": {
+          "W-S": 3.8742109536846985,
+          "W-C": 8.556773250063637
+        },
+        "H20": {
+          "W-S": 1.9371054768423492,
+          "W-C": 4.2783866250318185
+        },
+        "H50": {
+          "W-S": 0.7748421907369398,
+          "W-C": 1.7113546500127272
+        },
+        "H100": {
+          "W-S": 0.3874210953684699,
+          "W-C": 0.8556773250063636
+        }
+      },
+      "verdict": "SHORTLIST_FOR_BOUNDED_EXPERIMENT",
+      "prerequisite": "Freeze sidecar identity/versioning, direct-to-final-buffer load path, cold/warm cache states, and exact storage-vs-memory accounting."
+    },
+    "P4_OTHER_ENGINE_AUDIO_DSP_ETC": {
+      "physical_feasibility": "AUDIO_DSP_HARDWARE_EXISTS_BUT_NOT_ARCLLM_COMPUTE_PATH",
+      "software_feasibility": "NO_PROVEN_APPLICATION_LEVEL_GENERAL_COMPUTE_AND_VULKAN_BUFFER_INTEROP_PATH",
+      "observed_vendor_scope": "Audio DSP is exposed under the HD Audio subsystem for audio/voice offload; vendor documentation mentions host-downloadable firmware and remote DDR windows, but this does not establish a supported ArcLLM application compute interface.",
+      "verdict": "KILL_FOR_CURRENT_B1",
+      "reopen_rule": "Only reopen P4 upon concrete public runtime/API evidence showing programmable exact-byte transform plus source/destination memory access and a plausible bound that could change the A-vs-B decision."
+    }
+  },
+  "shortlist": {
+    "benchmark_eligible_after_design_lock": [
+      "P1_GPU_CREATE_IN_PLACE",
+      "P3_OFFLINE_PREMATERIALIZED_SIDECAR"
+    ],
+    "capability_probe_only": [
+      "P2_NPU_CREATE_OR_MAINTAIN"
+    ],
+    "reference_only": [
+      "P0_CPU_DIRECT_UMA"
+    ],
+    "killed": [
+      "P4_OTHER_ENGINE_AUDIO_DSP_ETC"
+    ]
+  },
+  "architecture_policy_implications": [
+    "A is the default/fallback whenever EXEC148 is absent, invalid, not amortized, or evicted.",
+    "B active residency remains ~549.5 MB on the current UMA platform regardless of CPU/GPU/NPU creator.",
+    "P3 is a lifecycle optimization: it moves creation out of inference runtime but does not eliminate active residency.",
+    "P1 is a creator-latency optimization: it may reduce creation cost but can compete with inference for GPU time.",
+    "P2 has value only if exact-transform support and shared-memory interoperability are proven and if avoiding CPU/GPU creator contention would materially change policy."
+  ],
+  "next": {
+    "id": "B1.2_P1_P3_PLACEMENT_EXPERIMENT_DESIGN_AND_PRELOCK",
+    "purpose": "Design two independent bounded experiments for P1 and P3 without changing EXEC148 semantics or A baseline; preregister cold/warm/lifetime accounting and correctness before any timing.",
+    "P2_parallel_optional": "A zero-science compile/memory-interop capability probe may be designed separately, but it does not block P1/P3.",
+    "forbidden": [
+      "P4 implementation",
+      "audio-DSP benchmark",
+      "NPU performance benchmark before capability pass",
+      "A retest",
+      "AB retest",
+      "EXEC148 semantic change"
+    ]
+  },
+  "external_sources": [
+    {
+      "id": "intel_258v_spec",
+      "claim_scope": "Arc 140V and Intel AI Boost NPU presence; NPU 47 TOPS; supported AI frameworks.",
+      "url": "https://www.intel.com/content/www/us/en/products/sku/240957/intel-core-ultra-7-processor-258v-12m-cache-up-to-4-80-ghz/specifications.html"
+    },
+    {
+      "id": "openvino_npu_remote_tensor",
+      "claim_scope": "NPU Remote Tensor memory sharing/native-handle mechanisms including Windows NT handles and Vulkan/native API interoperability.",
+      "url": "https://docs.openvino.ai/2025/openvino-workflow/running-inference/inference-devices-and-modes/npu-device/remote-tensor-api-npu-plugin.html"
+    },
+    {
+      "id": "openvino_supported_ops",
+      "claim_scope": "Bitwise operations exist in OpenVINO operation sets; device support remains plugin/platform dependent.",
+      "url": "https://docs.openvino.ai/2026/documentation/compatibility-and-support/supported-operations.html"
+    },
+    {
+      "id": "intel_lunar_lake_audio_dsp",
+      "claim_scope": "Lunar Lake audio DSP purpose/capabilities under HD Audio subsystem; HIFI4 DSP cores, SRAM, remote DDR access, host-downloadable firmware.",
+      "url": "https://edc.intel.com/content/www/us/en/secure/design/confidential/products/platforms/details/lunar-lake-mx/core-ultra-200v-series-processors-datasheet-volume-1-of-2/audio-dsp-capabilities/"
+    }
+  ]
+}

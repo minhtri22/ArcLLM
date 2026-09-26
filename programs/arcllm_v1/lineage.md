@@ -1418,3 +1418,14 @@ Future B decisions now use A, not arm 0, as the architecture baseline. Under the
 B1 asks which resource should create, host and maintain EXEC148 and under what reuse/lifetime/resource-state conditions each placement dominates. Placement is explicitly modeled as `(creator compute domain, residency memory domain, transfer path, lifetime policy, maintenance policy)`. CPU/GPU/NPU/RAM are not treated as one mutually exclusive axis, especially on the current UMA host.
 
 Candidate classes are CPU-direct-UMA reference, GPU in-place creation, capability-gated NPU creation/maintenance, offline prematerialized sidecar, and other capability-proven engines. No placement benchmark is authorized yet. The next study is `B1.1_PLACEMENT_CAPABILITY_AND_BOUND_SURVEY`: feasibility + exact data path + optimistic creation/handoff bound, with kill-before-build rules. A retest, AB retest, counter work, Token-XRay science, and speculative soundcard/DSP experiments remain closed.
+
+
+## B1.1 placement capability and bound survey — 2026-09-26
+
+B1.1 closes the first architecture survey without new performance execution. On the current Lunar Lake host, CPU, Arc 140V GPU and Intel AI Boost NPU are distinct compute domains attached to system UMA; creator choice therefore does not create a separate active capacity pool for the 549,527,552-byte EXEC148 image. The active residency cost remains system memory while B is usable. Current frozen memory planning still leaves 10,477,264,892 bytes margin with B resident.
+
+The minimum source-read + EXEC148-write traffic is 1,084,203,008 bytes. Against the frozen 136 GB/s IP roof this gives a bandwidth-only optimistic floor of 7.972 ms, versus the measured P0 CPU-direct materialization of 231.6382 ms. This demonstrates creator/lifecycle headroom but does not predict a realized implementation speed.
+
+Feasibility adjudication: P0 CPU-direct-UMA remains the proven reference and is already beneficial after ~16.33 W-S or ~36.07 W-C reuse tokens. P1 GPU in-place creation is shortlisted because the transform is block-independent and can target the existing final Vulkan UMA buffer. P3 versioned offline EXEC148 sidecar is shortlisted because it can remove runtime transform work, while retaining explicit cold/warm load and active-residency costs. P2 NPU remains capability-gated only: platform memory-sharing APIs exist, but exact EXEC148 bit-transform compilation and compatibility with ArcLLM's Vulkan allocation path are unproven. P4 audio-DSP/other idle-engine use is killed for current B1 because no supported application-level exact-transform + Vulkan-memory data path is established.
+
+Next: B1.2_P1_P3_PLACEMENT_EXPERIMENT_DESIGN_AND_PRELOCK. No placement benchmark is authorized by B1.1. P2 may only receive a separate zero-science compile/memory-interop capability probe; it does not block P1/P3.
