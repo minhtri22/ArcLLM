@@ -1,0 +1,193 @@
+{
+  "schema": "arcllm.v1.b1_2.p1_p3.zero_science_qualification_canonical.v0.1",
+  "date": "2026-09-26",
+  "status": "PASS_CANONICAL_P1_P3_ZERO_SCIENCE_QUALIFICATION",
+  "qualified_head": "8d16a025e2bca56aee43fc1d80c970af30c7e88c",
+  "scope": "CORRECTNESS_AND_FUNCTIONAL_QUALIFICATION_ONLY_NO_ACQUISITION_OR_PERFORMANCE_TIMING",
+  "return_bundle": {
+    "filename": "B1_2_P1_P3_ZERO_SCIENCE_RETURN_TO_CHATGPT.zip",
+    "sha256": "15A31C7DDE623DF11EA5DA8D37DA007CF715F7CACD2CD484FFCF0089CE53E471",
+    "files": {
+      "ARCLLM_V1_B1_2_INDEPENDENT_PRELOCK_REVIEW_v0.1.json": {
+        "bytes": 3674,
+        "sha256": "B222F39D62B0B141CDB511023E3E2C46E823AEEEC449657A1E88860ACFDB58AF"
+      },
+      "arcllm_v1_b1_2_p1_p3_implementation_authorization_v0.1.json": {
+        "bytes": 3571,
+        "sha256": "36A51F043CBD17EAC39F369BAC3217063BC181ED79AB59DEFA91CF02D3E93C65"
+      },
+      "arcllm_v1_b1_2_p1_p3_placement_experiment_prelock_v0.1.json": {
+        "bytes": 2377,
+        "sha256": "19D7C385F72D86F7D12CE9FCE51E9727D5AD2083AFF597E315E1BB1D16FFB77E"
+      },
+      "arcllm_v1_b1_2_zero_science.exe": {
+        "bytes": 391168,
+        "sha256": "F81DAB7893622DB4EDECBE9A0519D9C9134537BE5D39386A310F9F532C8E631D"
+      },
+      "B1_2_EXEC148_SIDECAR_MANIFEST.json": {
+        "bytes": 499,
+        "sha256": "5387AAA1A30F0C15AE0837AB7D5D4F635475E5779E73A3E99260D55922A88D4E"
+      },
+      "B1_2_P1_ZERO_SCIENCE.json": {
+        "bytes": 911,
+        "sha256": "0EB1C7E9171A4403DE73FEA76B14635DB8BDD1C598DBCFE69D94BFEA8F95DE52"
+      },
+      "B1_2_P3_ZERO_SCIENCE.json": {
+        "bytes": 1550,
+        "sha256": "14FF537A44B02016E0F0F8436C6158A184CD6F973C4766091F69B297A975024B"
+      },
+      "B1_2_ZERO_SCIENCE_BUILD.json": {
+        "bytes": 619,
+        "sha256": "4CD8A87C0FF70CF06DCD414564EF8AA0B7E0B97634F34E5C5B515ECF24F5513F"
+      },
+      "B1_2_ZERO_SCIENCE_DEV_HOST_RETURN.json": {
+        "bytes": 1758,
+        "sha256": "EEAD745EF2918CDAE9C2A7FB457BDF413E52BEA07E83AEE4F92E941490E0CFE5"
+      },
+      "B1_2_ZERO_SCIENCE_SHADER_PROVENANCE.json": {
+        "bytes": 1223,
+        "sha256": "880FB33A9E09DC7C1985DDB6E65F97B9823EF8D212F88B13A6579241066D98D4"
+      },
+      "B1_2_ZERO_SCIENCE_STATIC_QA.json": {
+        "bytes": 420,
+        "sha256": "D8DE1E924C918BF02B6DF93C5F5906AF5B06AD66930132D662B8C29F38E87A38"
+      }
+    }
+  },
+  "provenance": {
+    "branch": "research/arcllm-v1",
+    "current_head_at_audit": "8d16a025e2bca56aee43fc1d80c970af30c7e88c",
+    "qualifier_source": {
+      "path": "src/arcllm_v1_b1_2_zero_science.cpp",
+      "blob": "eb2f8b2617d031947d86048ac5e1f43431d14e59"
+    },
+    "p1_shader": {
+      "path": "shaders/b1_2_exec148_gpu_materialize.comp",
+      "blob": "bfb6471eec374e39194dd24ddc6d38c7d76e516f",
+      "spv_sha256": "3A67C8F4FF7441CB0F13963380C1115770E7ADDA07048FC2F8476E1D271532C6",
+      "spv_bytes": 8224
+    },
+    "static_test_blob": "eb23f5e47a7a9664c132019bbe2027da6964cd86",
+    "build_script_blob": "f2405f20ff4025325427aa2066724b2ba9f210e5",
+    "qualification_runner_blob": "fc19b94774462d93571547d1623d00d9a0ae54a5",
+    "implementation_authorization_blob": "e1903e256b4fa99889d171229fd9dc8069de26ca",
+    "scientific_prelock_blob": "11a7e57087cd27c82f328ad8ab25fc0c1b6d6b52",
+    "independent_prelock_review_blob": "9a664d4aa1f53fb53030377b7b0d5be3c47fe497"
+  },
+  "build_and_scope": {
+    "static_qa": "PASS_STATIC_QA",
+    "shader_build": "PASS_SHADER_BUILD",
+    "native_build": "PASS_STATIC_SHADER_NATIVE_BUILD",
+    "executable_sha256": "F81DAB7893622DB4EDECBE9A0519D9C9134537BE5D39386A310F9F532C8E631D",
+    "executable_bytes": 391168,
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "model_bytes": 4683074048,
+    "performance_authorized": false,
+    "acquisition_timing_emitted": false,
+    "gpu_timing_emitted": false,
+    "storage_timing_emitted": false,
+    "performance_execution": false,
+    "comparison_to_P0_reference": false
+  },
+  "P1": {
+    "status": "PASS_P1_ZERO_SCIENCE_CORRECTNESS",
+    "data_path": {
+      "dispatches": 14,
+      "blocks_per_layer": 265216,
+      "local_size": 256,
+      "workgroups_per_layer": 1036,
+      "total_blocks": 3713024,
+      "full_image_cpu_staging": false,
+      "final_buffer_direct_write": true
+    },
+    "exec148_bytes": 549527552,
+    "canonical_family_sha256": "60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2",
+    "raw_exec148_sha256": "3f168749256e8acbbbe61da06196ca0e51a249b3923938e5651a4da6f50ab43f",
+    "tuple_exact": true,
+    "component": {
+      "max_abs": 0,
+      "rmse": 0,
+      "n": 50176,
+      "finite": true,
+      "pass": true
+    }
+  },
+  "P3": {
+    "status": "PASS_P3_ZERO_SCIENCE_CORRECTNESS",
+    "sidecar": {
+      "schema": "arcllm.v1.b1_2.exec148_sidecar.v0.1",
+      "payload_bytes": 549527552,
+      "compression": false,
+      "canonical_family_sha256": "60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2",
+      "raw_payload_sha256": "3f168749256e8acbbbe61da06196ca0e51a249b3923938e5651a4da6f50ab43f",
+      "layers": [
+        3,
+        4,
+        6,
+        7,
+        8,
+        11,
+        12,
+        14,
+        15,
+        17,
+        18,
+        19,
+        21,
+        22
+      ],
+      "shape": {
+        "k": 18944,
+        "rows": 3584,
+        "batch": 1
+      }
+    },
+    "warm": {
+      "pass": true,
+      "tuple_exact": true,
+      "raw_sha256": "3f168749256e8acbbbe61da06196ca0e51a249b3923938e5651a4da6f50ab43f",
+      "component": {
+        "max_abs": 0,
+        "rmse": 0,
+        "n": 50176,
+        "pass": true
+      }
+    },
+    "cold_unbuffered": {
+      "pass": true,
+      "tuple_exact": true,
+      "raw_sha256": "3f168749256e8acbbbe61da06196ca0e51a249b3923938e5651a4da6f50ab43f",
+      "sector_bytes": 512,
+      "chunk_bytes": 4194304,
+      "staging": "VirtualAlloc",
+      "component": {
+        "max_abs": 0,
+        "rmse": 0,
+        "n": 50176,
+        "pass": true
+      }
+    }
+  },
+  "cross_path_integrity": {
+    "P1_equals_P3_sidecar_raw_sha256": true,
+    "P3_warm_equals_sidecar_raw_sha256": true,
+    "P3_cold_equals_sidecar_raw_sha256": true,
+    "all_paths_same_canonical_family_sha256": true,
+    "conclusion": "P1 GPU creation and P3 sidecar acquisition converge to the same byte-identical canonical EXEC148 image."
+  },
+  "adjudication": {
+    "zero_science_qualification": "PASS",
+    "P1_implementation_correctness": "QUALIFIED",
+    "P3_sidecar_correctness": "QUALIFIED",
+    "P3_warm_functional_path": "QUALIFIED",
+    "P3_cold_unbuffered_functional_path": "QUALIFIED",
+    "performance_claims": "NONE_AUTHORIZED_NONE_OBSERVED"
+  },
+  "governance": {
+    "lineage_append": false,
+    "reason": "This artifact freezes implementation/correctness qualification only; no new performance/scientific outcome exists.",
+    "performance_lock_open": false,
+    "performance_execution_open": false,
+    "next": "INDEPENDENT_B1_2_IMPLEMENTATION_PACKAGE_REVIEW"
+  }
+}
