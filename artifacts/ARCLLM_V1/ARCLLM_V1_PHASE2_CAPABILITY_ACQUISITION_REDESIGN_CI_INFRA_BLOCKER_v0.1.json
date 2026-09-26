@@ -1,0 +1,18 @@
+{
+  "schema": "arcllm.v1.phase2.capability_acquisition_redesign_ci_infra_blocker.v0.1",
+  "date": "2026-09-27",
+  "status": "GITHUB_RUNNER_ALLOCATION_BLOCKER_NO_QA_STEP_EXECUTED",
+  "head": "26fa928c673fb22ab21bf0a762eb743749f59be5",
+  "workflow_run": {
+    "id": 36277827389,
+    "job_id": 108503860249,
+    "workflow": "arcllm-v1-phase2-capability-acquisition-redesign",
+    "conclusion": "failure",
+    "runner_id": 0,
+    "runner_name": "",
+    "steps": []
+  },
+  "classification": "INFRASTRUCTURE_ONLY",
+  "code_execution_on_github": false,
+  "science_execution": false
+}

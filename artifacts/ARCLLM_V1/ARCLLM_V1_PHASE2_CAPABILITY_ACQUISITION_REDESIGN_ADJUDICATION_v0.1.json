@@ -1,0 +1,95 @@
+{
+  "schema": "arcllm.v1.phase2.capability_acquisition_semantics_redesign_adjudication.v0.1",
+  "date": "2026-09-27",
+  "status": "PASS_CAPABILITY_ACQUISITION_SEMANTICS_REDESIGN",
+  "question": "Can one minimal generic capability model distinguish optional amortized acquisition from mandatory feasibility acquisition, allow capabilities with no validated fallback, and preserve explicit not-ready/outside-evidence decisions, while simultaneously preserving all 114,688 first-family decisions and satisfying the frozen P8 bounded oracle?",
+  "answer": "YES_WITHIN_THE_TWO_DEMONSTRATED_FAMILY_CLASSES",
+  "parent_fail": {
+    "real_second_family_adjudication_blob": "a7430a4fd941b555b9262c464a3473bd3d7cf942",
+    "close_blob": "81a0271a5a976f2ab4b1c1de02c687cdf2223f23"
+  },
+  "gate_contract_blob": "517a51e36a2e74bbb389b4b6169decc24b097212",
+  "frozen_v1_integrity": {
+    "registry_model": "b99c5b647fb8edd33c7fee10dbdc8b18ba5a3720",
+    "registry_api": "53fa0d2beff6b55846624077cd3fb84e99dc352d",
+    "registry_core": "d878e15dd272a3788074e4c56334dabaf3958bad",
+    "policy_header": "07134b51ba3c66539376d9ec9d55516752b44750",
+    "policy_source": "6d448d87358289914aca1cc839512f4a5ca242bf",
+    "byte_identical": true
+  },
+  "candidate_v2": {
+    "registry_header": "a024fdde92225af6f909a2985a3988a9ae7bb1b3",
+    "registry_core": "8c2649ecbeb0fb8e3a3285209e2253790ec29680",
+    "policy_header": "8a872f671c23f5f508955121c8ffebc0091365f9",
+    "policy_source": "13fa329a5416aec06e68c7d94c24d25f5875fa52",
+    "first_family_registration": "1dd4f81621d0ec78fa85453dbad05b3f538ca72e",
+    "p8_registration": "bbfde2dd900caa68469ab55336866e78d450de79"
+  },
+  "minimal_semantic_delta": [
+    "Capability has a required preferred primitive and an optional validated fallback primitive.",
+    "Evidence profile reuse metric is optional.",
+    "Acquisition paths distinguish REUSE_AMORTIZED from MANDATORY_FOR_FEASIBILITY.",
+    "MANDATORY_FOR_FEASIBILITY paths are forbidden from carrying reuse thresholds.",
+    "NOT_READY is a first-class no-route result.",
+    "OUTSIDE_VALIDATED_CAPABILITY is a first-class evidence-boundary result."
+  ],
+  "proof": {
+    "first_family": {
+      "cases": 114688,
+      "verdict": "PASS_EXACT_DECISION_EQUIVALENCE",
+      "fields": [
+        "status",
+        "route",
+        "lifecycle",
+        "acquisition",
+        "threshold_units",
+        "requested_residency_bytes",
+        "preserve_existing_representation",
+        "require_post_acquisition_identity_validation"
+      ],
+      "thresholds_preserved": [
+        "2/4",
+        "15/33",
+        "17/37"
+      ]
+    },
+    "p8": {
+      "verdict": "PASS_FROZEN_BOUNDED_ORACLE",
+      "no_validated_fallback": true,
+      "no_reuse_metric": true,
+      "no_reuse_threshold": true,
+      "unknown_reuse_mandatory_acquire": true,
+      "zero_reuse_mandatory_acquire": true,
+      "unavailable_acquisition_not_ready_no_route": true,
+      "resident_valid_route": true,
+      "resident_zero_reuse_no_invented_eviction": true,
+      "outside_evidence_scope_no_route": true,
+      "invalid_resident_evicts_without_fake_fallback": true,
+      "full_inference_promoted": false
+    },
+    "semantic_guard": {
+      "mandatory_path_with_threshold_rejected": true,
+      "rejection_atomic": true
+    },
+    "portable_native_qa_blob": "818ab7b4fa13cdd06757dd2e2f3b22aaf546cf72"
+  },
+  "claim_boundary": {
+    "established": "One minimal generic semantic model covers both (1) optional reuse-amortized represented primitives with a validated fallback and (2) mandatory feasibility-enabling represented primitives with no validated fallback.",
+    "not_established": "Universality across all future primitive families.",
+    "p8_boundary": "P8-G remains FAIL and full inference remains unauthorized."
+  },
+  "github_ci": {
+    "verdict": "INFRA_BLOCKED_NOT_CODE_FAIL",
+    "blocker_blob": "ad5c40b6a68de0b88db862cb1a645526ce4319c7",
+    "run_id": 36277827389,
+    "job_id": 108503860249,
+    "runner_id": 0,
+    "steps_executed": 0
+  },
+  "backend_binding_authorized": false,
+  "lower_level_placement_reopened": false,
+  "next_scientific_step": {
+    "id": "PHASE2_DIRECT_EXECUTION_PRIMITIVE_HOLDOUT_GENERALIZATION_GATE",
+    "question": "Can the frozen v2 capability/acquisition semantics represent an independently validated direct-execution primitive family such as closed I002, whose preferred execution primitive requires neither a new resident representation nor an acquisition action, without abusing residency state, inventing acquisition/lifetime semantics, or changing the v2 registry/policy core?"
+  }
+}

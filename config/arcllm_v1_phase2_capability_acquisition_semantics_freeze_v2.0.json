@@ -1,0 +1,29 @@
+{
+  "schema": "arcllm.v1.phase2.capability_acquisition_semantics_freeze.v2.0",
+  "date": "2026-09-27",
+  "status": "FROZEN_PHASE2_CAPABILITY_ACQUISITION_SEMANTICS_V2",
+  "adjudication_blob": "4c2e59aa3f147d9e19f9e3b9758aaeeed2c08dc5",
+  "gate_contract_blob": "517a51e36a2e74bbb389b4b6169decc24b097212",
+  "active_candidate_files": {
+    "registry_header": "include/arcllm/v1/primitive_registry_v2.h",
+    "registry_header_blob": "a024fdde92225af6f909a2985a3988a9ae7bb1b3",
+    "registry_core": "src/arcllm_v1_primitive_registry_v2.cpp",
+    "registry_core_blob": "8c2649ecbeb0fb8e3a3285209e2253790ec29680",
+    "policy_header": "include/arcllm/v1/generic_policy_engine_v2.h",
+    "policy_header_blob": "8a872f671c23f5f508955121c8ffebc0091365f9",
+    "policy_source": "src/arcllm_v1_generic_policy_engine_v2.cpp",
+    "policy_source_blob": "13fa329a5416aec06e68c7d94c24d25f5875fa52"
+  },
+  "v1_status": "FROZEN_HISTORICAL_REFERENCE_COMPATIBILITY",
+  "v2_guarantees": [
+    "Optional validated fallback is supported; absence of fallback is valid.",
+    "Reuse-amortized and mandatory-feasibility acquisition are distinct generic semantics.",
+    "Mandatory-feasibility acquisition cannot carry a reuse threshold.",
+    "No-route NOT_READY and OUTSIDE_VALIDATED_CAPABILITY are first-class.",
+    "First-family frozen behavior is preserved across 114,688 states.",
+    "P8 bounded segmented family is representable without invented fallback/reuse semantics."
+  ],
+  "universality_claim": false,
+  "backend_binding_authorized": false,
+  "next_scientific_step": "PHASE2_DIRECT_EXECUTION_PRIMITIVE_HOLDOUT_GENERALIZATION_GATE"
+}

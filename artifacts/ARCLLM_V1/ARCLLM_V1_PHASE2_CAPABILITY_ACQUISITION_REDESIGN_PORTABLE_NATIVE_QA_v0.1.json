@@ -1,0 +1,39 @@
+{
+  "schema": "arcllm.v1.phase2.capability_acquisition_redesign_portable_native_qa.v0.1",
+  "date": "2026-09-27",
+  "status": "PASS_PORTABLE_NATIVE_EXACT_CANDIDATE_QA",
+  "qualified_head": "26fa928c673fb22ab21bf0a762eb743749f59be5",
+  "compiler": "g++ (Debian 14.2.0-19) 14.2.0",
+  "exact_candidate_git_blobs": {
+    "base_registry_model": "b99c5b647fb8edd33c7fee10dbdc8b18ba5a3720",
+    "registry_v2_header": "a024fdde92225af6f909a2985a3988a9ae7bb1b3",
+    "registry_v2_core": "8c2649ecbeb0fb8e3a3285209e2253790ec29680",
+    "policy_v2_header": "8a872f671c23f5f508955121c8ffebc0091365f9",
+    "policy_v2_source": "13fa329a5416aec06e68c7d94c24d25f5875fa52",
+    "first_family_v2_header": "323d99135fa12c6d86ab33fa59bbb5c9c77b0fff",
+    "first_family_v2_source": "1dd4f81621d0ec78fa85453dbad05b3f538ca72e",
+    "p8_v2_header": "438bbd8406d8ad5e32ba85083045d956975f31ef",
+    "p8_v2_source": "bbfde2dd900caa68469ab55336866e78d450de79"
+  },
+  "exact_git_blob_hash_verification": "PASS",
+  "independent_native_oracle": {
+    "source_sha256": "570AE230A92016881F88013CE36AED693FE3B0A61C72CA9DDAD8E7897306048A",
+    "source_bytes": 8236,
+    "binary_sha256": "F65A81F8C6E7028EA373E54945D5D43065C57C061F632D6686E8A6C40E326366",
+    "output": [
+      "FIRST_FAMILY_EQUIVALENCE_CASES=114688",
+      "P8_REAL_FAMILY_ORACLE=PASS",
+      "PHASE2_CAPABILITY_ACQUISITION_SEMANTICS_REDESIGN_GATE=PASS",
+      "NO MODEL LOAD. NO GPU. NO VULKAN. NO TIMING. NO NEW PLACEMENT STUDY."
+    ]
+  },
+  "semantic_guard": {
+    "source_sha256": "8A19A9E684233ED08E644E4276D842C6155577BFEB3A858BB11586AE5A5B5ED4",
+    "source_bytes": 1944,
+    "binary_sha256": "72DA4E067C8E73FE74BDD24158EE01C31CB0DFF66855A0FE90E83E8A08513B1E",
+    "output": "MANDATORY_ACQUISITION_THRESHOLD_GUARD=PASS"
+  },
+  "provenance_boundary": "The exact candidate implementation blobs were materialized and Git-hash verified before native compilation. The native oracle and semantic-guard harnesses were independently generated for qualification and are not repository production code.",
+  "performance_execution": false,
+  "model_execution": false
+}
