@@ -1,0 +1,49 @@
+{
+  "schema": "arcllm.v1.b1_2.performance_buildonly_compile_repair.v0.1",
+  "date": "2026-09-26",
+  "status": "PRE_PERFORMANCE_BUILDONLY_COMPILE_REPAIR_FROZEN",
+  "failed_head": "be0a9f9fc335e79bb59e42e8256a1575983af33f",
+  "classification": "BUILD_ONLY_IMPLEMENTATION_COMPILE_FAILURE_BEFORE_ANY_SCIENCE_EXECUTION",
+  "observed_state": {
+    "performance_lock_static_qa": "PASS",
+    "shader_compile": "PASS",
+    "native_performance_wrapper_build": "FAIL",
+    "model_loaded": false,
+    "gpu_dispatch": false,
+    "sidecar_io": false,
+    "performance_execution": false,
+    "science_marker_created": false
+  },
+  "root_cause": {
+    "performance_source_blob": "4f918fcd5b507c9ebb1ae58e9b9dfb9c9f1f3108",
+    "zero_science_source_blob": "eb2f8b2617d031947d86048ac5e1f43431d14e59",
+    "diagnosis": "The performance wrapper attempted to rename zero-science main() with an outer main macro. The included zero-science source itself redefined main while including its runtime and then undefined main, so its standalone main() compiled normally and collided with the performance wrapper main().",
+    "compiler_evidence": [
+      "warning C4005: 'main': macro redefinition",
+      "error C2084: function 'int main(int,char **)' already has a body"
+    ]
+  },
+  "repair": {
+    "zero_science_source_blob": "076af07cfcff2558259d8ec3e2d2a6e571941215",
+    "performance_source_blob": "e581a8d544c7736d2c9df033c1ae5fa38e5a5560",
+    "static_test_blob": "6d4bd58c9ce8e1f50f85c3f5cd1d97c7b8b369ec",
+    "buildonly_runner_blob": "25933607c1995cb544eb64bf8568546f0634b386",
+    "one_shot_runner_blob": "3ada8894304e4bb5282cdac0e96c05d78782526f",
+    "mechanism": "Add ARCLLM_B1_2_EMBED_LIBRARY guard around only the standalone zero-science main(); performance wrapper defines that guard while including qualified helper/data-path code. Remove legacy outer main-renaming macro.",
+    "zero_science_standalone_behavior_changed": false,
+    "helper_data_path_changed": false,
+    "P1_shader_changed": false,
+    "P1_geometry_changed": false,
+    "P3_load_paths_changed": false,
+    "timer_boundaries_changed": false,
+    "attempt_order_changed": false,
+    "threshold_changed": false,
+    "scientific_protocol_changed": false
+  },
+  "governance": {
+    "supersede_lock_v0_1": true,
+    "reason": "Exact source blobs changed, so immutable lock v0.1 must remain historical and a new v0.2 must bind the repaired wrapper sources.",
+    "safe_to_repeat_buildonly": true,
+    "safe_to_execute_performance": false
+  }
+}

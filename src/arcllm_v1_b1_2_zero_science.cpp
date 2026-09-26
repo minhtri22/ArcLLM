@@ -316,6 +316,7 @@ static void write_common_result(
 
 }
 
+#ifndef ARCLLM_B1_2_EMBED_LIBRARY
 int main(int argc,char**argv){
     std::string model,shader_dir,mode,sidecar,out="b1_2_zero_science.json";
     try{
@@ -456,3 +457,5 @@ int main(int argc,char**argv){
         return 2;
     }
 }
+
+#endif // ARCLLM_B1_2_EMBED_LIBRARY

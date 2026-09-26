@@ -3,10 +3,19 @@ import re
 
 ROOT=Path(__file__).resolve().parents[1]
 SRC=(ROOT/"src/arcllm_v1_b1_2_performance.cpp").read_text(encoding="utf-8")
+ZERO=(ROOT/"src/arcllm_v1_b1_2_zero_science.cpp").read_text(encoding="utf-8")
 
 def req(c,m):
     if not c:
         raise AssertionError(m)
+
+# Performance wrapper must embed zero-science helpers without compiling its standalone main.
+req(SRC.startswith('#define ARCLLM_B1_2_EMBED_LIBRARY 1\n#include "arcllm_v1_b1_2_zero_science.cpp"\n#undef ARCLLM_B1_2_EMBED_LIBRARY\n'),
+    "performance wrapper embed prologue drift")
+req('#define main arcllm_b1_2_zero_science_main_disabled' not in SRC,
+    "legacy macro main-renaming path must not return")
+req('#ifndef ARCLLM_B1_2_EMBED_LIBRARY' in ZERO and '#endif // ARCLLM_B1_2_EMBED_LIBRARY' in ZERO,
+    "zero-science standalone main embed guard missing")
 
 required=[
     'kB12Attempts=8u',

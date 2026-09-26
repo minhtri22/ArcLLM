@@ -1,6 +1,6 @@
-#define main arcllm_b1_2_zero_science_main_disabled
+#define ARCLLM_B1_2_EMBED_LIBRARY 1
 #include "arcllm_v1_b1_2_zero_science.cpp"
-#undef main
+#undef ARCLLM_B1_2_EMBED_LIBRARY
 
 #include <algorithm>
 #include <chrono>

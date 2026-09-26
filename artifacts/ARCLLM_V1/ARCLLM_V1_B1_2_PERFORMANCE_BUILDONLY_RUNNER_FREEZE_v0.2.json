@@ -1,0 +1,31 @@
+{
+  "schema": "arcllm.v1.b1_2.performance_buildonly_runner_freeze.v0.2",
+  "date": "2026-09-26",
+  "status": "READY_FOR_DEV_HOST_BUILDONLY_QUALIFICATION_V0_2",
+  "supersedes": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_B1_2_PERFORMANCE_BUILDONLY_RUNNER_FREEZE_v0.1.json",
+    "blob": "ef3807af806e98797533bf7ad4d1f25f3aa631b4"
+  },
+  "parent_lock": {
+    "path": "config/arcllm_v1_b1_2_performance_execution_lock_v0.2.json",
+    "blob": "9952e314b427897e6daf5c99d36595088a39998e"
+  },
+  "runner": {
+    "path": "run_arcllm_v1_b1_2_performance_buildonly.ps1",
+    "blob": "25933607c1995cb544eb64bf8568546f0634b386"
+  },
+  "expected_scope": {
+    "model_loaded": false,
+    "gpu_dispatch": false,
+    "sidecar_io": false,
+    "performance_execution": false,
+    "science_marker_created": false
+  },
+  "governance": {
+    "exact_executable_not_bound_yet": true,
+    "independent_performance_lock_review_not_yet_performed": true,
+    "execution_gate_not_created": true,
+    "performance_execution_open": false
+  },
+  "next": "DEV_HOST_B1_2_PERFORMANCE_WRAPPER_BUILDONLY_QUALIFICATION_V0_2"
+}

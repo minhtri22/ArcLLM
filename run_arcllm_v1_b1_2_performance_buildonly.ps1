@@ -8,7 +8,7 @@ if($Branch-ne"research/arcllm-v1"){throw "STOP: wrong branch"}
 $Tracked=(git -C $Root status --porcelain --untracked-files=no|Out-String)
 if(-not[string]::IsNullOrWhiteSpace($Tracked)){throw "STOP: tracked worktree dirty"}
 
-$LockPath=Join-Path $Root "config\arcllm_v1_b1_2_performance_execution_lock_v0.1.json"
+$LockPath=Join-Path $Root "config\arcllm_v1_b1_2_performance_execution_lock_v0.2.json"
 $FreezePath=Join-Path $Root "artifacts\ARCLLM_V1\ARCLLM_V1_B1_2_MEASUREMENT_WRAPPER_FREEZE_v0.1.json"
 $ReviewPath=Join-Path $Root "artifacts\ARCLLM_V1\ARCLLM_V1_B1_2_INDEPENDENT_IMPLEMENTATION_PACKAGE_REVIEW_v0.1.json"
 $ZeroPath=Join-Path $Root "artifacts\ARCLLM_V1\ARCLLM_V1_B1_2_P1_P3_ZERO_SCIENCE_QUALIFICATION_CANONICAL_v0.1.json"
@@ -22,7 +22,7 @@ if(-not[bool]$Lock.execution_authorization.buildonly_authorized){throw "STOP: bu
 if([bool]$Lock.execution_authorization.performance_execution){throw "STOP: performance execution unexpectedly open"}
 if([bool]$Lock.execution_authorization.execution_gate_present){throw "STOP: execution gate must not be present during build-only qualification"}
 
-$GatePath=Join-Path $Root "config\arcllm_v1_b1_2_performance_execution_gate_v0.1.json"
+$GatePath=Join-Path $Root "config\arcllm_v1_b1_2_performance_execution_gate_v0.2.json"
 if(Test-Path $GatePath){throw "STOP: performance execution gate already exists; build-only binding stage expected gate absence"}
 
 $Critical=[ordered]@{
@@ -72,7 +72,7 @@ $Dir=Join-Path $Root ("results\b1_2_performance_buildonly_"+$Stamp)
 New-Item -ItemType Directory -Force -Path $Dir|Out-Null
 
 $Return=[ordered]@{
- schema="arcllm.v1.b1_2.performance.buildonly.dev_host_return.v0.1"
+ schema="arcllm.v1.b1_2.performance.buildonly.dev_host_return.v0.2"
  status="PASS_DEV_HOST_PERFORMANCE_WRAPPER_BUILDONLY"
  git_head=((& git -C $Root rev-parse HEAD).Trim())
  scope=[ordered]@{
@@ -83,8 +83,8 @@ $Return=[ordered]@{
   science_marker_created=$false
  }
  lock=[ordered]@{
-  path="config/arcllm_v1_b1_2_performance_execution_lock_v0.1.json"
-  blob=((& git -C $Root rev-parse "HEAD:config/arcllm_v1_b1_2_performance_execution_lock_v0.1.json").Trim())
+  path="config/arcllm_v1_b1_2_performance_execution_lock_v0.2.json"
+  blob=((& git -C $Root rev-parse "HEAD:config/arcllm_v1_b1_2_performance_execution_lock_v0.2.json").Trim())
  }
  executable=[ordered]@{
   filename="arcllm_v1_b1_2_performance.exe"
