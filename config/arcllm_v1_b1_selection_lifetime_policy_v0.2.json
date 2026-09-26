@@ -1,0 +1,111 @@
+{
+  "schema": "arcllm.v1.b1.selection_lifetime_policy.v0.2",
+  "date": "2026-09-26",
+  "status": "FROZEN_B1_SELECTION_LIFETIME_POLICY_V0_2",
+  "supersedes": {
+    "path": "config/arcllm_v1_b1_selection_lifetime_policy_v0.1.json",
+    "blob": "f2e66bec59f23ccef82db8ca803a387bfc8edcd1",
+    "reason": "Runtime-hook integration clarification: route state and B residency state are distinct. An outside-domain request routes A but does not by itself evict an otherwise valid resident B."
+  },
+  "scientific_parent": {
+    "path": "artifacts/ARCLLM_V1/ARCLLM_V1_B1_2_P1_P3_PERFORMANCE_CANONICAL_v0.1.json",
+    "blob": "339053906653e522cf711f43cc0a5fccad6e8f14"
+  },
+  "validated_domain": {
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "operator": "decode ffn_down",
+    "quant": "Q4_K",
+    "shape": {
+      "k": 18944,
+      "rows": 3584,
+      "batch": 1
+    },
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "exec148_id": "Q4K_SERIAL_K_EXEC148_V0_1",
+    "exec148_bytes": 549527552
+  },
+  "acquisition_paths": {
+    "P1_GPU_CREATE_IN_PLACE": {
+      "role": "PRIMARY",
+      "strict_create_threshold_tokens": {
+        "W-S": 2,
+        "W-C": 4
+      }
+    },
+    "P3_COLD_UNBUFFERED": {
+      "role": "SECONDARY_ONLY_IF_P1_UNAVAILABLE_OR_VETOED",
+      "strict_create_threshold_tokens": {
+        "W-S": 15,
+        "W-C": 33
+      }
+    },
+    "P0_CPU_DIRECT": {
+      "role": "TERTIARY_PROVEN_REFERENCE",
+      "strict_create_threshold_tokens": {
+        "W-S": 17,
+        "W-C": 37
+      }
+    },
+    "P3_WARM_PAGE_CACHE": {
+      "role": "DISABLED_FOR_CURRENT_P0_IMPROVEMENT_POLICY",
+      "enabled": false
+    }
+  },
+  "route_residency_separation": {
+    "statement": "Routing a current request through A is not equivalent to destroying a valid resident B image.",
+    "outside_domain_request_route": "A_SPLIT_K32",
+    "outside_domain_request_evicts_valid_B": false,
+    "preserve_valid_B_if_lease_granted_and_future_reuse_not_known_zero": true,
+    "eviction_remains_limited_to": [
+      "RESIDENCY_LEASE_REVOKED",
+      "MODEL_OR_REPRESENTATION_INVALIDATION",
+      "B_EXECUTION_PATH_INVALIDATION",
+      "CORRECTNESS_IDENTITY_FAILURE",
+      "MODEL_UNLOAD",
+      "KNOWN_ZERO_FUTURE_REUSE"
+    ]
+  },
+  "creation_policy": {
+    "apply_only_when_B_absent": true,
+    "require_known_future_reuse": true,
+    "require_positive_future_reuse": true,
+    "require_549527552_byte_residency_lease": true,
+    "no_speculative_acquisition_when_reuse_unknown": true
+  },
+  "retention_policy": {
+    "sunk_acquisition_hysteresis": true,
+    "reapply_creation_threshold_after_B_resident": false,
+    "inside_validated_domain": "USE_B for positive or unknown future reuse while B is valid and residency lease is granted.",
+    "outside_validated_domain": "USE_A for the current request; preserve valid B residency unless an independent eviction condition is true."
+  },
+  "residency_lease": {
+    "bytes": 549527552,
+    "domain": "SYSTEM_UMA_GPU_ACCESSIBLE_MEMORY",
+    "no_fixed_free_memory_threshold": true,
+    "authority": "RUNTIME_RESOURCE_MANAGER"
+  },
+  "acquisition_failure_contract": {
+    "automatic_fallback_chain": false,
+    "rule": "If an acquisition action fails or exact post-acquisition identity validation fails, route A for that decision and reevaluate later with updated path availability. Do not hide retries inside the policy hook."
+  },
+  "placement_research_reopen_gate": {
+    "default": "CLOSED",
+    "reopen_only_if_candidate_can_change": [
+      "ROUTING_DECISION",
+      "ACQUISITION_DECISION",
+      "RETENTION_OR_EVICTION_DECISION",
+      "REPRESENTATION_ACCESSIBILITY_OR_VALIDITY"
+    ]
+  },
+  "implementation_boundary": {
+    "deterministic_evaluator_authorized": true,
+    "runtime_hook_adapter_authorized": true,
+    "model_load_in_qa": false,
+    "gpu_or_vulkan_in_qa": false,
+    "performance_timing_in_qa": false,
+    "placement_benchmark_in_qa": false
+  }
+}

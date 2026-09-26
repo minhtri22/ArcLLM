@@ -1,0 +1,65 @@
+{
+  "schema": "arcllm.v1.b1.policy_evaluator_runtime_hook_implementation.v0.1",
+  "date": "2026-09-26",
+  "status": "IMPLEMENTED_AWAITING_ZERO_SCIENCE_QA",
+  "parent_policy": {
+    "path": "config/arcllm_v1_b1_selection_lifetime_policy_v0.2.json",
+    "blob": "e34ebe2af17aaee811531756301d4700f6c41734"
+  },
+  "implementation": {
+    "policy_core": {
+      "path": "src/arcllm_v1_b1_policy.h",
+      "blob": "242bd710c5181051c6a08aa8b893c4833d027000"
+    },
+    "runtime_hook": {
+      "path": "src/arcllm_v1_b1_policy_runtime_hook.h",
+      "blob": "da3364ed36fabd510693c096a1380625bea6e7b4"
+    },
+    "zero_science_cpp": {
+      "path": "tests/arcllm_v1_b1_policy_zero_science.cpp",
+      "blob": "51f2a10858c43b56ca57290638b18947d57d6ab6"
+    },
+    "static_qa": {
+      "path": "tests/test_arcllm_v1_b1_policy_static.py",
+      "blob": "91e971e4d040df5f29bac4d180ef8c0377056827"
+    },
+    "windows_build_qa": {
+      "path": "tools/build_arcllm_v1_b1_policy_zero_science.ps1",
+      "blob": "ba0c00248134801236f1764a26e9dabdcf07e582"
+    },
+    "portable_ci": {
+      "path": ".github/workflows/arcllm-v1-b1-policy-zero-science.yml",
+      "blob": "757aea0881af123d290a2d547da8a71caca1a69c"
+    }
+  },
+  "bounded_runtime_contract": {
+    "inputs": [
+      "current_request_in_validated_domain",
+      "model_loaded",
+      "B residency/identity/execution availability",
+      "residency lease state",
+      "future reuse known/tokens",
+      "acquisition veto",
+      "P1/P3-cold/P0 availability"
+    ],
+    "outputs": [
+      "route A or B",
+      "no-op/acquire-P1/acquire-P3-cold/acquire-P0/evict lifecycle action",
+      "exact residency bytes",
+      "post-acquisition identity validation requirement",
+      "preserve-existing-B flag"
+    ],
+    "side_effects_in_policy_core": false,
+    "automatic_retry_chain": false
+  },
+  "zero_science_scope": {
+    "model_load": false,
+    "gpu": false,
+    "vulkan": false,
+    "performance_timing": false,
+    "placement_benchmark": false,
+    "exhaustive_transition_matrix": true
+  },
+  "lineage_append": false,
+  "next": "ZERO_SCIENCE_QA_THEN_CANONICAL_POLICY_INTEGRATION_CLOSE"
+}
