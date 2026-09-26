@@ -1,0 +1,107 @@
+{
+  "schema": "arcllm.v1.b1_2.performance_execution_lock.v0.1",
+  "date": "2026-09-26",
+  "status": "FROZEN_IMMUTABLE_B1_2_PERFORMANCE_EXECUTION_LOCK",
+  "lock_scope": "Scientific protocol and measurement-wrapper source are immutable. Execution remains closed until a separate gate binds an exact DEV_HOST build and passes independent review.",
+  "parents": {
+    "scientific_design_blob": "613d8d335bc7f638a9c42c0853741388ca88a54e",
+    "scientific_prelock_blob": "11a7e57087cd27c82f328ad8ab25fc0c1b6d6b52",
+    "independent_prelock_review_blob": "9a664d4aa1f53fb53030377b7b0d5be3c47fe497",
+    "zero_science_canonical_blob": "92431d7051d8697603f8071c538877013f82fcef",
+    "independent_implementation_review_blob": "02854fb4ec937918e760f643632ab9f6f14ae4b4",
+    "measurement_wrapper_freeze_blob": "79af766b181438fbc91d7f60d2d78c3115e38f01"
+  },
+  "implementation": {
+    "performance_source_blob": "4f918fcd5b507c9ebb1ae58e9b9dfb9c9f1f3108",
+    "zero_science_source_blob": "eb2f8b2617d031947d86048ac5e1f43431d14e59",
+    "transitive_runtime_blob": "985e51981e1080f902c4cdfbb4435489580028dc",
+    "p1_shader_source_blob": "bfb6471eec374e39194dd24ddc6d38c7d76e516f",
+    "static_test_blob": "65ea22aa1aaba53f240a59b3b7bbd8f7c4d33a72",
+    "buildonly_script_blob": "38661fa1eb3373ca52144b824b658dcba573bcab",
+    "one_shot_runner_blob": "e9c7e6028265eceb479b561113badd294f28bda5",
+    "p1_spv_sha256": "3A67C8F4FF7441CB0F13963380C1115770E7ADDA07048FC2F8476E1D271532C6",
+    "p1_spv_bytes": 8224,
+    "q4_reference_spv_sha256": "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A",
+    "b_serial_spv_sha256": "140B8C7ADF5E88D4F1A50C4F8807874F4978070F301FCEEFC67A6A51A383D2A3"
+  },
+  "inputs": {
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "model_bytes": 4683074048,
+    "sidecar_bytes": 549527552,
+    "sidecar_raw_sha256": "3f168749256e8acbbbe61da06196ca0e51a249b3923938e5651a4da6f50ab43f",
+    "canonical_family_sha256": "60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2"
+  },
+  "protocol": {
+    "metric": "ACQUISITION_WALL_MS",
+    "blocks": 8,
+    "order_per_block": [
+      "P1",
+      "P3-WARM",
+      "P3-COLD"
+    ],
+    "samples_each": 8,
+    "warmup_attempts": 0,
+    "retries": false,
+    "quiet_host_required": true,
+    "P1_primary_field": "record_submit_wait_ms",
+    "P1_submit_wait_ms_primary": false,
+    "P3_warm_timer_anchor": "buffered_load only",
+    "P3_cold_timer_anchor": "unbuffered_load only",
+    "P3_warm_preload_untimed": true,
+    "P3_cold_chunk_bytes": 4194304,
+    "P3_cold_flags": [
+      "FILE_FLAG_NO_BUFFERING",
+      "FILE_FLAG_SEQUENTIAL_SCAN"
+    ],
+    "validation_after_each_attempt": true,
+    "validation_inside_primary_timer": false,
+    "estimator": "median",
+    "variability": [
+      "min",
+      "max",
+      "MAD"
+    ],
+    "readout": "No partial samples; emit result only after complete 24-attempt collection and correctness PASS."
+  },
+  "decision": {
+    "P0_reference_ms": 231.6382,
+    "P0_reference_type": "canonical_fixed_reference",
+    "keep_candidate_if": "candidate median ACQUISITION_WALL_MS < 231.6382 ms and all attempt correctness checks pass",
+    "P1_fail_rule": "median >= 231.6382 ms or correctness failure kills current serialized P1 acquisition path for B1.2",
+    "P3_warm_fail_rule": "warm median >= 231.6382 ms means warm sidecar path does not beat P0",
+    "P3_cold_fail_rule": "cold median >= 231.6382 ms means cold-unbuffered sidecar path does not beat P0",
+    "P3_both_fail_rule": "if both P3 states fail reference threshold, P3 is killed for current B1 runtime-performance purpose",
+    "no_rescue": [
+      "overlap",
+      "compression",
+      "representation change",
+      "chunk-size search",
+      "workgroup search",
+      "API/cache-state change"
+    ],
+    "delta_ms_per_token": {
+      "W-S": 14.1842444453716,
+      "W-C": 6.422135259876299
+    },
+    "crossover": "H_star = median_acquisition_ms/(L_A-L_B)"
+  },
+  "one_shot": {
+    "marker": ".local/B1_2_PERFORMANCE_SCIENCE_STARTED.json",
+    "marker_absence_required": true,
+    "any_failure_after_marker_consumes_attempt": true,
+    "selective_rerun_forbidden": true,
+    "full_rerun_forbidden_without_governance_transition": true
+  },
+  "execution_authorization": {
+    "wrapper_source_frozen": true,
+    "buildonly_authorized": true,
+    "model_load_for_buildonly": false,
+    "gpu_dispatch_for_buildonly": false,
+    "sidecar_io_for_buildonly": false,
+    "performance_execution": false,
+    "execution_gate_present": false,
+    "exact_executable_binding_required": true,
+    "independent_lock_review_required": true
+  },
+  "next": "DEV_HOST_B1_2_PERFORMANCE_WRAPPER_BUILDONLY_QUALIFICATION_THEN_INDEPENDENT_LOCK_REVIEW"
+}
