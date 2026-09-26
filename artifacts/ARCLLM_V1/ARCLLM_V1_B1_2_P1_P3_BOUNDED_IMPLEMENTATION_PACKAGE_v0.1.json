@@ -1,7 +1,7 @@
 {
   "schema": "arcllm.v1.b1_2.p1_p3_bounded_implementation_package.v0.1",
   "date": "2026-09-26",
-  "status": "IMPLEMENTED_AWAITING_DEV_HOST_ZERO_SCIENCE_QUALIFICATION_AFTER_STATIC_QA_REPAIR",
+  "status": "IMPLEMENTED_AWAITING_DEV_HOST_ZERO_SCIENCE_QUALIFICATION_AFTER_TOPOLOGY_HARDENING",
   "authorization_blob": "e1903e256b4fa99889d171229fd9dc8069de26ca",
   "scientific_prelock_blob": "11a7e57087cd27c82f328ad8ab25fc0c1b6d6b52",
   "independent_review_blob": "9a664d4aa1f53fb53030377b7b0d5be3c47fe497",
@@ -22,7 +22,7 @@
     },
     "qualifier_source": {
       "path": "src/arcllm_v1_b1_2_zero_science.cpp",
-      "blob": "2c22ed0521f2b5689a3865140e8d101318f4e75e",
+      "blob": "7753065e6d736d453a6415040e1456d87733b8d0",
       "modes": [
         "P1",
         "P3"
@@ -31,7 +31,7 @@
     },
     "static_test": {
       "path": "tests/test_arcllm_v1_b1_2_zero_science.py",
-      "blob": "4727fe5fa5bc1da4730515e73813e01db48f8248"
+      "blob": "2eeb26ae2299b377ea77c9f07dea2b1d4df71171"
     },
     "compile_script": {
       "path": "tools/compile_arcllm_v1_b1_2_zero_science.ps1",
@@ -56,7 +56,9 @@
       "canonical family hash exact",
       "frozen B component max_abs <= 0.02",
       "frozen B component RMSE <= 0.005"
-    ]
+    ],
+    "source_residency_topology": "Exact frozen 19 weight arenas totaling 4,677,120,000 bytes; each target tensor binds its production arena plus exact nonzero/zero src_base_bytes.",
+    "no_duplicate_target_source_buffers": true
   },
   "P3_frozen_implementation": {
     "sidecar_payload": "uncompressed exact concatenated EXEC148 layer images",
@@ -102,5 +104,11 @@
     "change": "Fix Python source-text escaping in forbidden-timing literal checks; no C++/shader/sidecar/scientific contract change.",
     "prior_test_blob": "a433751067ced5bae4711bd9c683a81177241a88",
     "current_test_blob": "4727fe5fa5bc1da4730515e73813e01db48f8248"
+  },
+  "implementation_hardening": {
+    "classification": "PRE_PERFORMANCE_ZERO_SCIENCE_TOPOLOGY_HARDENING",
+    "change": "Qualifier now recreates the exact frozen 19-arena weight residency and binds each target Q4-down tensor by arena + byte base instead of using 14 dedicated duplicate buffers.",
+    "scientific_contract_changed": false,
+    "performance_outcome_seen": false
   }
 }

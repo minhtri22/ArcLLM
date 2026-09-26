@@ -33,6 +33,16 @@ static constexpr uint32_t kBlocksPerLayer=kRows*kBlocksPerRow;
 static constexpr uint32_t kP1LocalSize=256u;
 static constexpr uint32_t kP1Groups=kBlocksPerLayer/kP1LocalSize;
 static constexpr uint64_t kP3ChunkBytes=4ull*1024ull*1024ull;
+struct ArenaRange{uint64_t start,end;};
+static constexpr std::array<ArenaRange,19> kFrozenWeightArenas={{
+    {0ull,268434432ull},{268434432ull,511383552ull},{511383552ull,753913856ull},
+    {753913856ull,1016184832ull},{1016184832ull,1280919552ull},{1280919552ull,1538461696ull},
+    {1538461696ull,1800732672ull},{1800732672ull,2042789888ull},{2042789888ull,2267342848ull},
+    {2267342848ull,2531604480ull},{2531604480ull,2755108864ull},{2755108864ull,3018350592ull},
+    {3018350592ull,3260407808ull},{3260407808ull,3484487680ull},{3484487680ull,3727486976ull},
+    {3727486976ull,3987521536ull},{3987521536ull,4230051840ull},{4230051840ull,4498485600ull},
+    {4498485600ull,4677120000ull}
+}};
 static constexpr char kCanonicalFamilyHash[]="60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2";
 static constexpr char kModelSha256[]="60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463";
 
@@ -329,24 +339,44 @@ int main(int argc,char**argv){
         const uint8_t*payload=store.mapped_base()+gguf.data_offset;
 
         std::array<const uint8_t*,14>src_cpu{};
+        std::array<const GgufTensorInfo*,14>targets{};
         for(uint32_t slot=0;slot<14u;++slot){
             const auto*t=find_tensor(gguf,target_name(kLayers[slot]));
             if(!t||t->ggml_type!=12u||t->dims.size()<2u||t->dims[0]!=kFFN||t->dims[1]!=kHidden)
                 throw std::runtime_error("B1.2 target tensor mismatch: "+target_name(kLayers[slot]));
             if(tensor_nbytes(*t)!=kSourceLayerBytes)throw std::runtime_error("B1.2 target tensor bytes mismatch");
             src_cpu[slot]=payload+t->offset;
+            targets[slot]=t;
         }
 
         VkRuntime vk;
         vk.init();
-        std::vector<Buffer>src_storage;
-        src_storage.reserve(14u);
+        std::vector<Buffer>arenas;
+        arenas.reserve(kFrozenWeightArenas.size());
+        uint64_t arena_bytes=0;
+        for(const auto&a:kFrozenWeightArenas){
+            uint64_t bytes=a.end-a.start;
+            arena_bytes+=bytes;
+            arenas.push_back(vk.make_buffer(bytes,payload+a.start));
+        }
+        if(arena_bytes!=4677120000ull)throw std::runtime_error("B1.2 frozen arena byte total mismatch");
         std::array<Buffer*,14>src_gpu{};
         std::array<uint32_t,14>src_base{};
         for(uint32_t slot=0;slot<14u;++slot){
-            src_storage.push_back(vk.make_buffer(kSourceLayerBytes,src_cpu[slot]));
-            src_gpu[slot]=&src_storage.back();
-            src_base[slot]=0u;
+            const uint64_t s=targets[slot]->offset,e=s+kSourceLayerBytes;
+            bool found=false;
+            for(uint32_t ai=0;ai<uint32_t(kFrozenWeightArenas.size());++ai){
+                const auto&a=kFrozenWeightArenas[ai];
+                if(s>=a.start&&e<=a.end){
+                    uint64_t base=s-a.start;
+                    if(base>0xffffffffull)throw std::runtime_error("B1.2 source base exceeds uint32");
+                    src_gpu[slot]=&arenas[ai];
+                    src_base[slot]=uint32_t(base);
+                    found=true;
+                    break;
+                }
+            }
+            if(!found)throw std::runtime_error("B1.2 target tensor not contained in one frozen arena");
         }
         Buffer exec=vk.make_buffer(kExecFamilyBytes,nullptr);
         const VkMemoryPropertyFlags required_mem=
@@ -414,7 +444,7 @@ int main(int argc,char**argv){
             if(!pass)throw std::runtime_error("P3 zero-science correctness failed");
         }
 
-        for(auto&b:src_storage)vk.destroy_buffer(b);
+        for(auto&b:arenas)vk.destroy_buffer(b);
         vk.destroy_buffer(exec);
         std::cout<<"B1_2_ZERO_SCIENCE="<<mode<<"_PASS\n";
         std::cout<<"NO_ACQUISITION_TIMING. NO_PERFORMANCE_ADJUDICATION.\n";
