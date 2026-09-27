@@ -62,16 +62,16 @@ def v3_generic_first_family(wi,h,mask,execution_ready):
     identity=bool(mask&(1<<3)); execution=bool(mask&(1<<4)); lease=bool(mask&(1<<5))
     reuse_known=bool(mask&(1<<6)); acq_allowed=bool(mask&(1<<7))
     p1=bool(mask&(1<<8)); p1_veto=bool(mask&(1<<9)); p3=bool(mask&(1<<10)); p0=bool(mask&(1<<11))
-    if execution_ready and not execution:
-        return D("INVALID_RUNTIME_STATE","")
-    if execution_ready and not resident:
-        return D("INVALID_RUNTIME_STATE","")
     if resident:
         if not model: return D("OK","A","EVICT")
         if not identity: return D("OK","A","EVICT")
         if not execution: return D("OK","A","EVICT")
         if not lease: return D("OK","A","EVICT")
         if reuse_known and h==0: return D("OK","A","EVICT")
+    if execution_ready and not execution:
+        return D("INVALID_RUNTIME_STATE","")
+    if execution_ready and not resident:
+        return D("INVALID_RUNTIME_STATE","")
     if execution_ready:
         if not in_scope: return D("OK","A",preserve=resident)
         return D("OK","B",preserve=resident)
