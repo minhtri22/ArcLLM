@@ -1,0 +1,82 @@
+{
+  "schema": "arcllm.anl64_crt.p0.overlap_matrix.v0.1",
+  "date": "2026-09-27",
+  "historical_anl64": {
+    "plan_nodes": 469,
+    "quant_linear_nodes": 215,
+    "q4_fast_nodes": 140,
+    "region64_descriptors": 24104,
+    "fixed_q4_regions": 19936,
+    "metadata_bytes": 593504,
+    "plan_hash_fnv1a64": "04f3f884c0fc4fcc",
+    "q4_fast_roles": {
+      "QProj": 28,
+      "KProj": 28,
+      "OProj": 28,
+      "FfnGate": 28,
+      "FfnUp": 28
+    },
+    "ffn_down_executor": "QuantSafe_not_Q4FastFixed"
+  },
+  "canonical_runtime": {
+    "decode_dispatches_per_step": 469,
+    "I002_roles": {
+      "FfnGate": {
+        "nodes": 28,
+        "executor": "sa1_q4k_subgroup_splitk",
+        "status": "ALREADY_ABSORBED"
+      },
+      "FfnUp": {
+        "nodes": 28,
+        "executor": "sa1_q4k_subgroup_splitk",
+        "status": "ALREADY_ABSORBED"
+      }
+    },
+    "attention_projection_roles": {
+      "QProj": {
+        "nodes": 28,
+        "executor": "p7_q4k_gemm_2d",
+        "status": "ANL64_RESIDUAL_Q4_FAST_SURFACE"
+      },
+      "KProj": {
+        "nodes": 28,
+        "executor": "p7_q4k_gemm_2d",
+        "status": "ANL64_RESIDUAL_Q4_FAST_SURFACE"
+      },
+      "OProj": {
+        "nodes": 28,
+        "executor": "p7_q4k_gemm_2d",
+        "status": "ANL64_RESIDUAL_Q4_FAST_SURFACE"
+      }
+    },
+    "q4_down": {
+      "status": "Q4VulkanBackendV4_ACTIVE_ORTHOGONAL_TO_HISTORICAL_ANL64_Q4_FAST",
+      "historical_anl64_role": "QuantSafe",
+      "overlap_with_historical_anl64_q4_fast": false
+    },
+    "immutable_anl64_plan_loaded": false,
+    "plan_bound_runtime_authority_active": false
+  },
+  "overlap_accounting": {
+    "historical_q4_fast_nodes": 140,
+    "already_absorbed_by_I002": 56,
+    "residual_q4_fast_nodes": 84,
+    "residual_fraction_of_historical_q4_fast": 0.6,
+    "independent_control_plane_surface": [
+      "immutable plan construction/validation",
+      "plan hash identity",
+      "plan-bound executor selection",
+      "Region64 structural metadata"
+    ]
+  },
+  "causal_attribution_warning": {
+    "historical_ANL64_plan_independent_performance_effect_was_isolated": false,
+    "historical_P6_combined_plan_and_executor_substitution": true,
+    "therefore_future_transfer_must_separate_plan_only_from_residual_executor_effect": true
+  },
+  "generic_v4_compatibility": {
+    "shared_control_plane_metadata_is_not_primitive_residency": true,
+    "request_time_acquisition_required_for_plan": false,
+    "new_generic_dimension_required_by_static_transfer": false
+  }
+}

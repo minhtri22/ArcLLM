@@ -1,0 +1,40 @@
+{
+  "schema": "arcllm.anl64_crt.p0.preoutcome_overlap_incremental_surface_adjudication.v0.1",
+  "date": "2026-09-27",
+  "program": "ANL64_CANONICAL_RUNTIME_TRANSFER",
+  "gate": "ANL64_CRT_P0_PREOUTCOME_OVERLAP_AND_INCREMENTAL_SURFACE_GATE",
+  "verdict": "PASS_NONEMPTY_RESIDUAL_TRANSFER_SURFACE_EXISTS_VALUE_NOT_ESTABLISHED",
+  "finding": {
+    "historical_q4_fast_nodes": 140,
+    "absorbed_by_current_I002": 56,
+    "remaining_q4_fast_attention_projection_nodes": 84,
+    "remaining_roles": ["QProj","KProj","OProj"],
+    "immutable_plan_control_plane_present_in_canonical_runtime": false,
+    "q4_down_v4_is_historical_anl64_q4_fast_overlap": false
+  },
+  "interpretation": {
+    "historical_anl64_gain_fully_absorbed": false,
+    "historical_anl64_gain_known_to_remain": false,
+    "reason": "A structurally independent residual surface remains, but historical ANL64 P6 did not isolate plan-only value from executor substitution and current canonical runtime has changed materially since P6.",
+    "generic_v4_reopen_required": false,
+    "fresh_transfer_experiment_licensed": true
+  },
+  "next_gate": {
+    "id": "ANL64_CRT_P1_PLAN_VS_RESIDUAL_EXECUTOR_CAUSAL_SEPARATION_GATE",
+    "question": "On the canonical runtime, can ANL64 plan/control-plane be introduced without token-semantic or lifecycle drift, and does a preregistered matched A/B/C design separate plan-only cost/effect from the incremental effect of the 84 residual Q/K/O Q4_FAST substitutions?",
+    "required_arms": {
+      "A": "current canonical runtime, no ANL64 plan authority",
+      "B": "ANL64 immutable plan loaded/validated and used as control-plane authority, but canonical executor choices preserved",
+      "C": "same ANL64 plan authority plus residual Q4_FAST only for the 84 Q/K/O nodes not already absorbed by I002"
+    },
+    "blocking_guards": [
+      "exact W-S/W-C token equality",
+      "469 decode-node census preserved",
+      "Q4VulkanBackendV4 lifecycle unchanged",
+      "I002 gate/up unchanged",
+      "no request-time plan acquisition",
+      "no family-specific mutation of generic v4"
+    ],
+    "performance_interpretation": "Only after semantic guards PASS may B-A estimate plan-only overhead/effect and C-B estimate residual ANL64 executor incremental effect."
+  }
+}

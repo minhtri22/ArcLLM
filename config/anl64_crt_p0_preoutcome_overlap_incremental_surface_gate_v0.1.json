@@ -1,0 +1,24 @@
+{
+  "schema": "arcllm.anl64_crt.p0.preoutcome_overlap_incremental_surface_gate.v0.1",
+  "date": "2026-09-27",
+  "program": "ANL64_CANONICAL_RUNTIME_TRANSFER",
+  "branch": "research/anl64-canonical-runtime-transfer",
+  "status": "FROZEN_PREOUTCOME_GATE",
+  "question": "After subtracting mechanisms already absorbed by canonical I002 and Q4VulkanBackendV4, does ANL64 still expose a non-empty, independently testable transfer surface whose incremental value can later be falsified without changing frozen v4 semantics?",
+  "allowed_evidence": [
+    "historical ANL64 architecture/semantic artifacts",
+    "TTFT_M2 terminal mechanism result",
+    "current canonical runtime source and frozen integration artifacts",
+    "static executor/plan-node overlap analysis"
+  ],
+  "forbidden_at_p0": [
+    "fresh timing execution",
+    "ranking performance outcomes",
+    "reusing ANL64 P6 timings as confirmatory data",
+    "changing canonical runtime executors",
+    "changing generic v4 policy semantics",
+    "claiming incremental benefit"
+  ],
+  "pass_rule": "PASS only if at least one ANL64-specific control or execution surface remains absent from canonical runtime, is structurally bindable without semantic mutation, and admits a future matched ablation against canonical runtime.",
+  "fail_rule": "FAIL if every historically active ANL64 mechanism is already present in canonical runtime or if any remaining mechanism can only be transferred by changing frozen generic/runtime semantics."
+}
