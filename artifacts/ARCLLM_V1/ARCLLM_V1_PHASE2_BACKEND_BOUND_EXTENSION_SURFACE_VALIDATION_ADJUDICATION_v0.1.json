@@ -1,0 +1,84 @@
+{
+  "schema": "arcllm.v1.phase2.backend_bound_extension_surface_validation_adjudication.v0.1",
+  "date": "2026-09-27",
+  "gate": "PHASE2_BACKEND_BOUND_EXTENSION_SURFACE_VALIDATION_GATE",
+  "gate_contract_blob": "4b7214c49096da937df852b947ebe98317d1d99a",
+  "frozen_surface_blob": "bc58de50d3b125e67ea025a2ac2d9b817bee398e",
+  "v4_materialization_preflight_blob": "123915c1c4284be03319f610d10000d1e7264a38",
+  "implementation_head": "e3ceb1c4819ba668007a12d6e87ecd1091c63cb7",
+  "v4_materialization": {
+    "result": "PASS",
+    "family_1_exact_cases": 114688,
+    "p8_oracle": "PASS",
+    "i002_oracle": "PASS",
+    "anl64_oracle": "PASS",
+    "generic_backend_binding_contract": "PASS",
+    "family_specific_policy_branch_found": false
+  },
+  "fresh_real_backend_probe": {
+    "host": "DESKTOP-4PSD0G2",
+    "workload": "W-S",
+    "target_model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "raw_result_blob": "416d292a4ca13b7090820a1cbfbdf768a49a4e74",
+    "raw_result_sha256": "D584FF7600D41EAFDB67E5F6054E39DF3FC028BE136B9C2A2DFBEABFFCE65FC9",
+    "runtime_exe_sha256": "48EE22B5931DFDBF3ABD70C1E64DE2B2BA8A0A6FC2EEC1D324B3898700FF65B7",
+    "critical_spirv": {
+      "A": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+      "B": "140B8C7ADF5E88D4F1A50C4F8807874F4978070F301FCEEFC67A6A51A383D2A3",
+      "AB": "5070AD8EE3BB4419D06E4FDDA52AF9F404D9CAA1388BFB66771ED206B2D06B43"
+    },
+    "critical_spirv_matches_frozen_lock": true,
+    "runtime_result": "PASS_Q4_DOWN_4ARM_CORRECTNESS_QUALIFICATION",
+    "A_success": true,
+    "B_success": true,
+    "generated_hash_all_arms_match": true,
+    "exec148_family_source_sha256": "60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2",
+    "exec148_family_exec_sha256": "60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2",
+    "exec148_incremental_bytes": 549527552
+  },
+  "binding_drift_evidence": {
+    "backend_source_path": "src/arcllm_v1_q4_down_arch_4arm.cpp",
+    "backend_source_blob": "4d88dbd867da39c42bbfcbe3697acc7b8ebeb3fa",
+    "observed_control_flow": [
+      "The Vulkan runtime allocates b_exec148 with kExecFamilyBytes before execution-arm routing.",
+      "It materializes all 14 Q4-down target tensors into b_exec148 before any A/B/AB arm is executed.",
+      "The same process subsequently executes arm A and arm B.",
+      "The fresh W-S result records exec148_incremental_bytes=549527552 while arm A also executes successfully."
+    ],
+    "violated_frozen_invariant": "A route / lifecycle NONE must not cause B representation acquisition.",
+    "classification": "BACKEND_INDUCED_HIDDEN_REPRESENTATION_ACQUISITION"
+  },
+  "stop_rule": {
+    "triggered": true,
+    "reason": "A preregistered fail condition is structural and workload-independent: backend representation acquisition occurs even when policy would route A with lifecycle NONE.",
+    "W_C_required_after_trigger": false,
+    "additional_backend_execution": "STOPPED_AS_NON_DISCRIMINATING"
+  },
+  "adjudication": "FAIL_CURRENT_BACKEND_BINDING_HIDDEN_REPRESENTATION_ACQUISITION",
+  "scientific_interpretation": {
+    "generic_surface_reopen_required": false,
+    "new_semantic_dimension_discovered": false,
+    "backend_implementation_refactor_required": true,
+    "meaning": "Frozen v4 correctly distinguishes routing from acquisition; the current Q4-down Vulkan harness violates that distinction by pre-materializing B. This is backend implementation drift, not evidence that the six-part generic abstraction is incomplete."
+  },
+  "claim_boundary": {
+    "backend_bound_v4_validated": false,
+    "v4_zero_science_semantics_validated": true,
+    "real_q4_backend_correctness_reconfirmed": true,
+    "all_frozen_families_real_backend_bound": false,
+    "universality_claim": false
+  },
+  "next_work": {
+    "classification": "IMPLEMENTATION_AND_QA_NOT_NEW_SCIENCE",
+    "id": "PHASE2_DEMAND_DRIVEN_Q4_BACKEND_ADAPTER_REFACTOR",
+    "requirements": [
+      "Do not allocate/materialize EXEC148 when policy lifecycle is NONE and route is A.",
+      "Allocate/materialize exactly once on ACQUIRE_B selected by v4.",
+      "Expose B as execution_ready only after identity validation succeeds.",
+      "Release B only on EVICT_B or explicit teardown consistent with frozen lifecycle.",
+      "Do not add hidden retry/fallback inside the backend adapter.",
+      "Keep generic policy and binding core family-agnostic."
+    ]
+  },
+  "next_scientific_gate_after_implementation": "PHASE2_BACKEND_BOUND_EXTENSION_SURFACE_REVALIDATION_GATE"
+}

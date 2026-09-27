@@ -1611,3 +1611,16 @@ Result: **PASS — BOUNDED GENERIC EXTENSION SURFACE CLOSED**.
 The claim is deliberately bounded to the real/evidenced primitive classes already tested. It is not a universality claim, and a future real family may reopen the abstraction.
 
 The committed C++ generic engine still reflects v2 and does not yet materialize the frozen `execution_ready` and explicit fallback-readiness semantics. This is an implementation gap, not an open scientific abstraction gap. Backend binding is therefore authorized only after zero-science materialization of the frozen v4 surface and regression QA. Scientific abstraction research is closed; the immediate next work is implementation/QA rather than a new scientific gate.
+
+
+## Phase 2 backend-bound extension-surface validation — backend drift FAIL — 2026-09-27
+
+The frozen v4 generic surface was first materialized in native C++ and passed zero-science regression QA: all **114,688** family #1 decisions remained exact; the bounded P8, I002 and ANL64 oracles passed; and the generic backend-binding contract introduced no family-specific branch or hidden retry/fallback.
+
+The first fresh real-backend Q4-down probe then exposed a binding violation before a full multi-workload campaign was admissible. The existing Vulkan runtime allocates the 549,527,552-byte EXEC148 image and materializes all 14 target tensors before selecting or executing arm A/B/AB. Fresh W-S execution reconfirmed real backend correctness for A and B and exact EXEC148 canonical identity, but also showed the EXEC148 residency present in the same process while arm A executes.
+
+This violates the frozen v4 invariant that route A with lifecycle NONE must not perform B representation acquisition. The finding is therefore **backend-induced hidden representation acquisition**, not a missing generic semantic dimension.
+
+Result: **FAIL — CURRENT BACKEND BINDING HAS HIDDEN REPRESENTATION ACQUISITION**.
+
+The bounded generic extension surface remains closed; no new dimension or family-specific semantic branch is required. Scientific validation of backend-bound v4 remains unpassed until the Q4 backend is refactored so B allocation/materialization occurs only on explicit ACQUIRE, readiness is asserted only after validation, and B is released only under the frozen lifecycle. Additional W-C collection was stopped because the violated condition is structural and workload-independent.

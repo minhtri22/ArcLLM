@@ -1,0 +1,32 @@
+{
+  "schema": "arcllm.v1.phase2.backend_bound_extension_surface_validation_gate.v0.2",
+  "date": "2026-09-27",
+  "status": "FROZEN_BACKEND_BOUND_EXTENSION_SURFACE_VALIDATION_GATE",
+  "preregistration_origin": {
+    "closure_adjudication_blob": "b1af58423bc3adab4541ab8a3215e79135648f14",
+    "predeclared_next_gate": "PHASE2_BACKEND_BOUND_EXTENSION_SURFACE_VALIDATION_GATE"
+  },
+  "question": "Does a real-backend-bound materialization of frozen generic extension surface v4 preserve every semantic invariant and frozen family oracle without hidden family-specific semantics, backend-induced abstraction drift, or a new dependency that forces the generic abstraction to reopen?",
+  "pass_requirements": [
+    "v4 zero-science regression surface PASS",
+    "real backend route A performs no B representation acquisition",
+    "real backend ACQUIRE_B creates exactly the selected B representation before B route",
+    "real backend EVICT_B releases B and does not silently retain it",
+    "backend failure does not perform hidden retry or fallback outside the policy decision",
+    "no family-specific semantic branch exists in generic policy or binding core",
+    "frozen family oracles remain unchanged",
+    "no real-backend requirement assigns a contradictory meaning to identity, execution_available, execution_ready, residency, acquisition, or lifecycle"
+  ],
+  "fail_conditions": [
+    "backend performs representation acquisition when policy lifecycle is NONE",
+    "backend retains or evicts represented state contrary to policy lifecycle",
+    "backend invents hidden fallback or retry",
+    "generic core requires a family-specific semantic branch",
+    "real backend reveals a missing semantic dimension not representable by frozen v4"
+  ],
+  "adjudication_rule": {
+    "backend_implementation_drift": "FAIL_CURRENT_BACKEND_BINDING_WITHOUT_REOPENING_GENERIC_ABSTRACTION",
+    "new_unrepresentable_semantic_dimension": "FAIL_AND_REOPEN_GENERIC_ABSTRACTION",
+    "all_requirements_pass": "PASS_BACKEND_BOUND_EXTENSION_SURFACE_VALIDATED"
+  }
+}

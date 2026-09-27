@@ -1,0 +1,29 @@
+{
+  "schema": "arcllm.v1.phase2.closed_surface_v4.materialization_and_binding_preflight.v0.1",
+  "date": "2026-09-27",
+  "classification": "IMPLEMENTATION_AND_QA_NOT_NEW_SCIENCE",
+  "implementation_head": "e3ceb1c4819ba668007a12d6e87ecd1091c63cb7",
+  "frozen_surface_blob": "bc58de50d3b125e67ea025a2ac2d9b817bee398e",
+  "source_blobs": {
+    "generic_policy_engine_v4_h": "330979214f139c7f7c293bc3468bc5d6479b56fc",
+    "generic_policy_engine_v4_cpp": "11c1c8298894c43ca4e9058c71876b925c307059",
+    "generic_backend_binding_v4_h": "e2382f0b3a3e88a9cd3b58c378264790728de553",
+    "generic_backend_binding_v4_cpp": "51cb8fef1926a24d8411a31f400124751bf38d5d",
+    "zero_science_native_qa": "f7cf14842b89b9e0d84c9df8e0ac4cc29dd35e04",
+    "static_qa": "765747f6cdc8b22949fb869e396ddb5e8f50dfdb"
+  },
+  "windows_native_qa": {
+    "host": "DESKTOP-4PSD0G2",
+    "result": "PASS",
+    "output": [
+      "FAMILY1_EQUIVALENCE_CASES=114688",
+      "FROZEN_ORACLES=P8,I002,ANL64_PASS",
+      "GENERIC_BACKEND_BINDING_CONTRACT=PASS",
+      "PHASE2_CLOSED_SURFACE_V4_MATERIALIZATION_QA=PASS",
+      "NO_MODEL_LOAD_NO_GPU_NO_VULKAN_NO_TIMING"
+    ]
+  },
+  "materialization_result": "PASS_ZERO_SCIENCE_V4_SURFACE_MATERIALIZATION",
+  "real_backend_binding_complete": false,
+  "reason": "The generic BackendAdapter contract exists, but no concrete adapter yet maps v4 decisions to the Q4-down Vulkan runtime's demand-driven acquisition/resolve/release operations."
+}
