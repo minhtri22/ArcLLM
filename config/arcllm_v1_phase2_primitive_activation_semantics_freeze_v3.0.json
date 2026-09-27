@@ -1,0 +1,20 @@
+{
+  "schema": "arcllm.v1.phase2.primitive_activation_semantics_freeze.v3.0",
+  "date": "2026-09-27",
+  "status": "FROZEN_PHASE2_PRIMITIVE_ACTIVATION_SEMANTICS_V3",
+  "adjudication_blob": "fffe5659efb4837877ff9fcf255a045e09d4c280",
+  "minimal_semantics": {
+    "execution_ready": "runtime boolean; primitive can execute the request now",
+    "resident": "representation residency only",
+    "execution_available": "executor/path availability in principle",
+    "acquisition": "descriptor-driven REUSE_AMORTIZED or MANDATORY_FOR_FEASIBILITY semantics retained from v2"
+  },
+  "proven_scope": [
+    "family #1 optional reuse-amortized represented primitive with 114,688 exact decision preservation",
+    "P8 bounded mandatory feasibility-enabling segmented representation with no validated fallback",
+    "I002 direct execution primitive with no extra representation or acquisition lifecycle"
+  ],
+  "universality_claim": false,
+  "backend_binding_authorized": false,
+  "next_scientific_step": "PHASE2_ACTIVATION_SEMANTICS_STABILIZATION_GATE"
+}
