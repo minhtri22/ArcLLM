@@ -1,0 +1,51 @@
+{
+  "schema": "arcllm.anl64_crt.p1.execution_invalidation.v0.1",
+  "date": "2026-09-27",
+  "program": "ANL64_CANONICAL_RUNTIME_TRANSFER",
+  "classification": "INVALID_IMPLEMENTATION_CONTRACT_NO_SCIENTIFIC_RESULT",
+  "p1_spec_blob": "87156bd77618c5fe0dfcd433f0f9e44ec98c178b",
+  "implementation_commit": "ddf30cd84003f2a4c0f3e21b55aa48ed6f5a8f54",
+  "violation": {
+    "historical_contract_blob": "e7d00d6d1deb516347fd8919e2ed27eeeaeb84a6",
+    "required": {
+      "construction_time": "MODEL_LOAD_ONLY",
+      "immutable_after_build": true,
+      "per_token_executor_selection": false,
+      "prepared_chain_policy": "compile/bind the selected executor graph once; decode remains one queue submit per token"
+    },
+    "observed_harness_defect": "B/C plan consumption called plan_node(), which performed a linear scan over the 469-node plan while build_decode() executed inside the timed decode loop.",
+    "effect_on_estimand": "B-A would include a new per-token plan-discovery implementation cost that is explicitly outside ANL64 architecture and therefore cannot estimate plan/control-plane transfer cost."
+  },
+  "execution_state_at_stop": {
+    "complete_cells": 2,
+    "complete_cell_artifacts": [
+      {"file":"SA_01_A_CANONICAL_WS.json","sha256":"2215FF36201CBAFABE18A58EF4637B9E35B2A9696E149D092530BF14AA0F2ED8"},
+      {"file":"SA_02_B_PLAN_SHADOW_WS.json","sha256":"8B34C7B1CA72B2C998FD53FC144F0B968ABBC9BA56F28F716CBE28D33342D34F"}
+    ],
+    "third_cell_interrupted_before_artifact": true,
+    "manifest_created": false
+  },
+  "evidence_policy": {
+    "all_partial_timing_spent": true,
+    "adjudication_forbidden": true,
+    "threshold_tuning_from_partial_evidence_forbidden": true,
+    "raw_partial_timing_promotion_forbidden": true,
+    "scientific_lineage_append": false
+  },
+  "repair_policy": {
+    "same_p1_execution_may_resume": false,
+    "new_revision_required": "P1R",
+    "allowed_change": "replace per-token linear plan discovery with model-load-time exact prebinding only",
+    "must_remain_unchanged": [
+      "A/B/C scientific arm meanings",
+      "84-node residual executor scope",
+      "W-S and W-C workloads",
+      "one warmup and five measured attempts per cell",
+      "two-session counterbalance",
+      "all frozen materiality thresholds",
+      "I002 gate/up path",
+      "Q4VulkanBackendV4 path and lifecycle",
+      "generic v4 semantics"
+    ]
+  }
+}

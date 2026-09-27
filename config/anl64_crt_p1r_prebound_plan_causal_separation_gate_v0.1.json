@@ -1,0 +1,90 @@
+{
+  "schema": "arcllm.anl64_crt.p1r.prebound_plan_causal_separation_gate.v0.1",
+  "date": "2026-09-27",
+  "program": "ANL64_CANONICAL_RUNTIME_TRANSFER",
+  "status": "FROZEN_P1R_BEFORE_FRESH_EXECUTION",
+  "parent_p1_invalidation": "INVALID_IMPLEMENTATION_CONTRACT_NO_SCIENTIFIC_RESULT",
+  "question": "With ANL64 plan construction and executor binding completed once before any timed token, can the immutable plan/control-plane coexist with canonical runtime at zero material harm, and do the residual 84 Q/K/O Q4_FAST substitutions add material value beyond that prebound plan?",
+  "architectural_correction": {
+    "plan_construction": "MODEL_LOAD_ONLY",
+    "plan_hash_validation": "BEFORE_TIMING",
+    "plan_to_runtime_binding": "ONE_TIME_PREBIND_BEFORE_TIMING",
+    "per_token_plan_lookup": false,
+    "per_token_executor_selection": false,
+    "per_token_region_discovery": false,
+    "extra_control_plane_gpu_dispatches_per_token": 0,
+    "extra_control_plane_queue_submits_per_token": 0,
+    "dynamic_per_token_values_only": ["token id","decode position","existing push-constant values"]
+  },
+  "arms": {
+    "A_CANONICAL": "Current canonical runtime; no ANL64 plan.",
+    "B_PLAN_PREBOUND": "Exact ANL64 plan built, hash-validated and prebound before timing; the prebound executor graph preserves all canonical executor choices.",
+    "C_PLAN_PREBOUND_RESIDUAL": "Same exact prebound plan; only QProj/KProj/OProj residual Q4_FAST choices are activated for 84 nodes."
+  },
+  "frozen_scope": {
+    "historical_q4_fast_nodes": 140,
+    "already_absorbed_I002_nodes": 56,
+    "residual_nodes": 84,
+    "residual_roles": ["QProj","KProj","OProj"],
+    "I002_gate_up_unchanged": true,
+    "Q4VulkanBackendV4_down_unchanged": true,
+    "generic_v4_unchanged": true
+  },
+  "fresh_execution_design": {
+    "partial_P1_evidence_reused": false,
+    "separate_runner_processes_required": true,
+    "sessions": ["A","B"],
+    "session_A_order": [
+      "A_CANONICAL/W-S",
+      "B_PLAN_PREBOUND/W-S",
+      "C_PLAN_PREBOUND_RESIDUAL/W-S",
+      "C_PLAN_PREBOUND_RESIDUAL/W-C",
+      "B_PLAN_PREBOUND/W-C",
+      "A_CANONICAL/W-C"
+    ],
+    "session_B_order": [
+      "C_PLAN_PREBOUND_RESIDUAL/W-S",
+      "B_PLAN_PREBOUND/W-S",
+      "A_CANONICAL/W-S",
+      "A_CANONICAL/W-C",
+      "B_PLAN_PREBOUND/W-C",
+      "C_PLAN_PREBOUND_RESIDUAL/W-C"
+    ],
+    "warmups_per_cell_per_session": 1,
+    "measured_attempts_per_cell_per_session": 5,
+    "measured_attempts_total": 60,
+    "selective_rerun": false,
+    "online_tuning": false
+  },
+  "thresholds": {
+    "provenance": "Carried forward unchanged from P1 and historical ANL64 materiality convention; not modified after the invalid P1 partial execution.",
+    "residual_decode_C_over_B_min": 1.1,
+    "residual_e2e_C_over_B_max": 0.9,
+    "overall_decode_C_over_A_min": 1.1,
+    "overall_e2e_C_over_A_max": 0.9,
+    "ttft_harm_max": 1.1,
+    "plan_prebound_decode_B_over_A_no_harm_min": 0.9,
+    "plan_prebound_e2e_B_over_A_no_harm_max": 1.1,
+    "token_mismatch_tolerance": 0
+  },
+  "blocking_guards": [
+    "exact 32-token equality across A/B/C at matched attempt index",
+    "469 decode dispatches preserved",
+    "plan identity 469/215/140/24104/19936/593504/hash 04f3f884c0fc4fcc",
+    "zero per-token plan discovery",
+    "I002 unchanged",
+    "Q4VulkanBackendV4 lifecycle unchanged",
+    "generic v4 unchanged"
+  ],
+  "stop_rules": [
+    "Any structural or semantic guard failure blocks performance interpretation.",
+    "No threshold, workload, session order, residual executor scope or repetition count may change after fresh P1R execution starts.",
+    "P1 partial timings are permanently inadmissible."
+  ],
+  "claim_boundary": {
+    "llama_cpp_comparison": false,
+    "NPU": false,
+    "P8": false,
+    "universality": false
+  }
+}
