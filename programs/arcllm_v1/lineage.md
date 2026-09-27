@@ -1499,3 +1499,26 @@ The frozen v2 abstraction **fails this holdout**. Its preferred-primitive path i
 The only ways to force the preferred I002 route under frozen v2 are evidence-inconsistent: overload `resident=true` as generic readiness, invent an acquisition action that I002 does not have, or erase the real baseline fallback by making the preferred primitive its own fallback. Therefore v2 generality is narrowed to the two demonstrated representation-bearing classes used in its redesign; it does not yet cover direct execution readiness independent of residency/acquisition.
 
 The missing abstraction is primitive activation/readiness independent of representation residency. Backend binding remains premature. The next scientific gate must seek one minimal activation model that preserves the full first-family decision surface, preserves the bounded P8 mandatory-feasibility behavior, and satisfies the I002 direct-execution oracle without family-specific policy branches.
+
+
+## Phase 2 generic primitive registry — structural scalability finding — 2026-09-27
+
+The first-family A/B/P1 scientific facts were successfully separated from the generic machinery and represented through a family registration bundle rather than embedded in the registry core. The architecture conclusion is bounded: family #1 is not a universal primitive family, but primitive description, registration, provenance and policy machinery can be generic.
+
+A synthetic independent second family was registered without changing the generic registry model/core or growing family-specific public enums. This establishes structural extensibility of the registry mechanism, not real cross-family scientific generalization.
+
+Validation status is first-class registry knowledge, including validated, disabled-by-evidence, capability-gated and historical-reference states. Scientific provenance is likewise first-class so PASS/FAIL evidence remains attached to the registered family rather than being erased by genericization.
+
+Result: **PASS — GENERIC REGISTRY STRUCTURAL SCALABILITY WITH SYNTHETIC SECOND FAMILY**.
+
+## Phase 2 generic policy engine — exhaustive preservation and synthetic extensibility — 2026-09-27
+
+The generic policy engine was evaluated over the complete frozen first-family decision surface and preserved all **114,688** decisions exactly, including route primitive, lifecycle action, acquisition path and preserve-existing-representation behavior. No family-specific policy branch was required.
+
+The same engine also passed a synthetic independent-family policy proof using registry data only, without modification of the generic engine. This establishes that the policy machinery is structurally extensible beyond hard-coded B1 fields, while remaining only a synthetic generalization claim.
+
+Result: **PASS — 114,688-STATE FAMILY #1 DECISION EQUIVALENCE**.
+
+Result: **PASS — SYNTHETIC SECOND-FAMILY STRUCTURAL POLICY PROOF**.
+
+These PASS results remain valid after the later P8 and I002 falsifications; those real-family FAILs narrow the abstraction boundary rather than invalidate the earlier structural proofs.
