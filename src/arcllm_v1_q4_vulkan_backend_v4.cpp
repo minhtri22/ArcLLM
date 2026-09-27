@@ -725,6 +725,37 @@ int main(int argc,char** argv){
                 !backend.resident()&&backend.counters().b_releases==2u,
                 "S7 final eviction failed");
 
+        // S8/S9: when a canonical sidecar is supplied, P3-cold must be selected
+        // by policy and executed exactly once, then explicitly evicted.
+        bool p3_executed=false;
+        ComponentAgg cb3{};
+        if(backend.p3_available()){
+            const auto d8=decide(registry,backend,15u,false,true,true);
+            require(d8.status==gp::PolicyStatus::OK&&
+                    d8.route==q4reg::kPrimitiveB&&
+                    d8.lifecycle==gp::LifecycleAction::ACQUIRE&&
+                    d8.acquisition==q4reg::kAcquireSecondary,
+                    "S8 policy did not select P3-cold ACQUIRE");
+            const auto a8=bind::apply_decision(
+                registry,q4reg::kCapability,d8,backend,binding_state);
+            require(a8.ready&&a8.primitive.opaque==q4reg::kPrimitiveB.value,
+                    "S8 P3 B resolve failed");
+            require(backend.counters().p3_calls==1u&&
+                    backend.counters().b_allocations==3u&&
+                    backend.counters().b_materializations==3u&&
+                    backend.counters().b_validations==3u,
+                    "S8 P3 acquisition accounting mismatch");
+            cb3=backend.execute_component(a8.primitive);
+            require(component_pass(cb3),"S8 P3 B component correctness failed");
+            const auto d9=decide(registry,backend,0u,false,true,true);
+            const auto a9=bind::apply_decision(
+                registry,q4reg::kCapability,d9,backend,binding_state);
+            require(a9.ready&&a9.primitive.opaque==q4reg::kPrimitiveA.value&&
+                    !backend.resident()&&backend.counters().b_releases==3u,
+                    "S9 P3 final eviction failed");
+            p3_executed=true;
+        }
+
         const auto c=backend.counters();
         std::ofstream o(out,std::ios::binary|std::ios::trunc);
         require(bool(o),"cannot write backend result");
@@ -735,7 +766,8 @@ int main(int argc,char** argv){
         o<<"\"surface\":{\"policy\":\"v4\",\"binding\":\"v4\",\"backend\":\"Q4_VULKAN_BACKEND_V4\"},\n";
         o<<"\"scenarios\":{\"A_no_acquire\":true,\"P1_unavailable_no_hidden_retry\":true,"
            <<"\"P1_explicit_acquire\":true,\"resident_B_reuse\":true,"
-           <<"\"explicit_evict\":true,\"P0_policy_selected_acquire\":true},\n";
+           <<"\"explicit_evict\":true,\"P0_policy_selected_acquire\":true,"
+           <<"\"P3_cold_explicit_acquire\":"<<(p3_executed?"true":"false")<<"},\n";
         o<<"\"counters\":{\"b_allocations\":"<<c.b_allocations
          <<",\"b_materializations\":"<<c.b_materializations
          <<",\"b_validations\":"<<c.b_validations
@@ -748,6 +780,7 @@ int main(int argc,char** argv){
         o<<"\"A_component\":";write_component(o,ca1);o<<",\n";
         o<<"\"B_P1_component\":";write_component(o,cb1);o<<",\n";
         o<<"\"B_P0_component\":";write_component(o,cb2);o<<",\n";
+        o<<"\"B_P3_component\":";if(p3_executed)write_component(o,cb3);else o<<"null";o<<",\n";
         o<<"\"exec148_identity\":{\"tuple_sha256\":\""<<v3.exec_tuple_sha
          <<"\",\"raw_sha256\":\""<<v3.raw_sha
          <<"\",\"bytes\":"<<kExecFamilyBytes<<"},\n";
@@ -764,6 +797,7 @@ int main(int argc,char** argv){
         std::cout<<"RESIDENT_B_REUSE_NO_REACQUIRE=PASS\n";
         std::cout<<"EVICT_B_THEN_A=PASS\n";
         std::cout<<"P0_EXPLICIT_POLICY_SELECTED_ACQUIRE=PASS\n";
+        std::cout<<"P3_COLD_EXPLICIT_POLICY_SELECTED_ACQUIRE="<<(p3_executed?"PASS":"NOT_RUN_NO_SIDECAR")<<"\n";
         std::cout<<"NO_TIMING_NO_COUNTERS\n";
         return 0;
     }catch(const std::exception& e){

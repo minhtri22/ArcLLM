@@ -19,6 +19,7 @@ required = [
     "P1_EXPLICIT_ACQUIRE_VALIDATE_ROUTE_B=PASS",
     "RESIDENT_B_REUSE_NO_REACQUIRE=PASS",
     "EVICT_B_THEN_A=PASS",
+    "P3_COLD_EXPLICIT_POLICY_SELECTED_ACQUIRE=",
 ]
 for token in required:
     assert token in src, token
