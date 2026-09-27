@@ -1,0 +1,118 @@
+{
+  "schema": "arcllm.anl64_crt.p1.plan_vs_residual_executor_causal_separation_gate.v0.1",
+  "date": "2026-09-27",
+  "program": "ANL64_CANONICAL_RUNTIME_TRANSFER",
+  "status": "FROZEN_P1_SCIENTIFIC_DESIGN_EXECUTION_NOT_YET_STARTED",
+  "parent_p0_adjudication_blob": "9a197a38f5e84e6bc8aa8e0c10cc952884d1b455",
+  "question": "On the canonical runtime, can ANL64 plan/control-plane be introduced without semantic or lifecycle drift, and does a matched A/B/C design isolate any incremental value of the 84 residual Q/K/O Q4_FAST substitutions from plan-only cost/effect?",
+  "arms": {
+    "A_CANONICAL": {
+      "plan": "absent",
+      "QProj_KProj_OProj": "canonical p7_q4k_gemm_2d",
+      "FfnGate_FfnUp": "current I002 sa1_q4k_subgroup_splitk",
+      "Q4_FfnDown": "current Q4VulkanBackendV4"
+    },
+    "B_PLAN_SHADOW": {
+      "plan": "ANL64 immutable plan built and exact-validated before timing",
+      "plan_runtime_role": "every decode node is structurally matched to plan metadata; residual Q4_FAST choices are observed but not activated",
+      "QProj_KProj_OProj": "canonical p7_q4k_gemm_2d",
+      "FfnGate_FfnUp": "current I002 unchanged",
+      "Q4_FfnDown": "current Q4VulkanBackendV4 unchanged"
+    },
+    "C_PLAN_ACTIVE_RESIDUAL": {
+      "plan": "same exact ANL64 immutable plan as B",
+      "QProj_KProj_OProj": "ANL64 Q4_FAST only for the residual 84 nodes",
+      "FfnGate_FfnUp": "current I002 unchanged; not counted as ANL64 incremental intervention",
+      "Q4_FfnDown": "current Q4VulkanBackendV4 unchanged"
+    }
+  },
+  "plan_identity": {
+    "nodes": 469,
+    "quant_linear_nodes": 215,
+    "historical_q4_fast_nodes": 140,
+    "already_absorbed_I002_nodes": 56,
+    "residual_q4_fast_nodes": 84,
+    "regions": 24104,
+    "fixed_q4_regions": 19936,
+    "metadata_bytes": 593504,
+    "hash_fnv1a64": "04f3f884c0fc4fcc"
+  },
+  "target": {
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "cpu": "Intel Core Ultra 7 258V",
+    "gpu": "Intel Arc 140V",
+    "backend": "Vulkan",
+    "power_scheme": "Balanced",
+    "workloads": {
+      "W-S": {"prompt_tokens": 4, "output_tokens": 32},
+      "W-C": {"prompt_tokens": 256, "output_tokens": 32}
+    }
+  },
+  "fresh_execution_design": {
+    "separate_runner_processes_required": true,
+    "sessions": ["A","B"],
+    "session_A_order": [
+      "A_CANONICAL/W-S",
+      "B_PLAN_SHADOW/W-S",
+      "C_PLAN_ACTIVE_RESIDUAL/W-S",
+      "C_PLAN_ACTIVE_RESIDUAL/W-C",
+      "B_PLAN_SHADOW/W-C",
+      "A_CANONICAL/W-C"
+    ],
+    "session_B_order": [
+      "C_PLAN_ACTIVE_RESIDUAL/W-S",
+      "B_PLAN_SHADOW/W-S",
+      "A_CANONICAL/W-S",
+      "A_CANONICAL/W-C",
+      "B_PLAN_SHADOW/W-C",
+      "C_PLAN_ACTIVE_RESIDUAL/W-C"
+    ],
+    "warmups_per_cell_per_session": 1,
+    "measured_attempts_per_cell_per_session": 5,
+    "measured_attempts_total": 60,
+    "historical_ANL64_P6_timing_reuse": false,
+    "selective_rerun": false,
+    "online_tuning": false
+  },
+  "metrics": {
+    "primary": ["decode_tps_median","e2e_ms_median"],
+    "blocking": ["ttft_ms_median"],
+    "descriptive_only": ["setup_ms","plan_build_validate_ms"],
+    "semantic": ["exact_32_token_sequence","finite_logits","469_decode_dispatches","plan_identity","Q4VulkanBackendV4_lifecycle"]
+  },
+  "materiality": {
+    "provenance": "Inherited unchanged from the historical ANL64 10% practical-materiality convention; frozen prospectively before any CRT P1 timing.",
+    "residual_decode_C_over_B_min": 1.1,
+    "residual_e2e_C_over_B_max": 0.9,
+    "overall_decode_C_over_A_min": 1.1,
+    "overall_e2e_C_over_A_max": 0.9,
+    "ttft_harm_max": 1.1,
+    "plan_shadow_decode_B_over_A_no_harm_min": 0.9,
+    "plan_shadow_e2e_B_over_A_no_harm_max": 1.1,
+    "token_mismatch_tolerance": 0
+  },
+  "adjudication_order": [
+    "F0_PROVENANCE_AND_FRESHNESS",
+    "F1_PLAN_AND_RUNTIME_STRUCTURAL_GUARDS",
+    "F2_EXACT_TOKEN_SEMANTICS",
+    "F3_SESSION_ORDER_AND_ATTEMPT_COMPLETENESS",
+    "F4_PLAN_ONLY_B_VS_A",
+    "F5_RESIDUAL_EXECUTOR_C_VS_B",
+    "F6_OVERALL_TRANSFER_C_VS_A",
+    "F7_TTFT_BLOCKING_GUARD",
+    "FINAL"
+  ],
+  "stop_rules": [
+    "Any token mismatch, plan hash/census mismatch, generic-v4 mutation, I002 mutation, or Q4VulkanBackendV4 lifecycle mutation stops performance interpretation.",
+    "If C does not meet residual C/B material decode and E2E thresholds in both workloads and both sessions, active residual ANL64 transfer is not established.",
+    "If any required C/A TTFT ratio exceeds 1.1, overall transfer is blocked.",
+    "No thresholds, workloads, executor scope, repetition count or session order may change after first timing observation."
+  ],
+  "claim_boundary": {
+    "llama_cpp_comparison": false,
+    "NPU": false,
+    "P8": false,
+    "universality": false,
+    "historical_ANL64_P7_verdict_rewritten": false
+  }
+}
