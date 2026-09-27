@@ -1537,3 +1537,24 @@ Result: **PASS — MINIMAL EXECUTION READINESS SEPARATION**.
 Scientific boundary: the current generic model now covers three materially different evidenced classes — optional reuse-amortized represented primitives, mandatory feasibility-enabling represented primitives, and direct execution primitives with no extra representation. This is not a universality claim for all future primitive families. A larger activation-state enum is not justified by current evidence.
 
 Backend binding remains blocked pending an additional stabilization/adversarial holdout gate.
+
+
+## Phase 2 initial package API boundary and genericization pivot — 2026-09-26
+
+The first Phase 2 package boundary successfully exposed the validated Q4-down A/B/P1 policy behind a stable API and passed zero-science semantic QA. That package was useful as the first reference integration boundary, but its public identifiers and policy surface were still shaped around the first validated family.
+
+The subsequent architecture review established that A/B/P1 is not a universal primitive family. The scientific facts of one family must not define the extension mechanism for all future families. The correct genericization target is the machinery — descriptors, registry, policy evaluation, evidence/provenance and opaque runtime identity — rather than the first family's primitive identities or acquisition assumptions.
+
+Accordingly, the original Phase 2 package API v1 remains frozen as REFERENCE COMPATIBILITY ONLY and is not the extension point for new primitive families. New families enter through generic registration data backed by their own evidence and provenance rather than by public enum/package growth.
+
+Architecture result: PASS — FIRST PACKAGE BOUNDARY VALIDATED; UNIVERSAL-FAMILY ASSUMPTION REJECTED; GENERICIZE MACHINERY, NOT FAMILY #1 SCIENCE.
+
+## Phase 2 generic registry lifecycle completeness repair — 2026-09-26
+
+Before the generic policy engine was frozen, a representational incompleteness was found in the generic registry lifecycle descriptor. The established B1 lifetime policy already required eviction on execution-path invalidation and on model unload, but registry v1 could not encode those two conditions independently.
+
+The registry model was therefore extended with evict_on_execution_unavailable and evict_on_model_unload. The Q4-down reference registration sets both according to the already-established B1 evidence. No threshold, ID, performance result, placement result or scientific policy claim changed.
+
+Result: PASS — GENERIC REGISTRY LIFECYCLE COMPLETENESS V1.1.
+
+This was an architecture-representation completeness repair, not new performance science. It is preserved because it closes the gap between the scientific B1 lifetime semantics and what the generic registry can faithfully represent.
