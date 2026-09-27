@@ -1,0 +1,45 @@
+{
+  "schema": "arcllm.v1.phase2.generic_abstraction_closure_gate.v0.1",
+  "date": "2026-09-27",
+  "status": "FROZEN_GENERIC_ABSTRACTION_CLOSURE_GATE",
+  "question": "Is the current evidence sufficient to formal-close identity/execution_available/execution_ready/residency/acquisition/lifecycle as a stable generic extension surface and permit transition to backend binding without claiming universality beyond proven families?",
+  "evidence_bindings": {
+    "generic_policy_engine_v1_canonical_blob": "02fe7d583e2c7294889021c1496357c172d250bf",
+    "p8_counterexample_blob": "a7430a4fd941b555b9262c464a3473bd3d7cf942",
+    "capability_acquisition_redesign_blob": "4c2e59aa3f147d9e19f9e3b9758aaeeed2c08dc5",
+    "i002_counterexample_blob": "e6e5156368524088e8d97e1f404e6825058e89ef",
+    "activation_redesign_blob": "fffe5659efb4837877ff9fcf255a045e09d4c280",
+    "stabilization_blob": "9fc1f2d123951f399a6b10650d600177307517b4",
+    "anl64_holdout_blob": "b7e63ecd64d0e1ff39464cec559c0fbf4264d544",
+    "freeze_v3_2_blob": "a9f685321506d52530661938358c3869f3e802b1"
+  },
+  "closure_surface": {
+    "identity": "opaque primitive identity plus evidence/provenance identity; represented primitives may require representation identity validation",
+    "execution_available": "executor/path exists and is available in principle",
+    "execution_ready": "primitive can execute the current request now; independent of residency and applicable to preferred and fallback routes",
+    "residency": "presence of a separately acquired primitive representation; shared control-plane state is not automatically primitive residency",
+    "acquisition": "descriptor-driven REUSE_AMORTIZED or MANDATORY_FOR_FEASIBILITY; absent when evidence says none",
+    "lifecycle": "evidence-backed preserve/evict behavior for represented state; readiness loss alone is not an eviction reason"
+  },
+  "required_invariants": [
+    "family #1 exact 114688 decision preservation",
+    "P8 mandatory-feasibility behavior with no invented fallback or reuse threshold",
+    "I002 direct preferred execution with resident=false and no acquisition",
+    "fallback readiness explicit",
+    "valid resident representation may remain preserved while not ready",
+    "lifecycle invalidation precedes readiness routing",
+    "no duplicate acquisition when acquisition is not startable",
+    "ANL64 shared plan metadata remains control-plane state rather than fake primitive representation",
+    "no-ready-route returns NOT_READY",
+    "outside-evidence behavior remains bounded",
+    "new families integrate through descriptors/runtime state rather than family-specific branches"
+  ],
+  "implementation_boundary": {
+    "current_cpp_policy_version": "v2",
+    "current_cpp_gap": "no execution_ready field and no explicit fallback readiness",
+    "classification": "IMPLEMENTATION_LAG_NOT_SCIENTIFIC_COUNTEREXAMPLE",
+    "bind_current_v2_directly": false,
+    "materialize_frozen_surface_before_backend_binding": true
+  },
+  "universality_claim_allowed": false
+}
