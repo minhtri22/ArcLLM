@@ -1,0 +1,11 @@
+{
+    "schema":  "arcllm.v1.phase2.q4_vulkan_backend_v4.build.v0.1",
+    "status":  "PASS_STATIC_SHADER_NATIVE_BUILD",
+    "git_head":  "22059fbbb5f06be51fc7e3985c503acc07178dac",
+    "source_blob":  "85a94f59fa14be72d1e32aafac3e2a012631bc4b",
+    "exe_sha256":  "E50F649D2A82361E366C911D6089863E16EBC17839DCE1FCC14D7937F9AE676D",
+    "exe_bytes":  417280,
+    "model_loaded":  false,
+    "gpu_dispatch_executed":  false,
+    "performance_authorized":  false
+}

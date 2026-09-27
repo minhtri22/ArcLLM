@@ -1624,3 +1624,18 @@ This violates the frozen v4 invariant that route A with lifecycle NONE must not 
 Result: **FAIL — CURRENT BACKEND BINDING HAS HIDDEN REPRESENTATION ACQUISITION**.
 
 The bounded generic extension surface remains closed; no new dimension or family-specific semantic branch is required. Scientific validation of backend-bound v4 remains unpassed until the Q4 backend is refactored so B allocation/materialization occurs only on explicit ACQUIRE, readiness is asserted only after validation, and B is released only under the frozen lifecycle. Additional W-C collection was stopped because the violated condition is structural and workload-independent.
+
+
+## Phase 2 backend-bound extension-surface revalidation — demand-driven Q4 backend PASS — 2026-09-27
+
+The prior backend-bound validation FAIL is preserved as first-class evidence. That failure did not falsify the frozen generic v4 surface; it exposed that the historical Q4 four-arm factorial harness eagerly allocated/materialized the 549,527,552-byte EXEC148 representation before arm selection and therefore could not serve as a lifecycle-faithful production backend.
+
+A convergence audit separated experiment-only harnesses from frozen primitive assets, acquisition evidence, generic policy/binding machinery and runtime responsibilities. A single demand-driven concrete Q4 Vulkan backend was then materialized on the canonical `research/arcllm-v1` line and bound through `policy_v4::evaluate -> binding_v4::apply_decision -> Q4VulkanBackendV4`.
+
+Same-head regression preserved all **114,688** family #1 decisions and the bounded P8, I002 and ANL64 oracles. Real Vulkan execution on the exact frozen model then passed the lifecycle discriminators: A with lifecycle NONE caused zero B allocation/materialization; P1-unavailable H=2 remained on A without hidden adapter retry; P1 acquisition occurred only after explicit policy selection; resident valid B was reused without reacquisition; known zero future reuse evicted B before continuing on A; and the secondary P3-cold plus tertiary P0 paths were each exercised only after explicit policy selection.
+
+All three B acquisition paths produced the same exact EXEC148 identity (canonical tuple SHA256 `60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2`, raw SHA256 `3f168749256e8acbbbe61da06196ca0e51a249b3923938e5651a4da6f50ab43f`). Frozen real-weight component correctness remained PASS for A and for B acquired through P1, P3-cold and P0.
+
+Result: **PASS — BACKEND-BOUND EXTENSION SURFACE REVALIDATED FOR THE FROZEN Q4 FAMILY**.
+
+No family-specific semantic branch, activation state machine, hidden retry, hidden eager representation acquisition or new semantic dimension was required. The generic v4 surface therefore remains closed and bounded. This result validates the concrete Q4 primitive backend boundary only; it does not claim full end-to-end inference-runtime integration, production backend bindings for the other holdout families, universality over future primitive families, or a new performance advantage.

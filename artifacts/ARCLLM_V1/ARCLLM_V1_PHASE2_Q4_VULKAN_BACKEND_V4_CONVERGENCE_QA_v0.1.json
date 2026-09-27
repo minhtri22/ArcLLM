@@ -1,0 +1,98 @@
+{
+  "schema": "arcllm.v1.phase2.q4_vulkan_backend_v4.convergence_qa.v0.1",
+  "date": "2026-09-27",
+  "status": "PASS_Q4_VULKAN_BACKEND_V4_CANONICAL_CONVERGENCE_QA",
+  "branch": "research/arcllm-v1",
+  "implementation_head": "22059fbbb5f06be51fc7e3985c503acc07178dac",
+  "parent_convergence_audit_blob": "274156bbedbe0082b12500837748f5edf29da091",
+  "convergence_contract_blob": "aaaef0053c1106274c22964f0f229e2cade15a93",
+  "implementation": {
+    "source_path": "src/arcllm_v1_q4_vulkan_backend_v4.cpp",
+    "source_blob": "85a94f59fa14be72d1e32aafac3e2a012631bc4b",
+    "static_qa_blob": "ca78bde7654bccdb4c13101bd2744c3c2eb02566",
+    "compile_script_blob": "7656e87da03befd87353fbc51366b7498203d125",
+    "build_script_blob": "22ce856715caa606b5b6230994c0a0a3aab32045",
+    "backend_exe_sha256": "E50F649D2A82361E366C911D6089863E16EBC17839DCE1FCC14D7937F9AE676D",
+    "backend_exe_bytes": 417280
+  },
+  "evidence": {
+    "backend_result_blob": "1bdf1ea08224a9538fb338b686dd56f779f45e41",
+    "backend_result_sha256": "C1E17DD0D8012ED8C3E298A98CF710083F3CD075B131D878EDC686B480071883",
+    "p3_sidecar_qa_blob": "804ba9b9ece886959102f152a343111f6fa28455",
+    "p3_sidecar_qa_sha256": "9DE2753650662FC49AD83D28310F365E9DE34F329361B6CD51A6BAC8060CC750",
+    "shader_provenance_blob": "e944f2a14cdac2b1e45d8fffce7b9c6872cf6b39",
+    "shader_provenance_sha256": "A377AE10F17241E63DE86E90BCAC639A6503844C249BA6557DF1775CCE3A4DDF",
+    "build_evidence_blob": "a187551063efabde5eccb355c7c9b18659474a9c",
+    "build_evidence_sha256": "CE7E8723D0D70145C798B6EC4D2DAB9BB0E4EB0034F4C7F9C41CFE295A1D30A0",
+    "canonical_sidecar_sha256": "3F168749256E8ACBBE61DA06196CA0E51A249B3923938E5651A4DA6F50AB43F",
+    "canonical_sidecar_bytes": 549527552
+  },
+  "exact_model": {
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "host": "DESKTOP-4PSD0G2",
+    "gpu": "Intel Arc 140V",
+    "backend": "Vulkan"
+  },
+  "generic_regression_same_head": {
+    "head": "22059fbbb5f06be51fc7e3985c503acc07178dac",
+    "family_1_exact_cases": 114688,
+    "P8": "PASS",
+    "I002": "PASS",
+    "ANL64": "PASS",
+    "generic_backend_binding_contract": "PASS",
+    "status": "PASS_PHASE2_CLOSED_SURFACE_V4_MATERIALIZATION_QA",
+    "exe_sha256": "B2FEBAF77AB34A4C0EC7E83E2145C57ED9B1550A42245A8ACEA9A643CF50E2FB"
+  },
+  "real_backend_scenarios": {
+    "A_no_acquire": "PASS",
+    "P1_unavailable_no_hidden_retry": "PASS",
+    "P1_explicit_acquire_validate_B": "PASS",
+    "resident_B_reuse_without_reacquire": "PASS",
+    "explicit_B_evict_then_A": "PASS",
+    "P0_explicit_policy_selected_acquire": "PASS",
+    "P3_cold_explicit_policy_selected_acquire": "PASS"
+  },
+  "backend_operation_counts": {
+    "b_allocations": 3,
+    "b_materializations": 3,
+    "b_validations": 3,
+    "b_releases": 3,
+    "P1_calls": 1,
+    "P3_calls": 1,
+    "P0_calls": 1
+  },
+  "correctness": {
+    "A": {
+      "n": 50176,
+      "max_abs": 0.0000352859497070312,
+      "rmse": 0.00000367509652515174,
+      "pass": true
+    },
+    "B_P1": {"n": 50176, "max_abs": 0, "rmse": 0, "pass": true},
+    "B_P3": {"n": 50176, "max_abs": 0, "rmse": 0, "pass": true},
+    "B_P0": {"n": 50176, "max_abs": 0, "rmse": 0, "pass": true},
+    "exec148_tuple_sha256": "60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2",
+    "exec148_raw_sha256": "3f168749256e8acbbbe61da06196ca0e51a249b3923938e5651a4da6f50ab43f"
+  },
+  "convergence": {
+    "single_lifecycle_authority": "Q4VulkanBackendV4",
+    "four_arm_harness_used_as_runtime": false,
+    "B1_experiment_harness_used_as_runtime": false,
+    "generic_policy_changed": false,
+    "generic_binding_changed": false,
+    "hidden_backend_retry": false,
+    "hidden_eager_B_acquisition": false,
+    "primitive_backend_boundary_converged": true,
+    "full_end_to_end_model_runtime_integration_complete": false
+  },
+  "source_organization_note": {
+    "detail": "The backend translation unit embeds p8c_segmented_access_correctness.cpp with its main renamed/disabled solely to reuse the existing low-level VkRuntime/Buffer/DispatchOp substrate. No P8 experiment control flow is invoked.",
+    "classification": "SOURCE_ORGANIZATION_DEBT_NOT_A_SECOND_BACKEND_OR_SEMANTIC_GAP",
+    "future_refactor_allowed_without_science_reopen": true
+  },
+  "performance": {
+    "authorized": false,
+    "timing_emitted": false,
+    "hardware_counters_executed": false
+  }
+}

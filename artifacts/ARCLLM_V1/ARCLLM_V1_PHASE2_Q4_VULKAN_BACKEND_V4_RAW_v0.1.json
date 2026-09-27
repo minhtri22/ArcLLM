@@ -1,0 +1,16 @@
+{
+"schema":"arcllm.v1.phase2.q4_vulkan_backend_v4.validation.v0.1",
+"status":"PASS_Q4_VULKAN_BACKEND_V4_CONVERGENCE_QA",
+"model_sha256":"60e05f2100071479f596b964f89f510f057ce397ea22f2833a0cfe029bfc2463",
+"surface":{"policy":"v4","binding":"v4","backend":"Q4_VULKAN_BACKEND_V4"},
+"scenarios":{"A_no_acquire":true,"P1_unavailable_no_hidden_retry":true,"P1_explicit_acquire":true,"resident_B_reuse":true,"explicit_evict":true,"P0_policy_selected_acquire":true,"P3_cold_explicit_acquire":true},
+"counters":{"b_allocations":3,"b_materializations":3,"b_validations":3,"b_releases":3,"p1_calls":1,"p3_calls":1,"p0_calls":1,"resolve_a":5,"resolve_b":4},
+"A_component":{"finite":true,"n":50176,"max_abs":3.52859497070312e-05,"rmse":3.67509652515174e-06,"pass":true},
+"B_P1_component":{"finite":true,"n":50176,"max_abs":0,"rmse":0,"pass":true},
+"B_P0_component":{"finite":true,"n":50176,"max_abs":0,"rmse":0,"pass":true},
+"B_P3_component":{"finite":true,"n":50176,"max_abs":0,"rmse":0,"pass":true},
+"exec148_identity":{"tuple_sha256":"60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2","raw_sha256":"3f168749256e8acbbbe61da06196ca0e51a249b3923938e5651a4da6f50ab43f","bytes":549527552},
+"performance":{"authorized":false,"timing_emitted":false,"counters_executed":false},
+"hidden_retry":false,
+"hidden_eager_B_acquisition":false
+}

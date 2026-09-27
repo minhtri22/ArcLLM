@@ -1,0 +1,8 @@
+{
+"schema":"arcllm.v1.b1_2.p3.zero_science_qualification.v0.1",
+"status":"PASS_P3_ZERO_SCIENCE_CORRECTNESS",
+"performance":{"authorized":false,"acquisition_timing_emitted":false,"storage_timing_emitted":false},
+"sidecar":{"path":"results\\canonical_exec148.sidecar","manifest_path":"results\\canonical_exec148.sidecar.manifest.json","payload_bytes":549527552,"payload_raw_sha256":"3f168749256e8acbbbe61da06196ca0e51a249b3923938e5651a4da6f50ab43f","canonical_family_hash":"60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2","compression":false},
+"warm":{"raw_sha256":"3f168749256e8acbbbe61da06196ca0e51a249b3923938e5651a4da6f50ab43f","tuple_exact":true,"source_family_sha256":"60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2","exec_family_sha256":"60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2","component_max_abs":0,"component_rmse":0,"component_n":50176,"component_pass":true,"pass":true},
+"cold_unbuffered":{"raw_sha256":"3f168749256e8acbbbe61da06196ca0e51a249b3923938e5651a4da6f50ab43f","sector_bytes":512,"chunk_bytes":4194304,"staging":"VirtualAlloc","tuple_exact":true,"source_family_sha256":"60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2","exec_family_sha256":"60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2","component_max_abs":0,"component_rmse":0,"component_n":50176,"component_pass":true,"pass":true}
+}

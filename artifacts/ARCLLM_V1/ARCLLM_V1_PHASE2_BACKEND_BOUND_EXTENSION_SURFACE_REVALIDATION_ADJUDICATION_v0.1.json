@@ -1,0 +1,79 @@
+{
+  "schema": "arcllm.v1.phase2.backend_bound_extension_surface_revalidation_adjudication.v0.1",
+  "date": "2026-09-27",
+  "gate": "PHASE2_BACKEND_BOUND_EXTENSION_SURFACE_REVALIDATION_GATE",
+  "gate_blob": "4e76a8bfbfa59254d55ecc6c98e0ff6b393e8b77",
+  "implementation_qa_blob": "3b2c21e886e8a025181f4d16cdb22c0187b4ae1a",
+  "previous_failed_binding_adjudication_blob": "284efe74963fd3a842aabb4402cc07cdd50c36b8",
+  "implementation_head": "22059fbbb5f06be51fc7e3985c503acc07178dac",
+  "adjudication": "PASS_BACKEND_BOUND_EXTENSION_SURFACE_REVALIDATED_Q4",
+  "evidence": {
+    "generic_surface_same_head": {
+      "family_1_exact_decisions": 114688,
+      "P8": "PASS",
+      "I002": "PASS",
+      "ANL64": "PASS",
+      "generic_binding_contract": "PASS"
+    },
+    "real_q4_backend": {
+      "A_no_acquire": "PASS",
+      "P1_unavailable_no_hidden_retry": "PASS",
+      "P1_acquire_validate_route_B": "PASS",
+      "resident_B_reuse_no_reacquire": "PASS",
+      "B_evict_then_A": "PASS",
+      "P0_policy_selected_acquire": "PASS",
+      "P3_cold_policy_selected_acquire": "PASS"
+    },
+    "operation_counts": {
+      "B_allocations": 3,
+      "B_materializations": 3,
+      "B_validations": 3,
+      "B_releases": 3,
+      "P1": 1,
+      "P3": 1,
+      "P0": 1
+    },
+    "correctness": {
+      "A_pass": true,
+      "B_P1_pass": true,
+      "B_P3_pass": true,
+      "B_P0_pass": true,
+      "exec148_tuple_identity_exact": true,
+      "exec148_raw_identity_exact": true
+    }
+  },
+  "answer_to_scientific_question": {
+    "route_semantics_preserved": true,
+    "acquisition_semantics_preserved": true,
+    "execution_readiness_semantics_preserved": true,
+    "representation_residency_semantics_preserved": true,
+    "eviction_semantics_preserved": true,
+    "frozen_family_oracles_preserved": true,
+    "hidden_family_specific_semantics_found": false,
+    "backend_induced_abstraction_drift_found": false,
+    "new_dependency_requires_generic_reopen": false
+  },
+  "scientific_interpretation": {
+    "previous_fail_explained": "The prior FAIL was caused by using the historical factorial 4-arm experiment harness as if it were a production lifecycle-bound backend. That harness eagerly materialized B by design for causal comparison.",
+    "new_result": "A single demand-driven concrete Q4 Vulkan backend can obey the already-frozen v4 distinctions without changing the generic policy or binding core.",
+    "generic_surface_reopen_required": false,
+    "generic_surface_status": "REMAINS_CLOSED_BOUNDED",
+    "backend_binding_status": "REAL_Q4_PRIMITIVE_BACKEND_VALIDATED"
+  },
+  "claim_boundary": {
+    "validated": "Q4_K decode ffn_down primitive backend on the exact frozen model/host domain with P1, P3-cold and P0 acquisition paths",
+    "not_claimed": [
+      "full end-to-end inference runtime integration through the v4 policy",
+      "production backend bindings for P8, I002 or ANL64",
+      "universality across future primitive families, hardware, models or operators",
+      "new performance advantage"
+    ]
+  },
+  "phase2_state": {
+    "convergence_audit": "CLOSED_PASS",
+    "q4_concrete_backend": "CLOSED_PASS",
+    "backend_bound_scientific_revalidation": "CLOSED_PASS",
+    "remaining_work_class": "IMPLEMENTATION_INTEGRATION_QA",
+    "next_work": "Integrate Q4VulkanBackendV4 into the full ArcLLM inference/runtime ownership path without changing frozen v4 semantics; factor the reused low-level VkRuntime substrate only as code-organization cleanup if desired."
+  }
+}

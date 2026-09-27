@@ -1,0 +1,36 @@
+{
+  "schema": "arcllm.v1.phase2.backend_bound_extension_surface_revalidation_gate.v0.1",
+  "date": "2026-09-27",
+  "gate": "PHASE2_BACKEND_BOUND_EXTENSION_SURFACE_REVALIDATION_GATE",
+  "status": "FORMAL_REVALIDATION_OF_PREDECLARED_GATE",
+  "question": "After the Q4 backend is converted from eager experimental pre-materialization to a single demand-driven concrete v4 backend, does real backend execution preserve route, acquisition, execution readiness, representation residency and eviction semantics, preserve correctness and every frozen generic-family oracle, and avoid any new backend-induced semantic drift?",
+  "criteria_provenance": {
+    "previous_gate_blob": "4b7214c49096da937df852b947ebe98317d1d99a",
+    "previous_fail_adjudication_blob": "284efe74963fd3a842aabb4402cc07cdd50c36b8",
+    "convergence_contract_blob": "aaaef0053c1106274c22964f0f229e2cade15a93",
+    "note": "Pass/fail semantics are inherited from the previous gate and the convergence contract; no threshold or semantic criterion is changed in response to the new execution outcome."
+  },
+  "required_evidence": [
+    "same-head v4 regression: 114688 family #1 decisions plus P8/I002/ANL64 oracles",
+    "A route with lifecycle NONE performs zero B allocation/materialization",
+    "P1/P3/P0 acquisition occurs only when selected by policy",
+    "B becomes routable only after exact identity validation",
+    "resident B positive-reuse route performs no reacquisition",
+    "EVICT releases B before A continuation",
+    "backend does not invent hidden retry or fallback",
+    "real-weight A and B component correctness remains within frozen gates",
+    "no new semantic dimension or family-specific branch is required in generic policy/binding"
+  ],
+  "scope": {
+    "concrete_backend": "Q4_VULKAN_BACKEND_V4",
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "operator": "decode ffn_down",
+    "quant": "Q4_K",
+    "layers": [3,4,6,7,8,11,12,14,15,17,18,19,21,22],
+    "full_end_to_end_inference_claim": false,
+    "universality_claim": false
+  },
+  "pass_verdict": "PASS_BACKEND_BOUND_EXTENSION_SURFACE_REVALIDATED_Q4",
+  "fail_backend_only_verdict": "FAIL_CURRENT_Q4_BACKEND_BINDING_WITHOUT_GENERIC_REOPEN",
+  "fail_generic_verdict": "FAIL_AND_REOPEN_GENERIC_ABSTRACTION_ONLY_IF_NEW_UNREPRESENTABLE_SEMANTIC_DIMENSION_APPEARS"
+}
