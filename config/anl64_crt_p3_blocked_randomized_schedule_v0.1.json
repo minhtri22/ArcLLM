@@ -1,0 +1,149 @@
+{
+  "schema": "arcllm.anl64_crt.p3.blocked_randomized_schedule.v0.1",
+  "date": "2026-09-28",
+  "design": "6x6 Williams carryover-balanced complete-block schedule",
+  "randomization": {
+    "seed": 20260928,
+    "note": "Seeded pseudo-random treatment-label assignment and Williams-row permutation frozen before any P3 performance observation. Exact schedule below is canonical.",
+    "treatment_label_mapping": {
+      "1": "B_PLAN_PREBOUND/W-S",
+      "2": "A_CANONICAL/W-S",
+      "3": "A_CANONICAL/W-C",
+      "4": "C_PLAN_PREBOUND_RESIDUAL/W-S",
+      "5": "B_PLAN_PREBOUND/W-C",
+      "6": "C_PLAN_PREBOUND_RESIDUAL/W-C"
+    },
+    "williams_base_rows": [
+      [
+        1,
+        2,
+        6,
+        3,
+        5,
+        4
+      ],
+      [
+        2,
+        3,
+        1,
+        4,
+        6,
+        5
+      ],
+      [
+        3,
+        4,
+        2,
+        5,
+        1,
+        6
+      ],
+      [
+        4,
+        5,
+        3,
+        6,
+        2,
+        1
+      ],
+      [
+        5,
+        6,
+        4,
+        1,
+        3,
+        2
+      ],
+      [
+        6,
+        1,
+        5,
+        2,
+        4,
+        3
+      ]
+    ],
+    "frozen_row_order_zero_based": [
+      2,
+      4,
+      5,
+      3,
+      0,
+      1
+    ]
+  },
+  "blocks": [
+    {
+      "block": 1,
+      "order": [
+        "A_CANONICAL/W-C",
+        "C_PLAN_PREBOUND_RESIDUAL/W-S",
+        "A_CANONICAL/W-S",
+        "B_PLAN_PREBOUND/W-C",
+        "B_PLAN_PREBOUND/W-S",
+        "C_PLAN_PREBOUND_RESIDUAL/W-C"
+      ]
+    },
+    {
+      "block": 2,
+      "order": [
+        "B_PLAN_PREBOUND/W-C",
+        "C_PLAN_PREBOUND_RESIDUAL/W-C",
+        "C_PLAN_PREBOUND_RESIDUAL/W-S",
+        "B_PLAN_PREBOUND/W-S",
+        "A_CANONICAL/W-C",
+        "A_CANONICAL/W-S"
+      ]
+    },
+    {
+      "block": 3,
+      "order": [
+        "C_PLAN_PREBOUND_RESIDUAL/W-C",
+        "B_PLAN_PREBOUND/W-S",
+        "B_PLAN_PREBOUND/W-C",
+        "A_CANONICAL/W-S",
+        "C_PLAN_PREBOUND_RESIDUAL/W-S",
+        "A_CANONICAL/W-C"
+      ]
+    },
+    {
+      "block": 4,
+      "order": [
+        "C_PLAN_PREBOUND_RESIDUAL/W-S",
+        "B_PLAN_PREBOUND/W-C",
+        "A_CANONICAL/W-C",
+        "C_PLAN_PREBOUND_RESIDUAL/W-C",
+        "A_CANONICAL/W-S",
+        "B_PLAN_PREBOUND/W-S"
+      ]
+    },
+    {
+      "block": 5,
+      "order": [
+        "B_PLAN_PREBOUND/W-S",
+        "A_CANONICAL/W-S",
+        "C_PLAN_PREBOUND_RESIDUAL/W-C",
+        "A_CANONICAL/W-C",
+        "B_PLAN_PREBOUND/W-C",
+        "C_PLAN_PREBOUND_RESIDUAL/W-S"
+      ]
+    },
+    {
+      "block": 6,
+      "order": [
+        "A_CANONICAL/W-S",
+        "A_CANONICAL/W-C",
+        "B_PLAN_PREBOUND/W-S",
+        "C_PLAN_PREBOUND_RESIDUAL/W-S",
+        "C_PLAN_PREBOUND_RESIDUAL/W-C",
+        "B_PLAN_PREBOUND/W-C"
+      ]
+    }
+  ],
+  "balance_claims": {
+    "each_condition_once_per_block": true,
+    "each_condition_once_per_ordinal_position": true,
+    "each_ordered_adjacent_pair_exactly_once": true,
+    "total_cells": 36
+  }
+}

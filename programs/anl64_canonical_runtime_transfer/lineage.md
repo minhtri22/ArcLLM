@@ -72,3 +72,51 @@ However, total C−A classification is more stable than the decomposition:
 Result: **PASS_STRUCTURED_GLOBAL_NONSTATIONARITY_DETECTED_DECOMPOSITION_UNDERIDENTIFIED**.
 
 P1R's formal valid-negative verdict is preserved and is not rewritten. A new fresh replication may be preregistered only to resolve the nuisance-state confounding; no fresh execution is authorized by P2 itself.
+
+
+## 2026-09-28 — Retrospective scientific-prehistory completeness audit
+
+The scientific evidence that licensed this successor predates the successor itself and is preserved here for lineage completeness.
+
+### Historical ANL64 P5 — semantic integration
+
+The complete historical ANL64 candidate preserved the tested exact-model greedy-output semantics and integrated the immutable 469-node plan consistently across W-S and W-C.
+
+Result: **PASS_SEMANTIC_INTEGRATION**.
+
+No performance conclusion was established by P5.
+
+### Historical ANL64 P6/P7 — positive decode/E2E evidence, overall valid negative
+
+Fresh matched P6 evidence supported material decode benefit in all four required comparisons and material E2E latency reduction in all four required comparisons.
+
+Results:
+- decode material benefit: **PASS 4/4**;
+- E2E material benefit: **PASS 4/4**;
+- TTFT blocking guard: **FAIL 3/4**.
+
+Therefore the overall ANL64 question was not established despite the preserved positive decode/E2E evidence.
+
+Terminal result: **ANL64_PROGRAM_CLOSED_VALID_NEGATIVE_TTFT_BLOCKED**.
+
+### TTFT_M2 successor — registered TTFT mechanisms
+
+A later fresh TTFT successor did not reproduce a stable material registered TTFT mechanism across both workloads and sessions.
+
+Result: **VALID_FRESH_SCIENTIFIC_RESULT_H_NULL_SUPPORTED**.
+
+This does not establish universal absence of TTFT mechanisms; it only updates the registered mechanism set tested by TTFT_M2.
+
+### Scientific-lineage scope
+
+This lineage records scientific questions, evidence-bearing PASS/FAIL outcomes, preserved claim boundaries, and unresolved scientific questions. Non-scientific implementation, infrastructure, build/debug, transport and operational events remain outside this lineage.
+
+## 2026-09-28 — P3 open confirmatory question
+
+P2 licensed a new replication because global/session nonstationarity was demonstrated independently of ANL64 and the plan-vs-residual decomposition remained underidentified.
+
+The next question is:
+
+> When arm/workload is block-randomized independently of global execution order and non-invasive state covariates are recorded before every cell, does the W-S non-material / W-C material total-transfer split replicate, and after nuisance-state balancing do B−A and C−B become stably identifiable?
+
+Status: **OPEN — DESIGN FROZEN, NO SCIENTIFIC RESULT YET**.

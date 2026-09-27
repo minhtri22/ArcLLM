@@ -1,0 +1,160 @@
+{
+  "schema": "arcllm.anl64_crt.p3.blocked_randomized_state_aware_replication_prelock.v0.1",
+  "date": "2026-09-28",
+  "program": "ANL64_CANONICAL_RUNTIME_TRANSFER",
+  "status": "FROZEN_DESIGN_NO_FRESH_EXECUTION_AUTHORIZED",
+  "parent_P2_verdict": "PASS_STRUCTURED_GLOBAL_NONSTATIONARITY_DETECTED_DECOMPOSITION_UNDERIDENTIFIED",
+  "scientific_question": "When arm/workload is block-randomized independently of global execution order and non-invasive state covariates are recorded before every cell, does the W-S non-material / W-C material total-transfer split replicate, and after nuisance-state balancing do B-A and C-B become stably identifiable?",
+  "hypotheses": {
+    "H_TOTAL_SPLIT": "C/A remains non-material on W-S and material on W-C after order-balanced replication.",
+    "H_DECOMPOSITION_IDENTIFIABLE": "Within-block B/A and C/B classifications become stable across balanced blocks.",
+    "H_NUISANCE_ONLY": "Large block/session state variation remains, but balanced within-block contrasts are stable and therefore identifiable.",
+    "H_ANL64_INSTABILITY": "B/A or C/B remains materially unstable after exact order/carryover balance, arguing that the instability is treatment-specific rather than a global-order nuisance."
+  },
+  "frozen_target": {
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "cpu": "Intel Core Ultra 7 258V",
+    "gpu": "Intel Arc 140V",
+    "backend": "Vulkan",
+    "workloads": {
+      "W-S": {"prompt_tokens": 4, "output_tokens": 32},
+      "W-C": {"prompt_tokens": 256, "output_tokens": 32}
+    },
+    "arms": {
+      "A_CANONICAL": "current canonical runtime; no ANL64 plan",
+      "B_PLAN_PREBOUND": "exact ANL64 immutable plan prebound before timing; canonical executor choices preserved",
+      "C_PLAN_PREBOUND_RESIDUAL": "same prebound plan plus only residual 84 Q/K/O Q4_FAST substitutions"
+    },
+    "I002_gate_up_unchanged": true,
+    "Q4VulkanBackendV4_down_unchanged": true,
+    "generic_v4_unchanged": true
+  },
+  "randomization": {
+    "schedule_artifact": "config/anl64_crt_p3_blocked_randomized_schedule_v0.1.json",
+    "schedule_blob": "bf8f6ebcc3c989a81210fd41c41bfd62d68a8fc1",
+    "blocks": 6,
+    "conditions_per_block": 6,
+    "total_cells": 36,
+    "design": "Williams carryover-balanced complete blocks",
+    "each_condition_once_per_block": true,
+    "each_condition_once_per_position_1_to_6": true,
+    "each_ordered_adjacent_condition_pair_exactly_once": true,
+    "adaptive_reordering": false
+  },
+  "cell_measurement": {
+    "warmups_per_cell": 1,
+    "measured_attempts_per_cell": 5,
+    "total_measured_attempts": 180,
+    "cell_summary": "median of five measured attempts",
+    "exact_32_token_sequence_required": true,
+    "decode_dispatches_per_step": 469
+  },
+  "pre_cell_state_covariates": {
+    "collection_point": "immediately before each cell process launch and outside all inference timing",
+    "required": [
+      "wall_clock_timestamp",
+      "global_cell_ordinal",
+      "block_id",
+      "ordinal_position_within_block",
+      "previous_condition",
+      "elapsed_seconds_since_P3_start",
+      "elapsed_seconds_since_previous_cell_end",
+      "system_CPU_utilization_snapshot",
+      "available_physical_memory_bytes",
+      "active_power_scheme",
+      "AC_line_status"
+    ],
+    "extended_if_zero_science_preflight_confirms_read_only_stable_availability": [
+      "CPU_effective_frequency_or_processor_performance_percent",
+      "GPU_engine_utilization_snapshot",
+      "GPU_frequency",
+      "CPU_temperature",
+      "GPU_temperature"
+    ],
+    "extended_surface_freeze_rule": "Availability and exact acquisition command must be frozen before first P3 performance observation. A field unavailable at preflight is marked UNAVAILABLE for the entire study; it may not be introduced mid-study.",
+    "prohibited": [
+      "profiler injection into inference process",
+      "Token-XRay tracing during timed cells",
+      "GPU/CPU hardware-counter sessions attached to inference",
+      "adaptive cooldown or executor changes based on observed performance"
+    ],
+    "decision_role": "covariates diagnose nuisance balance and residual state association; they cannot change thresholds, delete cells, reorder treatments, or rescue a failed primary gate"
+  },
+  "primary_estimands": {
+    "unit": "within-block paired cell-median ratio",
+    "per_workload": [
+      "B_over_A plan/control-plane contrast",
+      "C_over_B residual-84-node contrast",
+      "C_over_A total-transfer contrast"
+    ],
+    "cross_block_summary": "median of the six within-block ratios",
+    "why": "complete blocking removes block-wide level shifts from the primary treatment contrasts"
+  },
+  "frozen_materiality_thresholds": {
+    "decode_benefit_min": 1.1,
+    "e2e_latency_ratio_max": 0.9,
+    "ttft_harm_ratio_max": 1.1,
+    "plan_no_harm_decode_min": 0.9,
+    "plan_no_harm_e2e_max": 1.1,
+    "source": "carried forward from P1R; not tuned to P2 outcome"
+  },
+  "replication_rules": {
+    "block_stability_requirement": "at least 5 of 6 blocks must agree with the pooled classification for a contrast to be called stable",
+    "W_S_total_split_replication": "median C/A does not satisfy both material-benefit thresholds AND at least 5/6 blocks are non-material",
+    "W_C_total_split_replication": "median C/A satisfies decode>=1.1 and E2E<=0.9 AND at least 5/6 blocks are material",
+    "total_TTFT_guard": "median C/A TTFT<=1.1 AND at least 5/6 blocks have C/A TTFT<=1.1",
+    "plan_identifiable": "for each workload, pooled B/A no-harm classification is matched by at least 5/6 blocks",
+    "residual_identifiable": "for each workload, pooled C/B material-vs-nonmaterial classification is matched by at least 5/6 blocks",
+    "ANL64_specific_instability": "after exact position/carryover balance, B/A or C/B still fails the 5/6 stability rule while canonical-A block variation alone cannot explain the contrast reversal"
+  },
+  "nuisance_analysis": {
+    "primary": "block-balanced paired contrasts; no covariate adjustment required for primary adjudication",
+    "secondary": [
+      "descriptive association of canonical-A cell medians with global ordinal and recorded state covariates",
+      "descriptive association of within-block residuals with recorded state covariates",
+      "check that covariate distributions are not systematically aliased with A/B/C after frozen schedule"
+    ],
+    "mechanism_claim_boundary": "thermal, frequency, cache, driver or other specific nuisance mechanism may be named only if the corresponding covariate is actually observed and shows preregistered replicated association; otherwise retain nuisance-class wording"
+  },
+  "blocking_guards": [
+    "exact token equality across matched A/B/C cells",
+    "469 decode-node census preserved",
+    "ANL64 plan identity preserved",
+    "zero per-token plan discovery",
+    "I002 unchanged",
+    "Q4VulkanBackendV4 lifecycle unchanged",
+    "no adaptive reordering",
+    "all 36 scheduled cells present",
+    "no selective rerun"
+  ],
+  "adjudication_order": [
+    "G0 evidence completeness and frozen schedule identity",
+    "G1 semantic and structural guards",
+    "G2 randomization/position/carryover balance",
+    "G3 total C/A workload-split replication",
+    "G4 TTFT blocking guard",
+    "G5 B/A plan identifiability",
+    "G6 C/B residual identifiability",
+    "G7 nuisance-state residual analysis",
+    "FINAL"
+  ],
+  "outcome_classes": [
+    "PASS_TOTAL_SPLIT_AND_DECOMPOSITION_IDENTIFIED",
+    "PASS_TOTAL_SPLIT_DECOMPOSITION_REMAINS_UNDERIDENTIFIED",
+    "FAIL_TOTAL_SPLIT_NOT_REPLICATED",
+    "FAIL_TTFT_HARM",
+    "VALID_NEGATIVE_ANL64_SPECIFIC_INSTABILITY_AFTER_BALANCING"
+  ],
+  "execution": {
+    "fresh_execution_authorized": false,
+    "next_required_step": "P3_ZERO_SCIENCE_COVARIATE_SURFACE_AND_DESIGN_QA",
+    "execution_lock_required_after_QA": true
+  },
+  "claim_boundary": {
+    "ANL64_canonical_integration_authorized": false,
+    "llama_cpp_comparison": false,
+    "NPU": false,
+    "P8": false,
+    "threshold_revision": false
+  }
+}

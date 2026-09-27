@@ -1,0 +1,68 @@
+{
+  "schema": "arcllm.anl64_crt.lineage_scientific_scope_audit.v0.1",
+  "date": "2026-09-28",
+  "program": "ANL64_CANONICAL_RUNTIME_TRANSFER",
+  "status": "PASS_SCIENTIFIC_LINEAGE_COMPLETE_THROUGH_P2",
+  "scope_rule": "lineage.md records scientific questions, evidence-bearing PASS/FAIL results, preserved claim boundaries, and unresolved scientific questions. Implementation, infrastructure, CI, build/debug, transport, and runner events are excluded.",
+  "scientific_prehistory_required_for_current_program": [
+    {
+      "study": "Historical ANL64 P5",
+      "result": "PASS_SEMANTIC_INTEGRATION",
+      "supported": ["exact 32-token sequence equality", "469-node immutable plan integration", "repeatability"],
+      "performance_claim": false
+    },
+    {
+      "study": "Historical ANL64 P6",
+      "result": "VALID_NEGATIVE_OVERALL",
+      "subresults": {
+        "decode_material_benefit": "PASS_4_OF_4",
+        "e2e_material_benefit": "PASS_4_OF_4",
+        "ttft_blocking_guard": "FAIL_3_OF_4"
+      }
+    },
+    {
+      "study": "Historical ANL64 P7",
+      "result": "ANL64_PROGRAM_CLOSED_VALID_NEGATIVE_TTFT_BLOCKED",
+      "overall_question": "NOT_ESTABLISHED"
+    },
+    {
+      "study": "TTFT_M2 successor",
+      "result": "VALID_FRESH_SCIENTIFIC_RESULT_H_NULL_SUPPORTED",
+      "supported": "no stable material registered TTFT mechanism replicated across both workloads and sessions",
+      "boundary": "does not establish universal absence of TTFT mechanisms"
+    }
+  ],
+  "current_program_results": [
+    {
+      "study": "CRT P0",
+      "result": "PASS_NONEMPTY_RESIDUAL_TRANSFER_SURFACE_EXISTS_VALUE_NOT_ESTABLISHED"
+    },
+    {
+      "study": "CRT P1R",
+      "result": "VALID_NEGATIVE_PREBOUND_PLAN_HARM_BLOCKS_TRANSFER",
+      "subresults": {
+        "semantic_transfer": "PASS",
+        "plan_no_harm": "FAIL",
+        "residual_incremental_value": "FAIL",
+        "overall_incremental_transfer": "FAIL",
+        "ttft_guard": "PASS"
+      }
+    },
+    {
+      "study": "CRT P2",
+      "result": "PASS_STRUCTURED_GLOBAL_NONSTATIONARITY_DETECTED_DECOMPOSITION_UNDERIDENTIFIED",
+      "subresults": {
+        "structured_global_nuisance_state": "PASS",
+        "ANL64_specific_instability": "NOT_ESTABLISHED",
+        "plan_vs_residual_decomposition_identifiable": "FAIL",
+        "total_C_over_A_workload_classification_replication": "PASS"
+      }
+    }
+  ],
+  "technical_events_required_in_lineage": false,
+  "missing_scientific_result_entries_before_P3": [
+    "historical ANL64 P5/P6/P7 scientific prehistory",
+    "TTFT_M2 scientific update"
+  ],
+  "action": "append a retrospective scientific-prehistory completeness section; do not append technical event history"
+}
