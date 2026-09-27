@@ -4,8 +4,10 @@ $Here=Split-Path -Parent $MyInvocation.MyCommand.Path
 $Root=Split-Path -Parent $Here
 py -3 (Join-Path $Root "tests\test_arcllm_v1_phase2_closed_surface_v4_static.py")
 if($LASTEXITCODE-ne0){throw "v4 static QA failed"}
-$PF86=[Environment]::GetEnvironmentVariable("ProgramFiles(x86)")
+$PF86=${env:ProgramFiles(x86)}
+if(-not $PF86){$PF86="C:\Program Files (x86)"}
 $VsWhere=Join-Path $PF86 "Microsoft Visual Studio\Installer\vswhere.exe"
+if(-not(Test-Path $VsWhere)){throw "vswhere.exe not found"}
 $VSInstall=& $VsWhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
 if(-not $VSInstall){throw "Visual Studio Build Tools not found"}
 $DevCmd=Join-Path $VSInstall "VC\Auxiliary\Build\vcvars64.bat"
