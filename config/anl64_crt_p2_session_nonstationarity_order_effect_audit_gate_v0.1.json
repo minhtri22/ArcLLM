@@ -1,0 +1,68 @@
+{
+  "schema": "arcllm.anl64_crt.p2.session_nonstationarity_order_effect_audit_gate.v0.1",
+  "date": "2026-09-28",
+  "program": "ANL64_CANONICAL_RUNTIME_TRANSFER",
+  "branch": "research/anl64-canonical-runtime-transfer",
+  "status": "FROZEN_REPLAY_ONLY_BEFORE_P2_ANALYSIS",
+  "parent_p1r_formal_adjudication_blob": "acbce11f69df1482a6660312bc642a144486c475",
+  "question": "Does the strong reversal across Session A/B and execution order in frozen P1R reflect structured nuisance state large enough to make the A/B/C incremental estimand underidentified, or is the instability specifically associated with ANL64 plan/residual intervention?",
+  "evidence_scope": {
+    "only_frozen_p1r_collection": true,
+    "cells": 12,
+    "measured_attempts": 60,
+    "warmups_used_for_primary_inference": false,
+    "invalid_p1_partial_reused": false,
+    "historical_p6_timing_reused": false,
+    "fresh_execution_authorized": false,
+    "external_telemetry_authorized": false
+  },
+  "available_factors": [
+    "session",
+    "cell_order_within_session",
+    "arm",
+    "workload",
+    "attempt_index_within_cell",
+    "ttft_ms",
+    "decode_tps",
+    "e2e_ms"
+  ],
+  "unobserved_nuisance_mechanisms": [
+    "temperature",
+    "GPU_frequency",
+    "CPU_frequency",
+    "cache_state",
+    "driver_internal_state",
+    "power_limit_state"
+  ],
+  "audit_tests": {
+    "T1_global_session_shift": "For each arm/workload, compare Session B versus Session A medians. Test whether direction is shared across arms rather than specific to ANL64 arms.",
+    "T2_order_association": "Within each workload, examine metric association with preregistered cell order across sessions and with global execution order across all 12 cells.",
+    "T3_within_cell_attempt_drift": "Examine monotonic attempt-index trends within each cell to detect short-horizon execution-history/nonstationarity.",
+    "T4_arm_by_session_interaction": "Compare session shifts for A, B and C. Determine whether B/C instability materially exceeds the canonical A shift.",
+    "T5_contrast_stability": "Recompute B/A, C/B and C/A separately by session and quantify sign/materiality reversals.",
+    "T6_identifiability": "Assess whether session/order variation is large relative to treatment contrasts and whether the existing counterbalance permits unique attribution."
+  },
+  "decision_rule": {
+    "CONFOUNDED_UNDERIDENTIFIED": [
+      "A canonical control itself shows large session/order shifts in the same direction as B/C",
+      "session/order effect magnitude is comparable to or larger than one or more treatment contrasts",
+      "contrast conclusions reverse across sessions",
+      "current design lacks independent telemetry or enough randomized blocks to identify the nuisance mechanism"
+    ],
+    "ANL64_SPECIFIC_INSTABILITY": [
+      "canonical A remains stable across sessions/order",
+      "large reversals are concentrated in B/C",
+      "B/C interaction exceeds global session/order shift",
+      "treatment-specific instability remains after conditioning on observed order/session factors"
+    ],
+    "NO_DECISION": "If evidence cannot support either pattern without importing unobserved assumptions."
+  },
+  "claim_boundary": {
+    "thermal_mechanism_identified": false,
+    "frequency_mechanism_identified": false,
+    "cache_mechanism_identified": false,
+    "driver_mechanism_identified": false,
+    "fresh_replication_authorized_by_this_gate": false,
+    "threshold_revision_permitted": false
+  }
+}
