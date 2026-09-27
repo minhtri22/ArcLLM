@@ -1,0 +1,23 @@
+{
+  "schema": "arcllm.v1.lineage_audit.v0.1",
+  "date": "2026-09-27",
+  "scope": "ArcLLM v1 current research chain through Phase 2 activation-semantics stabilization",
+  "checked": [
+    "I001","I001R","I002","I003","M0","M1","M2","M3-A","M3-B",
+    "Q4-down correctness","Q4-down primary timing","Q4-down native counters",
+    "B1.1","B1.2","B1 selection/lifetime",
+    "Phase 2 package boundary","generic primitive registry",
+    "registry lifecycle completeness v1.1","generic policy engine",
+    "real second-family P8 generalization","capability/acquisition redesign",
+    "I002 direct-execution holdout","primitive activation/readiness redesign",
+    "activation semantics stabilization"
+  ],
+  "findings_before_fix": 3,
+  "fixed": [
+    "Initial Phase 2 package API and reference-compatibility-only status.",
+    "Family #1 is not universal; machinery rather than family science is the genericization target.",
+    "Generic registry lifecycle completeness repair v1.1."
+  ],
+  "post_fix_open_findings": 0,
+  "lineage_policy": "append-only scientific and architectural results only"
+}

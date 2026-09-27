@@ -1558,3 +1558,24 @@ The registry model was therefore extended with evict_on_execution_unavailable an
 Result: PASS — GENERIC REGISTRY LIFECYCLE COMPLETENESS V1.1.
 
 This was an architecture-representation completeness repair, not new performance science. It is preserved because it closes the gap between the scientific B1 lifetime semantics and what the generic registry can faithfully represent.
+
+
+## Phase 2 activation semantics stabilization — 2026-09-27
+
+The minimal activation model was challenged under transitional and adversarial states rather than only steady-state family oracles. The tested cases covered acquisition that is not presently startable, a valid resident representation whose execution readiness is temporarily revoked, direct execution temporarily unavailable, identity/lease invalidation, and a fallback primitive that is itself not ready.
+
+The frozen family #1 surface remained exact across all **114,688** decisions. The compatibility mapping adds no new decision dimension: the historical A fallback is ready on that frozen surface, while B readiness is derived from the historical resident/execution state so all established routing, acquisition, eviction and preservation behavior remains unchanged.
+
+The stabilization gate shows that one independent runtime boolean `execution_ready` remains sufficient for the currently evidenced classes. The important refinement is that readiness applies to **every routable primitive, including fallbacks**. A fallback is therefore no longer a universal implicit-ready assumption. When neither preferred nor fallback is ready, the correct generic result is `NOT_READY` with no route.
+
+For represented primitives, lifecycle invalidation retains precedence over readiness routing. Identity failure, lease revocation, execution-path invalidation and model-unload semantics continue to cause eviction where already established. By contrast, a valid resident representation that is merely temporarily not ready is preserved rather than evicted; readiness loss alone is not a new lifetime invalidation rule.
+
+Acquisition does not need to be folded into an activation enum or state machine. The policy only needs to know whether a new acquisition can be initiated now. When acquisition is already in progress or otherwise not presently startable, no duplicate `ACQUIRE` is issued. P8 therefore returns `NOT_READY` with no route when its mandatory segmented representation is absent and acquisition cannot presently start, while family #1 can continue to route a ready A fallback.
+
+The P8 bounded mandatory-feasibility oracle remains valid, including its evidence frontier. The I002 direct-execution oracle also remains valid: direct execution may be ready with no separate residency, a temporarily unavailable direct path falls back only to a ready baseline, and if both direct and fallback paths are not ready the result is `NOT_READY`.
+
+Result: **PASS — MINIMAL EXECUTION_READY STABILIZED**.
+
+No activation enum/state machine and no family-specific policy branch is required by the tested evidence. This remains a bounded claim over the three real/evidenced primitive classes already in the research chain, not a universality claim over unseen future families.
+
+Backend binding remains blocked until an additional independent real-family holdout challenges the stabilized semantics.

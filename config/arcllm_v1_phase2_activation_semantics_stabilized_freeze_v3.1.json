@@ -1,0 +1,22 @@
+{
+  "schema": "arcllm.v1.phase2.activation_semantics_stabilized_freeze.v3.1",
+  "date": "2026-09-27",
+  "status": "FROZEN_PHASE2_ACTIVATION_SEMANTICS_STABILIZED_V3_1",
+  "adjudication_blob": "9fc1f2d123951f399a6b10650d600177307517b4",
+  "gate_contract_blob": "c257579a2a3e04de72e98a4616eef881da08724c",
+  "harness_blob": "786938f80131eceb829281a3ec472e748a27951c",
+  "stabilized_semantics": [
+    "execution_ready is independent runtime state for every routable primitive including fallbacks",
+    "resident means representation residency only",
+    "execution_available means executor path availability",
+    "lifecycle invalidation precedes readiness routing",
+    "valid resident but temporarily not-ready representation is preserved",
+    "acquisition startability prevents duplicate acquisition issuance",
+    "no-ready-route returns NOT_READY"
+  ],
+  "activation_enum_required": false,
+  "family_specific_policy_branch": false,
+  "universality_claim": false,
+  "backend_binding_authorized": false,
+  "next_scientific_step": "PHASE2_ACTIVATION_SEMANTICS_INDEPENDENT_REAL_FAMILY_HOLDOUT_GATE"
+}

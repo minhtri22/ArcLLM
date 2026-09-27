@@ -1,0 +1,31 @@
+{
+  "schema": "arcllm.v1.phase2.activation_semantics_stabilization_adjudication.v0.1",
+  "date": "2026-09-27",
+  "gate": "PHASE2_ACTIVATION_SEMANTICS_STABILIZATION_GATE",
+  "gate_contract_blob": "c257579a2a3e04de72e98a4616eef881da08724c",
+  "parent_activation_freeze_blob": "606ab64923ad47fa159c81fcb8d9e88a433d3f11",
+  "harness_blob": "786938f80131eceb829281a3ec472e748a27951c",
+  "results": {
+    "first_family_equivalence_cases": 114688,
+    "first_family_equivalence": "PASS",
+    "transitional_readiness": "PASS",
+    "fallback_readiness": "PASS",
+    "acquisition_duplicate_prevention": "PASS",
+    "p8_bounded_oracle": "PASS",
+    "i002_direct_and_fallback_readiness": "PASS",
+    "identity_lease_precedence": "PASS",
+    "family_specific_policy_branches": 0,
+    "activation_enum_required": false
+  },
+  "findings": [
+    "One execution_ready boolean remains sufficient for the tested transition states.",
+    "execution_ready must apply to every routable primitive, including fallback primitives.",
+    "A valid resident representation may be temporarily not ready without eviction.",
+    "Acquisition startability is sufficient to prevent duplicate ACQUIRE issuance.",
+    "Lifecycle invalidation precedes readiness routing.",
+    "If neither preferred nor fallback is ready, the generic result is NOT_READY with no route."
+  ],
+  "adjudication": "PASS_MINIMAL_EXECUTION_READY_STABILIZED",
+  "backend_binding_authorized": false,
+  "next_scientific_step": "PHASE2_ACTIVATION_SEMANTICS_INDEPENDENT_REAL_FAMILY_HOLDOUT_GATE"
+}
