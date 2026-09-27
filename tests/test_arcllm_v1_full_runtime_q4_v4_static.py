@@ -8,7 +8,8 @@ freeze=(root/"config/arcllm_v1_phase2_generic_extension_surface_freeze_v4.0.json
 
 required=[
     '#include "arcllm_v1_q4_vulkan_backend_v4.cpp"',
-    "policy_v4",
+    "gp::PolicyDecision",
+    "gp::evaluate",
     "apply_decision",
     "q4_decide",
     "append_ffn_down_op",
