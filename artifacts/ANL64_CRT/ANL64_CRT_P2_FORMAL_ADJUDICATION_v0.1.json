@@ -1,0 +1,102 @@
+{
+  "schema": "arcllm.anl64_crt.p2.session_nonstationarity_order_effect_adjudication.v0.1",
+  "date": "2026-09-28",
+  "program": "ANL64_CANONICAL_RUNTIME_TRANSFER",
+  "gate_blob": "6b2414ff24ff28455a910600a8609db37c4062ff",
+  "evidence": {
+    "source": "immutable P1R fresh collection only",
+    "cells": 12,
+    "measured_attempts": 60,
+    "fresh_execution_performed_in_P2": false,
+    "invalid_P1_partial_reused": false,
+    "historical_P6_timing_reused": false,
+    "replay_analysis_blob": "decf6da4b1082a6dad2e3c8087ef57da5ee9f118",
+    "independent_check_blob": "ec10d811a31e17ea42ec226b9abcd3a6fafb4524"
+  },
+  "tests": {
+    "T1_global_session_shift": {
+      "result": "PASS_STRUCTURED_GLOBAL_SHIFT_PRESENT",
+      "canonical_A": {
+        "W-S": {"session_B_over_A_decode": 1.5090308757864466, "session_B_over_A_e2e": 0.6679599447578747, "session_B_over_A_ttft": 1.0993170776809202},
+        "W-C": {"session_B_over_A_decode": 1.6784897813332535, "session_B_over_A_e2e": 0.5909902131725678, "session_B_over_A_ttft": 0.558185120420077}
+      },
+      "all_6_arm_workload_pairs_decode_faster_in_session_B": true,
+      "all_6_arm_workload_pairs_e2e_lower_in_session_B": true,
+      "decode_session_shift_range": [1.5090308757864466, 2.3218663531670596],
+      "decode_session_shift_median": 1.6488571700127737,
+      "e2e_session_shift_range": [0.4443485517711087, 0.6679599447578747],
+      "e2e_session_shift_median": 0.6070989050212297,
+      "interpretation": "A large session-level performance shift exists even in canonical A, so it cannot be attributed specifically to ANL64."
+    },
+    "T2_order_association": {
+      "result": "GLOBAL_ORDER_SIGNAL_PRESENT_LOCAL_CELL_ORDER_WEAK",
+      "W-S": {"global_order_spearman_decode": 0.7714285714285715, "global_order_spearman_e2e": -0.7714285714285715, "within_session_cell_order_spearman_decode": 0.0},
+      "W-C": {"global_order_spearman_decode": 0.8285714285714286, "global_order_spearman_e2e": -0.8285714285714286, "within_session_cell_order_spearman_decode": 0.11952286093343936},
+      "claim_boundary": "Descriptive association only; n is small and no nuisance mechanism identity is inferred."
+    },
+    "T3_within_cell_attempt_drift": {
+      "result": "NOT_PERVASIVE",
+      "decode_first_last_within_10_percent_cells": 10,
+      "total_cells": 12,
+      "largest_exception": "Session A / A_CANONICAL / W-S: last/first decode = 0.6999 and last/first E2E = 1.4216",
+      "interpretation": "Most instability is longer-horizon session/global-order variation rather than a monotonic five-attempt drift inside every cell."
+    },
+    "T4_arm_by_session_interaction": {
+      "result": "INTERACTION_EXISTS_BUT_ANL64_SPECIFIC_INSTABILITY_NOT_IDENTIFIED",
+      "reason": "B/C session shifts vary in magnitude, especially W-C, but the canonical A control already shifts by 1.51x-1.68x decode and 0.59x-0.67x E2E. With only two sessions and no state telemetry, the residual interaction cannot be uniquely attributed."
+    },
+    "T5_contrast_stability": {
+      "plan_B_over_A": {
+        "result": "DECOMPOSITION_UNSTABLE",
+        "W-S_plan_no_harm": {"session_A": false, "session_B": false},
+        "W-C_plan_no_harm": {"session_A": true, "session_B": true},
+        "note": "The W-S no-harm failure replicates at the binary gate level but through different metrics; B/A magnitudes vary strongly."
+      },
+      "residual_C_over_B": {
+        "result": "SESSION_DEPENDENT",
+        "W-S_material": {"session_A": true, "session_B": false},
+        "W-C_material": {"session_A": true, "session_B": false}
+      },
+      "total_C_over_A": {
+        "result": "WORKLOAD_CLASSIFICATION_REPLICATES",
+        "W-S": {
+          "session_A": {"decode": 1.036871837600723, "e2e": 0.9650890272373345, "material": false},
+          "session_B": {"decode": 1.058591884206028, "e2e": 0.9445829248203771, "material": false}
+        },
+        "W-C": {
+          "session_A": {"decode": 1.1982771085277104, "e2e": 0.8731375611655772, "material": true},
+          "session_B": {"decode": 1.446207150569516, "e2e": 0.7358505030726711, "material": true}
+        },
+        "ttft_guard_pass_all_four": true
+      }
+    },
+    "T6_identifiability": {
+      "result": "PLAN_VS_RESIDUAL_CAUSAL_DECOMPOSITION_UNDERIDENTIFIED",
+      "structured_nuisance_state_supported": true,
+      "ANL64_specific_instability_supported": false,
+      "total_transfer_effect_fully_underidentified": false,
+      "reason": "The nuisance shift is large and present in canonical A, invalidating unique attribution of B-A and C-B variation. However C-A independently reproduces the same workload classification in both sessions."
+    }
+  },
+  "specific_nuisance_mechanism": {
+    "thermal": "NOT_IDENTIFIED",
+    "frequency": "NOT_IDENTIFIED",
+    "cache_residency": "NOT_IDENTIFIED",
+    "driver_state": "NOT_IDENTIFIED",
+    "execution_history": "SUPPORTED_AS_A_CLASS_BY_ORDER_ASSOCIATION_NOT_AS_A_UNIQUE_MECHANISM"
+  },
+  "formal_verdict": "PASS_STRUCTURED_GLOBAL_NONSTATIONARITY_DETECTED_DECOMPOSITION_UNDERIDENTIFIED",
+  "answer_to_scientific_question": "The immutable P1R evidence supports a structured session/global-order nuisance state that is large even for canonical A; therefore the plan-only and residual-only A/B/C decomposition is underidentified. ANL64-specific instability is not established. The total C-vs-A transfer classification is more robust: W-S is non-material in both sessions, while W-C is material in both sessions, with TTFT guard passing throughout.",
+  "replication": {
+    "fresh_replication_preregistration_licensed": true,
+    "fresh_execution_authorized_now": false,
+    "required_next_design_property": "blocked/randomized state-aware replication that independently balances arm, workload, session/order and records non-invasive state covariates without changing runtime semantics"
+  },
+  "claim_boundary": {
+    "P1R_formal_negative_rewritten": false,
+    "ANL64_canonical_integration_authorized": false,
+    "specific_hardware_nuisance_mechanism_claimed": false,
+    "threshold_change_permitted": false,
+    "selective_rerun_permitted": false
+  }
+}

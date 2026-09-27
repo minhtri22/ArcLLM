@@ -1,0 +1,192 @@
+{
+  "schema": "arcllm.anl64_crt.p2.replay_analysis.v0.1",
+  "collection_status": "PASS_COMPLETE_FRESH_P1R_COLLECTION",
+  "cells": 12,
+  "measured_attempts": 60,
+  "session_shift": {
+    "A_CANONICAL": {
+      "W-S": {
+        "B_over_A_decode": 1.5090308757864466,
+        "B_over_A_e2e": 0.6679599447578747,
+        "B_over_A_ttft": 1.0993170776809202
+      },
+      "W-C": {
+        "B_over_A_decode": 1.6784897813332535,
+        "B_over_A_e2e": 0.5909902131725678,
+        "B_over_A_ttft": 0.558185120420077
+      }
+    },
+    "B_PLAN_PREBOUND": {
+      "W-S": {
+        "B_over_A_decode": 1.6192245586922935,
+        "B_over_A_e2e": 0.6232075968698916,
+        "B_over_A_ttft": 1.1370591315462801
+      },
+      "W-C": {
+        "B_over_A_decode": 2.3218663531670596,
+        "B_over_A_e2e": 0.4443485517711087,
+        "B_over_A_ttft": 0.5068214089814744
+      }
+    },
+    "C_PLAN_PREBOUND_RESIDUAL": {
+      "W-S": {
+        "B_over_A_decode": 1.5406415529813915,
+        "B_over_A_e2e": 0.6537672074548302,
+        "B_over_A_ttft": 1.0361819692946306
+      },
+      "W-C": {
+        "B_over_A_decode": 2.025778433591665,
+        "B_over_A_e2e": 0.4980663586314217,
+        "B_over_A_ttft": 0.5133963134686266
+      }
+    }
+  },
+  "session_shift_summary": {
+    "decode_B_over_A_all_positive": true,
+    "decode_B_over_A_min": 1.5090308757864466,
+    "decode_B_over_A_max": 2.3218663531670596,
+    "decode_B_over_A_median": 1.6488571700127737,
+    "e2e_B_over_A_all_improve": true,
+    "e2e_B_over_A_min": 0.4443485517711087,
+    "e2e_B_over_A_max": 0.6679599447578747,
+    "e2e_B_over_A_median": 0.6070989050212297,
+    "ttft_B_over_A_min": 0.5068214089814744,
+    "ttft_B_over_A_max": 1.1370591315462801
+  },
+  "order_association": {
+    "W-S": {
+      "spearman_cell_order_decode": 0.0,
+      "spearman_cell_order_e2e": 0.0,
+      "spearman_global_order_decode": 0.7714285714285715,
+      "spearman_global_order_e2e": -0.7714285714285715
+    },
+    "W-C": {
+      "spearman_cell_order_decode": 0.11952286093343936,
+      "spearman_cell_order_e2e": -0.11952286093343936,
+      "spearman_global_order_decode": 0.8285714285714286,
+      "spearman_global_order_e2e": -0.8285714285714286
+    }
+  },
+  "within_cell_attempt_drift": [
+    {
+      "session": "A",
+      "arm": "A_CANONICAL",
+      "workload": "W-S",
+      "attempt_decode_slope": -0.0253080739592192,
+      "attempt_e2e_slope": 8549.586549999998,
+      "attempt_ttft_slope": -19.78355,
+      "attempt_decode_first_last_ratio": 0.6999122927477286,
+      "attempt_e2e_last_first_ratio": 1.4215967705723058
+    },
+    {
+      "session": "A",
+      "arm": "B_PLAN_PREBOUND",
+      "workload": "W-S",
+      "attempt_decode_slope": -0.0088454821956289,
+      "attempt_e2e_slope": 2414.3473500000023,
+      "attempt_ttft_slope": -45.31345000000001,
+      "attempt_decode_first_last_ratio": 1.013833583655104,
+      "attempt_e2e_last_first_ratio": 0.9835403404992691
+    },
+    {
+      "session": "A",
+      "arm": "C_PLAN_PREBOUND_RESIDUAL",
+      "workload": "W-S",
+      "attempt_decode_slope": 0.006589632085658598,
+      "attempt_e2e_slope": -1377.0723299999997,
+      "attempt_ttft_slope": -23.84341999999999,
+      "attempt_decode_first_last_ratio": 1.1184418274602927,
+      "attempt_e2e_last_first_ratio": 0.8938871667610127
+    },
+    {
+      "session": "A",
+      "arm": "C_PLAN_PREBOUND_RESIDUAL",
+      "workload": "W-C",
+      "attempt_decode_slope": -0.005198299197995198,
+      "attempt_e2e_slope": 279.9290100000013,
+      "attempt_ttft_slope": -656.0181299999997,
+      "attempt_decode_first_last_ratio": 0.9525247174096919,
+      "attempt_e2e_last_first_ratio": 1.004371919791887
+    },
+    {
+      "session": "A",
+      "arm": "B_PLAN_PREBOUND",
+      "workload": "W-C",
+      "attempt_decode_slope": 0.00042542302262200125,
+      "attempt_e2e_slope": -990.2894100000005,
+      "attempt_ttft_slope": -879.8269600000007,
+      "attempt_decode_first_last_ratio": 1.0153623514635852,
+      "attempt_e2e_last_first_ratio": 0.9441331935560564
+    },
+    {
+      "session": "A",
+      "arm": "A_CANONICAL",
+      "workload": "W-C",
+      "attempt_decode_slope": -0.0017377104981464997,
+      "attempt_e2e_slope": 557.0542500000025,
+      "attempt_ttft_slope": 136.21110000000044,
+      "attempt_decode_first_last_ratio": 0.9906979155436999,
+      "attempt_e2e_last_first_ratio": 1.0126492839910881
+    },
+    {
+      "session": "B",
+      "arm": "C_PLAN_PREBOUND_RESIDUAL",
+      "workload": "W-S",
+      "attempt_decode_slope": -0.0020867963229994958,
+      "attempt_e2e_slope": 182.89594000000142,
+      "attempt_ttft_slope": -6.699459999999999,
+      "attempt_decode_first_last_ratio": 1.0048771719809693,
+      "attempt_e2e_last_first_ratio": 0.9947416933305643
+    },
+    {
+      "session": "B",
+      "arm": "B_PLAN_PREBOUND",
+      "workload": "W-S",
+      "attempt_decode_slope": 0.006051147096082787,
+      "attempt_e2e_slope": -717.0439900000005,
+      "attempt_ttft_slope": 1.7086899999999787,
+      "attempt_decode_first_last_ratio": 1.051753744171093,
+      "attempt_e2e_last_first_ratio": 0.9516692387826967
+    },
+    {
+      "session": "B",
+      "arm": "A_CANONICAL",
+      "workload": "W-S",
+      "attempt_decode_slope": 0.0032151991919159963,
+      "attempt_e2e_slope": -342.4158199999998,
+      "attempt_ttft_slope": -9.658400000000029,
+      "attempt_decode_first_last_ratio": 1.0253612625350728,
+      "attempt_e2e_last_first_ratio": 0.9752322256901695
+    },
+    {
+      "session": "B",
+      "arm": "A_CANONICAL",
+      "workload": "W-C",
+      "attempt_decode_slope": -0.0027185125440325033,
+      "attempt_e2e_slope": 184.64768999999941,
+      "attempt_ttft_slope": -54.469160000000194,
+      "attempt_decode_first_last_ratio": 0.9778190835964555,
+      "attempt_e2e_last_first_ratio": 1.0176645957543995
+    },
+    {
+      "session": "B",
+      "arm": "B_PLAN_PREBOUND",
+      "workload": "W-C",
+      "attempt_decode_slope": 0.0008079425598993106,
+      "attempt_e2e_slope": -35.02430999999997,
+      "attempt_ttft_slope": 3.6055099999999585,
+      "attempt_decode_first_last_ratio": 1.0065515183915372,
+      "attempt_e2e_last_first_ratio": 0.9958681148362069
+    },
+    {
+      "session": "B",
+      "arm": "C_PLAN_PREBOUND_RESIDUAL",
+      "workload": "W-C",
+      "attempt_decode_slope": -0.00038420458417731673,
+      "attempt_e2e_slope": 55.25575000000026,
+      "attempt_ttft_slope": 38.85332000000017,
+      "attempt_decode_first_last_ratio": 0.9973224283344074,
+      "attempt_e2e_last_first_ratio": 1.007728492172362
+    }
+  ]
+}

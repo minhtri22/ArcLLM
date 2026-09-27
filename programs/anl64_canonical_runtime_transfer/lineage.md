@@ -49,3 +49,26 @@ Historical ANL64 was TTFT-blocked. Current P1R passes the TTFT blocking guard bu
 The remaining unresolved question is whether the strong cross-session/order variation in P1R reflects structured runtime nonstationarity large enough to make the current matched estimand underidentified, or whether the instability is specific to ANL64 transfer itself.
 
 Next scientific gate: **ANL64_CRT_P2_SESSION_NONSTATIONARITY_AND_ORDER_EFFECT_AUDIT**, using only immutable P1R evidence before any fresh rerun.
+
+
+## 2026-09-28 — P2 session nonstationarity and order-effect audit
+
+P2 replayed only the immutable P1R collection: 12 cells and 60 measured attempts. No fresh execution, invalid P1 timing, historical P6 timing, threshold revision or selective rerun was used.
+
+A large global session shift was present even in canonical A. Session B versus A improved canonical decode by 1.509x on W-S and 1.678x on W-C, with corresponding E2E ratios 0.668 and 0.591. All six arm×workload pairs moved in the same decode/E2E direction between sessions. Global execution order showed strong descriptive association with decode/E2E, while within-session cell-order association was weak. Most cells did not show large monotonic five-attempt drift, localizing the dominant variation to a longer-horizon session/global-order state rather than a universal within-cell trend.
+
+This supports a structured nuisance-state class that is not ANL64-specific. The frozen evidence does not identify whether the mechanism is thermal, frequency, cache/residency, driver state, or another execution-history state.
+
+The causal decomposition is therefore not fully identifiable from P1R:
+- B−A plan-only effect is underidentified;
+- C−B residual 84-node effect is session-dependent;
+- ANL64-specific instability is not established.
+
+However, total C−A classification is more stable than the decomposition:
+- W-S is non-material in both sessions;
+- W-C is material in both sessions;
+- TTFT guard passes in all four C−A comparisons.
+
+Result: **PASS_STRUCTURED_GLOBAL_NONSTATIONARITY_DETECTED_DECOMPOSITION_UNDERIDENTIFIED**.
+
+P1R's formal valid-negative verdict is preserved and is not rewritten. A new fresh replication may be preregistered only to resolve the nuisance-state confounding; no fresh execution is authorized by P2 itself.

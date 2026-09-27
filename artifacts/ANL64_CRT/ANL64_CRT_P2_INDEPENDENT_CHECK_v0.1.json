@@ -1,0 +1,60 @@
+{
+  "schema": "arcllm.anl64_crt.p2.independent_replay_check.v0.1",
+  "shared_session_direction_6_of_6": true,
+  "canonical_A_session_shift": {
+    "W-S": {
+      "arm": "A_CANONICAL",
+      "workload": "W-S",
+      "decode": 1.5090308757864466,
+      "e2e": 0.6679599447578747,
+      "ttft": 1.0993170776809202
+    },
+    "W-C": {
+      "arm": "A_CANONICAL",
+      "workload": "W-C",
+      "decode": 1.6784897813332535,
+      "e2e": 0.5909902131725678,
+      "ttft": 0.558185120420077
+    }
+  },
+  "total_C_over_A": {
+    "A": {
+      "W-S": {
+        "decode": 1.036871837600723,
+        "e2e": 0.9650890272373345,
+        "ttft": 1.0200696458139935,
+        "material": false,
+        "ttft_guard": true
+      },
+      "W-C": {
+        "decode": 1.1982771085277104,
+        "e2e": 0.8731375611655772,
+        "ttft": 1.0306899660110522,
+        "material": true,
+        "ttft_guard": true
+      }
+    },
+    "B": {
+      "W-S": {
+        "decode": 1.058591884206028,
+        "e2e": 0.9445829248203771,
+        "ttft": 0.9614858132168588,
+        "material": false,
+        "ttft_guard": true
+      },
+      "W-C": {
+        "decode": 1.446207150569516,
+        "e2e": 0.7358505030726711,
+        "ttft": 0.9479873424088241,
+        "material": true,
+        "ttft_guard": true
+      }
+    }
+  },
+  "conclusion": {
+    "global_nonstationarity_present_independent_of_ANL64": true,
+    "ANL64_specific_instability_established": false,
+    "plan_vs_residual_decomposition_identifiable": false,
+    "total_transfer_workload_classification_replicates": true
+  }
+}
