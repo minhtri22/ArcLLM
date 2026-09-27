@@ -455,6 +455,47 @@ public:
         return bind::BackendStatus::PRIMITIVE_UNAVAILABLE;
     }
 
+    void append_ffn_down_op(
+        std::vector<DispatchOp>& ops,
+        const std::string& name,
+        bind::PrimitiveHandle primitive,
+        uint32_t layer,
+        Buffer* source_buffer,
+        uint32_t source_base_bytes,
+        Buffer& input,
+        Buffer& dummy,
+        Buffer& output){
+        if(primitive.opaque==q4reg::kPrimitiveA.value){
+            ops.push_back({
+                name,
+                join_path_p8c(shader_dir_,"sa1_q4k_subgroup_splitk.spv"),
+                {source_buffer,&input,&dummy,&output},
+                push_bytes(Q4PCGemm{
+                    kFFN,kHidden,1u,kSourceRowBytes,0u,source_base_bytes,0u}),
+                896u,1u,1u
+            });
+            return;
+        }
+        if(primitive.opaque==q4reg::kPrimitiveB.value&&resident_&&validated_){
+            uint32_t slot=uint32_t(kQ4Layers.size());
+            for(uint32_t i=0;i<uint32_t(kQ4Layers.size());++i)
+                if(kQ4Layers[i]==layer){slot=i;break;}
+            if(slot==uint32_t(kQ4Layers.size()))
+                throw std::runtime_error("B route requested for non-Q4-down frozen layer");
+            ops.push_back({
+                name,
+                join_path_p8c(shader_dir_,"q4_down_exec148_serial.spv"),
+                {&exec_,&input,&dummy,&output},
+                push_bytes(Q4PCGemm{
+                    kFFN,kHidden,1u,kExecRowBytes,0u,
+                    uint32_t(uint64_t(slot)*kExecLayerBytes),0u}),
+                56u,1u,1u
+            });
+            return;
+        }
+        throw std::runtime_error("Q4 backend primitive handle not routable");
+    }
+
     ComponentAgg execute_component(bind::PrimitiveHandle primitive){
         if(primitive.opaque==q4reg::kPrimitiveA.value)
             return component_oracle(vk_,src_gpu_,src_base_,nullptr,true,shader_dir_);

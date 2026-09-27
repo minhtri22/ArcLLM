@@ -1,0 +1,62 @@
+{
+  "schema": "arcllm.v1.full_runtime.q4_v4.integration_lock.v0.1",
+  "date": "2026-09-27",
+  "classification": "IMPLEMENTATION_INTEGRATION_QA_NOT_NEW_SCIENCE",
+  "branch": "research/arcllm-v1",
+  "parent_backend_revalidation_adjudication_blob": "075f75da22edbf9a111111eb3f8ff3bfcf90c07b",
+  "frozen_generic_surface_blob": "bc58de50d3b125e67ea025a2ac2d9b817bee398e",
+  "source_runtime": {
+    "basis": "post-I002 full real-model graph",
+    "basis_blob": "50d1c23ac0a674be85eea435bc820374c92c1758",
+    "paired_experiment_control_flow_retained": false,
+    "post_i002_decode_gate_up_retained": true,
+    "prefill_semantics_changed": false
+  },
+  "integration_target": {
+    "runtime_path": "src/arcllm_v1_full_runtime_q4_v4.cpp",
+    "backend": "Q4VulkanBackendV4",
+    "binding_chain": [
+      "q4k_down_reference_bundle",
+      "policy_v4::evaluate",
+      "binding_v4::apply_decision",
+      "Q4VulkanBackendV4::append_ffn_down_op"
+    ]
+  },
+  "scope": {
+    "decode_q4_ffn_down_only": true,
+    "q4_layers": [3,4,6,7,8,11,12,14,15,17,18,19,21,22],
+    "q6_ffn_down_unchanged": true,
+    "prefill_ffn_down_unchanged": true,
+    "i002_gate_up_decode_unchanged": true,
+    "output_steps": 31,
+    "workloads": ["W-S","W-C"]
+  },
+  "frozen_semantics_must_not_change": [
+    "identity",
+    "execution_available",
+    "execution_ready",
+    "residency",
+    "acquisition",
+    "lifecycle",
+    "P1/P3/P0 thresholds",
+    "sunk-cost resident-B hysteresis",
+    "explicit EVICT on known zero future reuse",
+    "no hidden backend retry"
+  ],
+  "qa_requirements": [
+    "static source QA",
+    "Q4 critical SPIR-V frozen byte identity",
+    "native MSVC build",
+    "W-S full runtime generated hash equals frozen post-I002 hash f31d4bb9fe5eb9c3",
+    "W-C full runtime generated hash equals frozen post-I002 hash 471519ddc45b232e",
+    "31 decode steps route through B after one explicit P1 ACQUIRE",
+    "one exact identity validation",
+    "no reacquisition while B resident",
+    "one EVICT after final decode step",
+    "generic v4 regression rerun after integration"
+  ],
+  "performance": {
+    "measurement_authorized": false,
+    "adjudication_authorized": false
+  }
+}
