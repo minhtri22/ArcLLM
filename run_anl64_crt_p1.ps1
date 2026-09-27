@@ -6,7 +6,7 @@ param(
 $ErrorActionPreference="Stop"
 Set-StrictMode -Version Latest
 $Here=Split-Path -Parent $MyInvocation.MyCommand.Path
-$Root=Split-Path -Parent $Here
+$Root=$Here
 if(-not $ShaderDir){$ShaderDir=Join-Path $Root "compiled_shaders"}
 if(-not $ImplementationCommit){$ImplementationCommit=((& git -C $Root rev-parse HEAD).Trim())}
 $Exe=Join-Path $Root "anl64_crt_p1_runtime.exe"
