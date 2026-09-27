@@ -10,7 +10,7 @@ required = [
     "generic_backend_binding_v4.h",
     "q4k_down_reference_registration_v2.h",
     "class Q4VulkanBackendV4",
-    "binding_v4::BackendAdapter",
+    "bind::BackendAdapter",
     "kExecFamilyBytes",
     "kAcquirePrimary",
     "kAcquireSecondary",
