@@ -1522,3 +1522,18 @@ Result: **PASS — 114,688-STATE FAMILY #1 DECISION EQUIVALENCE**.
 Result: **PASS — SYNTHETIC SECOND-FAMILY STRUCTURAL POLICY PROOF**.
 
 These PASS results remain valid after the later P8 and I002 falsifications; those real-family FAILs narrow the abstraction boundary rather than invalidate the earlier structural proofs.
+
+
+## Phase 2 primitive activation/readiness semantics redesign — 2026-09-27
+
+The direct-execution I002 holdout exposed that representation residency had been overloaded as a routing-readiness signal. The redesign therefore tested the minimum generic separation needed to distinguish primitive execution readiness from representation residency and acquisition semantics.
+
+The minimum sufficient new semantic is one independent runtime boolean, `execution_ready`. It means that the primitive can execute the current request now. It is explicitly distinct from `resident`, which continues to describe a separately acquired representation being present, and from `execution_available`, which describes the existence/availability of an executor path in principle. Acquisition remains governed by the already-separated generic trigger semantics rather than by readiness itself.
+
+The zero-science gate preserved **114,688/114,688** frozen family #1 decisions exactly. The bounded P8 oracle also remained valid: a nonresident segmented representation is not ready and must be acquired for feasibility independent of reuse; a valid resident segmented representation is ready and routable; requests beyond the frozen P8 evidence frontier remain unauthorized. The independent I002 holdout now passes evidence-faithfully: its preferred direct executor can be `execution_ready=true` with `resident=false`, with no invented acquisition or lifetime semantics, while the validated baseline remains the fallback when the direct executor is unavailable or the request is outside I002's validated scope.
+
+Result: **PASS — MINIMAL EXECUTION READINESS SEPARATION**.
+
+Scientific boundary: the current generic model now covers three materially different evidenced classes — optional reuse-amortized represented primitives, mandatory feasibility-enabling represented primitives, and direct execution primitives with no extra representation. This is not a universality claim for all future primitive families. A larger activation-state enum is not justified by current evidence.
+
+Backend binding remains blocked pending an additional stabilization/adversarial holdout gate.
