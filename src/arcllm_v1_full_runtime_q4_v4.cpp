@@ -1,6 +1,6 @@
-#define main arcllm_q4_vulkan_backend_v4_qa_main_disabled
+#define ARCLLM_Q4_VULKAN_BACKEND_V4_LIBRARY_ONLY 1
 #include "arcllm_v1_q4_vulkan_backend_v4.cpp"
-#undef main
+#undef ARCLLM_Q4_VULKAN_BACKEND_V4_LIBRARY_ONLY
 
 #include <map>
 #include <set>

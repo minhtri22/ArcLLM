@@ -579,6 +579,7 @@ static void write_component(std::ostream& o,const ComponentAgg& c){
 
 } // namespace
 
+#ifndef ARCLLM_Q4_VULKAN_BACKEND_V4_LIBRARY_ONLY
 int main(int argc,char** argv){
     std::string model,shader_dir,sidecar,out="Q4_VULKAN_BACKEND_V4_RESULT.json";
     try{
@@ -849,3 +850,4 @@ int main(int argc,char** argv){
         return 2;
     }
 }
+#endif // ARCLLM_Q4_VULKAN_BACKEND_V4_LIBRARY_ONLY

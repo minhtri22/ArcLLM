@@ -7,6 +7,7 @@ backend=(root/"src/arcllm_v1_q4_vulkan_backend_v4.cpp").read_text(encoding="utf-
 freeze=(root/"config/arcllm_v1_phase2_generic_extension_surface_freeze_v4.0.json").read_text(encoding="utf-8")
 
 required=[
+    "ARCLLM_Q4_VULKAN_BACKEND_V4_LIBRARY_ONLY",
     '#include "arcllm_v1_q4_vulkan_backend_v4.cpp"',
     "gp::PolicyDecision",
     "gp::evaluate",
