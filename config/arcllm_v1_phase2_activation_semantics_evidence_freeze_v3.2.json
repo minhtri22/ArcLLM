@@ -1,0 +1,27 @@
+{
+  "schema": "arcllm.v1.phase2.activation_semantics_evidence_freeze.v3.2",
+  "date": "2026-09-27",
+  "status": "FROZEN_PHASE2_ACTIVATION_SEMANTICS_AFTER_INDEPENDENT_REAL_HOLDOUT",
+  "parent_stabilized_freeze_blob": "2d00963adffe90c8a5a291539a39ea580c4611c2",
+  "holdout_adjudication_pending_blob": "b7e63ecd64d0e1ff39464cec559c0fbf4264d544",
+  "covered_evidence_classes": [
+    "optional reuse-amortized represented primitive with ready fallback",
+    "mandatory feasibility-enabling represented primitive with no validated fallback",
+    "direct execution primitive with no extra representation",
+    "plan-bound heterogeneous execution family with shared model-load-time immutable control metadata and safe fallback"
+  ],
+  "invariants": [
+    "execution_ready is independent of representation residency",
+    "execution_ready applies to preferred and fallback routes",
+    "acquisition semantics remain descriptor-driven",
+    "shared control-plane metadata is not automatically a primitive representation",
+    "valid resident representation may be preserved while temporarily not ready",
+    "lifecycle invalidation precedes readiness routing",
+    "no-ready-route returns NOT_READY"
+  ],
+  "activation_enum_required": false,
+  "family_specific_policy_branch": false,
+  "universality_claim": false,
+  "backend_binding_authorized": false,
+  "next_scientific_step": "PHASE2_GENERIC_ABSTRACTION_CLOSURE_GATE"
+}

@@ -1579,3 +1579,22 @@ Result: **PASS — MINIMAL EXECUTION_READY STABILIZED**.
 No activation enum/state machine and no family-specific policy branch is required by the tested evidence. This remains a bounded claim over the three real/evidenced primitive classes already in the research chain, not a universality claim over unseen future families.
 
 Backend binding remains blocked until an additional independent real-family holdout challenges the stabilized semantics.
+
+
+## Phase 2 independent real-family activation holdout — ANL64 plan-bound Q4_FAST — 2026-09-27
+
+After stabilization of the minimal `execution_ready` abstraction, the next gate required a real family that did not participate in designing or stabilizing that abstraction. Candidate selection rejected I003 because it is matched external characterization of I002 rather than an independent primitive family, and rejected simpler P7 direct-kernel alternatives as too close to the already-tested direct-execution class.
+
+The selected holdout is the closed ANL64 plan-bound Q4_FAST execution family. ANL64 predates Phase 2 activation work and introduces a control structure not used to design `execution_ready`: an immutable hashed execution plan constructed at model load, 469 PlanNodes, 140 fixed Q4_FAST nodes, 24,104 Region64 descriptors and 593,504 bytes of static plan metadata. Existing model weight residency remains unchanged, and the architecture explicitly forbids per-token executor search, payload repack, additional weight copies and per-token prefetch.
+
+The holdout was encoded evidence-faithfully. The static ANL64 plan is treated as shared control-plane state that contributes to whether the preferred executor is ready; it is not reclassified as a separately acquired per-request primitive representation. Therefore the holdout introduces no invented request-time `ACQUIRE` or `EVICT` action. The existing semantics-preserving Q4 safe path remains the fallback.
+
+The frozen activation semantics reproduce the required behavior without generic abstraction changes. With exact model loaded, valid plan and Q4_FAST executor ready, the preferred ANL64 path is routable. Plan invalidity or preferred-executor unavailability lowers preferred readiness and routes the safe fallback when that fallback is ready. If neither route is ready, the result is `NOT_READY` with no route. Outside the holdout evidence scope, the ANL64 preferred path is not asserted; only an independently ready safe fallback may be used.
+
+Regression sentinels remain intact: all **114,688** frozen family #1 decisions remain preserved, the bounded P8 oracle remains PASS, the I002 direct-execution oracle remains PASS, and the stabilized no-ready-route behavior remains unchanged.
+
+Result: **PASS — INDEPENDENT REAL PLAN-BOUND FAMILY HOLDOUT**.
+
+This PASS is structurally independent in activation/control semantics, not fully independent in arithmetic ancestry: ANL64 Q4_FAST inherited subgroup-32 split-K component evidence from SA1. The claim is therefore that the generic readiness abstraction survives an independent plan-bound control architecture; it is not a claim that all arithmetic mechanisms or all future primitive families have been covered.
+
+No activation enum/state machine, fake representation acquisition, invented lifecycle rule or family-specific policy branch was required. Backend binding remains blocked pending a formal generic-abstraction closure decision.

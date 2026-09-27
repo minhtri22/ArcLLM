@@ -1,0 +1,56 @@
+{
+  "schema": "arcllm.v1.phase2.activation_semantics_independent_real_family_holdout_adjudication.v0.1",
+  "date": "2026-09-27",
+  "gate": "PHASE2_ACTIVATION_SEMANTICS_INDEPENDENT_REAL_FAMILY_HOLDOUT_GATE",
+  "selection_blob": "529aa83e437e143c4d7a97f1202e8af149b08edd",
+  "gate_contract_blob": "5d0b1bae30659a4d0c10719e09f4294e2c83b5ca",
+  "harness_blob": "f5349a43f64cf955367c5aea8578816531a8589b",
+  "frozen_activation_semantics_blob": "2d00963adffe90c8a5a291539a39ea580c4611c2",
+  "holdout": {
+    "family": "ANL64_PLAN_BOUND_Q4_FAST_EXECUTION_FAMILY",
+    "real_program_closed_before_phase2": true,
+    "used_to_design_execution_ready": false,
+    "plan_nodes": 469,
+    "fixed_q4_fast_nodes": 140,
+    "region64_descriptors": 24104,
+    "static_plan_metadata_bytes": 593504,
+    "plan_hash": "04f3f884c0fc4fcc",
+    "request_time_acquisition_action": false,
+    "request_time_lifecycle_action": false,
+    "safe_fallback": "existing semantics-preserving Q4 safe path"
+  },
+  "results": {
+    "family_1_regression_cases": 114688,
+    "family_1_regression": "PASS",
+    "p8_regression_oracle": "PASS",
+    "i002_regression_oracle": "PASS",
+    "anl64_plan_valid_preferred_ready": "PASS",
+    "anl64_plan_invalid_safe_fallback": "PASS",
+    "anl64_preferred_executor_not_ready_safe_fallback": "PASS",
+    "anl64_no_ready_route": "PASS",
+    "anl64_outside_evidence_scope_no_preferred_route": "PASS",
+    "anl64_model_not_loaded_no_route": "PASS",
+    "fake_request_time_acquisition_required": false,
+    "invented_lifecycle_required": false,
+    "activation_enum_required": false,
+    "family_specific_policy_branch_count": 0,
+    "generic_abstraction_modified": false
+  },
+  "scientific_findings": [
+    "The stabilized execution_ready abstraction generalizes behaviorally to a real plan-bound execution family that predates and did not design the activation abstraction.",
+    "A model-load-time immutable execution plan can act as an upstream readiness authority without becoming a separately acquired per-request primitive representation.",
+    "Shared control-plane metadata residency is distinct from primitive representation residency.",
+    "Plan invalidity or preferred executor unavailability can lower preferred execution_ready and expose an existing safe fallback without an ACQUIRE or EVICT action.",
+    "The generic no-ready-route rule remains sufficient when neither preferred nor fallback is ready.",
+    "No evidence from this holdout requires an activation enum/state machine or a family-specific policy branch."
+  ],
+  "independence_boundary": {
+    "activation_and_control_structure_independent": true,
+    "arithmetic_mechanism_fully_independent": false,
+    "reason": "ANL64 Q4_FAST inherited subgroup32 split-K component evidence from SA1. The holdout therefore validates an independent plan-bound activation/control structure, not independent arithmetic ancestry.",
+    "universality_claim": false
+  },
+  "adjudication": "PASS_INDEPENDENT_REAL_PLAN_BOUND_FAMILY_HOLDOUT",
+  "backend_binding_authorized": false,
+  "next_scientific_step": "PHASE2_GENERIC_ABSTRACTION_CLOSURE_GATE"
+}
