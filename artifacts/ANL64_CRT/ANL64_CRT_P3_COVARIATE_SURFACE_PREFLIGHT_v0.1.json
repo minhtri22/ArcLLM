@@ -1,0 +1,58 @@
+{
+  "schema": "arcllm.anl64_crt.p3.covariate_surface_preflight.v0.1",
+  "date": "2026-09-28",
+  "status": "PASS_READ_ONLY_PRECELL_COVARIATE_SURFACE_FROZEN",
+  "fresh_scientific_execution_performed": false,
+  "required_surface": {
+    "wall_clock_timestamp": "AVAILABLE",
+    "global_cell_ordinal": "DERIVED_FROM_FROZEN_SCHEDULE",
+    "block_id": "DERIVED_FROM_FROZEN_SCHEDULE",
+    "ordinal_position_within_block": "DERIVED_FROM_FROZEN_SCHEDULE",
+    "previous_condition": "DERIVED_FROM_FROZEN_SCHEDULE",
+    "elapsed_seconds_since_P3_start": "AVAILABLE",
+    "elapsed_seconds_since_previous_cell_end": "AVAILABLE",
+    "system_CPU_utilization_snapshot": {
+      "status": "AVAILABLE",
+      "source": "Windows Performance Counter Processor(_Total) % Processor Time"
+    },
+    "available_physical_memory_bytes": {
+      "status": "AVAILABLE",
+      "source": "Win32_OperatingSystem FreePhysicalMemory"
+    },
+    "active_power_scheme": {
+      "status": "AVAILABLE",
+      "source": "powercfg /GETACTIVESCHEME"
+    },
+    "AC_line_status": {
+      "status": "AVAILABLE",
+      "source": "GetSystemPowerStatus",
+      "preflight_observation": 1
+    }
+  },
+  "extended_surface_frozen": {
+    "CPU_processor_performance_percent": {
+      "status": "AVAILABLE",
+      "source": "Windows Performance Counter Processor Information(_Total) % Processor Performance"
+    },
+    "GPU_engine_utilization_snapshot": {
+      "status": "AVAILABLE",
+      "source": "Windows Performance Counter GPU Engine(*) Utilization Percentage",
+      "frozen_summary_fields": ["counter_count","nonzero_counter_count","max_engine_utilization_percent","sum_engine_utilization_percent"]
+    },
+    "CPU_temperature": {
+      "status": "UNAVAILABLE",
+      "reason": "read-only WMI thermal surface denied access during zero-science preflight"
+    },
+    "GPU_temperature": {
+      "status": "UNAVAILABLE",
+      "reason": "no stable read-only zero-install surface frozen before execution"
+    },
+    "GPU_frequency": {
+      "status": "UNAVAILABLE",
+      "reason": "no stable read-only zero-install surface frozen before execution"
+    }
+  },
+  "freeze_rule": "Only AVAILABLE fields in this artifact may be collected as P3 extended covariates. UNAVAILABLE fields remain unavailable for the entire P3 execution and may not be introduced after outcomes are observed.",
+  "measurement_boundary": "All snapshots occur before cell process launch and outside inference timing. No profiler or hardware-counter session is attached to the inference process.",
+  "decision_role": "diagnostic nuisance/balance only; no cell deletion, threshold mutation, treatment reorder, or outcome rescue"
+}

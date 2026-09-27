@@ -1,0 +1,21 @@
+{
+  "schema": "arcllm.anl64_crt.p3.zero_science_design_qa.v0.1",
+  "date": "2026-09-28",
+  "status": "PASS_P3_BLOCK_RANDOMIZATION_AND_PRELOCK_DESIGN_QA",
+  "fresh_scientific_execution_performed": false,
+  "schedule_blob": "bf8f6ebcc3c989a81210fd41c41bfd62d68a8fc1",
+  "prelock_blob": "116f36e7b2483053509b987486885a37e2e7a865",
+  "checks": {
+    "conditions": 6,
+    "blocks": 6,
+    "cells": 36,
+    "measured_attempts_planned": 180,
+    "each_block_contains_all_6_conditions_once": true,
+    "each_condition_appears_once_in_each_position_1_to_6": true,
+    "distinct_ordered_adjacent_pairs": 30,
+    "all_30_possible_ordered_adjacent_pairs_appear_exactly_once": true,
+    "adaptive_reordering_disabled": true,
+    "fresh_execution_authorized_in_prelock": false
+  },
+  "scientific_effect": "NONE_ZERO_SCIENCE_QA_ONLY"
+}

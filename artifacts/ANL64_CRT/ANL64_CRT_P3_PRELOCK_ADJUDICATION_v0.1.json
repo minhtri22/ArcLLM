@@ -1,0 +1,15 @@
+{
+  "schema": "arcllm.anl64_crt.p3.prelock_adjudication.v0.1",
+  "date": "2026-09-28",
+  "status": "PASS_P3_DESIGN_FROZEN_EXECUTION_NOT_AUTHORIZED",
+  "scientific_question_frozen": true,
+  "schedule_frozen": true,
+  "materiality_thresholds_frozen": true,
+  "analysis_order_frozen": true,
+  "covariate_surface_frozen": true,
+  "design_qa": "PASS_P3_BLOCK_RANDOMIZATION_AND_PRELOCK_DESIGN_QA",
+  "covariate_preflight": "PASS_READ_ONLY_PRECELL_COVARIATE_SURFACE_FROZEN",
+  "fresh_scientific_execution_performed": false,
+  "fresh_execution_authorized": false,
+  "next": "P3_EXECUTION_LOCK_AND_INDEPENDENT_PREOUTCOME_REVIEW_BEFORE_ANY_FRESH_RUN"
+}
