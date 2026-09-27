@@ -1,0 +1,44 @@
+{
+  "schema": "arcllm.v1.phase2.primitive_activation_semantics_adjudication.v0.1",
+  "date": "2026-09-27",
+  "gate": "PHASE2_PRIMITIVE_ACTIVATION_SEMANTICS_REDESIGN_GATE",
+  "question": "Can one minimal generic activation/readiness model separate primitive execution readiness from representation residency/acquisition, while preserving all 114,688 first-family decisions, preserving the bounded P8 mandatory-feasibility oracle, and passing the I002 direct-execution holdout without a family-specific policy branch?",
+  "inputs": {
+    "gate_contract_blob": "ef49b1af9f6c2acfdf8e8330e5bdfc5ebd37af60",
+    "zero_science_harness_blob": "cd77d73cfb9fc119d571c918bdfe821034f8b4c5",
+    "frozen_v2_registry_header_blob": "a024fdde92225af6f909a2985a3988a9ae7bb1b3",
+    "frozen_v2_registry_core_blob": "8c2649ecbeb0fb8e3a3285209e2253790ec29680",
+    "frozen_v2_policy_header_blob": "8a872f671c23f5f508955121c8ffebc0091365f9",
+    "frozen_v2_policy_source_blob": "13fa329a5416aec06e68c7d94c24d25f5875fa52"
+  },
+  "candidate_semantics": {
+    "new_runtime_state": "execution_ready",
+    "representation_residency_state": "resident",
+    "executor_presence_state": "execution_available",
+    "acquisition_semantics": "unchanged from capability/acquisition v2",
+    "family_specific_branch_count": 0
+  },
+  "results": {
+    "first_family_equivalence_cases": 114688,
+    "first_family_equivalence": "PASS",
+    "p8_bounded_mandatory_feasibility_oracle": "PASS",
+    "i002_direct_execution_holdout": "PASS",
+    "family_specific_policy_branch": false
+  },
+  "scientific_interpretation": [
+    "Primitive execution readiness is not equivalent to representation residency.",
+    "Representation residency is neither necessary nor sufficient as a universal routing-ready signal.",
+    "A direct primitive may be execution-ready with no separately acquired resident representation.",
+    "A represented primitive may be not ready while its acquisition remains feasible; acquisition semantics remain descriptor-driven.",
+    "One independent boolean execution_ready is sufficient for the three currently evidenced family classes; a larger activation-state enum is not justified by current evidence."
+  ],
+  "bounded_claim": {
+    "family_1_optional_amortized_representation": "covered",
+    "p8_mandatory_feasibility_representation": "covered within frozen bounded evidence scope",
+    "i002_direct_execution_no_extra_representation": "covered",
+    "universality_across_future_families": false
+  },
+  "adjudication": "PASS_MINIMAL_EXECUTION_READINESS_SEPARATION",
+  "backend_binding_authorized": false,
+  "next_scientific_step": "PHASE2_ACTIVATION_SEMANTICS_STABILIZATION_GATE"
+}
