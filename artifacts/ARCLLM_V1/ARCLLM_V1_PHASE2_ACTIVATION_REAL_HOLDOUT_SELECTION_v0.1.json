@@ -1,0 +1,44 @@
+{
+  "schema": "arcllm.v1.phase2.activation_independent_real_family_holdout_selection.v0.1",
+  "date": "2026-09-27",
+  "selected_family": "ANL64_PLAN_BOUND_Q4_FAST_EXECUTION_FAMILY",
+  "selection_rule": "Choose a closed real family that predates the activation abstraction and maximizes structural dissimilarity in activation/control semantics, not compatibility with the current model.",
+  "rejected_candidates": [
+    {
+      "candidate": "I003",
+      "reason": "Matched external characterization of I002, not an independent primitive family."
+    },
+    {
+      "candidate": "P7-L_FUSED_GATE_UP",
+      "reason": "Real and closed, but activation structure is another direct executor with no additional control-binding dimension; too close to I002 for a strong holdout."
+    },
+    {
+      "candidate": "P7-O_FFN_DOWN_K64",
+      "reason": "Correctness-preserving real negative, but it is another direct kernel alternative and belongs to the same historical execution lineage; weaker activation challenge."
+    }
+  ],
+  "selected_evidence": {
+    "p2_architecture_contract_blob": "e7d00d6d1deb516347fd8919e2ed27eeeaeb84a6",
+    "p5_integration_adjudication_blob": "cada882bd886d96a71c73c40a6e243e3a51ebde0",
+    "p6_formal_adjudication_blob": "56dd01850238e4131d357303d3888fd1826f6eb9",
+    "p7_final_program_adjudication_blob": "79df1758f23f724890eb302907c0b2d3045df735"
+  },
+  "structural_properties": [
+    "immutable hashed execution plan built at model load",
+    "469 PlanNodes with heterogeneous executor binding",
+    "140 fixed Q4_FAST nodes",
+    "593504 bytes static plan metadata within a 2 MiB budget",
+    "existing full-model weight residency retained; no additional weight copy, offline repack or per-token prefetch",
+    "no per-token executor search or acquisition action",
+    "existing safe Q4 execution path is the evidence-backed fallback",
+    "semantic integration passed before performance adjudication"
+  ],
+  "independence_boundary": {
+    "independent_program_predates_phase2_activation_design": true,
+    "used_to_design_execution_ready": false,
+    "control_activation_structure_independent": true,
+    "arithmetic_mechanism_fully_independent": false,
+    "reason": "Q4_FAST inherited subgroup32 split-K evidence from SA1, so this holdout is independent in plan-bound activation/control semantics, not in arithmetic mechanism ancestry."
+  },
+  "decision": "SELECT_ANL64_PLAN_BOUND_Q4_FAST_FOR_REAL_HOLDOUT"
+}

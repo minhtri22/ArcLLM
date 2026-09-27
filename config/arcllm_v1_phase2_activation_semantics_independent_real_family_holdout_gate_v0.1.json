@@ -1,0 +1,34 @@
+{
+  "schema": "arcllm.v1.phase2.activation_semantics_independent_real_family_holdout_gate.v0.1",
+  "date": "2026-09-27",
+  "status": "FROZEN_INDEPENDENT_REAL_FAMILY_HOLDOUT_GATE",
+  "question": "On a real primitive family independent of the activation design/stabilization work, can the frozen execution_ready model reproduce evidence-faithful routing, readiness, residency, acquisition and lifecycle semantics without changing the generic abstraction, adding an activation state machine, inventing science, or adding a family-specific policy branch?",
+  "frozen_activation_semantics_blob": "2d00963adffe90c8a5a291539a39ea580c4611c2",
+  "holdout": "ANL64_PLAN_BOUND_Q4_FAST_EXECUTION_FAMILY",
+  "holdout_oracle": {
+    "control_binding": "ANL64 preferred execution is ready only when the exact model is loaded, the immutable hashed plan is valid, and the bound Q4_FAST executor path is ready.",
+    "representation": "The 593504-byte plan is shared static control-plane metadata, not a separately acquired per-request primitive representation; existing model weight residency is retained unchanged.",
+    "acquisition": "No request-time acquisition action exists. Plan construction occurs at model load and no per-token executor discovery, payload repack, prefetch pass or additional weight copy is permitted.",
+    "fallback": "Existing semantics-preserving Q4 safe executor path.",
+    "lifecycle": "No independent request-time representation lifetime policy is evidenced for Q4_FAST; the holdout must not invent ACQUIRE/EVICT actions for plan metadata.",
+    "inside_evidence_scope_plan_valid_q4fast_ready": "ROUTE_ANL64_Q4_FAST; lifecycle NONE; acquisition NONE",
+    "inside_evidence_scope_plan_invalid_or_q4fast_not_ready": "ROUTE_SAFE_FALLBACK if fallback ready; otherwise NOT_READY/no route",
+    "model_not_loaded": "NOT_READY/no route",
+    "outside_holdout_evidence_scope": "Do not route ANL64 preferred; use independently validated safe fallback only if ready"
+  },
+  "regression_obligations": [
+    "preserve 114688 frozen family #1 decisions",
+    "preserve bounded P8 oracle",
+    "preserve I002 direct-execution oracle",
+    "preserve stabilization no-ready-route semantics"
+  ],
+  "falsification_conditions": [
+    "ANL64 requires treating plan metadata as a fake request-time acquired representation.",
+    "ANL64 requires an invented ACQUIRE or EVICT lifecycle action.",
+    "ANL64 preferred route cannot be expressed as execution_ready gated by plan validity plus executor readiness.",
+    "Correct behavior requires testing ANL64 family identity inside the generic policy.",
+    "A prior regression oracle changes.",
+    "A new activation enum/state machine is required."
+  ],
+  "backend_binding_authorized_by_this_gate": false
+}
