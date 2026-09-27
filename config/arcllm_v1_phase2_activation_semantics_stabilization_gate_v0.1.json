@@ -1,0 +1,41 @@
+{
+  "schema": "arcllm.v1.phase2.activation_semantics_stabilization_gate.v0.1",
+  "date": "2026-09-27",
+  "status": "FROZEN_ACTIVATION_SEMANTICS_STABILIZATION_GATE",
+  "question": "Can the minimal execution_ready semantic, independent of residency/acquisition, remain coherent under transitional and adversarial states while preserving all 114,688 family #1 decisions, the bounded P8 oracle, and the I002 direct-execution oracle, without requiring an activation enum/state machine or family-specific policy branch?",
+  "parent_activation_freeze": "config/arcllm_v1_phase2_primitive_activation_semantics_freeze_v3.0.json",
+  "minimal_hypothesis": {
+    "activation_state": "one boolean execution_ready per routable primitive",
+    "resident": "representation residency only",
+    "execution_available": "executor/path exists and is available in principle",
+    "acquisition_startability": "existing AcquisitionRuntimeState.available/vetoed determines whether a new acquisition may be initiated now",
+    "activation_enum_allowed": false,
+    "family_specific_branch_allowed": false
+  },
+  "precedence_rules": [
+    "Lifecycle invalidation of a resident represented primitive takes precedence over routing readiness.",
+    "A primitive may be routed only when execution_ready and execution_available are both true.",
+    "A primitive requiring residency may not route unless resident, identity-valid and lease-valid.",
+    "A resident but temporarily not-ready representation is retained unless an established lifecycle eviction condition fires.",
+    "Readiness alone does not trigger acquisition; acquisition remains descriptor-driven.",
+    "An acquisition already in progress or presently not startable is represented as unavailable to start now, preventing duplicate acquisition issuance.",
+    "A fallback is not assumed universally ready; explicit fallback runtime state may make it unroutable.",
+    "For the frozen first-family compatibility surface, legacy A is mapped ready and B execution_ready is derived from resident plus execution availability, adding no new decision dimension."
+  ],
+  "adversarial_obligations": [
+    "family #1 exact 114,688 decision preservation",
+    "family #1 resident B plus readiness revoked routes ready A while preserving valid B",
+    "family #1 resident B plus readiness revoked plus A not ready returns NOT_READY with no route and preserves valid B",
+    "family #1 acquisition not startable causes no duplicate ACQUIRE",
+    "P8 absent plus acquisition startable performs mandatory ACQUIRE independent of reuse",
+    "P8 absent plus acquisition not startable returns NOT_READY with no duplicate ACQUIRE",
+    "P8 resident valid plus readiness revoked returns NOT_READY while preserving representation",
+    "P8 identity or lease invalidation causes EVICT regardless of readiness",
+    "I002 direct temporarily unavailable or not ready routes ready baseline fallback",
+    "I002 direct ready with resident false routes preferred direct primitive",
+    "I002 direct not ready plus baseline not ready returns NOT_READY with no route",
+    "outside-evidence behavior remains bounded for P8 and I002"
+  ],
+  "pass_rule": "All obligations pass with one execution_ready boolean and existing acquisition startability, with zero family-specific branches and no activation enum/state machine.",
+  "backend_binding_authorized_by_this_gate": false
+}
