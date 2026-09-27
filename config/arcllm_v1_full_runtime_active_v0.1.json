@@ -1,0 +1,37 @@
+{
+  "schema": "arcllm.v1.full_runtime.active_binding.v0.1",
+  "date": "2026-09-27",
+  "status": "ACTIVE_CANONICAL_FULL_RUNTIME_Q4_V4",
+  "classification": "IMPLEMENTATION_INTEGRATION_CONFIGURATION",
+  "branch": "research/arcllm-v1",
+  "active_source": {
+    "path": "src/arcllm_v1_full_runtime_q4_v4.cpp",
+    "blob": "d4882186defb8c64d7d52c200c7e313d03d0303f"
+  },
+  "canonical_q4_backend": {
+    "path": "src/arcllm_v1_q4_vulkan_backend_v4.cpp",
+    "blob": "54e0103dc5e5b94ba1cbaaf15fb831e193df7bc2",
+    "id": "Q4VulkanBackendV4"
+  },
+  "binding_chain": [
+    "q4k_down_reference_bundle",
+    "policy_v4::evaluate",
+    "binding_v4::apply_decision",
+    "Q4VulkanBackendV4",
+    "Q4VulkanBackendV4::append_ffn_down_op"
+  ],
+  "historical_basis": {
+    "path": "src/arcllm_v1_i002_t3_paired.cpp",
+    "blob": "50d1c23ac0a674be85eea435bc820374c92c1758",
+    "role": "FROZEN_HISTORICAL_FULL_MODEL_EVIDENCE_HARNESS_NOT_ACTIVE_RUNTIME"
+  },
+  "scope": {
+    "exact_model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "workloads": ["W-S","W-C"],
+    "decode_steps": 31,
+    "post_i002_gate_up_retained": true,
+    "q4_down_v4_bound": true,
+    "prefill_semantics_unchanged": true
+  },
+  "frozen_generic_surface_changed": false
+}

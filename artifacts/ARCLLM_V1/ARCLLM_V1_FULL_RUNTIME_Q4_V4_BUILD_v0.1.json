@@ -1,0 +1,12 @@
+{
+    "schema":  "arcllm.v1.full_runtime.q4_v4.build.v0.1",
+    "status":  "PASS_STATIC_SHADER_NATIVE_BUILD",
+    "git_head":  "447a78ce8bf8319c5ff5a4aeaef7b0a94c19a995",
+    "runtime_source_blob":  "d4882186defb8c64d7d52c200c7e313d03d0303f",
+    "backend_source_blob":  "54e0103dc5e5b94ba1cbaaf15fb831e193df7bc2",
+    "exe_sha256":  "92A319B350A1E468079156A2588BCB59BB7903BAE8B9F6AAFC0A569F8A45B193",
+    "exe_bytes":  486400,
+    "model_loaded":  false,
+    "gpu_dispatch_executed":  false,
+    "performance_adjudicated":  false
+}

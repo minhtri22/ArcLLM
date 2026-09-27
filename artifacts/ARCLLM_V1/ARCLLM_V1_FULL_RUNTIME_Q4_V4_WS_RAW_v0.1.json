@@ -1,0 +1,14 @@
+{
+  "schema":"arcllm.v1.full_runtime.q4_vulkan_backend_v4.v0.1",
+  "status":"PASS_FULL_ARCLLM_RUNTIME_Q4_V4_INTEGRATION",
+  "workload":"W-S",
+  "implementation_commit":"447a78ce8bf8319c5ff5a4aeaef7b0a94c19a995",
+  "graph":{"prefill_dispatches":441,"decode_dispatches_per_step":469,"decode_steps":31,"post_i002_gate_up":true,"q4_down_v4_bound":true},
+  "q4_policy":{"profile":"PROFILE_0","route_A_steps":0,"route_B_steps":31,"acquire_events":1,"evict_events":1},
+  "q4_backend_counts":{"b_allocations":1,"b_materializations":1,"b_validations":1,"b_releases":1,"p1_calls":1,"p3_calls":0,"p0_calls":0},
+  "semantics":{"generated_count":32,"generated_hash_fnv1a64":"f31d4bb9fe5eb9c3","expected_frozen_i002_hash_fnv1a64":"f31d4bb9fe5eb9c3","finite":true,"dispatch_census_pass":true,"frozen_token_hash_match":true},
+  "generated_token_ids":[128275,128301,128275,128301,128275,128301,128275,128301,128275,128301,128275,128301,128275,128301,128275,128301,128275,128301,128275,128301,128275,128301,128275,128301,128275,128301,128275,128301,128275,128301,128275,128301],
+  "lifecycle_pass":true,
+  "performance":{"authorized":false,"adjudicated":false},
+  "pass":true
+}

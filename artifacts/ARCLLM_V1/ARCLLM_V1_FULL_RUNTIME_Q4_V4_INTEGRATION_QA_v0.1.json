@@ -1,0 +1,132 @@
+{
+  "schema": "arcllm.v1.full_runtime.q4_v4.integration_qa.v0.1",
+  "date": "2026-09-27",
+  "classification": "IMPLEMENTATION_INTEGRATION_QA_NOT_NEW_SCIENCE",
+  "status": "PASS_FULL_ARCLLM_RUNTIME_INTEGRATION_OF_Q4_VULKAN_BACKEND_V4",
+  "implementation_head": "447a78ce8bf8319c5ff5a4aeaef7b0a94c19a995",
+  "integration_lock_blob": "929a792d9829f27711fa651b7959dfebabf72cb7",
+  "frozen_surface_blob": "bc58de50d3b125e67ea025a2ac2d9b817bee398e",
+  "parent_backend_revalidation_blob": "075f75da22edbf9a111111eb3f8ff3bfcf90c07b",
+  "implementation": {
+    "runtime_source": {
+      "path": "src/arcllm_v1_full_runtime_q4_v4.cpp",
+      "blob": "d4882186defb8c64d7d52c200c7e313d03d0303f"
+    },
+    "backend_source": {
+      "path": "src/arcllm_v1_q4_vulkan_backend_v4.cpp",
+      "blob": "54e0103dc5e5b94ba1cbaaf15fb831e193df7bc2"
+    },
+    "static_qa_blob": "cbd9df86e13b60f508f77a0a2b4c673ceff87e99",
+    "build_script_blob": "4507c723b4c385319dd22cbf06415621fe55cb29",
+    "compile_script_blob": "3d24bfb2f910ba09c751822b429b040544b2e452",
+    "exe_sha256": "92A319B350A1E468079156A2588BCB59BB7903BAE8B9F6AAFC0A569F8A45B193",
+    "exe_bytes": 486400
+  },
+  "execution_domain": {
+    "host": "DESKTOP-4PSD0G2",
+    "gpu": "Intel Arc 140V",
+    "backend": "Vulkan",
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463"
+  },
+  "build_qa": {
+    "static": "PASS",
+    "critical_q4_shader_byte_identity": "PASS",
+    "inherited_shader_build": "PASS",
+    "native_msvc_build": "PASS",
+    "build_evidence_blob": "c5cc5c39e7695d6c5caba03da7532087fb309429",
+    "build_file_sha256": "B8DEFBD350418D260C5F949C9F92DB909C41CC4F19B45206DD3B0A181783D0FE",
+    "shader_provenance_blob": "cb3c9a715fc7cb68f222480aeee65084e35353b6",
+    "shader_provenance_file_sha256": "14066CE84D04FA5C68CEBF6C77A9D5FDE62850B89698B4FC0B08F8180FCFF7F3"
+  },
+  "full_runtime_execution": {
+    "graph": {
+      "prefill_dispatches": 441,
+      "decode_dispatches_per_step": 469,
+      "decode_steps": 31,
+      "post_i002_gate_up_retained": true,
+      "q4_down_v4_bound": true
+    },
+    "W_S": {
+      "profile": "PROFILE_0",
+      "raw_blob": "b56e28dcfb501416047fc2e7218f8bd0dc1e7854",
+      "file_sha256": "82B2030958555E38A7A6189932A59B380AE45E7557EA298E15406E35E1F43E53",
+      "generated_hash": "f31d4bb9fe5eb9c3",
+      "frozen_post_i002_hash": "f31d4bb9fe5eb9c3",
+      "token_semantics": "PASS_EXACT_FROZEN_HASH",
+      "dispatch_census": "PASS",
+      "route_A_steps": 0,
+      "route_B_steps": 31,
+      "acquire_events": 1,
+      "evict_events": 1,
+      "B_allocations": 1,
+      "B_materializations": 1,
+      "B_validations": 1,
+      "B_releases": 1,
+      "P1_calls": 1,
+      "P3_calls": 0,
+      "P0_calls": 0,
+      "lifecycle": "PASS"
+    },
+    "W_C": {
+      "profile": "PROFILE_1",
+      "raw_blob": "38eb5d4c53a9b5f13f2caa4db75eb455e839e48c",
+      "file_sha256": "18373A626225F6241DAB2D6B82A2A8DB342C00DF9A33F312FC445CB7C12A15E4",
+      "generated_hash": "471519ddc45b232e",
+      "frozen_post_i002_hash": "471519ddc45b232e",
+      "token_semantics": "PASS_EXACT_FROZEN_HASH",
+      "dispatch_census": "PASS",
+      "route_A_steps": 0,
+      "route_B_steps": 31,
+      "acquire_events": 1,
+      "evict_events": 1,
+      "B_allocations": 1,
+      "B_materializations": 1,
+      "B_validations": 1,
+      "B_releases": 1,
+      "P1_calls": 1,
+      "P3_calls": 0,
+      "P0_calls": 0,
+      "lifecycle": "PASS"
+    }
+  },
+  "same_head_generic_regression": {
+    "head": "447a78ce8bf8319c5ff5a4aeaef7b0a94c19a995",
+    "family_1_exact_decisions": 114688,
+    "P8": "PASS",
+    "I002": "PASS",
+    "ANL64": "PASS",
+    "generic_backend_binding_contract": "PASS",
+    "phase2_closed_surface_v4_materialization": "PASS",
+    "exe_sha256": "602E89E64A19BF4DF466F2C4BB0F3DDC3CD61F1A39C595D771CC663DC361C94A"
+  },
+  "semantic_integrity": {
+    "frozen_v4_changed": false,
+    "policy_thresholds_changed": false,
+    "lifecycle_semantics_changed": false,
+    "hidden_retry_added": false,
+    "hidden_eager_B_acquisition_added": false,
+    "family_specific_generic_branch_added": false,
+    "post_i002_gate_up_changed": false,
+    "prefill_semantics_changed": false
+  },
+  "canonicalization": {
+    "new_active_runtime_path": "src/arcllm_v1_full_runtime_q4_v4.cpp",
+    "historical_i002_t3_source_modified": false,
+    "historical_i002_t3_role": "FROZEN_EVIDENCE_HARNESS",
+    "full_end_to_end_model_runtime_integration_complete_for_frozen_domain": true
+  },
+  "performance": {
+    "authorized": false,
+    "adjudicated": false,
+    "new_performance_claim": false
+  },
+  "qa_findings": {
+    "open_count": 0,
+    "note": "Two implementation-only pre-execution findings were repaired before runtime QA: a static-test alias matcher and backend translation-unit main/library reuse guard. Neither changed frozen semantics or runtime policy."
+  },
+  "remaining_boundary": {
+    "external_baseline_claim": false,
+    "universality_claim": false,
+    "other_family_production_backend_bindings_complete": false
+  }
+}
