@@ -1,0 +1,23 @@
+{
+  "schema": "arcllm.anl64_crt.p1r.independent_adjudication_summary.v0.1",
+  "date": "2026-09-27",
+  "checker_blob": "c6fc378c4e86c613fd15eff19f752b90e632e993",
+  "checker_commit": "e3d4af0ae62eaad396b90f6f887d741552079ea8",
+  "evidence_source": "fresh_collection_only",
+  "manifest_status": "PASS_COMPLETE_FRESH_P1R_COLLECTION",
+  "manifest_cell_count": 12,
+  "measured_attempts": 60,
+  "cell_sha256_all_match_manifest": true,
+  "machine_adjudication_file_read": false,
+  "invalid_P1_partial_reused": false,
+  "historical_P6_timing_reused": false,
+  "F0_freshness": true,
+  "F1_structural_prebinding": true,
+  "F2_exact_token_semantics": true,
+  "F3_session_completeness": true,
+  "F4_plan_no_harm": false,
+  "F5_residual_incremental": false,
+  "F6_overall_transfer": false,
+  "F7_ttft_guard": true,
+  "verdict": "VALID_NEGATIVE_PREBOUND_PLAN_HARM_BLOCKS_TRANSFER"
+}

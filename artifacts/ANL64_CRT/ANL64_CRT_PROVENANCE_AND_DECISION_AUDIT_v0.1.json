@@ -1,0 +1,137 @@
+{
+  "schema": "arcllm.anl64_crt.provenance_and_decision_audit.v0.1",
+  "date": "2026-09-27",
+  "program": "ANL64_CANONICAL_RUNTIME_TRANSFER",
+  "status": "PASS_PROVENANCE_RECONSTRUCTED_NO_VERDICT_CONTRADICTION",
+  "question": "Where did the decision to revisit ANL64 come from, what had ANL64 actually passed at that time, and why can the current P1R transfer gate fail without contradicting the historical positive evidence?",
+  "decision_origin": {
+    "historical_terminal": {
+      "artifact": "artifacts/ANL64/ANL64_P7_FINAL_PROGRAM_ADJUDICATION_v0.1.json",
+      "blob": "79df1758f23f724890eb302907c0b2d3045df735",
+      "status": "ANL64_PROGRAM_CLOSED_VALID_NEGATIVE_TTFT_BLOCKED",
+      "important_positive_evidence_preserved": [
+        "exact 32-token greedy-output semantics preserved on W-S and W-C",
+        "immutable 469-node / 24,104-region plan structurally integrated",
+        "140 Q4_FAST nodes active in the historical candidate",
+        "material decode-throughput gain in all four fresh P6 comparisons",
+        "material E2E latency reduction in all four fresh P6 comparisons"
+      ],
+      "blocking_evidence": "TTFT guard failed in 3 of 4 required fresh comparisons",
+      "overall_program_passed": false
+    },
+    "ttft_successor_update": {
+      "artifact": "artifacts/TTFT_M2/TTFT_M2_P10_FINAL_PROGRAM_ADJUDICATION_POST_A1_v0.2.json",
+      "blob": "0f054a12ba240934f7d2e3cf58364a0098ae8871",
+      "result": "VALID_FRESH_SCIENTIFIC_RESULT_H_NULL_SUPPORTED",
+      "meaning": "No stable material registered TTFT mechanism, including the parent-like QF/SF harm, replicated across both workloads and sessions under the frozen M2 design.",
+      "does_not_rewrite_historical_P7": true
+    },
+    "canonical_runtime_change_before_revisit": {
+      "canonical_origin_head": "094df8005eedf845daf79f1552beeb7aaceb8cf9",
+      "runtime": "src/arcllm_v1_full_runtime_q4_v4.cpp",
+      "material_changes_since_historical_ANL64": [
+        "I002 subgroup split-K Gate/Up became canonical",
+        "generic v4 semantics were frozen",
+        "Q4VulkanBackendV4 became canonical for Q4 FfnDown",
+        "full-runtime Q4 v4 integration passed W-S/W-C exact token hashes"
+      ]
+    },
+    "fresh_successor_origin": {
+      "artifact": "docs/research/anl64-canonical-runtime-transfer/ORIGIN.md",
+      "blob": "cc55375d4ce99cf0b2dc5938bf473c3c18fb0632",
+      "reason_for_revisit": "The historical program retained strong semantic/decode/E2E positive evidence, its old TTFT blocker was not reproduced as a stable registered mechanism by TTFT_M2, and the materially changed canonical runtime made it unknown whether ANL64 still had independent value."
+    },
+    "p0_license": {
+      "artifact": "artifacts/ANL64_CRT/ANL64_CRT_P0_ADJUDICATION_v0.1.json",
+      "blob": "9a197a38f5e84e6bc8aa8e0c10cc952884d1b455",
+      "verdict": "PASS_NONEMPTY_RESIDUAL_TRANSFER_SURFACE_EXISTS_VALUE_NOT_ESTABLISHED",
+      "historical_q4_fast_nodes": 140,
+      "already_absorbed_by_I002": 56,
+      "residual_q_k_o_nodes": 84,
+      "immutable_plan_present_in_canonical_runtime": false,
+      "important_boundary": "P0 licensed a fresh transfer experiment; it did not establish that the residual would improve performance."
+    }
+  },
+  "what_had_actually_passed": {
+    "P5": {
+      "artifact_blob": "cada882bd886d96a71c73c40a6e243e3a51ebde0",
+      "verdict": "P5_INTEGRATION_PASS",
+      "passed": [
+        "provenance and structure",
+        "prefill first-token equality",
+        "exact complete 32-token decode sequence equality",
+        "repeatability"
+      ],
+      "performance_claim": false
+    },
+    "P6": {
+      "artifact_blob": "56dd01850238e4131d357303d3888fd1826f6eb9",
+      "formal_verdict": "P6_NO_MATERIAL_E2E_BENEFIT",
+      "F3_decode_material_benefit": {
+        "pass": true,
+        "ratios": {
+          "A/W-S": 2.5317805576852384,
+          "A/W-C": 1.2227960092444075,
+          "B/W-S": 2.163506424699113,
+          "B/W-C": 3.200164950615819
+        }
+      },
+      "F4_e2e_material_benefit": {
+        "pass": true,
+        "ratios": {
+          "A/W-S": 0.4044189615233354,
+          "A/W-C": 0.8765249913257487,
+          "B/W-S": 0.47090091094087744,
+          "B/W-C": 0.3983710097225027
+        }
+      },
+      "F5_ttft_blocking_harm": {
+        "pass": false,
+        "failed_cells": 3,
+        "required_cells": 4
+      },
+      "overall_program_passed": false
+    }
+  },
+  "why_current_P1R_can_fail_without_contradiction": {
+    "historical_estimand": "Complete historical ANL64 successor versus ARC_SAFE_REFERENCE, with immutable plan plus all 140 Q4_FAST substitutions active together.",
+    "current_estimand": "Incremental transfer onto the already-optimized canonical runtime: B-A isolates prebound plan/control-plane effect while preserving canonical executors; C-B isolates only the residual 84 Q/K/O Q4_FAST substitutions; C-A tests total incremental transfer.",
+    "baseline_changed_materially": true,
+    "mechanism_overlap_changed": {
+      "historical_q4_fast_nodes": 140,
+      "already_present_in_current_I002": 56,
+      "remaining_residual_nodes": 84
+    },
+    "historical_plan_only_causal_effect_was_isolated": false,
+    "current_plan_only_effect_isolated": true,
+    "current_P1R_result": {
+      "F4_plan_no_harm": false,
+      "F5_residual_incremental": false,
+      "F6_overall_transfer": false,
+      "F7_ttft_guard": true,
+      "verdict": "VALID_NEGATIVE_PREBOUND_PLAN_HARM_BLOCKS_TRANSFER"
+    },
+    "key_change_in_failure_mode": "Historical ANL64 was blocked by TTFT despite strong decode/E2E gains. Current P1R passes the overall TTFT guard but fails stable plan-no-harm and stable residual/overall incremental-value requirements.",
+    "scientific_interpretation": "The old positive evidence remains valid for the old safe-reference contrast. It does not imply that the same architecture must retain material incremental value after I002 and Q4VulkanBackendV4 have changed the baseline."
+  },
+  "unresolved_after_P1R": {
+    "observed_session_order_variability": true,
+    "examples": {
+      "A_WC_C_over_A_decode": 1.1982771085277104,
+      "B_WC_C_over_A_decode": 1.446207150569516,
+      "A_WS_C_over_A_decode": 1.036871837600723,
+      "B_WS_C_over_A_decode": 1.058591884206028,
+      "A_WS_B_over_A_decode": 0.8908999345348424,
+      "B_WS_B_over_A_ttft": 1.1263812405737437
+    },
+    "current_evidence_can_distinguish_true_arm_instability_from_session_order_nuisance": false,
+    "next_scientific_question": "Does structured session/order/nonstationary runtime state explain enough of the P1R reversal to make the current A/B/C estimand underidentified, or is the instability specific to ANL64 transfer itself?"
+  },
+  "audit_conclusion": {
+    "decision_to_revisit_ANL64_was_scientifically_licensed": true,
+    "decision_was_not_based_on_a_false_claim_that_ANL64_had_overall_passed": true,
+    "historical_and_current_results_are_logically_compatible": true,
+    "current_transfer_into_canonical_runtime_is_established": false,
+    "threshold_revision_or_selective_rerun_justified": false
+  }
+}

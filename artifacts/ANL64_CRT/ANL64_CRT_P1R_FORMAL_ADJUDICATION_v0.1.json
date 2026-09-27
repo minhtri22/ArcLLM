@@ -1,0 +1,46 @@
+{
+  "schema": "arcllm.anl64_crt.p1r.formal_adjudication.v0.1",
+  "date": "2026-09-27",
+  "program": "ANL64_CANONICAL_RUNTIME_TRANSFER",
+  "gate": "ANL64_CRT_P1R_PREBOUND_PLAN_CAUSAL_SEPARATION_GATE",
+  "frozen_gate_blob": "e6f5b8c4480518a22f04196136ee3b6064571953",
+  "execution_commit": "72b917c44b580e752a89a7e3c5231e8dbfd21249",
+  "collection": {
+    "status": "PASS_COMPLETE_FRESH_P1R_COLLECTION",
+    "cells": 12,
+    "measured_attempts": 60,
+    "invalid_p1_partial_reused": false,
+    "historical_p6_timing_reused": false,
+    "selective_rerun": false
+  },
+  "machine_adjudication": "VALID_NEGATIVE_PREBOUND_PLAN_HARM_BLOCKS_TRANSFER",
+  "independent_adjudication": "VALID_NEGATIVE_PREBOUND_PLAN_HARM_BLOCKS_TRANSFER",
+  "independent_checks": {
+    "cell_sha256_all_match_manifest": true,
+    "F0_freshness": true,
+    "F1_structural_prebinding": true,
+    "F2_exact_token_semantics": true,
+    "F3_session_completeness": true,
+    "F4_plan_no_harm": false,
+    "F5_residual_incremental": false,
+    "F6_overall_transfer": false,
+    "F7_ttft_guard": true
+  },
+  "formal_verdict": "VALID_NEGATIVE_PREBOUND_PLAN_HARM_BLOCKS_TRANSFER",
+  "interpretation": {
+    "ANL64_semantic_transfer": "PASS",
+    "prebound_plan_control_plane_zero_material_harm": "NOT_ESTABLISHED",
+    "residual_84_QKO_incremental_material_value": "NOT_ESTABLISHED",
+    "overall_ANL64_incremental_transfer_value": "NOT_ESTABLISHED",
+    "TTFT_blocker_reproduced": false,
+    "canonical_runtime_integration_authorized": false,
+    "historical_ANL64_positive_evidence_invalidated": false
+  },
+  "no_rescue": {
+    "threshold_change": false,
+    "selective_rerun": false,
+    "executor_scope_change": false,
+    "workload_search": false
+  },
+  "next": "ANL64_CRT_P2_SESSION_NONSTATIONARITY_AND_ORDER_EFFECT_AUDIT_ON_IMMUTABLE_P1R_EVIDENCE"
+}
