@@ -1,0 +1,96 @@
+{
+  "schema": "arcllm.v1.phase2.q4_b1_phase2_convergence_audit.v0.1",
+  "date": "2026-09-27",
+  "branch": "research/arcllm-v1",
+  "audit_head": "a5a0b776119cce29b13219fcc4d69f0cf0997122",
+  "status": "PASS_WITH_MISSING_CONCRETE_BACKEND_CONVERGENCE_LAYER",
+  "lineage_root": {
+    "source_branch": "research/arcllm-ttft-m2",
+    "source_commit": "e30199cd54be1e0e7390e2453c8935c847fe0dd1",
+    "canonical_branch": "research/arcllm-v1"
+  },
+  "classification": {
+    "experiment_only_harnesses": [
+      "src/arcllm_v1_q4_down_arch_4arm.cpp",
+      "src/arcllm_v1_q4_down_4arm_primary_timing.cpp",
+      "src/arcllm_v1_q4_down_4arm_timing_runtime.cpp",
+      "src/arcllm_v1_q4_down_4arm_counter_collection.cpp",
+      "src/arcllm_v1_q4_down_4arm_counter_runtime.cpp",
+      "src/arcllm_v1_b1_2_zero_science.cpp",
+      "src/arcllm_v1_b1_2_performance.cpp"
+    ],
+    "experiment_only_rule": "These files are evidence-generating qualification harnesses. Their control flow is not a production lifecycle contract and must never be promoted wholesale as the Phase 2 backend.",
+    "validated_primitive_assets_reusable_by_canonical_backend": [
+      {
+        "path": "shaders/sa1_q4k_subgroup_splitk.comp",
+        "role": "A_SPLIT_K32 executor"
+      },
+      {
+        "path": "src/q4_down_exec148_materializer.h",
+        "role": "canonical CPU EXEC148 transform and validators"
+      },
+      {
+        "path": "shaders/q4_down_exec148_serial.comp",
+        "role": "B_EXEC148 executor"
+      },
+      {
+        "path": "shaders/b1_2_exec148_gpu_materialize.comp",
+        "role": "P1 GPU in-place acquisition transform"
+      }
+    ],
+    "validated_acquisition_semantics": {
+      "P1_GPU_IN_PLACE": "primary; strict thresholds 2/4 for PROFILE_0/PROFILE_1",
+      "P3_COLD_UNBUFFERED": "secondary; strict thresholds 15/33",
+      "P0_CPU_DIRECT": "tertiary; strict thresholds 17/37",
+      "P3_WARM_PAGE_CACHE": "disabled by evidence"
+    },
+    "canonical_policy_runtime_layer": [
+      "include/arcllm/v1/primitive_registry_v2.h",
+      "src/arcllm_v1_primitive_registry_v2.cpp",
+      "include/arcllm/v1/generic_policy_engine_v4.h",
+      "src/arcllm_v1_generic_policy_engine_v4.cpp",
+      "include/arcllm/v1/generic_backend_binding_v4.h",
+      "src/arcllm_v1_generic_backend_binding_v4.cpp",
+      "src/registrations/arcllm_v1_q4k_down_reference_registration_v2.h",
+      "src/registrations/arcllm_v1_q4k_down_reference_registration_v2.cpp"
+    ],
+    "reference_compatibility_only": [
+      "include/arcllm/v1/backend_api.h",
+      "include/arcllm/v1/package_api.h",
+      "src/arcllm_v1_phase2_package.cpp"
+    ],
+    "missing_before_audit": [
+      "one concrete BackendAdapter that owns Q4 Vulkan representation state and obeys v4 acquisition/lifecycle decisions",
+      "one backend-bound real-weight execution probe routed through generic policy -> generic binding -> concrete adapter"
+    ]
+  },
+  "historical_branch_disposition": {
+    "research/arcllm-v1-q4down-splitk-causal": {
+      "status": "CLOSED_FROZEN_ARCHIVE_DO_NOT_CONTINUE",
+      "merge_into_canonical": false,
+      "reason": "duplicate-scope descendant; not the source of the current Q4 4-arm harness"
+    }
+  },
+  "root_cause_of_late_detection": "The Q4 4-arm harness was correct for factorial experimentation but was later used as a real-backend probe even though B1 and Phase 2 explicitly recorded production runtime wiring as incomplete. No backend source changed; the semantic role assigned to the harness was incorrect.",
+  "convergence_decision": {
+    "canonical_backend_id": "Q4_VULKAN_BACKEND_V4",
+    "location": "research/arcllm-v1",
+    "must_use_generic_v4_policy_and_binding": true,
+    "must_not_use_4arm_harness_as_runtime_authority": true,
+    "must_be_demand_driven": true,
+    "required_actions": [
+      "A/NONE: resolve and execute A without allocating EXEC148",
+      "ACQUIRE/P1: allocate exactly 549527552 bytes, perform exact GPU in-place transform, then validate identity before B readiness",
+      "ACQUIRE/P3: load only an externally valid pre-materialized sidecar when selected and available",
+      "ACQUIRE/P0: allocate exactly 549527552 bytes and perform exact CPU direct transform when selected",
+      "B resident/NONE: reuse existing B without reacquisition",
+      "EVICT: release B before continuing on A",
+      "backend failures return to generic binding without hidden retry/fallback"
+    ]
+  },
+  "scientific_state": {
+    "generic_surface_v4_reopened": false,
+    "previous_backend_bound_fail_retained": true,
+    "revalidation_allowed_only_after_concrete_backend_QA": true
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "arcllm.v1.phase2.q4_vulkan_backend_v4_convergence_contract.v0.1",
+  "date": "2026-09-27",
+  "status": "FROZEN_IMPLEMENTATION_CONVERGENCE_CONTRACT",
+  "backend_id": "Q4_VULKAN_BACKEND_V4",
+  "science_change_authorized": false,
+  "policy_change_authorized": false,
+  "representation_bytes": 549527552,
+  "canonical_exec148_tuple_sha256": "60565f9f0b12de4884e884d8311263df7238679745c83393a695935cd3eccbb2",
+  "canonical_exec148_raw_sha256": "3f168749256e8acbbbe61da06196ca0e51a249b3923938e5651a4da6f50ab43f",
+  "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+  "binding_chain": [
+    "q4k_down_reference_bundle",
+    "policy_v4::evaluate",
+    "binding_v4::apply_decision",
+    "Q4VulkanBackendV4"
+  ],
+  "required_zero_science_scenarios": [
+    "PROFILE_0 H=1 absent B -> A, lifecycle NONE, B allocations=0",
+    "PROFILE_0 H=2 absent B -> P1 ACQUIRE, exact validation, B ready",
+    "resident valid B with positive H -> B reuse, no reacquisition",
+    "resident valid B with H=0 -> EVICT then A",
+    "P1 unavailable must not trigger hidden adapter retry; policy must select another registered path or A before apply_decision"
+  ],
+  "real_weight_correctness": {
+    "A": "all 14 frozen Q4_K ffn_down layers against storage-native serial reference within frozen component limits",
+    "B": "all 14 frozen Q4_K ffn_down layers against storage-native serial reference within frozen component limits"
+  },
+  "forbidden": [
+    "eager EXEC148 allocation before ACQUIRE",
+    "eager EXEC148 materialization before ACQUIRE",
+    "AB composition",
+    "hidden fallback/retry inside adapter",
+    "family-specific branch in generic policy or generic binding",
+    "performance/timing adjudication",
+    "changing frozen thresholds or lifecycle semantics"
+  ]
+}
