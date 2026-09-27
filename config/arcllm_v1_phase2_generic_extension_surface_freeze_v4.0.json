@@ -1,0 +1,43 @@
+{
+  "schema": "arcllm.v1.phase2.generic_extension_surface_freeze.v4.0",
+  "date": "2026-09-27",
+  "status": "FROZEN_PHASE2_GENERIC_EXTENSION_SURFACE_V4",
+  "closure_adjudication_blob": "b1af58423bc3adab4541ab8a3215e79135648f14",
+  "evidence_matrix_blob": "3bee80e7c7805703bca632944db76a5f0dd8b200",
+  "closed_surface": [
+    "identity",
+    "execution_available",
+    "execution_ready",
+    "residency",
+    "acquisition",
+    "lifecycle"
+  ],
+  "frozen_semantics": {
+    "identity": "opaque registry identity plus evidence/provenance; representation identity validity is runtime/lifecycle state where applicable",
+    "execution_available": "executor/path exists and is available in principle",
+    "execution_ready": "primitive can execute current request now; independent of residency and applied to preferred and fallback routes",
+    "residency": "presence of separately acquired primitive representation only",
+    "acquisition": "descriptor-driven REUSE_AMORTIZED or MANDATORY_FOR_FEASIBILITY; absent when not evidenced",
+    "lifecycle": "evidence-backed preserve/evict semantics; temporary readiness loss alone does not imply eviction"
+  },
+  "frozen_invariants": [
+    "family #1 114688 exact decisions",
+    "P8 mandatory-feasibility bounded oracle",
+    "I002 direct-execution oracle",
+    "explicit fallback readiness",
+    "NOT_READY when no route is ready",
+    "no duplicate ACQUIRE when acquisition is not startable",
+    "ANL64 plan metadata remains control-plane state rather than primitive representation",
+    "no family-specific policy branch required"
+  ],
+  "claim_boundary": {
+    "universality": false,
+    "proven_classes_only": true,
+    "future_counterexample_may_reopen": true
+  },
+  "transition": {
+    "backend_binding_program_authorized": true,
+    "bind_current_v2_engine": false,
+    "required_first": "ZERO_SCIENCE_V4_SURFACE_MATERIALIZATION_AND_REGRESSION_QA"
+  }
+}

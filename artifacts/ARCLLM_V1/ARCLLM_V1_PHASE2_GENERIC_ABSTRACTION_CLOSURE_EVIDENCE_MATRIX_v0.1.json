@@ -1,0 +1,100 @@
+{
+  "schema": "arcllm.v1.phase2.generic_abstraction_closure_evidence_matrix.v0.1",
+  "date": "2026-09-27",
+  "gate_contract_blob": "0b9504792b340b4535125bb40108477c9430b880",
+  "surface": {
+    "identity": {
+      "meaning": "Opaque primitive identity is registry-level; represented-state identity validity is a runtime/lifecycle predicate where evidence requires it.",
+      "family_1": "B representation identity validity is already part of eviction semantics.",
+      "p8": "Segmented represented state remains bounded by representation validity/evidence scope.",
+      "i002": "No extra representation identity lifecycle is invented for direct execution.",
+      "anl64": "Plan hash/model binding is upstream control identity; it is not converted into primitive representation residency.",
+      "contradiction": false
+    },
+    "execution_available": {
+      "meaning": "An executor/path exists and is available in principle.",
+      "family_1": "B execution-path invalidation may trigger established eviction.",
+      "p8": "Segmented execution path must be available before represented state can execute.",
+      "i002": "Direct executor availability exists independently of representation residency.",
+      "anl64": "Q4_FAST executor binding may become unavailable while safe path remains available.",
+      "contradiction": false
+    },
+    "execution_ready": {
+      "meaning": "The primitive can execute the current request now.",
+      "family_1": "Compatibility mapping preserves all 114688 historical decisions.",
+      "p8": "Absent mandatory representation is not ready; valid resident representation may be ready.",
+      "i002": "Preferred direct primitive may be ready with resident=false.",
+      "stabilization": "Readiness applies to preferred and fallback routes; no-ready-route is NOT_READY.",
+      "anl64": "Plan validity plus executor readiness governs preferred path without request-time acquisition.",
+      "contradiction": false
+    },
+    "residency": {
+      "meaning": "Presence of a separately acquired primitive representation, not generic process/model/control state.",
+      "family_1": "B has 549527552-byte separately acquired representation.",
+      "p8": "Segmented full-model representation is feasibility-enabling and residency-bearing.",
+      "i002": "No extra representation; residency is not required for direct preferred execution.",
+      "anl64": "Shared immutable plan metadata is control-plane state and is not treated as primitive representation residency.",
+      "contradiction": false
+    },
+    "acquisition": {
+      "meaning": "A descriptor-driven action to create/obtain a missing primitive representation when evidence says such an action exists.",
+      "family_1": "REUSE_AMORTIZED acquisition with frozen thresholds.",
+      "p8": "MANDATORY_FOR_FEASIBILITY acquisition without reuse threshold.",
+      "i002": "No acquisition action.",
+      "stabilization": "Not-startable acquisition cannot emit duplicate ACQUIRE.",
+      "anl64": "No request-time acquisition action; plan construction at model load is not reclassified as primitive acquisition.",
+      "contradiction": false
+    },
+    "lifecycle": {
+      "meaning": "Evidence-backed preserve/evict policy for represented state; not a generic synonym for readiness.",
+      "family_1": "Established evictions on model unload, identity invalidation, execution-path invalidation, lease revoke and known zero reuse.",
+      "p8": "Representation validity/evidence bounds preserved; no invented fallback/lifetime behavior.",
+      "i002": "No separate representation lifetime policy is invented.",
+      "stabilization": "Temporarily not-ready valid resident state is preserved unless an established invalidation fires.",
+      "anl64": "No request-time lifecycle action is invented for shared plan metadata.",
+      "contradiction": false
+    }
+  },
+  "historical_counterexamples": {
+    "p8_fail": {
+      "exposed": ["no validated fallback", "mandatory feasibility acquisition", "bounded capability scope"],
+      "repair": "capability/acquisition semantics v2",
+      "retested": true,
+      "unresolved": false
+    },
+    "i002_fail": {
+      "exposed": ["direct readiness independent of residency/acquisition"],
+      "repair": "execution_ready separation v3",
+      "retested": true,
+      "unresolved": false
+    }
+  },
+  "stability_checks": {
+    "family_1_114688_exact": true,
+    "p8_bounded_oracle": true,
+    "i002_oracle": true,
+    "adversarial_transition_states": true,
+    "explicit_fallback_readiness": true,
+    "anl64_plan_bound_holdout": true,
+    "family_specific_policy_branch_required": false,
+    "activation_enum_required": false,
+    "invented_acquisition_required": false,
+    "invented_lifecycle_required": false
+  },
+  "claim_boundary": {
+    "stable_extension_surface_for_proven_classes": true,
+    "universal_primitive_ontology": false,
+    "future_family_may_falsify_or_extend_surface": true,
+    "backend_binding_can_test_implementation_of_frozen_surface": true
+  },
+  "implementation_gap": {
+    "science_surface": "v3.2 semantics",
+    "committed_cpp_engine": "v2",
+    "execution_ready_materialized_in_cpp": false,
+    "explicit_fallback_readiness_materialized_in_cpp": false,
+    "classification": "ZERO_SCIENCE_IMPLEMENTATION_GAP",
+    "scientific_closure_blocked": false,
+    "direct_backend_binding_to_v2_blocked": true
+  },
+  "open_scientific_gaps_at_closure": 0
+}

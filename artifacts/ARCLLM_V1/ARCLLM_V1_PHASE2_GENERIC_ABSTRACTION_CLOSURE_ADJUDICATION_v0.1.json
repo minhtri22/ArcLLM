@@ -1,0 +1,55 @@
+{
+  "schema": "arcllm.v1.phase2.generic_abstraction_closure_adjudication.v0.1",
+  "date": "2026-09-27",
+  "gate": "PHASE2_GENERIC_ABSTRACTION_CLOSURE_GATE",
+  "gate_contract_blob": "0b9504792b340b4535125bb40108477c9430b880",
+  "evidence_matrix_blob": "3bee80e7c7805703bca632944db76a5f0dd8b200",
+  "adjudication": "PASS_BOUNDED_GENERIC_EXTENSION_SURFACE_CLOSED",
+  "closure_basis": [
+    "All 114688 frozen family #1 decisions remain preserved.",
+    "The P8 mandatory-feasibility counterexample is represented without a validated fallback, without a reuse threshold, and without promoting evidence beyond the frozen frontier.",
+    "The I002 direct-execution counterexample is represented with execution readiness independent of representation residency and acquisition.",
+    "Adversarial stabilization preserves valid resident state across temporary readiness loss, prevents duplicate acquisition issuance, and makes fallback readiness explicit.",
+    "The ANL64 real holdout adds plan-bound control state without requiring fake primitive residency, acquisition, lifecycle, family-specific branching, or an activation state machine.",
+    "No known real evidence class assigns mutually incompatible meanings to identity, execution_available, execution_ready, residency, acquisition or lifecycle."
+  ],
+  "closed_surface": {
+    "identity": "Registry identity is opaque and evidence/provenance backed; represented-state identity validity is a separate runtime validity predicate where required.",
+    "execution_available": "The executor/path exists and is available in principle.",
+    "execution_ready": "The primitive can execute the current request now; independent of representation residency and applicable to preferred and fallback routes.",
+    "residency": "A separately acquired primitive representation is present; shared model/control-plane state does not automatically count as primitive residency.",
+    "acquisition": "Evidence-backed action to obtain a missing primitive representation; REUSE_AMORTIZED and MANDATORY_FOR_FEASIBILITY remain distinct, and no action is invented when evidence says none.",
+    "lifecycle": "Evidence-backed preserve/evict semantics for represented state; readiness loss alone is not lifecycle invalidation."
+  },
+  "claim_boundary": {
+    "generic_extension_surface_stable_for_current_proven_classes": true,
+    "universality_claim": false,
+    "all_future_primitive_families_covered": false,
+    "future_real_family_may_reopen_abstraction": true
+  },
+  "implementation_boundary": {
+    "current_committed_cpp_engine": "v2",
+    "current_cpp_has_execution_ready": false,
+    "current_cpp_has_explicit_fallback_readiness": false,
+    "classification": "IMPLEMENTATION_LAG_NOT_SCIENTIFIC_GAP",
+    "backend_binding_against_current_v2": false,
+    "zero_science_materialization_of_closed_surface_required_first": true
+  },
+  "authorization": {
+    "scientific_abstraction_closed": true,
+    "new_abstraction_research_before_binding_required": false,
+    "transition_to_backend_binding_program_authorized": true,
+    "direct_binding_of_obsolete_v2_engine_authorized": false,
+    "materialize_closed_surface_then_bind": true
+  },
+  "open_scientific_gaps": 0,
+  "next_work": {
+    "classification": "IMPLEMENTATION_AND_QA_NOT_NEW_SCIENCE",
+    "id": "PHASE2_CLOSED_SURFACE_V4_MATERIALIZATION_AND_BACKEND_BINDING",
+    "purpose": "Materialize the frozen generic surface including execution_ready and explicit fallback readiness, prove regression equivalence, then bind real backends without changing scientific semantics."
+  },
+  "next_scientific_gate_after_binding": {
+    "id": "PHASE2_BACKEND_BOUND_EXTENSION_SURFACE_VALIDATION_GATE",
+    "question": "Does the backend-bound implementation preserve the closed generic surface and all frozen family oracles under real backend execution without hidden family-specific semantics or backend-induced abstraction drift?"
+  }
+}
