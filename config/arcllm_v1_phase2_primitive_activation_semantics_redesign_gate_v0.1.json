@@ -1,0 +1,59 @@
+{
+  "schema": "arcllm.v1.phase2.primitive_activation_semantics_redesign_gate.v0.1",
+  "date": "2026-09-27",
+  "status": "FROZEN_PRIMITIVE_ACTIVATION_SEMANTICS_REDESIGN_GATE",
+  "question": "Can one minimal generic activation/readiness model separate primitive execution readiness from representation residency/acquisition, while preserving all 114,688 first-family decisions, preserving the bounded P8 mandatory-feasibility oracle, and passing the I002 direct-execution holdout without a family-specific policy branch?",
+  "parents": {
+    "capability_acquisition_freeze_v2_blob": "a0fbf2b16932088f262e81983aa2ef53555037c4",
+    "direct_execution_holdout_close_blob": "e6e5156368524088e8d97e1f404e6825058e89ef"
+  },
+  "minimal_candidate": {
+    "new_runtime_semantic": "execution_ready",
+    "type": "boolean",
+    "meaning": "The primitive can execute this request now; independent of whether it owns a separately resident representation.",
+    "resident_meaning_unchanged": "A separately represented primitive image/state is resident.",
+    "execution_available_meaning_unchanged": "The executor/path exists and is available in principle.",
+    "acquisition_semantics_unchanged_from_v2": true,
+    "registry_v2_schema_change_required": false,
+    "family_specific_branch_allowed": false
+  },
+  "coherence_rules": [
+    "execution_ready=true requires execution_available=true",
+    "a primitive carrying PRIMITIVE_REQUIRES_RESIDENCY cannot be execution_ready when resident=false",
+    "a PRIMITIVE_NO_EXTRA_REPRESENTATION direct primitive may be execution_ready with resident=false",
+    "execution_ready=false does not itself imply acquisition; acquisition remains descriptor-driven"
+  ],
+  "proof_obligations": {
+    "first_family_exact_decisions": 114688,
+    "first_family_fields": [
+      "status",
+      "route",
+      "lifecycle",
+      "acquisition",
+      "threshold_units",
+      "requested_residency_bytes",
+      "preserve_existing_representation",
+      "require_post_acquisition_identity_validation"
+    ],
+    "first_family_mapping": "execution_ready := resident for the frozen legacy state surface; no old input dimension is changed",
+    "p8": [
+      "absent segmented representation: execution_ready=false, resident=false; mandatory acquisition remains independent of reuse",
+      "resident valid segmented representation: execution_ready=true, resident=true; route segmented",
+      "outside frozen evidence scope remains unauthorized",
+      "P8-G/full inference remain unauthorized"
+    ],
+    "i002": [
+      "direct preferred available: execution_ready=true, execution_available=true, resident=false; route preferred with no acquisition",
+      "direct preferred unavailable: execution_ready=false; route validated baseline fallback",
+      "outside evidence scope: route validated baseline fallback"
+    ]
+  },
+  "fail_conditions": [
+    "Any family-specific branch or family/primitive identity test is required.",
+    "Any of the 114,688 first-family decisions changes.",
+    "P8 requires fake fallback/reuse/acquisition semantics or routes nonready segmented execution.",
+    "I002 requires resident=true, fake acquisition, or erasing its baseline fallback.",
+    "execution_ready collapses back into resident in the generic policy implementation."
+  ],
+  "backend_binding_authorized_by_this_gate": false
+}
