@@ -1703,3 +1703,18 @@ Independent recomputation from the complete raw result reproduced the same adjud
 Result: **FAIL_WARM_TRANSFER_BUDGET**.
 
 Scientific consequence: exact real-weight FFN-down NPU representation semantics are established for the bounded six-layer sample, but FFN-down NPU latency offload is not authorized for canonical ArcLLM integration. The FFN-down latency-acceleration path is closed. This result does not establish that NPU has no value for ArcLLM in other dimensions such as GPU relief, concurrent throughput or energy efficiency; those dimensions were not tested by this study.
+
+
+## M3-C targeted hardware-counter closeout convergence — 2026-09-29
+
+The independently closed M3-C targeted counter study is converged into ArcLLM v1 as an unresolved scientific result.
+
+Collection integrity and semantic guards passed: all 6/6 quiet-host raw runs completed, all 618/618 targeted HARDWARE_OBSERVATION records were preserved, the full 469-dispatch decode graph remained executed on every required counter pass, and both frozen workload semantic hashes passed.
+
+The preregistered mechanism discriminator could not produce a confirmatory mechanism result because the required clock/occupancy evidence was not adequate in the qualified Vulkan performance-query configuration. AvgGpuCoreFrequencyMHz and GpuTime were zero-valued for all queried dispatches, execution/occupancy counters including threadgroup and XVE-active were also zero-valued, and duplicated XVE_STALL observations were inconsistent across counter groups. These provider outputs are therefore treated as unavailable/invalid for the frozen discriminator, not as evidence of a physical zero-frequency state.
+
+Directional memory/cache and stall differences remain descriptive only and are not promoted to a causal mechanism claim.
+
+Result: **STOP_M3C_UNRESOLVED_COUNTER_ADEQUACY**.
+
+Scientific consequence: M3-C is closed. No geometry, memory, cache, instruction, or clock mechanism is established by this study. Any future attempt to resolve the mechanism requires a new preregistered counter-validity or causal study; M3-C itself must not be tuned or reopened post hoc.
