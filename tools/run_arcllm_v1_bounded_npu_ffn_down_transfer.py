@@ -1,4 +1,4 @@
-import gc, hashlib, json, math, os, pathlib, statistics, sys, time
+import gc, hashlib, io, json, math, os, pathlib, statistics, sys, time
 
 OPENVINO_SITE = pathlib.Path(r"D:\WORK\RESEARCH\_npu_probe_py")
 if not OPENVINO_SITE.exists():
@@ -119,18 +119,20 @@ def main():
         compile_ms=(time.perf_counter()-t0)*1000.0
         if compiled.get_property("EXECUTION_DEVICES")!="NPU":
             raise SystemExit("provider: execution device is not NPU")
+        stream=io.BytesIO()
         t0=time.perf_counter()
-        blob=compiled.export_model()
+        compiled.export_model(stream)
         export_ms=(time.perf_counter()-t0)*1000.0
-        blob_bytes=len(blob)
+        blob_bytes=len(stream.getvalue())
         del compiled, model, node, const, param
         gc.collect()
 
         import_core=ov.Core()
+        stream.seek(0)
         t0=time.perf_counter()
-        imported=import_core.import_model(blob,"NPU")
+        imported=import_core.import_model(stream,"NPU")
         import_ms=(time.perf_counter()-t0)*1000.0
-        del blob
+        del stream
         req=imported.create_infer_request()
         outport=imported.output(0)
 

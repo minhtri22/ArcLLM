@@ -1,0 +1,30 @@
+{
+  "schema": "arcllm.v1.bounded_npu_ffn_down_transfer.execution_lock.v0.2",
+  "date": "2026-09-28",
+  "study": "ARCLLM_V1_BOUNDED_NPU_FFN_DOWN_TRANSFER_STUDY",
+  "status": "AUTHORIZED_ONE_BOUNDED_REAL_WEIGHT_EXECUTION_AFTER_TRANSPORT_REPAIR",
+  "prereg_blob": "70afe3f44089fa91e3941fd2e220827cf3d72ec7",
+  "runner_blob": "006a61e964a4ba474753840a2a0762c7dd71218e",
+  "static_qa_blob": "d7964f9bd97db85dc5426fb6a6c2a5d5af1cc839",
+  "repair_artifact_path": "artifacts/ARCLLM_V1/ARCLLM_V1_BOUNDED_NPU_FFN_DOWN_EXECUTION_PACKAGE_REPAIR_v0.1.json",
+  "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+  "authorized_execution_count": 1,
+  "output_must_not_exist_before_execution": true,
+  "transport_contract": "OpenVINO compiled graph export/import via io.BytesIO stream",
+  "no_selective_layer_rerun": true,
+  "no_threshold_change": true,
+  "no_layer_change": true,
+  "no_activation_change": true,
+  "no_repeat_count_change": true,
+  "no_full_model_run": true,
+  "no_canonical_runtime_change": true,
+  "stop_if": [
+    "model SHA mismatch",
+    "tensor census mismatch",
+    "selected tensor type/shape mismatch",
+    "NPU provider unavailable",
+    "execution device not NPU",
+    "output path already exists"
+  ],
+  "adjudication": "exact frozen precedence from preregistration"
+}

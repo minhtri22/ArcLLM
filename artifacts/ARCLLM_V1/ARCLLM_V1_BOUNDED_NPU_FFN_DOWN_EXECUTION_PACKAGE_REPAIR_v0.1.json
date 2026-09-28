@@ -1,0 +1,25 @@
+{
+  "schema": "arcllm.v1.bounded_npu_ffn_down_transfer.execution_package_repair.v0.1",
+  "date": "2026-09-28",
+  "classification": "TECHNICAL_ONLY_NO_SCIENTIFIC_OUTCOME",
+  "status": "PASS_REPAIRED_PROVIDER_IMPORT_BOUNDARY",
+  "failed_execution_package_lock_blob": "aa4a47e78ba8040d94e4e09e91336cf2bc55484c",
+  "failure": {
+    "process_exit_code": "0xC0000005",
+    "scientific_result_artifact_created": false,
+    "scientific_outcome_observed": false,
+    "cause": "runner used compiled.export_model() bytes -> import_model(bytes,'NPU'), a provider/Python boundary previously known to be unstable on this host"
+  },
+  "repair": {
+    "preregistration_changed": false,
+    "selected_layers_changed": false,
+    "activations_changed": false,
+    "thresholds_changed": false,
+    "warmups_changed": false,
+    "repeats_changed": false,
+    "transport_only": "compiled.export_model(io.BytesIO stream) -> import_model(stream,'NPU')",
+    "runner_blob": "006a61e964a4ba474753840a2a0762c7dd71218e",
+    "static_qa_blob": "d7964f9bd97db85dc5426fb6a6c2a5d5af1cc839"
+  },
+  "lineage_append": false
+}

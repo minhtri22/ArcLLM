@@ -10,7 +10,7 @@ assert p["structural_outcome_blind_layer_selection"]["Q6_K_selected"]==[0,16,27]
 for tok in [
     'SELECTED = [','"layer":3','"layer":14','"layer":22','"layer":0','"layer":16','"layer":27',
     'MAX_ABS_MAX = 0.02','RMSE_MAX = 0.005','WARMUPS = 3','REPEATS = 9',
-    'gguf.dequantize','compile_model(model,"NPU"','import_model(blob,"NPU")',
+    'gguf.dequantize','compile_model(model,"NPU"','io.BytesIO()','compiled.export_model(stream)','import_model(stream,"NPU")',
     '28.0*p95','0.90*min(GPU_BUDGET.values())'
 ]:
     assert tok in s,tok
