@@ -32,6 +32,11 @@ if((Sha256 $Model)-ne[string]$Lock.model_sha256){throw "model SHA256 mismatch"}
 $Exe=Join-Path $Root "anl64_crt_p1r_runtime.exe"
 if(-not(Test-Path $Exe)){throw "locked runtime executable missing"}
 if((Sha256 $Exe)-ne[string]$Lock.runtime_exe_sha256){throw "runtime executable SHA256 mismatch"}
+foreach($p in $Lock.shader_sha256.PSObject.Properties){
+  $sp=Join-Path $ShaderDir $p.Name
+  if(-not(Test-Path $sp)){throw "locked shader missing: $($p.Name)"}
+  if((Sha256 $sp)-ne[string]$p.Value){throw "locked shader SHA256 mismatch: $($p.Name)"}
+}
 
 $SchedulePath=Join-Path $Root "config\anl64_crt_p3_blocked_randomized_schedule_v0.3.json"
 $Collector=Join-Path $Root "tools\anl64_crt_p3_precell_state_v0_2.ps1"
