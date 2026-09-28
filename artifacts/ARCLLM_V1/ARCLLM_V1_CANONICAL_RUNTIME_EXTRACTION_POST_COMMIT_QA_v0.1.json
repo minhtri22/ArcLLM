@@ -1,0 +1,61 @@
+{
+  "schema": "arcllm.v1.canonical_runtime_extraction.post_commit_qa.v0.1",
+  "date": "2026-09-28",
+  "classification": "POST_COMMIT_ARCHITECTURE_QA_NOT_NEW_SCIENCE",
+  "status": "PASS_EXACT_COMMITTED_RUNTIME_REPRODUCED",
+  "tested_commit": "8cc6b3c5d261a4546ad7e68b659a3671cc13feaf",
+  "active_binding_blob": "57ad385503c7490ceafd9b59315b295f2e8299dc",
+  "source_identity": {
+    "api": "d7821270ed253e1d1d96e3916b22b3daee50f5bc",
+    "runtime": "0c613f6f740931a88ddd3ee5b904533a58001a06",
+    "cli": "5526658f6469301f0e05ffa5a46f51bc9b511816",
+    "vulkan_support": "1b3a2a935134a3afa680ee4880377a20bc8a466f",
+    "q4_runtime_backend": "3955d1ed27c0c48f5bbb8e4564128bf34025d1a5"
+  },
+  "post_commit_build": {
+    "static_qa": "PASS",
+    "shader_build": "PASS",
+    "native_build": "PASS",
+    "exe_sha256_this_build": "D82572602F3548357C91965F0A54CFF6A299C26A11B9E3CB62DA941C4E678CCA",
+    "binary_byte_reproducibility_claimed": false,
+    "note": "The exact source blobs are frozen; MSVC/PE build metadata can change executable bytes across builds. Functional regression is the reproducibility criterion here."
+  },
+  "frozen_oracle_regression": {
+    "status": "PASS",
+    "PROFILE_0_generated_hash": "f31d4bb9fe5eb9c3",
+    "PROFILE_1_generated_hash": "471519ddc45b232e",
+    "prefill_dispatches": 441,
+    "decode_dispatches_per_step": 469,
+    "decode_steps": 31,
+    "Q4_route_B_steps": 31,
+    "Q4_acquire_events": 1,
+    "Q4_evict_events": 1,
+    "P1_calls": 1
+  },
+  "nonfixture_smoke": {
+    "status": "PASS",
+    "input_token_ids": [1,42,314,2718],
+    "max_new_tokens": 2,
+    "request_within_validated_domain": false,
+    "generated_token_ids": [2718,2718],
+    "route_A_steps": 1,
+    "route_B_steps": 0,
+    "B_acquisition_events": 0
+  },
+  "runtime_cleanliness": {
+    "historical_full_runtime_harness_in_active_compile_path": false,
+    "historical_P8C_harness_in_active_compile_path": false,
+    "backend_QA_main_in_active_compile_path": false,
+    "W_S_W_C_fixture_logic_in_runtime": false,
+    "frozen_expected_hash_in_runtime": false,
+    "performance_adjudication_in_runtime": false
+  },
+  "claim_boundary": {
+    "performance_claim": false,
+    "science_result": false,
+    "persistent_model_session": false,
+    "arbitrary_prompt_quality_validated": false,
+    "NPU_integrated": false,
+    "llama_cpp_matched_benchmark_completed": false
+  }
+}
