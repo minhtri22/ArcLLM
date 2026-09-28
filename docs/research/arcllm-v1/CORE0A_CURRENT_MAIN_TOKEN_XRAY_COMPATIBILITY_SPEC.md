@@ -17,7 +17,7 @@ No performance mechanism is selected here.
 ## Frozen inputs
 
 - ArcLLM canonical parent: `7a5672112dc22de15f0e9bb6445508fbb3099b15`
-- Token-XRay main: `17baf9e9e561bdb5efe9904dd4cd678f9e19368d`
+- Token-XRay active completion line: `research/core-v0.1-completeness@17e786285d202f79e6856584961f1953fd0bc8af`
 - llama.cpp baseline remains pinned to v0.4.1 commit `b29c606e28a01b1bc8c1351026a0fa6e616bf6c4`
 - exact model SHA256: `60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463`
 - canonical workloads: W-S and W-C
@@ -65,7 +65,7 @@ Does Token-XRay explicitly distinguish benchmark-authority timing from instrumen
 
 ### E. Tool self-QA
 
-Does the pinned Token-XRay checkout pass its own Python compilation/test baseline before downstream integration?
+Does the pinned Token-XRay active-completion checkout pass its own Python compilation/test baseline before downstream integration?
 
 ## Decision rule
 
@@ -96,3 +96,7 @@ CORE-0A must produce:
 5. no fresh performance execution.
 
 Only after the Token-XRay adapter is upgraded and independently revalidated may CORE-0B/CORE-0C proceed.
+
+## Zero-science pin amendment
+
+The first static probe targeted `token-xray/main@17baf9e...` and exposed a pre-existing Python package-init syntax defect. Before any performance science or instrumented runtime execution, Token-XRay's own README was re-read and the correct active completion line was identified as `research/core-v0.1-completeness`. That line fixes the package-init defect and passes `compileall` plus `36 passed, 1 skipped`. Therefore CORE-0A is prospectively rebound to exact commit `17e786285d202f79e6856584961f1953fd0bc8af`. No ArcLLM runtime, workload, model, baseline, metric or performance outcome was observed or changed by this amendment.
