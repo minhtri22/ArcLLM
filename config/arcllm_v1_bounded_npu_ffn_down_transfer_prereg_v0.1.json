@@ -1,0 +1,106 @@
+{
+  "schema": "arcllm.v1.bounded_npu_ffn_down_transfer_study.preregistration.v0.1",
+  "date": "2026-09-28",
+  "study": "ARCLLM_V1_BOUNDED_NPU_FFN_DOWN_TRANSFER_STUDY",
+  "status": "FROZEN_DESIGN_EXECUTION_NOT_YET_RUN",
+  "parent_gate_commit": "e8f0a0ff8022f07f1f0413ffedf9bd3b301976af",
+  "parent_gate_result": "PASS_OPEN_BOUNDED_NPU_TRANSFER_STUDY",
+  "scientific_question": "Using exact real FFN-down weights from the current model, does a model-load-only NPU representation preserve numerical semantics and retain a positive warm transfer budget after activation movement and graph lifecycle are accounted for?",
+  "scope": {
+    "family": "ffn_down",
+    "full_model_run": false,
+    "canonical_runtime_modification": false,
+    "NPU_backend_implementation": false,
+    "other_operator_families": "CLOSED",
+    "target_model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463"
+  },
+  "structural_outcome_blind_layer_selection": {
+    "Q4_K_all_layers": [3,4,6,7,8,11,12,14,15,17,18,19,21,22],
+    "Q6_K_all_layers": [0,1,2,5,9,10,13,16,20,23,24,25,26,27],
+    "rule": "For each quant family independently, select first, upper-middle index floor(n/2), and last layer in ascending layer order before any real-weight NPU outcome is observed.",
+    "Q4_K_selected": [3,14,22],
+    "Q6_K_selected": [0,16,27],
+    "selected_count": 6
+  },
+  "operator_contract": {
+    "input_shape": [1,18944],
+    "output_shape": [1,3584],
+    "source_weight_shape": [3584,18944],
+    "source_quant_types": ["Q4_K","Q6_K"],
+    "provider_representation": "FP16 constant weights with MatMul transpose_b=true",
+    "conversion_lifetime": "MODEL_LOAD_OR_OFFLINE_CACHE_ONLY",
+    "per_token_full_weight_repack": false
+  },
+  "activation_set": [
+    {"id":"A","generator":"numpy.default_rng(20260928).standard_normal(18944)*0.02","provider_dtype":"FP16"},
+    {"id":"B","generator":"numpy.default_rng(20260929).standard_normal(18944)*0.10","provider_dtype":"FP16"},
+    {"id":"C","generator":"0.05*sin((i+1)*0.017)+0.02*cos((i+1)*0.013), i=0..18943","provider_dtype":"FP16"}
+  ],
+  "numerical_reference": {
+    "source_reference": "GGUF Q4_K/Q6_K dequantized to FP32 using gguf.dequantize; reference y = W_fp32 @ x_fp32",
+    "representation_reference": "FP16-converted weights and FP16-converted activation promoted to FP32 for y = W_fp16_as_f32 @ x_fp16_as_f32",
+    "provider_result": "OpenVINO NPU imported compiled graph output",
+    "primary_end_to_end_checks": {
+      "finite": true,
+      "max_abs_max": 0.02,
+      "rmse_max": 0.005
+    },
+    "representation_and_provider_error": "reported separately as descriptive decomposition",
+    "all_18_layer_activation_cases_must_pass": true,
+    "threshold_provenance": "Same conservative max_abs/rmse gate previously frozen for ArcLLM Q4-down component correctness on the same FFN-down operator family."
+  },
+  "provider_lifecycle": {
+    "openvino_version": "2024.2.0",
+    "device": "NPU",
+    "compile_once_per_sampled_layer": true,
+    "export_once_per_sampled_layer": true,
+    "import_once_per_sampled_layer": true,
+    "warmups_after_import_per_activation": 3,
+    "measured_infers_per_activation": 9,
+    "timed_infer_boundary": "synchronous imported_model infer call with host FP16 input supplied and output materialized through provider result object",
+    "dequant_and_fp16_conversion_timed_separately": true,
+    "compile_export_import_timed_separately": true,
+    "no_setup_time_hidden_in_warm_metric": true
+  },
+  "warm_transfer_metric": {
+    "case_metric": "median of 9 imported-graph synchronous infer wall times",
+    "primary_aggregate": "median of all 18 case medians",
+    "stability_guard": "p95 of all 18 case medians",
+    "scale_to_family": "28 * per-layer latency",
+    "frozen_current_GPU_family_budget_ms_per_token": {
+      "W-S": 160.59743019334533,
+      "W-C": 118.13835909692924
+    },
+    "primary_positive_budget_rule": "28 * p95(case_median_ms) < min(W-S,W-C GPU family budget)",
+    "secondary_material_rule": "28 * p95(case_median_ms) <= 0.90 * min(W-S,W-C GPU family budget)",
+    "GPU_budget_provenance": "Parent NPU capability/transfer/Amdahl gate analytical current-canonical projection from exact post-I002 M1 evidence plus measured Q4V4 B/0 effect."
+  },
+  "lifecycle_analysis": {
+    "cached_model_load_setup_projection": "28 * median(sampled layer import_ms)",
+    "cold_compile_setup_projection": "28 * median(sampled layer compile_ms)",
+    "conversion_projection": "28 * median(sampled dequant_plus_fp16_conversion_ms)",
+    "break_even_tokens": "setup_projection / warm_savings_ms_per_token, separately for W-S and W-C",
+    "no_short_request_advantage_without_explicit_break_even": true
+  },
+  "outcome_classes": {
+    "PASS_REAL_WEIGHT_WARM_TRANSFER": "all numerical cases pass AND primary positive budget rule passes",
+    "PASS_REAL_WEIGHT_WARM_TRANSFER_MATERIAL": "all numerical cases pass AND secondary material rule passes",
+    "FAIL_NUMERICAL_SEMANTICS": "any numerical case fails",
+    "FAIL_WARM_TRANSFER_BUDGET": "numerics pass but primary positive budget rule fails",
+    "STOP_PROVIDER_OR_INTEGRITY": "provider/device/model/type/shape/integrity contract fails before admissible complete evidence"
+  },
+  "adjudication_precedence": [
+    "STOP_PROVIDER_OR_INTEGRITY",
+    "FAIL_NUMERICAL_SEMANTICS",
+    "FAIL_WARM_TRANSFER_BUDGET",
+    "PASS_REAL_WEIGHT_WARM_TRANSFER_MATERIAL",
+    "PASS_REAL_WEIGHT_WARM_TRANSFER"
+  ],
+  "claim_boundary": {
+    "full_runtime_speedup": false,
+    "canonical_integration": false,
+    "cold_short_request_advantage": false,
+    "direct_GGUF_quant_NPU_execution": false,
+    "energy_or_throughput_claim": false
+  }
+}
