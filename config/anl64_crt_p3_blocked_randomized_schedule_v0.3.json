@@ -1,0 +1,51 @@
+{
+  "schema": "arcllm.anl64_crt.p3.blocked_randomized_schedule.v0.3",
+  "date": "2026-09-28",
+  "supersedes_preexecution": "config/anl64_crt_p3_blocked_randomized_schedule_v0.2.json",
+  "execution_started_under_prior_versions": false,
+  "design": "6x6 Williams complete-block schedule with reproducible pre-outcome hash randomization",
+  "randomization": {
+    "seed": 20260928,
+    "prefix": "ANL64_CRT_P3",
+    "algorithm": "lexicographic ascending SHA256 of UTF-8 strings PREFIX|SEED|kind|item; assign treatment IDs 1..6 by sorted condition hashes; order Williams rows by sorted row hashes",
+    "generator": "tools/generate_anl64_crt_p3_schedule_v0_2.py",
+    "generator_blob": "642014a4d93189da3f051a897e3a7e0734cd709a",
+    "treatment_label_mapping": {
+      "1": "A_CANONICAL/W-C",
+      "2": "A_CANONICAL/W-S",
+      "3": "C_PLAN_PREBOUND_RESIDUAL/W-S",
+      "4": "B_PLAN_PREBOUND/W-S",
+      "5": "C_PLAN_PREBOUND_RESIDUAL/W-C",
+      "6": "B_PLAN_PREBOUND/W-C"
+    },
+    "williams_base_rows": [
+      [1,2,6,3,5,4],
+      [2,3,1,4,6,5],
+      [3,4,2,5,1,6],
+      [4,5,3,6,2,1],
+      [5,6,4,1,3,2],
+      [6,1,5,2,4,3]
+    ],
+    "frozen_row_order_zero_based": [1,3,2,0,5,4]
+  },
+  "blocks": [
+    {"block":1,"source_williams_row_zero_based":1,"order":["A_CANONICAL/W-S","C_PLAN_PREBOUND_RESIDUAL/W-S","A_CANONICAL/W-C","B_PLAN_PREBOUND/W-S","B_PLAN_PREBOUND/W-C","C_PLAN_PREBOUND_RESIDUAL/W-C"]},
+    {"block":2,"source_williams_row_zero_based":3,"order":["B_PLAN_PREBOUND/W-S","C_PLAN_PREBOUND_RESIDUAL/W-C","C_PLAN_PREBOUND_RESIDUAL/W-S","B_PLAN_PREBOUND/W-C","A_CANONICAL/W-S","A_CANONICAL/W-C"]},
+    {"block":3,"source_williams_row_zero_based":2,"order":["C_PLAN_PREBOUND_RESIDUAL/W-S","B_PLAN_PREBOUND/W-S","A_CANONICAL/W-S","C_PLAN_PREBOUND_RESIDUAL/W-C","A_CANONICAL/W-C","B_PLAN_PREBOUND/W-C"]},
+    {"block":4,"source_williams_row_zero_based":0,"order":["A_CANONICAL/W-C","A_CANONICAL/W-S","B_PLAN_PREBOUND/W-C","C_PLAN_PREBOUND_RESIDUAL/W-S","C_PLAN_PREBOUND_RESIDUAL/W-C","B_PLAN_PREBOUND/W-S"]},
+    {"block":5,"source_williams_row_zero_based":5,"order":["B_PLAN_PREBOUND/W-C","A_CANONICAL/W-C","C_PLAN_PREBOUND_RESIDUAL/W-C","A_CANONICAL/W-S","B_PLAN_PREBOUND/W-S","C_PLAN_PREBOUND_RESIDUAL/W-S"]},
+    {"block":6,"source_williams_row_zero_based":4,"order":["C_PLAN_PREBOUND_RESIDUAL/W-C","B_PLAN_PREBOUND/W-C","B_PLAN_PREBOUND/W-S","A_CANONICAL/W-C","C_PLAN_PREBOUND_RESIDUAL/W-S","A_CANONICAL/W-S"]}
+  ],
+  "balance_claims": {
+    "each_condition_once_per_block": true,
+    "each_condition_once_per_ordinal_position": true,
+    "within_block_ordered_adjacent_transitions": 30,
+    "all_30_possible_ordered_condition_pairs_appear_exactly_once_within_blocks": true,
+    "cross_block_transitions": 5,
+    "cross_block_transitions_are_part_of_Williams_balance_claim": false,
+    "first_position_exposure_balanced_across_conditions": true,
+    "previous_condition_for_first_position_recorded": true,
+    "total_cells": 36
+  },
+  "cross_block_boundary_interpretation": "Blocks execute sequentially on one host. The five cross-block transitions are recorded but are not claimed to be first-order carryover balanced. Because each condition appears exactly once in position 1, generic block-start exposure is balanced. No P3 claim may assign a specific causal carryover mechanism to cross-block transitions."
+}

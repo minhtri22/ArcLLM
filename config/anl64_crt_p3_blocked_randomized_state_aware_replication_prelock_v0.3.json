@@ -1,0 +1,151 @@
+{
+  "schema": "arcllm.anl64_crt.p3.blocked_randomized_state_aware_replication_prelock.v0.3",
+  "date": "2026-09-28",
+  "supersedes_preexecution": "config/anl64_crt_p3_blocked_randomized_state_aware_replication_prelock_v0.2.json",
+  "program": "ANL64_CANONICAL_RUNTIME_TRANSFER",
+  "status": "FROZEN_FINAL_PREOUTCOME_DESIGN_NO_EXECUTION_AUTHORIZED",
+  "repair_basis": ["P3-R5","P3-R6"],
+  "fresh_P3_outcomes_observed_before_revision": false,
+  "scientific_question": "When arm/workload is block-randomized independently of global execution order and non-invasive state covariates are recorded before every cell, does the W-S non-material / W-C material total-transfer split replicate, and after nuisance-state balancing do B-A and C-B become stably identifiable?",
+  "frozen_target": {
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "cpu": "Intel Core Ultra 7 258V",
+    "gpu": "Intel Arc 140V",
+    "backend": "Vulkan",
+    "workloads": {
+      "W-S": {"prompt_tokens":4,"output_tokens":32},
+      "W-C": {"prompt_tokens":256,"output_tokens":32}
+    },
+    "arms": {
+      "A_CANONICAL": "current canonical runtime; no ANL64 plan",
+      "B_PLAN_PREBOUND": "exact ANL64 immutable plan prebound before timing; canonical executor choices preserved",
+      "C_PLAN_PREBOUND_RESIDUAL": "same prebound plan plus only residual 84 Q/K/O Q4_FAST substitutions"
+    },
+    "I002_gate_up_unchanged": true,
+    "Q4VulkanBackendV4_down_unchanged": true,
+    "generic_v4_unchanged": true
+  },
+  "randomization": {
+    "schedule_artifact": "config/anl64_crt_p3_blocked_randomized_schedule_v0.3.json",
+    "schedule_hash_randomization_reproducible": true,
+    "blocks":6,
+    "conditions_per_block":6,
+    "total_cells":36,
+    "each_condition_once_per_position":true,
+    "within_block_first_order_carryover_balanced":true,
+    "cross_block_transition_balance_claimed":false,
+    "first_position_balanced":true,
+    "adaptive_reordering":false
+  },
+  "cell_measurement": {
+    "warmups_per_cell":1,
+    "measured_attempts_per_cell":5,
+    "total_measured_attempts":180,
+    "cell_summary":"median of five measured attempts",
+    "exact_32_token_sequence_required":true,
+    "decode_dispatches_per_step":469
+  },
+  "state_surface": {
+    "lock_artifact":"artifacts/ANL64_CRT/ANL64_CRT_P3_COVARIATE_SURFACE_LOCK_v0.2.json",
+    "lock_blob":"1c3c38288041c41c38bd852910fbf1db345eb67d",
+    "collector_path":"tools/anl64_crt_p3_precell_state_v0_2.ps1",
+    "collector_blob":"67a6f0bd24f6523aac0b78609e5b22c500da2b47",
+    "primary_adjustment":false,
+    "role":"environment validity plus secondary nuisance description only"
+  },
+  "primary_estimands": {
+    "unit":"within-block ratio of cell medians",
+    "per_workload":{
+      "B_over_A":"plan/control-plane contrast",
+      "C_over_B":"residual 84-node contrast",
+      "C_over_A":"total transfer contrast"
+    },
+    "cross_block_summary":"median of six within-block ratios"
+  },
+  "frozen_materiality_thresholds": {
+    "decode_benefit_min":1.1,
+    "e2e_latency_ratio_max":0.9,
+    "ttft_harm_ratio_max":1.1,
+    "plan_no_harm_decode_min":0.9,
+    "plan_no_harm_e2e_max":1.1,
+    "source":"unchanged from P1R"
+  },
+  "block_classification_rules": {
+    "plan_B_over_A_no_harm":"decode>=0.9 AND E2E<=1.1 AND TTFT<=1.1",
+    "residual_C_over_B_material":"decode>=1.1 AND E2E<=0.9",
+    "total_C_over_A_material":"decode>=1.1 AND E2E<=0.9",
+    "total_C_over_A_TTFT_safe":"TTFT<=1.1"
+  },
+  "replication_rules": {
+    "stability":"pooled classification stable only if at least 5/6 block classifications agree",
+    "W_S_total_split_replication":"pooled C/A non-material AND >=5/6 blocks non-material",
+    "W_C_total_split_replication":"pooled C/A material AND >=5/6 blocks material",
+    "total_TTFT_guard":"for each workload pooled C/A TTFT<=1.1 AND >=5/6 blocks TTFT-safe",
+    "plan_identifiable":"for each workload pooled B/A no-harm classification has >=5/6 block agreement",
+    "residual_identifiable":"for each workload pooled C/B material/non-material classification has >=5/6 block agreement"
+  },
+  "cross_block_boundary_rule": {
+    "five_transitions_recorded":true,
+    "included_in_Williams_pair_balance":false,
+    "first_position_exposure_balanced":true,
+    "decision_role":"secondary nuisance description only; cannot change primary block estimands or outcome class"
+  },
+  "nuisance_analysis": {
+    "primary_covariate_adjustment":false,
+    "specific_mechanism_claim_licensed":false,
+    "ANL64_specific_instability_claim_licensed":false,
+    "unstable_decomposition_interpretation":"underidentified/unstable after balancing; do not assign cause"
+  },
+  "blocking_guards": [
+    "exact token equality across matched A/B/C within workload",
+    "469 decode-node census preserved",
+    "ANL64 plan identity preserved",
+    "zero per-token plan discovery",
+    "I002 unchanged",
+    "Q4VulkanBackendV4 lifecycle unchanged",
+    "all 36 scheduled cells present for performance adjudication",
+    "exact schedule order preserved",
+    "no valid completed-cell rerun",
+    "no selective outcome-based rerun"
+  ],
+  "stop_rules": {
+    "before_cell_environment":"collector failure, missing required field, non-Balanced power scheme, or AC_line_status!=1 => do not launch cell; stop entire collection as ENVIRONMENT_OR_INFRASTRUCTURE_STOP",
+    "completed_cell_semantic_or_structural_failure":"stop immediately; no performance interpretation; no further cells",
+    "infrastructure_interruption_before_valid_cell_artifact":"stop entire collection; no automatic retry/resume; only a newly authorized full replay from zero may proceed",
+    "valid_completed_cell":"never rerun under current authorization",
+    "schedule_deviation":"stop entire collection",
+    "adaptive_behavior":"no performance/covariate-triggered cooldown, delay, cleanup, power change, threshold change, deletion, substitution or reorder"
+  },
+  "adjudication_order":[
+    "G0 provenance/completeness/schedule/collector identity",
+    "G1 semantic and structural guards",
+    "G2 block/position/within-block carryover balance",
+    "G3 total C/A workload-split replication",
+    "G4 total TTFT guard",
+    "G5 B/A plan identifiability",
+    "G6 C/B residual identifiability",
+    "G7 secondary nuisance description",
+    "FINAL"
+  ],
+  "mutually_exclusive_outcome_classes": {
+    "PASS_TOTAL_SPLIT_AND_DECOMPOSITION_IDENTIFIED":"G3 PASS, G4 PASS, G5 PASS, G6 PASS",
+    "PASS_TOTAL_SPLIT_DECOMPOSITION_REMAINS_UNDERIDENTIFIED":"G3 PASS, G4 PASS, and either G5 or G6 FAIL",
+    "FAIL_TOTAL_SPLIT_NOT_REPLICATED":"G3 FAIL",
+    "FAIL_TTFT_HARM":"G3 PASS and G4 FAIL",
+    "STOP_SEMANTIC_OR_STRUCTURAL_GUARD_FAILURE_NO_PERFORMANCE_CLAIM":"G0/G1/G2 blocking scientific-integrity guard failure",
+    "ENVIRONMENT_OR_INFRASTRUCTURE_STOP_NO_SCIENTIFIC_RESULT":"pre-cell environment/collector failure or infrastructure interruption before complete admissible collection"
+  },
+  "execution": {
+    "fresh_execution_authorized":false,
+    "next_required_step":"INDEPENDENT_PREOUTCOME_REVIEW_V0_3_AND_EXECUTION_LOCK_IF_ZERO_FINDINGS"
+  },
+  "claim_boundary": {
+    "P1R_rewritten":false,
+    "ANL64_canonical_integration_authorized":false,
+    "specific_nuisance_mechanism_identified":false,
+    "llama_cpp_comparison":false,
+    "NPU":false,
+    "P8":false,
+    "threshold_revision":false
+  }
+}

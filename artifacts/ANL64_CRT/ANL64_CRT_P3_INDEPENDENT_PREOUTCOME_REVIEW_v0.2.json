@@ -1,0 +1,35 @@
+{
+  "schema": "arcllm.anl64_crt.p3.independent_preoutcome_review.v0.2",
+  "date": "2026-09-28",
+  "reviewed_schedule_blob": "4ec2ca1e915e618da9b94dcf76976b35ee473051",
+  "reviewed_prelock_blob": "8f5ff4da3d3ad40c7a2866e9510c7256d0395091",
+  "reviewed_covariate_lock_blob": "1c3c38288041c41c38bd852910fbf1db345eb67d",
+  "fresh_P3_outcomes_observed": false,
+  "closed_from_v0_1": ["P3-R1","P3-R2","P3-R3","P3-R4"],
+  "confirmed": {
+    "hash_randomization_reproduced_from_seed_and_algorithm": true,
+    "within_block_position_balance": true,
+    "within_block_30_ordered_adjacent_pairs_each_once": true,
+    "exact_covariate_collector_frozen_and_preflighted": true,
+    "unsupported_ANL64_specific_mechanism_attribution_removed": true,
+    "environment_infrastructure_and_semantic_stop_rules_explicit": true,
+    "thresholds_unchanged_from_P1R": true
+  },
+  "findings": [
+    {
+      "id": "P3-R5",
+      "severity": "BLOCKING",
+      "category": "BLOCK_BOUNDARY_CARRYOVER_SCOPE",
+      "finding": "The 30/30 ordered-pair balance is exact only for the 30 within-block transitions. Five sequential cross-block transitions also exist on the same host. The design must explicitly exclude those transitions from the Williams balance claim, retain first-position balance, record previous cross-block condition, and prohibit causal attribution to a specific carryover mechanism."
+    },
+    {
+      "id": "P3-R6",
+      "severity": "BLOCKING",
+      "category": "OUTCOME_CLASS_OVERLAP",
+      "finding": "PASS_TOTAL_SPLIT_DECOMPOSITION_REMAINS_UNDERIDENTIFIED and VALID_NEGATIVE_DECOMPOSITION_UNSTABLE_AFTER_BALANCING are not mutually exclusive under the frozen rules. Final outcome classes must be made mutually exclusive before execution."
+    }
+  ],
+  "open_finding_count": 2,
+  "execution_authorized": false,
+  "required_action": "Supersede pre-execution design with v0.3 clarifying cross-block transition scope and a single mutually-exclusive decomposition-underidentified outcome, then review again."
+}
