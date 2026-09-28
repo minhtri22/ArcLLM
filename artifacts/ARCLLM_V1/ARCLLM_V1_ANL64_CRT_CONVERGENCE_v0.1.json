@@ -1,0 +1,64 @@
+{
+  "schema": "arcllm.v1.anl64_crt_convergence.v0.1",
+  "date": "2026-09-28",
+  "status": "CANONICAL_KNOWLEDGE_CONVERGENCE_NO_RUNTIME_MERGE",
+  "source_program": "ANL64_CANONICAL_RUNTIME_TRANSFER",
+  "source_branch": "research/anl64-canonical-runtime-transfer",
+  "source_terminal_commit": "499833b73aff5c454d0345d6be47ec5c1b373ce1",
+  "source_terminal_artifact_blob": "34aa40666e6614a99c0938ed7717717fdcfad1d3",
+  "canonical_branch": "research/arcllm-v1",
+  "canonical_runtime_before_convergence": {
+    "head": "094df8005eedf845daf79f1552beeb7aaceb8cf9",
+    "active_binding_blob": "0bbc9cc3bc4229e5dd4c37c27fb14e38b434fa3d",
+    "active_runtime": "src/arcllm_v1_full_runtime_q4_v4.cpp",
+    "q4_backend": "src/arcllm_v1_q4_vulkan_backend_v4.cpp",
+    "I002_gate_up": "ACTIVE",
+    "Q4VulkanBackendV4_ffn_down": "ACTIVE"
+  },
+  "converged_scientific_knowledge": {
+    "total_ANL64_transfer": {
+      "status": "NOT_ESTABLISHED_MATERIAL_ON_CURRENT_CANONICAL_RUNTIME",
+      "P3_W_S": "NON_MATERIAL_6_OF_6_BLOCKS",
+      "P3_W_C": "NON_MATERIAL_5_OF_6_BLOCKS"
+    },
+    "residual_84_QKO": {
+      "status": "STABLY_NON_MATERIAL_UNDER_P3",
+      "W_S": "NON_MATERIAL_5_OF_6_BLOCKS",
+      "W_C": "NON_MATERIAL_6_OF_6_BLOCKS"
+    },
+    "plan_only_B_over_A": {
+      "status": "UNDERIDENTIFIED",
+      "W_S_classification_agreement": "3_OF_6",
+      "W_C_classification_agreement": "3_OF_6"
+    },
+    "measurement": {
+      "status": "GLOBAL_SESSION_ORDER_NONSTATIONARITY_IS_A_REAL_NUISANCE_CLASS",
+      "canonical_rule": "For future confirmatory performance studies where this nuisance class can alias treatment, prefer blocked/order-balanced designs and pre-cell non-invasive state capture over simple sequential arm ordering."
+    },
+    "historical_boundary": "Historical ANL64 P5/P6 positive safe-reference evidence remains valid and is not rewritten by the canonical-transfer negative."
+  },
+  "runtime_convergence": {
+    "ANL64_CRT_source_files_merged": false,
+    "ANL64_plan_activated": false,
+    "ANL64_residual_QKO_activated": false,
+    "canonical_runtime_changed": false,
+    "active_runtime_remains": "I002 Gate/Up + Q4VulkanBackendV4 FfnDown"
+  },
+  "experiment_only_boundary": [
+    "all src/anl64_crt_* experiment runtimes",
+    "all run_anl64_crt_* runners",
+    "all config/anl64_crt_* experiment contracts and schedules",
+    "all ANL64_CRT execution locks, QA/review, machine-adjudication and raw-collection artifacts",
+    "all ANL64_CRT-specific adjudication and replay tools"
+  ],
+  "deferred_question": {
+    "question": "Independent value of immutable prebound plan/control-plane under a purpose-built state-stable study",
+    "status": "DEFERRED_NOT_OPEN",
+    "reopen_condition": "Only if a future architecture has an independent need for static control-plane value; not as a rescue of ANL64 total transfer."
+  },
+  "roadmap": {
+    "next_primary": "NPU capability/transfer/Amdahl gate",
+    "after_NPU": "matched external llama.cpp benchmark",
+    "ANL64_CRT_blocks_roadmap": false
+  }
+}

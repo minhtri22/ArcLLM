@@ -1639,3 +1639,27 @@ All three B acquisition paths produced the same exact EXEC148 identity (canonica
 Result: **PASS — BACKEND-BOUND EXTENSION SURFACE REVALIDATED FOR THE FROZEN Q4 FAMILY**.
 
 No family-specific semantic branch, activation state machine, hidden retry, hidden eager representation acquisition or new semantic dimension was required. The generic v4 surface therefore remains closed and bounded. This result validates the concrete Q4 primitive backend boundary only; it does not claim full end-to-end inference-runtime integration, production backend bindings for the other holdout families, universality over future primitive families, or a new performance advantage.
+
+## ANL64 canonical-transfer convergence — 2026-09-28
+
+The ANL64_CANONICAL_RUNTIME_TRANSFER successor is formally closed and its result is converged into ArcLLM v1 as **scientific knowledge only**.
+
+Fresh P3 blocked/order-balanced evidence did not confirm material total ANL64 transfer on the current canonical runtime:
+- W-S total C−A: non-material in 6/6 blocks;
+- W-C total C−A: non-material in 5/6 blocks.
+
+The residual 84 Q/K/O Q4_FAST substitutions are now stably classified as non-material under P3:
+- W-S: non-material in 5/6 blocks;
+- W-C: non-material in 6/6 blocks.
+
+The plan-only B−A effect remains underidentified, with only 3/6 block-level classification agreement in each workload. This unresolved plan question does not rescue the failed total-transfer result and does not keep the ANL64 transfer program open.
+
+A second result converges into ArcLLM v1 measurement practice: session/global-order nonstationarity is a material nuisance class on the development host. Future confirmatory performance studies should use blocked/order-balanced treatment schedules and pre-cell non-invasive state capture when simple sequential ordering could alias treatment with host state.
+
+Result: **CANONICAL_KNOWLEDGE_CONVERGENCE_NO_RUNTIME_MERGE**.
+
+No ANL64_CRT runtime, plan, Q/K/O substitution, runner, policy or experiment harness is activated in the canonical runtime. Active ArcLLM v1 remains the already-converged I002 Gate/Up path plus Q4VulkanBackendV4 FfnDown integration.
+
+Historical ANL64 P5/P6 positive evidence remains valid for its historical safe-reference contrast and is not rewritten.
+
+The independent plan/control-plane question is deferred. It may reopen only if a future architecture has a separate reason to value an immutable prebound control plane; it is not an active ArcLLM v1 task and does not block the NPU capability/transfer/Amdahl study or the later matched external llama.cpp benchmark.
