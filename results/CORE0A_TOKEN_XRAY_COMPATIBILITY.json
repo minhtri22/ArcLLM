@@ -7,10 +7,11 @@
   "mechanism_selection_authorized": false,
   "pins": {
     "arcllm_canonical_parent": "7a5672112dc22de15f0e9bb6445508fbb3099b15",
-    "arcllm_audit_checkout_head": "bacd1996441874a430530a023d9f4745e116c659",
+    "arcllm_audit_checkout_head": "dabc3dd88b9a4d77cc3f91dd3dcf8cf38052261f",
     "arcllm_parent_is_ancestor": true,
     "arcllm_changes_since_parent": [
       "docs/research/arcllm-v1/CORE0A_CURRENT_MAIN_TOKEN_XRAY_COMPATIBILITY_SPEC.md",
+      "results/CORE0A_TOKEN_XRAY_COMPATIBILITY.json",
       "tools/audit_core0a_token_xray_compatibility.py"
     ],
     "arcllm_unexpected_runtime_product_changes": [],
@@ -67,7 +68,7 @@
         "-q"
       ],
       "returncode": 0,
-      "stdout": "....................................s                                    [100%]\n36 passed, 1 skipped in 0.31s\n",
+      "stdout": "....................................s                                    [100%]\n36 passed, 1 skipped in 0.29s\n",
       "stderr": ""
     }
   },
@@ -95,7 +96,7 @@
       "p7g_ffn_q6k_tiled16.spv": 14
     },
     "semantic_issues": [
-      "adapter_semantic_ids_are_decode_prefixed",
+      "adapter_api_not_phase_aware",
       "causal_gqa_runtime_name_not_supported",
       "ffn_gate_up_fused_runtime_name_not_supported",
       "adapter_api_has_no_multi_semantic_fused_mapping"
@@ -128,7 +129,7 @@
     {
       "id": "PREFILL-COVERAGE",
       "severity": "BLOCKER",
-      "detail": "Current prefill is not representable without loss/mislabeling; geometry unmapped=196/441, shaders={'p7c_ffn_q4k_tiled.spv': 98, 'p7c_ffn_q6k_tiled.spv': 14, 'p7_attention_prefill_online.spv': 28, 'p7l_ffn_q4k_gateup_fused.spv': 28, 'p7g_ffn_q4k_tiled16.spv': 14, 'p7g_ffn_q6k_tiled16.spv': 14}, semantic_issues=['adapter_semantic_ids_are_decode_prefixed', 'causal_gqa_runtime_name_not_supported', 'ffn_gate_up_fused_runtime_name_not_supported', 'adapter_api_has_no_multi_semantic_fused_mapping']"
+      "detail": "Current prefill is not representable without loss/mislabeling; geometry unmapped=196/441, shaders={'p7c_ffn_q4k_tiled.spv': 98, 'p7c_ffn_q6k_tiled.spv': 14, 'p7_attention_prefill_online.spv': 28, 'p7l_ffn_q4k_gateup_fused.spv': 28, 'p7g_ffn_q4k_tiled16.spv': 14, 'p7g_ffn_q6k_tiled16.spv': 14}, semantic_issues=['adapter_api_not_phase_aware', 'causal_gqa_runtime_name_not_supported', 'ffn_gate_up_fused_runtime_name_not_supported', 'adapter_api_has_no_multi_semantic_fused_mapping']"
     },
     {
       "id": "RUNTIME-LIFECYCLE",
