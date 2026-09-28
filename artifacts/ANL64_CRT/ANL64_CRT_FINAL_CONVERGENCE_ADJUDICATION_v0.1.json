@@ -1,0 +1,72 @@
+{
+  "schema": "arcllm.anl64_crt.final_convergence_adjudication.v0.1",
+  "date": "2026-09-28",
+  "program": "ANL64_CANONICAL_RUNTIME_TRANSFER",
+  "status": "PROGRAM_CLOSED_NO_RUNTIME_MERGE_KNOWLEDGE_CONVERGES_TO_ARCLLM_V1",
+  "terminal_branch_head": "1dbdb5b23b8b6282ee8f99dddbd7bbd9dea253b2",
+  "canonical_parent_at_program_open": "094df8005eedf845daf79f1552beeb7aaceb8cf9",
+  "terminal_science": {
+    "P0": "PASS_NONEMPTY_RESIDUAL_TRANSFER_SURFACE_EXISTS_VALUE_NOT_ESTABLISHED",
+    "P1R": "VALID_NEGATIVE_PREBOUND_PLAN_HARM_BLOCKS_TRANSFER",
+    "P2": "PASS_STRUCTURED_GLOBAL_NONSTATIONARITY_DETECTED_DECOMPOSITION_UNDERIDENTIFIED",
+    "P3": "FAIL_TOTAL_SPLIT_NOT_REPLICATED"
+  },
+  "convergence_classification": {
+    "CANONICAL_RUNTIME": {
+      "from_ANL64_CRT": [],
+      "decision": "NO_RUNTIME_CODE_OR_POLICY_FROM_ANL64_CRT_CONVERGES",
+      "reason": "P3 does not establish material total-transfer value; residual 84 Q/K/O is stably non-material; plan-only effect remains unstable."
+    },
+    "CANONICAL_KNOWLEDGE": [
+      "Current canonical runtime has already absorbed 56 historical ANL64 Gate/Up fast nodes through I002.",
+      "Residual 84 Q/K/O Q4_FAST substitutions are non-material under P3: W-S 5/6 block agreement, W-C 6/6 block agreement.",
+      "Total ANL64 transfer is non-material under P3: W-S 6/6 non-material; W-C 5/6 non-material.",
+      "Plan-only B/A effect remains underidentified with 3/6 classification agreement in both workloads.",
+      "P2/P3 establish that host/session/order nonstationarity can materially distort performance contrasts; future confirmatory performance studies should use blocked/order-balanced designs when this nuisance class is relevant.",
+      "Historical ANL64 P5/P6 positive evidence remains valid for its older safe-reference contrast and is not rewritten."
+    ],
+    "EXPERIMENT_ONLY": [
+      "src/anl64_crt_p1_runtime.cpp",
+      "src/anl64_crt_p1r_runtime.cpp",
+      "run_anl64_crt_p1.ps1",
+      "run_anl64_crt_p1r.ps1",
+      "run_anl64_crt_p3.ps1",
+      "tests/test_anl64_crt_p1_static.py",
+      "tests/test_anl64_crt_p1r_static.py",
+      "tools/adjudicate_anl64_crt_p1.py",
+      "tools/adjudicate_anl64_crt_p1r.py",
+      "tools/adjudicate_anl64_crt_p3.py",
+      "tools/anl64_crt_p3_precell_state_v0_2.ps1",
+      "tools/generate_anl64_crt_p3_schedule_v0_2.py",
+      "tools/independent_*",
+      "tools/p2_*",
+      "config/anl64_crt_*",
+      "artifacts/ANL64_CRT/*"
+    ],
+    "DEFERRED_SUCCESSOR_ONLY": {
+      "question": "Does an immutable prebound plan/control-plane have independent value under a purpose-built state-stable experiment?",
+      "current_action": "DO_NOT_OPEN_NOW",
+      "reason": "Even a positive plan-only answer would not rescue the failed total ANL64 transfer claim. Reopen only if a future architecture needs static control-plane value for an independent reason."
+    }
+  },
+  "canonical_active_runtime_preserved": {
+    "source": "src/arcllm_v1_full_runtime_q4_v4.cpp",
+    "backend": "src/arcllm_v1_q4_vulkan_backend_v4.cpp",
+    "active_binding": "config/arcllm_v1_full_runtime_active_v0.1.json",
+    "I002_gate_up_retained": true,
+    "Q4VulkanBackendV4_down_retained": true,
+    "ANL64_plan_active": false,
+    "ANL64_residual_QKO_active": false
+  },
+  "roadmap_after_close": [
+    "NPU capability/transfer/Amdahl gate",
+    "matched external llama.cpp benchmark"
+  ],
+  "claim_boundary": {
+    "historical_ANL64_rewritten": false,
+    "P1R_rewritten": false,
+    "ANL64_canonical_integration_authorized": false,
+    "llama_cpp_advantage_claim": false,
+    "universality": false
+  }
+}

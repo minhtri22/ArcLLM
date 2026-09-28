@@ -149,3 +149,23 @@ Machine adjudication and an independent post-outcome recomputation from the raw 
 Result: **FAIL_TOTAL_SPLIT_NOT_REPLICATED**.
 
 Scientific consequence: incremental ANL64 transfer into the current canonical runtime is not established. Material value of the residual 84 Q/K/O substitutions is not established and is stably non-material under P3. The plan-only effect remains unresolved. No canonical ANL64 integration is authorized. Historical ANL64 evidence and the earlier P1R result are preserved rather than rewritten.
+
+
+## 2026-09-28 — Final convergence and program closure
+
+The canonical-transfer program is closed after P3.
+
+P3 did not confirm the P2 workload split. Total C−A transfer was non-material on W-S in 6/6 blocks and non-material on W-C in 5/6 blocks. The residual 84 Q/K/O C−B effect was stably non-material on both workloads. The plan-only B−A effect remained underidentified with only 3/6 block-level classification agreement in each workload.
+
+Result: **PROGRAM_CLOSED_NO_RUNTIME_MERGE_KNOWLEDGE_CONVERGES_TO_ARCLLM_V1**.
+
+No ANL64_CRT runtime, policy, runner, execution lock or experiment harness is promoted into the active canonical runtime. The current ArcLLM v1 runtime remains I002 Gate/Up plus Q4VulkanBackendV4 FfnDown.
+
+The following scientific knowledge converges to ArcLLM v1:
+- residual 84-node Q/K/O ANL64 value is not material on the current canonical runtime under P3;
+- total ANL64 transfer is not material under P3;
+- plan-only value remains unresolved rather than positive;
+- session/global-order nonstationarity is a material measurement concern and motivates blocked/order-balanced confirmatory designs when relevant;
+- historical ANL64 P5/P6 positive evidence remains valid for its historical safe-reference contrast.
+
+The plan-only question may be reopened only as a new independent successor if a future architecture has a separate reason to value an immutable prebound control plane. It does not keep ANL64_CRT open and does not block the next ArcLLM roadmap steps.
