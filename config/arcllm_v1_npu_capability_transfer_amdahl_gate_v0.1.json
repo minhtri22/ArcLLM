@@ -1,0 +1,83 @@
+{
+  "schema": "arcllm.v1.npu_capability_transfer_amdahl_gate.v0.1",
+  "date": "2026-09-28",
+  "program": "ARCLLM_V1",
+  "gate": "ARCLLM_V1_NPU_CAPABILITY_TRANSFER_AMDAHL_GATE",
+  "status": "FROZEN_PREOUTCOME_NO_NPU_EXECUTOR_AUTHORIZED",
+  "canonical_head": "842612d05dccbfdff1b8f5df79f351dc20e8112f",
+  "canonical_runtime": {
+    "active_binding": "config/arcllm_v1_runtime_active_v0.2.json",
+    "runtime": "src/arcllm_v1_runtime.cpp",
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "current_execution_domain": "gpu.arc_140v",
+    "current_backend": "Vulkan"
+  },
+  "scientific_question": "On the clean canonical ArcLLM-v1 runtime, is there any operator/workload surface that the host NPU can actually execute with a valid representation/transfer path and an Amdahl upper bound large enough to justify opening a bounded NPU implementation study, or is the opportunity blocked by capability mismatch, representation/transfer cost, or insufficient runtime share?",
+  "scope": {
+    "capability_probe_only": true,
+    "provider_discovery_only": true,
+    "representation_transfer_analysis": true,
+    "Amdahl_bound_analysis": true,
+    "new_NPU_executor": false,
+    "production_runtime_change": false,
+    "llama_cpp_benchmark": false,
+    "performance_optimization": false
+  },
+  "evidence_precedence": [
+    "fresh local NPU device/driver/provider probe",
+    "canonical runtime/model source contract",
+    "existing exact ArcLLM timing/hardware evidence",
+    "optimistic analytical bounds"
+  ],
+  "candidate_families": [
+    "lm_head",
+    "ffn_down",
+    "ffn_gate_up",
+    "attn_qkv"
+  ],
+  "transfer_contract": {
+    "one_time_model_load_representation_conversion_allowed": true,
+    "per_token_full_weight_repack_disallowed": true,
+    "host_roundtrip_between_each_layer_disallowed_as_viable_design": true,
+    "cross_domain_activation_transfer_must_be_explicitly_accounted": true,
+    "GGUF_Q4_K_Q6_K_direct_support_must_not_be_assumed": true,
+    "shared_physical_memory_must_not_be_equated_with_zero_transfer_cost": true
+  },
+  "Amdahl_rules": {
+    "family_share_source_must_be_exact_target_model_evidence": true,
+    "ideal_zero_cost_speedup": "1/(1-f)",
+    "provider_or_transfer_overhead_must_not_be_set_to_zero_for_final authorization unless only an optimistic ceiling is being reported",
+    "material_headroom_min_ideal_speedup": 1.10,
+    "note": "A family below this ideal ceiling cannot authorize implementation regardless of NPU peak TOPS."
+  },
+  "gates": {
+    "G0_canonical_provenance": "active runtime/model/domain identities exact",
+    "G1_hardware_presence": "NPU enumerates locally with operational driver state",
+    "G2_callable_provider": "at least one local user-space path can enumerate/target the NPU without modifying ArcLLM production runtime",
+    "G3_representation_surface": "at least one candidate family can be represented without per-token full-weight repack and with explicit activation/weight transfer semantics",
+    "G4_amdahl_headroom": "candidate family has ideal zero-cost speedup >=1.10 from exact-target evidence",
+    "G5_transfer_feasibility": "available evidence does not already make transfer/setup overhead exceed the candidate removable-time budget"
+  },
+  "outcome_classes": {
+    "PASS_OPEN_BOUNDED_NPU_TRANSFER_STUDY": "G0..G5 pass for at least one candidate family",
+    "BLOCKED_NO_OPERATIONAL_NPU": "G1 fails",
+    "BLOCKED_NO_CALLABLE_NPU_PROVIDER": "G1 passes and G2 fails",
+    "FAIL_NO_VALID_REPRESENTATION_SURFACE": "G1/G2 pass and G3 fails",
+    "FAIL_AMDAHL_HEADROOM_TOO_SMALL": "G1/G2/G3 pass and G4 fails",
+    "FAIL_TRANSFER_BUDGET": "G1..G4 pass and G5 fails",
+    "UNDERIDENTIFIED_NEEDS_PROVIDER_MICROPROBE": "G1..G4 pass but G5 cannot be determined without a bounded provider-level microprobe"
+  },
+  "stop_rules": {
+    "no_package_install_before_initial_provider_inventory": true,
+    "no_driver_change": true,
+    "no_firmware_change": true,
+    "no_runtime_executor_code": true,
+    "no_threshold_change_after_probe": true
+  },
+  "claim_boundary": {
+    "NPU_speedup_claim": false,
+    "NPU_usefulness_claim": false,
+    "aggregate_CPU_GPU_NPU_TOPS_claim": false,
+    "external_baseline_claim": false
+  }
+}
