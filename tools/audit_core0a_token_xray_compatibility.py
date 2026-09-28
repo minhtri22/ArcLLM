@@ -175,8 +175,25 @@ def main() -> None:
 
     findings = []
 
-    if arc_head != ARC_PIN:
-        findings.append({"id": "PIN-ARC", "severity": "BLOCKER", "detail": f"ArcLLM HEAD drift: {arc_head}"})
+    arc_parent_is_ancestor = subprocess.run(
+        ["git", "-C", str(arc), "merge-base", "--is-ancestor", ARC_PIN, arc_head]
+    ).returncode == 0
+    changed_since_parent = subprocess.check_output(
+        ["git", "-C", str(arc), "diff", "--name-only", f"{ARC_PIN}..{arc_head}"], text=True
+    ).splitlines()
+    allowed_research_changes = {
+        "docs/research/arcllm-v1/CORE0A_CURRENT_MAIN_TOKEN_XRAY_COMPATIBILITY_SPEC.md",
+        "tools/audit_core0a_token_xray_compatibility.py",
+        "results/CORE0A_TOKEN_XRAY_COMPATIBILITY.json",
+        "docs/research/arcllm-v1/TOKEN_XRAY_ARCLLM_ADAPTER_UPGRADE_HANDOFF.md",
+    }
+    unexpected_arc_changes = sorted(set(changed_since_parent) - allowed_research_changes)
+    if not arc_parent_is_ancestor or unexpected_arc_changes:
+        findings.append({
+            "id": "PIN-ARC",
+            "severity": "BLOCKER",
+            "detail": f"Frozen canonical parent not preserved or runtime/product drift detected: ancestor={arc_parent_is_ancestor}, unexpected={unexpected_arc_changes}"
+        })
     if tx_head != TX_PIN:
         findings.append({"id": "PIN-TX", "severity": "BLOCKER", "detail": f"Token-XRay HEAD drift: {tx_head}"})
 
@@ -246,6 +263,9 @@ def main() -> None:
         "pins": {
             "arcllm_canonical_parent": ARC_PIN,
             "arcllm_audit_checkout_head": arc_head,
+            "arcllm_parent_is_ancestor": arc_parent_is_ancestor,
+            "arcllm_changes_since_parent": changed_since_parent,
+            "arcllm_unexpected_runtime_product_changes": unexpected_arc_changes,
             "token_xray": TX_PIN,
             "token_xray_audit_checkout_head": tx_head,
             "llama_cpp": LLAMA_PIN,
