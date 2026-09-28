@@ -1,0 +1,51 @@
+{
+  "schema": "arcllm.anl64_crt.p3.covariate_surface_lock.v0.2",
+  "date": "2026-09-28",
+  "supersedes_preexecution": "artifacts/ANL64_CRT/ANL64_CRT_P3_COVARIATE_SURFACE_PREFLIGHT_v0.1.json",
+  "status": "PASS_EXACT_PRECELL_COLLECTOR_FROZEN",
+  "fresh_scientific_execution_performed": false,
+  "collector": {
+    "path": "tools/anl64_crt_p3_precell_state_v0_2.ps1",
+    "blob": "67a6f0bd24f6523aac0b78609e5b22c500da2b47",
+    "execution_boundary": "collector completes before inference-cell process launch; no profiler/counter session is attached to inference",
+    "preflight_runtime_pass": true
+  },
+  "required_fields": [
+    "wall_clock_utc",
+    "global_cell_ordinal",
+    "block_id",
+    "ordinal_position_within_block",
+    "previous_condition",
+    "elapsed_seconds_since_P3_start",
+    "elapsed_seconds_since_previous_cell_end",
+    "system_CPU_utilization_percent",
+    "available_physical_memory_bytes",
+    "active_power_scheme_guid",
+    "AC_line_status",
+    "CPU_processor_performance_percent",
+    "GPU_engine_counter_count",
+    "GPU_engine_nonzero_counter_count",
+    "GPU_engine_max_utilization_percent",
+    "GPU_engine_sum_utilization_percent",
+    "environment_invariants_pass"
+  ],
+  "frozen_unavailable_fields": [
+    "CPU_temperature",
+    "GPU_temperature",
+    "GPU_frequency"
+  ],
+  "environment_invariants": {
+    "active_power_scheme_guid": "381b4222-f694-41f0-9685-ff5bb260df2e",
+    "active_power_scheme_name": "Balanced",
+    "AC_line_status": 1,
+    "rule": "If either invariant is false or any required field cannot be acquired, the next cell MUST NOT launch and the whole P3 collection stops as an environment/infrastructure stop. No waiting-for-recovery or adaptive cooldown is allowed inside the authorized collection."
+  },
+  "decision_role": {
+    "primary_estimand_adjustment": false,
+    "cell_deletion": false,
+    "threshold_mutation": false,
+    "adaptive_reordering": false,
+    "outcome_rescue": false,
+    "secondary_nuisance_diagnostics": true
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "schema": "arcllm.anl64_crt.p3.blocked_randomized_schedule.v0.2",
+  "date": "2026-09-28",
+  "supersedes_preexecution": "config/anl64_crt_p3_blocked_randomized_schedule_v0.1.json",
+  "design": "6x6 Williams carryover-balanced complete-block schedule with reproducible pre-outcome hash randomization",
+  "randomization": {
+    "seed": 20260928,
+    "prefix": "ANL64_CRT_P3",
+    "algorithm": "lexicographic ascending SHA256 of UTF-8 strings PREFIX|SEED|kind|item; assign treatment IDs 1..6 by sorted condition hashes; order Williams rows by sorted row hashes",
+    "generator": "tools/generate_anl64_crt_p3_schedule_v0_2.py",
+    "condition_hashes": {
+      "A_CANONICAL/W-S": "273387a74ea115ee536082bc8a67f096b03003593c33da2648c65d7aed94126e",
+      "B_PLAN_PREBOUND/W-S": "51ba558bce2e7e8949313dc9007f5071ab37efa9a31ffc6c141d2d3d5dd9517e",
+      "C_PLAN_PREBOUND_RESIDUAL/W-S": "2fe034d5d4e79a823e3d3157e111ce0918532c03ff50d315d47d8ff9e4fdbf2a",
+      "A_CANONICAL/W-C": "0800088549198dd7fe48dd52bf0d1cd97dd54691e774cadba61c277d098e391b",
+      "B_PLAN_PREBOUND/W-C": "ddd82a2708f5d3bfa0f24ed78f4d8d4557b3fc6636c30afe31e65b231370f1d7",
+      "C_PLAN_PREBOUND_RESIDUAL/W-C": "8f70ad66ea436e1626549e6ee006bebbfdaa669e227f8a4a1e4efe292fac0fa8"
+    },
+    "row_hashes": {
+      "0": "a412a0636243ab0b1a554e55b6232045c6e30526722924de60c804ed1c7a410c",
+      "1": "533306a18bad65528481fbcd7ca29932b10687ceb60411a0d157f70ae6d09a4f",
+      "2": "867dc3974a2c67b406ba1a3bef63564294eeec8bca3511556330ae12847fd090",
+      "3": "794dbb899d438c30235a23721b64dbdec59cbd151f678231af35da24facd5e8a",
+      "4": "ff530d9a8781a22a57db0d7040542d4b4bfb004abc26b7a78d6a237a4ddab2b4",
+      "5": "f03929b41994d5ed394f4293261b22e850417e9d806b1eaec12927cc2c28d539"
+    },
+    "treatment_label_mapping": {
+      "1": "A_CANONICAL/W-C",
+      "2": "A_CANONICAL/W-S",
+      "3": "C_PLAN_PREBOUND_RESIDUAL/W-S",
+      "4": "B_PLAN_PREBOUND/W-S",
+      "5": "C_PLAN_PREBOUND_RESIDUAL/W-C",
+      "6": "B_PLAN_PREBOUND/W-C"
+    },
+    "williams_base_rows": [
+      [1,2,6,3,5,4],
+      [2,3,1,4,6,5],
+      [3,4,2,5,1,6],
+      [4,5,3,6,2,1],
+      [5,6,4,1,3,2],
+      [6,1,5,2,4,3]
+    ],
+    "frozen_row_order_zero_based": [1,3,2,0,5,4]
+  },
+  "blocks": [
+    {"block":1,"source_williams_row_zero_based":1,"order":["A_CANONICAL/W-S","C_PLAN_PREBOUND_RESIDUAL/W-S","A_CANONICAL/W-C","B_PLAN_PREBOUND/W-S","B_PLAN_PREBOUND/W-C","C_PLAN_PREBOUND_RESIDUAL/W-C"]},
+    {"block":2,"source_williams_row_zero_based":3,"order":["B_PLAN_PREBOUND/W-S","C_PLAN_PREBOUND_RESIDUAL/W-C","C_PLAN_PREBOUND_RESIDUAL/W-S","B_PLAN_PREBOUND/W-C","A_CANONICAL/W-S","A_CANONICAL/W-C"]},
+    {"block":3,"source_williams_row_zero_based":2,"order":["C_PLAN_PREBOUND_RESIDUAL/W-S","B_PLAN_PREBOUND/W-S","A_CANONICAL/W-S","C_PLAN_PREBOUND_RESIDUAL/W-C","A_CANONICAL/W-C","B_PLAN_PREBOUND/W-C"]},
+    {"block":4,"source_williams_row_zero_based":0,"order":["A_CANONICAL/W-C","A_CANONICAL/W-S","B_PLAN_PREBOUND/W-C","C_PLAN_PREBOUND_RESIDUAL/W-S","C_PLAN_PREBOUND_RESIDUAL/W-C","B_PLAN_PREBOUND/W-S"]},
+    {"block":5,"source_williams_row_zero_based":5,"order":["B_PLAN_PREBOUND/W-C","A_CANONICAL/W-C","C_PLAN_PREBOUND_RESIDUAL/W-C","A_CANONICAL/W-S","B_PLAN_PREBOUND/W-S","C_PLAN_PREBOUND_RESIDUAL/W-S"]},
+    {"block":6,"source_williams_row_zero_based":4,"order":["C_PLAN_PREBOUND_RESIDUAL/W-C","B_PLAN_PREBOUND/W-C","B_PLAN_PREBOUND/W-S","A_CANONICAL/W-C","C_PLAN_PREBOUND_RESIDUAL/W-S","A_CANONICAL/W-S"]}
+  ],
+  "balance_claims": {
+    "each_condition_once_per_block": true,
+    "each_condition_once_per_ordinal_position": true,
+    "each_ordered_adjacent_pair_exactly_once": true,
+    "total_cells": 36
+  },
+  "execution_started_under_v0_1": false
+}

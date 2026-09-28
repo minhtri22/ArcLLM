@@ -1,0 +1,53 @@
+{
+  "schema": "arcllm.anl64_crt.p3.independent_preoutcome_review.v0.1",
+  "date": "2026-09-28",
+  "reviewed_schedule_blob": "bf8f6ebcc3c989a81210fd41c41bfd62d68a8fc1",
+  "reviewed_prelock_blob": "116f36e7b2483053509b987486885a37e2e7a865",
+  "reviewed_covariate_preflight_blob": "328bd7c79819831c1958527b8aa42174216d6c65",
+  "fresh_P3_outcomes_observed": false,
+  "review_dimensions": [
+    "schedule randomization and balance",
+    "estimand identifiability",
+    "threshold provenance",
+    "covariate acquisition surface",
+    "stop and adjudication rules"
+  ],
+  "confirmed": {
+    "six_complete_blocks": true,
+    "six_conditions_per_block": true,
+    "each_condition_once_per_position": true,
+    "all_30_ordered_adjacent_pairs_once": true,
+    "within_block_estimands_match_question": true,
+    "materiality_thresholds_unchanged_from_P1R": true,
+    "primary_covariate_adjustment_not_used_to_rescue_outcomes": true
+  },
+  "findings": [
+    {
+      "id": "P3-R1",
+      "severity": "BLOCKING",
+      "category": "RANDOMIZATION_PROVENANCE",
+      "finding": "The schedule claims seeded pseudo-random treatment-label assignment and row permutation but does not freeze a deterministic randomization algorithm. The exact schedule is frozen, but the randomization claim cannot be independently reproduced from seed 20260928."
+    },
+    {
+      "id": "P3-R2",
+      "severity": "BLOCKING",
+      "category": "COVARIATE_ACQUISITION_IDENTITY",
+      "finding": "The prelock requires the exact acquisition command to be frozen before performance observation, while the covariate preflight records only source descriptions and not an immutable exact collector."
+    },
+    {
+      "id": "P3-R3",
+      "severity": "BLOCKING",
+      "category": "OUTCOME_IDENTIFIABILITY",
+      "finding": "VALID_NEGATIVE_ANL64_SPECIFIC_INSTABILITY_AFTER_BALANCING depends on the non-operational phrase 'canonical-A block variation alone cannot explain'. No frozen quantitative rule uniquely licenses ANL64-specific causal attribution."
+    },
+    {
+      "id": "P3-R4",
+      "severity": "BLOCKING",
+      "category": "STOP_RULES",
+      "finding": "The prelock lacks explicit handling for pre-cell environment invariant failure, missing required covariates, semantic/structural failure during a completed cell, and infrastructure interruption before a valid cell artifact."
+    }
+  ],
+  "open_finding_count": 4,
+  "execution_authorized": false,
+  "required_action": "Create superseding pre-outcome v0.2 artifacts that close all four findings, then perform a new independent review before any P3 execution."
+}
