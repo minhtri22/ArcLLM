@@ -1,0 +1,19 @@
+{
+  "schema": "arcllm.v1.bounded_npu_ffn_down_transfer.independent_adjudication.v0.1",
+  "status": "PASS_INDEPENDENT_RECOMPUTATION",
+  "complete_cases": 18,
+  "all_numerical_cases_pass": true,
+  "max_end_to_end_max_abs": 0.0008543729782104492,
+  "max_end_to_end_rmse": 0.00012461654841899872,
+  "case_median_ms_primary": 2.741949982009828,
+  "case_median_ms_p95_guard": 6.6288000089116395,
+  "family_28_layer_p95_ms_per_token": 185.6064002495259,
+  "GPU_family_budget_ms_per_token": {
+    "W-S": 160.59743019334533,
+    "W-C": 118.13835909692924
+  },
+  "positive_budget_rule_pass": false,
+  "material_10pct_rule_pass": false,
+  "recomputed_verdict": "FAIL_WARM_TRANSFER_BUDGET",
+  "machine_independent_agreement": true
+}

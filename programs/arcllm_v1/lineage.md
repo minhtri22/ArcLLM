@@ -1682,3 +1682,24 @@ The viable representation path is explicitly not direct GGUF Q4_K/Q6_K execution
 Result: **PASS_OPEN_BOUNDED_NPU_TRANSFER_STUDY**.
 
 The PASS is narrow. It authorizes only a bounded FFN-down transfer study using exact target-model weights. It does not authorize a canonical NPU backend, full-model offload, Gate/Up offload, direct GGUF-quant NPU execution, or any claim that short cold requests are faster. The next study must first freeze real-weight numerical equivalence, representation conversion, transfer boundaries, cold setup cost and warm paired GPU/NPU timing before any execution.
+
+
+## Bounded NPU FFN-down real-weight transfer study — 2026-09-28
+
+The bounded successor opened by the NPU capability/transfer/Amdahl gate tested only FFN-down, using exact real weights from the frozen model and no full-model execution.
+
+Layer selection was structural and outcome-blind. Three Q4_K layers (L03, L14, L22) and three Q6_K layers (L00, L16, L27) were frozen as the first, upper-middle and last layer of each quant family. Each layer was evaluated against three frozen activation vectors. The NPU representation was constructed only at model-load/offline-cache scope by dequantizing the exact GGUF tensor and converting it to FP16 constant weights; no per-token full-weight repack was allowed.
+
+Numerical semantics passed all **18/18** layer × activation cases. The worst end-to-end error versus the exact dequantized FP32 quantized-weight reference was max-abs **0.0008544** and RMSE **0.0001246**, both well inside the frozen max-abs 0.02 / RMSE 0.005 gate.
+
+Warm latency did not pass the preregistered stability requirement. The descriptive median of the 18 case medians was **2.742 ms/layer**, but the frozen primary guard was the p95 of the 18 case medians. That guard was **6.6288 ms/layer**, driven by the admissible L14/Q4_K activation-A case. The study did not delete, relabel or selectively rerun that case after outcome observation.
+
+Scaling the frozen p95 guard over 28 FFN-down layers gives **185.61 ms/token**, exceeding both frozen current-canonical GPU family budgets: **160.60 ms/token** on W-S and **118.14 ms/token** on W-C. The corresponding warm savings are therefore negative: approximately **−25.01 ms/token** and **−67.47 ms/token**.
+
+Lifecycle costs remain nontrivial: median compiled-graph import was about **420.2 ms/layer**, median compile about **2703.7 ms/layer**, and median exact-weight dequantization plus FP16 conversion about **1247.3 ms/layer**. Because the robust warm budget is already negative, no positive cold/setup break-even exists under this study's frozen criterion.
+
+Independent recomputation from the complete raw result reproduced the same adjudication.
+
+Result: **FAIL_WARM_TRANSFER_BUDGET**.
+
+Scientific consequence: exact real-weight FFN-down NPU representation semantics are established for the bounded six-layer sample, but FFN-down NPU latency offload is not authorized for canonical ArcLLM integration. The FFN-down latency-acceleration path is closed. This result does not establish that NPU has no value for ArcLLM in other dimensions such as GPU relief, concurrent throughput or energy efficiency; those dimensions were not tested by this study.

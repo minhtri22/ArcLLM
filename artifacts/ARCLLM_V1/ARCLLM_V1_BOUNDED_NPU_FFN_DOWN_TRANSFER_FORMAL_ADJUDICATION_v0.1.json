@@ -1,0 +1,95 @@
+{
+  "schema": "arcllm.v1.bounded_npu_ffn_down_transfer.formal_adjudication.v0.1",
+  "date": "2026-09-28",
+  "study": "ARCLLM_V1_BOUNDED_NPU_FFN_DOWN_TRANSFER_STUDY",
+  "status": "STUDY_CLOSED_FAIL_WARM_TRANSFER_BUDGET_NUMERICS_PASS",
+  "prereg_blob": "70afe3f44089fa91e3941fd2e220827cf3d72ec7",
+  "execution_lock_v0_2_blob": "ece6b33457bb446c59bf3f0ad88c7ce83db5c6f4",
+  "runner_blob": "006a61e964a4ba474753840a2a0762c7dd71218e",
+  "execution_artifact_blob": "dff58d4720db5e3ff3e03bdbe0c8ce351c82d068",
+  "independent_adjudication_blob": "8ed2d4f4775818c6376d76024259d19c01bc2cdb",
+  "evidence": {
+    "selected_layers": {
+      "Q4_K": [3,14,22],
+      "Q6_K": [0,16,27]
+    },
+    "activation_cases_per_layer": 3,
+    "total_cases": 18,
+    "all_numerical_cases_pass": true,
+    "max_end_to_end_max_abs": 0.0008543729782104492,
+    "max_end_to_end_rmse": 0.00012461654841899872,
+    "frozen_numerical_thresholds": {
+      "max_abs_max": 0.02,
+      "rmse_max": 0.005
+    },
+    "layer_median_ms": {
+      "L03_Q4_K": 3.0400999821722507,
+      "L14_Q4_K": 3.7873000255785882,
+      "L22_Q4_K": 2.7375000063329935,
+      "L00_Q6_K": 3.2667999621480703,
+      "L16_Q6_K": 2.5545000098645687,
+      "L27_Q6_K": 2.8655000496655703
+    },
+    "primary_case_median_ms": 2.741949982009828,
+    "frozen_p95_guard_case_median_ms": 6.6288000089116395,
+    "slowest_case": {
+      "layer": 14,
+      "quant": "Q4_K",
+      "activation": "A",
+      "case_median_ms": 6.6288000089116395,
+      "posthoc_exclusion_or_rerun_allowed": false
+    },
+    "family_28_layer_p95_ms_per_token": 185.6064002495259,
+    "current_GPU_family_budget_ms_per_token": {
+      "W-S": 160.59743019334533,
+      "W-C": 118.13835909692924
+    },
+    "warm_savings_ms_per_token": {
+      "W-S": -25.008970056180573,
+      "W-C": -67.46804115259667
+    },
+    "positive_budget_rule_pass": false,
+    "material_10pct_rule_pass": false,
+    "lifecycle": {
+      "median_import_ms_per_layer": 420.20205000881106,
+      "median_compile_ms_per_layer": 2703.7133499979973,
+      "median_dequant_plus_fp16_conversion_ms_per_layer": 1247.3027000087313,
+      "projected_28_layer_import_ms": 11765.65740024671,
+      "projected_28_layer_compile_ms": 75703.97379994392,
+      "projected_28_layer_conversion_ms": 34924.47560024448,
+      "break_even_tokens_import_only": null,
+      "break_even_tokens_import_plus_conversion": null,
+      "reason_no_break_even": "Frozen robust warm metric already exceeds both current GPU family budgets."
+    }
+  },
+  "independent_review": {
+    "status": "PASS_INDEPENDENT_RECOMPUTATION",
+    "machine_independent_agreement": true,
+    "recomputed_verdict": "FAIL_WARM_TRANSFER_BUDGET"
+  },
+  "formal_result": "FAIL_WARM_TRANSFER_BUDGET",
+  "scientific_answer": "The exact real-weight model-load-only FP16 NPU representation preserves FFN-down numerical semantics across all six structurally selected Q4_K/Q6_K layers and all 18 frozen activation cases, but it does not retain a robust positive warm transfer budget under the preregistered p95 stability guard. Therefore FFN-down NPU latency offload is not authorized for canonical ArcLLM integration.",
+  "interpretation": {
+    "semantics": "ESTABLISHED_FOR_BOUNDED_REAL_WEIGHT_SAMPLE",
+    "provider_execution": "ESTABLISHED",
+    "warm_latency_value": "NOT_ESTABLISHED_AND_FROZEN_GATE_FAILED",
+    "tail_variability": "The slow L14/Q4_K/A case is part of admissible evidence and cannot be dropped or selectively rerun after outcome observation.",
+    "cold_lifecycle_value": "NOT_ESTABLISHED; setup cannot amortize when the frozen robust warm savings are negative."
+  },
+  "convergence": {
+    "runtime_merge": false,
+    "NPU_backend_authorized": false,
+    "FFN_down_NPU_latency_path": "CLOSED",
+    "knowledge_converges_to_arcllm_v1_lineage": true
+  },
+  "claim_boundary": {
+    "NPU_has_no_value_for_ArcLLM": false,
+    "GPU_relief_tested": false,
+    "multi_session_throughput_tested": false,
+    "energy_efficiency_tested": false,
+    "LM_head_NPU_tested": false,
+    "attention_NPU_tested": false,
+    "full_runtime_speedup_tested": false,
+    "llama_cpp_comparison": false
+  }
+}
