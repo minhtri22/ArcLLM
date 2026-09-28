@@ -1,0 +1,105 @@
+{
+  "schema": "arcllm.anl64_crt.p3.formal_adjudication.v0.1",
+  "date": "2026-09-28",
+  "program": "ANL64_CANONICAL_RUNTIME_TRANSFER",
+  "gate": "ANL64_CRT_P3_BLOCKED_RANDOMIZED_STATE_AWARE_REPLICATION",
+  "execution_lock_blob": "6cc9358ffe5be594b72039ccef8f5151e22fed21",
+  "collection_manifest_blob": "7b1df5e1ba23de866709dd8070dcc7c97ece46b0",
+  "machine_adjudication_blob": "c8000b353e46b23b36c22f6be83e93297e14dba4",
+  "independent_postoutcome_review_blob": "3e7829e8a518623732617f911728b98532841cf3",
+  "evidence_integrity": {
+    "pass": true,
+    "cells": 36,
+    "prestates": 36,
+    "measured_attempts": 180,
+    "manifest_sha256_all_match": true,
+    "exact_schedule_match": true,
+    "exact_token_semantics": true,
+    "environment_invariants_all_pass": true,
+    "valid_completed_cell_reruns": 0,
+    "selective_reruns": 0,
+    "adaptive_reordering": false
+  },
+  "machine_independent_agreement": {
+    "machine_verdict": "FAIL_TOTAL_SPLIT_NOT_REPLICATED",
+    "independent_verdict": "FAIL_TOTAL_SPLIT_NOT_REPLICATED",
+    "agree": true
+  },
+  "frozen_gates": {
+    "G0_provenance_completeness": "PASS",
+    "G1_semantic_structural": "PASS",
+    "G2_schedule_balance": "PASS",
+    "G3_total_workload_split_replication": "FAIL",
+    "G4_total_TTFT_guard": "FAIL",
+    "G5_plan_identifiability": "FAIL",
+    "G6_residual_identifiability": "PASS"
+  },
+  "primary_results": {
+    "W-S_total_C_over_A": {
+      "decode": 0.9842616929174741,
+      "e2e": 1.0143751932605558,
+      "ttft": 1.026746097775748,
+      "material": false,
+      "material_classification_agreement_blocks": "6/6",
+      "ttft_safe_blocks": "4/6"
+    },
+    "W-C_total_C_over_A": {
+      "decode": 1.0357356738742474,
+      "e2e": 0.9710404335156644,
+      "ttft": 1.0179602247249298,
+      "material": false,
+      "material_classification_agreement_blocks": "5/6",
+      "ttft_safe_blocks": "4/6"
+    },
+    "W-S_residual_C_over_B": {
+      "decode": 1.0297441473733429,
+      "e2e": 0.9715213610971016,
+      "ttft": 1.006295981742779,
+      "material": false,
+      "classification_agreement_blocks": "5/6"
+    },
+    "W-C_residual_C_over_B": {
+      "decode": 1.0156692237931004,
+      "e2e": 0.9859600814508702,
+      "ttft": 1.0168661013269198,
+      "material": false,
+      "classification_agreement_blocks": "6/6"
+    },
+    "W-S_plan_B_over_A": {
+      "decode": 0.9642276831590727,
+      "e2e": 1.0345162287010314,
+      "ttft": 1.1562965777196124,
+      "plan_no_harm": false,
+      "classification_agreement_blocks": "3/6"
+    },
+    "W-C_plan_B_over_A": {
+      "decode": 1.0031225542656674,
+      "e2e": 0.9939445061490673,
+      "ttft": 1.0590513953438938,
+      "plan_no_harm": true,
+      "classification_agreement_blocks": "3/6"
+    }
+  },
+  "hypothesis_adjudication": {
+    "H_TOTAL_SPLIT": "FAIL — W-S remains non-material, but W-C materiality does not replicate; W-C is non-material in the pooled estimate and in 5/6 blocks.",
+    "H_DECOMPOSITION_IDENTIFIABLE": "FAIL_AS_A_FULL_DECOMPOSITION — B/A plan effect remains unstable at 3/6 agreement in both workloads, although C/B residual effect is stably classified as non-material.",
+    "H_NUISANCE_ONLY": "NOT_ESTABLISHED — stronger balancing does not make B/A stable, and P3 does not license attribution to a specific nuisance mechanism."
+  },
+  "scientific_answer": "Under the stronger block-randomized, position-balanced and within-block carryover-balanced design, the P2 W-S non-material / W-C material total-transfer split does not replicate. W-S total transfer is non-material in 6/6 blocks; W-C total transfer is non-material in 5/6 blocks and non-material in the pooled estimate. The residual 84 Q/K/O substitution effect becomes identifiable as non-material in both workloads. The plan-only B/A effect remains underidentified/unstable. TTFT pooled medians are below the harm threshold, but the preregistered 5/6 block-stability TTFT guard fails in both workloads.",
+  "formal_verdict": "FAIL_TOTAL_SPLIT_NOT_REPLICATED",
+  "program_consequence": {
+    "ANL64_incremental_canonical_transfer_established": false,
+    "residual_84_QKO_material_value_established": false,
+    "plan_only_effect_identified": false,
+    "canonical_integration_authorized": false,
+    "historical_ANL64_positive_evidence_rewritten": false,
+    "P1R_verdict_rewritten": false
+  },
+  "claim_boundary": {
+    "specific_nuisance_mechanism_identified": false,
+    "ANL64_specific_instability_cause_identified": false,
+    "llama_cpp_comparison": false,
+    "NPU": false,
+    "universality": false
+  }
+}

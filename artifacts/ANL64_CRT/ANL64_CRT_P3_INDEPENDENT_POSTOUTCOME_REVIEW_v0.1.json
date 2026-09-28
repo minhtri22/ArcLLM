@@ -1,0 +1,152 @@
+{
+  "schema": "arcllm.anl64_crt.p3.independent_postoutcome_review.v0.1",
+  "evidence_source": "raw P3 manifest + 36 cell artifacts + 36 prestate artifacts only",
+  "machine_adjudication_file_read": false,
+  "integrity": {
+    "manifest_complete": true,
+    "cell_count": 36,
+    "prestate_count": 36,
+    "measured_attempts": 180,
+    "all_manifest_sha256_match": true,
+    "exact_schedule_match": true,
+    "exact_token_semantics": true,
+    "all_environment_invariants_pass": true,
+    "valid_completed_cell_reruns": 0,
+    "selective_reruns": 0,
+    "adaptive_reordering": false
+  },
+  "gates": {
+    "G0_provenance_completeness": true,
+    "G1_semantic_structural": true,
+    "G2_schedule_balance": true,
+    "G3_total_workload_split_replication": false,
+    "G4_total_TTFT_guard": false,
+    "G5_plan_identifiability": false,
+    "G6_residual_identifiability": true
+  },
+  "pooled": {
+    "W-S": {
+      "B_over_A": {
+        "decode": 0.9642276831590727,
+        "e2e": 1.0345162287010314,
+        "ttft": 1.1562965777196124
+      },
+      "C_over_B": {
+        "decode": 1.0297441473733429,
+        "e2e": 0.9715213610971016,
+        "ttft": 1.006295981742779
+      },
+      "C_over_A": {
+        "decode": 0.9842616929174741,
+        "e2e": 1.0143751932605558,
+        "ttft": 1.026746097775748
+      },
+      "plan_no_harm": false,
+      "plan_agree_blocks": 3,
+      "residual_material": false,
+      "residual_agree_blocks": 5,
+      "total_material": false,
+      "total_agree_blocks": 6,
+      "total_ttft_safe": true,
+      "ttft_safe_blocks": 4
+    },
+    "W-C": {
+      "B_over_A": {
+        "decode": 1.0031225542656674,
+        "e2e": 0.9939445061490673,
+        "ttft": 1.0590513953438938
+      },
+      "C_over_B": {
+        "decode": 1.0156692237931004,
+        "e2e": 0.9859600814508702,
+        "ttft": 1.0168661013269198
+      },
+      "C_over_A": {
+        "decode": 1.0357356738742474,
+        "e2e": 0.9710404335156644,
+        "ttft": 1.0179602247249298
+      },
+      "plan_no_harm": true,
+      "plan_agree_blocks": 3,
+      "residual_material": false,
+      "residual_agree_blocks": 6,
+      "total_material": false,
+      "total_agree_blocks": 5,
+      "total_ttft_safe": true,
+      "ttft_safe_blocks": 4
+    }
+  },
+  "block_classifications": {
+    "W-S": {
+      "plan_no_harm": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "residual_material": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "total_material": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "total_ttft_safe": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    "W-C": {
+      "plan_no_harm": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "residual_material": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "total_material": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "total_ttft_safe": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+      ]
+    }
+  },
+  "verdict": "FAIL_TOTAL_SPLIT_NOT_REPLICATED",
+  "evidence_integrity_pass": true,
+  "formal_adjudication_permitted": true
+}

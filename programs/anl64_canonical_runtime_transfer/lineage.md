@@ -120,3 +120,32 @@ The next question is:
 > When arm/workload is block-randomized independently of global execution order and non-invasive state covariates are recorded before every cell, does the W-S non-material / W-C material total-transfer split replicate, and after nuisance-state balancing do B−A and C−B become stably identifiable?
 
 Status: **OPEN — DESIGN FROZEN, NO SCIENTIFIC RESULT YET**.
+
+
+## 2026-09-28 — P3 blocked-randomized state-aware replication
+
+P3 executed one fresh preregistered 6-block × 6-condition replication: 36 cells and 180 measured attempts. The design balanced each arm/workload condition across ordinal positions and balanced all 30 ordered first-order condition pairs within blocks. Exact token semantics and the frozen structural guards were preserved.
+
+The primary total-transfer split from P2 did not replicate.
+
+For total C−A transfer:
+- W-S remained non-material: pooled decode ratio 0.9843, E2E ratio 1.0144; non-material in 6/6 blocks.
+- W-C was also non-material: pooled decode ratio 1.0357, E2E ratio 0.9710; non-material in 5/6 blocks.
+
+Therefore the prior P2 pattern **W-S non-material / W-C material** failed confirmation.
+
+The residual 84-node C−B effect became stably classifiable as non-material:
+- W-S: pooled decode 1.0297, E2E 0.9715; non-material in 5/6 blocks.
+- W-C: pooled decode 1.0157, E2E 0.9860; non-material in 6/6 blocks.
+
+The plan-only B−A effect remained underidentified:
+- W-S pooled classification was plan-harm, but only 3/6 blocks agreed;
+- W-C pooled classification was plan-no-harm, but only 3/6 blocks agreed.
+
+The TTFT pooled C−A medians were below the material-harm threshold in both workloads, but the preregistered block-stability requirement failed because only 4/6 blocks were TTFT-safe in each workload.
+
+Machine adjudication and an independent post-outcome recomputation from the raw P3 evidence agreed.
+
+Result: **FAIL_TOTAL_SPLIT_NOT_REPLICATED**.
+
+Scientific consequence: incremental ANL64 transfer into the current canonical runtime is not established. Material value of the residual 84 Q/K/O substitutions is not established and is stably non-material under P3. The plan-only effect remains unresolved. No canonical ANL64 integration is authorized. Historical ANL64 evidence and the earlier P1R result are preserved rather than rewritten.
