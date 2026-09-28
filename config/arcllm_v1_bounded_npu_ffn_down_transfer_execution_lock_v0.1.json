@@ -1,0 +1,34 @@
+{
+  "schema": "arcllm.v1.bounded_npu_ffn_down_transfer.execution_lock.v0.1",
+  "date": "2026-09-28",
+  "study": "ARCLLM_V1_BOUNDED_NPU_FFN_DOWN_TRANSFER_STUDY",
+  "status": "AUTHORIZED_ONE_BOUNDED_REAL_WEIGHT_EXECUTION",
+  "prereg_blob": "70afe3f44089fa91e3941fd2e220827cf3d72ec7",
+  "runner_blob": "05e07d943736f54eb2f29313622ef425b8f346cb",
+  "static_qa_blob": "1e47288b0d354033d2ca1d77b5b44de3b3951088",
+  "canonical_parent_commit": "0eed4d50dc854fac8fc0bac0b7eaf834c8e62875",
+  "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+  "provider": {
+    "openvino_version": "2024.2.0",
+    "device": "NPU",
+    "isolated_probe_environment": "D:\\WORK\\RESEARCH\\_npu_probe_py"
+  },
+  "authorized_execution_count": 1,
+  "output_must_not_exist_before_execution": true,
+  "no_selective_layer_rerun": true,
+  "no_threshold_change": true,
+  "no_layer_change": true,
+  "no_activation_change": true,
+  "no_repeat_count_change": true,
+  "no_full_model_run": true,
+  "no_canonical_runtime_change": true,
+  "stop_if": [
+    "model SHA mismatch",
+    "tensor census mismatch",
+    "selected tensor type/shape mismatch",
+    "NPU provider unavailable",
+    "execution device not NPU",
+    "output path already exists"
+  ],
+  "adjudication": "exactly frozen precedence from preregistration"
+}
