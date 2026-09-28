@@ -7,7 +7,7 @@
     "path": "config/arcllm_v1_full_runtime_active_v0.1.json",
     "role_after_supersession": "HISTORICAL_FULL_RUNTIME_INTEGRATION_BINDING_AND_REGRESSION_ORACLE"
   },
-  "branch": "research/arcllm-v1",
+  "branch": "main",
   "public_api": {
     "path": "include/arcllm/v1/runtime.h",
     "blob": "d7821270ed253e1d1d96e3916b22b3daee50f5bc",
