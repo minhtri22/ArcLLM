@@ -1663,3 +1663,22 @@ No ANL64_CRT runtime, plan, Q/K/O substitution, runner, policy or experiment har
 Historical ANL64 P5/P6 positive evidence remains valid for its historical safe-reference contrast and is not rewritten.
 
 The independent plan/control-plane question is deferred. It may reopen only if a future architecture has a separate reason to value an immutable prebound control plane; it is not an active ArcLLM v1 task and does not block the NPU capability/transfer/Amdahl study or the later matched external llama.cpp benchmark.
+
+
+## NPU capability / transfer / Amdahl gate — 2026-09-28
+
+The clean canonical ArcLLM-v1 runtime was evaluated for whether the host NPU justifies a new bounded transfer study before any NPU backend implementation.
+
+The host NPU is operational, not merely enumerated by Windows. Direct Level Zero VPU initialization returns one `Intel(R) AI Boost` device, and the driver exposes the NPU graph extension family. An isolated OpenVINO 2024.2 provider probe enumerates `NPU` and executes exact ArcLLM operator shapes on that device.
+
+Current-canonical Amdahl headroom was reconstructed without a fresh full-model run. The exact-target post-I002 M1 family shares were updated analytically using the independently measured Q4-down route-B effect for the 14 Q4_K FFN-down nodes now active in Q4V4. Under that projection, the ideal zero-cost ceilings remain above the frozen 1.10× threshold for all four candidate families. FFN-down remains approximately 23.5% of current decode work in both workloads, corresponding to an ideal ceiling of about 1.31×.
+
+Gate/Up does not retain a useful transfer budget. An exact-shape fused NPU Gate+Up+SiLU provider graph measures about 5.3705 ms/layer, or about 150.37 ms across 28 layers, which is effectively equal to the post-I002 W-S GPU family budget and only modestly below W-C.
+
+FFN-down remains materially different. An exact-shape FP16 NPU FFN-down graph measures 2.8759 ms/layer when directly compiled and 3.3549 ms/layer after compiled-graph export/import. Using the conservative imported-graph value across 28 layers gives about 93.94 ms/token. The projected current GPU FFN-down family budget is about 160.60 ms/token on W-S and 118.14 ms/token on W-C, leaving approximately +66.66 ms/token and +24.20 ms/token respectively.
+
+The viable representation path is explicitly not direct GGUF Q4_K/Q6_K execution. The admissible path is a model-load-only conversion to persistent FP16 NPU graph constants, with no per-token full-weight repack. For all 28 FFN-down layers this representation is about 3.54 GiB. Provider graph export/import is operational, but setup cost remains significant: measured import is about 450.4 ms per layer, implying a naive serial 28-layer import of about 12.61 s. With the conservative warm latency, setup amortization occurs only after roughly 189 decode tokens on W-S and 521 on W-C. Therefore short cold requests are not established as beneficial.
+
+Result: **PASS_OPEN_BOUNDED_NPU_TRANSFER_STUDY**.
+
+The PASS is narrow. It authorizes only a bounded FFN-down transfer study using exact target-model weights. It does not authorize a canonical NPU backend, full-model offload, Gate/Up offload, direct GGUF-quant NPU execution, or any claim that short cold requests are faster. The next study must first freeze real-weight numerical equivalence, representation conversion, transfer boundaries, cold setup cost and warm paired GPU/NPU timing before any execution.

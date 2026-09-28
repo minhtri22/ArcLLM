@@ -1,0 +1,50 @@
+{
+  "schema": "arcllm.v1.npu_capability_transfer_amdahl.formal_adjudication.v0.1",
+  "date": "2026-09-28",
+  "gate": "ARCLLM_V1_NPU_CAPABILITY_TRANSFER_AMDAHL_GATE",
+  "frozen_prelock_blob": "a86cfd23d84f578774715c836621dda7be185feb",
+  "provider_probe_artifact": "artifacts/ARCLLM_V1/ARCLLM_V1_NPU_PROVIDER_CAPABILITY_PROBE_v0.1.json",
+  "transfer_amdahl_artifact": "artifacts/ARCLLM_V1/ARCLLM_V1_NPU_TRANSFER_AMDAHL_ANALYSIS_v0.1.json",
+  "fresh_full_model_run": false,
+  "NPU_backend_implemented": false,
+  "gates": {
+    "G0_canonical_provenance": "PASS",
+    "G1_hardware_presence": "PASS",
+    "G2_callable_provider": "PASS",
+    "G3_representation_surface": "PASS",
+    "G4_amdahl_headroom": "PASS",
+    "G5_transfer_feasibility": "PASS_WITH_LIFETIME_CONSTRAINT"
+  },
+  "candidate_disposition": {
+    "ffn_gate_up": "DO_NOT_OPEN — exact-shape fused NPU Gate+Up+SiLU is approximately neutral on W-S and only ~1.038x family-level on W-C before any full-system synchronization effects.",
+    "ffn_down": "OPEN_BOUNDED_STUDY — conservative imported-graph provider timing leaves +66.66 ms/token W-S and +24.20 ms/token W-C family budget; model-load-only FP16 representation and compiled-graph import are both feasible.",
+    "lm_head": "NOT_NEEDED_FOR_CURRENT_GATE — Amdahl headroom exists but provider transfer budget was not required once FFN-down passed all gate dimensions.",
+    "attn_qkv": "NOT_NEEDED_FOR_CURRENT_GATE — Amdahl headroom exists but provider transfer budget was not required once FFN-down passed all gate dimensions."
+  },
+  "formal_result": "PASS_OPEN_BOUNDED_NPU_TRANSFER_STUDY",
+  "authorization": {
+    "bounded_FFN_down_NPU_transfer_study": true,
+    "canonical_NPU_backend": false,
+    "full_model_NPU_offload": false,
+    "production_runtime_change": false,
+    "llama_cpp_benchmark": false
+  },
+  "required_successor_constraints": [
+    "FFN-down only; do not broaden to Gate/Up, LM-head or attention in the same study.",
+    "Use exact target real Q4_K and Q6_K FFN-down weights; no random-weight performance claim.",
+    "Representation conversion must occur only at model load or offline cache creation; no per-token full-weight repack.",
+    "Measure numerical equivalence before performance.",
+    "Separate cold graph-import/setup cost from warm per-token transfer/compute cost.",
+    "Measure both W-S and W-C or equivalent frozen short/long state contexts.",
+    "Do not claim benefit for short cold requests unless setup amortization is explicitly passed.",
+    "No canonical integration until a later independent carry-through gate."
+  ],
+  "scientific_answer": "Yes. The host NPU and callable graph provider are operational, the exact FFN-down shape can be represented through a model-load-only FP16 compiled graph, current-canonical Amdahl headroom remains above 1.10x, and measured provider-bound FFN-down latency leaves a substantial positive warm transfer budget. The opportunity is conditional on long-lived/cached session semantics because graph import/setup does not amortize for short cold requests.",
+  "claim_boundary": {
+    "NPU_production_value_established": false,
+    "full_model_speedup_established": false,
+    "short_request_advantage_established": false,
+    "direct_GGUF_quant_NPU_support_established": false,
+    "canonical_integration_authorized": false
+  }
+}

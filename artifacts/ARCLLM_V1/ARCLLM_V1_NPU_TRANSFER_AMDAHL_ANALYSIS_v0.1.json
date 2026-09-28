@@ -1,0 +1,121 @@
+{
+  "schema": "arcllm.v1.npu.transfer_amdahl_analysis.v0.1",
+  "date": "2026-09-28",
+  "status": "PASS_FFN_DOWN_RETAINS_BOUNDED_NPU_TRANSFER_BUDGET",
+  "inputs": {
+    "M1_post_I002_final_adjudication_blob": "4f27b0b48ae2d051e8125240a0b84d3dddbd550a",
+    "M1_evidence": "exact-target post-I002 Vulkan tick shares plus diagnostic wall-attributed-ms proxy",
+    "Q4_down_primary_timing_blob": "ad99e4b0a9a6ab9c67f7ae762ac5bb6e89b23d7c",
+    "Q4V4_runtime_route": "B represented execution image for the 14 Q4_K ffn_down layers",
+    "provider_probe_artifact": "artifacts/ARCLLM_V1/ARCLLM_V1_NPU_PROVIDER_CAPABILITY_PROBE_v0.1.json"
+  },
+  "canonical_projection_method": {
+    "reason": "M1 was measured after I002 but before canonical Q4V4 ffn_down route-B integration. Current-family Amdahl shares are therefore projected by applying the measured workload-specific Q4-down B/0 component ratio only to the M1 Q4_K ffn_down share; all other M1 family shares are left unchanged and the total is renormalized.",
+    "formula_total": "D = 1 - f_q4_down + f_q4_down * r_B_over_0",
+    "formula_unaffected_family": "f_current = f_M1 / D",
+    "formula_ffn_down": "f_current = (f_q6_down + f_q4_down * r_B_over_0) / D",
+    "performance_claim_boundary": "This is an analytical current-canonical projection from exact-target evidence, not a fresh full-model timing measurement."
+  },
+  "projected_current_canonical_amdahl": {
+    "W-S": {
+      "renormalization_D": 0.8856601527863736,
+      "families": {
+        "ffn_down": {"share":0.23575081929368238,"ideal_zero_cost_speedup":1.3084737612355724},
+        "ffn_gate_up": {"share":0.22532052197154298,"ideal_zero_cost_speedup":1.2908564488438223},
+        "lm_head": {"share":0.3656453631007292,"ideal_zero_cost_speedup":1.5764052815756278},
+        "attn_qkv": {"share":0.10809642391999638,"ideal_zero_cost_speedup":1.121197433017468}
+      }
+    },
+    "W-C": {
+      "renormalization_D": 0.8478336625625256,
+      "families": {
+        "ffn_down": {"share":0.23493269371758438,"ideal_zero_cost_speedup":1.307074543361629},
+        "ffn_gate_up": {"share":0.3079011333200919,"ideal_zero_cost_speedup":1.4448802738214777},
+        "lm_head": {"share":0.21114754559898885,"ideal_zero_cost_speedup":1.2676641803178732},
+        "attn_qkv": {"share":0.14305639014255178,"ideal_zero_cost_speedup":1.1669379274166582}
+      }
+    },
+    "threshold": 1.10,
+    "G4_result": "PASS_ALL_FOUR_CANDIDATE_FAMILIES_CLEAR_IDEAL_AMDAHL_CEILING"
+  },
+  "representation_analysis": {
+    "direct_GGUF_quant_NPU_support_assumed": false,
+    "allowed_path": "MODEL_LOAD_ONLY_DEQUANTIZE_Q4_K_OR_Q6_K_TO_FP16_CONSTANTS_THEN_COMPILE_OR_IMPORT_PERSISTENT_NPU_GRAPH",
+    "per_token_full_weight_repack": false,
+    "ffn_down": {
+      "layers_total": 28,
+      "Q4_K_layers": 14,
+      "Q6_K_layers": 14,
+      "Q4_K_source_bytes_total": 534675456,
+      "Q6_K_source_bytes_total": 779735040,
+      "source_quant_bytes_total": 1314410496,
+      "FP16_bytes_per_layer": 135790592,
+      "FP16_bytes_total": 3802136576,
+      "FP16_total_GiB": 3.541015625,
+      "increment_vs_quant_source_bytes": 2487726080,
+      "activation_boundary_bytes_per_layer_per_token": 45056,
+      "activation_boundary_bytes_all_28_layers_per_token": 1261568,
+      "exact_shape_provider_compile_execute": "PASS",
+      "compiled_graph_export_import": "PASS",
+      "G3_result": "PASS_VALID_MODEL_LOAD_ONLY_REPRESENTATION_SURFACE"
+    },
+    "gate_up": {
+      "FP16_bytes_per_layer_gate_plus_up": 271581184,
+      "FP16_bytes_all_28_layers": 7604273152,
+      "activation_boundary_bytes_per_layer_per_token_with_swiglu_fused": 45056,
+      "exact_shape_provider_compile_execute": "PASS",
+      "G3_result": "PASS_VALID_MODEL_LOAD_ONLY_REPRESENTATION_SURFACE"
+    }
+  },
+  "transfer_budget": {
+    "gate_up": {
+      "GPU_post_I002_wall_proxy_ms_per_token": {"W-S":150.3238156921603,"W-C":156.02447628027465},
+      "NPU_gate_up_swiglu_median_ms_per_layer": 5.370500031858683,
+      "NPU_28_layer_ms_per_token": 150.3740008920431,
+      "family_speedup": {"W-S":0.9996662641175662,"W-C":1.0375761458411161},
+      "decision": "FAIL_MATERIAL_TRANSFER_BUDGET_FOR_GATE_UP"
+    },
+    "ffn_down": {
+      "GPU_current_projection_ms_per_token": {
+        "W-S":160.59743019334533,
+        "W-C":118.13835909692924,
+        "derivation": "M1 Q6 wall proxy + M1 Q4 wall proxy * exact Q4V4 B/0 ratio"
+      },
+      "NPU_direct_compiled_median_ms_per_layer": 2.8759000124409795,
+      "NPU_direct_compiled_28_layer_ms_per_token": 80.52520034834743,
+      "NPU_imported_graph_conservative_median_ms_per_layer": 3.354899992700666,
+      "NPU_imported_graph_28_layer_ms_per_token": 93.93719979561865,
+      "conservative_remaining_family_budget_ms_per_token": {
+        "W-S":66.66023039772668,
+        "W-C":24.201159301310582
+      },
+      "conservative_remaining_family_budget_fraction": {
+        "W-S":0.4150765695159229,
+        "W-C":0.20485437148703076
+      },
+      "compiled_graph_import_setup": {
+        "measured_import_ms_per_layer":450.3992000245489,
+        "naive_serial_28_layer_import_ms":12611.17760068737,
+        "break_even_decode_tokens_using_conservative_imported_graph_latency": {
+          "W-S":189.18592878307018,
+          "W-C":521.0980781405966
+        },
+        "interpretation": "Cold short requests are not justified by current evidence. The bounded opportunity is warm/long-lived or cached-session execution where model-load-only graph import can amortize."
+      },
+      "G5_result": "PASS_WITH_LIFETIME_CONSTRAINT_WARM_LONG_LIVED_FFN_DOWN_BUDGET_REMAINS_POSITIVE"
+    }
+  },
+  "gate_level_results": {
+    "G3_representation_surface": "PASS_FFN_DOWN_AND_GATE_UP",
+    "G4_amdahl_headroom": "PASS",
+    "G5_transfer_feasibility": "PASS_FFN_DOWN_ONLY_WITH_WARM_OR_LONG_LIVED_SESSION_CONSTRAINT"
+  },
+  "scientific_interpretation": "NPU is not globally attractive for every current hotspot. Gate/Up is effectively neutral after provider boundary cost. FFN-down remains the only currently measured candidate with a substantial positive per-token transfer budget after current Q4V4, but its one-time graph import cost makes short cold requests unattractive. This is sufficient to justify a bounded FFN-down transfer study, not production integration.",
+  "claim_boundary": {
+    "full_model_speedup_measured": false,
+    "real_GGUF_weight_NPU_semantics_validated": false,
+    "cold_32_token_request_advantage": false,
+    "persistent_session_implemented": false,
+    "canonical_NPU_integration_authorized": false
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "arcllm.v1.npu_bounded_transfer_study.prelock.v0.1",
+  "date": "2026-09-28",
+  "study": "ARCLLM_V1_BOUNDED_NPU_FFN_DOWN_TRANSFER_STUDY",
+  "status": "OPEN_DESIGN_REQUIRED_EXECUTION_NOT_AUTHORIZED",
+  "parent_gate_result": "PASS_OPEN_BOUNDED_NPU_TRANSFER_STUDY",
+  "scientific_question": "Using exact target-model FFN-down weights, can a model-load-only Q4_K/Q6_K-to-NPU representation preserve numerical semantics and retain a positive warm transfer budget once real GPU-NPU activation movement and compiled-graph import lifecycle are measured, without relying on per-token weight repacking?",
+  "candidate": {
+    "family": "ffn_down",
+    "layers": 28,
+    "source_quant_mix": "14 Q4_K + 14 Q6_K",
+    "shape": "[1,18944] x [18944,3584] -> [1,3584]",
+    "provider_representation": "FP16 constant-weight compiled NPU graph",
+    "other_families": "UNCHANGED_GPU_CANONICAL"
+  },
+  "must_freeze_before_execution": [
+    "real-layer sample set covering both Q4_K and Q6_K",
+    "exact dequantization/reference path",
+    "numerical thresholds",
+    "cold import/setup metric",
+    "warm provider-bound latency metric",
+    "activation transfer boundary",
+    "paired GPU reference metric",
+    "short and long amortization horizons",
+    "stop rules",
+    "execution order and repetitions"
+  ],
+  "execution_authorized": false,
+  "canonical_runtime_modification_authorized": false,
+  "next": "BOUNDED_NPU_FFN_DOWN_TRANSFER_STUDY_PREREGISTRATION_AND_ZERO_SCIENCE_STATIC_QA"
+}
