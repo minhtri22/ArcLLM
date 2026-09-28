@@ -1,6 +1,35 @@
 # ArcLLM
 
-ArcLLM is an experimental native Vulkan Compute runtime for GGUF LLM inference on Windows, currently validated on Qwen2.5-Coder-1.5B with Intel Arc 140V UMA.
+ArcLLM is a native C++17/Vulkan Compute runtime for GGUF LLM inference on Windows. The current canonical product line is the default `main` branch and is validated on the exact frozen Qwen2.5-Coder 7B model layer (SHA256 `60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463`) on Intel Arc 140V UMA.
+
+## Current canonical product state
+
+Canonical runtime binding: `config/arcllm_v1_runtime_active_v0.2.json`.
+
+Active runtime surface:
+- public C++ API: `arcllm::v1::runtime::generate(const RunRequest&)`;
+- CLI: `src/arcllm_v1_runtime_cli.cpp`;
+- I002 Gate/Up fast path inside the validated evidence domain;
+- generic policy/binding v4;
+- `Q4VulkanBackendV4` FFN-down;
+- safe fallback route outside the validated evidence domain;
+- caller-provided token IDs and `max_new_tokens`;
+- greedy generation.
+
+Current bounded scope:
+- max prefill tokens: 256;
+- max context tokens: 4096;
+- evidence profiles: `PROFILE_0`, `PROFILE_1`;
+- request-scoped runtime lifetime;
+- no persistent model session;
+- no canonical NPU backend;
+- no current external llama.cpp performance-advantage claim.
+
+Repository/product governance is defined in `docs/ARCLLM_PRODUCT_RESEARCH_GOVERNANCE.md`. The public book is maintained separately at https://github.com/minhtri22/Inside-ArcLLM.
+
+## Historical research record
+
+The sections below preserve earlier ArcLLM research chronology and evidence. They are retained as history, not as the current product status.
 
 ## Research Governance
 
