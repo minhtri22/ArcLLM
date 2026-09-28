@@ -13,6 +13,8 @@ Validated runtime commit: `3363b5a2f146f9840cae3a1700151f1f5417871b`
 - [x] Historical pre-v1 `main` is preserved by tag `archive/arcllm-pre-v1` -> `3352dbc841a06f1cab8e70f9d8353d683c411ccc`.
 - [x] `research/arcllm-v1` was fast-forwarded into `main` with no history rewrite.
 - [x] `research/arcllm-v1` was deleted after verifying it was identical to `main`.
+- [x] All remaining CLOSED legacy `research/*` refs were archived to immutable `archive/*-closed` tags and then deleted.
+- [x] Current `research/*` branch count = 0; future research branches are created only for an active single-question study.
 - [x] Obsolete `ebook/inside-arcllm-from-zero` was deleted after confirming the separate public `minhtri22/Inside-ArcLLM` repository supersedes it.
 - [x] M3-C terminal scientific result was converged into `programs/arcllm_v1/lineage.md` as `STOP_M3C_UNRESOLVED_COUNTER_ADEQUACY`.
 - [x] Q4-down split-K side branch closure was not misrepresented as science: it ended before outcome-bearing correctness/performance science and therefore adds no PASS/FAIL claim to scientific lineage.
@@ -159,6 +161,7 @@ A fresh Windows checkout reports 10 historical P7 PowerShell files as modified o
 
 - [x] Repository convergence: PASS.
 - [x] Canonical product branch migration: PASS.
+- [x] Closed research-branch archival cleanup: PASS.
 - [x] Active runtime binding: PASS.
 - [x] Build: PASS.
 - [x] Shader compilation: PASS.
