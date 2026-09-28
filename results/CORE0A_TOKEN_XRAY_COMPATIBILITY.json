@@ -1,0 +1,145 @@
+{
+  "schema": "arcllm.core0a.token_xray_compatibility.v0.1",
+  "classification": "ZERO_SCIENCE_COMPATIBILITY_PREFLIGHT",
+  "verdict": "STOP_BEFORE_INSTRUMENTED_RUN_TOKEN_XRAY_ADAPTER_DRIFT",
+  "science_measured_inferences": 0,
+  "performance_measurement_authorized": false,
+  "mechanism_selection_authorized": false,
+  "pins": {
+    "arcllm_canonical_parent": "7a5672112dc22de15f0e9bb6445508fbb3099b15",
+    "arcllm_audit_checkout_head": "bacd1996441874a430530a023d9f4745e116c659",
+    "arcllm_parent_is_ancestor": true,
+    "arcllm_changes_since_parent": [
+      "docs/research/arcllm-v1/CORE0A_CURRENT_MAIN_TOKEN_XRAY_COMPATIBILITY_SPEC.md",
+      "tools/audit_core0a_token_xray_compatibility.py"
+    ],
+    "arcllm_unexpected_runtime_product_changes": [],
+    "token_xray": "17e786285d202f79e6856584961f1953fd0bc8af",
+    "token_xray_audit_checkout_head": "17e786285d202f79e6856584961f1953fd0bc8af",
+    "llama_cpp": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463"
+  },
+  "runtime_source_presence": {
+    "pass": true,
+    "shaders": {
+      "b1_2_exec148_gpu_materialize.comp.spv": true,
+      "p7_add.spv": true,
+      "p7_attention_kv_online.spv": true,
+      "p7_attention_prefill_online.spv": true,
+      "p7_kv_store.spv": true,
+      "p7_q4k_gemm_2d.spv": true,
+      "p7_q6k_gemm_2d.spv": true,
+      "p7_rmsnorm_seq.spv": true,
+      "p7_rope_seq.spv": true,
+      "p7_swiglu.spv": true,
+      "p7c_ffn_q4k_tiled.spv": true,
+      "p7c_ffn_q6k_tiled.spv": true,
+      "p7g_ffn_q4k_tiled16.spv": true,
+      "p7g_ffn_q6k_tiled16.spv": true,
+      "p7l_ffn_q4k_gateup_fused.spv": true,
+      "p8c_embedding_q4k_segmented_probe.spv": true,
+      "p8q1_lmhead_q6k_segmented_chunk.spv": true,
+      "q4_down_exec148_serial.spv": true,
+      "sa1_q4k_subgroup_splitk.spv": true
+    }
+  },
+  "token_xray_baseline_qa": {
+    "adapter_init_raw": "\"\"\"Runtime-specific semantic adapters.\"\"\"\n",
+    "compileall": {
+      "command": [
+        "py",
+        "-3",
+        "-m",
+        "compileall",
+        "-q",
+        "src"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "pytest": {
+      "command": [
+        "py",
+        "-3",
+        "-m",
+        "pytest",
+        "-q"
+      ],
+      "returncode": 0,
+      "stdout": "....................................s                                    [100%]\n36 passed, 1 skipped in 0.31s\n",
+      "stderr": ""
+    }
+  },
+  "decode": {
+    "expected_dispatches": 469,
+    "expected_semantic_nodes": 451,
+    "semantic_suffix_mapping_pass": true,
+    "missing_semantic_suffixes": [],
+    "geometry_mapped_dispatches": 455,
+    "geometry_unmapped_dispatches": 14,
+    "unmapped_shader_dispatch_counts": {
+      "q4_down_exec148_serial.spv": 14
+    }
+  },
+  "prefill": {
+    "expected_dispatches": 441,
+    "geometry_mapped_dispatches": 245,
+    "geometry_unmapped_dispatches": 196,
+    "unmapped_shader_dispatch_counts": {
+      "p7c_ffn_q4k_tiled.spv": 98,
+      "p7c_ffn_q6k_tiled.spv": 14,
+      "p7_attention_prefill_online.spv": 28,
+      "p7l_ffn_q4k_gateup_fused.spv": 28,
+      "p7g_ffn_q4k_tiled16.spv": 14,
+      "p7g_ffn_q6k_tiled16.spv": 14
+    },
+    "semantic_issues": [
+      "adapter_semantic_ids_are_decode_prefixed",
+      "causal_gqa_runtime_name_not_supported",
+      "ffn_gate_up_fused_runtime_name_not_supported",
+      "adapter_api_has_no_multi_semantic_fused_mapping"
+    ]
+  },
+  "runtime_lifecycle": {
+    "p1_materialize_dispatches_per_acquire": 14,
+    "p1_shader": "b1_2_exec148_gpu_materialize.comp.spv",
+    "python_shader_mapping": false,
+    "cpp_shader_mapping": false,
+    "q4v4_runtime_name_shape": "Q4V4.P1.L<layer>",
+    "q4v4_runtime_name_supported_by_semantic_adapter": false,
+    "explicit_lifecycle_event_surface_detected": false
+  },
+  "observer_contract": {
+    "measurement_mode": false,
+    "timing_authority": false,
+    "instrumentation_overhead": false
+  },
+  "documentation": {
+    "readme_references_arcllm_revalidation_handoff": true,
+    "referenced_handoff_exists": true
+  },
+  "findings": [
+    {
+      "id": "DECODE-SHADER-DRIFT",
+      "severity": "BLOCKER",
+      "detail": "14/469 current decode dispatches use shader(s) absent from both pinned adapters: {'q4_down_exec148_serial.spv': 14}"
+    },
+    {
+      "id": "PREFILL-COVERAGE",
+      "severity": "BLOCKER",
+      "detail": "Current prefill is not representable without loss/mislabeling; geometry unmapped=196/441, shaders={'p7c_ffn_q4k_tiled.spv': 98, 'p7c_ffn_q6k_tiled.spv': 14, 'p7_attention_prefill_online.spv': 28, 'p7l_ffn_q4k_gateup_fused.spv': 28, 'p7g_ffn_q4k_tiled16.spv': 14, 'p7g_ffn_q6k_tiled16.spv': 14}, semantic_issues=['adapter_semantic_ids_are_decode_prefixed', 'causal_gqa_runtime_name_not_supported', 'ffn_gate_up_fused_runtime_name_not_supported', 'adapter_api_has_no_multi_semantic_fused_mapping']"
+    },
+    {
+      "id": "RUNTIME-LIFECYCLE",
+      "severity": "BLOCKER",
+      "detail": "Q4V4 acquire/materialize/validate/resident/reuse/evict lifecycle is not represented as a separate evidence surface; P1 GPU materialization shader is not mapped."
+    },
+    {
+      "id": "OBSERVER-EFFECT",
+      "severity": "REQUIRED_BEFORE_CORE0C",
+      "detail": "Token trace contract lacks explicit observer/timing-authority fields: {'measurement_mode': False, 'timing_authority': False, 'instrumentation_overhead': False}"
+    }
+  ],
+  "open_finding_count": 4
+}
