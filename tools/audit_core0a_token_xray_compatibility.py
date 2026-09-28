@@ -139,8 +139,12 @@ def main() -> None:
     # Current adapter is explicitly decode-ID producing. Prefill has two additional mapping
     # requirements: causal_gqa and a fused gate+up dispatch mapping to two semantic nodes.
     prefill_semantic_issues = []
-    if '"decode.' in tx_py:
-        prefill_semantic_issues.append("adapter_semantic_ids_are_decode_prefixed")
+    phase_aware_api = (
+        "semantic_node_ids" in tx_py
+        and ("mode" in tx_py or "phase" in tx_py)
+    )
+    if not phase_aware_api:
+        prefill_semantic_issues.append("adapter_api_not_phase_aware")
     if "causal_gqa" not in suffixes:
         prefill_semantic_issues.append("causal_gqa_runtime_name_not_supported")
     if "ffn_gate_up_fused" not in suffixes:
