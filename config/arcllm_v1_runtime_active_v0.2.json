@@ -1,0 +1,85 @@
+{
+  "schema": "arcllm.v1.runtime.active_binding.v0.2",
+  "date": "2026-09-28",
+  "status": "ACTIVE_CANONICAL_RUNTIME_EXTRACTED",
+  "classification": "ARCHITECTURE_CONVERGENCE_ZERO_SCIENCE",
+  "supersedes": {
+    "path": "config/arcllm_v1_full_runtime_active_v0.1.json",
+    "role_after_supersession": "HISTORICAL_FULL_RUNTIME_INTEGRATION_BINDING_AND_REGRESSION_ORACLE"
+  },
+  "branch": "research/arcllm-v1",
+  "public_api": {
+    "path": "include/arcllm/v1/runtime.h",
+    "blob": "d7821270ed253e1d1d96e3916b22b3daee50f5bc",
+    "entrypoint": "arcllm::v1::runtime::generate(const RunRequest&)",
+    "request_fields": [
+      "model_path",
+      "shader_dir",
+      "sidecar_path",
+      "input_token_ids",
+      "max_new_tokens",
+      "evidence_profile",
+      "request_within_validated_domain"
+    ]
+  },
+  "active_runtime": {
+    "path": "src/arcllm_v1_runtime.cpp",
+    "blob": "0c613f6f740931a88ddd3ee5b904533a58001a06"
+  },
+  "cli": {
+    "path": "src/arcllm_v1_runtime_cli.cpp",
+    "blob": "5526658f6469301f0e05ffa5a46f51bc9b511816"
+  },
+  "runtime_support": {
+    "vulkan_support": {
+      "path": "src/arcllm_v1_vulkan_runtime_support.h",
+      "blob": "1b3a2a935134a3afa680ee4880377a20bc8a466f"
+    },
+    "q4_backend": {
+      "path": "src/arcllm_v1_q4_vulkan_backend_v4_runtime.h",
+      "blob": "3955d1ed27c0c48f5bbb8e4564128bf34025d1a5"
+    },
+    "generic_policy": "generic_policy_engine_v4",
+    "generic_binding": "generic_backend_binding_v4"
+  },
+  "validated_mechanisms": {
+    "decode_gate_up": "I002 subgroup split-K when request_within_validated_domain=true",
+    "decode_q4_ffn_down": "Q4VulkanBackendV4 through generic v4 policy/binding",
+    "outside_validated_domain": "I002 Gate/Up fast path disabled; safe Q4 fallback route used without represented-B acquisition unless policy evidence permits it"
+  },
+  "historical_regression_oracles": {
+    "full_integration_harness": {
+      "path": "src/arcllm_v1_full_runtime_q4_v4.cpp",
+      "blob": "d4882186defb8c64d7d52c200c7e313d03d0303f"
+    },
+    "backend_validation_harness": {
+      "path": "src/arcllm_v1_q4_vulkan_backend_v4.cpp",
+      "blob": "54e0103dc5e5b94ba1cbaaf15fb831e193df7bc2"
+    }
+  },
+  "runtime_boundary": {
+    "contains_W_S_or_W_C_fixture_logic": false,
+    "contains_frozen_expected_token_hashes": false,
+    "contains_performance_adjudication": false,
+    "contains_experiment_PASS_FAIL_logic": false,
+    "includes_historical_P8C_source": false,
+    "includes_backend_QA_main": false,
+    "accepts_caller_token_ids": true,
+    "accepts_caller_max_new_tokens": true,
+    "greedy_generation_only": true,
+    "request_scoped_runtime_lifetime": true,
+    "persistent_model_session": false
+  },
+  "current_technical_scope": {
+    "exact_model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "max_prefill_tokens": 256,
+    "max_context_tokens": 4096,
+    "supported_evidence_profiles": ["PROFILE_0","PROFILE_1"],
+    "profile_is_explicit_evidence_metadata_not_a_workload_name": true
+  },
+  "performance": {
+    "authorized_by_extraction": false,
+    "adjudicated_by_extraction": false,
+    "external_llama_cpp_claim": false
+  }
+}

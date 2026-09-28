@@ -1,0 +1,81 @@
+{
+  "schema": "arcllm.v1.canonical_runtime_extraction.qa.v0.1",
+  "date": "2026-09-28",
+  "classification": "ARCHITECTURE_CONVERGENCE_QA_NOT_NEW_SCIENCE",
+  "status": "PASS_CANONICAL_RUNTIME_EXTRACTION",
+  "source_blobs": {
+    "api": "d7821270ed253e1d1d96e3916b22b3daee50f5bc",
+    "runtime": "0c613f6f740931a88ddd3ee5b904533a58001a06",
+    "cli": "5526658f6469301f0e05ffa5a46f51bc9b511816",
+    "vulkan_support": "1b3a2a935134a3afa680ee4880377a20bc8a466f",
+    "q4_runtime_backend": "3955d1ed27c0c48f5bbb8e4564128bf34025d1a5",
+    "static_test": "c8b858f9fb3a0985bbe69984062a11e33ec7df89",
+    "build_tool": "c7c5e115267e1d14143022274470d4fff782ac56",
+    "regression_tool": "3ddfb02bedf78ae26ab4fdcbf988fa794f5edc04"
+  },
+  "static_qa": {
+    "status": "PASS",
+    "runtime_fixture_names_absent": true,
+    "frozen_expected_hashes_absent_from_runtime": true,
+    "performance_adjudication_absent": true,
+    "historical_p8c_source_not_in_active_compilation_path": true,
+    "backend_validation_main_not_in_active_compilation_path": true,
+    "historical_oracles_preserved": true
+  },
+  "build": {
+    "status": "PASS_STATIC_SHADER_NATIVE_BUILD",
+    "exe_sha256": "4551BAA4500C0FEEE4390AFAA2DC6D93767F6621B7F44B034E9F0A079BA5A86C",
+    "exe_bytes": 489984
+  },
+  "frozen_oracle_regression": {
+    "status": "PASS_EXACT_FROZEN_ORACLE_PRESERVED",
+    "PROFILE_0": {
+      "generated_hash": "f31d4bb9fe5eb9c3",
+      "generated_count": 32,
+      "prefill_dispatches": 441,
+      "decode_dispatches_per_step": 469,
+      "decode_steps": 31,
+      "route_A_steps": 0,
+      "route_B_steps": 31,
+      "acquire_events": 1,
+      "evict_events": 1,
+      "backend_B_acquire_validate_release": "1/1/1",
+      "P1_calls": 1
+    },
+    "PROFILE_1": {
+      "generated_hash": "471519ddc45b232e",
+      "generated_count": 32,
+      "prefill_dispatches": 441,
+      "decode_dispatches_per_step": 469,
+      "decode_steps": 31,
+      "route_A_steps": 0,
+      "route_B_steps": 31,
+      "acquire_events": 1,
+      "evict_events": 1,
+      "backend_B_acquire_validate_release": "1/1/1",
+      "P1_calls": 1
+    }
+  },
+  "nonfixture_runtime_smoke": {
+    "status": "PASS",
+    "input_token_ids": [1,42,314,2718],
+    "max_new_tokens": 2,
+    "request_within_validated_domain": false,
+    "generated_token_ids": [2718,2718],
+    "decode_steps": 1,
+    "route_A_steps": 1,
+    "route_B_steps": 0,
+    "B_acquisition_events": 0,
+    "finite": true,
+    "interpretation": "Runtime consumes caller-provided token input and generation length; it is not limited to the frozen W-S/W-C fixtures. This smoke is functional QA only and makes no semantic-quality or performance claim outside the validated domain."
+  },
+  "answer_to_extraction_question": "YES. The validated I002 + generic-v4 + Q4VulkanBackendV4 execution chain is separated from the W-S/W-C experimental shell behind a reusable request-level runtime API, while both frozen regression outputs, dispatch topology, and lifecycle behavior are preserved exactly.",
+  "claim_boundary": {
+    "new_performance_claim": false,
+    "new_scientific_claim": false,
+    "arbitrary_prompt_quality_validated": false,
+    "persistent_model_session_implemented": false,
+    "NPU_integrated": false,
+    "matched_llama_cpp_benchmark_completed": false
+  }
+}
