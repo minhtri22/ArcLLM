@@ -34,7 +34,7 @@ if(-not $CMake){$CMake=Join-Path $VSInstall "Common7\IDE\CommonExtensions\Micros
 
 & $CMake -S (Join-Path $Root "baseline") -B $LlamaBuildDir -G "Visual Studio 17 2022" -A x64 "-DLLAMA_CPP_DIR=$LlamaDir"
 if($LASTEXITCODE-ne0){throw "CORE0E llama configure failed"}
-& $CMake --build $LlamaBuildDir --config Release --target core0e_llama_combined_phase_trace_adapter -- /m
+& $CMake --build $LlamaBuildDir --config Release --target core0e_llama_combined_phase_trace_adapter -- /m:1 /nodeReuse:false
 if($LASTEXITCODE-ne0){throw "CORE0E llama build failed"}
 $LlamaExe=Get-ChildItem $LlamaBuildDir -Recurse -Filter core0e_llama_combined_phase_trace_adapter.exe|Select-Object -First 1 -ExpandProperty FullName
 $LlamaOut=Join-Path $Artifacts "core0e_llama_combined_phase_trace_adapter.exe"; Copy-Item -Force $LlamaExe $LlamaOut
