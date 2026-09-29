@@ -1,0 +1,134 @@
+{
+  "schema": "arcllm.core0c.preregistration.v0.1",
+  "date": "2026-09-29",
+  "program": "CORE-0C",
+  "status": "PREREGISTERED_NOT_AUTHORIZED_FOR_INFERENCE",
+  "parent_result": "PASS_CORE0B_MATCHED_REQUEST_CHARACTERIZATION_COMPLETE",
+  "parent_dataset_commit": "3985a2ac1697225489da01564dbc3e49a298ef69",
+  "scientific_question": "Can the frozen Token-XRay compatibility surface localize where the current canonical ArcLLM runtime spends diagnostic execution time across prefill, decode, semantic nodes and Q4V4 lifecycle, while preserving exact outputs/topology and explicitly measuring observer effect without replacing CORE-0B timing authority?",
+  "arcllm": {
+    "canonical_parent": "7a5672112dc22de15f0e9bb6445508fbb3099b15",
+    "runtime_source_blob": "0c613f6f740931a88ddd3ee5b904533a58001a06",
+    "runtime_cli_blob": "5526658f6469301f0e05ffa5a46f51bc9b511816",
+    "q4v4_backend_blob": "3955d1ed27c0c48f5bbb8e4564128bf34025d1a5",
+    "public_api_blob": "d7821270ed253e1d1d96e3916b22b3daee50f5bc",
+    "runtime_config_blob": "8e60d8b60ad5750e1c3bdbd472fdd15f0d4bcfb4",
+    "uninstrumented_exe_sha256": "6DCDC89154307A486115D8904DF1B434B34A812CDA8A16A577142B3E778765BF"
+  },
+  "token_xray": {
+    "repository": "minhtri22/token-xray",
+    "ref": "freeze/token-xray-core-v0.1-arcllm-current-compatible",
+    "head": "35f86ac68f98ffe60fc441a790274cd1f1269dfe",
+    "validated_code_head": "984908d8ab457328fd82b74090d4ab29383acc2d",
+    "token_trace_schema": "0.2",
+    "runtime_lifecycle_schema": "0.1",
+    "required_decode_geometry": "469/469",
+    "required_decode_semantics": "451/451",
+    "required_prefill_geometry": "441/441",
+    "cpp_sdk_smoke": "PASS_MSVC_VIA_VSDEVCMD"
+  },
+  "model": {
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "bytes": 4683074048
+  },
+  "workloads": {
+    "W_S": {
+      "prompt_tokens": 4,
+      "reference_arc_result": "results/core0b_primary_20260929T033358387271Z/A_WS_p0_arc.json",
+      "output_tokens": 32,
+      "profile": "PROFILE_0"
+    },
+    "W_C": {
+      "prompt_tokens": 256,
+      "reference_arc_result": "results/core0b_primary_20260929T033358387271Z/A_WC_p0_arc.json",
+      "output_tokens": 32,
+      "profile": "PROFILE_1"
+    }
+  },
+  "collection_design": {
+    "blocks_per_workload": 3,
+    "modes": [
+      "CONTROL_UNINSTRUMENTED_EXTERNAL_WALL",
+      "TOKEN_XRAY_TRACE"
+    ],
+    "requests_total": 12,
+    "paired_adjacent": true,
+    "order": {
+      "block_0": [
+        "CONTROL_UNINSTRUMENTED_EXTERNAL_WALL",
+        "TOKEN_XRAY_TRACE"
+      ],
+      "block_1": [
+        "TOKEN_XRAY_TRACE",
+        "CONTROL_UNINSTRUMENTED_EXTERNAL_WALL"
+      ],
+      "block_2": [
+        "CONTROL_UNINSTRUMENTED_EXTERNAL_WALL",
+        "TOKEN_XRAY_TRACE"
+      ]
+    },
+    "no_selective_rerun": true,
+    "first_complete_valid_collection_is_primary": true
+  },
+  "control_role": {
+    "purpose": "observer_effect_calibration_only",
+    "canonical_performance_authority": false,
+    "canonical_performance_authority_source": "CORE-0B uninstrumented primary dataset"
+  },
+  "trace_contract": {
+    "measurement_mode": "TOKEN_XRAY_TRACE",
+    "timing_authority": "DIAGNOSTIC_ONLY",
+    "instrumentation_overhead": "MEASURED_FROM_PAIRED_EXTERNAL_WALL_AND_RECORDED; NEVER_ASSUMED_ZERO",
+    "phase_integrity": [
+      "decode",
+      "prefill"
+    ],
+    "fused_dispatch_rule": "ONE_PHYSICAL_DISPATCH; SHARED_DISPATCH attribution; no invented semantic timing split",
+    "q4v4_lifecycle_surface": "RUNTIME_LIFECYCLE_TRACE",
+    "q4v4_lifecycle_not_model_semantic": true,
+    "null_timing_rule": "null remains unknown; no imputation"
+  },
+  "validity_gates": {
+    "exact_generated_tokens_match_frozen_arc_reference": true,
+    "arc_runtime_stats_match_core0b_canonical_invariants": true,
+    "decode_geometry": "469/469",
+    "decode_semantics": "451/451",
+    "prefill_geometry": "441/441",
+    "trace_phase_mismatch_rejected": true,
+    "runtime_lifecycle_trace_valid": true,
+    "all_six_trace_requests_required": true,
+    "all_six_control_requests_required": true
+  },
+  "analysis_plan": {
+    "observer_effect": "For each workload/block compute trace external wall / adjacent control external wall and percent overhead; report all pairs, median, range and MAD. No threshold converts trace timing into benchmark authority.",
+    "physical_localization": "Aggregate only observed non-null physical-dispatch latency by runtime family, phase and layer. Report timing coverage explicitly.",
+    "semantic_localization": "Map through frozen semantic_node_ids(runtime_name, mode). Shared fused dispatches retain shared attribution and cannot have physical latency duplicated as independent semantic costs.",
+    "lifecycle_localization": "Report Q4V4 acquire/materialize/validate/resident/reuse/evict evidence separately from model-semantic nodes.",
+    "replication": "Report per-workload median diagnostic shares over the three valid traces and dispersion; preserve all traces.",
+    "no_mechanism_selection": true
+  },
+  "valid_final_classes": [
+    "CORE0C_DIAGNOSTIC_LOCALIZATION_COMPLETE",
+    "CORE0C_TRACE_SEMANTICS_INVALID",
+    "CORE0C_OBSERVER_CONTRACT_INVALID",
+    "CORE0C_RUNTIME_OUTPUT_OR_TOPOLOGY_DRIFT",
+    "CORE0C_COLLECTION_INCOMPLETE"
+  ],
+  "boundaries": {
+    "core0b_performance_authority_preserved": true,
+    "token_xray_trace_is_diagnostic_only": true,
+    "hardware_counters": false,
+    "profiler": false,
+    "npu": false,
+    "causal_mechanism_claim": false,
+    "optimization_selection": false
+  },
+  "authorization": {
+    "adapter_implementation": true,
+    "static_preflight": true,
+    "zero_science_trace_fixture_tests": true,
+    "science_inference": false,
+    "measured_requests_authorized": 0
+  },
+  "next": "CORE0C_IMPLEMENTATION_STATIC_PREFLIGHT_AND_EXECUTION_LOCK"
+}
