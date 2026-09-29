@@ -1718,3 +1718,25 @@ Directional memory/cache and stall differences remain descriptive only and are n
 Result: **STOP_M3C_UNRESOLVED_COUNTER_ADEQUACY**.
 
 Scientific consequence: M3-C is closed. No geometry, memory, cache, instruction, or clock mechanism is established by this study. Any future attempt to resolve the mechanism requires a new preregistered counter-validity or causal study; M3-C itself must not be tuned or reopened post hoc.
+
+
+## CORE-0B current-main matched request characterization — 2026-09-29
+
+The current canonical ArcLLM product runtime was compared prospectively against exact pinned `llama.cpp v0.4.1@b29c606e28a01b1bc8c1351026a0fa6e616bf6c4` on the same exact model and frozen W-S/W-C workloads. Because canonical ArcLLM is request-scoped and does not yet expose a persistent model session, the primary endpoint was the cold request-level child-process wall time rather than a fabricated warm-session endpoint.
+
+The primary collection was uninstrumented. Token-XRay, hardware counters, profilers and resource samplers were absent. Two sessions with reversed pair-order parity produced exactly **40 primary requests = 20 adjacent matched pairs**. All four workload/session cells retained **5/5 valid pairs**, and both systems produced 32 finite greedy output tokens on every request while preserving their frozen runtime contracts.
+
+The preregistered ArcLLM/llama request-wall ratios were:
+
+- A / W-S median **6.233259×** (range 5.665063–7.935739×);
+- A / W-C median **9.145345×** (range 8.846757–11.033835×);
+- B / W-S median **7.594498×** (range 5.123283–7.920242×);
+- B / W-C median **6.920212×** (range 5.311344–8.417752×).
+
+The preregistered global statistic, the geometric mean of the four cell medians, is **7.398325× ArcLLM / llama.cpp**. Independent adjudication recomputed every pair ratio, all cell statistics and the global geometric mean with **0 findings**.
+
+Result: **PASS_CORE0B_MATCHED_REQUEST_CHARACTERIZATION_COMPLETE**.
+
+This PASS means the frozen characterization completed validly; it is not a competitive performance PASS. The evidence establishes a large **current product request-level** latency gap to the exact pinned llama.cpp Vulkan baseline. It does not isolate kernel compute, warm steady-state decode, persistent-session TTFT, or a causal mechanism, and it does not imply that any individual ArcLLM kernel is 7.398× slower. Absolute timing also changed materially across the collection, so mechanism attribution remains intentionally open.
+
+Scientific consequence: CORE-0B is closed. Its uninstrumented dataset remains the performance authority. A Token-XRay successor may now open only as diagnostic/localization work, with observer-effect and attribution contracts frozen before any instrumented inference.
