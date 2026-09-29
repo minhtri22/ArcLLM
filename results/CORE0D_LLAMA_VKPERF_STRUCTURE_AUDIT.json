@@ -1,0 +1,169 @@
+{
+  "schema": "arcllm.core0d.llama_vkperf_structure_audit.v0.1",
+  "classification": "OUTCOME_BLIND_STRUCTURE_AND_SOURCE_AUDIT",
+  "verdict": "PASS_CORE0D_LLAMA_VKPERF_STRUCTURE_AUDIT_PARSER_GRAMMAR_DEFECT",
+  "open_findings": 0,
+  "findings": [],
+  "dataset": "core0d_measured_20260929T095154508631Z",
+  "dataset_commit": "bce0d1c84afd953264d1efb35ee93d575e34dd49",
+  "llama_commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+  "logger_source_sha256": "C84F67465DFA0A24E034663F510D8B92310E3BE7A7FBCA231760BE234B7C9F9D",
+  "parser_source_sha256": "A4D84DFAC18960B5F341A95EE114342DC6F69DB638FA88C845820CBD788AFE99",
+  "source_checks": {
+    "total_default_stream": true,
+    "print_timings_at_graph_end": true,
+    "forced_submit_wait_comment": true,
+    "frequency_env": true
+  },
+  "per_log": [
+    {
+      "file": "W_C_b0_GPU_TRACE_llama_vkperf.txt",
+      "sha256": "10076EBE590765B56059E2E7002A0EAD3045D16343311C36FD495212AB987D49",
+      "workload": "W-C",
+      "vulkan_timing_headers": 32,
+      "total_time_records_broad_grammar": 32,
+      "prefill_q_sequence_length": 256,
+      "decode_q_sequence_lengths_unique": [
+        1
+      ],
+      "prefill_op_name_count": 19,
+      "decode_op_name_count_unique": [
+        17
+      ],
+      "first_total_numeric_lexical_class": "SCIENTIFIC",
+      "remaining_total_numeric_lexical_classes": [
+        "PLAIN"
+      ],
+      "scientific_total_record_count": 1,
+      "executed_decimal_only_parser_record_count": 31,
+      "timing_magnitudes_read_or_reported": false
+    },
+    {
+      "file": "W_C_b1_GPU_TRACE_llama_vkperf.txt",
+      "sha256": "CB3345FAE9A6591B73180AC7C23B2A42F8AB822F753CFEBB9E24A1220EE39B6C",
+      "workload": "W-C",
+      "vulkan_timing_headers": 32,
+      "total_time_records_broad_grammar": 32,
+      "prefill_q_sequence_length": 256,
+      "decode_q_sequence_lengths_unique": [
+        1
+      ],
+      "prefill_op_name_count": 19,
+      "decode_op_name_count_unique": [
+        17
+      ],
+      "first_total_numeric_lexical_class": "SCIENTIFIC",
+      "remaining_total_numeric_lexical_classes": [
+        "PLAIN"
+      ],
+      "scientific_total_record_count": 1,
+      "executed_decimal_only_parser_record_count": 31,
+      "timing_magnitudes_read_or_reported": false
+    },
+    {
+      "file": "W_C_b2_GPU_TRACE_llama_vkperf.txt",
+      "sha256": "2382206CA5C81A7C11CBB21E1DD4AD2CE1B04B02424E74688675860FB3ADEFB9",
+      "workload": "W-C",
+      "vulkan_timing_headers": 32,
+      "total_time_records_broad_grammar": 32,
+      "prefill_q_sequence_length": 256,
+      "decode_q_sequence_lengths_unique": [
+        1
+      ],
+      "prefill_op_name_count": 19,
+      "decode_op_name_count_unique": [
+        17
+      ],
+      "first_total_numeric_lexical_class": "SCIENTIFIC",
+      "remaining_total_numeric_lexical_classes": [
+        "PLAIN"
+      ],
+      "scientific_total_record_count": 1,
+      "executed_decimal_only_parser_record_count": 31,
+      "timing_magnitudes_read_or_reported": false
+    },
+    {
+      "file": "W_S_b0_GPU_TRACE_llama_vkperf.txt",
+      "sha256": "96768B343415DF3EC6D0A76DA71874A81EC0061081B7CD363F31D05986C6166C",
+      "workload": "W-S",
+      "vulkan_timing_headers": 32,
+      "total_time_records_broad_grammar": 32,
+      "prefill_q_sequence_length": 4,
+      "decode_q_sequence_lengths_unique": [
+        1
+      ],
+      "prefill_op_name_count": 19,
+      "decode_op_name_count_unique": [
+        17
+      ],
+      "first_total_numeric_lexical_class": "SCIENTIFIC",
+      "remaining_total_numeric_lexical_classes": [
+        "PLAIN"
+      ],
+      "scientific_total_record_count": 1,
+      "executed_decimal_only_parser_record_count": 31,
+      "timing_magnitudes_read_or_reported": false
+    },
+    {
+      "file": "W_S_b1_GPU_TRACE_llama_vkperf.txt",
+      "sha256": "4DD9347526D345444FBC4F52CF264F4BE94CE9C3C8CA83C09CA5C934877FF078",
+      "workload": "W-S",
+      "vulkan_timing_headers": 32,
+      "total_time_records_broad_grammar": 32,
+      "prefill_q_sequence_length": 4,
+      "decode_q_sequence_lengths_unique": [
+        1
+      ],
+      "prefill_op_name_count": 19,
+      "decode_op_name_count_unique": [
+        17
+      ],
+      "first_total_numeric_lexical_class": "SCIENTIFIC",
+      "remaining_total_numeric_lexical_classes": [
+        "PLAIN"
+      ],
+      "scientific_total_record_count": 1,
+      "executed_decimal_only_parser_record_count": 31,
+      "timing_magnitudes_read_or_reported": false
+    },
+    {
+      "file": "W_S_b2_GPU_TRACE_llama_vkperf.txt",
+      "sha256": "FBDC4A9ECA5790E4C37AD956659E8AF5425C22CB13E10762174E3B2444C86DA7",
+      "workload": "W-S",
+      "vulkan_timing_headers": 32,
+      "total_time_records_broad_grammar": 32,
+      "prefill_q_sequence_length": 4,
+      "decode_q_sequence_lengths_unique": [
+        1
+      ],
+      "prefill_op_name_count": 19,
+      "decode_op_name_count_unique": [
+        17
+      ],
+      "first_total_numeric_lexical_class": "SCIENTIFIC",
+      "remaining_total_numeric_lexical_classes": [
+        "PLAIN"
+      ],
+      "scientific_total_record_count": 1,
+      "executed_decimal_only_parser_record_count": 31,
+      "timing_magnitudes_read_or_reported": false
+    }
+  ],
+  "timing_values_used_for_decision": false,
+  "structural_conclusion": {
+    "raw_logger_groups_per_request": 32,
+    "group_0_semantics": "PREFILL",
+    "groups_1_to_31_semantics": "CACHED_DECODE_STEPS_0_TO_30",
+    "missing_logger_group": false,
+    "measurement_surface_structurally_complete": true,
+    "executed_parser_defect": "Decimal-only Total time grammar rejects scientific notation emitted by the first/prefill group.",
+    "why_31_was_observed_by_parser": "The first Total time record is scientific notation in all six logs; the remaining 31 records are plain decimal/integer forms accepted by the executed parser."
+  },
+  "governance_consequence": {
+    "current_collection_may_be_reinterpreted_or_reparsed_to_pass": false,
+    "selective_rerun_allowed": false,
+    "same_study_posthoc_parser_repair_allowed": false,
+    "recommended_route": "FORMAL_CLOSE_CURRENT_CORE0D_AS_STOP_GPU_MEASUREMENT_NOT_QUALIFIED_AND_OPEN_PROSPECTIVE_CORE0D_R1_PARSER_GRAMMAR_REPAIR",
+    "repair_scope": "Numeric grammar only: accept finite decimal or scientific-notation Total time records; preserve exact 32-group requirement and all G0-G4/Amdahl thresholds unchanged."
+  }
+}

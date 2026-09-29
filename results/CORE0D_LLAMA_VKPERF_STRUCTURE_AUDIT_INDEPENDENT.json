@@ -1,0 +1,96 @@
+{
+  "schema": "arcllm.core0d.llama_vkperf_structure_audit_independent.v0.1",
+  "verdict": "PASS_CORE0D_LLAMA_VKPERF_STRUCTURE_AUDIT_INDEPENDENT",
+  "open_findings": 0,
+  "findings": [],
+  "llama_commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+  "rows": [
+    {
+      "file": "W_C_b0_GPU_TRACE_llama_vkperf.txt",
+      "headers": 32,
+      "totals": 32,
+      "prefill_qn": 256,
+      "decode_qn_unique": [
+        1
+      ],
+      "first_total_class": "SCI",
+      "remaining_total_class_unique": [
+        "PLAIN"
+      ],
+      "old_parser_records": 31
+    },
+    {
+      "file": "W_C_b1_GPU_TRACE_llama_vkperf.txt",
+      "headers": 32,
+      "totals": 32,
+      "prefill_qn": 256,
+      "decode_qn_unique": [
+        1
+      ],
+      "first_total_class": "SCI",
+      "remaining_total_class_unique": [
+        "PLAIN"
+      ],
+      "old_parser_records": 31
+    },
+    {
+      "file": "W_C_b2_GPU_TRACE_llama_vkperf.txt",
+      "headers": 32,
+      "totals": 32,
+      "prefill_qn": 256,
+      "decode_qn_unique": [
+        1
+      ],
+      "first_total_class": "SCI",
+      "remaining_total_class_unique": [
+        "PLAIN"
+      ],
+      "old_parser_records": 31
+    },
+    {
+      "file": "W_S_b0_GPU_TRACE_llama_vkperf.txt",
+      "headers": 32,
+      "totals": 32,
+      "prefill_qn": 4,
+      "decode_qn_unique": [
+        1
+      ],
+      "first_total_class": "SCI",
+      "remaining_total_class_unique": [
+        "PLAIN"
+      ],
+      "old_parser_records": 31
+    },
+    {
+      "file": "W_S_b1_GPU_TRACE_llama_vkperf.txt",
+      "headers": 32,
+      "totals": 32,
+      "prefill_qn": 4,
+      "decode_qn_unique": [
+        1
+      ],
+      "first_total_class": "SCI",
+      "remaining_total_class_unique": [
+        "PLAIN"
+      ],
+      "old_parser_records": 31
+    },
+    {
+      "file": "W_S_b2_GPU_TRACE_llama_vkperf.txt",
+      "headers": 32,
+      "totals": 32,
+      "prefill_qn": 4,
+      "decode_qn_unique": [
+        1
+      ],
+      "first_total_class": "SCI",
+      "remaining_total_class_unique": [
+        "PLAIN"
+      ],
+      "old_parser_records": 31
+    }
+  ],
+  "independent_conclusion": "RAW_SURFACE_IS_1_PREFILL_PLUS_31_DECODE; EXECUTED_DECIMAL_ONLY_PARSER_DROPPED_PREFILL_SCIENTIFIC_NOTATION",
+  "timing_values_used": false,
+  "recommended_governance": "FORMAL_CLOSE_CURRENT_CORE0D_STOP_AND_OPEN_PROSPECTIVE_NUMERIC_GRAMMAR_REPAIR_SUCCESSOR"
+}
