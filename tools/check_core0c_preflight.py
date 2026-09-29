@@ -77,7 +77,7 @@ def main() -> int:
             add("CANONICAL_BLOB_DRIFT", f"{path}: {got}")
 
     diff = subprocess.check_output(
-        ["git","-C",str(ROOT),"diff","--name-only","main..HEAD"],text=True
+        ["git","-C",str(ROOT),"diff","--name-only","7a5672112dc22de15f0e9bb6445508fbb3099b15..HEAD"],text=True
     ).splitlines()
     bad = [
         p for p in diff
