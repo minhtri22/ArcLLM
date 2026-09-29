@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 ARC_PIN = "7a5672112dc22de15f0e9bb6445508fbb3099b15"
-TX_PIN = "17e786285d202f79e6856584961f1953fd0bc8af"
+TX_PIN = "35f86ac68f98ffe60fc441a790274cd1f1269dfe"\nTX_VALIDATED_CODE_PIN = "984908d8ab457328fd82b74090d4ab29383acc2d"
 LLAMA_PIN = "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4"
 MODEL_SHA = "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463"
 
@@ -98,12 +98,18 @@ def main() -> None:
     tx_cpp_path = tx / "sdk/vulkan/token_xray_arcllm_v1_adapter.h"
     tx_init_path = tx / "src/token_xray/adapters/__init__.py"
     tx_schema_path = tx / "schemas/token_trace.schema.json"
+    tx_lifecycle_schema_path = tx / "schemas/runtime_lifecycle_trace.schema.json"
     tx_readme_path = tx / "README.md"
     tx_handoff_path = tx / "docs/ARCLLM_REVALIDATION_HANDOFF.md"
 
     tx_py = tx_py_path.read_text(encoding="utf-8")
     tx_cpp = tx_cpp_path.read_text(encoding="utf-8")
     tx_schema = tx_schema_path.read_text(encoding="utf-8")
+    tx_lifecycle_schema = (
+        tx_lifecycle_schema_path.read_text(encoding="utf-8")
+        if tx_lifecycle_schema_path.exists()
+        else ""
+    )
     tx_readme = tx_readme_path.read_text(encoding="utf-8")
     tx_init = tx_init_path.read_text(encoding="utf-8")
 
@@ -160,11 +166,19 @@ def main() -> None:
         "cpp_shader_mapping": lifecycle_shader in cpp_shaders,
         "q4v4_runtime_name_shape": "Q4V4.P1.L<layer>",
         "q4v4_runtime_name_supported_by_semantic_adapter": "Q4V4.P1." in tx_py,
-        "explicit_lifecycle_event_surface_detected": any(
-            k in tx_schema for k in [
-                "representation_acquire", "representation_materialize",
-                "representation_validate", "representation_evict"
-            ]
+        "explicit_lifecycle_event_surface_detected": (
+            "RUNTIME_LIFECYCLE_TRACE" in tx_lifecycle_schema
+            and all(
+                k in tx_lifecycle_schema for k in [
+                    "representation_acquire",
+                    "representation_materialize",
+                    "representation_validate",
+                    "representation_resident",
+                    "representation_reuse",
+                    "representation_evict",
+                    "representation_release",
+                ]
+            )
         ),
     }
 
@@ -199,7 +213,24 @@ def main() -> None:
             "detail": f"Frozen canonical parent not preserved or runtime/product drift detected: ancestor={arc_parent_is_ancestor}, unexpected={unexpected_arc_changes}"
         })
     if tx_head != TX_PIN:
-        findings.append({"id": "PIN-TX", "severity": "BLOCKER", "detail": f"Token-XRay HEAD drift: {tx_head}"})
+        findings.append({"id": "PIN-TX", "severity": "BLOCKER", "detail": f"Token-XRay freeze HEAD drift: {tx_head}"})
+
+    tx_code_is_ancestor = subprocess.run(
+        ["git", "-C", str(tx), "merge-base", "--is-ancestor", TX_VALIDATED_CODE_PIN, tx_head]
+    ).returncode == 0
+    tx_post_code_changes = subprocess.check_output(
+        ["git", "-C", str(tx), "diff", "--name-only", f"{TX_VALIDATED_CODE_PIN}..{tx_head}"], text=True
+    ).splitlines()
+    tx_post_code_non_evidence = sorted(
+        p for p in tx_post_code_changes
+        if not (p.startswith("artifacts/") or p.startswith("docs/") or p == "lineage.md")
+    )
+    if not tx_code_is_ancestor or tx_post_code_non_evidence:
+        findings.append({
+            "id": "TX-FREEZE-PROVENANCE",
+            "severity": "BLOCKER",
+            "detail": f"Validated Token-XRay code payload is not preserved by the freeze: ancestor={tx_code_is_ancestor}, non_evidence_changes={tx_post_code_non_evidence}"
+        })
 
     if compileall["returncode"] != 0 or pytest["returncode"] != 0:
         findings.append({
@@ -271,7 +302,11 @@ def main() -> None:
             "arcllm_changes_since_parent": changed_since_parent,
             "arcllm_unexpected_runtime_product_changes": unexpected_arc_changes,
             "token_xray": TX_PIN,
+            "token_xray_validated_code_head": TX_VALIDATED_CODE_PIN,
             "token_xray_audit_checkout_head": tx_head,
+            "token_xray_validated_code_is_ancestor": tx_code_is_ancestor,
+            "token_xray_post_code_changes": tx_post_code_changes,
+            "token_xray_post_code_non_evidence_changes": tx_post_code_non_evidence,
             "llama_cpp": LLAMA_PIN,
             "model_sha256": MODEL_SHA,
         },
