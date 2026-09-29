@@ -1,0 +1,13 @@
+{
+  "schema": "arcllm.core0e.token_xray_ci_snapshot.v0.1",
+  "classification": "PREFLIGHT_ONLY_READ_ONLY_SDK_SNAPSHOT",
+  "source_repository": "minhtri22/token-xray",
+  "source_head": "35f86ac68f98ffe60fc441a790274cd1f1269dfe",
+  "validated_code_head": "984908d8ab457328fd82b74090d4ab29383acc2d",
+  "files": {
+    "sdk/vulkan/token_xray_arcllm_v1_adapter.h": "2377eb30b423a333ca36ece66791d4eef7d0b010",
+    "sdk/token_xray_runtime_lifecycle_trace.h": "d3bd3c9556b03ddaf913edbcd4f58cc263fb112b"
+  },
+  "measured_science_authority": false,
+  "purpose": "Allow GitHub-hosted zero-science compilation without granting cross-repository credentials. Measured execution remains pinned to the real Token-XRay repository freeze."
+}
