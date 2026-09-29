@@ -2,9 +2,9 @@
   "schema": "arcllm.core0d.science_authorization.v0.1",
   "date": "2026-09-29",
   "program": "CORE-0D",
-  "authorized": true,
-  "measured_requests_authorized": 36,
-  "authorization_scope": "ONE_COMPLETE_36_REQUEST_ATTRIBUTION_COLLECTION_ONLY",
+  "authorized": false,
+  "measured_requests_authorized": 0,
+  "authorization_scope": "CONSUMED_BY_FIRST_COMPLETE_EXECUTION_ATTEMPT_THAT_FAILED_G3_QUALIFICATION",
   "execution_lock_blob": "bb111d011c5c882809230b51c39608eb3c452a33",
   "execution_lock_status": "FROZEN_AFTER_ZERO_SCIENCE_PREFLIGHT_PASS",
   "core0b_performance_authority_preserved": true,
@@ -138,5 +138,10 @@
   "optimization_authorized": false,
   "mechanism_selection_authorized": false,
   "product_runtime_change_authorized": false,
-  "rerun_authorized": false
+  "rerun_authorized": false,
+  "consumed": true,
+  "consumed_dataset": "core0d_measured_20260929T095154508631Z",
+  "consumed_dataset_commit": "bce0d1c84afd953264d1efb35ee93d575e34dd49",
+  "final_verdict": "STOP_CORE0D_GPU_MEASUREMENT_NOT_QUALIFIED",
+  "successor_repair_authorized": false
 }
