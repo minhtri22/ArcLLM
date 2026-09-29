@@ -36,9 +36,25 @@ def main():
   g=blob(p)
   if g!=e:add("CANONICAL_DRIFT",f"{p}:{g}!={e}")
  if subprocess.check_output(["git","-C",str(llama),"rev-parse","HEAD"],text=True).strip()!=LLAMA_HEAD:add("LLAMA_HEAD","drift")
- if subprocess.check_output(["git","-C",str(tx),"rev-parse","HEAD"],text=True).strip()!=TX_HEAD:add("TX_HEAD","drift")
  if subprocess.check_output(["git","-C",str(llama),"status","--porcelain"],text=True).strip():add("LLAMA_DIRTY",str(llama))
- if subprocess.check_output(["git","-C",str(tx),"status","--porcelain"],text=True).strip():add("TX_DIRTY",str(tx))
+ tx_mode="REAL_REPO"
+ if (tx/".git").exists():
+  if subprocess.check_output(["git","-C",str(tx),"rev-parse","HEAD"],text=True).strip()!=TX_HEAD:add("TX_HEAD","drift")
+  if subprocess.check_output(["git","-C",str(tx),"status","--porcelain"],text=True).strip():add("TX_DIRTY",str(tx))
+ else:
+  tx_mode="CI_SNAPSHOT"
+  mp=tx/"TOKEN_XRAY_CORE0E_CI_SNAPSHOT.json"
+  if not mp.exists():add("TX_SNAPSHOT","manifest missing")
+  else:
+   sm=json.loads(mp.read_text())
+   if sm.get("source_head")!=TX_HEAD:add("TX_SNAPSHOT_HEAD",repr(sm.get("source_head")))
+   if sm.get("measured_science_authority") is not False:add("TX_SNAPSHOT_AUTH","must be false")
+   for rel,expected in sm.get("files",{}).items():
+    p=tx/rel
+    if not p.exists():add("TX_SNAPSHOT_FILE",rel)
+    else:
+     got=subprocess.check_output(["git","hash-object","--",str(p)],text=True).strip()
+     if got!=expected:add("TX_SNAPSHOT_BLOB",f"{rel}:{got}!={expected}")
  for p in ["tools/materialize_core0e_runtime.py","tools/core0e_phase_contract.py","tools/run_core0e_measured.py"]:
   cp=subprocess.run(["py","-3","-m","py_compile",str(ROOT/p)],capture_output=True,text=True)
   if cp.returncode:add("PY_COMPILE",f"{p}:{cp.stderr[-1200:]}")
@@ -83,7 +99,7 @@ def main():
  changed=git("diff","--name-only",PARENT_HEAD,"HEAD").splitlines()
  if any(p in CANONICAL or p.startswith("shaders/") for p in changed):add("PRODUCT_SOURCE_MUTATION",repr(changed))
  verdict="PASS_CORE0E_ZERO_SCIENCE_PREFLIGHT" if not findings else "STOP_CORE0E_PREFLIGHT"
- result={"schema":"arcllm.core0e.preflight_evidence.v0.1","classification":"ZERO_SCIENCE_IMPLEMENTATION_STATIC_PREFLIGHT","verdict":verdict,"open_findings":len(findings),"findings":findings,"checked_head":git("rev-parse","HEAD"),"parent_head":PARENT_HEAD,"build_qualification":q,"parent_dataset_use":"STRUCTURE_ONLY","parent_phase_timing_magnitudes_used":False,"model_inference_executed":False,"measured_requests_executed":0,"changed_files_from_prereg":changed}
+ result={"schema":"arcllm.core0e.preflight_evidence.v0.1","classification":"ZERO_SCIENCE_IMPLEMENTATION_STATIC_PREFLIGHT","verdict":verdict,"open_findings":len(findings),"findings":findings,"checked_head":git("rev-parse","HEAD"),"parent_head":PARENT_HEAD,"build_qualification":q,"token_xray_source":tx_mode,"parent_dataset_use":"STRUCTURE_ONLY","parent_phase_timing_magnitudes_used":False,"model_inference_executed":False,"measured_requests_executed":0,"changed_files_from_prereg":changed}
  Path(args.out).write_text(json.dumps(result,indent=2)+"\n")
  print(f"CORE0E_PREFLIGHT={verdict}");print(f"OPEN_FINDINGS={len(findings)}");print("MODEL_INFERENCE_EXECUTED=false");print("MEASURED_REQUESTS_EXECUTED=0")
  for f in findings:print(f"FINDING {f['id']}: {f['detail']}")
