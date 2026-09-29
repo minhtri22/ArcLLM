@@ -106,7 +106,7 @@ int main(int argc,char**argv){
         req.shader_dir=shader_dir;
         req.input_token_ids=input;
         req.max_new_tokens=32u;
-        req.evidence_profile=profile;
+        req.evidence_profile=profile==0u?arcllm::v1::runtime::EvidenceProfile::PROFILE_0:arcllm::v1::runtime::EvidenceProfile::PROFILE_1;
         req.request_within_validated_domain=true;
         auto result=arcllm::v1::runtime::generate(req);
 
