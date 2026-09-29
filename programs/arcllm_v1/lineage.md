@@ -1740,3 +1740,22 @@ Result: **PASS_CORE0B_MATCHED_REQUEST_CHARACTERIZATION_COMPLETE**.
 This PASS means the frozen characterization completed validly; it is not a competitive performance PASS. The evidence establishes a large **current product request-level** latency gap to the exact pinned llama.cpp Vulkan baseline. It does not isolate kernel compute, warm steady-state decode, persistent-session TTFT, or a causal mechanism, and it does not imply that any individual ArcLLM kernel is 7.398× slower. Absolute timing also changed materially across the collection, so mechanism attribution remains intentionally open.
 
 Scientific consequence: CORE-0B is closed. Its uninstrumented dataset remains the performance authority. A Token-XRay successor may now open only as diagnostic/localization work, with observer-effect and attribution contracts frozen before any instrumented inference.
+
+
+## CORE-0C Token-XRay current-runtime localization — 2026-09-29
+
+The frozen current ArcLLM runtime was instrumented only through the preregistered Token-XRay diagnostic bridge after CORE-0B had already established the uninstrumented product-performance authority.
+
+Exactly **12 measured requests** were collected as six adjacent CONTROL/TRACE pairs across W-S and W-C. All six TRACE requests preserved exact output identity and canonical runtime topology. Each TRACE produced one 441-dispatch prefill trace, thirty-one 469-dispatch decode traces, 451 semantic nodes per phase, and one separate Q4V4 runtime-lifecycle trace with 14 measured P1 materialization events. Independent adjudication recomputed the trace semantics and timing aggregation with **0 findings**.
+
+Observer-effect wall ratios were nonstationary. W-S TRACE/CONTROL ratios were **1.330430, 1.022072, 1.003531** (median **1.022072**). W-C ratios were **1.099245, 0.873115, 0.930542** (median **0.930542**). Because two W-C ratios were below one and the W-S range was broad, a single causal Token-XRay overhead correction is not identifiable from this collection. The correct interpretation is **HOST_NONSTATIONARITY_PREVENTS_SIMPLE_CAUSAL_OVERHEAD_ESTIMATE**. No trace timing replaces or adjusts CORE-0B.
+
+Diagnostic physical localization nevertheless replicated across the three traces per workload. For W-S, decode represented about **96.89%** of observed token-execution GPU span plus P1 materialization; for W-C, decode represented about **72.12%** and prefill about **27.82%**. Q4V4 P1 materialization was small in both workloads, with median duration about **25.41 ms** on W-S and **21.44 ms** on W-C, below **0.1%** of the observed GPU span.
+
+Within decode dispatch time, `lm_head` was the largest observed runtime family in both workloads: about **60.63%** on W-S and **57.16%** on W-C. `ffn_down` was the next largest single family at about **13.64%** and **14.11%**. Prefill differed by workload: W-S was dominated by `lm_head` (**57.02%**), whereas W-C was dominated by `ffn_gate_up_fused` (**48.69%**) and `ffn_down` (**31.14%**).
+
+Only about **49.0%** of median W-S TRACE wall time and **54.8%** of median W-C TRACE wall time lay inside the observed token GPU spans plus P1 materialization. CORE-0C does not identify the remaining request-wall time with any specific host/setup/loading mechanism.
+
+Result: **PASS_CORE0C_DIAGNOSTIC_LOCALIZATION_COMPLETE**.
+
+Scientific consequence: CORE-0C is closed. It establishes a diagnostic phase/runtime-family map and a boundary on observer-effect interpretation, but selects no optimization mechanism and creates no NPU conclusion. Any successor must preserve CORE-0B as performance authority and prospectively test cross-system excess-cost explanations before an Amdahl-based intervention choice.
