@@ -231,9 +231,13 @@ def main()->int:
                       "representation_resident","representation_reuse","representation_evict","representation_release"}
             if not required.issubset(set(types)): add("LIFECYCLE_TYPES",f"{life[0].name}:{sorted(set(types))}")
             mats=[e for e in lt["events"] if e["event_type"]=="representation_materialize"]
-            if any(e.get("duration_ns") is None for e in mats):
+            if any(e.get("timestamp",{}).get("duration_ns") is None for e in mats):
                 add("LIFECYCLE_MATERIALIZE_TIMING",life[0].name)
-            mat_ns=sum(int(e["duration_ns"]) for e in mats if e.get("duration_ns") is not None)
+            mat_ns=sum(
+                int(e["timestamp"]["duration_ns"])
+                for e in mats
+                if e.get("timestamp",{}).get("duration_ns") is not None
+            )
             lifecycle_by_workload[workload].append({"block":block,"materialize_ns":mat_ns,"summary":ls})
 
             for phase in ["prefill","decode"]:
