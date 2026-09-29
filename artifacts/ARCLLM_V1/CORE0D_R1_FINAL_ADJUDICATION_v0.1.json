@@ -1,0 +1,113 @@
+{
+  "schema": "arcllm.core0d_r1.final_adjudication.v0.1",
+  "date": "2026-09-29",
+  "verdict": "PASS_CORE0D_R1_EXCESS_COST_ATTRIBUTION_COMPLETE",
+  "dataset": {
+    "name": "core0d_measured_20260929T121751651960Z",
+    "commit": "630406103254b4358ab32a758b73c0fb4d4742f9",
+    "measured_requests": 36,
+    "matched_rows": 18,
+    "collection_classification": "CORE0D_COLLECTION_COMPLETE_PENDING_ADJUDICATION"
+  },
+  "independent_adjudication": {
+    "commit": "7e1e264c1de2eb52713d49c2ec54d1d9d4b26d0e",
+    "result_blob": "8e888444934c87e630c6b7a035beee4415fd96a5",
+    "open_findings": 0,
+    "gates": {
+      "G0": "PASS",
+      "G1": "PASS",
+      "G2": "PASS",
+      "G3": "PASS",
+      "G4": "PASS"
+    }
+  },
+  "transfer": {
+    "control": {
+      "W-S": {
+        "median_ratio": 6.46827379403321,
+        "core0b_reference": 6.91387843464958,
+        "transfer_factor": 1.068890813036923,
+        "max_over_min": 1.2331678246800073
+      },
+      "W-C": {
+        "median_ratio": 8.37826120591267,
+        "core0b_reference": 8.63225451567552,
+        "transfer_factor": 1.0303157544889627,
+        "max_over_min": 1.3828859836799232
+      }
+    },
+    "trace": {
+      "W-S": {
+        "median_ratio": 6.771161526472898,
+        "control_median_ratio": 6.46827379403321,
+        "trace_control_factor": 1.046826671548612
+      },
+      "W-C": {
+        "median_ratio": 7.554892409455238,
+        "control_median_ratio": 8.37826120591267,
+        "trace_control_factor": 1.108984847411851
+      }
+    }
+  },
+  "primary_attribution": {
+    "W-S": {
+      "median_total_excess_ms": 60682.3928,
+      "median_gpu_excess_ms": 23722.484284000002,
+      "median_outside_gpu_excess_ms": 36959.908516,
+      "median_f_G": 0.39092862343424273,
+      "median_f_H": 0.6090713765657574
+    },
+    "W-C": {
+      "median_total_excess_ms": 77240.3814,
+      "median_gpu_excess_ms": 48219.441079000004,
+      "median_outside_gpu_excess_ms": 36827.226532999994,
+      "median_f_G": 0.5388907302052071,
+      "median_f_H": 0.46110926979479294
+    }
+  },
+  "amdahl_gate": {
+    "opened": true,
+    "G_TOKEN_GPU": {
+      "q": {
+        "W-S": 0.3343860291249379,
+        "W-C": 0.47646315358236513
+      },
+      "robust_score": 0.3343860291249379,
+      "eligible": true,
+      "ideal_full_elimination_speedup": {
+        "W-S": 1.502372311514632,
+        "W-C": 1.9100852343872694
+      }
+    },
+    "H_OUTSIDE_TOKEN_GPU": {
+      "q": {
+        "W-S": 0.5209773520145972,
+        "W-C": 0.4076922546966568
+      },
+      "robust_score": 0.4076922546966568,
+      "eligible": true,
+      "ideal_full_elimination_speedup": {
+        "W-S": 2.0875839674922276,
+        "W-C": 1.6883115372530917
+      }
+    },
+    "robust_margin_H_minus_G": 0.07330622557171891,
+    "decision": "H_OUTSIDE_TOKEN_GPU",
+    "successor": "CORE-0E_OUTSIDE_GPU_PHASE_ATTRIBUTION_PREREGISTRATION"
+  },
+  "interpretation": [
+    "Both token-GPU and outside-token-GPU regions carry material cross-system excess under the common teacher-forced trajectory.",
+    "H_OUTSIDE_TOKEN_GPU wins the preregistered single-region Amdahl priority gate because its robust score exceeds G_TOKEN_GPU by more than the frozen 0.05 margin.",
+    "H remains an arithmetic residual at this stage; CORE-0D-R1 does not identify it as model loading, setup, CPU orchestration, allocation, I/O, or any other specific mechanism.",
+    "The result authorizes only the preregistered outside-GPU phase attribution successor, not an optimization patch."
+  ],
+  "boundaries": {
+    "core0b_performance_authority_preserved": true,
+    "parent_core0d_dataset_reused_for_primary": false,
+    "canonical_runtime_modified": false,
+    "kernel_or_shader_modified": false,
+    "npu_conclusion": false,
+    "optimization_authorized": false,
+    "mechanism_selection_authorized": false
+  }
+}
