@@ -1,0 +1,81 @@
+{
+  "schema": "arcllm.core0b.final_adjudication.v0.1",
+  "date": "2026-09-29",
+  "verdict": "PASS_CORE0B_MATCHED_REQUEST_CHARACTERIZATION_COMPLETE",
+  "scientific_role": "CURRENT_CANONICAL_PRODUCT_REQUEST_LEVEL_GAP_CHARACTERIZATION",
+  "canonical_parent": "7a5672112dc22de15f0e9bb6445508fbb3099b15",
+  "implementation_head": "7754d898f2e4c09263e583ac2e24e2938e1f9d7a",
+  "dataset_name": "core0b_primary_20260929T033358387271Z",
+  "dataset_commit": "3985a2ac1697225489da01564dbc3e49a298ef69",
+  "independent_adjudication_commit": "c176d2622321f24a4271411fa34f9188c480bfbd",
+  "collection": {
+    "primary_requests": 40,
+    "matched_pairs": 20,
+    "valid_pairs_by_cell": {
+      "A_WS": 5,
+      "A_WC": 5,
+      "B_WS": 5,
+      "B_WC": 5
+    },
+    "measurement_mode": "UNINSTRUMENTED",
+    "timing_authority": "BENCHMARK_AUTHORITY",
+    "measurement_authority": "UNINSTRUMENTED_CHILD_WALL_MS"
+  },
+  "cell_ratio_arc_over_llama": {
+    "A_WS": {
+      "median": 6.233259294107202,
+      "min": 5.6650629648384045,
+      "max": 7.935738820531447,
+      "mad": 0.5681963292687975,
+      "n": 5
+    },
+    "A_WC": {
+      "median": 9.145344522860848,
+      "min": 8.846756799529398,
+      "max": 11.033834684225264,
+      "mad": 0.2842075519798737,
+      "n": 5
+    },
+    "B_WS": {
+      "median": 7.594497575191963,
+      "min": 5.123283096883404,
+      "max": 7.920242391039593,
+      "mad": 0.3257448158476297,
+      "n": 5
+    },
+    "B_WC": {
+      "median": 6.920212308471516,
+      "min": 5.311343792603141,
+      "max": 8.417752231821634,
+      "mad": 1.1822279266964948,
+      "n": 5
+    }
+  },
+  "global_geometric_mean_of_cell_medians_arc_over_llama": 7.398325462576348,
+  "independent_recomputation": "EXACT_MATCH",
+  "open_findings": 0,
+  "output_repeat_consistency": {
+    "arc": {
+      "W_S": true,
+      "W_C": true
+    },
+    "llama": {
+      "W_S": true,
+      "W_C": true
+    },
+    "gate": false
+  },
+  "boundaries": {
+    "request_level_cold_process_characterization": true,
+    "persistent_session_comparison": false,
+    "warm_decode_throughput_claim": false,
+    "kernel_mechanism_claim": false,
+    "token_xray_used": false,
+    "hardware_counters_used": false,
+    "profiler_used": false,
+    "npu_claim": false,
+    "mechanism_selected": false
+  },
+  "scientific_consequence": "A large current-product request-level gap to the exact pinned llama.cpp Vulkan baseline is established. Localization is authorized only as diagnostic CORE-0C work; CORE-0B timing remains the performance authority.",
+  "next": "CORE0C_TOKEN_XRAY_LOCALIZATION_PREREGISTRATION"
+}
