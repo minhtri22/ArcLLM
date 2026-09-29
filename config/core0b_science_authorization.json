@@ -2,9 +2,9 @@
   "schema": "arcllm.core0b.science_authorization.v0.1",
   "date": "2026-09-29",
   "program": "CORE-0B",
-  "authorized": true,
-  "primary_requests_authorized": 40,
-  "authorization_scope": "ONE_COMPLETE_40_REQUEST_PRIMARY_COLLECTION_ONLY",
+  "authorized": false,
+  "primary_requests_authorized": 0,
+  "authorization_scope": "CONSUMED_BY_FIRST_COMPLETE_VALID_COLLECTION",
   "measurement_mode": "UNINSTRUMENTED",
   "measurement_authority": "UNINSTRUMENTED_CHILD_WALL_MS",
   "timing_authority": "BENCHMARK_AUTHORITY",
@@ -66,5 +66,10 @@
     "resource_sampler": false
   },
   "mechanism_selection_authorized": false,
-  "core0c_authorized": false
+  "core0c_authorized": false,
+  "consumed": true,
+  "consumed_dataset": "core0b_primary_20260929T033358387271Z",
+  "consumed_dataset_commit": "3985a2ac1697225489da01564dbc3e49a298ef69",
+  "final_verdict": "PASS_CORE0B_MATCHED_REQUEST_CHARACTERIZATION_COMPLETE",
+  "rerun_authorized": false
 }
