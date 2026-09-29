@@ -45,6 +45,7 @@ def validate_markers(d):
     e=[]
     if d.get("schema")!="arcllm.core0e.phase_markers.v0.1":e.append("phase_schema")
     if d.get("timing_authority")!="DIAGNOSTIC_ONLY":e.append("phase_authority")
+    if d.get("clock")!="std::chrono::steady_clock":e.append("phase_clock")
     vals=[]
     for k in MARKERS:
         v=d.get(k)
@@ -61,7 +62,7 @@ def validate_arc(d,forced,combined):
     if d.get("forced_decode_input_ids")!=forced:e.append("forced_ids")
     if len(d.get("predicted_token_ids",[]))!=32:e.append("predicted_count")
     s=d.get("stats",{})
-    for k,v in {"prefill_dispatches":441,"prefill_submits":1,"decode_dispatches_per_step":469,"decode_submits_per_step":1,"decode_steps":31,"route_a_steps":0,"route_b_steps":31,"finite":True}.items():
+    for k,v in {"prefill_dispatches":441,"prefill_submits":1,"decode_dispatches_per_step":469,"decode_submits_per_step":1,"decode_steps":31,"route_a_steps":0,"route_b_steps":31,"acquire_events":1,"evict_events":1,"b_allocations":1,"b_materializations":1,"b_validations":1,"b_releases":1,"p1_calls":1,"p3_calls":0,"p0_calls":0,"finite":True}.items():
         if s.get(k)!=v:e.append(f"{k}={s.get(k)!r}")
     return e
 
@@ -84,9 +85,13 @@ def fixture_self_test():
             for m in MODE_ORDER[b]:
                 for s in SYSTEM_ORDER[b]:n+=1
     if n!=24:raise SystemExit("CORE0E fixture schedule count")
-    phase={"schema":"arcllm.core0e.phase_markers.v0.1","timing_authority":"DIAGNOSTIC_ONLY",
+    phase={"schema":"arcllm.core0e.phase_markers.v0.1","timing_authority":"DIAGNOSTIC_ONLY","clock":"std::chrono::steady_clock",
       **{k:(i+1)*1000 for i,k in enumerate(MARKERS)}}
     if validate_markers(phase):raise SystemExit("CORE0E marker fixture failed")
+    bad=dict(phase);bad["clock"]="system_clock"
+    if "phase_clock" not in validate_markers(bad):raise SystemExit("CORE0E marker clock negative fixture failed")
+    bad=dict(phase);bad["decode_wall_start_ns"]=phase["prefill_wall_end_ns"]
+    if "marker_order" not in validate_markers(bad):raise SystemExit("CORE0E marker order negative fixture failed")
     print("CORE0E_MEASURED_RUNNER_FIXTURE_SELF_TEST=PASS");return 0
 
 def main():
@@ -96,6 +101,8 @@ def main():
     if args.fixture_self_test:return fixture_self_test()
     a=load(Path(args.authorization))
     if a.get("authorized") is not True or a.get("measured_requests_authorized")!=24:raise SystemExit("STOP: CORE0E 24-request execution not authorized")
+    if a.get("rerun_authorized") is not False or a.get("selective_rerun_authorized") is not False or a.get("early_stop_authorized") is not False:raise SystemExit("STOP: CORE0E rerun/early-stop contract drift")
+    if a.get("optimization_authorized") is not False or a.get("mechanism_selection_authorized") is not False or a.get("npu_authorized") is not False:raise SystemExit("STOP: CORE0E forbidden science authorization drift")
     model=Path(args.model).resolve();tx=Path(args.token_xray_root).resolve();llama=Path(args.llama_root).resolve()
     if not model.exists() or model.stat().st_size!=MODEL_BYTES or sha256(model)!=MODEL_SHA:raise SystemExit("STOP: model mismatch")
     if subprocess.check_output(["git","-C",str(tx),"rev-parse","HEAD"],text=True).strip()!=TX_HEAD:raise SystemExit("STOP: Token-XRay pin drift")
