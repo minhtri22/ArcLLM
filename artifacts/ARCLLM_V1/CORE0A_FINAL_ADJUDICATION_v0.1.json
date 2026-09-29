@@ -1,0 +1,31 @@
+{
+  "schema": "arcllm.core0a.final_adjudication.v0.1",
+  "date": "2026-09-29",
+  "status": "PASS_CORE0A_TOKEN_XRAY_COMPATIBLE",
+  "classification": "ZERO_SCIENCE_TOOLING_COMPATIBILITY",
+  "arcllm_canonical_parent": "7a5672112dc22de15f0e9bb6445508fbb3099b15",
+  "token_xray_freeze": {
+    "ref": "freeze/token-xray-core-v0.1-arcllm-current-compatible",
+    "head": "35f86ac68f98ffe60fc441a790274cd1f1269dfe",
+    "validated_code_head": "984908d8ab457328fd82b74090d4ab29383acc2d"
+  },
+  "independent_revalidation": {
+    "verdict": "PASS_CORE0A_TOKEN_XRAY_COMPATIBLE",
+    "open_findings": 0,
+    "decode_geometry": "469/469",
+    "decode_semantic_nodes_expected": 451,
+    "prefill_geometry": "441/441",
+    "compileall": "PASS",
+    "pytest": "63 passed, 1 skipped, 0 failed",
+    "runtime_lifecycle_surface": "PASS",
+    "observer_contract": "PASS"
+  },
+  "boundaries": {
+    "science_measured_inferences": 0,
+    "performance_measurement": false,
+    "mechanism_selection": false,
+    "arcllm_runtime_modified": false,
+    "npu_execution_added": false
+  },
+  "next": "CORE0B_UNINSTRUMENTED_MATCHED_BASELINE_CONTRACT_PRELOCK"
+}
