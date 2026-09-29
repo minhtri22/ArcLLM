@@ -2,7 +2,8 @@ param(
   [string]$TokenXrayRoot = "D:\WORK\RESEARCH\_token_xray_core0a_freeze",
   [string]$LlamaDir = "D:\WORK\_llama_core0b",
   [string]$GeneratedDir = "D:\WORK\_core0d_generated",
-  [string]$LlamaBuildDir = "D:\WORK\_core0d_llama_build"
+  [string]$LlamaBuildDir = "D:\WORK\_core0d_llama_build",
+  [bool]$ReuseExistingLlamaBuild = $false
 )
 $ErrorActionPreference="Stop"
 Set-StrictMode -Version Latest
@@ -53,7 +54,7 @@ if($CMakeCmd){$CMakeExe=$CMakeCmd.Source}else{
   if(-not(Test-Path $CMakeExe)){throw "CORE0D cmake.exe not found"}
 }
 
-if(Test-Path $LlamaBuildDir){Remove-Item -Recurse -Force $LlamaBuildDir}
+if((Test-Path $LlamaBuildDir) -and (-not $ReuseExistingLlamaBuild)){Remove-Item -Recurse -Force $LlamaBuildDir}
 & $CMakeExe -S (Join-Path $Root "baseline") -B $LlamaBuildDir -G "Visual Studio 17 2022" -A x64 "-DLLAMA_CPP_DIR=$LlamaDir"
 if($LASTEXITCODE-ne0){throw "CORE0D llama configure failed"}
 & $CMakeExe --build $LlamaBuildDir --config Release --target core0d_llama_teacher_forced_adapter -- /m
