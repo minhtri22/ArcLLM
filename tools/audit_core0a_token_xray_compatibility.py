@@ -166,7 +166,11 @@ def main() -> None:
         "python_shader_mapping": lifecycle_shader in py_shaders,
         "cpp_shader_mapping": lifecycle_shader in cpp_shaders,
         "q4v4_runtime_name_shape": "Q4V4.P1.L<layer>",
-        "q4v4_runtime_name_supported_by_semantic_adapter": "Q4V4.P1." in tx_py,
+        "q4v4_lifecycle_separation_present": (
+            "Q4V4" in tx_py
+            and "not model-semantic" in tx_py
+            and "q4v4_lifecycle_event" in tx_py
+        ),
         "explicit_lifecycle_event_surface_detected": (
             "RUNTIME_LIFECYCLE_TRACE" in tx_lifecycle_schema
             and all(
