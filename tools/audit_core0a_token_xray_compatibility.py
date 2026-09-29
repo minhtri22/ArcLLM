@@ -209,6 +209,9 @@ def main() -> None:
         "tools/audit_core0a_token_xray_compatibility.py",
         "results/CORE0A_TOKEN_XRAY_COMPATIBILITY.json",
         "docs/research/arcllm-v1/TOKEN_XRAY_ARCLLM_ADAPTER_UPGRADE_HANDOFF.md",
+        "docs/research/arcllm-v1/CORE0A_FINAL_ADJUDICATION.md",
+        "artifacts/ARCLLM_V1/CORE0A_FINAL_ADJUDICATION_v0.1.json",
+        "docs/research/arcllm-v1/CORE0B_CURRENT_MAIN_MATCHED_REQUEST_BASELINE_PRELOCK.md",
     }
     unexpected_arc_changes = sorted(set(changed_since_parent) - allowed_research_changes)
     if not arc_parent_is_ancestor or unexpected_arc_changes:
