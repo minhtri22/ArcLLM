@@ -27,3 +27,7 @@ target_compile_features(q2_llama_adapter PRIVATE cxx_std_17)
 add_executable(i003_llama_adapter i003_llama_adapter.cpp)
 target_link_libraries(i003_llama_adapter PRIVATE llama)
 target_compile_features(i003_llama_adapter PRIVATE cxx_std_17)
+
+add_executable(core0b_llama_cold_adapter core0b_llama_cold_adapter.cpp)
+target_link_libraries(core0b_llama_cold_adapter PRIVATE llama)
+target_compile_features(core0b_llama_cold_adapter PRIVATE cxx_std_17)
