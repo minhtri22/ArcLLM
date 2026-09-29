@@ -54,9 +54,9 @@ def main():
    m=json.loads((Path(td)/"CORE0E_GENERATED_RUNTIME_MANIFEST.json").read_text())
    if bq and m.get("generated_sha256")!=bq.get("generated_runtime_manifest",{}).get("generated_sha256"):add("GENERATED_HASH","mismatch")
    src=(Path(td)/"core0e_arcllm_combined_runtime.cpp").read_text()
-   pos=[src.find(x.replace("_ns","")) for x in MARKERS]
-   # Markers are variable names without _ns in C++ until sidecar keys.
-   if any(x<0 for x in pos):add("ARC_MARKERS","missing")
+   arc_vars=["core0e_child_start","core0e_prefill_start","core0e_prefill_end","core0e_decode_start","core0e_decode_end","core0e_child_end"]
+   pos=[src.find(x) for x in arc_vars]
+   if any(x<0 for x in pos) or pos!=sorted(pos):add("ARC_MARKERS",repr(pos))
    if not (src.find("arcllm_core0c::lifecycle().flush();")<src.find("core0e_child_end")<src.find("std::ofstream po")):add("ARC_BOUNDARY_ORDER","invalid")
  lsrc=(ROOT/"baseline/core0e_llama_combined_phase_trace_adapter.cpp").read_text()
  order=["child_start","prefill_start","prefill_end","decode_start","decode_end","child_end"]
