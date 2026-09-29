@@ -59,7 +59,10 @@ if((Test-Path $LlamaBuildDir) -and (-not $ReuseExistingLlamaBuild)){Remove-Item 
 if($LASTEXITCODE-ne0){throw "CORE0D llama configure failed"}
 & $CMakeExe --build $LlamaBuildDir --config Release --target core0d_llama_teacher_forced_adapter -- /m
 if($LASTEXITCODE-ne0){throw "CORE0D llama build failed"}
-$LlamaExe=Get-ChildItem $LlamaBuildDir -Recurse -Filter core0d_llama_teacher_forced_adapter.exe|Where-Object {$_.FullName -like '*\\Release\\*'}|Select-Object -First 1 -ExpandProperty FullName
+$LlamaExe=Join-Path $LlamaBuildDir "Release\core0d_llama_teacher_forced_adapter.exe"
+if(-not(Test-Path $LlamaExe)){
+  $LlamaExe=Get-ChildItem $LlamaBuildDir -Recurse -Filter core0d_llama_teacher_forced_adapter.exe|Select-Object -First 1 -ExpandProperty FullName
+}
 if(-not $LlamaExe){throw "CORE0D llama executable missing"}
 $LlamaOut=Join-Path $Artifacts "core0d_llama_teacher_forced_adapter.exe"
 Copy-Item -Force $LlamaExe $LlamaOut
