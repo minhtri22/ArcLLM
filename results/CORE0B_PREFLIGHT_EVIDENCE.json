@@ -2,7 +2,7 @@
   "schema": "arcllm.core0b.preflight_evidence.v0.1",
   "status": "PASS_CORE0B_PREFLIGHT_EVIDENCE",
   "classification": "ZERO_SCIENCE_FUNCTIONAL_PREFLIGHT",
-  "implementation_head": "03856a26d1366da54c5034922b8b9dc48cfcf3b7",
+  "implementation_head": "7754d898f2e4c09263e583ac2e24e2938e1f9d7a",
   "canonical_parent": "7a5672112dc22de15f0e9bb6445508fbb3099b15",
   "target_model": {
     "path": "C:\\Users\\minht\\.ollama\\models\\blobs\\sha256-60e05f2100071479f596b964f89f510f057ce397ea22f2833a0cfe029bfc2463",
@@ -87,7 +87,7 @@
     "baseline/core0b_llama_cold_adapter.cpp": "2c170185e2a60cd5db9e93e3f2c278fc27eda02f",
     "baseline/CMakeLists.txt": "ce3c0ee009f82f6a79c592c5fe060a5484b9f5ec",
     "tools/build_core0b_llama_baseline.ps1": "3cd9387eae7a213b9f4f4c567305515c230f72f1",
-    "tools/run_core0b_primary.py": "36e6e0a79d01aacce0bb7b342013f920e85d4661",
+    "tools/run_core0b_primary.py": "c658dc72d6828f4b337d73f0da72b4c67f0d8a78",
     "tools/run_core0b_preflight.py": "549b8c596e42939d13ec324e9f8a099132a9ca37",
     "src/arcllm_v1_runtime.cpp": "0c613f6f740931a88ddd3ee5b904533a58001a06",
     "src/arcllm_v1_runtime_cli.cpp": "5526658f6469301f0e05ffa5a46f51bc9b511816",
