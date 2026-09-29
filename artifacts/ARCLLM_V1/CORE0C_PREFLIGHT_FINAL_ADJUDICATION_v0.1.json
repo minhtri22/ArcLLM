@@ -1,0 +1,34 @@
+{
+  "schema": "arcllm.core0c.preflight_final_adjudication.v0.1",
+  "date": "2026-09-29",
+  "verdict": "PASS_CORE0C_ZERO_SCIENCE_PREFLIGHT",
+  "open_findings": 0,
+  "implementation_head": "8113d909ab31f42198485cb13972b90d414dab89",
+  "evidence_commit": "74c5e859f59a2a529decb30c1bcda08e6437c17f",
+  "token_xray_head": "35f86ac68f98ffe60fc441a790274cd1f1269dfe",
+  "build": {
+    "trace_exe_sha256": "22CBBA8A3168EF0F1480994890C05F72D2061642B497E8B9AEBA2A5BD5CCAED4",
+    "timestamp_period_ns": 52.0833,
+    "timestamp_valid_bits": 64,
+    "selected_token_xray_tests": "38 passed, 1 skipped, 0 failed"
+  },
+  "static_contract": {
+    "decode_geometry": "469/469",
+    "prefill_geometry": "441/441",
+    "decode_semantics": "451/451",
+    "prefill_semantics": "451/451",
+    "lifecycle_separation": "PASS",
+    "phase_mismatch_rejection": "PASS",
+    "observer_effect_runner_fixture": "PASS",
+    "science_runner_fail_closed": "PASS"
+  },
+  "boundaries": {
+    "model_inference_executed": false,
+    "measured_requests_executed": 0,
+    "canonical_runtime_modified": false,
+    "kernel_source_modified": false,
+    "core0b_performance_authority_changed": false,
+    "mechanism_selected": false
+  },
+  "consequence": "EXACT_12_REQUEST_CORE0C_DIAGNOSTIC_COLLECTION_MAY_BE_AUTHORIZED"
+}
