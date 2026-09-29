@@ -120,7 +120,7 @@ def patch_phase_markers(s: str) -> str:
         "            po<<\"  \\\"prefill_wall_end_ns\\\":\"<<core0e_abs_ns(core0e_prefill_end)<<\",\\n\";\n"
         "            po<<\"  \\\"decode_wall_start_ns\\\":\"<<core0e_abs_ns(core0e_decode_start)<<\",\\n\";\n"
         "            po<<\"  \\\"decode_wall_end_ns\\\":\"<<core0e_abs_ns(core0e_decode_end)<<\",\\n\";\n"
-        "            po<<\"  \\\"child_science_window_end_ns\\\":\"<<core0e_abs_ns(core0e_child_end)<<\"\\n}\\";\n"
+        "            po<<\"  \\\"child_science_window_end_ns\\\":\"<<core0e_abs_ns(core0e_child_end)<<\"\\n}\\n\";\n"
         "        }\n"
         "        return result;\n",
         "child end and sidecar",
