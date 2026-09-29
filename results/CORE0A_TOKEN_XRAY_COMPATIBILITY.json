@@ -1,13 +1,13 @@
 {
   "schema": "arcllm.core0a.token_xray_compatibility.v0.1",
   "classification": "ZERO_SCIENCE_COMPATIBILITY_PREFLIGHT",
-  "verdict": "STOP_BEFORE_INSTRUMENTED_RUN_TOKEN_XRAY_ADAPTER_DRIFT",
+  "verdict": "PASS_CORE0A_TOKEN_XRAY_COMPATIBLE",
   "science_measured_inferences": 0,
   "performance_measurement_authorized": false,
   "mechanism_selection_authorized": false,
   "pins": {
     "arcllm_canonical_parent": "7a5672112dc22de15f0e9bb6445508fbb3099b15",
-    "arcllm_audit_checkout_head": "bee69e261a144f153bb1b347e8d19e0fac922ae1",
+    "arcllm_audit_checkout_head": "627887383d0e657c258fde075b568be99d08da04",
     "arcllm_parent_is_ancestor": true,
     "arcllm_changes_since_parent": [
       "artifacts/ARCLLM_V1/CORE0A_FINAL_ADJUDICATION_v0.1.json",
@@ -18,11 +18,7 @@
       "results/CORE0A_TOKEN_XRAY_COMPATIBILITY.json",
       "tools/audit_core0a_token_xray_compatibility.py"
     ],
-    "arcllm_unexpected_runtime_product_changes": [
-      "artifacts/ARCLLM_V1/CORE0A_FINAL_ADJUDICATION_v0.1.json",
-      "docs/research/arcllm-v1/CORE0A_FINAL_ADJUDICATION.md",
-      "docs/research/arcllm-v1/CORE0B_CURRENT_MAIN_MATCHED_REQUEST_BASELINE_PRELOCK.md"
-    ],
+    "arcllm_unexpected_runtime_product_changes": [],
     "token_xray": "35f86ac68f98ffe60fc441a790274cd1f1269dfe",
     "token_xray_validated_code_head": "984908d8ab457328fd82b74090d4ab29383acc2d",
     "token_xray_audit_checkout_head": "35f86ac68f98ffe60fc441a790274cd1f1269dfe",
@@ -87,7 +83,7 @@
         "-q"
       ],
       "returncode": 0,
-      "stdout": "...............................................................s         [100%]\n63 passed, 1 skipped in 0.27s\n",
+      "stdout": "...............................................................s         [100%]\n63 passed, 1 skipped in 0.29s\n",
       "stderr": ""
     }
   },
@@ -125,12 +121,6 @@
     "readme_references_arcllm_revalidation_handoff": true,
     "referenced_handoff_exists": true
   },
-  "findings": [
-    {
-      "id": "PIN-ARC",
-      "severity": "BLOCKER",
-      "detail": "Frozen canonical parent not preserved or runtime/product drift detected: ancestor=True, unexpected=['artifacts/ARCLLM_V1/CORE0A_FINAL_ADJUDICATION_v0.1.json', 'docs/research/arcllm-v1/CORE0A_FINAL_ADJUDICATION.md', 'docs/research/arcllm-v1/CORE0B_CURRENT_MAIN_MATCHED_REQUEST_BASELINE_PRELOCK.md']"
-    }
-  ],
-  "open_finding_count": 1
+  "findings": [],
+  "open_finding_count": 0
 }
