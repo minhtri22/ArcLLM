@@ -2,9 +2,9 @@
   "schema": "arcllm.core0d_r1.science_authorization.v0.1",
   "date": "2026-09-29",
   "program": "CORE-0D-R1",
-  "authorized": true,
-  "measured_requests_authorized": 36,
-  "authorization_scope": "ONE_FRESH_COMPLETE_36_REQUEST_ATTRIBUTION_COLLECTION_ONLY",
+  "authorized": false,
+  "measured_requests_authorized": 0,
+  "authorization_scope": "CONSUMED_BY_FIRST_COMPLETE_VALID_CORE0D_R1_COLLECTION",
   "execution_lock_blob": "bb111d011c5c882809230b51c39608eb3c452a33",
   "execution_lock_path": "config/core0d_execution_lock_v0.1.json",
   "r1_execution_lock_blob": "58324b3c767d172db35044c28640d57b3287fd03",
@@ -292,5 +292,11 @@
   "rerun_authorized": false,
   "early_stop_authorized": false,
   "selective_rerun_authorized": false,
-  "next": "RUN_ONE_FRESH_COMPLETE_36_REQUEST_CORE0D_R1_COLLECTION"
+  "next": "RUN_ONE_FRESH_COMPLETE_36_REQUEST_CORE0D_R1_COLLECTION",
+  "consumed": true,
+  "consumed_dataset": "core0d_measured_20260929T121751651960Z",
+  "consumed_dataset_commit": "630406103254b4358ab32a758b73c0fb4d4742f9",
+  "final_verdict": "PASS_CORE0D_R1_EXCESS_COST_ATTRIBUTION_COMPLETE",
+  "amdahl_decision": "H_OUTSIDE_TOKEN_GPU",
+  "successor": "CORE-0E_OUTSIDE_GPU_PHASE_ATTRIBUTION_PREREGISTRATION"
 }
