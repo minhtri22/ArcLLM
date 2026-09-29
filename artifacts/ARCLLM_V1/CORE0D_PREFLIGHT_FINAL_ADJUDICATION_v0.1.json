@@ -3,8 +3,8 @@
   "date": "2026-09-29",
   "verdict": "PASS_CORE0D_ZERO_SCIENCE_PREFLIGHT",
   "open_findings": 0,
-  "evidence_commit": "559883987ebb113bc64f11b617a1d3b7b33fdcf0",
-  "implementation_payload_head": "aae8a99bfb63417d35426a005a5c3a083f653733",
+  "evidence_commit": "e8c8b954acd78a4c4ec8c87f4df611cca6c8a960",
+  "implementation_payload_head": "0dbbfbc002a1cca03178df703c14f711337e7963",
   "build": {
     "arc_control_phase_exe_sha256": "72FC72A5E217A694A47A6FC7B866B9DC50904418317FD54CC2E3FFA5C2D8ABD2",
     "arc_trace_exe_sha256": "7DF37ED84E64AD87CF13B5B8D9F65CF3A9CAB9E8239CDE41E2A145EB358F0AFE",
