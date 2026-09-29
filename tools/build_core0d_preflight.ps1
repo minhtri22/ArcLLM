@@ -3,7 +3,7 @@ param(
   [string]$LlamaDir = "D:\WORK\_llama_core0b",
   [string]$GeneratedDir = "D:\WORK\_core0d_generated",
   [string]$LlamaBuildDir = "D:\WORK\_core0d_llama_build",
-  [bool]$ReuseExistingLlamaBuild = $false
+  [switch]$ReuseExistingLlamaBuild
 )
 $ErrorActionPreference="Stop"
 Set-StrictMode -Version Latest
