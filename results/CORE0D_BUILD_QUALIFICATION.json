@@ -1,0 +1,40 @@
+{
+    "schema":  "arcllm.core0d.build_qualification.v0.1",
+    "status":  "PASS_CORE0D_BUILD_AND_ZERO_SCIENCE_SELF_TESTS",
+    "classification":  "ZERO_SCIENCE_IMPLEMENTATION_PREFLIGHT",
+    "git_head":  "aae8a99bfb63417d35426a005a5c3a083f653733",
+    "llama_head":  "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+    "llama_clean":  true,
+    "token_xray_head":  "35f86ac68f98ffe60fc441a790274cd1f1269dfe",
+    "token_xray_clean":  true,
+    "vulkan_sdk":  "C:\\VulkanSDK\\1.4.357.0",
+    "generated_runtime_manifest":  {
+                                       "schema":  "arcllm.core0d.generated_runtime.v0.1",
+                                       "classification":  "BENCHMARK_ONLY_DETERMINISTIC_DERIVATIVES",
+                                       "canonical_runtime_blob":  "0c613f6f740931a88ddd3ee5b904533a58001a06",
+                                       "core0c_materializer_blob":  "fd794eae998ac00067f38153fe5f552f622275c0",
+                                       "generated_sha256":  {
+                                                                "core0d_arcllm_control_phase_runtime.cpp":  "2CE6B19C4E83069560B213FB828A0FE54A7DD7C8DE84DEEB6B9DD96F9B9A5CED",
+                                                                "core0d_arcllm_trace_runtime.cpp":  "F2AFC6B6D45B5DB566B1578038F5843A299568B8B23B059CF2ABEEB1FEE26644",
+                                                                "core0d_arcllm_trace_vulkan_runtime_support.h":  "8BACF34BEE29796EA3DBDBDE3174403EFD7CA25D5ED7F08922EF8D60B7A55004",
+                                                                "core0d_arcllm_trace_q4_vulkan_backend_v4_runtime.h":  "AFD787C15C15C0ED837BD476E315E54E3ED0C069A1DAAD11CACDC94CB40DFA7D"
+                                                            },
+                                       "control_phase_patch_scope":  [
+                                                                         "teacher-forced decode inputs",
+                                                                         "optional monotonic host phase timestamps"
+                                                                     ],
+                                       "trace_patch_scope":  [
+                                                                 "teacher-forced decode inputs",
+                                                                 "frozen CORE0C Token-XRay Vulkan timestamps"
+                                                             ],
+                                       "canonical_runtime_modified":  false,
+                                       "kernel_source_modified":  false
+                                   },
+    "arc_control_phase_exe_sha256":  "72FC72A5E217A694A47A6FC7B866B9DC50904418317FD54CC2E3FFA5C2D8ABD2",
+    "arc_trace_exe_sha256":  "7DF37ED84E64AD87CF13B5B8D9F65CF3A9CAB9E8239CDE41E2A145EB358F0AFE",
+    "llama_adapter_exe_sha256":  "A9BA63AB72E84AE6F4442F0CC2D41700838178A962D4F4CAC632AB2C1629204C",
+    "model_inference_executed":  false,
+    "measured_requests_executed":  0,
+    "canonical_runtime_modified":  false,
+    "kernel_source_modified":  false
+}
