@@ -173,6 +173,16 @@ def main() -> int:
     if sha256(llama_exe) != auth["llama_exe_sha256"]:
         raise SystemExit("STOP: llama adapter executable hash drift")
 
+    frozen_shaders = auth.get("active_shader_sha256", {})
+    if not frozen_shaders:
+        raise SystemExit("STOP: active shader hash freeze is absent")
+    for name, expected_sha in frozen_shaders.items():
+        shader = shader_dir / name
+        if not shader.exists():
+            raise SystemExit(f"STOP: frozen active shader missing: {name}")
+        if sha256(shader) != expected_sha:
+            raise SystemExit(f"STOP: frozen active shader hash drift: {name}")
+
     for path, expected_blob in auth.get("critical_git_blobs", {}).items():
         got = git("rev-parse", f"HEAD:{path}")
         if got != expected_blob:
