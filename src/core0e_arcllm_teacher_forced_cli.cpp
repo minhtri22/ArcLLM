@@ -79,7 +79,7 @@ int main(int argc,char**argv){
         if(mode!="CONTROL_UNINSTRUMENTED"&&mode!="COMBINED_PHASE_TRACE")
             throw std::runtime_error("invalid CORE0E mode");
 
-        env_set("ARCLLM_CORE0E_FORCED_DECODE_IDS",csv(forced));
+        env_set("ARCLLM_CORE0D_FORCED_DECODE_IDS",csv(forced));
         env_clear("ARCLLM_CORE0E_PHASE_OUT");
         env_clear("ARCLLM_CORE0C_TRACE_DIR");
         env_clear("ARCLLM_CORE0C_RUN_ID");
