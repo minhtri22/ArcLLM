@@ -1,0 +1,173 @@
+{
+  "schema": "arcllm.core0c.final_adjudication.v0.1",
+  "date": "2026-09-29",
+  "verdict": "PASS_CORE0C_DIAGNOSTIC_LOCALIZATION_COMPLETE",
+  "scientific_role": "TOKEN_XRAY_DIAGNOSTIC_LOCALIZATION_WITH_OBSERVER_EFFECT",
+  "dataset_name": "core0c_measured_20260929T064130264001Z",
+  "dataset_commit": "73fd1064495578bf2aeb9d90d108df3385c46edc",
+  "independent_adjudication_commit": "7f076598480ba09dd5ba8f03f7e0d5147cdd3902",
+  "collection": {
+    "measured_requests": 12,
+    "trace_requests": 6,
+    "control_requests": 6,
+    "valid_blocks": 6,
+    "open_findings": 0
+  },
+  "observer_effect": {
+    "W-S": {
+      "ratios": [
+        1.3304303376058138,
+        1.022072371026076,
+        1.0035309092083273
+      ],
+      "median": 1.022072371026076,
+      "range": [
+        1.0035309092083273,
+        1.3304303376058138
+      ],
+      "mad": 0.018541461817748628
+    },
+    "W-C": {
+      "ratios": [
+        1.0992452673240647,
+        0.8731147169629202,
+        0.9305422344691798
+      ],
+      "median": 0.9305422344691798,
+      "range": [
+        0.8731147169629202,
+        1.0992452673240647
+      ],
+      "mad": 0.05742751750625963
+    },
+    "interpretation": "HOST_NONSTATIONARITY_PREVENTS_SIMPLE_CAUSAL_OVERHEAD_ESTIMATE"
+  },
+  "localization": {
+    "W-S": {
+      "trace_wall_median_ms": 61353.7049,
+      "observed_gpu_span_plus_p1_ms": 30074.238356,
+      "observed_gpu_fraction_of_trace_wall": 0.490178032524976,
+      "prefill_share_of_observed_gpu": 0.0302684702177466,
+      "decode_share_of_observed_gpu": 0.968886635002235,
+      "p1_share_of_observed_gpu": 0.000844894780017949,
+      "prefill_top": [
+        [
+          "lm_head",
+          0.570228927935172
+        ],
+        [
+          "ffn_gate_up_fused",
+          0.21493418205973172
+        ],
+        [
+          "ffn_down",
+          0.15067290037170897
+        ],
+        [
+          "o_proj",
+          0.02360933030840406
+        ],
+        [
+          "q_proj",
+          0.022883758665952898
+        ]
+      ],
+      "decode_top": [
+        [
+          "lm_head",
+          0.606335403028088
+        ],
+        [
+          "ffn_down",
+          0.13644597264573685
+        ],
+        [
+          "ffn_up",
+          0.07809173807732511
+        ],
+        [
+          "ffn_gate",
+          0.07799360044064955
+        ],
+        [
+          "q_proj",
+          0.02631970662004642
+        ]
+      ],
+      "p1_materialize_median_ns": 25409567
+    },
+    "W-C": {
+      "trace_wall_median_ms": 70362.2485,
+      "observed_gpu_span_plus_p1_ms": 38543.871584,
+      "observed_gpu_fraction_of_trace_wall": 0.54779192543854,
+      "prefill_share_of_observed_gpu": 0.278209585656967,
+      "decode_share_of_observed_gpu": 0.721234237054166,
+      "p1_share_of_observed_gpu": 0.000556177288866301,
+      "prefill_top": [
+        [
+          "ffn_gate_up_fused",
+          0.4868814428212052
+        ],
+        [
+          "ffn_down",
+          0.31138079776522304
+        ],
+        [
+          "q_proj",
+          0.0646307089989347
+        ],
+        [
+          "o_proj",
+          0.06338959331742289
+        ],
+        [
+          "lm_head",
+          0.04124790802806455
+        ]
+      ],
+      "decode_top": [
+        [
+          "lm_head",
+          0.5715916075015884
+        ],
+        [
+          "ffn_down",
+          0.14105579020524395
+        ],
+        [
+          "ffn_gate",
+          0.08187920441918567
+        ],
+        [
+          "ffn_up",
+          0.08177981236318355
+        ],
+        [
+          "q_proj",
+          0.02796209453990315
+        ]
+      ],
+      "p1_materialize_median_ns": 21437226
+    }
+  },
+  "trace_quality": {
+    "token_trace_files": 192,
+    "lifecycle_trace_files": 6,
+    "prefill_dispatches_per_trace": 441,
+    "decode_dispatches_per_trace": 469,
+    "semantic_nodes_per_phase": 451,
+    "dispatch_timestamp_coverage": "100%",
+    "q4v4_materialize_events_per_trace": 14
+  },
+  "boundaries": {
+    "core0b_performance_authority_preserved": true,
+    "token_xray_timing_authority": "DIAGNOSTIC_ONLY",
+    "simple_observer_overhead_estimate_identifiable": false,
+    "causal_mechanism_claim": false,
+    "mechanism_selected": false,
+    "hardware_counters_used": false,
+    "profiler_used": false,
+    "npu_result": false
+  },
+  "scientific_consequence": "CORE-0C localizes the current ArcLLM diagnostic GPU-time distribution and establishes that host nonstationarity prevents a clean causal estimate of Token-XRay overhead from these paired wall times. Q4V4 P1 materialization is small relative to observed GPU execution; decode lm_head is the largest observed dispatch-time family. A downstream CORE-0D study may now join CORE-0B authority with CORE-0C localization to test an excess-cost map before any mechanism selection."
+}
