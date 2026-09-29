@@ -17,8 +17,8 @@
       "W-C": 8.63225451567552
     }
   },
-  "implementation_payload_head": "aae8a99bfb63417d35426a005a5c3a083f653733",
-  "final_preflight_evidence_commit": "559883987ebb113bc64f11b617a1d3b7b33fdcf0",
+  "implementation_payload_head": "0dbbfbc002a1cca03178df703c14f711337e7963",
+  "final_preflight_evidence_commit": "e8c8b954acd78a4c4ec8c87f4df611cca6c8a960",
   "preflight": {
     "build": "results/CORE0D_BUILD_QUALIFICATION.json",
     "static_evidence": "results/CORE0D_PREFLIGHT_EVIDENCE.json",
@@ -269,7 +269,7 @@
     "src/core0d_arcllm_teacher_forced_cli.cpp": "d2bb7b7f4475b52523c849cb4fb1a1355a9b788e",
     "tools/materialize_core0d_runtime.py": "62d0040bd5205e64988b92ed36731a21333b0b7e",
     "tools/parse_core0d_llama_vk_perf.py": "0b17d97cdc416a67c4d25eb48fc181fdc9986427",
-    "tools/run_core0d_measured.py": "199a2270ad16ea066c488794fe5693bb4b02e6b7",
+    "tools/run_core0d_measured.py": "9566cf90da18069ddc8259ece16261b5ca6b5cac",
     "src/core0c_token_xray_bridge.h": "f089f055bbf55f20e85810ec217471b93b36ffaf",
     "tools/materialize_core0c_trace_runtime.py": "fd794eae998ac00067f38153fe5f552f622275c0",
     "src/arcllm_v1_runtime.cpp": "0c613f6f740931a88ddd3ee5b904533a58001a06",
