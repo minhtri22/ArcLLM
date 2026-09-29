@@ -48,7 +48,7 @@ if(-not $VulkanHome){throw "CORE0C Vulkan SDK $VulkanVersion not found"}
 
 $ProbeExe=Join-Path $Artifacts "core0c_vulkan_timestamp_probe.exe"
 $ProbeSrc=Join-Path $Root "tools\core0c_vulkan_timestamp_probe.cpp"
-$ProbeCmd='"'+$DevCmd+'" >nul && cl.exe /nologo /std:c++17 /O2 /EHsc /W4 /I:"'+(Join-Path $VulkanHome "Include")+'" /Fe:"'+$ProbeExe+'" "'+$ProbeSrc+'" /link /LIBPATH:"'+(Join-Path $VulkanHome "Lib")+'" vulkan-1.lib'
+$ProbeCmd='"'+$DevCmd+'" >nul && cl.exe /nologo /std:c++17 /O2 /EHsc /W4 /I"'+(Join-Path $VulkanHome "Include")+'" /Fe:"'+$ProbeExe+'" "'+$ProbeSrc+'" /link /LIBPATH:"'+(Join-Path $VulkanHome "Lib")+'" vulkan-1.lib'
 cmd.exe /d /s /c $ProbeCmd
 if($LASTEXITCODE-ne0-or-not(Test-Path $ProbeExe)){throw "CORE0C timestamp probe build failed"}
 $ProbeOut=Join-Path $Results "CORE0C_VULKAN_TIMESTAMP_PROBE.json"
@@ -63,7 +63,7 @@ $TxSdk=Join-Path $TokenXrayRoot "sdk"
 $TxVk=Join-Path $TxSdk "vulkan"
 $FixtureExe=Join-Path $Artifacts "core0c_token_xray_fixture_smoke.exe"
 $FixtureSrc=Join-Path $Root "tests\core0c_token_xray_fixture_smoke.cpp"
-$FixtureCmd='"'+$DevCmd+'" >nul && cl.exe /nologo /std:c++17 /O2 /EHsc /W4 /I:"'+(Join-Path $Root "src")+'" /I:"'+$TxVk+'" /I:"'+$TxSdk+'" /Fe:"'+$FixtureExe+'" "'+$FixtureSrc+'"'
+$FixtureCmd='"'+$DevCmd+'" >nul && cl.exe /nologo /std:c++17 /O2 /EHsc /W4 /I"'+(Join-Path $Root "src")+'" /I"'+$TxVk+'" /I"'+$TxSdk+'" /Fe:"'+$FixtureExe+'" "'+$FixtureSrc+'"'
 cmd.exe /d /s /c $FixtureCmd
 if($LASTEXITCODE-ne0-or-not(Test-Path $FixtureExe)){throw "CORE0C fixture smoke build failed"}
 
@@ -90,11 +90,11 @@ $Sources=@(
   (Join-Path $Root "src\registrations\arcllm_v1_q4k_down_reference_registration_v2.cpp")
 ) | ForEach-Object {'"'+$_+'"'}
 $Includes=@(
-  '/I:"'+$GeneratedDir+'"',
-  '/I:"'+(Join-Path $Root "src")+'"',
-  '/I:"'+(Join-Path $Root "include")+'"',
-  '/I:"'+$TxVk+'"',
-  '/I:"'+$TxSdk+'"'
+  '/I"'+$GeneratedDir+'"',
+  '/I"'+(Join-Path $Root "src")+'"',
+  '/I"'+(Join-Path $Root "include")+'"',
+  '/I"'+$TxVk+'"',
+  '/I"'+$TxSdk+'"'
 ) -join ' '
 $TraceCmd='"'+$DevCmd+'" >nul && cl.exe /nologo /std:c++17 /O2 /EHsc /W4 /bigobj '+$Includes+' /Fe:"'+$TraceExe+'" '+($Sources -join ' ')
 cmd.exe /d /s /c $TraceCmd
