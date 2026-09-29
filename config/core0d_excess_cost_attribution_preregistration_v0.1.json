@@ -1,0 +1,415 @@
+{
+  "schema": "arcllm.core0d.excess_cost_attribution_preregistration.v0.1",
+  "date": "2026-09-29",
+  "program": "CORE-0D",
+  "status": "PREREGISTERED_NOT_AUTHORIZED_FOR_MEASURED_EXECUTION",
+  "parent_results": {
+    "core0b": {
+      "verdict": "PASS_CORE0B_MATCHED_REQUEST_CHARACTERIZATION_COMPLETE",
+      "dataset_commit": "3985a2ac1697225489da01564dbc3e49a298ef69",
+      "performance_authority": "UNINSTRUMENTED_CHILD_WALL_MS",
+      "global_geometric_mean_arc_over_llama": 7.398325462576348,
+      "workload_pooled_reference": {
+        "W-S": {
+          "n": 10,
+          "median_ratio": 6.91387843464958,
+          "mad": 0.947431542046358,
+          "min": 5.1232830968834,
+          "max": 7.93573882053145
+        },
+        "W-C": {
+          "n": 10,
+          "median_ratio": 8.63225451567552,
+          "mad": 0.539079212513709,
+          "min": 5.31134379260314,
+          "max": 11.0338346842253
+        }
+      }
+    },
+    "core0c": {
+      "verdict": "PASS_CORE0C_DIAGNOSTIC_LOCALIZATION_COMPLETE",
+      "dataset_commit": "73fd1064495578bf2aeb9d90d108df3385c46edc",
+      "timing_authority": "DIAGNOSTIC_ONLY",
+      "observer_effect_interpretation": "HOST_NONSTATIONARITY_PREVENTS_SIMPLE_CAUSAL_OVERHEAD_ESTIMATE"
+    }
+  },
+  "scientific_question": "Under a frozen common teacher-forced token trajectory, can the current ArcLLM-vs-llama.cpp request excess be prospectively decomposed into token-GPU execution excess and outside-token-GPU residual excess with sufficient transfer back to CORE-0B to support an Amdahl-gated choice of which region deserves the next core study?",
+  "canonical_parent_head": "368ac7b5cfefb66d67d55f2654e4f0a207c48cdc",
+  "systems": {
+    "arcllm": {
+      "role": "CURRENT_CANONICAL_PRODUCT_RUNTIME_AS_DIAGNOSTIC_PARENT",
+      "canonical_exe_sha256": "6DCDC89154307A486115D8904DF1B434B34A812CDA8A16A577142B3E778765BF",
+      "canonical_runtime_must_remain_unmodified": true,
+      "diagnostic_derivatives_only": true,
+      "core0c_token_xray_pin": "35f86ac68f98ffe60fc441a790274cd1f1269dfe"
+    },
+    "llama": {
+      "repository": "ggml-org/llama.cpp",
+      "release": "v0.4.1",
+      "commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+      "backend": "Vulkan",
+      "core0b_adapter_blob": "2c170185e2a60cd5db9e93e3f2c278fc27eda02f",
+      "existing_phase_surface": {
+        "api": "llama_perf_context_data",
+        "fields": [
+          "t_load_ms",
+          "t_p_eval_ms",
+          "t_eval_ms",
+          "n_p_eval",
+          "n_eval",
+          "n_reused"
+        ],
+        "role": "SECONDARY_PHASE_EVIDENCE_ONLY",
+        "note": "llama.h explicitly advises third-party apps to do their own performance measurements; external child wall remains the enclosing clock."
+      },
+      "existing_gpu_trace_surface": {
+        "enable_env": "GGML_VK_PERF_LOGGER",
+        "concurrent_env_must_be_unset": "GGML_VK_PERF_LOGGER_CONCURRENT",
+        "frequency_env": "GGML_VK_PERF_LOGGER_FREQUENCY=1",
+        "source_semantics": "Vulkan query-pool timestamps around graph operations",
+        "observer_effect": "FORCES_COMMAND_BUFFER_END_SUBMIT_WAIT_AND_IS_DIAGNOSTIC_ONLY"
+      }
+    }
+  },
+  "model": {
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "bytes": 4683074048,
+    "vocab": 152064,
+    "layers": 28
+  },
+  "workloads": {
+    "W-S": {
+      "prompt_tokens": [
+        1,
+        133151,
+        133152,
+        152062
+      ],
+      "prompt_length": 4,
+      "core0b_prompt_hash_fnv1a64": "93833ffb49890aba",
+      "forced_decode_input_tokens": [
+        136406,
+        144325,
+        181,
+        8100,
+        16019,
+        23938,
+        31857,
+        39776,
+        47695,
+        55614,
+        63533,
+        71452,
+        79371,
+        87290,
+        95209,
+        103128,
+        111047,
+        118966,
+        126885,
+        134804,
+        142723,
+        150642,
+        6498,
+        14417,
+        22336,
+        30255,
+        38174,
+        46093,
+        54012,
+        61931,
+        69850
+      ]
+    },
+    "W-C": {
+      "prompt_definition": "Exact frozen CORE-0B 256-token W-C prompt: first four tokens [1,133151,133152,152062], then token(i)=1+((104729+7919*i) mod 152063) for i=4..255.",
+      "prompt_length": 256,
+      "core0b_prompt_hash_fnv1a64": "5973d0cfd8ad6313",
+      "forced_decode_input_tokens": [
+        3112,
+        11031,
+        18950,
+        26869,
+        34788,
+        42707,
+        50626,
+        58545,
+        66464,
+        74383,
+        82302,
+        90221,
+        98140,
+        106059,
+        113978,
+        121897,
+        129816,
+        137735,
+        145654,
+        1510,
+        9429,
+        17348,
+        25267,
+        33186,
+        41105,
+        49024,
+        56943,
+        64862,
+        72781,
+        80700,
+        88619
+      ]
+    }
+  },
+  "common_trajectory_contract": {
+    "purpose": "Remove autoregressive token-trajectory divergence as a confound in cross-system internal-cost attribution.",
+    "prefill": "Both systems consume the exact frozen workload prompt.",
+    "decode_steps": 31,
+    "next_input_rule": "At each cached-decode step, feed the exact frozen forced_decode_input_tokens entry for that workload, never either system's predicted top-1 token.",
+    "logits_rule": "Both systems still compute full logits and perform the same full-vocabulary finite/top-1 scan after each prefill/decode call so host scan cost is not silently removed; predicted top-1 is recorded but not fed back.",
+    "predicted_token_equality_required": false,
+    "forced_input_identity_required": true,
+    "finite_logits_required": true,
+    "topology_shape_required": "1 prefill + 31 cached decode calls on both systems",
+    "note": "CORE-0B remains valid as same-prompt/same-output-length request characterization; this contract exists only because its natural autoregressive output sequences differ across systems and therefore cannot be used for exact internal cross-system attribution."
+  },
+  "attribution_regions": {
+    "G_TOKEN_GPU": {
+      "definition": "GPU timestamp duration attributable to token model execution only: prefill plus 31 cached-decode graph executions.",
+      "excludes": [
+        "process launch",
+        "model load",
+        "context/runtime construction",
+        "Q4V4 P1 lifecycle materialization",
+        "result serialization",
+        "process exit",
+        "unobserved host work"
+      ],
+      "arcllm_measurement": "Token-XRay Vulkan timestamp spans using the frozen CORE-0C trace contract.",
+      "llama_measurement": "Exact pinned llama.cpp GGML_VK_PERF_LOGGER Vulkan timestamp totals, qualified as 1 prefill timing block + 31 decode timing blocks.",
+      "timing_authority": "DIAGNOSTIC_ONLY"
+    },
+    "H_OUTSIDE_TOKEN_GPU": {
+      "definition": "Within the same diagnostic TRACE request: external child wall time minus G_TOKEN_GPU duration.",
+      "interpretation_limit": "Residual is not automatically labeled model-load, setup, CPU orchestration, allocation, I/O or any specific mechanism.",
+      "timing_authority": "DIAGNOSTIC_ONLY"
+    }
+  },
+  "secondary_phase_evidence": {
+    "purpose": "Subdivide H descriptively without changing the two-region primary decomposition.",
+    "llama": [
+      "external child wall",
+      "t_load_ms",
+      "t_p_eval_ms",
+      "t_eval_ms",
+      "unaccounted residual"
+    ],
+    "arcllm": [
+      "external child wall",
+      "benchmark-only monotonic host timestamps around backend/runtime init",
+      "model/GGUF load and tensor materialization boundary",
+      "context/buffer/pipeline preparation boundary",
+      "prefill call wall",
+      "31-step decode-loop wall",
+      "result serialization/finalization boundary"
+    ],
+    "qualification_rule": "Exact boundary names and nesting must be frozen in implementation preflight. If a boundary cannot be observed without changing canonical execution semantics, report it as unavailable; do not infer it."
+  },
+  "collection_design": {
+    "blocks_per_workload": 3,
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "modes": [
+      "CONTROL_UNINSTRUMENTED",
+      "PHASE_ONLY",
+      "GPU_TRACE"
+    ],
+    "systems": [
+      "ArcLLM",
+      "llama.cpp"
+    ],
+    "requests_per_block": 6,
+    "total_requests": 36,
+    "system_pair_order": {
+      "block_0": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "block_1": [
+        "llama.cpp",
+        "ArcLLM"
+      ],
+      "block_2": [
+        "ArcLLM",
+        "llama.cpp"
+      ]
+    },
+    "mode_order": {
+      "block_0": [
+        "CONTROL_UNINSTRUMENTED",
+        "PHASE_ONLY",
+        "GPU_TRACE"
+      ],
+      "block_1": [
+        "GPU_TRACE",
+        "CONTROL_UNINSTRUMENTED",
+        "PHASE_ONLY"
+      ],
+      "block_2": [
+        "PHASE_ONLY",
+        "GPU_TRACE",
+        "CONTROL_UNINSTRUMENTED"
+      ]
+    },
+    "adjacency_rule": "Within each mode, the two systems form an adjacent matched pair before moving to the next mode.",
+    "no_early_stop": true,
+    "no_selective_rerun": true,
+    "automatic_rerun": false,
+    "first_complete_valid_collection_is_primary": true
+  },
+  "measurement_authority": {
+    "core0b_remains_product_performance_authority": true,
+    "core0d_control_wall": "ATTRIBUTION_TRANSFER_CHECK_ONLY",
+    "core0d_phase_only": "DIAGNOSTIC_ONLY",
+    "core0d_gpu_trace": "DIAGNOSTIC_ONLY",
+    "no_posthoc_overhead_correction": true
+  },
+  "preregistered_gates": {
+    "G0_COMMON_TRAJECTORY_VALIDITY": {
+      "pass_if": [
+        "Exact model/workload/forced-token identities match the preregistration.",
+        "Both systems execute 1 prefill + 31 cached decode calls.",
+        "All logits scans are finite.",
+        "No predicted token is fed back into the decode trajectory."
+      ],
+      "fail_class": "STOP_CORE0D_COMMON_TRAJECTORY_INVALID"
+    },
+    "G1_CONTROL_TOTAL_TRANSFER": {
+      "metric": "Per workload, three adjacent CONTROL ArcLLM/llama external-wall ratios.",
+      "pass_if": [
+        "All three ratios are > 1.",
+        "Median ratio is within a multiplicative factor of 1.5 of the frozen CORE-0B workload pooled median.",
+        "max_ratio/min_ratio <= 2.5."
+      ],
+      "frozen_core0b_medians": {
+        "W-S": 6.91387843464958,
+        "W-C": 8.63225451567552
+      },
+      "fail_class": "STOP_CORE0D_TOTAL_TRANSFER_NOT_QUALIFIED"
+    },
+    "G2_TRACE_TRANSFER": {
+      "metric": "Per workload, three adjacent GPU_TRACE ArcLLM/llama external-wall ratios.",
+      "pass_if": [
+        "All three trace-pair total excesses are positive.",
+        "TRACE median system ratio is within a multiplicative factor of 1.5 of the corresponding CONTROL median system ratio."
+      ],
+      "fail_class": "STOP_CORE0D_TRACE_TRANSFER_NOT_QUALIFIED"
+    },
+    "G3_GPU_MEASUREMENT_QUALIFICATION": {
+      "arcllm": [
+        "Exactly 1 prefill + 31 decode Token-XRay traces per TRACE request.",
+        "441/469 physical dispatch geometry and 451 semantic nodes remain valid.",
+        "100% physical dispatch timestamp coverage."
+      ],
+      "llama": [
+        "GGML_VK_PERF_LOGGER is enabled, CONCURRENT mode is disabled and frequency=1.",
+        "Exactly 1 prefill + 31 decode timing groups are parsed per TRACE request.",
+        "Every timing group is non-empty and has positive finite total GPU operation time.",
+        "The logger remains diagnostic-only because it forces submit/wait."
+      ],
+      "fail_class": "STOP_CORE0D_GPU_MEASUREMENT_NOT_QUALIFIED"
+    },
+    "G4_RESIDUAL_CLOSURE": {
+      "equations": [
+        "For each TRACE request: H_system = W_system - G_system.",
+        "For each matched TRACE pair: DeltaE = W_arc - W_llama.",
+        "DeltaG = G_arc - G_llama.",
+        "DeltaH = H_arc - H_llama.",
+        "Numerically require DeltaE = DeltaG + DeltaH within 1 microsecond absolute arithmetic tolerance after unit conversion."
+      ],
+      "pass_if": [
+        "G_system >= 0 and H_system >= 0 for every request.",
+        "DeltaE > 0 for all six TRACE matched pairs.",
+        "No residual component is clamped or rewritten when negative across systems."
+      ],
+      "fail_class": "STOP_CORE0D_RESIDUAL_CLOSURE_NOT_QUALIFIED"
+    }
+  },
+  "primary_attribution": {
+    "per_block": {
+      "excess_share_G": "f_G = DeltaG / DeltaE",
+      "excess_share_H": "f_H = DeltaH / DeltaE = 1 - f_G"
+    },
+    "reporting": [
+      "Preserve all per-block values.",
+      "Per workload report median, min, max and MAD of DeltaE, DeltaG, DeltaH, f_G and f_H.",
+      "Negative DeltaG or DeltaH is preserved; never clamp to zero.",
+      "Do not merge W-S and W-C before workload-specific adjudication."
+    ]
+  },
+  "amdahl_gate": {
+    "authority_ratio_by_workload": {
+      "W-S": 6.91387843464958,
+      "W-C": 8.63225451567552
+    },
+    "transfer_requirement": "G0 through G4 must all PASS before any Amdahl selection.",
+    "formulas": {
+      "recoverable_current_wall_fraction": "q_X = median(f_X) * (R_CORE0B - 1) / R_CORE0B",
+      "ideal_full_elimination_speedup": "S_X = 1 / (1 - q_X)"
+    },
+    "region_eligibility": [
+      "median(f_X) must be > 0 in both workloads.",
+      "q_X must be >= 0.10 in both workloads.",
+      "At least one workload must have q_X >= 0.20."
+    ],
+    "single_region_priority_rule": {
+      "robust_score": "score_X = min(q_X_W-S, q_X_W-C)",
+      "minimum_winner_score": 0.15,
+      "material_margin_over_other_region": 0.05,
+      "decision": "Select exactly one region for the next attribution/subfamily study only if its robust score >= 0.15 and exceeds the other region's robust score by >= 0.05. Otherwise return NO_SINGLE_REGION_PRIORITY."
+    },
+    "successor_if_G": "CORE-0E_GPU_EXCESS_SUBFAMILY_ATTRIBUTION_PREREGISTRATION",
+    "successor_if_H": "CORE-0E_OUTSIDE_GPU_PHASE_ATTRIBUTION_PREREGISTRATION",
+    "successor_if_no_single_priority": "CORE-0E_SPLIT_REGION_BOUNDARY_REPLICATION_PREREGISTRATION",
+    "optimization_authorized": false,
+    "kernel_change_authorized": false,
+    "npu_authorized": false
+  },
+  "semantic_mapping_boundary": {
+    "core0d_requires_cross_system_semantic_family_mapping": false,
+    "reason": "The primary G/H decomposition needs total token-GPU duration only. llama op names and ArcLLM runtime-family names are preserved independently.",
+    "if_G_selected": "A successor must prospectively qualify a semantic/op-family alignment before attributing excess to lm_head, FFN, attention or any kernel family."
+  },
+  "valid_final_classes": [
+    "PASS_CORE0D_EXCESS_COST_ATTRIBUTION_COMPLETE",
+    "STOP_CORE0D_COMMON_TRAJECTORY_INVALID",
+    "STOP_CORE0D_TOTAL_TRANSFER_NOT_QUALIFIED",
+    "STOP_CORE0D_TRACE_TRANSFER_NOT_QUALIFIED",
+    "STOP_CORE0D_GPU_MEASUREMENT_NOT_QUALIFIED",
+    "STOP_CORE0D_RESIDUAL_CLOSURE_NOT_QUALIFIED",
+    "STOP_CORE0D_COLLECTION_INCOMPLETE"
+  ],
+  "boundaries": {
+    "core0b_not_recomputed": true,
+    "core0c_not_reinterpreted_as_performance_authority": true,
+    "no_natural_autoregressive_cross_system_internal_attribution": true,
+    "no_hardware_counters": true,
+    "no_profiler": true,
+    "no_resource_sampler": true,
+    "no_npu": true,
+    "no_mechanism_selection_before_amdahl_gate": true,
+    "no_product_runtime_changes": true
+  },
+  "authorization": {
+    "benchmark_only_adapter_implementation": true,
+    "common_teacher_forced_adapter_implementation": true,
+    "llama_builtin_perf_logger_parser_implementation": true,
+    "arcllm_diagnostic_phase_timer_implementation": true,
+    "static_preflight": true,
+    "zero_science_fixture_tests": true,
+    "measured_execution": false,
+    "measured_requests_authorized": 0
+  },
+  "next": "CORE0D_IMPLEMENTATION_STATIC_PREFLIGHT_AND_EXECUTION_LOCK"
+}
