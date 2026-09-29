@@ -1,0 +1,14 @@
+{
+  "schema": "arcllm.core0b.preflight_independent_adjudication.v0.1",
+  "verdict": "PASS_CORE0B_ZERO_SCIENCE_PREFLIGHT",
+  "open_findings": 0,
+  "findings": [],
+  "evidence_path": "results\\CORE0B_PREFLIGHT_EVIDENCE.json",
+  "implementation_head": "03856a26d1366da54c5034922b8b9dc48cfcf3b7",
+  "checked_head": "d3c961e3f75c1fbdb1e2485787475f059cd0e7bf",
+  "science_execution": false,
+  "primary_requests_executed": 0,
+  "performance_claim_created": false,
+  "mechanism_selected": false,
+  "next_if_pass": "CREATE_EXACT_CORE0B_SCIENCE_AUTHORIZATION_BUT_DO_NOT_EXECUTE_PRIMARY_COLLECTION"
+}

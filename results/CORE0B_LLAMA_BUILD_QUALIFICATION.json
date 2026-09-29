@@ -1,0 +1,19 @@
+{
+    "schema":  "arcllm.core0b.llama_build_qualification.v0.1",
+    "status":  "PASS_BUILD_EXACT_LLAMA_BASELINE",
+    "repository":  "ggml-org/llama.cpp",
+    "release":  "v0.4.1",
+    "commit":  "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+    "source_head":  "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+    "source_clean":  true,
+    "backend":  "Vulkan",
+    "vulkan_sdk":  "C:\\VulkanSDK\\1.4.357.0",
+    "vulkan_sdk_version":  "1.4.357.0",
+    "vulkan_bootstrap_mode":  "EXISTING_SYSTEM",
+    "adapter_source_blob":  "2c170185e2a60cd5db9e93e3f2c278fc27eda02f",
+    "baseline_cmake_blob":  "ce3c0ee009f82f6a79c592c5fe060a5484b9f5ec",
+    "adapter_path":  "D:\\WORK\\RESEARCH\\_arcllm_core0a_xray\\artifacts\\core0b_baseline\\core0b_llama_cold_adapter.exe",
+    "adapter_sha256":  "3B289AD547288E59CC0E463E45A01207C94D6F34758DC48D475F7E6D59B5C1C6",
+    "target_model_executed":  false,
+    "science_execution":  false
+}
