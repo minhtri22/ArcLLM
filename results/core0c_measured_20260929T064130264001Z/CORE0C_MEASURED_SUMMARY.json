@@ -1,0 +1,1474 @@
+{
+  "schema": "arcllm.core0c.measured_summary.v0.1",
+  "classification": "CORE0C_COLLECTION_COMPLETE_PENDING_ADJUDICATION",
+  "measurement_mode": "TOKEN_XRAY_TRACE_WITH_ADJACENT_CONTROL",
+  "timing_authority": "DIAGNOSTIC_ONLY",
+  "core0b_performance_authority_preserved": true,
+  "measured_requests_expected": 12,
+  "measured_requests_observed": 12,
+  "rows": [
+    {
+      "workload": "W-S",
+      "block": 0,
+      "order": [
+        "CONTROL_UNINSTRUMENTED_EXTERNAL_WALL",
+        "TOKEN_XRAY_TRACE"
+      ],
+      "arms": {
+        "CONTROL_UNINSTRUMENTED_EXTERNAL_WALL": {
+          "ordinal": 0,
+          "wall_ms": 46115.6839,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b0_control.json",
+          "trace_dir": null,
+          "trace_validation": null
+        },
+        "TOKEN_XRAY_TRACE": {
+          "ordinal": 1,
+          "wall_ms": 61353.7049,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b0_trace.json",
+          "trace_dir": "core0c-ws-b0_traces",
+          "trace_validation": {
+            "token_traces": [
+              {
+                "file": "core0c-ws-b0_prefill_000.json",
+                "mode": "prefill",
+                "dispatch_count": 441,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_000.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_001.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_002.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_003.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_004.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_005.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_006.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_007.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_008.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_009.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_010.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_011.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_012.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_013.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_014.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_015.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_016.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_017.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_018.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_019.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_020.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_021.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_022.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_023.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_024.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_025.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_026.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_027.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_028.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_029.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b0_decode_030.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              }
+            ],
+            "lifecycle": {
+              "event_count": 49,
+              "materialize_event_count": 14,
+              "related_dispatch_count": 14
+            }
+          }
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-S",
+      "block": 1,
+      "order": [
+        "TOKEN_XRAY_TRACE",
+        "CONTROL_UNINSTRUMENTED_EXTERNAL_WALL"
+      ],
+      "arms": {
+        "TOKEN_XRAY_TRACE": {
+          "ordinal": 0,
+          "wall_ms": 59961.9341,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b1_trace.json",
+          "trace_dir": "core0c-ws-b1_traces",
+          "trace_validation": {
+            "token_traces": [
+              {
+                "file": "core0c-ws-b1_prefill_000.json",
+                "mode": "prefill",
+                "dispatch_count": 441,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_000.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_001.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_002.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_003.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_004.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_005.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_006.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_007.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_008.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_009.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_010.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_011.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_012.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_013.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_014.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_015.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_016.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_017.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_018.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_019.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_020.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_021.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_022.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_023.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_024.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_025.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_026.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_027.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_028.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_029.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b1_decode_030.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              }
+            ],
+            "lifecycle": {
+              "event_count": 49,
+              "materialize_event_count": 14,
+              "related_dispatch_count": 14
+            }
+          }
+        },
+        "CONTROL_UNINSTRUMENTED_EXTERNAL_WALL": {
+          "ordinal": 1,
+          "wall_ms": 58667.014,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b1_control.json",
+          "trace_dir": null,
+          "trace_validation": null
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-S",
+      "block": 2,
+      "order": [
+        "CONTROL_UNINSTRUMENTED_EXTERNAL_WALL",
+        "TOKEN_XRAY_TRACE"
+      ],
+      "arms": {
+        "CONTROL_UNINSTRUMENTED_EXTERNAL_WALL": {
+          "ordinal": 0,
+          "wall_ms": 62994.6529,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b2_control.json",
+          "trace_dir": null,
+          "trace_validation": null
+        },
+        "TOKEN_XRAY_TRACE": {
+          "ordinal": 1,
+          "wall_ms": 63217.0813,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b2_trace.json",
+          "trace_dir": "core0c-ws-b2_traces",
+          "trace_validation": {
+            "token_traces": [
+              {
+                "file": "core0c-ws-b2_prefill_000.json",
+                "mode": "prefill",
+                "dispatch_count": 441,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_000.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_001.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_002.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_003.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_004.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_005.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_006.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_007.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_008.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_009.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_010.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_011.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_012.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_013.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_014.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_015.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_016.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_017.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_018.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_019.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_020.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_021.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_022.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_023.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_024.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_025.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_026.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_027.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_028.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_029.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-ws-b2_decode_030.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              }
+            ],
+            "lifecycle": {
+              "event_count": 49,
+              "materialize_event_count": 14,
+              "related_dispatch_count": 14
+            }
+          }
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-C",
+      "block": 0,
+      "order": [
+        "CONTROL_UNINSTRUMENTED_EXTERNAL_WALL",
+        "TOKEN_XRAY_TRACE"
+      ],
+      "arms": {
+        "CONTROL_UNINSTRUMENTED_EXTERNAL_WALL": {
+          "ordinal": 0,
+          "wall_ms": 68052.8108,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b0_control.json",
+          "trace_dir": null,
+          "trace_validation": null
+        },
+        "TOKEN_XRAY_TRACE": {
+          "ordinal": 1,
+          "wall_ms": 74806.7302,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b0_trace.json",
+          "trace_dir": "core0c-wc-b0_traces",
+          "trace_validation": {
+            "token_traces": [
+              {
+                "file": "core0c-wc-b0_prefill_000.json",
+                "mode": "prefill",
+                "dispatch_count": 441,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_000.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_001.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_002.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_003.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_004.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_005.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_006.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_007.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_008.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_009.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_010.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_011.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_012.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_013.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_014.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_015.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_016.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_017.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_018.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_019.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_020.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_021.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_022.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_023.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_024.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_025.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_026.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_027.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_028.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_029.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b0_decode_030.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              }
+            ],
+            "lifecycle": {
+              "event_count": 49,
+              "materialize_event_count": 14,
+              "related_dispatch_count": 14
+            }
+          }
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-C",
+      "block": 1,
+      "order": [
+        "TOKEN_XRAY_TRACE",
+        "CONTROL_UNINSTRUMENTED_EXTERNAL_WALL"
+      ],
+      "arms": {
+        "TOKEN_XRAY_TRACE": {
+          "ordinal": 0,
+          "wall_ms": 62823.8448,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b1_trace.json",
+          "trace_dir": "core0c-wc-b1_traces",
+          "trace_validation": {
+            "token_traces": [
+              {
+                "file": "core0c-wc-b1_prefill_000.json",
+                "mode": "prefill",
+                "dispatch_count": 441,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_000.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_001.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_002.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_003.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_004.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_005.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_006.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_007.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_008.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_009.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_010.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_011.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_012.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_013.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_014.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_015.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_016.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_017.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_018.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_019.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_020.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_021.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_022.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_023.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_024.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_025.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_026.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_027.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_028.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_029.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b1_decode_030.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              }
+            ],
+            "lifecycle": {
+              "event_count": 49,
+              "materialize_event_count": 14,
+              "related_dispatch_count": 14
+            }
+          }
+        },
+        "CONTROL_UNINSTRUMENTED_EXTERNAL_WALL": {
+          "ordinal": 1,
+          "wall_ms": 71953.7119,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b1_control.json",
+          "trace_dir": null,
+          "trace_validation": null
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-C",
+      "block": 2,
+      "order": [
+        "CONTROL_UNINSTRUMENTED_EXTERNAL_WALL",
+        "TOKEN_XRAY_TRACE"
+      ],
+      "arms": {
+        "CONTROL_UNINSTRUMENTED_EXTERNAL_WALL": {
+          "ordinal": 0,
+          "wall_ms": 75614.245,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b2_control.json",
+          "trace_dir": null,
+          "trace_validation": null
+        },
+        "TOKEN_XRAY_TRACE": {
+          "ordinal": 1,
+          "wall_ms": 70362.2485,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b2_trace.json",
+          "trace_dir": "core0c-wc-b2_traces",
+          "trace_validation": {
+            "token_traces": [
+              {
+                "file": "core0c-wc-b2_prefill_000.json",
+                "mode": "prefill",
+                "dispatch_count": 441,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_000.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_001.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_002.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_003.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_004.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_005.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_006.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_007.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_008.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_009.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_010.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_011.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_012.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_013.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_014.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_015.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_016.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_017.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_018.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_019.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_020.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_021.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_022.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_023.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_024.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_025.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_026.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_027.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_028.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_029.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              },
+              {
+                "file": "core0c-wc-b2_decode_030.json",
+                "mode": "decode",
+                "dispatch_count": 469,
+                "semantic_node_count": 451
+              }
+            ],
+            "lifecycle": {
+              "event_count": 49,
+              "materialize_event_count": 14,
+              "related_dispatch_count": 14
+            }
+          }
+        }
+      },
+      "valid": true
+    }
+  ],
+  "observer_effect": {
+    "W-S": {
+      "pairs": [
+        {
+          "block": 0,
+          "observer_ratio_trace_over_control": 1.3304303376058138,
+          "observer_overhead_fraction": 0.33043033760581375,
+          "observer_overhead_percent": 33.04303376058137
+        },
+        {
+          "block": 1,
+          "observer_ratio_trace_over_control": 1.022072371026076,
+          "observer_overhead_fraction": 0.022072371026075954,
+          "observer_overhead_percent": 2.2072371026075954
+        },
+        {
+          "block": 2,
+          "observer_ratio_trace_over_control": 1.0035309092083273,
+          "observer_overhead_fraction": 0.0035309092083273264,
+          "observer_overhead_percent": 0.35309092083273264
+        }
+      ],
+      "ratio_stats": {
+        "n": 3,
+        "median": 1.022072371026076,
+        "min": 1.0035309092083273,
+        "max": 1.3304303376058138,
+        "mad": 0.018541461817748628
+      },
+      "overhead_fraction_stats": {
+        "n": 3,
+        "median": 0.022072371026075954,
+        "min": 0.0035309092083273264,
+        "max": 0.33043033760581375,
+        "mad": 0.018541461817748628
+      }
+    },
+    "W-C": {
+      "pairs": [
+        {
+          "block": 0,
+          "observer_ratio_trace_over_control": 1.0992452673240647,
+          "observer_overhead_fraction": 0.09924526732406469,
+          "observer_overhead_percent": 9.92452673240647
+        },
+        {
+          "block": 1,
+          "observer_ratio_trace_over_control": 0.8731147169629202,
+          "observer_overhead_fraction": -0.1268852830370798,
+          "observer_overhead_percent": -12.68852830370798
+        },
+        {
+          "block": 2,
+          "observer_ratio_trace_over_control": 0.9305422344691798,
+          "observer_overhead_fraction": -0.06945776553082017,
+          "observer_overhead_percent": -6.945776553082017
+        }
+      ],
+      "ratio_stats": {
+        "n": 3,
+        "median": 0.9305422344691798,
+        "min": 0.8731147169629202,
+        "max": 1.0992452673240647,
+        "mad": 0.05742751750625963
+      },
+      "overhead_fraction_stats": {
+        "n": 3,
+        "median": -0.06945776553082017,
+        "min": -0.1268852830370798,
+        "max": 0.09924526732406469,
+        "mad": 0.05742751750625963
+      }
+    }
+  },
+  "hardware_counters_used": false,
+  "profiler_used": false,
+  "mechanism_selected": false
+}
