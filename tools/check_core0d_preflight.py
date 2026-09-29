@@ -58,7 +58,10 @@ def main()->int:
 
  for cmd,marker in [
   ([sys.executable,str(ROOT/"tools"/"run_core0d_measured.py"),"--fixture-self-test"],"CORE0D_MEASURED_RUNNER_FIXTURE_SELF_TEST=PASS"),
-  ([sys.executable,str(ROOT/"tools"/"parse_core0d_llama_vk_perf.py"),"--self-test"],"CORE0D_LLAMA_VK_PERF_PARSER_SELF_TEST=PASS")
+  ([sys.executable,str(ROOT/"tools"/"parse_core0d_llama_vk_perf.py"),"--self-test"],"CORE0D_LLAMA_VK_PERF_PARSER_SELF_TEST=PASS"),
+  ([str(ROOT/"artifacts"/"core0d"/"core0d_arcllm_control_phase.exe"),"--self-test"],"CORE0D_ARCLLM_CLI_SELF_TEST=PASS"),
+  ([str(ROOT/"artifacts"/"core0d"/"core0d_arcllm_trace.exe"),"--self-test"],"CORE0D_ARCLLM_CLI_SELF_TEST=PASS"),
+  ([str(ROOT/"artifacts"/"core0d"/"core0d_llama_teacher_forced_adapter.exe"),"--self-test"],"CORE0D_LLAMA_ADAPTER_SELF_TEST=PASS")
  ]:
   cp=subprocess.run(cmd,cwd=ROOT,text=True,capture_output=True)
   if cp.returncode!=0 or marker not in cp.stdout:add("RECOMPUTE_SELF_TEST",marker)
