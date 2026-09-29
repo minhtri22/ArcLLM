@@ -1,0 +1,30 @@
+{
+  "schema": "arcllm.core0b.preflight_final_adjudication.v0.1",
+  "date": "2026-09-29",
+  "verdict": "PASS_CORE0B_ZERO_SCIENCE_PREFLIGHT",
+  "open_findings": 0,
+  "implementation_head": "7754d898f2e4c09263e583ac2e24e2938e1f9d7a",
+  "evidence_commit": "f1eff1486018e2907957a83054dcf9151699baff",
+  "exact_llama_commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+  "arc_exe_sha256": "6DCDC89154307A486115D8904DF1B434B34A812CDA8A16A577142B3E778765BF",
+  "llama_exe_sha256": "3B289AD547288E59CC0E463E45A01207C94D6F34758DC48D475F7E6D59B5C1C6",
+  "functional_qualification": {
+    "arc_ws": "PASS",
+    "arc_wc": "PASS",
+    "llama_ws": "PASS_FULL_VULKAN_OFFLOAD",
+    "llama_wc": "PASS_FULL_VULKAN_OFFLOAD"
+  },
+  "primary_runner": {
+    "fail_closed_without_authorization": true,
+    "frozen_shader_hash_enforcement": true,
+    "uninstrumented_child_wall_timing": true
+  },
+  "boundaries": {
+    "science_execution": false,
+    "primary_requests_executed": 0,
+    "performance_claim_created": false,
+    "mechanism_selected": false,
+    "token_xray_used": false
+  },
+  "consequence": "CORE0B_PRIMARY_40_REQUEST_COLLECTION_AUTHORIZED_BUT_NOT_EXECUTED"
+}
