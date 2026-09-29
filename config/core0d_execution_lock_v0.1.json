@@ -1,0 +1,294 @@
+{
+  "schema": "arcllm.core0d.execution_lock.v0.1",
+  "date": "2026-09-29",
+  "program": "CORE-0D",
+  "status": "FROZEN_AFTER_ZERO_SCIENCE_PREFLIGHT_PASS",
+  "scientific_role": "COMMON_TRAJECTORY_GH_EXCESS_COST_ATTRIBUTION",
+  "parent_results": {
+    "core0b": "PASS_CORE0B_MATCHED_REQUEST_CHARACTERIZATION_COMPLETE",
+    "core0c": "PASS_CORE0C_DIAGNOSTIC_LOCALIZATION_COMPLETE"
+  },
+  "core0b_performance_authority": {
+    "dataset_commit": "3985a2ac1697225489da01564dbc3e49a298ef69",
+    "metric": "UNINSTRUMENTED_CHILD_WALL_MS",
+    "preserved": true,
+    "workload_reference_ratio": {
+      "W-S": 6.91387843464958,
+      "W-C": 8.63225451567552
+    }
+  },
+  "implementation_payload_head": "aae8a99bfb63417d35426a005a5c3a083f653733",
+  "final_preflight_evidence_commit": "559883987ebb113bc64f11b617a1d3b7b33fdcf0",
+  "preflight": {
+    "build": "results/CORE0D_BUILD_QUALIFICATION.json",
+    "static_evidence": "results/CORE0D_PREFLIGHT_EVIDENCE.json",
+    "independent_adjudication": "results/CORE0D_PREFLIGHT_INDEPENDENT_ADJUDICATION.json",
+    "verdict": "PASS_CORE0D_ZERO_SCIENCE_PREFLIGHT",
+    "open_findings": 0,
+    "model_inference_executed": false,
+    "measured_requests_executed": 0
+  },
+  "pins": {
+    "model": {
+      "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+      "bytes": 4683074048
+    },
+    "llama": {
+      "repository": "ggml-org/llama.cpp",
+      "release": "v0.4.1",
+      "commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+      "backend": "Vulkan"
+    },
+    "token_xray": {
+      "repository": "minhtri22/token-xray",
+      "ref": "freeze/token-xray-core-v0.1-arcllm-current-compatible",
+      "head": "35f86ac68f98ffe60fc441a790274cd1f1269dfe"
+    },
+    "timestamp": {
+      "period_ns": 52.0833,
+      "valid_bits": 64
+    }
+  },
+  "executables": {
+    "arc_control_phase_sha256": "72FC72A5E217A694A47A6FC7B866B9DC50904418317FD54CC2E3FFA5C2D8ABD2",
+    "arc_trace_sha256": "7DF37ED84E64AD87CF13B5B8D9F65CF3A9CAB9E8239CDE41E2A145EB358F0AFE",
+    "llama_teacher_forced_sha256": "A9BA63AB72E84AE6F4442F0CC2D41700838178A962D4F4CAC632AB2C1629204C"
+  },
+  "generated_runtime_sha256": {
+    "control_phase": "2CE6B19C4E83069560B213FB828A0FE54A7DD7C8DE84DEEB6B9DD96F9B9A5CED",
+    "trace_runtime": "F2AFC6B6D45B5DB566B1578038F5843A299568B8B23B059CF2ABEEB1FEE26644",
+    "trace_support": "8BACF34BEE29796EA3DBDBDE3174403EFD7CA25D5ED7F08922EF8D60B7A55004",
+    "trace_q4": "AFD787C15C15C0ED837BD476E315E54E3ED0C069A1DAAD11CACDC94CB40DFA7D"
+  },
+  "common_trajectory": {
+    "W-S": {
+      "prompt_tokens": [
+        1,
+        133151,
+        133152,
+        152062
+      ],
+      "forced_decode_input_tokens": [
+        136406,
+        144325,
+        181,
+        8100,
+        16019,
+        23938,
+        31857,
+        39776,
+        47695,
+        55614,
+        63533,
+        71452,
+        79371,
+        87290,
+        95209,
+        103128,
+        111047,
+        118966,
+        126885,
+        134804,
+        142723,
+        150642,
+        6498,
+        14417,
+        22336,
+        30255,
+        38174,
+        46093,
+        54012,
+        61931,
+        69850
+      ]
+    },
+    "W-C": {
+      "prompt_definition": "Frozen CORE-0B W-C deterministic 256-token prompt",
+      "forced_decode_input_tokens": [
+        3112,
+        11031,
+        18950,
+        26869,
+        34788,
+        42707,
+        50626,
+        58545,
+        66464,
+        74383,
+        82302,
+        90221,
+        98140,
+        106059,
+        113978,
+        121897,
+        129816,
+        137735,
+        145654,
+        1510,
+        9429,
+        17348,
+        25267,
+        33186,
+        41105,
+        49024,
+        56943,
+        64862,
+        72781,
+        80700,
+        88619
+      ]
+    },
+    "prefill_calls": 1,
+    "cached_decode_calls": 31,
+    "predicted_top1_recorded": true,
+    "predicted_top1_feedback": false,
+    "full_vocab_scan_preserved": true
+  },
+  "phase_contract": {
+    "authority": "DIAGNOSTIC_ONLY",
+    "arcllm_boundaries": [
+      "model_map_inspect_ns",
+      "static_graph_contract_ns",
+      "vulkan_weight_init_ns",
+      "request_context_prepare_ns",
+      "prefill_and_scan_ns",
+      "decode_loop_and_scans_ns",
+      "close_and_cleanup_ns",
+      "runtime_generate_ns"
+    ],
+    "llama_fields": [
+      "t_load_ms",
+      "t_p_eval_ms",
+      "t_eval_ms",
+      "n_p_eval",
+      "n_eval",
+      "n_reused"
+    ]
+  },
+  "llama_gpu_trace_contract": {
+    "env": "GGML_VK_PERF_LOGGER=1",
+    "concurrent_env": "UNSET",
+    "frequency": "1",
+    "expected_timing_blocks": 32,
+    "prefill_blocks": 1,
+    "decode_blocks": 31,
+    "authority": "DIAGNOSTIC_ONLY"
+  },
+  "collection_design": {
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "blocks_per_workload": 3,
+    "modes": [
+      "CONTROL_UNINSTRUMENTED",
+      "PHASE_ONLY",
+      "GPU_TRACE"
+    ],
+    "systems": [
+      "ArcLLM",
+      "llama.cpp"
+    ],
+    "total_requests": 36,
+    "system_order": {
+      "block_0": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "block_1": [
+        "llama.cpp",
+        "ArcLLM"
+      ],
+      "block_2": [
+        "ArcLLM",
+        "llama.cpp"
+      ]
+    },
+    "mode_order": {
+      "block_0": [
+        "CONTROL_UNINSTRUMENTED",
+        "PHASE_ONLY",
+        "GPU_TRACE"
+      ],
+      "block_1": [
+        "GPU_TRACE",
+        "CONTROL_UNINSTRUMENTED",
+        "PHASE_ONLY"
+      ],
+      "block_2": [
+        "PHASE_ONLY",
+        "GPU_TRACE",
+        "CONTROL_UNINSTRUMENTED"
+      ]
+    },
+    "adjacent_system_pairs": true,
+    "no_early_stop": true,
+    "no_selective_rerun": true,
+    "automatic_rerun": false,
+    "first_complete_valid_collection_is_primary": true
+  },
+  "gates": {
+    "G0": "COMMON_TRAJECTORY_VALIDITY",
+    "G1": "CONTROL_TOTAL_TRANSFER_TO_CORE0B",
+    "G2": "TRACE_TOTAL_TRANSFER",
+    "G3": "GPU_MEASUREMENT_QUALIFICATION",
+    "G4": "RESIDUAL_CLOSURE"
+  },
+  "amdahl_gate": {
+    "region_eligibility_q_min_each_workload": 0.1,
+    "region_eligibility_q_min_one_workload": 0.2,
+    "single_region_min_robust_score": 0.15,
+    "material_margin": 0.05,
+    "no_winner_class": "NO_SINGLE_REGION_PRIORITY"
+  },
+  "active_shader_sha256": {
+    "p8c_embedding_q4k_segmented_probe.spv": "561B5B388763D1D9912868B6FD49B579F27BE815A0AC18F27D5C9BFF91A8B056",
+    "p7_rmsnorm_seq.spv": "AC92BCAD6F39E0A1FB8D77AA6D8D58DAB630D3237BBAA85E29722DDB5BBB6336",
+    "p7c_ffn_q4k_tiled.spv": "38BE2A2470AD8CB6925CB005C992B515BC5AB8306428A5F14E9F478FD023FF54",
+    "p7c_ffn_q6k_tiled.spv": "A303F13125F6EDE85A93C6063019622B543DD1A1A30E744CCE266049FD5D328A",
+    "p7_rope_seq.spv": "865BFFEFFCFA0449CBBDDD33EA405F2E6F37546017F8DC394B547BB163ABFAD3",
+    "p7_kv_store.spv": "FA4F9F71F700EACC91F4910E061936D22EBEAC293B34C79A42696F0735B59686",
+    "p7_attention_prefill_online.spv": "90778E1C9C82CC1A5A22C4D0A1208EB85D9AB00F25BB29BB3F6646E5E665DC3C",
+    "p7_attention_kv_online.spv": "0A6AB679398B0A71CC812D338850D791981A19A935333E92A6E2693BE0E4DE74",
+    "p7_add.spv": "189794B3BAE7CE6F3661E1407748F9DDEE5F7C384DC137D0D9B6BAB7200C9378",
+    "p7l_ffn_q4k_gateup_fused.spv": "60155DB8E86767C90EE35F5E3D97FAA62D1ADCCF8363C50C8E8742AC3436AA8F",
+    "p7_swiglu.spv": "D3E9F2AD2706DB335853823443F04F31830D37EF49B6A273806FAEE81B73459F",
+    "p7g_ffn_q4k_tiled16.spv": "5BD995EAA8381E64995AD108C7FEB88D02AA67905CB359BDC5B4CF95D4DE349F",
+    "p7g_ffn_q6k_tiled16.spv": "00E2E4767FDBBADD261F5002B2ACEB8BA12798825BD5B4CD51ED8C2C1F02803C",
+    "p7_q4k_gemm_2d.spv": "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A",
+    "p7_q6k_gemm_2d.spv": "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67",
+    "p8q1_lmhead_q6k_segmented_chunk.spv": "AB8AA31C970F634E8A7B01FB35EB820423B3A07CA545D7EEFA5776D8B3BC8419",
+    "sa1_q4k_subgroup_splitk.spv": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+    "q4_down_exec148_serial.spv": "140B8C7ADF5E88D4F1A50C4F8807874F4978070F301FCEEFC67A6A51A383D2A3",
+    "b1_2_exec148_gpu_materialize.comp.spv": "3A67C8F4FF7441CB0F13963380C1115770E7ADDA07048FC2F8476E1D271532C6"
+  },
+  "critical_git_blobs": {
+    "config/core0d_excess_cost_attribution_preregistration_v0.1.json": "f82b8521177e4c84c8dbfb6f3bc5ce064f83a650",
+    "baseline/core0d_llama_teacher_forced_adapter.cpp": "acffb1db5d6cff3be6a863dfc67ab4018edd083b",
+    "baseline/CMakeLists.txt": "4b8628ad83055479ee56de509a08965a5d40addf",
+    "src/core0d_arcllm_teacher_forced_cli.cpp": "d2bb7b7f4475b52523c849cb4fb1a1355a9b788e",
+    "tools/materialize_core0d_runtime.py": "62d0040bd5205e64988b92ed36731a21333b0b7e",
+    "tools/parse_core0d_llama_vk_perf.py": "0b17d97cdc416a67c4d25eb48fc181fdc9986427",
+    "tools/run_core0d_measured.py": "199a2270ad16ea066c488794fe5693bb4b02e6b7",
+    "src/core0c_token_xray_bridge.h": "f089f055bbf55f20e85810ec217471b93b36ffaf",
+    "tools/materialize_core0c_trace_runtime.py": "fd794eae998ac00067f38153fe5f552f622275c0",
+    "src/arcllm_v1_runtime.cpp": "0c613f6f740931a88ddd3ee5b904533a58001a06",
+    "src/arcllm_v1_runtime_cli.cpp": "5526658f6469301f0e05ffa5a46f51bc9b511816",
+    "src/arcllm_v1_vulkan_runtime_support.h": "1b3a2a935134a3afa680ee4880377a20bc8a466f",
+    "src/arcllm_v1_q4_vulkan_backend_v4_runtime.h": "3955d1ed27c0c48f5bbb8e4564128bf34025d1a5",
+    "include/arcllm/v1/runtime.h": "d7821270ed253e1d1d96e3916b22b3daee50f5bc",
+    "config/arcllm_v1_runtime_active_v0.2.json": "8e60d8b60ad5750e1c3bdbd472fdd15f0d4bcfb4"
+  },
+  "boundaries": {
+    "canonical_runtime_modified": false,
+    "kernel_source_modified": false,
+    "hardware_counters": false,
+    "external_profiler": false,
+    "resource_sampler": false,
+    "npu": false,
+    "optimization": false,
+    "mechanism_selection": false,
+    "core0b_authority_changed": false
+  },
+  "authorization_path": "config/core0d_science_authorization.json"
+}
