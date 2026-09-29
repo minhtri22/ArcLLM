@@ -2,7 +2,7 @@
   "schema": "arcllm.core0c.preflight_evidence.v0.1",
   "status": "PASS_CORE0C_STATIC_PREFLIGHT",
   "classification": "ZERO_SCIENCE_IMPLEMENTATION_STATIC_PREFLIGHT",
-  "implementation_head": "0bceaee9a4421f35143e1a166247d241ee3eb573",
+  "implementation_head": "8113d909ab31f42198485cb13972b90d414dab89",
   "token_xray_head": "35f86ac68f98ffe60fc441a790274cd1f1269dfe",
   "build_qualification": {
     "schema": "arcllm.core0c.build_qualification.v0.1",
@@ -86,7 +86,7 @@
   "details": {
     "token_xray_pytest": {
       "returncode": 0,
-      "stdout": "......................................s                                  [100%]\n38 passed, 1 skipped in 0.13s\n",
+      "stdout": "......................................s                                  [100%]\n38 passed, 1 skipped in 0.14s\n",
       "stderr": ""
     },
     "observer_fixture": {
