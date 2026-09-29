@@ -1,0 +1,17 @@
+{
+  "schema":"arcllm.core0b.llama_cold_request.v0.1",
+  "system":"llama.cpp",
+  "baseline_release":"v0.4.1",
+  "baseline_commit":"b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+  "workload":"W-C",
+  "prompt_tokens":256,
+  "prompt_hash_fnv1a64":"5973d0cfd8ad6313",
+  "qualify_only":false,
+  "success":true,
+  "final_logits_finite":true,
+  "generated_token_ids":[319,73594,151645,198,151644,151645,198,151644,198,151644,151645,198,151643,151643,2610,2803,311,614,3897,264,6514,315,1467,323,2038,429,7952,311,387,264,502,25817],
+  "generated_hash_fnv1a64":"d9b495aa8e8764e4",
+  "resolved":{"n_ctx":4096,"n_batch":256,"n_ubatch":256,"threads":8,"threads_batch":8,"kv_k":"F32","kv_v":"F32","n_gpu_layers_requested":-1},
+  "runtime":{"vulkan_log_present":true,"offload_reported":true,"offloaded_layers":29,"offloaded_layers_total":29,"full_offload":true},
+  "error":""
+}

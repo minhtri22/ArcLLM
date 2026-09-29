@@ -1,0 +1,630 @@
+{
+  "schema": "arcllm.core0b.primary_summary.v0.1",
+  "classification": "CORE0B_MATCHED_REQUEST_CHARACTERIZATION_COMPLETE",
+  "measurement_mode": "UNINSTRUMENTED",
+  "timing_authority": "BENCHMARK_AUTHORITY",
+  "measurement_authority": "UNINSTRUMENTED_CHILD_WALL_MS",
+  "primary_requests_expected": 40,
+  "primary_requests_observed": 40,
+  "cells": {
+    "A_WS": {
+      "session": "A",
+      "workload": "W-S",
+      "pairs_recorded": 5,
+      "valid_pairs": 5,
+      "request_wall_ratio_arc_over_llama": {
+        "n": 5,
+        "median": 6.233259294107202,
+        "min": 5.6650629648384045,
+        "max": 7.935738820531447,
+        "mad": 0.5681963292687975
+      }
+    },
+    "A_WC": {
+      "session": "A",
+      "workload": "W-C",
+      "pairs_recorded": 5,
+      "valid_pairs": 5,
+      "request_wall_ratio_arc_over_llama": {
+        "n": 5,
+        "median": 9.145344522860848,
+        "min": 8.846756799529398,
+        "max": 11.033834684225264,
+        "mad": 0.2842075519798737
+      }
+    },
+    "B_WS": {
+      "session": "B",
+      "workload": "W-S",
+      "pairs_recorded": 5,
+      "valid_pairs": 5,
+      "request_wall_ratio_arc_over_llama": {
+        "n": 5,
+        "median": 7.594497575191963,
+        "min": 5.123283096883404,
+        "max": 7.920242391039593,
+        "mad": 0.3257448158476297
+      }
+    },
+    "B_WC": {
+      "session": "B",
+      "workload": "W-C",
+      "pairs_recorded": 5,
+      "valid_pairs": 5,
+      "request_wall_ratio_arc_over_llama": {
+        "n": 5,
+        "median": 6.920212308471516,
+        "min": 5.311343792603141,
+        "max": 8.417752231821634,
+        "mad": 1.1822279266964948
+      }
+    }
+  },
+  "global_geometric_mean_of_cell_medians_arc_over_llama": 7.398325462576348,
+  "pairs": [
+    {
+      "cell": "A_WS",
+      "session": "A",
+      "workload": "W-S",
+      "pair": 0,
+      "order": [
+        "arc",
+        "llama"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 56636.1996,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WS_p0_arc.json"
+      },
+      "llama": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 9997.4528,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WS_p0_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 5.6650629648384045
+    },
+    {
+      "cell": "A_WS",
+      "session": "A",
+      "workload": "W-S",
+      "pair": 1,
+      "order": [
+        "llama",
+        "arc"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 74526.3588,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WS_p1_arc.json"
+      },
+      "llama": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 9391.2313,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WS_p1_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 7.935738820531447
+    },
+    {
+      "cell": "A_WS",
+      "session": "A",
+      "workload": "W-S",
+      "pair": 2,
+      "order": [
+        "arc",
+        "llama"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 77965.777,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WS_p2_arc.json"
+      },
+      "llama": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 12552.1856,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WS_p2_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 6.211330798040462
+    },
+    {
+      "cell": "A_WS",
+      "session": "A",
+      "workload": "W-S",
+      "pair": 3,
+      "order": [
+        "llama",
+        "arc"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 63131.9137,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WS_p3_arc.json"
+      },
+      "llama": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 10128.2348,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WS_p3_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 6.233259294107202
+    },
+    {
+      "cell": "A_WS",
+      "session": "A",
+      "workload": "W-S",
+      "pair": 4,
+      "order": [
+        "arc",
+        "llama"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 84502.4102,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WS_p4_arc.json"
+      },
+      "llama": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 10752.6248,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WS_p4_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 7.858770465049613
+    },
+    {
+      "cell": "A_WC",
+      "session": "A",
+      "workload": "W-C",
+      "pair": 0,
+      "order": [
+        "arc",
+        "llama"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 83269.3491,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WC_p0_arc.json"
+      },
+      "llama": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 9070.1437,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WC_p0_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 9.180598660195429
+    },
+    {
+      "cell": "A_WC",
+      "session": "A",
+      "workload": "W-C",
+      "pair": 1,
+      "order": [
+        "llama",
+        "arc"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 79603.0271,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WC_p1_arc.json"
+      },
+      "llama": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 8983.3875,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WC_p1_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 8.861136970880974
+    },
+    {
+      "cell": "A_WC",
+      "session": "A",
+      "workload": "W-C",
+      "pair": 2,
+      "order": [
+        "arc",
+        "llama"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 78498.1425,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WC_p2_arc.json"
+      },
+      "llama": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 7114.312,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WC_p2_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 11.033834684225264
+    },
+    {
+      "cell": "A_WC",
+      "session": "A",
+      "workload": "W-C",
+      "pair": 3,
+      "order": [
+        "llama",
+        "arc"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 69838.4015,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WC_p3_arc.json"
+      },
+      "llama": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 7636.4976,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WC_p3_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 9.145344522860848
+    },
+    {
+      "cell": "A_WC",
+      "session": "A",
+      "workload": "W-C",
+      "pair": 4,
+      "order": [
+        "arc",
+        "llama"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 75739.6921,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WC_p4_arc.json"
+      },
+      "llama": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 8561.2947,
+        "valid": true,
+        "errors": [],
+        "result_file": "A_WC_p4_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 8.846756799529398
+    },
+    {
+      "cell": "B_WS",
+      "session": "B",
+      "workload": "W-S",
+      "pair": 0,
+      "order": [
+        "llama",
+        "arc"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 63241.9604,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WS_p0_arc.json"
+      },
+      "llama": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 8327.3396,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WS_p0_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 7.594497575191963
+    },
+    {
+      "cell": "B_WS",
+      "session": "B",
+      "workload": "W-S",
+      "pair": 1,
+      "order": [
+        "arc",
+        "llama"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 61365.0625,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WS_p1_arc.json"
+      },
+      "llama": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 8066.4981,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WS_p1_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 7.607398122364896
+    },
+    {
+      "cell": "B_WS",
+      "session": "B",
+      "workload": "W-S",
+      "pair": 2,
+      "order": [
+        "llama",
+        "arc"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 63102.0934,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WS_p2_arc.json"
+      },
+      "llama": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 7967.1922,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WS_p2_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 7.920242391039593
+    },
+    {
+      "cell": "B_WS",
+      "session": "B",
+      "workload": "W-S",
+      "pair": 3,
+      "order": [
+        "arc",
+        "llama"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 100776.1114,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WS_p3_arc.json"
+      },
+      "llama": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 16897.6654,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WS_p3_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 5.963907380956897
+    },
+    {
+      "cell": "B_WS",
+      "session": "B",
+      "workload": "W-S",
+      "pair": 4,
+      "order": [
+        "llama",
+        "arc"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 100571.6267,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WS_p4_arc.json"
+      },
+      "llama": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 19630.3083,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WS_p4_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 5.123283096883404
+    },
+    {
+      "cell": "B_WC",
+      "session": "B",
+      "workload": "W-C",
+      "pair": 0,
+      "order": [
+        "llama",
+        "arc"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 118774.7302,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WC_p0_arc.json"
+      },
+      "llama": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 17413.6387,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WC_p0_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 6.820787558891985
+    },
+    {
+      "cell": "B_WC",
+      "session": "B",
+      "workload": "W-C",
+      "pair": 1,
+      "order": [
+        "arc",
+        "llama"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 126147.9484,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WC_p1_arc.json"
+      },
+      "llama": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 14985.9422,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WC_p1_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 8.417752231821634
+    },
+    {
+      "cell": "B_WC",
+      "session": "B",
+      "workload": "W-C",
+      "pair": 2,
+      "order": [
+        "llama",
+        "arc"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 129865.8813,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WC_p2_arc.json"
+      },
+      "llama": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 16027.9962,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WC_p2_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 8.102440235168011
+    },
+    {
+      "cell": "B_WC",
+      "session": "B",
+      "workload": "W-C",
+      "pair": 3,
+      "order": [
+        "arc",
+        "llama"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 139583.2289,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WC_p3_arc.json"
+      },
+      "llama": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 20170.368,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WC_p3_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 6.920212308471516
+    },
+    {
+      "cell": "B_WC",
+      "session": "B",
+      "workload": "W-C",
+      "pair": 4,
+      "order": [
+        "llama",
+        "arc"
+      ],
+      "valid": true,
+      "arc": {
+        "ordinal": 1,
+        "returncode": 0,
+        "wall_ms": 147960.1967,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WC_p4_arc.json"
+      },
+      "llama": {
+        "ordinal": 0,
+        "returncode": 0,
+        "wall_ms": 27857.394,
+        "valid": true,
+        "errors": [],
+        "result_file": "B_WC_p4_llama.json"
+      },
+      "request_wall_ratio_arc_over_llama": 5.311343792603141
+    }
+  ],
+  "token_xray_used": false,
+  "hardware_counters_used": false,
+  "profiler_used": false,
+  "mechanism_selection_authorized": false
+}

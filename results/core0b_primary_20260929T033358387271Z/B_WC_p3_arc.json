@@ -1,0 +1,5 @@
+{
+  "schema":"arcllm.v1.runtime.result.v0.1",
+  "generated_token_ids":[198,96495,6642,271,151644,151644,198,151644,96495,86,288,151645,198,151644,151644,96495,151645,198,151644,96495,151645,198,151644,151644,151645,198,151644,96495,151645,198,151644,151644],
+  "stats":{"prefill_dispatches":441,"prefill_submits":1,"decode_dispatches_per_step":469,"decode_submits_per_step":1,"decode_steps":31,"route_a_steps":0,"route_b_steps":31,"acquire_events":1,"evict_events":1,"b_allocations":1,"b_materializations":1,"b_validations":1,"b_releases":1,"p1_calls":1,"p3_calls":0,"p0_calls":0,"finite":true}
+}
