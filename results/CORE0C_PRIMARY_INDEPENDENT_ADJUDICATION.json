@@ -1,0 +1,1513 @@
+{
+  "schema": "arcllm.core0c.primary_independent_adjudication.v0.1",
+  "verdict": "PASS_CORE0C_DIAGNOSTIC_LOCALIZATION_COMPLETE",
+  "open_findings": 0,
+  "findings": [],
+  "notes": [
+    {
+      "id": "OBSERVER_EFFECT_INTERPRETATION",
+      "value": "HOST_NONSTATIONARITY_PREVENTS_SIMPLE_CAUSAL_OVERHEAD_ESTIMATE",
+      "ratio_range": [
+        0.8731147169629202,
+        1.3304303376058138
+      ],
+      "gate": false
+    }
+  ],
+  "dataset_name": "core0c_measured_20260929T064130264001Z",
+  "dataset_commit": "73fd1064495578bf2aeb9d90d108df3385c46edc",
+  "checked_head": "976741b2e3569f797c8725bbdb16b32bfb2a64aa",
+  "measured_requests": 12,
+  "trace_requests": 6,
+  "control_requests": 6,
+  "token_trace_files": 192,
+  "lifecycle_trace_files": 6,
+  "observer_effect": {
+    "W-S": {
+      "pairs": [
+        {
+          "block": 0,
+          "ratio_trace_over_control": 1.3304303376058138,
+          "overhead_fraction": 0.33043033760581375,
+          "overhead_percent": 33.04303376058137
+        },
+        {
+          "block": 1,
+          "ratio_trace_over_control": 1.022072371026076,
+          "overhead_fraction": 0.022072371026075954,
+          "overhead_percent": 2.2072371026075954
+        },
+        {
+          "block": 2,
+          "ratio_trace_over_control": 1.0035309092083273,
+          "overhead_fraction": 0.0035309092083273264,
+          "overhead_percent": 0.35309092083273264
+        }
+      ],
+      "ratio_stats": {
+        "n": 3,
+        "median": 1.022072371026076,
+        "min": 1.0035309092083273,
+        "max": 1.3304303376058138,
+        "mad": 0.018541461817748628
+      },
+      "overhead_fraction_stats": {
+        "n": 3,
+        "median": 0.022072371026075954,
+        "min": 0.0035309092083273264,
+        "max": 0.33043033760581375,
+        "mad": 0.018541461817748628
+      }
+    },
+    "W-C": {
+      "pairs": [
+        {
+          "block": 0,
+          "ratio_trace_over_control": 1.0992452673240647,
+          "overhead_fraction": 0.09924526732406469,
+          "overhead_percent": 9.92452673240647
+        },
+        {
+          "block": 1,
+          "ratio_trace_over_control": 0.8731147169629202,
+          "overhead_fraction": -0.1268852830370798,
+          "overhead_percent": -12.68852830370798
+        },
+        {
+          "block": 2,
+          "ratio_trace_over_control": 0.9305422344691798,
+          "overhead_fraction": -0.06945776553082017,
+          "overhead_percent": -6.945776553082017
+        }
+      ],
+      "ratio_stats": {
+        "n": 3,
+        "median": 0.9305422344691798,
+        "min": 0.8731147169629202,
+        "max": 1.0992452673240647,
+        "mad": 0.05742751750625963
+      },
+      "overhead_fraction_stats": {
+        "n": 3,
+        "median": -0.06945776553082017,
+        "min": -0.1268852830370798,
+        "max": 0.09924526732406469,
+        "mad": 0.05742751750625963
+      }
+    }
+  },
+  "observer_effect_interpretation": "HOST_NONSTATIONARITY_PREVENTS_SIMPLE_CAUSAL_OVERHEAD_ESTIMATE",
+  "localization": {
+    "W-S": {
+      "prefill": {
+        "dispatch_timing_coverage": "100%",
+        "dispatch_time_fraction_of_device_span": {
+          "n": 3,
+          "median": 0.9990958860530456,
+          "min": 0.9990348032671699,
+          "max": 0.9991387257783326,
+          "mad": 4.2839725287069363e-05
+        },
+        "top_runtime_families": [
+          {
+            "family": "lm_head",
+            "median_share_of_dispatch_time": 0.570228927935172,
+            "share_range": [
+              0.5616331610024174,
+              0.6026105839258544
+            ],
+            "median_duration_ns": 518610763.0
+          },
+          {
+            "family": "ffn_gate_up_fused",
+            "median_share_of_dispatch_time": 0.21493418205973172,
+            "share_range": [
+              0.20150031003686106,
+              0.221372659419249
+            ],
+            "median_duration_ns": 196416697.0
+          },
+          {
+            "family": "ffn_down",
+            "median_share_of_dispatch_time": 0.15067290037170897,
+            "share_range": [
+              0.13649540565514662,
+              0.1512639667691137
+            ],
+            "median_duration_ns": 134566371.0
+          },
+          {
+            "family": "o_proj",
+            "median_share_of_dispatch_time": 0.02360933030840406,
+            "share_range": [
+              0.021411636098929022,
+              0.023866176966367038
+            ],
+            "median_duration_ns": 21003164.0
+          },
+          {
+            "family": "q_proj",
+            "median_share_of_dispatch_time": 0.022883758665952898,
+            "share_range": [
+              0.02141948819804574,
+              0.02363427149445026
+            ],
+            "median_duration_ns": 20879100.0
+          },
+          {
+            "family": "k_proj",
+            "median_share_of_dispatch_time": 0.007791207329822534,
+            "share_range": [
+              0.007350867643102993,
+              0.008108450625757924
+            ],
+            "median_duration_ns": 7165414.0
+          },
+          {
+            "family": "v_proj",
+            "median_share_of_dispatch_time": 0.007640480237935826,
+            "share_range": [
+              0.007204729758170223,
+              0.00796108877319227
+            ],
+            "median_duration_ns": 7022963.0
+          },
+          {
+            "family": "attn_rmsnorm",
+            "median_share_of_dispatch_time": 0.00036493487256224715,
+            "share_range": [
+              0.000362676103896642,
+              0.00040660045939578396
+            ],
+            "median_duration_ns": 355728.0
+          },
+          {
+            "family": "swiglu",
+            "median_share_of_dispatch_time": 0.00036418905651079,
+            "share_range": [
+              0.00031330933360762395,
+              0.0005155579663120565
+            ],
+            "median_duration_ns": 355001.0
+          },
+          {
+            "family": "ffn_rmsnorm",
+            "median_share_of_dispatch_time": 0.00035975354887351823,
+            "share_range": [
+              0.00035569065187492874,
+              0.0003950089004220854
+            ],
+            "median_duration_ns": 346717.0
+          }
+        ],
+        "all_runtime_families": [
+          {
+            "family": "lm_head",
+            "median_share_of_dispatch_time": 0.570228927935172,
+            "share_range": [
+              0.5616331610024174,
+              0.6026105839258544
+            ],
+            "median_duration_ns": 518610763.0
+          },
+          {
+            "family": "ffn_gate_up_fused",
+            "median_share_of_dispatch_time": 0.21493418205973172,
+            "share_range": [
+              0.20150031003686106,
+              0.221372659419249
+            ],
+            "median_duration_ns": 196416697.0
+          },
+          {
+            "family": "ffn_down",
+            "median_share_of_dispatch_time": 0.15067290037170897,
+            "share_range": [
+              0.13649540565514662,
+              0.1512639667691137
+            ],
+            "median_duration_ns": 134566371.0
+          },
+          {
+            "family": "o_proj",
+            "median_share_of_dispatch_time": 0.02360933030840406,
+            "share_range": [
+              0.021411636098929022,
+              0.023866176966367038
+            ],
+            "median_duration_ns": 21003164.0
+          },
+          {
+            "family": "q_proj",
+            "median_share_of_dispatch_time": 0.022883758665952898,
+            "share_range": [
+              0.02141948819804574,
+              0.02363427149445026
+            ],
+            "median_duration_ns": 20879100.0
+          },
+          {
+            "family": "k_proj",
+            "median_share_of_dispatch_time": 0.007791207329822534,
+            "share_range": [
+              0.007350867643102993,
+              0.008108450625757924
+            ],
+            "median_duration_ns": 7165414.0
+          },
+          {
+            "family": "v_proj",
+            "median_share_of_dispatch_time": 0.007640480237935826,
+            "share_range": [
+              0.007204729758170223,
+              0.00796108877319227
+            ],
+            "median_duration_ns": 7022963.0
+          },
+          {
+            "family": "attn_rmsnorm",
+            "median_share_of_dispatch_time": 0.00036493487256224715,
+            "share_range": [
+              0.000362676103896642,
+              0.00040660045939578396
+            ],
+            "median_duration_ns": 355728.0
+          },
+          {
+            "family": "swiglu",
+            "median_share_of_dispatch_time": 0.00036418905651079,
+            "share_range": [
+              0.00031330933360762395,
+              0.0005155579663120565
+            ],
+            "median_duration_ns": 355001.0
+          },
+          {
+            "family": "ffn_rmsnorm",
+            "median_share_of_dispatch_time": 0.00035975354887351823,
+            "share_range": [
+              0.00035569065187492874,
+              0.0003950089004220854
+            ],
+            "median_duration_ns": 346717.0
+          },
+          {
+            "family": "causal_gqa",
+            "median_share_of_dispatch_time": 0.0002611354591146801,
+            "share_range": [
+              0.00025075423084672824,
+              0.0002813729539743415
+            ],
+            "median_duration_ns": 244428.0
+          },
+          {
+            "family": "ffn_residual",
+            "median_share_of_dispatch_time": 0.0001600049396237736,
+            "share_range": [
+              0.00015879624017201411,
+              0.00018869443823893618
+            ],
+            "median_duration_ns": 154790.0
+          },
+          {
+            "family": "kv_store",
+            "median_share_of_dispatch_time": 0.0001492427242113074,
+            "share_range": [
+              0.00014362550046231876,
+              0.0001564388345975203
+            ],
+            "median_duration_ns": 139170.0
+          },
+          {
+            "family": "attn_residual",
+            "median_share_of_dispatch_time": 0.00012685406153980792,
+            "share_range": [
+              0.00012332227422519535,
+              0.0001485916009672459
+            ],
+            "median_duration_ns": 120211.0
+          },
+          {
+            "family": "q_rope",
+            "median_share_of_dispatch_time": 0.00011499011545271039,
+            "share_range": [
+              0.00011337737628458224,
+              0.00016345874206365177
+            ],
+            "median_duration_ns": 110517.0
+          },
+          {
+            "family": "k_rope",
+            "median_share_of_dispatch_time": 9.597371623340071e-05,
+            "share_range": [
+              9.413901533138254e-05,
+              0.00012147755965570759
+            ],
+            "median_duration_ns": 91764.0
+          },
+          {
+            "family": "token_embedding",
+            "median_share_of_dispatch_time": 2.3250695454843747e-05,
+            "share_range": [
+              2.270789312105131e-05,
+              2.4413990433452207e-05
+            ],
+            "median_duration_ns": 21719.0
+          },
+          {
+            "family": "output_norm",
+            "median_share_of_dispatch_time": 1.5441572498670175e-05,
+            "share_range": [
+              1.517573530065986e-05,
+              1.5456161354572857e-05
+            ],
+            "median_duration_ns": 13802.0
+          }
+        ],
+        "device_span_ns": {
+          "n": 3,
+          "median": 910301188.0,
+          "min": 890472347.0,
+          "max": 975611459.0,
+          "mad": 19828841.0
+        },
+        "sum_dispatch_ns": {
+          "n": 3,
+          "median": 909478172.0,
+          "min": 889612866.0,
+          "max": 974771190.0,
+          "mad": 19865306.0
+        },
+        "unattributed_ns": {
+          "n": 3,
+          "median": 840269.0,
+          "min": 823016.0,
+          "max": 859481.0,
+          "mad": 17253.0
+        }
+      },
+      "decode": {
+        "dispatch_timing_coverage": "100%",
+        "dispatch_time_fraction_of_device_span": {
+          "n": 3,
+          "median": 0.9990301971195336,
+          "min": 0.9990133683328685,
+          "max": 0.9990878519809553,
+          "mad": 1.682878666509069e-05
+        },
+        "top_runtime_families": [
+          {
+            "family": "lm_head",
+            "median_share_of_dispatch_time": 0.606335403028088,
+            "share_range": [
+              0.5938146565965937,
+              0.6264866217623528
+            ],
+            "median_duration_ns": 17650586670.0
+          },
+          {
+            "family": "ffn_down",
+            "median_share_of_dispatch_time": 0.13644597264573685,
+            "share_range": [
+              0.132555597064401,
+              0.14267463768351565
+            ],
+            "median_duration_ns": 4062065421.0
+          },
+          {
+            "family": "ffn_up",
+            "median_share_of_dispatch_time": 0.07809173807732511,
+            "share_range": [
+              0.0729859806157661,
+              0.07985670371908685
+            ],
+            "median_duration_ns": 2273586673.0
+          },
+          {
+            "family": "ffn_gate",
+            "median_share_of_dispatch_time": 0.07799360044064955,
+            "share_range": [
+              0.07300143075060725,
+              0.07987744680913288
+            ],
+            "median_duration_ns": 2274177246.0
+          },
+          {
+            "family": "q_proj",
+            "median_share_of_dispatch_time": 0.02631970662004642,
+            "share_range": [
+              0.024538024650744752,
+              0.026874067300827996
+            ],
+            "median_duration_ns": 765163577.0
+          },
+          {
+            "family": "o_proj",
+            "median_share_of_dispatch_time": 0.025978269685567427,
+            "share_range": [
+              0.024649023417331842,
+              0.026874221353236322
+            ],
+            "median_duration_ns": 765131400.0
+          },
+          {
+            "family": "v_proj",
+            "median_share_of_dispatch_time": 0.023094600727446186,
+            "share_range": [
+              0.02165867037184429,
+              0.023630041661435956
+            ],
+            "median_duration_ns": 672766910.0
+          },
+          {
+            "family": "k_proj",
+            "median_share_of_dispatch_time": 0.022763537932769206,
+            "share_range": [
+              0.021268067579633797,
+              0.023283290167394253
+            ],
+            "median_duration_ns": 662894607.0
+          },
+          {
+            "family": "cached_gqa",
+            "median_share_of_dispatch_time": 0.0013346272078775684,
+            "share_range": [
+              0.0012650169340291558,
+              0.001379456916427515
+            ],
+            "median_duration_ns": 39274284.0
+          },
+          {
+            "family": "attn_rmsnorm",
+            "median_share_of_dispatch_time": 0.00039298523866648576,
+            "share_range": [
+              0.0003844375605621491,
+              0.0004031814250910078
+            ],
+            "median_duration_ns": 11478910.0
+          }
+        ],
+        "all_runtime_families": [
+          {
+            "family": "lm_head",
+            "median_share_of_dispatch_time": 0.606335403028088,
+            "share_range": [
+              0.5938146565965937,
+              0.6264866217623528
+            ],
+            "median_duration_ns": 17650586670.0
+          },
+          {
+            "family": "ffn_down",
+            "median_share_of_dispatch_time": 0.13644597264573685,
+            "share_range": [
+              0.132555597064401,
+              0.14267463768351565
+            ],
+            "median_duration_ns": 4062065421.0
+          },
+          {
+            "family": "ffn_up",
+            "median_share_of_dispatch_time": 0.07809173807732511,
+            "share_range": [
+              0.0729859806157661,
+              0.07985670371908685
+            ],
+            "median_duration_ns": 2273586673.0
+          },
+          {
+            "family": "ffn_gate",
+            "median_share_of_dispatch_time": 0.07799360044064955,
+            "share_range": [
+              0.07300143075060725,
+              0.07987744680913288
+            ],
+            "median_duration_ns": 2274177246.0
+          },
+          {
+            "family": "q_proj",
+            "median_share_of_dispatch_time": 0.02631970662004642,
+            "share_range": [
+              0.024538024650744752,
+              0.026874067300827996
+            ],
+            "median_duration_ns": 765163577.0
+          },
+          {
+            "family": "o_proj",
+            "median_share_of_dispatch_time": 0.025978269685567427,
+            "share_range": [
+              0.024649023417331842,
+              0.026874221353236322
+            ],
+            "median_duration_ns": 765131400.0
+          },
+          {
+            "family": "v_proj",
+            "median_share_of_dispatch_time": 0.023094600727446186,
+            "share_range": [
+              0.02165867037184429,
+              0.023630041661435956
+            ],
+            "median_duration_ns": 672766910.0
+          },
+          {
+            "family": "k_proj",
+            "median_share_of_dispatch_time": 0.022763537932769206,
+            "share_range": [
+              0.021268067579633797,
+              0.023283290167394253
+            ],
+            "median_duration_ns": 662894607.0
+          },
+          {
+            "family": "cached_gqa",
+            "median_share_of_dispatch_time": 0.0013346272078775684,
+            "share_range": [
+              0.0012650169340291558,
+              0.001379456916427515
+            ],
+            "median_duration_ns": 39274284.0
+          },
+          {
+            "family": "attn_rmsnorm",
+            "median_share_of_dispatch_time": 0.00039298523866648576,
+            "share_range": [
+              0.0003844375605621491,
+              0.0004031814250910078
+            ],
+            "median_duration_ns": 11478910.0
+          },
+          {
+            "family": "ffn_rmsnorm",
+            "median_share_of_dispatch_time": 0.00038936988217157963,
+            "share_range": [
+              0.0003743662615468393,
+              0.00039489891291426716
+            ],
+            "median_duration_ns": 11334662.0
+          },
+          {
+            "family": "swiglu",
+            "median_share_of_dispatch_time": 0.00023690365095548922,
+            "share_range": [
+              0.0002185895934603814,
+              0.00025945670988910706
+            ],
+            "median_duration_ns": 6896329.0
+          },
+          {
+            "family": "kv_store",
+            "median_share_of_dispatch_time": 0.00014275556862268778,
+            "share_range": [
+              0.00013442346560679034,
+              0.00014563438903697726
+            ],
+            "median_duration_ns": 4155653.0
+          },
+          {
+            "family": "ffn_residual",
+            "median_share_of_dispatch_time": 0.00013085694960541716,
+            "share_range": [
+              0.0001299281383687565,
+              0.00013819147596307596
+            ],
+            "median_duration_ns": 3809281.0
+          },
+          {
+            "family": "q_rope",
+            "median_share_of_dispatch_time": 0.00012088005793638533,
+            "share_range": [
+              0.00011948390118771451,
+              0.00015173168220232778
+            ],
+            "median_duration_ns": 3725839.0
+          },
+          {
+            "family": "attn_residual",
+            "median_share_of_dispatch_time": 0.00010160603472071532,
+            "share_range": [
+              9.850119177294365e-05,
+              0.00010286198021877273
+            ],
+            "median_duration_ns": 2957779.0
+          },
+          {
+            "family": "k_rope",
+            "median_share_of_dispatch_time": 9.515827567822452e-05,
+            "share_range": [
+              9.387453415511477e-05,
+              0.00011485804757732269
+            ],
+            "median_duration_ns": 2927268.0
+          },
+          {
+            "family": "token_embedding",
+            "median_share_of_dispatch_time": 1.620094958371651e-05,
+            "share_range": [
+              1.4958869952276552e-05,
+              1.6394674563153622e-05
+            ],
+            "median_duration_ns": 466770.0
+          },
+          {
+            "family": "output_norm",
+            "median_share_of_dispatch_time": 1.582702655297791e-05,
+            "share_range": [
+              1.4739999081687095e-05,
+              1.653183248711856e-05
+            ],
+            "median_duration_ns": 460729.0
+          }
+        ],
+        "device_span_ns": {
+          "n": 3,
+          "median": 29138527601.0,
+          "min": 28498948429.0,
+          "max": 31211239191.0,
+          "mad": 639579172.0
+        },
+        "sum_dispatch_ns": {
+          "n": 3,
+          "median": 29110268973.0,
+          "min": 28470830464.0,
+          "max": 31182769921.0,
+          "mad": 639438509.0
+        },
+        "unattributed_ns": {
+          "n": 3,
+          "median": 28258628.0,
+          "min": 28117965.0,
+          "max": 28469270.0,
+          "mad": 140663.0
+        }
+      },
+      "q4v4_lifecycle": {
+        "materialize_events_per_trace": 14,
+        "materialize_duration_ns": {
+          "n": 3,
+          "median": 25409567.0,
+          "min": 24664672.0,
+          "max": 26032898.0,
+          "mad": 623331.0
+        },
+        "non_materialize_event_timing": "unknown/null by contract"
+      }
+    },
+    "W-C": {
+      "prefill": {
+        "dispatch_timing_coverage": "100%",
+        "dispatch_time_fraction_of_device_span": {
+          "n": 3,
+          "median": 0.9998999015649841,
+          "min": 0.999898529204775,
+          "max": 0.9999095948778421,
+          "mad": 1.372360209139778e-06
+        },
+        "top_runtime_families": [
+          {
+            "family": "ffn_gate_up_fused",
+            "median_share_of_dispatch_time": 0.4868814428212052,
+            "share_range": [
+              0.43620237539055134,
+              0.5214764829680657
+            ],
+            "median_duration_ns": 5220440771.0
+          },
+          {
+            "family": "ffn_down",
+            "median_share_of_dispatch_time": 0.31138079776522304,
+            "share_range": [
+              0.2817951722277691,
+              0.3220124160928267
+            ],
+            "median_duration_ns": 3395646734.0
+          },
+          {
+            "family": "q_proj",
+            "median_share_of_dispatch_time": 0.0646307089989347,
+            "share_range": [
+              0.056834309387886105,
+              0.0673563683200563
+            ],
+            "median_duration_ns": 692983463.0
+          },
+          {
+            "family": "o_proj",
+            "median_share_of_dispatch_time": 0.06338959331742289,
+            "share_range": [
+              0.0567866309250211,
+              0.06564647438562726
+            ],
+            "median_duration_ns": 684281907.0
+          },
+          {
+            "family": "lm_head",
+            "median_share_of_dispatch_time": 0.04124790802806455,
+            "share_range": [
+              0.026233460909998448,
+              0.060836373619994645
+            ],
+            "median_duration_ns": 497039474.0
+          },
+          {
+            "family": "causal_gqa",
+            "median_share_of_dispatch_time": 0.02250478545216422,
+            "share_range": [
+              0.020416001815021408,
+              0.023284130681241574
+            ],
+            "median_duration_ns": 246013902.0
+          },
+          {
+            "family": "k_proj",
+            "median_share_of_dispatch_time": 0.009514729529659375,
+            "share_range": [
+              0.008481427907184659,
+              0.010013557311980824
+            ],
+            "median_duration_ns": 102201655.0
+          },
+          {
+            "family": "v_proj",
+            "median_share_of_dispatch_time": 0.00927533624075376,
+            "share_range": [
+              0.008124863995514146,
+              0.009935368162792287
+            ],
+            "median_duration_ns": 99452021.0
+          },
+          {
+            "family": "swiglu",
+            "median_share_of_dispatch_time": 0.003424604561326846,
+            "share_range": [
+              0.0031384262206159644,
+              0.0036249182745768287
+            ],
+            "median_duration_ns": 37818202.0
+          },
+          {
+            "family": "attn_residual",
+            "median_share_of_dispatch_time": 0.0006229876724031712,
+            "share_range": [
+              0.0005882619815279341,
+              0.0006739369922434844
+            ],
+            "median_duration_ns": 7088588.0
+          }
+        ],
+        "all_runtime_families": [
+          {
+            "family": "ffn_gate_up_fused",
+            "median_share_of_dispatch_time": 0.4868814428212052,
+            "share_range": [
+              0.43620237539055134,
+              0.5214764829680657
+            ],
+            "median_duration_ns": 5220440771.0
+          },
+          {
+            "family": "ffn_down",
+            "median_share_of_dispatch_time": 0.31138079776522304,
+            "share_range": [
+              0.2817951722277691,
+              0.3220124160928267
+            ],
+            "median_duration_ns": 3395646734.0
+          },
+          {
+            "family": "q_proj",
+            "median_share_of_dispatch_time": 0.0646307089989347,
+            "share_range": [
+              0.056834309387886105,
+              0.0673563683200563
+            ],
+            "median_duration_ns": 692983463.0
+          },
+          {
+            "family": "o_proj",
+            "median_share_of_dispatch_time": 0.06338959331742289,
+            "share_range": [
+              0.0567866309250211,
+              0.06564647438562726
+            ],
+            "median_duration_ns": 684281907.0
+          },
+          {
+            "family": "lm_head",
+            "median_share_of_dispatch_time": 0.04124790802806455,
+            "share_range": [
+              0.026233460909998448,
+              0.060836373619994645
+            ],
+            "median_duration_ns": 497039474.0
+          },
+          {
+            "family": "causal_gqa",
+            "median_share_of_dispatch_time": 0.02250478545216422,
+            "share_range": [
+              0.020416001815021408,
+              0.023284130681241574
+            ],
+            "median_duration_ns": 246013902.0
+          },
+          {
+            "family": "k_proj",
+            "median_share_of_dispatch_time": 0.009514729529659375,
+            "share_range": [
+              0.008481427907184659,
+              0.010013557311980824
+            ],
+            "median_duration_ns": 102201655.0
+          },
+          {
+            "family": "v_proj",
+            "median_share_of_dispatch_time": 0.00927533624075376,
+            "share_range": [
+              0.008124863995514146,
+              0.009935368162792287
+            ],
+            "median_duration_ns": 99452021.0
+          },
+          {
+            "family": "swiglu",
+            "median_share_of_dispatch_time": 0.003424604561326846,
+            "share_range": [
+              0.0031384262206159644,
+              0.0036249182745768287
+            ],
+            "median_duration_ns": 37818202.0
+          },
+          {
+            "family": "attn_residual",
+            "median_share_of_dispatch_time": 0.0006229876724031712,
+            "share_range": [
+              0.0005882619815279341,
+              0.0006739369922434844
+            ],
+            "median_duration_ns": 7088588.0
+          },
+          {
+            "family": "q_rope",
+            "median_share_of_dispatch_time": 0.0003985652984560407,
+            "share_range": [
+              0.0003590273033445219,
+              0.00042966727925108244
+            ],
+            "median_duration_ns": 4326298.0
+          },
+          {
+            "family": "ffn_residual",
+            "median_share_of_dispatch_time": 0.00028399738897149463,
+            "share_range": [
+              0.0002452961014410338,
+              0.0002847044141820596
+            ],
+            "median_duration_ns": 3012450.0
+          },
+          {
+            "family": "ffn_rmsnorm",
+            "median_share_of_dispatch_time": 0.00022881226868976784,
+            "share_range": [
+              0.00021102073325618973,
+              0.00025126006869283544
+            ],
+            "median_duration_ns": 2542811.0
+          },
+          {
+            "family": "attn_rmsnorm",
+            "median_share_of_dispatch_time": 0.00012887456403587938,
+            "share_range": [
+              0.00011080059236380584,
+              0.00012961271464945033
+            ],
+            "median_duration_ns": 1374843.0
+          },
+          {
+            "family": "kv_store",
+            "median_share_of_dispatch_time": 0.00010179201008085831,
+            "share_range": [
+              9.344697560948617e-05,
+              0.00011042098374509511
+            ],
+            "median_duration_ns": 1126041.0
+          },
+          {
+            "family": "k_rope",
+            "median_share_of_dispatch_time": 7.89108209217043e-05,
+            "share_range": [
+              7.224208945726267e-05,
+              8.571560879016375e-05
+            ],
+            "median_duration_ns": 870521.0
+          },
+          {
+            "family": "token_embedding",
+            "median_share_of_dispatch_time": 1.6394115105372637e-05,
+            "share_range": [
+              1.5127900385336284e-05,
+              1.7308243001819978e-05
+            ],
+            "median_duration_ns": 182292.0
+          },
+          {
+            "family": "output_norm",
+            "median_share_of_dispatch_time": 4.221148188195343e-06,
+            "share_range": [
+              3.552847471622545e-06,
+              5.376572255285005e-06
+            ],
+            "median_duration_ns": 45260.0
+          }
+        ],
+        "device_span_ns": {
+          "n": 3,
+          "median": 10723274543.0,
+          "min": 10608392273.0,
+          "max": 12051142391.0,
+          "mad": 114882270.0
+        },
+        "sum_dispatch_ns": {
+          "n": 3,
+          "median": 10722201160.0,
+          "min": 10607315831.0,
+          "max": 12050052906.0,
+          "mad": 114885329.0
+        },
+        "unattributed_ns": {
+          "n": 3,
+          "median": 1076442.0,
+          "min": 1073383.0,
+          "max": 1089485.0,
+          "mad": 3059.0
+        }
+      },
+      "decode": {
+        "dispatch_timing_coverage": "100%",
+        "dispatch_time_fraction_of_device_span": {
+          "n": 3,
+          "median": 0.9989856557109045,
+          "min": 0.9986797865044399,
+          "max": 0.9991359549111488,
+          "mad": 0.0001502992002443415
+        },
+        "top_runtime_families": [
+          {
+            "family": "lm_head",
+            "median_share_of_dispatch_time": 0.5715916075015884,
+            "share_range": [
+              0.4321087964154954,
+              0.6330037357251872
+            ],
+            "median_duration_ns": 15873648752.0
+          },
+          {
+            "family": "ffn_down",
+            "median_share_of_dispatch_time": 0.14105579020524395,
+            "share_range": [
+              0.12294238394755287,
+              0.19308043684073356
+            ],
+            "median_duration_ns": 4024540659.0
+          },
+          {
+            "family": "ffn_gate",
+            "median_share_of_dispatch_time": 0.08187920441918567,
+            "share_range": [
+              0.06951984386100948,
+              0.10689725350763615
+            ],
+            "median_duration_ns": 2273864266.0
+          },
+          {
+            "family": "ffn_up",
+            "median_share_of_dispatch_time": 0.08177981236318355,
+            "share_range": [
+              0.06939137814224655,
+              0.10686393476570612
+            ],
+            "median_duration_ns": 2271539023.0
+          },
+          {
+            "family": "q_proj",
+            "median_share_of_dispatch_time": 0.02796209453990315,
+            "share_range": [
+              0.023459817849612367,
+              0.03611095722509149
+            ],
+            "median_duration_ns": 767961282.0
+          },
+          {
+            "family": "o_proj",
+            "median_share_of_dispatch_time": 0.02765399732555234,
+            "share_range": [
+              0.023776990538308465,
+              0.03579995975643539
+            ],
+            "median_duration_ns": 767978106.0
+          },
+          {
+            "family": "v_proj",
+            "median_share_of_dispatch_time": 0.024219204596470128,
+            "share_range": [
+              0.020547975645274073,
+              0.03164681569246149
+            ],
+            "median_duration_ns": 672641613.0
+          },
+          {
+            "family": "k_proj",
+            "median_share_of_dispatch_time": 0.023915554437301006,
+            "share_range": [
+              0.020234532430874794,
+              0.031159146745592885
+            ],
+            "median_duration_ns": 662510369.0
+          },
+          {
+            "family": "cached_gqa",
+            "median_share_of_dispatch_time": 0.01818516099266769,
+            "share_range": [
+              0.015618326368689286,
+              0.024035916546898867
+            ],
+            "median_duration_ns": 511055199.0
+          },
+          {
+            "family": "ffn_rmsnorm",
+            "median_share_of_dispatch_time": 0.0004202989094764195,
+            "share_range": [
+              0.00036209641141600127,
+              0.0005544683616919854
+            ],
+            "median_duration_ns": 11789188.0
+          }
+        ],
+        "all_runtime_families": [
+          {
+            "family": "lm_head",
+            "median_share_of_dispatch_time": 0.5715916075015884,
+            "share_range": [
+              0.4321087964154954,
+              0.6330037357251872
+            ],
+            "median_duration_ns": 15873648752.0
+          },
+          {
+            "family": "ffn_down",
+            "median_share_of_dispatch_time": 0.14105579020524395,
+            "share_range": [
+              0.12294238394755287,
+              0.19308043684073356
+            ],
+            "median_duration_ns": 4024540659.0
+          },
+          {
+            "family": "ffn_gate",
+            "median_share_of_dispatch_time": 0.08187920441918567,
+            "share_range": [
+              0.06951984386100948,
+              0.10689725350763615
+            ],
+            "median_duration_ns": 2273864266.0
+          },
+          {
+            "family": "ffn_up",
+            "median_share_of_dispatch_time": 0.08177981236318355,
+            "share_range": [
+              0.06939137814224655,
+              0.10686393476570612
+            ],
+            "median_duration_ns": 2271539023.0
+          },
+          {
+            "family": "q_proj",
+            "median_share_of_dispatch_time": 0.02796209453990315,
+            "share_range": [
+              0.023459817849612367,
+              0.03611095722509149
+            ],
+            "median_duration_ns": 767961282.0
+          },
+          {
+            "family": "o_proj",
+            "median_share_of_dispatch_time": 0.02765399732555234,
+            "share_range": [
+              0.023776990538308465,
+              0.03579995975643539
+            ],
+            "median_duration_ns": 767978106.0
+          },
+          {
+            "family": "v_proj",
+            "median_share_of_dispatch_time": 0.024219204596470128,
+            "share_range": [
+              0.020547975645274073,
+              0.03164681569246149
+            ],
+            "median_duration_ns": 672641613.0
+          },
+          {
+            "family": "k_proj",
+            "median_share_of_dispatch_time": 0.023915554437301006,
+            "share_range": [
+              0.020234532430874794,
+              0.031159146745592885
+            ],
+            "median_duration_ns": 662510369.0
+          },
+          {
+            "family": "cached_gqa",
+            "median_share_of_dispatch_time": 0.01818516099266769,
+            "share_range": [
+              0.015618326368689286,
+              0.024035916546898867
+            ],
+            "median_duration_ns": 511055199.0
+          },
+          {
+            "family": "ffn_rmsnorm",
+            "median_share_of_dispatch_time": 0.0004202989094764195,
+            "share_range": [
+              0.00036209641141600127,
+              0.0005544683616919854
+            ],
+            "median_duration_ns": 11789188.0
+          },
+          {
+            "family": "attn_rmsnorm",
+            "median_share_of_dispatch_time": 0.0004202308887860641,
+            "share_range": [
+              0.0003690083643364673,
+              0.0005553860488705539
+            ],
+            "median_duration_ns": 11808700.0
+          },
+          {
+            "family": "swiglu",
+            "median_share_of_dispatch_time": 0.00023577706903062326,
+            "share_range": [
+              0.00018682981495044855,
+              0.00030241649152767323
+            ],
+            "median_duration_ns": 6430024.0
+          },
+          {
+            "family": "ffn_residual",
+            "median_share_of_dispatch_time": 0.000151500405918817,
+            "share_range": [
+              0.00013020329912090232,
+              0.00019536756726219276
+            ],
+            "median_duration_ns": 4207312.0
+          },
+          {
+            "family": "kv_store",
+            "median_share_of_dispatch_time": 0.00014776650572521458,
+            "share_range": [
+              0.00012727281241660867,
+              0.00019598848291058665
+            ],
+            "median_duration_ns": 4166298.0
+          },
+          {
+            "family": "q_rope",
+            "median_share_of_dispatch_time": 0.0001316646147761507,
+            "share_range": [
+              0.00011443597929942463,
+              0.0001699712142296684
+            ],
+            "median_duration_ns": 3656453.0
+          },
+          {
+            "family": "attn_residual",
+            "median_share_of_dispatch_time": 0.00011313151527720494,
+            "share_range": [
+              9.829942365187794e-05,
+              0.0001449568075674369
+            ],
+            "median_duration_ns": 3141771.0
+          },
+          {
+            "family": "k_rope",
+            "median_share_of_dispatch_time": 0.00010439832839991017,
+            "share_range": [
+              8.859341218954274e-05,
+              0.0001349066937848019
+            ],
+            "median_duration_ns": 2899242.0
+          },
+          {
+            "family": "output_norm",
+            "median_share_of_dispatch_time": 1.6511455444618425e-05,
+            "share_range": [
+              1.4406887267646637e-05,
+              2.2080554356004272e-05
+            ],
+            "median_duration_ns": 469480.0
+          },
+          {
+            "family": "token_embedding",
+            "median_share_of_dispatch_time": 1.629392606905617e-05,
+            "share_range": [
+              1.3869086596020557e-05,
+              2.124028174774754e-05
+            ],
+            "median_duration_ns": 452498.0
+          }
+        ],
+        "device_span_ns": {
+          "n": 3,
+          "median": 27799159815.0,
+          "min": 21290255019.0,
+          "max": 32763485801.0,
+          "mad": 4964325986.0
+        },
+        "sum_dispatch_ns": {
+          "n": 3,
+          "median": 27770961896.0,
+          "min": 21262147337.0,
+          "max": 32735176672.0,
+          "mad": 4964214776.0
+        },
+        "unattributed_ns": {
+          "n": 3,
+          "median": 28197919.0,
+          "min": 28107682.0,
+          "max": 28309129.0,
+          "mad": 90237.0
+        }
+      },
+      "q4v4_lifecycle": {
+        "materialize_events_per_trace": 14,
+        "materialize_duration_ns": {
+          "n": 3,
+          "median": 21437226.0,
+          "min": 21302901.0,
+          "max": 22558421.0,
+          "mad": 134325.0
+        },
+        "non_materialize_event_timing": "unknown/null by contract"
+      }
+    }
+  },
+  "core0b_performance_authority_preserved": true,
+  "timing_authority": "DIAGNOSTIC_ONLY",
+  "hardware_counters_used": false,
+  "profiler_used": false,
+  "mechanism_selected": false,
+  "dataset_sha256_manifest": {
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_000.json": "39C1963F62474FAB02BCF841BED20B78D363358DEE25E00433D3EDFFC4B114D7",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_001.json": "CE4A64B8183B5BCBA9C982708CB9D54D3702CDA4283B171E8077CB3969795F06",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_002.json": "A3A88F725A12A740A6E0D9FD9118F9E491812AD82161D195E889468A52E46947",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_003.json": "D1C87A59B9A999A63AADE169C82B5C48F2981F4198EB02716A703ECF837E3CE7",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_004.json": "9CA0E14D49C198A77B98295358B27F4D88FA904FC323525463E07984475B4845",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_005.json": "3325FF8B58A96D1C51816144E3138D1F204EA8D9C1C995DCBDB253EB64D86722",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_006.json": "FB7542C791664314FCC1543F60C36B41C3DC2368B7B267E144CB5A68B73AE911",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_007.json": "6DC196EC0AC7478CBF79FB32D228733BF1E7563482434F3C807F08C5B1CF297B",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_008.json": "541A701445E4911401BA635BBC57E94743AB5C480A3FA6207E4FDFC4CBCFDC03",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_009.json": "F8B92F921A36E22FF53059B6008FA533C18B7F554F4862AF2EB187D3A043105A",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_010.json": "ACEA17F15458CA908107B8AD0C1B6698C10AD44A2CEF7FF21D4C40C2E1260512",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_011.json": "E9B5146E20B9A21324D7B701D569B866AFB8D4AAEB6454C3FACF9D1F908AC7D7",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_012.json": "8A4EC985CD79309F27F37ECB85DCE5CE74977A302310D9B2D0D67B37B39EA12C",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_013.json": "2C21C46D8881FF9E150C40D65C7A6E51FEB143272E76B8A4C012B56684847762",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_014.json": "FE3BFAD853164D54E42EB4850A1A948C00DAEBE4CCA75890CB6F5C2DDF3C9F42",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_015.json": "814BB9F087A566F0591019AED979C4324A29F958C3633B08A3E24FEBF129837B",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_016.json": "380E280867B0191AA52B07148522FF58A0D7206E090C587FAD5255ABB1DA1B63",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_017.json": "3F72F7B9DE33A94F4AE838CE00A4A376D36DAF04CCD9F52B717819671D090B08",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_018.json": "041F90CB59FD36AAC2DC2ED54B3A839AAA67EB06054443DAB92FEA0272A06067",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_019.json": "05CEB3ADB0AAA12E1436FB64CE06C364B87BB0A90A1D3B0617C66512B3C5CD41",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_020.json": "E10097860709EC45350DAF74A6C693F248E88411F76569F577D1181F1193EA05",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_021.json": "0F550936337AC28F23DDBF88B568828FBBE07BB5259FDE919C46353E36FC2656",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_022.json": "75846E567A03F0E1B92753903B1A2A5CCEEF361F8DB4C85EA441BB8A79587882",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_023.json": "123092FB793424C9ADD80209902363FA665E9CE274D72868313C6CB4331B0C5F",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_024.json": "00AE45C0AE55F82CB62F7270AD6E6557AAE487B08D47C67BF3E62132A019C43B",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_025.json": "64D1AC1E88A4E766C44F1502F62CE66BA6509BE61C11641943194D2FA89661DA",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_026.json": "FFC8642F99E611D5163A205046027C6EF930AED5A731A0D6F7B507D5C07A03A6",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_027.json": "752D835BEA6D9C1432213726E8595BE6E5CB6F99749D7A60C1F6DD0F59839158",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_028.json": "F5BEB92793ADBB6B038095F5BC5EAA1D6E5AAB355A3412A4BFD15EE477EF2B46",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_029.json": "795068E380CC86551843DE8FB8E58250305977D70FEF6001F9CAAA3778FBC0E9",
+    "core0c-wc-b0_traces/core0c-wc-b0_decode_030.json": "5B3ECF4DCF02368E6385138A55C0D55598ED10C288A22B8D82D64C223406FC32",
+    "core0c-wc-b0_traces/core0c-wc-b0_prefill_000.json": "D7AF305D7A8217076AB255F5B8924D0677439253444ED899A63FBBF5A1C23D66",
+    "core0c-wc-b0_traces/core0c-wc-b0_runtime_lifecycle.json": "9A68E4A5E746F072DEAD257C50F456E58B857C2F082FE54CFC2E98CB207B7A9C",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_000.json": "ECA69AAEBD9B37DEEA1D68969D42BE2FC9D67EFBE78421FAAF6F315042282A04",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_001.json": "DCC1C613BE57B162434A1259998D78EC4954FA614378B5EC167D62E9750C06D1",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_002.json": "178085900223CCEC5BBF63FC2DC2252F331E787A0921947DE63E3111F9786A31",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_003.json": "8DEF35CC8B1AA84163B40B76781E89CD7D608D92CD100F3458C7638717975775",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_004.json": "77424ABD2C390D0CA0DA3F7F85F1204D18736FC51358B9E8BEA6DE0C687E9C5E",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_005.json": "39732395058C4A5465A5FCD5CE6A2B92AB7016FEBFF54240A5E87BC52BC3D7E4",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_006.json": "BD626EC73529AFCC7E594BA7937BB1FB78C7292BFDE4F70AFD3A33D5BB1B6E19",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_007.json": "14F88C4BB4E15A3D0FDA4E76C92B64C77AC9ACA7F6F3B022CF2F61BF4F85708D",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_008.json": "725542B893994C046FB7A4A7568044ADE520EFC8D80EB1ADB7F96E95D4364A2B",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_009.json": "FF04CEE88DA504FC3EEEAA6C9B9D7A255B7BD16D5ECC62442C132F5147C8F68D",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_010.json": "6B41F56031F7ED2BD62766979480E60BAD8CC24476627F097369700F31A46C98",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_011.json": "B757F0C4F4F6728B6532A84BBBA1E16DA5CEAC3987BEE4583B3AEF6674DB3C11",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_012.json": "914F11BBA903AADC0C4F8758E44536CCCF7327BE8E2C8A1638F3191C82C063B7",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_013.json": "3785632A73413185295F4A5BC38F5C43AF2D1C7607CA89251E7C8AF4C88EC582",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_014.json": "7FDA81649EF3F55ED39443D3DF34674032106FCE42C154A21D7D0E371422FCDC",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_015.json": "B2BD7EF6DD52E468857BE859AA409F6BBD6C8DED90D5EFEC96F4DA1D13A57C08",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_016.json": "CCA2438523E00DB4DFD98CFE20CF8C5599D377D7589B2403C666BA53F8D8EE8B",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_017.json": "359B58C0BBC7EFC9C66A46A4E44EFB3B0CE824A4129BA59A0A81C1F98E40E46D",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_018.json": "B223C952670D5BA4AA6508E982A92B9DC6D5AFAD8E58EC9CE9569FAB9A5C70E8",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_019.json": "85CE7C70951DA985095B5438CAF4D233EE04FD14BAC7D8ACDA8C017E8A6A5C0E",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_020.json": "39852F06B8343801A20F81066F67D7DC363F4A564EA587B12A1E5368BABB2EA1",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_021.json": "B682A4C61D78BAFB08F59A45E57FAF8B727F07A109B1C57B9A522D7E58357DB0",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_022.json": "11185B478DD9D51474B331FF76036B38EED4C69EEF046D00642C26E261007B54",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_023.json": "96F8FD18A3DEFE0E720C3C4D99E44681B98059BCAEF92FACBA0B1F205F0EEFA1",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_024.json": "6228F9F3D19739C024A8C4693835BD0A48F8B7BC6A98401D523B33373601818F",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_025.json": "FEC4F66799608CDB89E86D615F11DDA7102CE65DDE644DD20B6F80E7B19A37BD",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_026.json": "67FE8E6209D6FBFE373B6260D79BF12B360EB6ECBBA4CF6B407FE22259A3BA05",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_027.json": "9FD5F0F06C44FAD979C13A8CEE06A2BE287DAB8CC3AC4B7DA9DDC843CB1FCB97",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_028.json": "9ABC818D694B54D00CAE6983377476EE55FF0BBD47E4C2AD24192A4651F6990F",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_029.json": "ADBA79B38FE2B84D535FEF5909519E690AEF95DF63231718D09DF77A9F16E326",
+    "core0c-wc-b1_traces/core0c-wc-b1_decode_030.json": "0C683A363718C24842FDDE07B4CDE5972EB6DBB220041A7F276344988813A394",
+    "core0c-wc-b1_traces/core0c-wc-b1_prefill_000.json": "8366148E5FD129C3785099E7E9130C47F1F7C6900DF028640FDC4C32233740E0",
+    "core0c-wc-b1_traces/core0c-wc-b1_runtime_lifecycle.json": "45BBA37ADB6E466132579C3E738787D93B358A145F5B708406B2B67D9F3A3DC8",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_000.json": "E1641469AEAA0D233B6387C86A2C7199B966609F88B83D6F773DA83D882AEACA",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_001.json": "1DF05165C298E1530E92B52D30FAC12E49CFFC1DE081AB4E2B9095C0E31E9160",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_002.json": "5B3738A6D63AC20CFEC5A7669B9716B43AED13C3DF8CBF2D4305EAE27A296D20",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_003.json": "106C62FC1CE19F1D21A8DE2033B3CCB4D56E9E2E44F4465A0577DDC5FD2793B0",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_004.json": "1C07ACC6A28299DE4AEC05B0E4DA9BA30AA3092D23CC7964EF3086AE4D4CFCD6",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_005.json": "64E41009DF1935B3F2775E61FABB34E59FD33ED1D0FA5C868D5743E0A0B8EE99",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_006.json": "77904AAC495709EB6D8F82036EA67A6B21B78AE0DB305A90C786D3084B7F56AD",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_007.json": "E0954231B4DAB378796C3124FC6F8ACF672ED7E591CF4B49087EE7211416149E",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_008.json": "CF0BE3EB09AACBA05861CFA693665E3C869529EC5737CE4C3DBF26B407FB949E",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_009.json": "26FB603EA4D66B7872958F09103A6BE7B0B1F5E22C92B50E675BAA669FA81171",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_010.json": "6B0EBF8E6488028B764778F94DB97177497F8ADFC07076CB1C98A8E307A87A77",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_011.json": "B7518A4431E1D78AD98EF6D5137B080967FAE225F5E4CF6B0685E9A5EDF16BB7",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_012.json": "928099067B3075532CA10E206BD578AB988C10540CC08F191D3C7A710D79FF83",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_013.json": "080E43352968765851CA19FAB966E7D9F1FFCC090DFF61A9187C0C06DC374B3E",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_014.json": "4CC3AC5F5514AE6B554A717AC927531AC9D723238EDB0A4345933114C97E87FD",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_015.json": "45A97090B08E6CCE413D1C62676E4AA4441C490294D11DAE2FFFB8D2C64DDA29",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_016.json": "61D03D8FB82C7559951AAE7658BCF0BE723D965A38AFADFAC7682CC9933D3672",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_017.json": "C2EC8DE3588C21BF320D39E447DDBFA2DDC1349CF5A00C5E25A2C7B413D5530D",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_018.json": "A31F05F33E50DA7BBA6642819DFE60D85B3DA13677FDF6D37CE6426C0E2F4EA5",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_019.json": "6E5F91BBA1456AF3F997CBC0034E3BD69F411FB50A483002481202428DD79BBF",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_020.json": "B5AD96298C54E4CB5697A80DA73A29BEC2C33FD4B2A2797F0802AE8EDCD4BD7F",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_021.json": "33313E51E33F511246DA4515083DE9C9E731D8F7931F999F02397AF07B7EDB1A",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_022.json": "8FB36C382736DCE9F368F1E5621135A627AE05248620164040E27F63E9351F04",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_023.json": "ADD524B67B930E9D6CF5756A2FBB8E96DB380DDBDFB5A81122D2C9F5BEB7DF7A",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_024.json": "F0762F1AC989A6B85238B476E8F8E31F70932F76FA0F4311F1596A18E1CFE81F",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_025.json": "74086D035D1C939576C3119A75850D91E0EE3D82CFB4764F05C7AFC1D31153EA",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_026.json": "CFC923E669A09C186B5E21D499CAEF2A906DC6B099ABF8E96947465243992D7F",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_027.json": "78A9FB86C0ACF18B47AD4BC958F8657BEEEF059A1563F592BF616904293D6FFF",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_028.json": "AC52FB604496839096B04CB626099039B61EFB75B964B8F0D7D4932B6CDD9FEF",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_029.json": "82FE93B57A327F7720117E4CBB6C3ADC7BAEBE3CD191D57832544AB676C857A8",
+    "core0c-wc-b2_traces/core0c-wc-b2_decode_030.json": "0B96CB28318EE0C9C52823EAC2C6300705FAA21357509004B0232F8B9A7E6635",
+    "core0c-wc-b2_traces/core0c-wc-b2_prefill_000.json": "130304C19667FEDC136C9925573338BC98395A9E2A26925B60B0B3C29C3355EC",
+    "core0c-wc-b2_traces/core0c-wc-b2_runtime_lifecycle.json": "94B120440A47D0C5BC95E826E5B19496122327626F59EC6A9D4EB584EF260223",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_000.json": "59855F535C6C6FCA1ADD257352AB8272FC957D7336CC14BAA1F31AD6515ED8C1",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_001.json": "8354CF4B25A0FF9DB9210E69BCF372508B081853F0D13181EC376827D04B6A7C",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_002.json": "387A894FA9F48BE370CC25B5F9052EFCCAEE97DA4E6F2994E7304ED4A04EB12E",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_003.json": "C773813190444AC42B5385ABA70D766E46C0D6690420DDD9F6846E562F6A47B4",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_004.json": "77581642C1C20E9A189C9A376A2BC7E9A0B56F0AE3DB1324DEB992C4E9447726",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_005.json": "CFF9E9E43251118261793ACEE807A7A6F3B09D979250B1FF2DCF5B8FE9920066",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_006.json": "6399B004F9EE161E810ED62C53B2A91A1802A9D3EC806F41D2B95863378D5E26",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_007.json": "044BAB63C7AE532332A1CDF36865E59F95DAF108AE60B6940E32619E07F335CF",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_008.json": "25F019A16D66545628B7C6E3271F2DE893CAE051CEFA475E7DD6A5C14B1F67B5",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_009.json": "63B42F94A341C3487DACDE2444A0D9F99BD842F984CF801FA3266C09AE24AF10",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_010.json": "2FA8EA27F0B6E7E02E73D97379407EC6D48440B4F29A7078373F3053FBE1382A",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_011.json": "B7CA57524B5619968DDF5F0360A53018C9C27B3FABD7D57B10DDB6046DFFBBFA",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_012.json": "5B6CF639199577D18BE055EB3A66A114D7FA0221C06CDB86949E51D1A4FAB6DE",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_013.json": "5881B1E6B9FCCC72FB931D47A5A7DBC5468ADA7CE1BA5BC63E5481A05CEBEFE1",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_014.json": "A60174A855C28C4C0474B65DC5DEDCCABC0C51F69A770CF1A5BEE730408CBB85",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_015.json": "33E50C4590041289EE90CC0360B19496DA75614BCB4855A5DCF9EEB812C5A751",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_016.json": "19E201742CE1A2E5812E5A93492629CFCDA3E8B1156386923DA1B8DCD2A1DBA6",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_017.json": "B9C1D0684102E90071497B00B4342EFEACE08FDFA15AC5BCC550F082B9C6C770",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_018.json": "64B0D4F7C070319947382CAA85F780E62149F4B3C8A667E1222DDA7AFF2C5C96",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_019.json": "11CB803D9E6A70E78607E424C0F9250482C71E6452BD1AAE74F283C973711C40",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_020.json": "6B1406D2487B3CDD20F1884EC5E832A838C3E868B33EA2BA5021244021CAE684",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_021.json": "AD3F89E062573D58DE6551F394994D3184686FE555323CA2C26C59EB06FEB887",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_022.json": "39F72429B40B5EB9DF463FCC9926003A7981A08A3C16B5B8DCC723FDC9B045D3",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_023.json": "FCAD96DD5D2510377401AF3718DA94C6B1CEAFA5C2638941D1CCF9A5DC5D0EE6",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_024.json": "5BFCA3E59E59856EAFD59D0606F57745BF5A867D0AD7F436ECBCDC31B157A25F",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_025.json": "0924CEAACDE39A32F203BD864DFEA3690FC371749D742A8889B635A021F69561",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_026.json": "E7395FEA5F5B22EFD62A9509A346B57EF69BF6CA55AFFAE1FE33ADA60AAF7809",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_027.json": "ECB29CC9925B90A9708940659B22A72171977CD5EC816D2C47BE27E8274FCDF2",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_028.json": "20CD92CB2AF9CEE8463DE4BAD3E77F5F6C202854A7A90D3C12CE2604C4975555",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_029.json": "2FCA7BDC5F86A5CB6EC439935F554129D3FAE861B6F62A446CB5BD06D294A5D8",
+    "core0c-ws-b0_traces/core0c-ws-b0_decode_030.json": "2EBDC386AAE6E2FE00DFDCAD2660484DF28BF7B32395E7FFDFB80D21A96F0BC4",
+    "core0c-ws-b0_traces/core0c-ws-b0_prefill_000.json": "70E293DC525744FFFD91CFAF9308869A21B4E854DF65D835775D1218870E83F3",
+    "core0c-ws-b0_traces/core0c-ws-b0_runtime_lifecycle.json": "A4014EE011D253A2B0C3AC142F428C53BD4DEDB713DB7F33ACD864FC6D7FC67D",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_000.json": "05038B8C585EDE2372BC8CEB76F62C0B98E060E1E6E72F1CA368B1F290BF798A",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_001.json": "0C830109B06D0483F982A9E95A38F7228D959C2D9BC90A1D5E43C48B709523C9",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_002.json": "2757BBA4D8DF87F80F65923B0ECAC687E4D321EA749B5AE64C6BD9712E894673",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_003.json": "527A49671016623F6EA66FA88AC97A90A3595D90A0DE75B08438B782C5EDB5A6",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_004.json": "6CDED63202903DF631ED0ADCED995A3893E4FD16CD0DC9AFA6F95C98619B1B06",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_005.json": "BCD5D2DA131AA5524B66BE274113EA413C03033D3F182C3BB75F148D553171E3",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_006.json": "BD54B4CD49630D7A5C0085796386E1D4778B4367F338D77F6073B98E432EB86E",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_007.json": "F5BEEAA82CF66CFB9A546208FCDFFB8237CC0BC2B6D96571F37AD011CACA4CF5",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_008.json": "D76120255A3CA10DA8D89A0BFDA11A07AC292E368178F963390D71284C0A9011",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_009.json": "BC3F66F69DB5ACC6958F28C2EA3A1A8633A6EE2D0800CED09700D4D8EE9A7442",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_010.json": "6C56ECEB69BDB006AC37714D643BC6660A6961DD8C955319BB8B66EF63595E8F",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_011.json": "A92EF52D8FF12EA68D2E306320012DA34DDA3BC956AF9F22D85BC8BC53F8ADAB",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_012.json": "5A1F559217B43CC30806165EBE8E52D96F44878657EB59211C481C5357EA933E",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_013.json": "3A553CE5C247FEA86A386B6A2731424D49C933EF550949797CEC49B9E58D1BFB",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_014.json": "AE045D14F1360F172F9860294BC9EE5C7AF6A824AFFA5C1DB9EB5E08E6F55D21",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_015.json": "3D74879652118F5726D5F0911C0FD2511DA1ADD0FACCC04FD6CD71624E727982",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_016.json": "5C281E82C44D24D94E56358E8ED6F18250908EA568015A4EF6958964A7B20237",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_017.json": "CD9A4D9837F3F7318777D949E38EDC39E9C7D5C4846CBCD0942EA45FC91369F9",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_018.json": "8F2E397A52E3199DC5FB48D5FC55F4FEFD97A2559F28E6995998A20CF38044AB",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_019.json": "C2956601945E7A6308D5DF073D5CA7DE32AAC6FF214A6E45BD944B2EBD9D6127",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_020.json": "645D717F205D44B4169D6C692D90316C057ED4AD50605E1D0969CBFC82D62DB3",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_021.json": "9E986D4D57D74B08D275A41966F17AF05D260E6AC6AE69ED9952CF3C74E23912",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_022.json": "1FCBFFD4F61D58DB3795B096E077742A9E98A95D1AB8E032E7BB96DD24142324",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_023.json": "FF0D568FC1C3CCAD4BEA3E8DFFF959A2234313C50ACFF4D4AD10787AF97E1D7B",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_024.json": "2B1883E6D93E7C6DCCE40EAFF10F0DD30B6514CDA5AD449298ED4BAAC916F5AE",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_025.json": "7695597B91CE44B5C70F38F63CE58408FDB64A9593C93E3A549C5A6FCA4B9EC7",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_026.json": "C15CA3C486C0493A44B2AD3A9D325B2480ABBD4E60A3612601B365E3758DCF9F",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_027.json": "43FA1D0FD0D36D61C2FC7142EB2926238F1D19779E18E9935F70B1595F9FC906",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_028.json": "FA38D9678B9A63FA148B2756DB186388FA4F89EA53FD46D426B37B7801A9E69F",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_029.json": "EB7D569F02CF1BFF5B7FAC5BDA3D0389230F43AF890A45BFCFE8C553F3CCB28B",
+    "core0c-ws-b1_traces/core0c-ws-b1_decode_030.json": "4F52BD4433BE5176789B6933CA1932473553681986A6ABA06519FF843C88BDC8",
+    "core0c-ws-b1_traces/core0c-ws-b1_prefill_000.json": "6863BEC50D16525939677C4369F5BD2CD38145DC712B09DAD2FA62E12044BDE8",
+    "core0c-ws-b1_traces/core0c-ws-b1_runtime_lifecycle.json": "C9FBCFCAE702C46565FC23D4A5FDC8CE145D0AB0ACB3660A0637F7F595C2F463",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_000.json": "9A5BE4DA9E2E82B331300B97BBFE2EAA7DAE57ABFAD48334BBA97CD8F0253C81",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_001.json": "7A0E1BBBBDE3BECA4B677439CF83108C2CC51C898D5FA353F568F54632FDC125",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_002.json": "ED5162FE3467CE45CA03463D420BFB5ABC65FA2F9585EB5832041FEBDAB17B97",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_003.json": "F0029DC6A8F9FDED698CE8488A7A58C5532B7202F014F443240ADB31FEC53605",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_004.json": "CEEB2FC8E6F1B10E032FD8709226D7850A6CF97DA1903A5A35E6E8D686A60830",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_005.json": "5BE93642E475AD79FBC81A52690EB159D1029459E2B9C60A6604580D1126CE97",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_006.json": "793823A5498543C46AE363DD47AEA085EED2EBC577E1BB04DB400F4D530F0D24",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_007.json": "160D3AC46AF6BE55BF8C850C6FB973FFCBFC6ACD6CFDA115A4DAF6E50DF44E7E",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_008.json": "9B752BCCE13FC942B1348C8EB5579552B378F66ADC4F8C31CBC4AEBC6C6EE824",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_009.json": "9C1E76D81EF5266EAD9F75C16115A63726AB9772E8AD8C0517241D68FBEC46E4",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_010.json": "108D56F09B31276107A5CB2B6FA0E555262CED390C08277C37D713C11F96FA31",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_011.json": "E444B00506FD3A7122F399C59ADD743CFE274583BD5BE7700BC557D3BD86C994",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_012.json": "6E365F8189EA257FDDDE2DDB07E288118600C3843875856B61279C920B15BDFE",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_013.json": "2F3B3267046F3407C06E321D01D1EF763AFA38E8B6A3D6CEF44608FA357319C5",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_014.json": "6BB2FAE4A08B3DB736AAF44558039C09FF3AB260C56E072509970C6316C71389",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_015.json": "B5042EF0F7BC716F77D3167548F76EC253E95DACDA2DE2714B961D17E5E58627",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_016.json": "AC35878CDB3713852A22F3846138DE05F299AA3890E23191FD15A8347B55ED2E",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_017.json": "9D26276C724858FB33D6C65091453FC280C6963A6A51808D54217239A39CF9DB",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_018.json": "F3245349C5E257BBE046E6C592D337846F9B6FF178B4650B86D9389A554B575D",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_019.json": "B09ECA27136AD1F592FD6A16D43F69F6707D3C8318337CB9626810E7BEB5DE24",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_020.json": "0016031CB6D8CB1480A37553819BD63366EFA476CF7B3B49B08A98582445F69C",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_021.json": "3958B002E6EF2982ACB65C37400B9CBC234C17528D57B34C8CA9B8D79BB2963D",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_022.json": "81C0244B9E8DE6DC34B555577201A27DE30D6F33EBE880BFB8545A8119607EE5",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_023.json": "627B410BA08FBDD959F1DDA38C2DDB09659C47FE8D4E511567A8A64761F3C522",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_024.json": "5B8F113DBDFAFBA1E32BE7D618022478DDBB3F5557727333429EB30B73D2DFFC",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_025.json": "62DBC9E53EE1C9E865EE116612930C8C7581D15C966E5E1A7E646CAB5A75AA5A",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_026.json": "F60E51FA41D79AFF79405855FF0B035271E66615401110697E239C37F1A05D4F",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_027.json": "F2988FE2EAE737B4FFDFFA6821C90F73D73EDBD04F70962DA592F1B37D28ADD4",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_028.json": "018CFE31BAA5D1C268533BCAB86A727C595FCA288617BFB0D406FD09B8B19F05",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_029.json": "0C367B2545D066EDF597B47E9E45F02FD0945B4AC998A5E1D7E191BED13792AE",
+    "core0c-ws-b2_traces/core0c-ws-b2_decode_030.json": "D3EA5942B4CC34015C83F3B5539B3A2AA42BB2531E32A5EE13A1C93AC26BE4D4",
+    "core0c-ws-b2_traces/core0c-ws-b2_prefill_000.json": "64841AA5D267D6B821DAAC38013BCAFEFD421E3D23050AB28DA7EEBB6E3C4792",
+    "core0c-ws-b2_traces/core0c-ws-b2_runtime_lifecycle.json": "F1670B8FAB54C8728AF873B6E83270D4255167B9899ABB825D200352EF7FC79B",
+    "CORE0C_MEASURED_SUMMARY.json": "F4F89C951160743A757D4E21580115A5BF56BF24B700F91B9A929BF0E0D7F276",
+    "W_C_b0_control.json": "5E417E3EF44F12D05B326AD95335A015D6020A10DD8E2608BC57B0016C1DB50A",
+    "W_C_b0_trace.json": "5E417E3EF44F12D05B326AD95335A015D6020A10DD8E2608BC57B0016C1DB50A",
+    "W_C_b1_control.json": "5E417E3EF44F12D05B326AD95335A015D6020A10DD8E2608BC57B0016C1DB50A",
+    "W_C_b1_trace.json": "5E417E3EF44F12D05B326AD95335A015D6020A10DD8E2608BC57B0016C1DB50A",
+    "W_C_b2_control.json": "5E417E3EF44F12D05B326AD95335A015D6020A10DD8E2608BC57B0016C1DB50A",
+    "W_C_b2_trace.json": "5E417E3EF44F12D05B326AD95335A015D6020A10DD8E2608BC57B0016C1DB50A",
+    "W_S_b0_control.json": "36D624DD085C185226638D7E9A0792211466F61A65433DBB3CA749C171073742",
+    "W_S_b0_trace.json": "36D624DD085C185226638D7E9A0792211466F61A65433DBB3CA749C171073742",
+    "W_S_b1_control.json": "36D624DD085C185226638D7E9A0792211466F61A65433DBB3CA749C171073742",
+    "W_S_b1_trace.json": "36D624DD085C185226638D7E9A0792211466F61A65433DBB3CA749C171073742",
+    "W_S_b2_control.json": "36D624DD085C185226638D7E9A0792211466F61A65433DBB3CA749C171073742",
+    "W_S_b2_trace.json": "36D624DD085C185226638D7E9A0792211466F61A65433DBB3CA749C171073742"
+  },
+  "next_if_pass": "FORMAL_CLOSE_CORE0C_AND_OPEN_CORE0D_PREREGISTRATION_ONLY"
+}
