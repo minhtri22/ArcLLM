@@ -2,7 +2,8 @@ param(
   [string]$TokenXrayRoot="D:\WORK\RESEARCH\_token_xray_core0a_freeze",
   [string]$LlamaDir="D:\WORK\_llama_core0b",
   [string]$GeneratedDir="D:\WORK\_core0e_generated",
-  [string]$LlamaBuildDir="D:\WORK\_core0d_llama_build"
+  [string]$LlamaBuildDir="D:\WORK\_core0d_llama_build",
+  [switch]$AllowTokenXrayCiSnapshot
 )
 $ErrorActionPreference="Stop"; Set-StrictMode -Version Latest
 $Root=Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
@@ -10,9 +11,26 @@ $Artifacts=Join-Path $Root "artifacts\core0e"; $Results=Join-Path $Root "results
 New-Item -ItemType Directory -Force -Path $Artifacts,$Results|Out-Null
 $PinnedLlama="b29c606e28a01b1bc8c1351026a0fa6e616bf6c4"; $PinnedTx="35f86ac68f98ffe60fc441a790274cd1f1269dfe"
 if((git -C $LlamaDir rev-parse HEAD).Trim()-ne$PinnedLlama){throw "CORE0E llama HEAD mismatch"}
-if((git -C $TokenXrayRoot rev-parse HEAD).Trim()-ne$PinnedTx){throw "CORE0E Token-XRay HEAD mismatch"}
 if(((git -C $LlamaDir status --porcelain)|Out-String).Trim()){throw "CORE0E llama checkout dirty"}
-if(((git -C $TokenXrayRoot status --porcelain)|Out-String).Trim()){throw "CORE0E Token-XRay checkout dirty"}
+$TokenXraySource="REAL_REPO"
+if(Test-Path (Join-Path $TokenXrayRoot ".git")){
+  if((git -C $TokenXrayRoot rev-parse HEAD).Trim()-ne$PinnedTx){throw "CORE0E Token-XRay HEAD mismatch"}
+  if(((git -C $TokenXrayRoot status --porcelain)|Out-String).Trim()){throw "CORE0E Token-XRay checkout dirty"}
+}else{
+  if(-not $AllowTokenXrayCiSnapshot){throw "CORE0E Token-XRay checkout missing .git"}
+  $SnapshotManifest=Join-Path $TokenXrayRoot "TOKEN_XRAY_CORE0E_CI_SNAPSHOT.json"
+  if(-not(Test-Path $SnapshotManifest)){throw "CORE0E Token-XRay CI snapshot manifest missing"}
+  $SM=Get-Content $SnapshotManifest -Raw|ConvertFrom-Json
+  if($SM.source_head-ne$PinnedTx){throw "CORE0E Token-XRay CI snapshot source HEAD mismatch"}
+  foreach($p in $SM.files.PSObject.Properties){
+    $fp=Join-Path $TokenXrayRoot ($p.Name -replace '/','\')
+    if(-not(Test-Path $fp)){throw ("CORE0E Token-XRay CI snapshot file missing: "+$p.Name)}
+    $got=(git hash-object -- $fp).Trim()
+    if($got-ne$p.Value){throw ("CORE0E Token-XRay CI snapshot blob mismatch: "+$p.Name)}
+  }
+  if([bool]$SM.measured_science_authority){throw "CORE0E CI snapshot must never be measured-science authority"}
+  $TokenXraySource="CI_SNAPSHOT"
+}
 
 if(Test-Path $GeneratedDir){Remove-Item -Recurse -Force $GeneratedDir}
 py -3 (Join-Path $Root "tools\materialize_core0e_runtime.py") --out-dir $GeneratedDir
@@ -65,7 +83,7 @@ $Manifest=Get-Content (Join-Path $GeneratedDir "CORE0E_GENERATED_RUNTIME_MANIFES
 $q=[ordered]@{
  schema="arcllm.core0e.build_qualification.v0.1";status="PASS_CORE0E_BUILD_AND_ZERO_SCIENCE_SELF_TESTS";
  classification="ZERO_SCIENCE_IMPLEMENTATION_PREFLIGHT";git_head=(git -C $Root rev-parse HEAD).Trim();
- llama_head=$PinnedLlama;token_xray_head=$PinnedTx;generated_runtime_manifest=$Manifest;
+ llama_head=$PinnedLlama;token_xray_head=$PinnedTx;token_xray_source=$TokenXraySource;generated_runtime_manifest=$Manifest;
  arc_combined_exe_sha256=(Get-FileHash $ArcOut -Algorithm SHA256).Hash.ToUpperInvariant();
  llama_combined_exe_sha256=(Get-FileHash $LlamaOut -Algorithm SHA256).Hash.ToUpperInvariant();
  model_inference_executed=$false;measured_requests_executed=0;canonical_runtime_modified=$false;kernel_shader_modified=$false
