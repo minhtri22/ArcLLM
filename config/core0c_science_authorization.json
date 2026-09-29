@@ -2,9 +2,9 @@
   "schema": "arcllm.core0c.science_authorization.v0.1",
   "date": "2026-09-29",
   "program": "CORE-0C",
-  "authorized": true,
-  "measured_requests_authorized": 12,
-  "authorization_scope": "ONE_COMPLETE_12_REQUEST_DIAGNOSTIC_COLLECTION_ONLY",
+  "authorized": false,
+  "measured_requests_authorized": 0,
+  "authorization_scope": "CONSUMED_BY_FIRST_COMPLETE_VALID_COLLECTION",
   "timing_authority": "DIAGNOSTIC_ONLY",
   "measurement_mode": "TOKEN_XRAY_TRACE_WITH_ADJACENT_CONTROL",
   "core0b_performance_authority_preserved": true,
@@ -79,5 +79,10 @@
   },
   "mechanism_selection_authorized": false,
   "core0d_authorized": false,
-  "npu_authorized": false
+  "npu_authorized": false,
+  "consumed": true,
+  "consumed_dataset": "core0c_measured_20260929T064130264001Z",
+  "consumed_dataset_commit": "73fd1064495578bf2aeb9d90d108df3385c46edc",
+  "final_verdict": "PASS_CORE0C_DIAGNOSTIC_LOCALIZATION_COMPLETE",
+  "rerun_authorized": false
 }
