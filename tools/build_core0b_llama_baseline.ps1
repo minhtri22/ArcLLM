@@ -15,8 +15,8 @@ $VulkanVersion="1.4.357.0"
 $ExpectedVulkanInstallerSha="81F474711E9042F4CD22B31B2F7A8870DB2E428B21586FB43DD80150BE97310D"
 $SystemVulkanHome="C:\VulkanSDK\$VulkanVersion"
 $PortableVulkanHome=Join-Path $Root (".q2_toolchains\VulkanSDK\"+$VulkanVersion)
-if(-not $LlamaDir){$LlamaDir=Join-Path $Root "third_party\llama.cpp-core0b"}
-if(-not $BuildDir){$BuildDir=Join-Path $Root "build\core0b_baseline"}
+if(-not $LlamaDir){$LlamaDir="D:\WORK\_llama_core0b"}
+if(-not $BuildDir){$BuildDir="D:\WORK\_core0b_build"}
 
 function Test-VulkanSdk([string]$Path){
   if(-not $Path){return $false}
