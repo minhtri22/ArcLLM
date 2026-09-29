@@ -2,7 +2,7 @@
   "schema": "arcllm.core0d.preflight_evidence.v0.1",
   "status": "PASS_CORE0D_STATIC_PREFLIGHT",
   "classification": "ZERO_SCIENCE_IMPLEMENTATION_STATIC_PREFLIGHT",
-  "implementation_head": "aae8a99bfb63417d35426a005a5c3a083f653733",
+  "implementation_head": "0dbbfbc002a1cca03178df703c14f711337e7963",
   "build_qualification": {
     "schema": "arcllm.core0d.build_qualification.v0.1",
     "status": "PASS_CORE0D_BUILD_AND_ZERO_SCIENCE_SELF_TESTS",
