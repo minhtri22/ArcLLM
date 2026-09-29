@@ -1,0 +1,60 @@
+{
+  "schema": "arcllm.core0d_r1.preflight_final_adjudication.v0.1",
+  "date": "2026-09-29",
+  "verdict": "PASS_CORE0D_R1_PARSER_REPAIR_PREFLIGHT",
+  "open_findings": 0,
+  "scientific_role": "ZERO_SCIENCE_SUCCESSOR_QUALIFICATION",
+  "scope": "PARSER_NUMERIC_GRAMMAR_REPAIR_ONLY",
+  "parser": {
+    "path": "tools/parse_core0d_llama_vk_perf.py",
+    "git_blob": "0d98255ac25848458488a9ee02bcbddfc744f80a",
+    "sha256": "C587E735414C70990626950148E6E000BF76303A45CF7E61FE7166A902549BE1",
+    "numeric_grammar": "[+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?",
+    "structural_contract": "exactly 32 groups; group 0 prefill-shaped; groups 1-31 cached-decode-shaped",
+    "finite_positive_guard": true
+  },
+  "tests": {
+    "parser_compile": "PASS",
+    "synthetic_positive_numeric_forms": 5,
+    "W_C_prefill_shape_fixture": "PASS",
+    "nonfinite_rejections": 3,
+    "structural_negative_fixtures": 4,
+    "runner_fixture_schedule": "PASS",
+    "old_failed_dataset_structure_only_logs": 6,
+    "old_failed_dataset_timing_magnitudes_used": false,
+    "independent_adjudication": "PASS_CORE0D_R1_PARSER_REPAIR_INDEPENDENT_PREFLIGHT",
+    "execution_workspace_qualification": "PASS_CORE0D_R1_EXECUTION_WORKSPACE_QUALIFICATION"
+  },
+  "frozen_evidence": {
+    "implementation_preflight_commit": "32fe037d0bd6efb1e20760d2dd8c535d8abd931c",
+    "independent_preflight_commit": "055fecc5dd1e5dc309402aff68ae47fc11d57faa",
+    "workspace_qualification_commit": "85d197d7f07f91c04147211c38c9115c8cd13057",
+    "parent_failed_dataset_commit": "bce0d1c84afd953264d1efb35ee93d575e34dd49"
+  },
+  "unchanged": {
+    "measured_runner_blob": "9566cf90da18069ddc8259ece16261b5ca6b5cac",
+    "llama_teacher_forced_adapter_blob": "acffb1db5d6cff3be6a863dfc67ab4018edd083b",
+    "arcllm_teacher_forced_cli_blob": "d2bb7b7f4475b52523c849cb4fb1a1355a9b788e",
+    "canonical_runtime_kernel_shader_sources": true,
+    "science_schedule_and_thresholds": true,
+    "llama_source": true
+  },
+  "binaries": {
+    "arc_control_phase_sha256": "72FC72A5E217A694A47A6FC7B866B9DC50904418317FD54CC2E3FFA5C2D8ABD2",
+    "arc_trace_sha256": "7DF37ED84E64AD87CF13B5B8D9F65CF3A9CAB9E8239CDE41E2A145EB358F0AFE",
+    "llama_teacher_forced_sha256": "A9BA63AB72E84AE6F4442F0CC2D41700838178A962D4F4CAC632AB2C1629204C",
+    "rebuild_performed": false
+  },
+  "boundaries": {
+    "model_inference_executed": false,
+    "measured_requests_executed": 0,
+    "parent_dataset_reparsed_for_science": false,
+    "selective_rerun": false,
+    "product_runtime_modified": false,
+    "kernel_modified": false,
+    "shader_modified": false,
+    "mechanism_selection": false,
+    "npu": false
+  },
+  "next": "FREEZE_CORE0D_R1_EXECUTION_LOCK_THEN_AUTHORIZE_ONE_FRESH_36_REQUEST_COLLECTION"
+}
