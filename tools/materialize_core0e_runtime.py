@@ -104,8 +104,10 @@ def patch_phase_markers(s: str) -> str:
     s = one_replace(
         s,
         "        for(auto&b:arenas)vk.destroy_buffer(b);\n"
+        "        arcllm_core0c::lifecycle().flush();\n"
         "        return result;\n",
         "        for(auto&b:arenas)vk.destroy_buffer(b);\n"
+        "        arcllm_core0c::lifecycle().flush();\n"
         "        const auto core0e_child_end=core0e_phase?std::chrono::steady_clock::now():std::chrono::steady_clock::time_point{};\n"
         "        if(core0e_phase){\n"
         "            const char* phase_path=std::getenv(\"ARCLLM_CORE0E_PHASE_OUT\");\n"
