@@ -1,0 +1,130 @@
+name: CORE0E Zero-Science Preflight
+
+on:
+  push:
+    branches:
+      - research/current-main-baseline-xray
+    paths:
+      - ".github/workflows/core0e-zero-science-preflight.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  core0e-zero-science-preflight:
+    if: github.event_name == 'workflow_dispatch' || github.event.head_commit.message == 'ci(core0e): run zero-science preflight'
+    runs-on: windows-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout ArcLLM exact commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Checkout pinned llama.cpp
+        uses: actions/checkout@v4
+        with:
+          repository: ggml-org/llama.cpp
+          ref: b29c606e28a01b1bc8c1351026a0fa6e616bf6c4
+          path: _deps/llama
+          fetch-depth: 1
+
+      - name: Install exact Vulkan SDK 1.4.357.0
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $version = "1.4.357.0"
+          $url = "https://sdk.lunarg.com/sdk/download/$version/windows/vulkan_sdk.exe"
+          $installer = Join-Path $env:RUNNER_TEMP "vulkansdk-$version.exe"
+          $root = "C:\VulkanSDK\$version"
+          Invoke-WebRequest -UseBasicParsing -Uri $url -OutFile $installer
+          $expected = "81F474711E9042F4CD22B31B2F7A8870DB2E428B21586FB43DD80150BE97310D"
+          $actual = (Get-FileHash $installer -Algorithm SHA256).Hash.ToUpperInvariant()
+          if ($actual -ne $expected) { throw "Vulkan SDK installer SHA256 mismatch: $actual" }
+          & $installer --root $root --accept-licenses --default-answer --confirm-command install copy_only=1
+          if ($LASTEXITCODE -ne 0) { throw "Vulkan SDK installer failed rc=$LASTEXITCODE" }
+          if (-not (Test-Path (Join-Path $root "Include\vulkan\vulkan.h"))) { throw "Vulkan SDK headers missing" }
+          if (-not (Test-Path (Join-Path $root "Lib\vulkan-1.lib"))) { throw "Vulkan SDK library missing" }
+          "VULKAN_SDK=$root" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "VK_SDK_PATH=$root" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          (Join-Path $root "Bin") | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Verify preflight-only Token-XRay snapshot provenance
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $root = Resolve-Path ".\third_party\token_xray_core0e_ci"
+          $m = Get-Content (Join-Path $root "TOKEN_XRAY_CORE0E_CI_SNAPSHOT.json") -Raw | ConvertFrom-Json
+          if ($m.source_head -ne "35f86ac68f98ffe60fc441a790274cd1f1269dfe") { throw "Token-XRay source head mismatch" }
+          if ([bool]$m.measured_science_authority) { throw "CI snapshot cannot be measured-science authority" }
+          foreach ($p in $m.files.PSObject.Properties) {
+            $fp = Join-Path $root ($p.Name -replace '/','\')
+            $got = (& git hash-object -- $fp).Trim()
+            if ($got -ne $p.Value) { throw "Token-XRay snapshot blob mismatch $($p.Name): $got" }
+          }
+          Write-Host "CORE0E_TOKEN_XRAY_CI_SNAPSHOT=PASS"
+
+      - name: Build combined adapters and zero-science self-tests
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $tx = (Resolve-Path ".\third_party\token_xray_core0e_ci").Path
+          $llama = (Resolve-Path ".\_deps\llama").Path
+          $generated = Join-Path $env:RUNNER_TEMP "core0e-generated"
+          $llamaBuild = Join-Path $env:RUNNER_TEMP "core0e-llama-build"
+          powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\build_core0e_preflight.ps1 -TokenXrayRoot $tx -LlamaDir $llama -GeneratedDir $generated -LlamaBuildDir $llamaBuild -AllowTokenXrayCiSnapshot
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Copy-Item (Join-Path $generated "CORE0E_GENERATED_RUNTIME_MANIFEST.json") ".\results\CORE0E_GENERATED_RUNTIME_MANIFEST.json" -Force
+
+      - name: Primary static preflight
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $tx = (Resolve-Path ".\third_party\token_xray_core0e_ci").Path
+          $llama = (Resolve-Path ".\_deps\llama").Path
+          py -3 .\tools\check_core0e_preflight.py --llama-root $llama --token-xray-root $tx --out .\results\CORE0E_PREFLIGHT_EVIDENCE.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Independent preflight adjudication
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          py -3 .\tools\check_core0e_preflight_independent.py --out .\results\CORE0E_PREFLIGHT_INDEPENDENT_ADJUDICATION.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Assert zero-science boundary
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $b = Get-Content .\results\CORE0E_BUILD_QUALIFICATION.json -Raw | ConvertFrom-Json
+          $p = Get-Content .\results\CORE0E_PREFLIGHT_EVIDENCE.json -Raw | ConvertFrom-Json
+          $i = Get-Content .\results\CORE0E_PREFLIGHT_INDEPENDENT_ADJUDICATION.json -Raw | ConvertFrom-Json
+          if ($b.status -ne "PASS_CORE0E_BUILD_AND_ZERO_SCIENCE_SELF_TESTS") { throw "build qualification not PASS" }
+          if ($p.verdict -ne "PASS_CORE0E_ZERO_SCIENCE_PREFLIGHT" -or $p.open_findings -ne 0) { throw "primary preflight not PASS" }
+          if ($i.verdict -ne "PASS_CORE0E_INDEPENDENT_PREFLIGHT" -or $i.open_findings -ne 0) { throw "independent preflight not PASS" }
+          foreach ($x in @($b,$p,$i)) {
+            if ([bool]$x.model_inference_executed) { throw "model inference boundary violated" }
+            if ([int]$x.measured_requests_executed -ne 0) { throw "measured request boundary violated" }
+          }
+          Write-Host "CORE0E_ZERO_SCIENCE_GATE=PASS"
+
+      - name: Upload CORE0E zero-science evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: core0e-zero-science-preflight-${{ github.run_id }}
+          if-no-files-found: warn
+          path: |
+            results/CORE0E_BUILD_QUALIFICATION.json
+            results/CORE0E_GENERATED_RUNTIME_MANIFEST.json
+            results/CORE0E_PREFLIGHT_EVIDENCE.json
+            results/CORE0E_PREFLIGHT_INDEPENDENT_ADJUDICATION.json
+            artifacts/core0e/core0e_arcllm_combined.exe
+            artifacts/core0e/core0e_llama_combined_phase_trace_adapter.exe
