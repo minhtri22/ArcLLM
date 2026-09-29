@@ -1,0 +1,18 @@
+{
+  "schema":"arcllm.core0d.llama_teacher_forced.v0.1",
+  "system":"llama.cpp",
+  "baseline_release":"v0.4.1",
+  "baseline_commit":"b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+  "workload":"W-S",
+  "prompt_tokens":4,
+  "prompt_hash_fnv1a64":"93833ffb49890aba",
+  "teacher_forced":true,
+  "success":true,
+  "final_logits_finite":true,
+  "predicted_token_ids":[198,128425,151645,198,4112,2659,59421,29,911,409,11,46912,220,151644,271,198,103128,198,15946,15767,19655,198,198,198,852,442,198,11,220,2662,220,287],
+  "forced_decode_input_ids":[136406,144325,181,8100,16019,23938,31857,39776,47695,55614,63533,71452,79371,87290,95209,103128,111047,118966,126885,134804,142723,150642,6498,14417,22336,30255,38174,46093,54012,61931,69850],
+  "resolved":{"n_ctx":4096,"n_batch":256,"n_ubatch":256,"threads":8,"threads_batch":8,"kv_k":"F32","kv_v":"F32","n_gpu_layers_requested":-1},
+  "runtime":{"vulkan_log_present":true,"offload_reported":true,"offloaded_layers":29,"offloaded_layers_total":29,"full_offload":true},
+  "perf":{"t_load_ms":6224.63,"t_p_eval_ms":6224.61,"t_eval_ms":2034.77,"n_p_eval":4,"n_eval":31,"n_reused":30},
+  "error":""
+}

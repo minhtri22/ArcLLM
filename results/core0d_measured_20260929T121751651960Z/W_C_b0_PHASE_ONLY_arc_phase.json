@@ -1,0 +1,12 @@
+{
+  "schema":"arcllm.core0d.arc_phase.v0.1",
+  "timing_authority":"DIAGNOSTIC_ONLY",
+  "model_map_inspect_ns":759254300,
+  "static_graph_contract_ns":590800,
+  "vulkan_weight_init_ns":6823567700,
+  "request_context_prepare_ns":1469404600,
+  "prefill_and_scan_ns":13724151500,
+  "decode_loop_and_scans_ns":56550235000,
+  "close_and_cleanup_ns":968192900,
+  "runtime_generate_ns":80295409300
+}

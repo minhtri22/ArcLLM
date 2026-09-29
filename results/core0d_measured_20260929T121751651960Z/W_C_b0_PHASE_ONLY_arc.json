@@ -1,0 +1,10 @@
+{
+  "schema":"arcllm.core0d.arc_teacher_forced.v0.1",
+  "system":"ArcLLM",
+  "mode":"PHASE_ONLY",
+  "teacher_forced":true,
+  "success":true,
+  "predicted_token_ids":[198,83,220,311,88,220,220,436,287,198,220,367,13,96495,61443,198,198,151645,151645,151645,220,311,151645,198,271,868,82,220,284,284,1567,151645],
+  "forced_decode_input_ids":[3112,11031,18950,26869,34788,42707,50626,58545,66464,74383,82302,90221,98140,106059,113978,121897,129816,137735,145654,1510,9429,17348,25267,33186,41105,49024,56943,64862,72781,80700,88619],
+  "stats":{"prefill_dispatches":441,"prefill_submits":1,"decode_dispatches_per_step":469,"decode_submits_per_step":1,"decode_steps":31,"route_a_steps":0,"route_b_steps":31,"acquire_events":1,"evict_events":1,"b_allocations":1,"b_materializations":1,"b_validations":1,"b_releases":1,"p1_calls":1,"p3_calls":0,"p0_calls":0,"finite":true}
+}

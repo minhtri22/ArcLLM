@@ -1,0 +1,501 @@
+{
+  "schema": "arcllm.core0d.measured_summary.v0.1",
+  "classification": "CORE0D_COLLECTION_COMPLETE_PENDING_ADJUDICATION",
+  "measured_requests_expected": 36,
+  "measured_requests_observed": 36,
+  "core0b_performance_authority_preserved": true,
+  "rows": [
+    {
+      "workload": "W-S",
+      "block": 0,
+      "mode": "CONTROL_UNINSTRUMENTED",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ms": 68573.8357,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b0_CONTROL_UNINSTRUMENTED_arc.json"
+        },
+        "llama.cpp": {
+          "wall_ms": 12606.3732,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b0_CONTROL_UNINSTRUMENTED_llama.json"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-S",
+      "block": 0,
+      "mode": "PHASE_ONLY",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ms": 60892.0036,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b0_PHASE_ONLY_arc.json",
+          "phase_file": "W_S_b0_PHASE_ONLY_arc_phase.json"
+        },
+        "llama.cpp": {
+          "wall_ms": 12233.3281,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b0_PHASE_ONLY_llama.json"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-S",
+      "block": 0,
+      "mode": "GPU_TRACE",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ms": 77137.4956,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b0_GPU_TRACE_arc.json",
+          "trace_dir": "W_S_b0_GPU_TRACE_arc_traces"
+        },
+        "llama.cpp": {
+          "wall_ms": 11247.1367,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b0_GPU_TRACE_llama.json",
+          "vkperf_file": "W_S_b0_GPU_TRACE_llama_vkperf.json",
+          "vkperf_raw": "W_S_b0_GPU_TRACE_llama_vkperf.txt"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-S",
+      "block": 1,
+      "mode": "GPU_TRACE",
+      "system_order": [
+        "llama.cpp",
+        "ArcLLM"
+      ],
+      "arms": {
+        "llama.cpp": {
+          "wall_ms": 11333.1207,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b1_GPU_TRACE_llama.json",
+          "vkperf_file": "W_S_b1_GPU_TRACE_llama_vkperf.json",
+          "vkperf_raw": "W_S_b1_GPU_TRACE_llama_vkperf.txt"
+        },
+        "ArcLLM": {
+          "wall_ms": 59534.7391,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b1_GPU_TRACE_arc.json",
+          "trace_dir": "W_S_b1_GPU_TRACE_arc_traces"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-S",
+      "block": 1,
+      "mode": "CONTROL_UNINSTRUMENTED",
+      "system_order": [
+        "llama.cpp",
+        "ArcLLM"
+      ],
+      "arms": {
+        "llama.cpp": {
+          "wall_ms": 10583.2226,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b1_CONTROL_UNINSTRUMENTED_llama.json"
+        },
+        "ArcLLM": {
+          "wall_ms": 68455.1814,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b1_CONTROL_UNINSTRUMENTED_arc.json"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-S",
+      "block": 1,
+      "mode": "PHASE_ONLY",
+      "system_order": [
+        "llama.cpp",
+        "ArcLLM"
+      ],
+      "arms": {
+        "llama.cpp": {
+          "wall_ms": 10013.1656,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b1_PHASE_ONLY_llama.json"
+        },
+        "ArcLLM": {
+          "wall_ms": 59725.2081,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b1_PHASE_ONLY_arc.json",
+          "phase_file": "W_S_b1_PHASE_ONLY_arc_phase.json"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-S",
+      "block": 2,
+      "mode": "PHASE_ONLY",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ms": 64219.3394,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b2_PHASE_ONLY_arc.json",
+          "phase_file": "W_S_b2_PHASE_ONLY_arc_phase.json"
+        },
+        "llama.cpp": {
+          "wall_ms": 12332.3191,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b2_PHASE_ONLY_llama.json"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-S",
+      "block": 2,
+      "mode": "GPU_TRACE",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ms": 71197.1553,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b2_GPU_TRACE_arc.json",
+          "trace_dir": "W_S_b2_GPU_TRACE_arc_traces"
+        },
+        "llama.cpp": {
+          "wall_ms": 10514.7625,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b2_GPU_TRACE_llama.json",
+          "vkperf_file": "W_S_b2_GPU_TRACE_llama_vkperf.json",
+          "vkperf_raw": "W_S_b2_GPU_TRACE_llama_vkperf.txt"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-S",
+      "block": 2,
+      "mode": "CONTROL_UNINSTRUMENTED",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ms": 68275.8015,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b2_CONTROL_UNINSTRUMENTED_arc.json"
+        },
+        "llama.cpp": {
+          "wall_ms": 10178.3256,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b2_CONTROL_UNINSTRUMENTED_llama.json"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-C",
+      "block": 0,
+      "mode": "CONTROL_UNINSTRUMENTED",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ms": 83442.785,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b0_CONTROL_UNINSTRUMENTED_arc.json"
+        },
+        "llama.cpp": {
+          "wall_ms": 9452.398,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b0_CONTROL_UNINSTRUMENTED_llama.json"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-C",
+      "block": 0,
+      "mode": "PHASE_ONLY",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ms": 81173.6602,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b0_PHASE_ONLY_arc.json",
+          "phase_file": "W_C_b0_PHASE_ONLY_arc_phase.json"
+        },
+        "llama.cpp": {
+          "wall_ms": 9942.5418,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b0_PHASE_ONLY_llama.json"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-C",
+      "block": 0,
+      "mode": "GPU_TRACE",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ms": 89754.1673,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b0_GPU_TRACE_arc.json",
+          "trace_dir": "W_C_b0_GPU_TRACE_arc_traces"
+        },
+        "llama.cpp": {
+          "wall_ms": 12513.7859,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b0_GPU_TRACE_llama.json",
+          "vkperf_file": "W_C_b0_GPU_TRACE_llama_vkperf.json",
+          "vkperf_raw": "W_C_b0_GPU_TRACE_llama_vkperf.txt"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-C",
+      "block": 1,
+      "mode": "GPU_TRACE",
+      "system_order": [
+        "llama.cpp",
+        "ArcLLM"
+      ],
+      "arms": {
+        "llama.cpp": {
+          "wall_ms": 10699.1569,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b1_GPU_TRACE_llama.json",
+          "vkperf_file": "W_C_b1_GPU_TRACE_llama_vkperf.json",
+          "vkperf_raw": "W_C_b1_GPU_TRACE_llama_vkperf.txt"
+        },
+        "ArcLLM": {
+          "wall_ms": 84679.9022,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b1_GPU_TRACE_arc.json",
+          "trace_dir": "W_C_b1_GPU_TRACE_arc_traces"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-C",
+      "block": 1,
+      "mode": "CONTROL_UNINSTRUMENTED",
+      "system_order": [
+        "llama.cpp",
+        "ArcLLM"
+      ],
+      "arms": {
+        "llama.cpp": {
+          "wall_ms": 10818.2643,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b1_CONTROL_UNINSTRUMENTED_llama.json"
+        },
+        "ArcLLM": {
+          "wall_ms": 90638.2441,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b1_CONTROL_UNINSTRUMENTED_arc.json"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-C",
+      "block": 1,
+      "mode": "PHASE_ONLY",
+      "system_order": [
+        "llama.cpp",
+        "ArcLLM"
+      ],
+      "arms": {
+        "llama.cpp": {
+          "wall_ms": 11624.0767,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b1_PHASE_ONLY_llama.json"
+        },
+        "ArcLLM": {
+          "wall_ms": 104560.031,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b1_PHASE_ONLY_arc.json",
+          "phase_file": "W_C_b1_PHASE_ONLY_arc_phase.json"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-C",
+      "block": 2,
+      "mode": "PHASE_ONLY",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ms": 102806.8309,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b2_PHASE_ONLY_arc.json",
+          "phase_file": "W_C_b2_PHASE_ONLY_arc_phase.json"
+        },
+        "llama.cpp": {
+          "wall_ms": 11846.439,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b2_PHASE_ONLY_llama.json"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-C",
+      "block": 2,
+      "mode": "GPU_TRACE",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ms": 106112.6629,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b2_GPU_TRACE_arc.json",
+          "trace_dir": "W_C_b2_GPU_TRACE_arc_traces"
+        },
+        "llama.cpp": {
+          "wall_ms": 14045.5558,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b2_GPU_TRACE_llama.json",
+          "vkperf_file": "W_C_b2_GPU_TRACE_llama_vkperf.json",
+          "vkperf_raw": "W_C_b2_GPU_TRACE_llama_vkperf.txt"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-C",
+      "block": 2,
+      "mode": "CONTROL_UNINSTRUMENTED",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ms": 121015.6067,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b2_CONTROL_UNINSTRUMENTED_arc.json"
+        },
+        "llama.cpp": {
+          "wall_ms": 18957.4957,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b2_CONTROL_UNINSTRUMENTED_llama.json"
+        }
+      },
+      "valid": true
+    }
+  ]
+}
