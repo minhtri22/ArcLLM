@@ -1,0 +1,167 @@
+{
+  "schema": "arcllm.core0d_r1.llama_vkperf_numeric_grammar_repair_preregistration.v0.1",
+  "date": "2026-09-29",
+  "program": "CORE-0D-R1",
+  "status": "PREREGISTERED_NOT_AUTHORIZED_FOR_MEASURED_EXECUTION",
+  "parent": {
+    "study": "CORE-0D",
+    "final_verdict": "STOP_CORE0D_GPU_MEASUREMENT_NOT_QUALIFIED",
+    "failed_dataset": "core0d_measured_20260929T095154508631Z",
+    "failed_dataset_commit": "bce0d1c84afd953264d1efb35ee93d575e34dd49",
+    "outcome_blind_audit_commit": "86250aaa163f427c93ff01093d83ca4d17e97b04",
+    "audit_verdict": "PASS_CORE0D_LLAMA_VKPERF_STRUCTURE_AUDIT_PARSER_GRAMMAR_DEFECT",
+    "independent_audit_verdict": "PASS_CORE0D_LLAMA_VKPERF_STRUCTURE_AUDIT_INDEPENDENT"
+  },
+  "scientific_question": "After prospectively repairing only the llama Vulkan perf-log Total-time numeric grammar, can the exact original CORE-0D common-trajectory 36-request design qualify G0-G4 and produce a valid two-region excess-cost attribution without changing any scientific threshold, workload, ordering, instrumentation semantics, or Amdahl rule?",
+  "immutable_from_core0d": {
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "llama_commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+    "token_xray_head": "35f86ac68f98ffe60fc441a790274cd1f1269dfe",
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "forced_decode_trajectories": "EXACTLY_UNCHANGED_FROM_config/core0d_excess_cost_attribution_preregistration_v0.1.json",
+    "systems": [
+      "ArcLLM",
+      "llama.cpp"
+    ],
+    "modes": [
+      "CONTROL_UNINSTRUMENTED",
+      "PHASE_ONLY",
+      "GPU_TRACE"
+    ],
+    "blocks_per_workload": 3,
+    "total_requests": 36,
+    "system_order": {
+      "block_0": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "block_1": [
+        "llama.cpp",
+        "ArcLLM"
+      ],
+      "block_2": [
+        "ArcLLM",
+        "llama.cpp"
+      ]
+    },
+    "mode_order": {
+      "block_0": [
+        "CONTROL_UNINSTRUMENTED",
+        "PHASE_ONLY",
+        "GPU_TRACE"
+      ],
+      "block_1": [
+        "GPU_TRACE",
+        "CONTROL_UNINSTRUMENTED",
+        "PHASE_ONLY"
+      ],
+      "block_2": [
+        "PHASE_ONLY",
+        "GPU_TRACE",
+        "CONTROL_UNINSTRUMENTED"
+      ]
+    },
+    "core0b_reference_ratio": {
+      "W-S": 6.91387843464958,
+      "W-C": 8.63225451567552
+    },
+    "G1_thresholds": {
+      "all_ratios_gt_1": true,
+      "median_factor_to_core0b_max": 1.5,
+      "max_over_min_max": 2.5
+    },
+    "G2_thresholds": {
+      "all_trace_total_excess_positive": true,
+      "trace_control_median_factor_max": 1.5
+    },
+    "G3_arc_contract": {
+      "prefill_traces": 1,
+      "decode_traces": 31,
+      "prefill_geometry": 441,
+      "decode_geometry": 469,
+      "semantic_nodes": 451,
+      "timestamp_coverage": "100%"
+    },
+    "G3_llama_contract": {
+      "prefill_groups": 1,
+      "decode_groups": 31,
+      "total_groups": 32,
+      "frequency": 1,
+      "concurrent": false,
+      "positive_finite_totals": true
+    },
+    "G4_closure_tolerance_us": 1,
+    "amdahl": {
+      "recoverable_current_wall_fraction": "q_X = median(f_X) * (R_CORE0B - 1) / R_CORE0B",
+      "ideal_full_elimination_speedup": "S_X = 1 / (1 - q_X)",
+      "eligibility": [
+        "median(f_X)>0 in both workloads",
+        "q_X>=0.10 in both workloads",
+        "at least one workload q_X>=0.20"
+      ],
+      "robust_score": "min(q_X_W-S, q_X_W-C)",
+      "minimum_winner_score": 0.15,
+      "material_margin": 0.05
+    }
+  },
+  "only_authorized_change": {
+    "component": "tools/parse_core0d_llama_vk_perf.py successor parser implementation",
+    "old_numeric_grammar": "[0-9]+(?:\\.[0-9]+)?",
+    "new_numeric_grammar": "[+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?",
+    "requirements": [
+      "Accept plain integer, plain decimal and scientific notation emitted by default C++ floating-point formatting.",
+      "Reject NaN and infinity by grammar and finite-value validation.",
+      "Require exactly 32 Total-time records after parsing.",
+      "Require record 0 to structurally match prefill and records 1-31 to structurally match cached decode before totals are accepted.",
+      "Do not change units, arithmetic, group ordering, logger environment, or timing authority."
+    ]
+  },
+  "forbidden_changes": [
+    "No reparse or rescue of the frozen failed CORE-0D dataset for scientific PASS.",
+    "No selective rerun of the six failed GPU_TRACE arms.",
+    "No changes to teacher-forced tokens, prompts, model, system ordering or mode ordering.",
+    "No changes to G0-G4 criteria.",
+    "No changes to CORE-0B authority references.",
+    "No changes to Amdahl thresholds.",
+    "No canonical ArcLLM runtime/kernel/shader changes.",
+    "No llama.cpp source patch.",
+    "No hardware counters, external profiler, resource sampler or NPU."
+  ],
+  "zero_science_repair_preflight": {
+    "parser_fixtures": [
+      "Total time: 12345 us.",
+      "Total time: 12345.5 us.",
+      "Total time: 1.2345e+05 us.",
+      "Total time: 1.2345E+05 us.",
+      "Total time: 1.2345e-05 us."
+    ],
+    "negative_fixtures": [
+      "Total time: nan us.",
+      "Total time: inf us.",
+      "Total time: -inf us."
+    ],
+    "structural_fixture": "1 prefill-shaped block + 31 decode-shaped blocks = exactly 32",
+    "old_dataset_use": "STRUCTURE_ONLY_REGRESSION; timing magnitudes must not be used to tune thresholds or parser behavior beyond the preregistered lexical grammar."
+  },
+  "valid_final_classes": [
+    "PASS_CORE0D_R1_EXCESS_COST_ATTRIBUTION_COMPLETE",
+    "STOP_CORE0D_R1_COMMON_TRAJECTORY_INVALID",
+    "STOP_CORE0D_R1_TOTAL_TRANSFER_NOT_QUALIFIED",
+    "STOP_CORE0D_R1_TRACE_TRANSFER_NOT_QUALIFIED",
+    "STOP_CORE0D_R1_GPU_MEASUREMENT_NOT_QUALIFIED",
+    "STOP_CORE0D_R1_RESIDUAL_CLOSURE_NOT_QUALIFIED",
+    "STOP_CORE0D_R1_COLLECTION_INCOMPLETE"
+  ],
+  "authorization": {
+    "parser_repair_implementation": true,
+    "static_preflight": true,
+    "zero_science_fixture_tests": true,
+    "execution_lock_construction": true,
+    "measured_execution": false,
+    "measured_requests_authorized": 0
+  },
+  "next": "CORE0D_R1_PARSER_REPAIR_IMPLEMENTATION_STATIC_PREFLIGHT_AND_EXECUTION_LOCK"
+}
