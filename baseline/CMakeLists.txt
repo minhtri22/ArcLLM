@@ -31,3 +31,7 @@ target_compile_features(i003_llama_adapter PRIVATE cxx_std_17)
 add_executable(core0b_llama_cold_adapter core0b_llama_cold_adapter.cpp)
 target_link_libraries(core0b_llama_cold_adapter PRIVATE llama)
 target_compile_features(core0b_llama_cold_adapter PRIVATE cxx_std_17)
+
+add_executable(core0d_llama_teacher_forced_adapter core0d_llama_teacher_forced_adapter.cpp)
+target_link_libraries(core0d_llama_teacher_forced_adapter PRIVATE llama)
+target_compile_features(core0d_llama_teacher_forced_adapter PRIVATE cxx_std_17)
