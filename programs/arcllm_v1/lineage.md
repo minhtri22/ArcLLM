@@ -1759,3 +1759,18 @@ Only about **49.0%** of median W-S TRACE wall time and **54.8%** of median W-C T
 Result: **PASS_CORE0C_DIAGNOSTIC_LOCALIZATION_COMPLETE**.
 
 Scientific consequence: CORE-0C is closed. It establishes a diagnostic phase/runtime-family map and a boundary on observer-effect interpretation, but selects no optimization mechanism and creates no NPU conclusion. Any successor must preserve CORE-0B as performance authority and prospectively test cross-system excess-cost explanations before an Amdahl-based intervention choice.
+
+
+## CORE-0D excess-cost attribution — 2026-09-29
+
+A prospective 36-request teacher-forced attribution collection was executed under the frozen CONTROL / PHASE_ONLY / GPU_TRACE design. All **36/36 requests completed operationally** with no process-level result failures, but all six llama.cpp GPU_TRACE arms failed the preregistered G3 measurement qualification because the frozen parser reported **31 Vulkan timing groups where 32 were required**.
+
+The incomplete primary collection was frozen before diagnosis. An outcome-blind source/structure audit, independently checked with **0 findings**, established that each of the six raw pinned-llama logs actually contains **32 Vulkan timing groups** with exact structural semantics: group 0 is prefill (query sequence length 4 for W-S and 256 for W-C), and groups 1–31 are the 31 cached-decode steps (query sequence length 1). No GPU graph is missing.
+
+The root cause is a deterministic parser numeric-grammar defect. The pinned llama logger uses default C++ floating-point stream formatting. In all six logs the first/prefill `Total time` record is emitted in scientific notation, while the remaining 31 totals use plain decimal/integer notation. The executed parser accepted only `[0-9]+(?:\.[0-9]+)?`, so it dropped the prefill record and reproduced an apparent cardinality of 31.
+
+Result: **STOP_CORE0D_GPU_MEASUREMENT_NOT_QUALIFIED**.
+
+Because the defect was discovered only after the primary collection completed, the dataset is not reparsed into PASS, no selective GPU_TRACE rerun is allowed, and G/H residual closure plus the Amdahl gate remain unopened. No GPU-vs-host priority, kernel priority, NPU conclusion or optimization mechanism is selected from CORE-0D.
+
+Scientific consequence: the raw llama measurement surface is structurally sufficient, but the current study is closed. A narrow prospective successor may repair only the numeric grammar while preserving the exact 32-group requirement, common teacher-forced trajectories, 36-request design, G0–G4 gates and Amdahl thresholds unchanged.
