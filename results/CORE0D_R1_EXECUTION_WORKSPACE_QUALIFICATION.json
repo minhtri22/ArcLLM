@@ -1,0 +1,43 @@
+{
+  "schema": "arcllm.core0d_r1.execution_workspace_qualification.v0.1",
+  "classification": "ZERO_SCIENCE_EXECUTION_WORKSPACE_QUALIFICATION",
+  "date": "2026-09-29",
+  "source_head": "055fecc5dd1e5dc309402aff68ae47fc11d57faa",
+  "workspace_contract": {
+    "checkout": "fresh detached sparse checkout of the authorized R1 head",
+    "sparse_exclusions": [
+      "results/core0d_measured_20260929T095154508631Z/",
+      "run_p7h.ps1",
+      "run_p7i.ps1",
+      "run_p7j.ps1",
+      "run_p7m.ps1",
+      "tools/build_p7h.ps1",
+      "tools/build_p7i.ps1",
+      "tools/build_p7j.ps1",
+      "tools/compile_p7h_shaders.ps1",
+      "tools/compile_p7i_shaders.ps1",
+      "tools/compile_p7j_shaders.ps1"
+    ],
+    "reason": "Parent failed dataset must not materialize because the unchanged runner fail-closes if any core0d_measured_* directory exists. Historical P7 PowerShell files are excluded only to avoid known Windows EOL-only checkout dirt and are outside CORE-0D-R1 critical scope.",
+    "core_autocrlf": false,
+    "git_status_lines_after_checkout": 0,
+    "parent_failed_dataset_present": false,
+    "core0d_measured_dirs_present": 0
+  },
+  "zero_science_checks": {
+    "runner_fixture_self_test": "PASS",
+    "parser_fixture_self_test": "PASS",
+    "model_inference_executed": false,
+    "measured_requests_executed": 0
+  },
+  "staged_local_artifacts": {
+    "executable_count": 3,
+    "shader_count": 19,
+    "executable_hash_mismatches": 0,
+    "shader_hash_mismatches": 0,
+    "rebuild_performed": false,
+    "source": "copy exact frozen local build artifacts from the qualified CORE-0D dev workspace, then verify against execution lock SHA256 values"
+  },
+  "verdict": "PASS_CORE0D_R1_EXECUTION_WORKSPACE_QUALIFICATION",
+  "open_findings": 0
+}
