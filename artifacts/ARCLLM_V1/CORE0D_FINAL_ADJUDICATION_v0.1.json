@@ -1,0 +1,54 @@
+{
+  "schema": "arcllm.core0d.final_adjudication.v0.1",
+  "date": "2026-09-29",
+  "verdict": "STOP_CORE0D_GPU_MEASUREMENT_NOT_QUALIFIED",
+  "scientific_role": "EXCESS_COST_ATTRIBUTION_PRIMARY_COLLECTION",
+  "dataset": {
+    "name": "core0d_measured_20260929T095154508631Z",
+    "commit": "bce0d1c84afd953264d1efb35ee93d575e34dd49",
+    "measured_requests_executed": 36,
+    "process_failures": 0,
+    "valid_mode_pairs": 12,
+    "invalid_mode_pairs": 6,
+    "invalid_mode": "GPU_TRACE"
+  },
+  "gate_state": {
+    "G0_COMMON_TRAJECTORY_VALIDITY": "NOT_FORMALLY_ADJUDICATED",
+    "G1_CONTROL_TOTAL_TRANSFER": "NOT_FORMALLY_ADJUDICATED",
+    "G2_TRACE_TRANSFER": "NOT_ADJUDICATED",
+    "G3_GPU_MEASUREMENT_QUALIFICATION": "FAIL",
+    "G4_RESIDUAL_CLOSURE": "NOT_OPEN",
+    "AMDahl_gate": "NOT_OPEN"
+  },
+  "failure": {
+    "system": "llama.cpp",
+    "surface": "GGML_VK_PERF_LOGGER parser",
+    "executed_parser_contract": "Decimal/integer Total time only; no exponent notation.",
+    "observed_parser_cardinality_per_trace_request": 31,
+    "required_cardinality": 32,
+    "repeated_on_all_six_gpu_trace_requests": true
+  },
+  "outcome_blind_structure_audit": {
+    "audit_commit": "86250aaa163f427c93ff01093d83ca4d17e97b04",
+    "primary_verdict": "PASS_CORE0D_LLAMA_VKPERF_STRUCTURE_AUDIT_PARSER_GRAMMAR_DEFECT",
+    "independent_verdict": "PASS_CORE0D_LLAMA_VKPERF_STRUCTURE_AUDIT_INDEPENDENT",
+    "open_findings": 0,
+    "timing_values_used": false,
+    "raw_logger_groups_per_request": 32,
+    "raw_semantics": "1 prefill + 31 cached decode",
+    "missing_logger_group": false,
+    "root_cause": "The first/prefill Total time record is emitted in scientific notation in all six logs; the remaining 31 are plain numeric forms. The executed parser regex rejects exponent notation and therefore drops the prefill record."
+  },
+  "scientific_interpretation": [
+    "The exact pinned llama Vulkan measurement surface is structurally capable of exposing the preregistered 1-prefill + 31-decode grouping.",
+    "The executed CORE-0D parser did not qualify that surface under the frozen measured contract, so the primary collection cannot be repaired or reinterpreted to PASS after outcome opening.",
+    "No G/H decomposition, residual closure, Amdahl selection, kernel priority, NPU conclusion or mechanism selection is authorized from this collection."
+  ],
+  "governance": {
+    "current_collection_reparse_for_pass": false,
+    "selective_rerun": false,
+    "same_study_parser_repair": false,
+    "authorization_consumed": true,
+    "successor_allowed": "PROSPECTIVE_CORE0D_R1_NUMERIC_GRAMMAR_REPAIR_ONLY"
+  }
+}
