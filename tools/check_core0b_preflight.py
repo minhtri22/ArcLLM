@@ -203,9 +203,9 @@ def main() -> int:
         "token_xray_trace",
         "import token_xray",
         "token-xray modellens",
-        "vtune",
-        "nsight",
-        "nsys",
+        "vtune.exe",
+        "nsys.exe",
+        "nsight.exe",
     ]
     for term in forbidden:
         if term in lowered:
@@ -215,6 +215,7 @@ def main() -> int:
         "authorization artifact is absent",
         "primary_requests_authorized",
         "time.perf_counter_ns",
+        'startswith(("TOKEN_XRAY", "VTUNE", "NSYS", "NSIGHT"))',
     ]:
         if required not in runner:
             add(findings, "PRIMARY_RUNNER_GUARD_MISSING", required)
