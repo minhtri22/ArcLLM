@@ -192,6 +192,31 @@ def main() -> int:
     if sha256(trace_exe) != auth["trace_exe_sha256"]:
         raise SystemExit("STOP: CORE0C trace executable hash drift")
 
+    head = subprocess.check_output(["git", "-C", str(ROOT), "rev-parse", "HEAD"], text=True).strip()
+    canonical_parent = auth.get("canonical_parent")
+    if not canonical_parent or subprocess.run(
+        ["git", "-C", str(ROOT), "merge-base", "--is-ancestor", canonical_parent, head]
+    ).returncode != 0:
+        raise SystemExit("STOP: CORE0C canonical-parent ancestry drift")
+    for path, expected_blob in auth.get("critical_git_blobs", {}).items():
+        try:
+            got = subprocess.check_output(
+                ["git", "-C", str(ROOT), "rev-parse", f"HEAD:{path}"], text=True
+            ).strip()
+        except subprocess.CalledProcessError:
+            raise SystemExit(f"STOP: CORE0C critical git blob missing: {path}")
+        if got != expected_blob:
+            raise SystemExit(f"STOP: CORE0C critical git blob drift: {path}")
+    instrumentation = auth.get("instrumentation", {})
+    if any(instrumentation.get(k) is not False for k in (
+        "hardware_counters", "profiler", "resource_sampler"
+    )):
+        raise SystemExit("STOP: CORE0C forbidden instrumentation authorization drift")
+    if auth.get("mechanism_selection_authorized") is not False:
+        raise SystemExit("STOP: CORE0C mechanism selection must remain unauthorized")
+    if auth.get("core0d_authorized") is not False:
+        raise SystemExit("STOP: CORE0D must remain unauthorized during CORE0C collection")
+
     tx_head = subprocess.check_output(["git", "-C", str(tx), "rev-parse", "HEAD"], text=True).strip()
     if tx_head != auth["token_xray_head"]:
         raise SystemExit("STOP: CORE0C Token-XRay freeze drift")
