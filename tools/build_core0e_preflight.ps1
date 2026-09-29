@@ -2,7 +2,7 @@ param(
   [string]$TokenXrayRoot="D:\WORK\RESEARCH\_token_xray_core0a_freeze",
   [string]$LlamaDir="D:\WORK\_llama_core0b",
   [string]$GeneratedDir="D:\WORK\_core0e_generated",
-  [string]$LlamaBuildDir="D:\WORK\_core0e_llama_build"
+  [string]$LlamaBuildDir="D:\WORK\_core0d_llama_build"
 )
 $ErrorActionPreference="Stop"; Set-StrictMode -Version Latest
 $Root=Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
@@ -32,7 +32,6 @@ $env:VULKAN_SDK=$VulkanHome;$env:VK_SDK_PATH=$VulkanHome;$env:PATH=(Join-Path $V
 $CMake=(Get-Command cmake.exe -ErrorAction SilentlyContinue).Source
 if(-not $CMake){$CMake=Join-Path $VSInstall "Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe"}
 
-if(Test-Path $LlamaBuildDir){Remove-Item -Recurse -Force $LlamaBuildDir}
 & $CMake -S (Join-Path $Root "baseline") -B $LlamaBuildDir -G "Visual Studio 17 2022" -A x64 "-DLLAMA_CPP_DIR=$LlamaDir"
 if($LASTEXITCODE-ne0){throw "CORE0E llama configure failed"}
 & $CMake --build $LlamaBuildDir --config Release --target core0e_llama_combined_phase_trace_adapter -- /m
