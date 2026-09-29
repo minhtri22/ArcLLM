@@ -148,6 +148,24 @@ def main()->int:
     for path,blob in a.get("critical_git_blobs",{}).items():
         got=subprocess.check_output(["git","-C",str(ROOT),"rev-parse",f"HEAD:{path}"],text=True).strip()
         if got!=blob:raise SystemExit(f"STOP: critical blob drift {path}")
+    lock_blob=subprocess.check_output(
+        ["git","-C",str(ROOT),"rev-parse","HEAD:config/core0d_execution_lock_v0.1.json"],
+        text=True,
+    ).strip()
+    if lock_blob!=a.get("execution_lock_blob"):
+        raise SystemExit("STOP: CORE0D execution lock blob drift")
+    shader_dir=ROOT/"compiled_shaders"
+    for name,expected in a.get("active_shader_sha256",{}).items():
+        p=shader_dir/name
+        if not p.exists() or sha256(p)!=expected:
+            raise SystemExit(f"STOP: CORE0D shader drift: {name}")
+    inst=a.get("instrumentation",{})
+    if any(inst.get(k) is not False for k in ("hardware_counters","external_profiler","resource_sampler")):
+        raise SystemExit("STOP: CORE0D forbidden instrumentation authorization drift")
+    if a.get("npu_authorized") is not False:
+        raise SystemExit("STOP: CORE0D NPU must remain unauthorized")
+    if a.get("optimization_authorized") is not False or a.get("mechanism_selection_authorized") is not False:
+        raise SystemExit("STOP: CORE0D optimization/mechanism selection must remain unauthorized")
 
     existing=list((ROOT/"results").glob("core0d_measured_*"))
     if existing:raise SystemExit("STOP: CORE0D measured dataset already exists")
