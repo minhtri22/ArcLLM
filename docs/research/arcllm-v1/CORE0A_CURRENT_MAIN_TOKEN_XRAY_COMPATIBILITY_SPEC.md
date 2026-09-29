@@ -17,7 +17,7 @@ No performance mechanism is selected here.
 ## Frozen inputs
 
 - ArcLLM canonical parent: `7a5672112dc22de15f0e9bb6445508fbb3099b15`
-- Token-XRay active completion line: `research/core-v0.1-completeness@17e786285d202f79e6856584961f1953fd0bc8af`
+- Token-XRay final compatibility freeze: `freeze/token-xray-core-v0.1-arcllm-current-compatible@35f86ac68f98ffe60fc441a790274cd1f1269dfe`
 - llama.cpp baseline remains pinned to v0.4.1 commit `b29c606e28a01b1bc8c1351026a0fa6e616bf6c4`
 - exact model SHA256: `60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463`
 - canonical workloads: W-S and W-C
@@ -100,3 +100,16 @@ Only after the Token-XRay adapter is upgraded and independently revalidated may 
 ## Zero-science pin amendment
 
 The first static probe targeted `token-xray/main@17baf9e...` and exposed a pre-existing Python package-init syntax defect. Before any performance science or instrumented runtime execution, Token-XRay's own README was re-read and the correct active completion line was identified as `research/core-v0.1-completeness`. That line fixes the package-init defect and passes `compileall` plus `36 passed, 1 skipped`. Therefore CORE-0A is prospectively rebound to exact commit `17e786285d202f79e6856584961f1953fd0bc8af`. No ArcLLM runtime, workload, model, baseline, metric or performance outcome was observed or changed by this amendment.
+
+
+## Final Token-XRay return rebind — 2026-09-29
+
+ArcLLM received the canonical Token-XRay compatibility freeze:
+
+- freeze ref: `freeze/token-xray-core-v0.1-arcllm-current-compatible`
+- final freeze HEAD: `35f86ac68f98ffe60fc441a790274cd1f1269dfe`
+- validated code payload HEAD: `984908d8ab457328fd82b74090d4ab29383acc2d`
+
+Independent Git comparison confirmed that the six commits after the validated code payload modify only `artifacts/*`, `docs/*`, and `lineage.md`. CORE-0A is therefore rebound to the exact final freeze. The ArcLLM independent auditor additionally verifies this code-payload ancestry and treats `schemas/runtime_lifecycle_trace.schema.json` as the canonical separate runtime-lifecycle evidence surface.
+
+This rebind consumes no performance science and changes no ArcLLM runtime/kernel/workload/model/baseline.
