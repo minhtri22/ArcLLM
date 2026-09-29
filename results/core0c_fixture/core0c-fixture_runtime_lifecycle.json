@@ -1,0 +1,107 @@
+{
+  "schema_version": "0.1",
+  "artifact_type": "RUNTIME_LIFECYCLE_TRACE",
+  "run_id": "core0c-fixture",
+  "request_id": "core0c-fixture-request",
+  "source_model": {"sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463"},
+  "runtime": {"name": "ArcLLM-v1", "version": "CORE0C_DIAGNOSTIC", "backend": "vulkan"},
+  "hardware_profile_id": "arc140v-dev-host",
+  "events": [
+    {
+      "event_id": 0,
+      "event_type": "representation_acquire",
+      "request_id": "core0c-fixture-request",
+      "runtime_name": "Q4V4.P1",
+      "representation_id": "q4v4.exec148",
+      "resource_id": "q4v4.exec148.family",
+      "execution_domain_id": null,
+      "related_dispatch_ids": [],
+      "timestamp": {"source": null, "start_ns": null, "end_ns": null, "duration_ns": null},
+      "provenance": {"class": "SYSTEM_OBSERVED", "source_id": "ArcLLM-CORE0C", "note": "generic policy selected ACQUIRE"}
+    },
+    {
+      "event_id": 1,
+      "event_type": "representation_materialize",
+      "request_id": "core0c-fixture-request",
+      "runtime_name": "Q4V4.P1.L3",
+      "representation_id": "q4v4.exec148",
+      "resource_id": "q4v4.exec148.layer.03",
+      "execution_domain_id": "gpu.arc_140v",
+      "related_dispatch_ids": [0],
+      "timestamp": {"source": "VULKAN_TIMESTAMP_QUERY", "start_ns": null, "end_ns": null, "duration_ns": 1000},
+      "provenance": {"class": "MEASURED", "source_id": "ArcLLM-CORE0C", "note": "P1 GPU materialization dispatch"}
+    },
+    {
+      "event_id": 2,
+      "event_type": "representation_materialize",
+      "request_id": "core0c-fixture-request",
+      "runtime_name": "Q4V4.P1.L4",
+      "representation_id": "q4v4.exec148",
+      "resource_id": "q4v4.exec148.layer.04",
+      "execution_domain_id": "gpu.arc_140v",
+      "related_dispatch_ids": [1],
+      "timestamp": {"source": "VULKAN_TIMESTAMP_QUERY", "start_ns": null, "end_ns": null, "duration_ns": 1100},
+      "provenance": {"class": "MEASURED", "source_id": "ArcLLM-CORE0C", "note": "P1 GPU materialization dispatch"}
+    },
+    {
+      "event_id": 3,
+      "event_type": "representation_validate",
+      "request_id": "core0c-fixture-request",
+      "runtime_name": "Q4V4",
+      "representation_id": "q4v4.exec148",
+      "resource_id": "q4v4.exec148.family",
+      "execution_domain_id": null,
+      "related_dispatch_ids": [],
+      "timestamp": {"source": null, "start_ns": null, "end_ns": null, "duration_ns": null},
+      "provenance": {"class": "SYSTEM_OBSERVED", "source_id": "ArcLLM-CORE0C", "note": "exact image validation completed"}
+    },
+    {
+      "event_id": 4,
+      "event_type": "representation_resident",
+      "request_id": "core0c-fixture-request",
+      "runtime_name": "Q4V4",
+      "representation_id": "q4v4.exec148",
+      "resource_id": "q4v4.exec148.family",
+      "execution_domain_id": null,
+      "related_dispatch_ids": [],
+      "timestamp": {"source": null, "start_ns": null, "end_ns": null, "duration_ns": null},
+      "provenance": {"class": "SYSTEM_OBSERVED", "source_id": "ArcLLM-CORE0C", "note": "validated representation became resident"}
+    },
+    {
+      "event_id": 5,
+      "event_type": "representation_reuse",
+      "request_id": "core0c-fixture-request",
+      "runtime_name": "Q4V4",
+      "representation_id": "q4v4.exec148",
+      "resource_id": "q4v4.exec148.family",
+      "execution_domain_id": null,
+      "related_dispatch_ids": [],
+      "timestamp": {"source": null, "start_ns": null, "end_ns": null, "duration_ns": null},
+      "provenance": {"class": "SYSTEM_OBSERVED", "source_id": "ArcLLM-CORE0C", "note": "resident validated representation reused"}
+    },
+    {
+      "event_id": 6,
+      "event_type": "representation_evict",
+      "request_id": "core0c-fixture-request",
+      "runtime_name": "Q4V4",
+      "representation_id": "q4v4.exec148",
+      "resource_id": "q4v4.exec148.family",
+      "execution_domain_id": null,
+      "related_dispatch_ids": [],
+      "timestamp": {"source": null, "start_ns": null, "end_ns": null, "duration_ns": null},
+      "provenance": {"class": "SYSTEM_OBSERVED", "source_id": "ArcLLM-CORE0C", "note": "generic policy selected EVICT"}
+    },
+    {
+      "event_id": 7,
+      "event_type": "representation_release",
+      "request_id": "core0c-fixture-request",
+      "runtime_name": "Q4V4",
+      "representation_id": "q4v4.exec148",
+      "resource_id": "q4v4.exec148.family",
+      "execution_domain_id": null,
+      "related_dispatch_ids": [],
+      "timestamp": {"source": null, "start_ns": null, "end_ns": null, "duration_ns": null},
+      "provenance": {"class": "SYSTEM_OBSERVED", "source_id": "ArcLLM-CORE0C", "note": "representation buffer released"}
+    }
+  ]
+}

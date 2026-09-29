@@ -1,0 +1,46 @@
+{
+    "schema":  "arcllm.core0c.build_qualification.v0.1",
+    "status":  "PASS_CORE0C_BUILD_AND_SYNTHETIC_FIXTURE",
+    "classification":  "ZERO_SCIENCE_IMPLEMENTATION_PREFLIGHT",
+    "git_head":  "98ed51a9bfb9bce047be400af41ea7f5dce6ef6e",
+    "token_xray_head":  "35f86ac68f98ffe60fc441a790274cd1f1269dfe",
+    "token_xray_clean":  true,
+    "vulkan_sdk":  "C:\\VulkanSDK\\1.4.357.0",
+    "vulkan_device":  "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "timestamp_period_ns":  52.0833,
+    "timestamp_valid_bits":  64,
+    "timestamp_probe_sha256":  "7EBA07137404545E9DA228C550E188A2798423CE43EEDA163CE88C07C9E19BB1",
+    "fixture_exe_sha256":  "805758CDD969D286CB90276DBF7EDED4EB472CEE0AE78CFCF64865853E164A15",
+    "trace_exe_sha256":  "22CBBA8A3168EF0F1480994890C05F72D2061642B497E8B9AEBA2A5BD5CCAED4",
+    "generated_runtime_manifest":  {
+                                       "schema":  "arcllm.core0c.generated_runtime.v0.1",
+                                       "classification":  "BENCHMARK_ONLY_DETERMINISTIC_DERIVATIVE",
+                                       "canonical_blobs":  {
+                                                               "support":  "1b3a2a935134a3afa680ee4880377a20bc8a466f",
+                                                               "q4":  "3955d1ed27c0c48f5bbb8e4564128bf34025d1a5",
+                                                               "runtime":  "0c613f6f740931a88ddd3ee5b904533a58001a06"
+                                                           },
+                                       "generated_sha256":  {
+                                                                "core0c_arcllm_v1_vulkan_runtime_support.h":  "8BACF34BEE29796EA3DBDBDE3174403EFD7CA25D5ED7F08922EF8D60B7A55004",
+                                                                "core0c_arcllm_v1_q4_vulkan_backend_v4_runtime.h":  "ECB01928A99B4531196D4DA990D9F8305F53345337E0FE8D1D933455845F5334",
+                                                                "core0c_arcllm_v1_runtime.cpp":  "B8868A57A5522548DBC3CCECAD115DBE0DF0AA0764613EE53E3BDD2B1FD5B87D"
+                                                            },
+                                       "canonical_runtime_modified":  false,
+                                       "kernel_source_modified":  false,
+                                       "patch_scope":  [
+                                                           "Vulkan timestamp-query ABI declarations",
+                                                           "Token-XRay semantic/schema bridge",
+                                                           "Q4V4 lifecycle evidence hooks",
+                                                           "diagnostic trace emission only"
+                                                       ]
+                                   },
+    "synthetic_fixture_files":  [
+                                    "core0c-fixture_decode_000.json",
+                                    "core0c-fixture_prefill_000.json",
+                                    "core0c-fixture_runtime_lifecycle.json"
+                                ],
+    "model_inference_executed":  false,
+    "measured_requests_executed":  0,
+    "canonical_runtime_modified":  false,
+    "kernel_source_modified":  false
+}

@@ -1,0 +1,11 @@
+﻿{
+  "schema": "arcllm.core0c.vulkan_timestamp_probe.v0.1",
+  "status": "PASS",
+  "device_name": "Intel(R) Arc(TM) 140V GPU (16GB)",
+  "vendor_id": 32902,
+  "device_id": 25760,
+  "api_version": 4211036,
+  "queue_family": 0,
+  "timestamp_period_ns": 52.0833,
+  "timestamp_valid_bits": 64
+}

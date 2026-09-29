@@ -1,0 +1,63 @@
+{
+  "schema_version": "0.2",
+  "artifact_type": "TOKEN_TRACE",
+  "run_id": "core0c-fixture",
+  "source_model": {"sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463"},
+  "token": {"mode": "prefill", "token_index": 0, "context_length": 4, "input_token_id": null, "output_token_id": null},
+  "runtime": {"name": "ArcLLM-v1", "version": "CORE0C_DIAGNOSTIC", "backend": "vulkan"},
+  "measurement_context": {"measurement_mode": "TOKEN_XRAY_TRACE", "timing_authority": "DIAGNOSTIC_ONLY", "instrumentation_overhead": null},
+  "device": {"profile_id": "arc140v-dev-host", "execution_domain_id": "gpu.arc_140v", "live_identity": {"timestamp_period_ns": 52.0833, "timestamp_valid_bits": 64}},
+  "timing": {"source": "VULKAN_TIMESTAMP_QUERY", "timestamp_period_ns": 52.0833, "timestamp_valid_bits": 64, "device_span_ns": 500, "sum_dispatch_duration_ns": 360, "unattributed_device_time_ns": 140},
+  "submissions": [{"submit_id": 0, "queue": 0, "command_buffer": "primary", "dispatch_ids": [0, 1, 2]}],
+  "barriers": [],
+  "dispatches": [
+    {
+      "dispatch_id": 0,
+      "semantic_node_ids": ["prefill.embedding"],
+      "runtime_name": "token_embedding",
+      "kernel": "p8c_embedding_q4k_segmented_probe.spv",
+      "shader_path": "p8c_embedding_q4k_segmented_probe.spv",
+      "backend": "vulkan", "queue": 0, "command_buffer": "primary",
+      "workgroups": [56, 1, 1],
+      "local_size": [256, 1, 1],
+      "subgroup_size": null,
+      "query_indices": {"start": 2, "end": 3},
+      "timestamp": {"source": "VULKAN_TIMESTAMP_QUERY", "start_ns": null, "end_ns": null, "duration_ns": 100, "start_tick": 10, "end_tick": 20, "timestamp_period_ns": 52.0833, "timestamp_valid_bits": 64},
+      "barrier_before": false, "barrier_after": true,
+      "barrier_before_kind": null, "barrier_after_kind": "compute_to_compute",
+      "counters": {}
+    },
+    {
+      "dispatch_id": 1,
+      "semantic_node_ids": ["prefill.layer.00.attn.core"],
+      "runtime_name": "L00.causal_gqa",
+      "kernel": "p7_attention_prefill_online.spv",
+      "shader_path": "p7_attention_prefill_online.spv",
+      "backend": "vulkan", "queue": 0, "command_buffer": "primary",
+      "workgroups": [112, 1, 1],
+      "local_size": [128, 1, 1],
+      "subgroup_size": null,
+      "query_indices": {"start": 4, "end": 5},
+      "timestamp": {"source": "VULKAN_TIMESTAMP_QUERY", "start_ns": null, "end_ns": null, "duration_ns": 120, "start_tick": 21, "end_tick": 31, "timestamp_period_ns": 52.0833, "timestamp_valid_bits": 64},
+      "barrier_before": true, "barrier_after": true,
+      "barrier_before_kind": "compute_to_compute", "barrier_after_kind": "compute_to_compute",
+      "counters": {}
+    },
+    {
+      "dispatch_id": 2,
+      "semantic_node_ids": ["prefill.layer.00.ffn.gate", "prefill.layer.00.ffn.up"],
+      "runtime_name": "L00.ffn_gate_up_fused",
+      "kernel": "p7l_ffn_q4k_gateup_fused.spv",
+      "shader_path": "p7l_ffn_q4k_gateup_fused.spv",
+      "backend": "vulkan", "queue": 0, "command_buffer": "primary",
+      "workgroups": [2368, 1, 1],
+      "local_size": [8, 8, 1],
+      "subgroup_size": null,
+      "query_indices": {"start": 6, "end": 7},
+      "timestamp": {"source": "VULKAN_TIMESTAMP_QUERY", "start_ns": null, "end_ns": null, "duration_ns": 140, "start_tick": 32, "end_tick": 42, "timestamp_period_ns": 52.0833, "timestamp_valid_bits": 64},
+      "barrier_before": true, "barrier_after": true,
+      "barrier_before_kind": "compute_to_compute", "barrier_after_kind": "compute_to_host",
+      "counters": {}
+    }
+  ]
+}

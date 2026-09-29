@@ -1,0 +1,17 @@
+{
+  "schema": "arcllm.core0c.preflight_independent_adjudication.v0.1",
+  "verdict": "PASS_CORE0C_ZERO_SCIENCE_PREFLIGHT",
+  "open_findings": 0,
+  "findings": [],
+  "implementation_head": "0bceaee9a4421f35143e1a166247d241ee3eb573",
+  "checked_head": "41f8fcdff8e1e67e24c33c7ebee4d87819f0c7de",
+  "token_xray_head": "35f86ac68f98ffe60fc441a790274cd1f1269dfe",
+  "trace_exe_sha256": "22CBBA8A3168EF0F1480994890C05F72D2061642B497E8B9AEBA2A5BD5CCAED4",
+  "timestamp_period_ns": 52.0833,
+  "timestamp_valid_bits": 64,
+  "model_inference_executed": false,
+  "measured_requests_executed": 0,
+  "performance_authority_changed": false,
+  "mechanism_selected": false,
+  "next_if_pass": "FREEZE_CORE0C_EXECUTION_LOCK_AND_AUTHORIZE_EXACT_12_REQUEST_DIAGNOSTIC_COLLECTION"
+}
