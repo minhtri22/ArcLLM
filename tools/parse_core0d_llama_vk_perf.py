@@ -142,6 +142,10 @@ def self_test() -> int:
         if result["prefill_q_sequence_length"] != 4:
             raise SystemExit(f"CORE0D-R1 parser positive fixture prefill-shape failure: {token}")
 
+    wc = parse_text(fixture_text(prefill_total="1.2345e+05", prefill_q=256))
+    if wc["prefill_q_sequence_length"] != 256:
+        raise SystemExit("CORE0D-R1 parser W-C prefill-shape fixture failure")
+
     for token in ["nan", "inf", "-inf"]:
         _expect_reject(fixture_text(prefill_total=token), f"non-finite {token}")
 
