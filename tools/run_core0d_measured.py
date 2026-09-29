@@ -180,6 +180,32 @@ def main()->int:
                         rc,wall=child(cmd,env)
                         parsed=load(result_path) if result_path.exists() else {}
                         errors=validate_arc(parsed,forced)
+                        if mode=="PHASE_ONLY":
+                            phase_path=outdir/f"{tag}_phase.json"
+                            if not phase_path.exists():
+                                errors.append("phase_file_missing")
+                            else:
+                                phase=load(phase_path)
+                                required_phase=[
+                                    "model_map_inspect_ns","static_graph_contract_ns","vulkan_weight_init_ns",
+                                    "request_context_prepare_ns","prefill_and_scan_ns","decode_loop_and_scans_ns",
+                                    "close_and_cleanup_ns","runtime_generate_ns",
+                                ]
+                                if phase.get("schema")!="arcllm.core0d.arc_phase.v0.1":
+                                    errors.append("phase_schema")
+                                if phase.get("timing_authority")!="DIAGNOSTIC_ONLY":
+                                    errors.append("phase_authority")
+                                for key in required_phase:
+                                    if not isinstance(phase.get(key),(int,float)) or phase.get(key)<0:
+                                        errors.append(f"phase_{key}")
+                        if mode=="GPU_TRACE":
+                            trace_dir=outdir/f"{tag}_traces"
+                            prefill=list(trace_dir.glob(f"{tag}_prefill_*.json"))
+                            decode=list(trace_dir.glob(f"{tag}_decode_*.json"))
+                            life=list(trace_dir.glob(f"{tag}_runtime_lifecycle.json"))
+                            if len(prefill)!=1: errors.append(f"prefill_trace_count={len(prefill)}")
+                            if len(decode)!=31: errors.append(f"decode_trace_count={len(decode)}")
+                            if len(life)!=1: errors.append(f"lifecycle_trace_count={len(life)}")
                     else:
                         cmd=[str(llama_exe),"--model",str(model),"--workload",workload,"--out",str(result_path)]
                         stderr_path=None
