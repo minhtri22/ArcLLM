@@ -1774,3 +1774,30 @@ Result: **STOP_CORE0D_GPU_MEASUREMENT_NOT_QUALIFIED**.
 Because the defect was discovered only after the primary collection completed, the dataset is not reparsed into PASS, no selective GPU_TRACE rerun is allowed, and G/H residual closure plus the Amdahl gate remain unopened. No GPU-vs-host priority, kernel priority, NPU conclusion or optimization mechanism is selected from CORE-0D.
 
 Scientific consequence: the raw llama measurement surface is structurally sufficient, but the current study is closed. A narrow prospective successor may repair only the numeric grammar while preserving the exact 32-group requirement, common teacher-forced trajectories, 36-request design, G0–G4 gates and Amdahl thresholds unchanged.
+
+
+## CORE-0D-R1 excess-cost attribution — 2026-09-29
+
+A fresh prospective **36-request** common-trajectory collection completed under the parser-repair successor contract. The collection was frozen before adjudication. Independent recomputation returned **0 findings** and all preregistered gates passed:
+
+```text
+G0 common trajectory validity       PASS
+G1 control transfer to CORE-0B      PASS
+G2 trace transfer                   PASS
+G3 GPU measurement qualification    PASS
+G4 residual closure                 PASS
+```
+
+CONTROL transfer remained in the CORE-0B regime. W-S median ArcLLM/llama ratio was **6.4683×** versus the frozen **6.9139×** reference; W-C median was **8.3783×** versus **8.6323×**. TRACE medians were **6.7712×** on W-S and **7.5549×** on W-C, both within the frozen transfer bound relative to CONTROL.
+
+The primary two-region decomposition closed exactly at stored precision on all six TRACE pairs. For W-S, median total excess was **60,682.39 ms**, of which median token-GPU excess was **23,722.48 ms** and median outside-token-GPU excess was **36,959.91 ms**. Median excess shares were **f_G=0.39093** and **f_H=0.60907**. For W-C, median total excess was **77,240.38 ms**, token-GPU excess **48,219.44 ms**, and outside-token-GPU excess **36,827.23 ms**, with **f_G=0.53889** and **f_H=0.46111**.
+
+Both regions satisfied the frozen Amdahl eligibility rules. Token-GPU robust recoverable current-wall fraction was **0.33439**; outside-token-GPU robust fraction was **0.40769**. The robust margin **0.07331** exceeded the preregistered **0.05** single-region priority threshold.
+
+Result: **PASS_CORE0D_R1_EXCESS_COST_ATTRIBUTION_COMPLETE**.
+
+Preregistered Amdahl decision: **H_OUTSIDE_TOKEN_GPU**.
+
+This does not identify H with model loading, Vulkan setup, CPU orchestration, allocation, I/O, or any other specific host mechanism. H remains the arithmetic residual outside observed token-GPU execution. GPU excess also remains materially nonzero. The result authorizes only the next attribution study, not an optimization patch.
+
+Scientific consequence: the next authorized scientific successor is **CORE-0E_OUTSIDE_GPU_PHASE_ATTRIBUTION_PREREGISTRATION**, which must prospectively freeze an observable phase partition of H and corresponding attribution gates before using fresh outcomes.
