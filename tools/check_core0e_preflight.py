@@ -26,11 +26,12 @@ def sha256(p:Path):
  return h.hexdigest().upper()
 
 def main():
- ap=argparse.ArgumentParser();ap.add_argument("--llama-root",required=True);ap.add_argument("--token-xray-root",required=True);ap.add_argument("--out",default=str(ROOT/"results"/"CORE0E_PREFLIGHT_EVIDENCE.json"))
+ ap=argparse.ArgumentParser();ap.add_argument("--llama-root",required=True);ap.add_argument("--token-xray-root",required=True);ap.add_argument("--authoritative-head",default="");ap.add_argument("--out",default=str(ROOT/"results"/"CORE0E_PREFLIGHT_EVIDENCE.json"))
  args=ap.parse_args();llama=Path(args.llama_root);tx=Path(args.token_xray_root);findings=[]
  def add(i,d):findings.append({"id":i,"detail":d})
- cfg=json.loads((ROOT/"config"/"core0e_outside_gpu_phase_attribution_preregistration_v0.1.json").read_text())
- if cfg.get("status")!="PREREGISTERED_NOT_AUTHORIZED_FOR_MEASURED_EXECUTION":add("PREREG_STATUS",repr(cfg.get("status")))
+ cfg=json.loads((ROOT/"config"/"core0e_outside_gpu_phase_attribution_preregistration_v0.2.json").read_text())
+ if cfg.get("status")!="PREREGISTERED_AMENDED_NOT_AUTHORIZED_FOR_MEASURED_EXECUTION":add("PREREG_STATUS",repr(cfg.get("status")))
+ if cfg.get("amendment",{}).get("outcome_information_used") is not False or cfg.get("amendment",{}).get("measured_requests_executed_before_amendment")!=0:add("PREREG_AMENDMENT_BOUNDARY",repr(cfg.get("amendment")))
  if cfg.get("authorization",{}).get("measured_execution") is not False or cfg.get("authorization",{}).get("measured_requests_authorized")!=0:add("MEASURED_AUTH",repr(cfg.get("authorization")))
  for p,e in CANONICAL.items():
   g=blob(p)
@@ -96,10 +97,10 @@ def main():
   arc_dirs=list(PARENT_DATASET.glob("*GPU_TRACE_arc_traces"));llama_logs=list(PARENT_DATASET.glob("*GPU_TRACE_llama_vkperf.txt"))
   if len(arc_dirs)!=6 or len(llama_logs)!=6:add("PARENT_TRACE_STRUCTURE",f"{len(arc_dirs)}/{len(llama_logs)}")
  if list((ROOT/"results").glob("core0e_measured_*")):add("MEASURED_ALREADY_EXISTS","CORE0E dataset present")
- changed=git("diff","--name-only",PARENT_HEAD,"HEAD").splitlines()
+ changed=git("diff","--name-only",PARENT_HEAD).splitlines()
  if any(p in CANONICAL or p.startswith("shaders/") for p in changed):add("PRODUCT_SOURCE_MUTATION",repr(changed))
  verdict="PASS_CORE0E_ZERO_SCIENCE_PREFLIGHT" if not findings else "STOP_CORE0E_PREFLIGHT"
- result={"schema":"arcllm.core0e.preflight_evidence.v0.1","classification":"ZERO_SCIENCE_IMPLEMENTATION_STATIC_PREFLIGHT","verdict":verdict,"open_findings":len(findings),"findings":findings,"checked_head":git("rev-parse","HEAD"),"parent_head":PARENT_HEAD,"build_qualification":q,"token_xray_source":tx_mode,"parent_dataset_use":"STRUCTURE_ONLY","parent_phase_timing_magnitudes_used":False,"model_inference_executed":False,"measured_requests_executed":0,"changed_files_from_prereg":changed}
+ result={"schema":"arcllm.core0e.preflight_evidence.v0.2","classification":"ZERO_SCIENCE_IMPLEMENTATION_STATIC_PREFLIGHT","verdict":verdict,"open_findings":len(findings),"findings":findings,"checked_head":git("rev-parse","HEAD"),"authoritative_head":args.authoritative_head or None,"preregistration":"v0.2","parent_head":PARENT_HEAD,"build_qualification":q,"token_xray_source":tx_mode,"parent_dataset_use":"STRUCTURE_ONLY","parent_phase_timing_magnitudes_used":False,"model_inference_executed":False,"measured_requests_executed":0,"changed_files_from_prereg":changed}
  Path(args.out).write_text(json.dumps(result,indent=2)+"\n")
  print(f"CORE0E_PREFLIGHT={verdict}");print(f"OPEN_FINDINGS={len(findings)}");print("MODEL_INFERENCE_EXECUTED=false");print("MEASURED_REQUESTS_EXECUTED=0")
  for f in findings:print(f"FINDING {f['id']}: {f['detail']}")
