@@ -21,10 +21,10 @@ def sha256(p):
  return h.hexdigest().upper()
 
 def main():
- ap=argparse.ArgumentParser();ap.add_argument("--out",default=str(ROOT/"results"/"CORE0E_PREFLIGHT_INDEPENDENT_ADJUDICATION.json"));args=ap.parse_args()
+ ap=argparse.ArgumentParser();ap.add_argument("--authoritative-head",default="");ap.add_argument("--out",default=str(ROOT/"results"/"CORE0E_PREFLIGHT_INDEPENDENT_ADJUDICATION.json"));args=ap.parse_args()
  findings=[]
  def add(i,d):findings.append({"id":i,"detail":d})
- cfg=json.loads((ROOT/"config/core0e_outside_gpu_phase_attribution_preregistration_v0.1.json").read_text())
+ cfg=json.loads((ROOT/"config/core0e_outside_gpu_phase_attribution_preregistration_v0.2.json").read_text())
  evp=ROOT/"results/CORE0E_PREFLIGHT_EVIDENCE.json";bqp=ROOT/"results/CORE0E_BUILD_QUALIFICATION.json"
  if not evp.exists():add("PRIMARY_EVIDENCE","missing");ev={}
  else:
@@ -34,8 +34,10 @@ def main():
  else:
   bq=json.loads(bqp.read_text())
   if bq.get("status")!="PASS_CORE0E_BUILD_AND_ZERO_SCIENCE_SELF_TESTS":add("BUILD",repr(bq.get("status")))
+ if cfg.get("status")!="PREREGISTERED_AMENDED_NOT_AUTHORIZED_FOR_MEASURED_EXECUTION":add("PREREG_STATUS",repr(cfg.get("status")))
+ if cfg.get("amendment",{}).get("outcome_information_used") is not False or cfg.get("amendment",{}).get("measured_requests_executed_before_amendment")!=0:add("PREREG_AMENDMENT_BOUNDARY",repr(cfg.get("amendment")))
  if cfg.get("authorization",{}).get("measured_requests_authorized")!=0:add("AUTH","prereg measured authorization nonzero")
- changed=git("diff","--name-only",PARENT_HEAD,"HEAD").splitlines()
+ changed=git("diff","--name-only",PARENT_HEAD).splitlines()
  if any(p in CANONICAL or p.startswith("shaders/") for p in changed):add("CANONICAL_MUTATION",repr(changed))
  for cmd,token,label in [
   (["py","-3",str(ROOT/"tools/core0e_phase_contract.py"),"--self-test"],"CORE0E_PHASE_CONTRACT_SELF_TEST=PASS","PHASE"),
@@ -72,7 +74,7 @@ def main():
   if len(list(PARENT_DATASET.glob("*GPU_TRACE_llama_vkperf.txt")))!=6:add("PARENT_LLAMA_TRACE","count")
  if list((ROOT/"results").glob("core0e_measured_*")):add("MEASURED_DATASET","already exists")
  verdict="PASS_CORE0E_INDEPENDENT_PREFLIGHT" if not findings else "STOP_CORE0E_INDEPENDENT_PREFLIGHT"
- out={"schema":"arcllm.core0e.preflight_independent_adjudication.v0.1","verdict":verdict,"open_findings":len(findings),"findings":findings,"checked_head":git("rev-parse","HEAD"),"parent_phase_timing_magnitudes_used":False,"model_inference_executed":False,"measured_requests_executed":0,"changed_files_from_prereg":changed}
+ out={"schema":"arcllm.core0e.preflight_independent_adjudication.v0.2","verdict":verdict,"open_findings":len(findings),"findings":findings,"checked_head":git("rev-parse","HEAD"),"authoritative_head":args.authoritative_head or None,"preregistration":"v0.2","parent_phase_timing_magnitudes_used":False,"model_inference_executed":False,"measured_requests_executed":0,"changed_files_from_prereg":changed}
  Path(args.out).write_text(json.dumps(out,indent=2)+"\n")
  print(f"CORE0E_INDEPENDENT_PREFLIGHT={verdict}");print(f"OPEN_FINDINGS={len(findings)}");print("MODEL_INFERENCE_EXECUTED=false");print("MEASURED_REQUESTS_EXECUTED=0")
  for f in findings:print(f"FINDING {f['id']}: {f['detail']}")
