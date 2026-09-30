@@ -33,6 +33,17 @@ function Resolve-RunPhysicalPath {
   return (Join-Path $RepoRoot ($Rel -replace "/","\"))
 }
 
+function Assert-RunTrackedPathClean {
+  param(
+    [Parameter(Mandatory=$true)][string]$RepoRoot,
+    [Parameter(Mandatory=$true)][string]$Path
+  )
+  & git -C $RepoRoot diff --quiet HEAD -- $Path
+  if($LASTEXITCODE -ne 0){throw "Tracked run path has worktree drift: $Path"}
+  & git -C $RepoRoot diff --cached --quiet HEAD -- $Path
+  if($LASTEXITCODE -ne 0){throw "Tracked run path has index drift: $Path"}
+}
+
 function Get-RunLogicalGitBlob {
   param(
     [Parameter(Mandatory=$true)][string]$RepoRoot,
@@ -54,9 +65,7 @@ function Get-RunLogicalGitBlob {
 
     $Physical=Resolve-RunPhysicalPath -RepoRoot $RepoRoot -Path $NewPath
     if(-not(Test-Path $Physical -PathType Leaf)){throw "Relocated run missing from worktree: $NewPath"}
-    $WorktreeBlob=(& git -C $RepoRoot hash-object -- $NewPath 2>$null)
-    if($LASTEXITCODE -ne 0 -or -not $WorktreeBlob){throw "Cannot hash relocated run worktree file: $NewPath"}
-    if($WorktreeBlob.Trim() -ne $ExpectedNew){throw "Relocated run worktree drift: $NewPath"}
+    Assert-RunTrackedPathClean -RepoRoot $RepoRoot -Path $NewPath
 
     $OldBlob=(& git -C $RepoRoot rev-parse (([string]$M.cleanup_parent_commit)+":"+$OldPath) 2>$null)
     if($LASTEXITCODE -ne 0 -or -not $OldBlob){throw "Cannot resolve pre-cleanup run blob: $OldPath"}
@@ -66,8 +75,9 @@ function Get-RunLogicalGitBlob {
 
   $Physical=Resolve-RunPhysicalPath -RepoRoot $RepoRoot -Path $P
   if(-not(Test-Path $Physical -PathType Leaf)){throw "Critical file missing: $P"}
-  $Blob=(& git -C $RepoRoot hash-object -- $P 2>$null)
-  if($LASTEXITCODE -ne 0 -or -not $Blob){throw "Cannot hash critical file: $P"}
+  Assert-RunTrackedPathClean -RepoRoot $RepoRoot -Path $P
+  $Blob=(& git -C $RepoRoot rev-parse ("HEAD:"+$P) 2>$null)
+  if($LASTEXITCODE -ne 0 -or -not $Blob){throw "Cannot resolve critical Git blob: $P"}
   return $Blob.Trim()
 }
 

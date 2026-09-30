@@ -225,21 +225,21 @@
       "old_path": "run_p7h.ps1",
       "new_path": "runs/p7/run_p7h.ps1",
       "old_blob_sha": "5c32049599acabb8ffe18fcce6c981edafba3f37",
-      "new_blob_sha": "969f90db566cea84e800f8eec028ce5a0cd8e249",
+      "new_blob_sha": "9e65b0a120f7e3aab0b4ccf8f949b16e06ca25d9",
       "change_class": "PATH_BOOTSTRAP_CROSS_RUN_REFERENCE_AND_LOCK_COMPATIBILITY_ONLY"
     },
     {
       "old_path": "run_p7i.ps1",
       "new_path": "runs/p7/run_p7i.ps1",
       "old_blob_sha": "b805ef36cf31f5c2cf23325d6dfe4f0841441ace",
-      "new_blob_sha": "c5c6c7838f69f99a7b71ca46944ff330ca08e968",
+      "new_blob_sha": "c6d535821e4b977e0363e84c36a2e2aff5a9f7f8",
       "change_class": "PATH_BOOTSTRAP_CROSS_RUN_REFERENCE_AND_LOCK_COMPATIBILITY_ONLY"
     },
     {
       "old_path": "run_p7j.ps1",
       "new_path": "runs/p7/run_p7j.ps1",
       "old_blob_sha": "a6cb7b96c62a7dc063aa52f0a948780429d6fe5d",
-      "new_blob_sha": "2a153f64e9aa598aad82d1384c72bdd6c6b876ad",
+      "new_blob_sha": "a3048cbffddfb2689744988fe7a798c858f83cb8",
       "change_class": "PATH_BOOTSTRAP_CROSS_RUN_REFERENCE_AND_LOCK_COMPATIBILITY_ONLY"
     },
     {
@@ -260,7 +260,7 @@
       "old_path": "run_p7m.ps1",
       "new_path": "runs/p7/run_p7m.ps1",
       "old_blob_sha": "46d69238843c05752cebaf7e6a2f7845c8d92620",
-      "new_blob_sha": "07c55e7f9b554d86ecabe750eb7e8ec2027bbf62",
+      "new_blob_sha": "51421cb47e84248b8c88737191ded219b82bb997",
       "change_class": "PATH_BOOTSTRAP_CROSS_RUN_REFERENCE_AND_LOCK_COMPATIBILITY_ONLY"
     },
     {
@@ -466,5 +466,6 @@
       "new_blob_sha": "62a749f5070d0b68ce62fdebd7086982f63c0200",
       "change_class": "PATH_BOOTSTRAP_CROSS_RUN_REFERENCE_AND_LOCK_COMPATIBILITY_ONLY"
     }
-  ]
+  ],
+  "compatibility_layer_blob_sha": "d10f84b69ef15e564b58ffb4b28a65a0a1f6eeee"
 }
