@@ -1,0 +1,62 @@
+{
+  "schema": "arcllm.core0e.native_build_provenance.v0.1",
+  "date": "2026-09-30",
+  "classification": "ZERO_SCIENCE_NATIVE_BUILD_PROVENANCE",
+  "execution_channel": "private remote-mcp ChatGPT web plugin",
+  "local_build_head": "60ec62cb1c06d332a49120a37240aa6c84b75a76",
+  "authoritative_remote_head_at_preflight": "8d0e0e88fcef2b1afe50a2750f2dd548ee6962fb",
+  "binary_generating_source_blobs_verified_equal_to_authoritative_tree": {
+    "tools/materialize_core0e_runtime.py": "98f5100e0a8d869e3cf4d2c485db51999e59de80",
+    "src/core0e_arcllm_teacher_forced_cli.cpp": "41ac1f13b44122290dd7d8b98c1254f6e6b4492f",
+    "baseline/core0e_llama_combined_phase_trace_adapter.cpp": "7eb64a2ab751767406130b7018236611322d80b6",
+    "baseline/CMakeLists.txt": "6a823e8f0ccf91b2997423a1f1a3e70ed225a660"
+  },
+  "preregistration_amendment": {
+    "active": "v0.2",
+    "reason": "Zero-science fixture exposed an unassigned prefill-end to decode-start transition under v0.1. v0.2 prospectively assigns that transition into P3 before any measured authorization.",
+    "binary_source_changed_by_amendment": false,
+    "measured_requests_before_amendment": 0,
+    "outcome_information_used": false
+  },
+  "compiler": {
+    "family": "MSVC",
+    "version": "19.44.35226.0",
+    "toolset_path": "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.44.35207"
+  },
+  "build_frontend": {
+    "cmake": "CMake",
+    "generator": "Ninja",
+    "parallelism": 1,
+    "reason": "Visual Studio generator discovery failed on the dev host even though MSVC toolchain was present; Ninja used the same MSVC compiler/toolchain and source contract."
+  },
+  "vulkan_sdk": {
+    "version": "1.4.357.0",
+    "path": "C:/VulkanSDK/1.4.357.0"
+  },
+  "pins": {
+    "llama_commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+    "token_xray_head": "35f86ac68f98ffe60fc441a790274cd1f1269dfe",
+    "token_xray_source": "REAL_REPO"
+  },
+  "generated_runtime_sha256": {
+    "core0e_arcllm_combined_runtime.cpp": "A561959BB4F545C238478D5E15A8FBD0490ED4C50B7D133FBE79CC165B855581",
+    "core0e_arcllm_trace_vulkan_runtime_support.h": "8BACF34BEE29796EA3DBDBDE3174403EFD7CA25D5ED7F08922EF8D60B7A55004",
+    "core0e_arcllm_trace_q4_vulkan_backend_v4_runtime.h": "6AD34DC916B22FB660C4492A01553A0709CA38083196A554044BE1390BA9E168"
+  },
+  "binaries": {
+    "arc_combined_sha256": "7446E53575E0BD52B62951CB486F1BBD33437211224C18F58FC322D67992EE0E",
+    "llama_combined_sha256": "0514FBA35C7CCD4B2C6BC1F6C869D565EA6FE6C73E1CFD60F1EA9AB46257405E"
+  },
+  "zero_science_self_tests": {
+    "arc_cli": "PASS",
+    "llama_adapter": "PASS",
+    "llama_vkperf_parser": "PASS",
+    "core0e_phase_contract_v0_2": "PASS"
+  },
+  "boundaries": {
+    "model_inference_executed": false,
+    "measured_requests_executed": 0,
+    "canonical_runtime_modified": false,
+    "kernel_shader_modified": false
+  }
+}
