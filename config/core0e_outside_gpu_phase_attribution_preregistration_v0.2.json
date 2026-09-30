@@ -1,0 +1,335 @@
+{
+  "schema": "arcllm.core0e.outside_gpu_phase_attribution_preregistration.v0.2",
+  "date": "2026-09-29",
+  "program": "CORE-0E",
+  "status": "PREREGISTERED_AMENDED_NOT_AUTHORIZED_FOR_MEASURED_EXECUTION",
+  "parent": {
+    "study": "CORE-0D-R1",
+    "final_verdict": "PASS_CORE0D_R1_EXCESS_COST_ATTRIBUTION_COMPLETE",
+    "dataset": "core0d_measured_20260929T121751651960Z",
+    "dataset_commit": "630406103254b4358ab32a758b73c0fb4d4742f9",
+    "independent_adjudication_commit": "7e1e264c1de2eb52713d49c2ec54d1d9d4b26d0e",
+    "final_head": "371d2f0510d2bd07aa832ccca458d8c2eab45f30",
+    "amdahl_decision": "H_OUTSIDE_TOKEN_GPU",
+    "H_robust_score": 0.4076922546966568,
+    "G_robust_score": 0.3343860291249379,
+    "margin_H_minus_G": 0.07330622557171891,
+    "interpretation_boundary": "H is only the arithmetic residual request-wall minus observed token-GPU execution; no specific host/runtime mechanism is established."
+  },
+  "outcome_firewall": {
+    "parent_phase_timing_magnitudes_used_for_preregistration": false,
+    "allowed_parent_information": [
+      "Final CORE-0D-R1 G/H verdict and frozen Amdahl decision.",
+      "Source-level phase boundary semantics already frozen in benchmark-only adapters/materializers.",
+      "Exact model, trajectory, instrumentation and execution contracts."
+    ],
+    "forbidden_parent_use": [
+      "Do not inspect or rank CORE-0D-R1 PHASE_ONLY phase magnitudes to choose CORE-0E buckets.",
+      "Do not use parent phase timing outcomes to set phase thresholds or merge/split buckets.",
+      "Do not use parent phase magnitudes as CORE-0E primary evidence."
+    ]
+  },
+  "scientific_question": "Under the exact common teacher-forced ArcLLM-vs-llama.cpp regime, can H_OUTSIDE_TOKEN_GPU be prospectively decomposed into a closed set of cross-system temporal phases, and does exactly one phase carry enough robust recoverable current-wall excess to deserve the next attribution study?",
+  "scope": {
+    "goal": "Attribution only.",
+    "no_optimization": true,
+    "no_mechanism_selection": true,
+    "no_npu": true,
+    "no_canonical_runtime_change": true,
+    "no_kernel_shader_change": true,
+    "no_llama_source_change": true
+  },
+  "immutable_contract": {
+    "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "model_bytes": 4683074048,
+    "llama_commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+    "token_xray_head": "35f86ac68f98ffe60fc441a790274cd1f1269dfe",
+    "timestamp_period_ns": 52.0833,
+    "timestamp_valid_bits": 64,
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "common_trajectory": "EXACTLY_UNCHANGED_FROM_CORE0D_R1",
+    "core0b_reference_ratio": {
+      "W-S": 6.91387843464958,
+      "W-C": 8.63225451567552
+    },
+    "token_gpu_definition": "Exactly the CORE-0D-R1 G definition: ArcLLM prefill device-span plus 31 decode device-spans; llama block-0 prefill total plus blocks 1-31 decode totals.",
+    "total_excess_definition": "DeltaE = W_arc - W_llama",
+    "outside_gpu_definition": "H_system = W_system - G_system; DeltaH = H_arc - H_llama"
+  },
+  "phase_partition": {
+    "principle": "Cross-system temporal phases only. No phase is named after an unproven mechanism such as model-loading, Vulkan-init, CPU orchestration, allocation or I/O.",
+    "child_science_window": {
+      "arcllm_start": "First benchmark-only timestamp at entry to the diagnostic derivative of arcllm::v1::runtime::generate, before request validation/model mapping.",
+      "arcllm_end": "Timestamp after existing canonical runtime teardown/cleanup has completed and immediately before any CORE-0E phase-sidecar serialization.",
+      "llama_start": "Timestamp immediately before the benchmark-only llama runtime/backend initialization sequence begins.",
+      "llama_end": "Timestamp immediately after llama context/model/backend teardown completes and before CORE-0E phase-sidecar serialization.",
+      "result_serialization_rule": "CORE-0E diagnostic adapters must place ordinary result serialization outside the child science window on both systems. Existing inference/model semantics must not change.",
+      "sidecar_rule": "CORE-0E phase-sidecar serialization occurs only after child_science_window_end and is therefore part of PROCESS_ENVELOPE by definition."
+    },
+    "marker_order": [
+      "child_science_window_start",
+      "prefill_wall_start",
+      "prefill_wall_end",
+      "decode_wall_start",
+      "decode_wall_end",
+      "child_science_window_end"
+    ],
+    "marker_semantics": {
+      "prefill_wall_start": "Immediately before the single prefill model-evaluation call/submit.",
+      "prefill_wall_end": "Immediately after the full-vocabulary finite/top-1 scan following prefill.",
+      "decode_wall_start": "Immediately before the first forced cached-decode input is submitted.",
+      "decode_wall_end": "Immediately after the full-vocabulary finite/top-1 scan following cached-decode step 31.",
+      "decode_transition": "Diagnostic subinterval only: decode_wall_start - prefill_wall_end. It must be non-negative and is included inside P3_DECODE_HOST; it is not a sixth attribution phase."
+    },
+    "phases": {
+      "P0_PROCESS_ENVELOPE": {
+        "formula": "P0 = external_child_wall - child_science_window",
+        "contains_by_definition": "OS/process launch, argument/setup work outside the child science window, ordinary result serialization, CORE-0E phase-sidecar serialization, process exit and parent-observation residual.",
+        "interpretation_boundary": "Do not rename this process-launch cost or I/O cost without a successor study."
+      },
+      "P1_PRE_TOKEN": {
+        "formula": "P1 = prefill_wall_start - child_science_window_start",
+        "contains_by_definition": "All in-window work before the prefill evaluation begins.",
+        "interpretation_boundary": "May include model/runtime/backend setup and materialization, but CORE-0E does not identify which mechanism causes excess."
+      },
+      "P2_PREFILL_HOST": {
+        "formula": "P2 = prefill_wall_duration - G_prefill",
+        "contains_by_definition": "Non-token-GPU duration inside the prefill wall interval, including host orchestration/full-vocabulary scan and any waiting not represented by G_prefill.",
+        "interpretation_boundary": "Do not call it CPU-only; it is an arithmetic non-G residual."
+      },
+      "P3_DECODE_HOST": {
+        "formula": "P3 = (decode_wall_end - prefill_wall_end) - G_decode",
+        "contains_by_definition": "All non-token-GPU duration after the prefill scan through the final cached-decode scan, including the prefill-to-first-decode transition, host orchestration/full-vocabulary scans and any waiting not represented by G_decode.",
+        "interpretation_boundary": "Do not call it CPU-only; it is an arithmetic non-G residual over the complete post-prefill-through-decode-end interval."
+      },
+      "P4_POST_TOKEN": {
+        "formula": "P4 = child_science_window_end - decode_wall_end",
+        "contains_by_definition": "All in-window work after the final decode scan through runtime/model/backend teardown.",
+        "interpretation_boundary": "Do not rename this cleanup/teardown cost without a successor study."
+      }
+    },
+    "exact_identities": [
+      "child_science_window = P1 + prefill_wall_duration + (decode_wall_end - prefill_wall_end) + P4",
+      "H_system = P0 + P1 + P2 + P3 + P4",
+      "DeltaH = sum(DeltaP0..DeltaP4)"
+    ],
+    "negative_cross_system_phase_excess": "Preserve negative DeltaP values; never clamp to zero."
+  },
+  "implementation_contract": {
+    "type": "BENCHMARK_ONLY_DIAGNOSTIC_DERIVATIVES",
+    "arc_requirements": [
+      "Combine frozen CORE-0D-R1 Token-XRay GPU tracing with the six monotonic absolute phase markers in the same request.",
+      "Do not alter canonical ArcLLM runtime/kernel/shader sources.",
+      "Phase-sidecar write occurs after child_science_window_end."
+    ],
+    "llama_requirements": [
+      "Use the same pinned llama.cpp commit and built-in GGML_VK_PERF_LOGGER numeric grammar qualified by CORE-0D-R1.",
+      "Add only benchmark-adapter monotonic absolute phase markers; do not patch llama.cpp source.",
+      "Ordinary result serialization and phase-sidecar serialization occur outside child_science_window; inference and teardown semantics remain otherwise unchanged."
+    ],
+    "clocks": "Use one monotonic clock within each child process for all child markers. Parent external wall remains the runner monotonic wall clock.",
+    "timing_authority": "DIAGNOSTIC_ONLY",
+    "performance_authority": "CORE-0B uninstrumented child wall remains the product performance authority."
+  },
+  "collection_design": {
+    "name": "CORE0E_FRESH_PHASE_ATTRIBUTION",
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "blocks_per_workload": 3,
+    "modes": [
+      "CONTROL_UNINSTRUMENTED",
+      "COMBINED_PHASE_TRACE"
+    ],
+    "systems": [
+      "ArcLLM",
+      "llama.cpp"
+    ],
+    "requests_per_block": 4,
+    "total_requests": 24,
+    "system_order": {
+      "block_0": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "block_1": [
+        "llama.cpp",
+        "ArcLLM"
+      ],
+      "block_2": [
+        "ArcLLM",
+        "llama.cpp"
+      ]
+    },
+    "mode_order": {
+      "block_0": [
+        "CONTROL_UNINSTRUMENTED",
+        "COMBINED_PHASE_TRACE"
+      ],
+      "block_1": [
+        "COMBINED_PHASE_TRACE",
+        "CONTROL_UNINSTRUMENTED"
+      ],
+      "block_2": [
+        "CONTROL_UNINSTRUMENTED",
+        "COMBINED_PHASE_TRACE"
+      ]
+    },
+    "adjacency_rule": "Within each mode the two systems form an adjacent matched pair before moving to the next mode.",
+    "no_early_stop": true,
+    "no_selective_rerun": true,
+    "automatic_rerun": false,
+    "first_complete_valid_collection_is_primary": true
+  },
+  "gates": {
+    "E0_COMMON_TRAJECTORY_VALIDITY": {
+      "pass_if": [
+        "Exact frozen model, W-S/W-C prompt and 31 teacher-forced decode inputs are used.",
+        "Both systems execute exactly one prefill plus 31 cached-decode calls.",
+        "Full-vocabulary finite/top-1 scans remain present after prefill and every decode call.",
+        "Predicted top-1 tokens are recorded but never fed back."
+      ],
+      "fail_class": "STOP_CORE0E_COMMON_TRAJECTORY_INVALID"
+    },
+    "E1_CONTROL_TOTAL_TRANSFER": {
+      "frozen_core0b_medians": {
+        "W-S": 6.91387843464958,
+        "W-C": 8.63225451567552
+      },
+      "pass_if": [
+        "All three CONTROL ArcLLM/llama ratios are > 1 per workload.",
+        "Per-workload CONTROL median is within multiplicative factor 1.5 of the frozen CORE-0B median.",
+        "Per-workload max_ratio/min_ratio <= 2.5."
+      ],
+      "fail_class": "STOP_CORE0E_TOTAL_TRANSFER_NOT_QUALIFIED"
+    },
+    "E2_COMBINED_TRACE_TRANSFER": {
+      "pass_if": [
+        "All six COMBINED_PHASE_TRACE matched pairs retain positive total ArcLLM excess DeltaE.",
+        "Per-workload COMBINED_PHASE_TRACE median ArcLLM/llama wall ratio is within multiplicative factor 1.5 of that workload's CONTROL median."
+      ],
+      "no_posthoc_overhead_correction": true,
+      "fail_class": "STOP_CORE0E_COMBINED_TRACE_TRANSFER_NOT_QUALIFIED"
+    },
+    "E3_PHASE_AND_GPU_MEASUREMENT_QUALIFICATION": {
+      "pass_if": [
+        "All six child markers exist, are finite monotonic timestamps, and follow the frozen strict order.",
+        "child_science_window, P1, prefill_wall, decode_transition, decode_wall and P4 are non-negative.",
+        "ArcLLM preserves exactly 1 prefill Token-XRay trace and 31 decode traces with frozen 441/469 geometry, 451 semantic nodes and 100% timestamp coverage.",
+        "llama preserves exactly 32 structurally qualified Vulkan timing groups: group 0 prefill, groups 1-31 decode.",
+        "G_prefill and G_decode are positive finite.",
+        "P2 = prefill_wall-G_prefill and P3 = (decode_wall_end-prefill_wall_end)-G_decode are non-negative on every request.",
+        "P0 = external_child_wall-child_science_window is non-negative on every request."
+      ],
+      "fail_class": "STOP_CORE0E_PHASE_MEASUREMENT_NOT_QUALIFIED"
+    },
+    "E4_PHASE_CLOSURE": {
+      "tolerance_us": 1,
+      "pass_if": [
+        "Per request, child_science_window equals P1 + prefill_wall + (decode_wall_end-prefill_wall_end) + P4 within 1 microsecond.",
+        "Per request, H_system = W-G equals P0+P1+P2+P3+P4 within 1 microsecond.",
+        "Per matched pair, DeltaH equals sum(DeltaP0..DeltaP4) within 1 microsecond.",
+        "No negative cross-system DeltaP is clamped or rewritten."
+      ],
+      "fail_class": "STOP_CORE0E_PHASE_CLOSURE_NOT_QUALIFIED"
+    },
+    "E5_H_MATERIALITY_TRANSFER": {
+      "formulas": {
+        "f_H": "DeltaH / DeltaE",
+        "q_H": "median(f_H) * (R_CORE0B - 1) / R_CORE0B"
+      },
+      "pass_if": [
+        "DeltaH > 0 on all six COMBINED_PHASE_TRACE matched pairs.",
+        "median(f_H) > 0 in both workloads.",
+        "q_H >= 0.10 in both workloads.",
+        "At least one workload has q_H >= 0.20."
+      ],
+      "fail_class": "STOP_CORE0E_H_NOT_MATERIAL_OR_TRANSFERRED"
+    }
+  },
+  "primary_phase_attribution": {
+    "per_matched_pair": {
+      "phase_excess": "DeltaP_k = P_k_arc - P_k_llama",
+      "total_excess_share": "f_Pk = DeltaP_k / DeltaE",
+      "outside_gpu_share": "h_Pk = DeltaP_k / DeltaH"
+    },
+    "reporting": [
+      "Preserve all three block values per workload.",
+      "Report median/min/max/MAD for P values, DeltaP, f_P and h_P.",
+      "Report W-S and W-C separately; do not pool before phase selection.",
+      "Preserve negative DeltaP, f_P and h_P values exactly."
+    ]
+  },
+  "phase_amdahl_gate": {
+    "opens_only_if": [
+      "E0",
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5"
+    ],
+    "current_wall_formula": "q_Pk = median(f_Pk) * (R_CORE0B - 1) / R_CORE0B",
+    "ideal_full_elimination_speedup": "S_Pk = 1 / (1 - q_Pk)",
+    "phase_eligibility": [
+      "median(f_Pk) > 0 in both workloads.",
+      "q_Pk >= 0.10 in both workloads.",
+      "At least one workload has q_Pk >= 0.20."
+    ],
+    "single_phase_priority_rule": {
+      "robust_score": "score_Pk = min(q_Pk_W-S, q_Pk_W-C)",
+      "minimum_winner_score": 0.15,
+      "material_margin_over_runner_up": 0.05,
+      "decision": "Select exactly one phase only if eligible, score >= 0.15, and score exceeds the runner-up phase by >= 0.05 absolute current-wall fraction. Otherwise return NO_SINGLE_OUTSIDE_GPU_PHASE_PRIORITY."
+    },
+    "note": "Thresholds intentionally reuse the frozen CORE-0D-R1 region-level materiality/winner rules instead of inventing weaker phase-specific thresholds after seeing parent data."
+  },
+  "successor_routing": {
+    "P0_PROCESS_ENVELOPE": "CORE-0F_PROCESS_ENVELOPE_SUBPHASE_ATTRIBUTION_PREREGISTRATION",
+    "P1_PRE_TOKEN": "CORE-0F_PRE_TOKEN_LOAD_INIT_ATTRIBUTION_PREREGISTRATION",
+    "P2_PREFILL_HOST": "CORE-0F_PREFILL_HOST_ORCHESTRATION_ATTRIBUTION_PREREGISTRATION",
+    "P3_DECODE_HOST": "CORE-0F_DECODE_HOST_ORCHESTRATION_ATTRIBUTION_PREREGISTRATION",
+    "P4_POST_TOKEN": "CORE-0F_POST_TOKEN_TEARDOWN_ATTRIBUTION_PREREGISTRATION",
+    "NO_SINGLE_OUTSIDE_GPU_PHASE_PRIORITY": "CORE-0F_OUTSIDE_GPU_MULTIPHASE_REPLICATION_PREREGISTRATION"
+  },
+  "forbidden_inferences": [
+    "P0 must not be called process-launch or I/O bottleneck.",
+    "P1 must not be called model-load or Vulkan-init bottleneck.",
+    "P2/P3 must not be called CPU bottlenecks.",
+    "P4 must not be called cleanup bottleneck.",
+    "No phase winner authorizes optimization; it authorizes only the routed successor attribution study."
+  ],
+  "valid_final_classes": [
+    "PASS_CORE0E_OUTSIDE_GPU_PHASE_ATTRIBUTION_COMPLETE",
+    "STOP_CORE0E_COMMON_TRAJECTORY_INVALID",
+    "STOP_CORE0E_TOTAL_TRANSFER_NOT_QUALIFIED",
+    "STOP_CORE0E_COMBINED_TRACE_TRANSFER_NOT_QUALIFIED",
+    "STOP_CORE0E_PHASE_MEASUREMENT_NOT_QUALIFIED",
+    "STOP_CORE0E_PHASE_CLOSURE_NOT_QUALIFIED",
+    "STOP_CORE0E_H_NOT_MATERIAL_OR_TRANSFERRED",
+    "STOP_CORE0E_COLLECTION_INCOMPLETE"
+  ],
+  "authorization": {
+    "benchmark_only_phase_marker_implementation": true,
+    "combined_phase_trace_adapter_implementation": true,
+    "static_preflight": true,
+    "zero_science_fixture_tests": true,
+    "parent_dataset_structure_only_validation": true,
+    "execution_lock_construction": true,
+    "measured_execution": false,
+    "measured_requests_authorized": 0
+  },
+  "next": "CORE0E_IMPLEMENTATION_STATIC_PREFLIGHT_AND_EXECUTION_LOCK",
+  "amendment": {
+    "supersedes": "config/core0e_outside_gpu_phase_attribution_preregistration_v0.1.json",
+    "reason": "Zero-science static closure QA found that the strict six-marker ordering permits a positive interval between prefill_wall_end and decode_wall_start. Under v0.1 that interval belonged to none of P0-P4, so the preregistered exact child-window/H closure identity was not structurally guaranteed. No measured CORE-0E request had been authorized or executed when this defect was found.",
+    "outcome_information_used": false,
+    "measured_requests_executed_before_amendment": 0,
+    "change_scope": "Phase-boundary arithmetic only. No workload, model, trajectory, instrumentation, ordering, transfer threshold, Amdahl threshold, successor-selection rule or mechanism hypothesis changes.",
+    "repair": "Retain all six strict markers and all five phases. Define a decode_transition interval = decode_wall_start - prefill_wall_end for diagnostics, and define P3_DECODE_HOST over the complete post-prefill-through-decode-end interval: P3 = (decode_wall_end - prefill_wall_end) - G_decode. Thus P3 includes the decode-transition residual plus the non-G residual inside the 31-step decode wall."
+  }
+}
