@@ -1,0 +1,468 @@
+{
+  "schema": "arcllm.runs_relocation_manifest.v1",
+  "cleanup_parent_commit": "c37521311e13398960b4d01ecb90a2804c2f5d3d",
+  "cleanup_parent_tree": "df5e9942adc3b0f4948e60a7e709f63ba0001f4b",
+  "purpose": "Repository hygiene only: relocate root-level operational PowerShell runners under runs/ without moving scientific evidence.",
+  "scientific_scope": "NO_NEW_SCIENCE",
+  "lineage_mutation": false,
+  "moved_file_count": 63,
+  "untouched_canonical_surfaces": [
+    "results/",
+    "artifacts/",
+    "config/",
+    "docs/",
+    "programs/",
+    "include/",
+    "src/",
+    "shaders/"
+  ],
+  "relocation_contract": [
+    "Each moved runner is under runs/<study>/ and resolves repository root via ..\\.. from its own directory.",
+    "References to moved root runners are rewritten to canonical runs/<study>/ paths.",
+    "Frozen scientific evidence and historical lock files are not rewritten.",
+    "For exact historical blob-locked reproduction, checkout cleanup_parent_commit before executing the historical runner."
+  ],
+  "files": [
+    {
+      "old_path": "inspect_anl64_p6_existing.ps1",
+      "new_path": "runs/anl64/inspect_anl64_p6_existing.ps1",
+      "old_blob_sha": "30d4550d70a63940d394aafb077619b24901b1fd",
+      "new_blob_sha": "30552e9ffba6018c423cc11368dc8756f5e7ce1c",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "package_q3.ps1",
+      "new_path": "runs/q/package_q3.ps1",
+      "old_blob_sha": "e9c3085a189f17fb77454ba34733512e62ebda9c",
+      "new_blob_sha": "32d6a4047ba104bdcf1fffc3c099b8c07e04d849",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "recover_anl64_p6_after_interruption.ps1",
+      "new_path": "runs/anl64/recover_anl64_p6_after_interruption.ps1",
+      "old_blob_sha": "20d220d6357454cc7de38338eba7f6fce53c20a0",
+      "new_blob_sha": "47b8198362a1c0e6119999055e328f5b9faaf33a",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "recover_arcllm_v1_m3b_bundle.ps1",
+      "new_path": "runs/arcllm_v1/recover_arcllm_v1_m3b_bundle.ps1",
+      "old_blob_sha": "5e500f918a4b92bf5998ca9d6a434b89918b64b7",
+      "new_blob_sha": "f8b73132af9b60520a4c0b694d5a987654b700ba",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "recover_arcllm_v1_q4_down_4arm_native_counter.ps1",
+      "new_path": "runs/arcllm_v1/recover_arcllm_v1_q4_down_4arm_native_counter.ps1",
+      "old_blob_sha": "1f76af4fe2f810b868330bba6094cc0eabd8b405",
+      "new_blob_sha": "8612a4019efcf713824729b54956feffc8923ee2",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_anl64_p4_buildonly.ps1",
+      "new_path": "runs/anl64/run_anl64_p4_buildonly.ps1",
+      "old_blob_sha": "f33179a96f83868acc77e808a6fa508311e2fd7e",
+      "new_blob_sha": "84340bf753380c2bf9a633248079240ba40cd6a1",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_anl64_p5_integration.ps1",
+      "new_path": "runs/anl64/run_anl64_p5_integration.ps1",
+      "old_blob_sha": "5b03752a2a3924ceaa63b034e01d780e0fff4f75",
+      "new_blob_sha": "f3bd8cc0759db2ad3cfd13a254bbd452addc8741",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_anl64_p6_confirmatory.ps1",
+      "new_path": "runs/anl64/run_anl64_p6_confirmatory.ps1",
+      "old_blob_sha": "40c4941b1764fdd7a1f83be554e39fda1764151c",
+      "new_blob_sha": "8b751cad8f4feca210c56798829fe1bf71e1af85",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_b1_2_performance_buildonly.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_b1_2_performance_buildonly.ps1",
+      "old_blob_sha": "fd5d0287bfdeddb93accb67c4801459bbe93a9a4",
+      "new_blob_sha": "d2cbe0df03ab77fec48c9529750eed859b3899e7",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_b1_2_performance_one_shot.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_b1_2_performance_one_shot.ps1",
+      "old_blob_sha": "1c733795ca7be3621cde567f3bb0e62d9166b52e",
+      "new_blob_sha": "ff59c8d145350f7696fb4dbcf3cf53ec68941bda",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_b1_2_zero_science.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_b1_2_zero_science.ps1",
+      "old_blob_sha": "fc19b94774462d93571547d1623d00d9a0ae54a5",
+      "new_blob_sha": "2ebf0354c3f7d0916eeda420337e06c515a87873",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_i001r.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_i001r.ps1",
+      "old_blob_sha": "85485c2b992754617aee1a96361f62019bc0e41a",
+      "new_blob_sha": "a972b8aad6f2c85e71b993a420df633b55a505ff",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_i002_preflight.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_i002_preflight.ps1",
+      "old_blob_sha": "f611dfa1151af06ffb516ac2963cc07a1164bce1",
+      "new_blob_sha": "867f44d0ad47cb26899c77372271b8a02a004749",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_i002_t1.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_i002_t1.ps1",
+      "old_blob_sha": "5129617ab16cbd3b784e4d049f66337dba8266d3",
+      "new_blob_sha": "4acd703c3a7740a8c58bf4b53417ecbc71e5ee83",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_i002_t3.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_i002_t3.ps1",
+      "old_blob_sha": "914920dd21f2db7ca2fa1f5f74da846c2556bb2b",
+      "new_blob_sha": "07850f32fbf64f19c54198c18ad989e4d6bcecbf",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_i003_preflight.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_i003_preflight.ps1",
+      "old_blob_sha": "caee24619b21708099f14a071b8870bf9a197ef2",
+      "new_blob_sha": "3d206e6b3bc6ebbfab1799c2c4f10ad85b2f6de1",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_i003.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_i003.ps1",
+      "old_blob_sha": "81892abb9ffcaa94b59076be53116f4b65e460b4",
+      "new_blob_sha": "f9fd5059d2c1a1f21c2044c1bbf960efd8741a6b",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_m0.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_m0.ps1",
+      "old_blob_sha": "bc3254b1a7791c20dd68aa30bae3b7cd4c1cb138",
+      "new_blob_sha": "429f7507ca148d4c707e9e5dfdaff8af1498e361",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_m1.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_m1.ps1",
+      "old_blob_sha": "de35a93872a71f228c3a6ccfb3940c0057b46130",
+      "new_blob_sha": "2953945db20b8cf694a048c44db2ad8162d9f91d",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_m2.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_m2.ps1",
+      "old_blob_sha": "3d813f1bde0a8850f3a0146ea732c1043faed52a",
+      "new_blob_sha": "1bddb15a0aaaee701326c91f34d0aa908495ecf2",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_m3_capability_probe.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_m3_capability_probe.ps1",
+      "old_blob_sha": "5e6c064df1cf3ac942454da912255b71ae1a8958",
+      "new_blob_sha": "30e4a11ba6a1274bbac73d3fe392953e10919413",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_m3b.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_m3b.ps1",
+      "old_blob_sha": "d54fb618309246bac2c005925297a522d8c08434",
+      "new_blob_sha": "1909bee0de0b7d2fda1e1d2e50b23ff09363d688",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_q4_down_4arm_buildonly.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_q4_down_4arm_buildonly.ps1",
+      "old_blob_sha": "fb3e682ef66abf7d3d961a27ba45990d0f8ac12a",
+      "new_blob_sha": "92a2e1e400005b4cdf574d0a8d8a7d02bc7e2b74",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_q4_down_4arm_correctness.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_q4_down_4arm_correctness.ps1",
+      "old_blob_sha": "3aa4bb3d1089c272ca37604346bb34f78d9b64aa",
+      "new_blob_sha": "e9e66fb3a8efe3823e393a966e247ed598163b0c",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_q4_down_4arm_native_counter_buildonly.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_q4_down_4arm_native_counter_buildonly.ps1",
+      "old_blob_sha": "e313b86cce8e4e9518529039f81b7e92bdc5a28f",
+      "new_blob_sha": "c5e29e6aaa1bab578a6bf70a41e3c8fecf10b763",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_q4_down_4arm_native_counter.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_q4_down_4arm_native_counter.ps1",
+      "old_blob_sha": "9cc411cd847fbbfcac15277506b2dcc97fc190bb",
+      "new_blob_sha": "96c551c4ebbb75c080f2350b42abc76bb87332f9",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_q4_down_4arm_primary_timing_buildonly.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_q4_down_4arm_primary_timing_buildonly.ps1",
+      "old_blob_sha": "0d545e5f816cb7164f0419f4b5daab289c83d35a",
+      "new_blob_sha": "e83b98d8a5725c880eedf1617a56c129882231b8",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_arcllm_v1_q4_down_4arm_primary_timing.ps1",
+      "new_path": "runs/arcllm_v1/run_arcllm_v1_q4_down_4arm_primary_timing.ps1",
+      "old_blob_sha": "f76a09ca764b97e5c4924b0dc664d9a44fd5bae2",
+      "new_blob_sha": "ba278c165abc895e462e9faeb88ef5bda2f9ea75",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p7h.ps1",
+      "new_path": "runs/p7/run_p7h.ps1",
+      "old_blob_sha": "5c32049599acabb8ffe18fcce6c981edafba3f37",
+      "new_blob_sha": "79a240c7859edbfdb00c04bddfde621dff4a2f52",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p7i.ps1",
+      "new_path": "runs/p7/run_p7i.ps1",
+      "old_blob_sha": "b805ef36cf31f5c2cf23325d6dfe4f0841441ace",
+      "new_blob_sha": "c04ca936c314766517d6f79be3f4f828188b824d",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p7j.ps1",
+      "new_path": "runs/p7/run_p7j.ps1",
+      "old_blob_sha": "a6cb7b96c62a7dc063aa52f0a948780429d6fe5d",
+      "new_blob_sha": "c8a4ef384d0faf0b37c6ad49ecf3c97eaa82508d",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p7k.ps1",
+      "new_path": "runs/p7/run_p7k.ps1",
+      "old_blob_sha": "03cbb888023d38c5f3c07b74ee80dce156be148e",
+      "new_blob_sha": "a391cc43a49ee38b5ec5e6c0c9c53f2395f5e13f",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p7l.ps1",
+      "new_path": "runs/p7/run_p7l.ps1",
+      "old_blob_sha": "425319343280af1880bc7ccf02e059c71ed17b5c",
+      "new_blob_sha": "51bd66282ea4a6854432e10c73171015141a91c8",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p7m.ps1",
+      "new_path": "runs/p7/run_p7m.ps1",
+      "old_blob_sha": "46d69238843c05752cebaf7e6a2f7845c8d92620",
+      "new_blob_sha": "0bb673a04f1f7e07bcf0e5ac208b4a4d5ccb087b",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p7n.ps1",
+      "new_path": "runs/p7/run_p7n.ps1",
+      "old_blob_sha": "4bcbed5e4463448e781bfe7b7d4eb1e80bb61ff7",
+      "new_blob_sha": "9039bac67498a26c349dc001318d34718f9b7210",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p7o.ps1",
+      "new_path": "runs/p7/run_p7o.ps1",
+      "old_blob_sha": "769f9a3b870b6051cd2d63b2eb99a82ce3e89a13",
+      "new_blob_sha": "1ddf93d63eb829b441bb46eebefd3fb2bf96d7d8",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p8a.ps1",
+      "new_path": "runs/p8/run_p8a.ps1",
+      "old_blob_sha": "acda6fc0f773698de015db0becc5633e596d0c28",
+      "new_blob_sha": "04a1a7c8fb25cb6de46579c1087069eea3ca5e5a",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p8a2.ps1",
+      "new_path": "runs/p8/run_p8a2.ps1",
+      "old_blob_sha": "41d864d230ab30dcfa40f586d4f0d81b1be7a9ef",
+      "new_blob_sha": "3da01bb754b7703006b6b745e33cca8f63da92b8",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p8b.ps1",
+      "new_path": "runs/p8/run_p8b.ps1",
+      "old_blob_sha": "fc04f98b774d112fcda6ff4e41011dcae07536e8",
+      "new_blob_sha": "8298d304bf20098dba373f863a3284709630bb07",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p8c.ps1",
+      "new_path": "runs/p8/run_p8c.ps1",
+      "old_blob_sha": "14aadbc599cd7e59467d00d088c8b99fd364772a",
+      "new_blob_sha": "4ecd3dd8908079845544cb4462cac2bda408d571",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p8d.ps1",
+      "new_path": "runs/p8/run_p8d.ps1",
+      "old_blob_sha": "4ffde820ba82470f7f53bdc7134916e7185ec979",
+      "new_blob_sha": "d1d1f640598d351287f28d289114a0ecc280d7c3",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p8e.ps1",
+      "new_path": "runs/p8/run_p8e.ps1",
+      "old_blob_sha": "6ed471521d3643a8dccb75bd927faa256268cd76",
+      "new_blob_sha": "d688eb6307cca655806569ea280de9a3cdc7b20a",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p8f.ps1",
+      "new_path": "runs/p8/run_p8f.ps1",
+      "old_blob_sha": "20193f0d588c1046f5574cdb6cf5af628b14f31e",
+      "new_blob_sha": "e0496506a2582f7fc013df68138d67eceb890e59",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p8g.ps1",
+      "new_path": "runs/p8/run_p8g.ps1",
+      "old_blob_sha": "3c04e4fb1a525bc551fc881416d1e016ea51b50b",
+      "new_blob_sha": "63bc48a5c8472118da703abfbe70a864930a2b5e",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p8g1.ps1",
+      "new_path": "runs/p8/run_p8g1.ps1",
+      "old_blob_sha": "fa9e8e49e8cfb8d455c5a36a1ffbb57f8de47bba",
+      "new_blob_sha": "146e2cd420063914d5a1934c82d0e6d69a70ad11",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p8g2.ps1",
+      "new_path": "runs/p8/run_p8g2.ps1",
+      "old_blob_sha": "9cc87dc6a1850bda838cb3787a47ef075f1f310a",
+      "new_blob_sha": "baf4020acac79854ffdc3470b4f4a635802aac33",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p8g3.ps1",
+      "new_path": "runs/p8/run_p8g3.ps1",
+      "old_blob_sha": "165fc24e967cbf7a06e77ea889e3c9f566a5f13d",
+      "new_blob_sha": "dada7de046e3086fd823ac9c7d0abc1532beeca0",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p8g4.ps1",
+      "new_path": "runs/p8/run_p8g4.ps1",
+      "old_blob_sha": "82f0dd77ddebfcb49ec38a5958921494b02db8be",
+      "new_blob_sha": "1bb2882264cc2d0bcdf9fcf87dfafa65ca28694b",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p8g5.ps1",
+      "new_path": "runs/p8/run_p8g5.ps1",
+      "old_blob_sha": "c76670a6bd864cee4372b616809dd09dc4b39540",
+      "new_blob_sha": "1efc32fa7c3911a07dd1346387acaaac1b805f33",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_p8g6.ps1",
+      "new_path": "runs/p8/run_p8g6.ps1",
+      "old_blob_sha": "61a977a277cc6b4b9271d435599353a47527c684",
+      "new_blob_sha": "d5b5d5b5f13025e629a1d9d130c96fbf823208c8",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_q1.ps1",
+      "new_path": "runs/q/run_q1.ps1",
+      "old_blob_sha": "601b8eb2ed3dfd09c6dbe7c466182bbd584ed34f",
+      "new_blob_sha": "a15111cc94037f7bb2863c76ca921684ebd62246",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_q2_preflight.ps1",
+      "new_path": "runs/q/run_q2_preflight.ps1",
+      "old_blob_sha": "27a82ca2906e5156e7f7eedfd0a41ce96ac59120",
+      "new_blob_sha": "0052e667f26c64d830290629ea37e9db83d19e8b",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_q2.ps1",
+      "new_path": "runs/q/run_q2.ps1",
+      "old_blob_sha": "0e328171aeb4394d319a2714e58fcba14da87110",
+      "new_blob_sha": "d4ee2362d80b23ccec26265416ece48a7e964c0b",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_q3_preflight.ps1",
+      "new_path": "runs/q/run_q3_preflight.ps1",
+      "old_blob_sha": "4fcca3b8e803f27060513876dcf1865e13089e15",
+      "new_blob_sha": "ebdf341cb330808b9ba39b5a2151d4c4a86fbfa5",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_q3.ps1",
+      "new_path": "runs/q/run_q3.ps1",
+      "old_blob_sha": "addaa99cd16a6139673fed00e3574717b480b9e4",
+      "new_blob_sha": "3de65c41aa60c5b645259bf3661a641e829b3232",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_q6cb2_identification.ps1",
+      "new_path": "runs/q/run_q6cb2_identification.ps1",
+      "old_blob_sha": "35179043cbb2657e285944625a91aa74fc9f141f",
+      "new_blob_sha": "ad93e87d0f2606629f895e62bcc367079f0c25e7",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_sa0_capability_preflight.ps1",
+      "new_path": "runs/sa/run_sa0_capability_preflight.ps1",
+      "old_blob_sha": "07dee855503ff5b85081d4b44e2084fe784191ee",
+      "new_blob_sha": "70ac4579a43867d2958f849ccfc732243b8d17a3",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_sa1_component_preflight.ps1",
+      "new_path": "runs/sa/run_sa1_component_preflight.ps1",
+      "old_blob_sha": "c08c651761ac61ede7c4b61a701d9c374d154201",
+      "new_blob_sha": "10d5354f34d516f965c803d0b86613691e8b81d1",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_sa1_component_q4.ps1",
+      "new_path": "runs/sa/run_sa1_component_q4.ps1",
+      "old_blob_sha": "1441ebe8bbe671711551cc3a87bbac08b84a7ffe",
+      "new_blob_sha": "4e2aadba9820479f1b8523ad17fe12771a4634f9",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_sa1_component_q6.ps1",
+      "new_path": "runs/sa/run_sa1_component_q6.ps1",
+      "old_blob_sha": "99c2e390a0b5d123dcb41fd6491f32db515b628f",
+      "new_blob_sha": "d1996eacf2a63be484062f757d808e00047da52e",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_ttft_m1_p6_buildonly.ps1",
+      "new_path": "runs/ttft/run_ttft_m1_p6_buildonly.ps1",
+      "old_blob_sha": "4f7500bb2b0e3bc0b334a3f41c1244fcdc55d545",
+      "new_blob_sha": "cfa9068384f82f87df30c362fe8bae88cbed3414",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_ttft_m2_buildonly.ps1",
+      "new_path": "runs/ttft/run_ttft_m2_buildonly.ps1",
+      "old_blob_sha": "4722e86a01453d973ee2122b49229b80bf7d84f6",
+      "new_blob_sha": "f2dc36e3e2e9b22c3e2c79297c82651514193132",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    },
+    {
+      "old_path": "run_ttft_m2_p9b_buildonly.ps1",
+      "new_path": "runs/ttft/run_ttft_m2_p9b_buildonly.ps1",
+      "old_blob_sha": "91e2a071d764b02ce328d4fa40248a68bdedd144",
+      "new_blob_sha": "0bb8beb9693c639c81cc491574ebcc95b85a730a",
+      "change_class": "PATH_BOOTSTRAP_AND_CROSS_RUN_REFERENCE_RELOCATION_ONLY"
+    }
+  ]
+}
