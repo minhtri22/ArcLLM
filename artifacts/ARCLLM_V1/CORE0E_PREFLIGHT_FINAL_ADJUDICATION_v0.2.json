@@ -1,0 +1,64 @@
+{
+  "schema": "arcllm.core0e.preflight_final_adjudication.v0.2",
+  "date": "2026-09-30",
+  "verdict": "PASS_CORE0E_IMPLEMENTATION_STATIC_PREFLIGHT",
+  "open_findings": 0,
+  "classification": "ZERO_SCIENCE_IMPLEMENTATION_STATIC_PREFLIGHT",
+  "preregistration": {
+    "active": "config/core0e_outside_gpu_phase_attribution_preregistration_v0.2.json",
+    "superseded": "config/core0e_outside_gpu_phase_attribution_preregistration_v0.1.json",
+    "amendment_reason": "Static synthetic closure QA found an unassigned prefill-end to decode-start transition under v0.1. v0.2 prospectively includes that transition inside P3_DECODE_HOST before any measured authorization.",
+    "measured_requests_before_amendment": 0,
+    "outcome_information_used": false
+  },
+  "native_build": {
+    "status": "PASS_CORE0E_BUILD_AND_ZERO_SCIENCE_SELF_TESTS",
+    "arc_combined_sha256": "7446E53575E0BD52B62951CB486F1BBD33437211224C18F58FC322D67992EE0E",
+    "llama_combined_sha256": "0514FBA35C7CCD4B2C6BC1F6C869D565EA6FE6C73E1CFD60F1EA9AB46257405E",
+    "compiler": "MSVC 19.44.35226.0",
+    "build_frontend": "CMake + Ninja -j1",
+    "vulkan_sdk": "1.4.357.0",
+    "token_xray_source": "REAL_REPO @ 35f86ac68f98ffe60fc441a790274cd1f1269dfe",
+    "llama_source": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4"
+  },
+  "generated_runtime_sha256": {
+    "core0e_arcllm_combined_runtime.cpp": "A561959BB4F545C238478D5E15A8FBD0490ED4C50B7D133FBE79CC165B855581",
+    "core0e_arcllm_trace_vulkan_runtime_support.h": "8BACF34BEE29796EA3DBDBDE3174403EFD7CA25D5ED7F08922EF8D60B7A55004",
+    "core0e_arcllm_trace_q4_vulkan_backend_v4_runtime.h": "6AD34DC916B22FB660C4492A01553A0709CA38083196A554044BE1390BA9E168"
+  },
+  "primary_preflight": {
+    "verdict": "PASS_CORE0E_ZERO_SCIENCE_PREFLIGHT",
+    "open_findings": 0,
+    "evidence_blob": "b260a3572caead83a22823402c7087bdf062d3f1"
+  },
+  "independent_preflight": {
+    "verdict": "PASS_CORE0E_INDEPENDENT_PREFLIGHT",
+    "open_findings": 0,
+    "evidence_blob": "f7fb2c9e8f4a8bb34185b20a5a368aa5d09e1baf"
+  },
+  "build_evidence_blob": "e8e9dbff1a94623bf4deeb76702d3f506028d05e",
+  "native_build_provenance_blob": "eaf9bda7e549edfe8b61225011b02b5023a7c593",
+  "zero_science_checks": [
+    "Arc COMBINED binary compiles and self-tests.",
+    "llama COMBINED binary compiles and self-tests.",
+    "Token-XRay/llama pins are exact and clean.",
+    "CORE0D-R1 Vulkan perf parser self-test passes.",
+    "CORE0E v0.2 phase-decomposition/closure fixtures pass.",
+    "24-request runner fixture and fail-closed authorization checks pass.",
+    "Deterministic Arc derivative rematerialization reproduces frozen generated hashes.",
+    "Six phase markers and child-window serialization order are statically qualified on both systems.",
+    "Parent CORE0D-R1 dataset is used only structurally; parent phase timing magnitudes are not used.",
+    "Canonical ArcLLM runtime/kernel/shader sources are unchanged."
+  ],
+  "boundaries": {
+    "model_inference_executed": false,
+    "measured_requests_executed": 0,
+    "measured_authorization_opened_during_preflight": false,
+    "product_runtime_modified": false,
+    "llama_source_modified": false,
+    "optimization": false,
+    "mechanism_selection": false,
+    "npu": false
+  },
+  "next": "FREEZE_CORE0E_EXECUTION_LOCK_THEN_AUTHORIZE_ONE_FRESH_24_REQUEST_COLLECTION"
+}
