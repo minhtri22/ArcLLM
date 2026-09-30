@@ -6,6 +6,7 @@ param(
 )
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Here=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Here "runs\_relocation_compat.ps1")
 $Results=Join-Path $Here "results";New-Item -ItemType Directory -Force -Path $Results|Out-Null
 $ExpectedModelHash="60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463"
 $ExpectedModelBytes=[int64]4683074048

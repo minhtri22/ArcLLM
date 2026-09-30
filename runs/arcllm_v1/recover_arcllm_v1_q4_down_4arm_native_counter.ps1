@@ -1,6 +1,7 @@
 param()
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Root=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 $Marker=Join-Path $Root ".local\Q4_DOWN_4ARM_NATIVE_COUNTER_SCIENCE_STARTED.json"
 if(-not(Test-Path $Marker)){throw "STOP: science-start marker missing; no completed collection to recover"}
 $M=Get-Content $Marker -Raw|ConvertFrom-Json

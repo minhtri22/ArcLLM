@@ -1,6 +1,7 @@
 param([string]$ModelPath = "")
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Here=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Here "runs\_relocation_compat.ps1")
 $Cfg=Get-Content (Join-Path $Here "config\p0_target.json") -Raw -Encoding UTF8 | ConvertFrom-Json
 $P7L=Get-Content (Join-Path $Here "inputs\p7l_summary.authoritative.json") -Raw -Encoding UTF8 | ConvertFrom-Json
 $OutDir=Join-Path $Here "results";$ResultPath=Join-Path $OutDir "p7m_profile_results.json";$SummaryPath=Join-Path $OutDir "p7m_summary.json";$ShaderDir=Join-Path $Here "compiled_shaders";$ExePath=Join-Path $Here "arcllm_p7m.exe";New-Item -ItemType Directory -Force -Path $OutDir|Out-Null

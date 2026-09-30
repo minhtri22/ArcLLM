@@ -3,6 +3,7 @@ $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
 
 $Root = (Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 $LockPath = Join-Path $Root "config\arcllm_ttft_m2_execution_lock_v0.1.json"
 $P7AuthPath = Join-Path $Root "config\arcllm_ttft_m2_p7_buildonly_authorization_v0.1.json"
 $PackageManifestPath = Join-Path $Root "config\arcllm_ttft_m2_package_manifest_v0.1.json"

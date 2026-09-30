@@ -4,6 +4,7 @@ param(
 )
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Here=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Here "runs\_relocation_compat.ps1")
 $Results=Join-Path $Here "results";New-Item -ItemType Directory -Force $Results|Out-Null
 $ExpectedParent="1ade625ae60acaa9ebeb43890d53a198c200d576"
 $ExpectedDriver="32.0.101.8860"
@@ -70,7 +71,7 @@ $CriticalHashes=[ordered]@{};$CriticalBlobs=[ordered]@{}
 foreach($Rel in $Critical){
   $P=Join-Path $Here $Rel
   $CriticalHashes[$Rel]=Sha $P
-  $CriticalBlobs[$Rel]=((& git -C $Here rev-parse ("HEAD:"+$Rel)).Trim())
+  $CriticalBlobs[$Rel]=((Get-RunLogicalGitBlob -RepoRoot $Here -Path $Rel))
 }
 $Build=Get-Content $BuildManifest -Raw -Encoding UTF8|ConvertFrom-Json
 if([string]$Build.git_head -ne $Head){throw "SA0-CAP build manifest HEAD mismatch"}

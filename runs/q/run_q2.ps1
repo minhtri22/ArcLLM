@@ -7,6 +7,7 @@ param(
 )
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Here=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Here "runs\_relocation_compat.ps1")
 $ResultsRoot=Join-Path $Here "results";New-Item -ItemType Directory -Force -Path $ResultsRoot|Out-Null
 if(-not $SessionDir){$SessionDir=Join-Path $ResultsRoot ("q2_"+(Get-Date).ToUniversalTime().ToString("yyyyMMdd-HHmmss"))}
 New-Item -ItemType Directory -Force -Path $SessionDir|Out-Null

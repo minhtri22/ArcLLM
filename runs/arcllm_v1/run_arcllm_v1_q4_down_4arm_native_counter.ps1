@@ -1,6 +1,7 @@
 param([switch]$QuietHostConfirmed,[string]$ModelPath,[string]$OllamaModelsRoot)
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Root=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 $LockPath=Join-Path $Root "config\arcllm_v1_q4_down_4arm_native_counter_execution_lock_v0.2.json"
 if(-not(Test-Path $LockPath)){throw "STOP: final native-counter execution lock v0.2 missing"}
 $L=Get-Content $LockPath -Raw|ConvertFrom-Json
@@ -8,7 +9,7 @@ if(-not[bool]$L.authorization.counter_execution_authorized){throw "STOP: counter
 if([bool]$L.authorization.primary_timing -or [bool]$L.authorization.token_xray -or [bool]$L.authorization.child_c){throw "STOP: forbidden scope opened"}
 if(-not $QuietHostConfirmed){throw "STOP: exact native-counter campaign requires -QuietHostConfirmed"}
 $Tracked=(git -C $Root status --porcelain --untracked-files=no|Out-String);if(-not[string]::IsNullOrWhiteSpace($Tracked)){throw "STOP: tracked worktree dirty"}
-foreach($P in $L.critical_git_blobs.PSObject.Properties){$Got=(& git -C $Root rev-parse ("HEAD:"+$P.Name)).Trim();if($LASTEXITCODE-ne0-or$Got-ne[string]$P.Value){throw "STOP: critical blob mismatch: $($P.Name)"}}
+foreach($P in $L.critical_git_blobs.PSObject.Properties){$Got=(Get-RunLogicalGitBlob -RepoRoot $Root -Path $P.Name);if($LASTEXITCODE-ne0-or$Got-ne[string]$P.Value){throw "STOP: critical blob mismatch: $($P.Name)"}}
 py -3 (Join-Path $Root "tests\test_arcllm_v1_q4_down_4arm_native_counter.py");if($LASTEXITCODE-ne0){throw "STOP: static QA failed"}
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Root "tools\compile_arcllm_v1_q4_down_4arm.ps1");if($LASTEXITCODE-ne0){throw "STOP: shader provenance failed"}
 $Exe=Join-Path $Root "arcllm_v1_q4_down_4arm_native_counter.exe"

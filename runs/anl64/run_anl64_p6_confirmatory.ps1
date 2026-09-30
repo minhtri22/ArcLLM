@@ -9,6 +9,7 @@ $ErrorActionPreference="Stop"
 Set-StrictMode -Version Latest
 
 $Root=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 $AuthPath=Join-Path $Root "config\anl64_p6_execution_authorization_v0.1.json"
 $LockPath=Join-Path $Root "config\anl64_p6_execution_lock_v0.1.json"
 $ResultsRoot=Join-Path $Root "results\anl64_p6_confirmatory"
@@ -21,10 +22,7 @@ $ReferenceShaderDir=Join-Path $Root "compiled_shaders"
 function Fail([string]$Message){throw "ANL64_P6_FAIL_CLOSED: $Message"}
 function Require([bool]$Condition,[string]$Message){if(-not $Condition){Fail $Message}}
 function GitBlob([string]$Path){
-  $p=$Path -replace '\\','/'
-  $v=(& git -C $Root rev-parse ("HEAD:"+$p) 2>$null)
-  if($LASTEXITCODE -ne 0){Fail "cannot resolve Git blob for $Path"}
-  return $v.Trim()
+  return Get-RunLogicalGitBlob -RepoRoot $Root -Path $Path
 }
 function Sha256([string]$Path){
   Require (Test-Path $Path -PathType Leaf) "missing file: $Path"

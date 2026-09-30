@@ -2,6 +2,7 @@ $ErrorActionPreference="Stop"
 Set-StrictMode -Version Latest
 
 $Root=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 $ResultsRoot=Join-Path $Root "results\anl64_p6_confirmatory"
 
 function Sha256([string]$Path){

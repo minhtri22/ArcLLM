@@ -1,6 +1,7 @@
 param()
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Root=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 $Branch=(& git -C $Root rev-parse --abbrev-ref HEAD).Trim()
 if($Branch-ne"research/arcllm-v1"){throw "STOP: wrong branch"}
 $Tracked=(git -C $Root status --porcelain --untracked-files=no|Out-String)

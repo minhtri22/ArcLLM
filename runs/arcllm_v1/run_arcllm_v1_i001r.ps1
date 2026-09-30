@@ -4,6 +4,7 @@ param(
 )
 $ErrorActionPreference="Stop"; Set-StrictMode -Version Latest
 $Root=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 $ContractPath=Join-Path $Root "config\arcllm_v1_i001r_profile_contract_v0.1.3.json"
 if(-not(Test-Path $ContractPath)){throw "I001R contract missing"}
 $C=Get-Content $ContractPath -Raw -Encoding UTF8 | ConvertFrom-Json
@@ -19,7 +20,7 @@ $Tracked=(git -C $Root status --porcelain --untracked-files=no | Out-String)
 if(-not [string]::IsNullOrWhiteSpace($Tracked)){throw "Tracked worktree is dirty"}
 
 foreach($P in $C.critical_git_blobs.PSObject.Properties){
-  $Got=(& git -C $Root rev-parse ("HEAD:"+$P.Name)).Trim()
+  $Got=(Get-RunLogicalGitBlob -RepoRoot $Root -Path $P.Name)
   if($LASTEXITCODE -ne 0 -or $Got -ne [string]$P.Value){throw "Git blob mismatch: $($P.Name)"}
 }
 

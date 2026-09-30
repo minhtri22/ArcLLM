@@ -1,6 +1,7 @@
 param()
 $ErrorActionPreference="Stop"; Set-StrictMode -Version Latest
 $Root=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 $Dir=Join-Path $Root "results\m3b_hardware_counters"
 $LockPath=Join-Path $Root "config\arcllm_v1_m3b_lock_v0.1.json"
 $Lock=Get-Content $LockPath -Raw -Encoding UTF8 | ConvertFrom-Json

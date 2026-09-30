@@ -1,6 +1,7 @@
 param([string]$VulkanSdkRoot,[switch]$PackageExisting,[switch]$PackageFailedExisting,[ValidateSet("Q4","Q6")][string]$Quant="Q4")
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Root=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path;$Results=Join-Path $Root "results";$BuildDir=Join-Path $Root "artifacts\SA1_K1\build"
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 New-Item -ItemType Directory -Force $Results,$BuildDir|Out-Null
 if($Quant-eq"Q6"){
  if($PackageExisting){throw "SA1-K2 Q6 PackageExisting is not authorized before a first valid preflight artifact set exists"}

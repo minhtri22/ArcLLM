@@ -1,6 +1,7 @@
 param([string]$ModelPath,[string]$OllamaModelsRoot)
 $ErrorActionPreference="Stop"; Set-StrictMode -Version Latest
 $Root=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 $Cfg=Get-Content (Join-Path $Root "config\p8_target.json") -Raw -Encoding UTF8 | ConvertFrom-Json
 $Lock=Get-Content (Join-Path $Root "config\arcllm_v1_m0_tensor_census_lock_v0.1.json") -Raw -Encoding UTF8 | ConvertFrom-Json
 if(-not $ModelPath){
@@ -17,9 +18,9 @@ if($Hash -ne ([string]$Cfg.sha256).ToUpperInvariant()){throw "M0 SHA256 mismatch
 $Branch=(git -C $Root branch --show-current).Trim()
 if($Branch -ne [string]$Lock.branch){throw "M0 wrong branch: $Branch"}
 foreach($Entry in $Lock.critical_git_blobs.PSObject.Properties){
-  $Path=Join-Path $Root $Entry.Name
+  $Path=Resolve-RunPhysicalPath -RepoRoot $Root -Path $Entry.Name
   if(-not(Test-Path $Path)){throw "M0 critical file missing: $($Entry.Name)"}
-  $Got=(git -C $Root hash-object -- $Entry.Name).Trim()
+  $Got=(Get-RunLogicalGitBlob -RepoRoot $Root -Path $Entry.Name)
   if($Got -ne [string]$Entry.Value){throw "M0 critical blob mismatch: $($Entry.Name) got=$Got expected=$($Entry.Value)"}
 }
 py -3 (Join-Path $Root "tests\test_arcllm_v1_m0_package.py")

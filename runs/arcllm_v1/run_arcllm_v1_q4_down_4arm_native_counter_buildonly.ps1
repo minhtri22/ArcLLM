@@ -1,6 +1,7 @@
 param()
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Root=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 $LockPath=Join-Path $Root "config\arcllm_v1_q4_down_4arm_native_counter_execution_lock_v0.1.json"
 if(-not(Test-Path $LockPath)){throw "STOP: Q4 native-counter candidate lock missing"}
 $L=Get-Content $LockPath -Raw|ConvertFrom-Json
@@ -11,7 +12,7 @@ $Head=(& git -C $Root rev-parse HEAD).Trim();$Remote=(& git -C $Root rev-parse o
 if($Head-ne$Remote){throw "STOP: local HEAD != remote research/arcllm-v1"}
 $Tracked=(git -C $Root status --porcelain --untracked-files=no|Out-String)
 if(-not[string]::IsNullOrWhiteSpace($Tracked)){throw "STOP: tracked worktree dirty"}
-foreach($P in $L.critical_git_blobs.PSObject.Properties){$Got=(& git -C $Root rev-parse ("HEAD:"+$P.Name)).Trim();if($LASTEXITCODE-ne0-or$Got-ne[string]$P.Value){throw "STOP: critical blob mismatch: $($P.Name)"}}
+foreach($P in $L.critical_git_blobs.PSObject.Properties){$Got=(Get-RunLogicalGitBlob -RepoRoot $Root -Path $P.Name);if($LASTEXITCODE-ne0-or$Got-ne[string]$P.Value){throw "STOP: critical blob mismatch: $($P.Name)"}}
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Root "tools\qualify_arcllm_v1_q4_down_4arm_native_counter_buildonly.ps1")
 if($LASTEXITCODE-ne0){throw "STOP: Q4 native-counter zero-science QA failed"}
 $BPath=Join-Path $Root "results\Q4_DOWN_4ARM_NATIVE_COUNTER_BUILDONLY.json";$B=Get-Content $BPath -Raw|ConvertFrom-Json

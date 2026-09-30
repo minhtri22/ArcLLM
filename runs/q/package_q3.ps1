@@ -1,6 +1,7 @@
 param()
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Here=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Here "runs\_relocation_compat.ps1")
 $Results=Join-Path $Here "results"
 $A=Join-Path $Results "q3_session_A";$B=Join-Path $Results "q3_session_B"
 foreach($D in @($A,$B)){if(-not(Test-Path (Join-Path $D "q3_session_complete.json"))){throw "Q3 packaging requires completed Session A and Session B"}}

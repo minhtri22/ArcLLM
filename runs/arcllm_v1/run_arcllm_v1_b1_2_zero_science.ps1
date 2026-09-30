@@ -2,6 +2,7 @@ param([string]$ModelPath,[string]$OllamaModelsRoot)
 $ErrorActionPreference="Stop"
 Set-StrictMode -Version Latest
 $Root=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 
 $Branch=(& git -C $Root rev-parse --abbrev-ref HEAD).Trim()
 if($Branch-ne"research/arcllm-v1"){throw "STOP: wrong branch"}
@@ -25,7 +26,7 @@ $Critical=[ordered]@{
 # p7_q4k_gemm_2d.comp is inherited through historical source provenance; only verify paths that exist with pinned blob below.
 $Critical.Remove("shaders/p7_q4k_gemm_2d.comp")
 foreach($P in $Critical.Keys){
- $Got=(& git -C $Root rev-parse ("HEAD:"+$P)).Trim()
+ $Got=(Get-RunLogicalGitBlob -RepoRoot $Root -Path $P)
  if($LASTEXITCODE-ne0-or$Got-ne[string]$Critical[$P]){throw "STOP: critical scientific blob mismatch: $P"}
 }
 

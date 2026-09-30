@@ -1,6 +1,7 @@
 param([string]$ModelPath,[string]$OllamaModelsRoot)
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Here=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path;$Cfg=Get-Content (Join-Path $Here "config\p8_target.json") -Raw -Encoding UTF8|ConvertFrom-Json;$ExpectedSize=[int64]$Cfg.size_bytes;$ExpectedHash=([string]$Cfg.sha256).ToUpperInvariant()
+. (Join-Path $Here "runs\_relocation_compat.ps1")
 if(-not $ModelPath){$Resolved=@(& (Join-Path $Here "tools\resolve_p8_target.ps1") -OllamaModelsRoot $OllamaModelsRoot);if($Resolved.Count -lt 1){throw "P8 target resolver returned no path"};$ModelPath=[string]$Resolved[-1]}
 $f=Get-Item $ModelPath;if($f.Length -ne $ExpectedSize){throw "P8-C target size mismatch"};$Hash=(Get-FileHash $ModelPath -Algorithm SHA256).Hash.ToUpperInvariant();if($Hash -ne $ExpectedHash){throw "P8-C target SHA mismatch"}
 py -3 (Join-Path $Here "tests\test_p8c_package.py");if($LASTEXITCODE -ne 0){throw "P8-C static contract failed"}

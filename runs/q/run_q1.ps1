@@ -1,6 +1,7 @@
 param([string]$ModelPath,[string]$OllamaModelsRoot)
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Here=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Here "runs\_relocation_compat.ps1")
 $Results=Join-Path $Here "results"
 New-Item -ItemType Directory -Force -Path $Results|Out-Null
 $Cfg=Get-Content (Join-Path $Here "config\p8_target.json") -Raw -Encoding UTF8|ConvertFrom-Json

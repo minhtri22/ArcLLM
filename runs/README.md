@@ -16,7 +16,7 @@ This directory contains run-specific operational PowerShell entrypoints that pre
 
 Moved scripts no longer assume that their own directory is repository root. Their bootstrap resolves repo root as `../..` from `runs/<study>/`, so existing references to `config/`, `inputs/`, `results/`, `artifacts/`, `tools/`, `tests/`, `src/`, `shaders/`, and `compiled_shaders/` continue to resolve against the same canonical repository locations.
 
-Cross-run references were rewritten to canonical `runs/<study>/...` paths. No scientific `results/`, frozen `artifacts/`, preregistration/execution `config/`, docs, runtime/kernel/shader source, or lineage is moved by this cleanup.
+Cross-run references were rewritten to canonical `runs/<study>/...` paths. Frozen lock compatibility is handled by `runs/_relocation_compat.ps1`, which validates the relocation manifest and preserves the logical pre-cleanup runner blob identity without rewriting frozen locks. No scientific `results/`, frozen `artifacts/`, preregistration/execution `config/`, docs, runtime/kernel/shader source, or lineage is moved by this cleanup.
 
 ## Historical reproducibility
 

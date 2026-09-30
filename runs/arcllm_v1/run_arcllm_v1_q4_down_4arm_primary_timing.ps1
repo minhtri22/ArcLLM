@@ -1,6 +1,7 @@
 param([string]$ModelPath,[string]$OllamaModelsRoot)
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Root=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 $LockPath=Join-Path $Root "config\arcllm_v1_q4_down_4arm_primary_timing_execution_lock_v0.2.json"
 if(-not(Test-Path $LockPath)){throw "STOP: frozen primary timing execution lock missing"}
 $L=Get-Content $LockPath -Raw|ConvertFrom-Json
@@ -8,7 +9,7 @@ if(-not[bool]$L.authorization.execution_authorized){throw "STOP: primary timing 
 if([bool]$L.authorization.hardware_counters -or [bool]$L.authorization.token_xray -or [bool]$L.authorization.child_c){throw "STOP: forbidden campaign opened"}
 $Tracked=(git -C $Root status --porcelain --untracked-files=no|Out-String);if(-not[string]::IsNullOrWhiteSpace($Tracked)){throw "STOP: tracked worktree dirty"}
 $Head=(& git -C $Root rev-parse HEAD).Trim()
-foreach($P in $L.critical_git_blobs.PSObject.Properties){$Got=(& git -C $Root rev-parse ("HEAD:"+$P.Name)).Trim();if($LASTEXITCODE-ne0-or$Got-ne[string]$P.Value){throw "STOP: package blob mismatch: $($P.Name)"}}
+foreach($P in $L.critical_git_blobs.PSObject.Properties){$Got=(Get-RunLogicalGitBlob -RepoRoot $Root -Path $P.Name);if($LASTEXITCODE-ne0-or$Got-ne[string]$P.Value){throw "STOP: package blob mismatch: $($P.Name)"}}
 # Zero-science rechecks only; never rebuild the qualified native executable here.
 py -3 (Join-Path $Root "tests\test_arcllm_v1_q4_down_4arm_primary_timing.py")
 if($LASTEXITCODE-ne0){throw "STOP: primary timing static QA failed"}

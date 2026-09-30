@@ -2,6 +2,7 @@ $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
 
 $Root = (Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 $AuthPath = Join-Path $Root "config\q6cb2_execution_authorization.json"
 $ContractPath = Join-Path $Root "config\q6cb1_execution_contract_v0.1.json"
 $ContractLockPath = Join-Path $Root "config\q6cb1_execution_contract_lock_v0.1.json"

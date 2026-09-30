@@ -5,6 +5,7 @@ param(
 )
 $ErrorActionPreference="Stop"; Set-StrictMode -Version Latest
 $Root=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 $LockPath=Join-Path $Root "config\arcllm_v1_m3b_lock_v0.1.json"
 if(-not(Test-Path $LockPath)){throw "M3-B lock missing"}
 $Lock=Get-Content $LockPath -Raw -Encoding UTF8 | ConvertFrom-Json
@@ -14,9 +15,9 @@ if(-not $QuietHostConfirmed){
 $Branch=(git -C $Root branch --show-current).Trim()
 if($Branch -ne [string]$Lock.branch){throw "M3-B wrong branch: $Branch"}
 foreach($Entry in $Lock.critical_git_blobs.PSObject.Properties){
-  $Path=Join-Path $Root $Entry.Name
+  $Path=Resolve-RunPhysicalPath -RepoRoot $Root -Path $Entry.Name
   if(-not(Test-Path $Path)){throw "M3-B critical file missing: $($Entry.Name)"}
-  $Got=(git -C $Root hash-object -- $Entry.Name).Trim()
+  $Got=(Get-RunLogicalGitBlob -RepoRoot $Root -Path $Entry.Name)
   if($Got -ne [string]$Entry.Value){throw "M3-B critical blob mismatch: $($Entry.Name) got=$Got expected=$($Entry.Value)"}
 }
 py -3 (Join-Path $Root "tests\test_arcllm_v1_m3b_package.py")

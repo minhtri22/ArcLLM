@@ -1,11 +1,12 @@
 param([string]$ModelPath,[string]$OllamaModelsRoot)
 $ErrorActionPreference="Stop"; Set-StrictMode -Version Latest
 $Root=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 $LockPath=Join-Path $Root "config\arcllm_v1_m2_lock_v0.1.2.json"
 $Lock=Get-Content $LockPath -Raw -Encoding UTF8 | ConvertFrom-Json
 if((git -C $Root branch --show-current).Trim() -ne [string]$Lock.branch){throw "M2 wrong branch"}
 foreach($Entry in $Lock.critical_git_blobs.PSObject.Properties){
-  $Got=(git -C $Root hash-object -- $Entry.Name).Trim()
+  $Got=(Get-RunLogicalGitBlob -RepoRoot $Root -Path $Entry.Name)
   if($Got -ne [string]$Entry.Value){throw "M2 critical blob mismatch: $($Entry.Name)"}
 }
 py -3 (Join-Path $Root "tests\test_arcllm_v1_m2_package.py")

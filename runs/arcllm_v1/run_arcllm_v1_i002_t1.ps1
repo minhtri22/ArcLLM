@@ -1,6 +1,7 @@
 param([string]$ModelPath,[string]$OllamaModelsRoot)
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Root=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 $AuthPath=Join-Path $Root "config\arcllm_v1_i002_science_authorization.json"
 if(-not(Test-Path $AuthPath)){throw "STOP: I002 fresh execution is not authorized"}
 $A=Get-Content $AuthPath -Raw -Encoding UTF8|ConvertFrom-Json
@@ -10,7 +11,7 @@ if($Branch-ne"research/arcllm-v1"){throw "STOP: I002 execution branch mismatch"}
 & git -C $Root merge-base --is-ancestor ([string]$A.implementation_head) $Head
 if($LASTEXITCODE-ne0){throw "STOP: authorization HEAD is not a descendant of implementation HEAD"}
 foreach($P in $A.critical_git_blobs.PSObject.Properties){
-  $Got=(& git -C $Root rev-parse ("HEAD:"+$P.Name)).Trim()
+  $Got=(Get-RunLogicalGitBlob -RepoRoot $Root -Path $P.Name)
   if($LASTEXITCODE-ne0 -or $Got-ne[string]$P.Value){throw "STOP: I002 T1 critical blob mismatch: $($P.Name)"}
 }
 $Tracked=(git -C $Root status --porcelain --untracked-files=no|Out-String);if(-not[string]::IsNullOrWhiteSpace($Tracked)){throw "STOP: tracked worktree dirty"}

@@ -1,6 +1,7 @@
 param([string]$ModelPath,[string]$OllamaModelsRoot)
 $ErrorActionPreference="Stop";Set-StrictMode -Version Latest
 $Root=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 $LockPath=Join-Path $Root "config\arcllm_v1_i003_execution_lock_v0.1.3.json"
 if(-not(Test-Path $LockPath)){throw "I003 execution lock missing"}
 $L=Get-Content $LockPath -Raw -Encoding UTF8|ConvertFrom-Json
@@ -13,7 +14,7 @@ if($Branch-ne"research/arcllm-v1"){throw "I003 requires research/arcllm-v1"}
 $Tracked=(git -C $Root status --porcelain --untracked-files=no|Out-String)
 if(-not[string]::IsNullOrWhiteSpace($Tracked)){throw "Tracked worktree dirty"}
 foreach($P in $L.critical_git_blobs.PSObject.Properties){
-  $Got=(& git -C $Root rev-parse ("HEAD:"+$P.Name)).Trim()
+  $Got=(Get-RunLogicalGitBlob -RepoRoot $Root -Path $P.Name)
   if($LASTEXITCODE-ne0-or$Got-ne[string]$P.Value){throw "I003 critical blob mismatch: $($P.Name)"}
 }
 

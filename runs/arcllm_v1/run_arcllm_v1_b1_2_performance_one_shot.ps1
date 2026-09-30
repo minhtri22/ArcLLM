@@ -6,6 +6,7 @@ param(
 $ErrorActionPreference="Stop"
 Set-StrictMode -Version Latest
 $Root=(Resolve-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "..\..")).Path
+. (Join-Path $Root "runs\_relocation_compat.ps1")
 
 if(-not $QuietHostConfirmed){throw "STOP: B1.2 performance requires explicit -QuietHostConfirmed"}
 
@@ -35,7 +36,7 @@ $Critical=[ordered]@{
  "config/arcllm_v1_b1_2_performance_execution_lock_v0.4.json"=[string]$Gate.lock.blob
 }
 foreach($P in $Critical.Keys){
-  $Got=(& git -C $Root rev-parse ("HEAD:"+$P)).Trim()
+  $Got=(Get-RunLogicalGitBlob -RepoRoot $Root -Path $P)
   if($LASTEXITCODE-ne0-or$Got-ne[string]$Critical[$P]){throw "STOP: critical locked blob mismatch: $P"}
 }
 
