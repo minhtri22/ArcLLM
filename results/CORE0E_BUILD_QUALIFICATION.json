@@ -1,0 +1,34 @@
+{
+  "schema": "arcllm.core0e.build_qualification.v0.1",
+  "status": "PASS_CORE0E_BUILD_AND_ZERO_SCIENCE_SELF_TESTS",
+  "classification": "ZERO_SCIENCE_IMPLEMENTATION_PREFLIGHT",
+  "git_head": "60ec62cb1c06d332a49120a37240aa6c84b75a76",
+  "llama_head": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+  "token_xray_head": "35f86ac68f98ffe60fc441a790274cd1f1269dfe",
+  "token_xray_source": "REAL_REPO",
+  "generated_runtime_manifest": {
+    "schema": "arcllm.core0e.generated_runtime.v0.1",
+    "classification": "BENCHMARK_ONLY_DIAGNOSTIC_DERIVATIVE",
+    "canonical_runtime_blob": "0c613f6f740931a88ddd3ee5b904533a58001a06",
+    "core0d_materializer_blob": "62d0040bd5205e64988b92ed36731a21333b0b7e",
+    "generated_sha256": {
+      "core0e_arcllm_combined_runtime.cpp": "A561959BB4F545C238478D5E15A8FBD0490ED4C50B7D133FBE79CC165B855581",
+      "core0e_arcllm_trace_vulkan_runtime_support.h": "8BACF34BEE29796EA3DBDBDE3174403EFD7CA25D5ED7F08922EF8D60B7A55004",
+      "core0e_arcllm_trace_q4_vulkan_backend_v4_runtime.h": "6AD34DC916B22FB660C4492A01553A0709CA38083196A554044BE1390BA9E168"
+    },
+    "patch_scope": [
+      "frozen CORE0D-R1 teacher-forced decode inputs",
+      "frozen CORE0C Token-XRay Vulkan timestamp tracing",
+      "six CORE0E monotonic absolute phase markers",
+      "phase-sidecar serialization only after child_science_window_end"
+    ],
+    "canonical_runtime_modified": false,
+    "kernel_shader_source_modified": false
+  },
+  "arc_combined_exe_sha256": "7446E53575E0BD52B62951CB486F1BBD33437211224C18F58FC322D67992EE0E",
+  "llama_combined_exe_sha256": "0514FBA35C7CCD4B2C6BC1F6C869D565EA6FE6C73E1CFD60F1EA9AB46257405E",
+  "model_inference_executed": false,
+  "measured_requests_executed": 0,
+  "canonical_runtime_modified": false,
+  "kernel_shader_modified": false
+}
