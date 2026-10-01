@@ -1,0 +1,150 @@
+{
+  "schema": "arcllm.lmax_arch_p0.preregistration.v0.1",
+  "status": "FROZEN_SPECIFICATION_ONLY",
+  "science_execution_authorized": false,
+  "repository": "minhtri22/ArcLLM",
+  "branch": "research/arcllm-lmax-arch-p0",
+  "base_commit": "c6c9b2e0a198b8af43b120e2b269e2ddd0429ef1",
+  "runtime_source_blob": "0c613f6f740931a88ddd3ee5b904533a58001a06",
+  "runtime_api_blob": "d7821270ed253e1d1d96e3916b22b3daee50f5bc",
+  "model_sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+  "scientific_question": "Does an LMAX-inspired preallocated sequenced-ring single-writer control path preserve exact ArcLLM inference semantics while producing a measurable practical improvement in host-side control behavior and/or end-to-end inference metrics versus the current direct orchestration path?",
+  "independence": {
+    "independent_from_branch": "research/current-main-baseline-xray",
+    "import_core0_outcomes": false,
+    "target_execution_must_be_serialized_with_other_arcllm_science": true,
+    "lineage_update_before_adjudication": false
+  },
+  "arms": {
+    "A": {
+      "id": "CURRENT_DIRECT",
+      "description": "Canonical direct orchestration path with passive measurement hooks only"
+    },
+    "B": {
+      "id": "LMAX_RING",
+      "description": "Experimental fixed-size power-of-two preallocated sequenced ring with single-writer dispatcher ownership",
+      "ring_capacity": 64,
+      "sequence_bits": 64,
+      "heap_allocation_in_publish_consume_after_init": false,
+      "wait_strategy": {
+        "spin_iterations_before_yield": 128,
+        "sleep_allowed": false
+      },
+      "consumer_count": 1,
+      "speculative_decode": false
+    }
+  },
+  "forbidden_changes": [
+    "canonical_shader_semantics",
+    "transformer_math",
+    "quantization",
+    "vulkan_graph",
+    "policy_binding_v4_semantics",
+    "residency_policy",
+    "sampling",
+    "model_bytes"
+  ],
+  "instrumentation": {
+    "ttft": "first_token_ready_ns - request_start_ns",
+    "itl": "consecutive_token_ready_timestamp_deltas_ns_after_first_token",
+    "decode_tokens_per_second": "post_first_token_count / (final_token_ready_time - first_token_ready_time)",
+    "cpu_utilization": "process_cpu_time / (wall_time * logical_processor_count) * 100",
+    "allocation_count_scope": "instrumented C++ dynamic allocations only; excludes driver/internal allocations",
+    "clock": "single_monotonic_high_resolution_source",
+    "arm_b_queue_fields": [
+      "ring_capacity",
+      "publish_count",
+      "consume_count",
+      "max_occupancy",
+      "full_ring_observations",
+      "spin_iterations",
+      "yield_count",
+      "sequence_gap_count"
+    ]
+  },
+  "workloads": {
+    "evidence_profile": 0,
+    "request_within_validated_domain": false,
+    "vocabulary_size": 152064,
+    "token_formula": "1 + ((7919*i + 104729*cell_index) mod 152063)",
+    "cells": [
+      {"id": "W1", "cell_index": 1, "prefill_tokens": 8, "max_new_tokens": 8},
+      {"id": "W2", "cell_index": 2, "prefill_tokens": 8, "max_new_tokens": 32},
+      {"id": "W3", "cell_index": 3, "prefill_tokens": 64, "max_new_tokens": 8},
+      {"id": "W4", "cell_index": 4, "prefill_tokens": 64, "max_new_tokens": 32},
+      {"id": "W5", "cell_index": 5, "prefill_tokens": 256, "max_new_tokens": 8},
+      {"id": "W6", "cell_index": 6, "prefill_tokens": 256, "max_new_tokens": 32}
+    ],
+    "warmups_per_arm": 2,
+    "measured_pairs_per_cell": 4,
+    "measured_pair_order": ["A_B", "B_A", "A_B", "B_A"],
+    "total_measured_pairs": 24,
+    "total_measured_inference_runs": 48,
+    "selective_rerun_allowed": false,
+    "outlier_deletion_allowed": false,
+    "posthoc_tuning_allowed": false
+  },
+  "control_path_subtest": {
+    "model_load": false,
+    "vulkan_init": false,
+    "events": 1000000,
+    "producer_count": 1,
+    "consumer_count": 1,
+    "ring_capacity": 64,
+    "service_delays_ns": [0, 10000, 100000],
+    "record": [
+      "events_per_second",
+      "publish_to_consume_p50_ns",
+      "publish_to_consume_p95_ns",
+      "max_queue_occupancy",
+      "full_backpressure_observations",
+      "spin_count",
+      "yield_count",
+      "steady_state_allocation_count"
+    ]
+  },
+  "semantic_gate": {
+    "exact_generated_token_ids": true,
+    "exact_generated_token_count": true,
+    "finite_must_match_and_be_true": true,
+    "exact_prefill_topology": true,
+    "exact_decode_topology": true,
+    "exact_route_lifecycle_counters": true,
+    "asymmetric_runtime_error_allowed": false
+  },
+  "adjudication": {
+    "e2e_supported": {
+      "minimum_improvement_percent": 5.0,
+      "ttft_itl_p95_max_regression_percent": 3.0,
+      "decode_tps_max_regression_percent": 3.0,
+      "cpu_relative_max_regression_percent": 5.0
+    },
+    "control_path_only": {
+      "allocation_reduction_percent": 20.0,
+      "p95_event_latency_improvement_percent": 10.0,
+      "minimum_service_delay_cells": 2,
+      "ordering_must_be_exact": true,
+      "backpressure_rate_must_not_worsen": true
+    },
+    "regression": {
+      "latency_p95_regression_percent": 10.0,
+      "decode_tps_regression_percent": 10.0,
+      "minimum_workload_cells": 4
+    },
+    "categories": [
+      "SEMANTICS_FAIL",
+      "E2E_SUPPORTED",
+      "CONTROL_PATH_ONLY",
+      "NO_SUPPORTED_BENEFIT",
+      "REGRESSION",
+      "UNRESOLVED"
+    ]
+  },
+  "allowed_paths": [
+    "docs/research/arcllm-v1/ARCLLM_LMAX_ARCH_P0_*.md",
+    "config/arcllm_lmax_arch_p0_*.json",
+    "experiments/arcllm_lmax_arch_p0/",
+    "results/arcllm_lmax_arch_p0_*/"
+  ],
+  "next_gate": "ARCLLM_LMAX_ARCH_P0_IMPLEMENTATION_STATIC_PREFLIGHT_AND_EXECUTION_LOCK"
+}
