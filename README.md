@@ -2,6 +2,8 @@
 
 ArcLLM is a native C++17/Vulkan Compute runtime for GGUF LLM inference on Windows. The current canonical product line is the default `main` branch and is validated on the exact frozen Qwen2.5-Coder 7B model layer (SHA256 `60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463`) on Intel Arc 140V UMA.
 
+Ebook: https://github.com/minhtri22/Inside-ArcLLM
+
 ## Current canonical product state
 
 Canonical runtime binding: `config/arcllm_v1_runtime_active_v0.2.json`.
