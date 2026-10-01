@@ -1,251 +1,207 @@
 # ArcLLM
 
-ArcLLM is a native C++17/Vulkan Compute runtime for GGUF LLM inference on Windows. The current canonical product line is the default `main` branch and is validated on the exact frozen Qwen2.5-Coder 7B model layer (SHA256 `60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463`) on Intel Arc 140V UMA.
+**ArcLLM is a native C++17/Vulkan Compute runtime for GGUF LLM inference on Windows.**  
+The project is built from first principles around direct packed-quantized execution, explicit GPU memory residency, and a research process in which scientific claims are frozen, measured, and preserved separately from the canonical runtime.
 
-Ebook: https://github.com/minhtri22/Inside-ArcLLM
+The canonical product/runtime line is the default `main` branch. The current validated target is the frozen **Qwen2.5-Coder 7B** model layer on **Intel Arc 140V UMA**.
 
-## Current canonical product state
+> **Start here**
+>
+> - 📘 **Book / project journey:** [Inside ArcLLM](https://github.com/minhtri22/Inside-ArcLLM)
+> - 🧪 **Scientific history and PASS/FAIL record:** [lineage.md](./lineage.md)
+> - 🔒 **Canonical runtime binding:** [config/arcllm_v1_runtime_active_v0.2.json](./config/arcllm_v1_runtime_active_v0.2.json)
+> - 📐 **Product + research governance:** [docs/ARCLLM_PRODUCT_RESEARCH_GOVERNANCE.md](./docs/ARCLLM_PRODUCT_RESEARCH_GOVERNANCE.md)
 
-Canonical runtime binding: `config/arcllm_v1_runtime_active_v0.2.json`.
+---
 
-Active runtime surface:
-- public C++ API: `arcllm::v1::runtime::generate(const RunRequest&)`;
-- CLI: `src/arcllm_v1_runtime_cli.cpp`;
-- I002 Gate/Up fast path inside the validated evidence domain;
-- generic policy/binding v4;
-- `Q4VulkanBackendV4` FFN-down;
-- safe fallback route outside the validated evidence domain;
-- caller-provided token IDs and `max_new_tokens`;
-- greedy generation.
-
-Current bounded scope:
-- max prefill tokens: 256;
-- max context tokens: 4096;
-- evidence profiles: `PROFILE_0`, `PROFILE_1`;
-- request-scoped runtime lifetime;
-- no persistent model session;
-- no canonical NPU backend;
-- no current external llama.cpp performance-advantage claim.
-
-Repository/product governance is defined in `docs/ARCLLM_PRODUCT_RESEARCH_GOVERNANCE.md`. The public book is maintained separately at https://github.com/minhtri22/Inside-ArcLLM.
-
-## Historical research record
-
-The sections below preserve earlier ArcLLM research chronology and evidence. They are retained as history, not as the current product status.
-
-## Research Governance
-
-**ArcLLM now operates under a mandatory convergence policy:** `docs/ARC_LLM_RESEARCH_GOVERNANCE.md`.
-
-Deferred technical findings that do not block Q1/Q2/Q3 are recorded in the append-only `docs/ARC_LLM_DEFERRED_INVESTIGATIONS.md`; they do not automatically open research work. The registry is reviewed for impact only after the main validation/final adjudication, unless an item becomes a direct blocker or evidence-integrity defect.
-
-This governance is higher priority than P8/P9 roadmaps for all future research decisions. ArcLLM must converge through **Q1 Feasibility → Q2 Performance/Resource Envelope → Q3 Regime Advantage → fresh reproduction → final adjudication**.
-
-The already-frozen P8-G6 experiment remains governed by its existing contract and implementation lock `7da34af2241091459b50905bfc008c7c6ba623ef`; the new governance does not retroactively change its metrics, thresholds or adjudication.
-
-## Architecture
-
-- Native C++17 + Vulkan Compute.
-- Whole-decoder packed-weight residency.
-- Direct packed Q4_K / Q6_K execution; no full-model weight expansion.
-- GPU-resident KV cache across decode submissions.
-- Persistent <=256 MiB weight arenas and explicit memory planning.
-- Correctness-first optimization with frozen gates and append-only lineage.
-- Pinned glslang 16.5.0 shader provenance.
-
-Frozen model SHA256:
+## Architecture at a glance
 
 ```text
-6A77366395772462C84F0C4D226AC404674327CBE78C01E4391CC7E0C698851E
+Caller / application
+        │
+        │  model path
+        │  shader path
+        │  token IDs
+        │  max_new_tokens
+        │  evidence boundary
+        ▼
+┌──────────────────────────────────────────────┐
+│ Public runtime boundary                     │
+│ arcllm::v1::runtime::generate(RunRequest)    │
+└──────────────────────────────────────────────┘
+        │
+        ▼
+┌──────────────────────────────────────────────┐
+│ ArcLLM-v1 runtime orchestration              │
+│                                              │
+│ • GGUF packed tensor access                  │
+│ • request-scoped Vulkan residency            │
+│ • explicit scratch / memory planning         │
+│ • GPU-resident KV across decode submissions  │
+│ • greedy autoregressive generation           │
+└──────────────────────────────────────────────┘
+        │
+        ▼
+┌──────────────────────────────────────────────┐
+│ Runtime policy + backend binding             │
+│                                              │
+│ generic policy / binding v4                  │
+│                                              │
+│ validated domain ──► I002 Gate/Up fast path  │
+│ outside domain   ──► safe fallback route     │
+│                                              │
+│ Q4VulkanBackendV4 for validated Q4 paths     │
+└──────────────────────────────────────────────┘
+        │
+        ▼
+┌──────────────────────────────────────────────┐
+│ Vulkan execution graph                      │
+│                                              │
+│ RMSNorm                                      │
+│ packed Q4_K / Q6_K projections              │
+│ RoPE                                         │
+│ attention + softmax                         │
+│ SwiGLU / FFN                                 │
+│ final norm + LM head                        │
+└──────────────────────────────────────────────┘
+        │
+        ▼
+┌──────────────────────────────────────────────┐
+│ Intel Arc GPU / Vulkan Compute              │
+└──────────────────────────────────────────────┘
+        │
+        ▼
+generated token IDs + RuntimeStats
 ```
 
-## Status
+### Core design ideas
 
-P0-P7 are CLOSED. **P8-G is frozen FAIL. P8-G1=H-AMPLIFICATION. P8-G2=H-NONLINEAR/UNEXPLAINED. P8-G3=H-FP32-ACCUMULATION. P8-G4=H-LOCAL-ERROR-NONNEGLIGIBLE. P8-G5=H-R1-ORACLE-SEMANTIC-MISMATCH. P8-G6 fresh production-semantic confirmation is READY TO RUN.**
+ArcLLM intentionally keeps the runtime boundary small and explicit:
 
-The frozen P7 production winner is **P7-L**: tiled attention projections + P7-G FFN-down tile16 + fused Q4_K gate+up. P7-I, P7-J, P7-K, P7-N and P7-O are preserved performance negatives. See `docs/P7_CLOSEOUT.md`.
+1. **Packed weights stay packed.** Q4_K/Q6_K tensors are consumed directly instead of expanding the full model into floating-point weights.
+2. **Residency is explicit.** Weight arenas, scratch memory, and KV state are deliberately managed rather than delegated to an opaque framework.
+3. **Decode state stays on the GPU.** The KV cache remains GPU-resident across decode submissions; host interaction is kept at defined orchestration boundaries.
+4. **Optimizations are evidence-gated.** A fast path is only enabled where the current runtime binding says its evidence domain applies; otherwise the runtime uses a safe fallback route.
+5. **Research code is not automatically product code.** Experimental PASS/FAIL results are preserved in the scientific record, while only accepted mechanisms are allowed to converge into `main`.
 
-The active target remains the exact local Ollama model layer for `registry.ollama.ai/library/qwen2.5-coder`, size 4,683,074,048 bytes, SHA256 `60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463`. P8-B PASS proved simultaneous real Vulkan residency for the full segmented plan. P8-C PASS then proved independent mapping equivalence plus GPU numerical correctness across both oversize vocab-tensor boundaries: embedding max_abs/RMSE = 0/0; selected LM-head logits max_abs ~= 2.38e-7. P8-D is now limited to graph-level binding integration. Full inference remains forbidden.
+---
 
-## Roadmap
+## Canonical runtime surface
+
+The active binding is:
 
 ```text
-P0  Bootstrap native runtime                         CLOSED
-P1  GGUF tensor store / packed quantized weights    CLOSED
-P2  Vulkan memory/runtime core                      CLOSED
-P3  Kernel bring-up                                 CLOSED
-P4  One decoder layer                               CLOSED
-P5  Full decoder residency                          CLOSED
-P6  GPU-resident KV + generation                    CLOSED
-P7  Q4_K_M production path                          CLOSED
-P8  7B memory-planned runtime                       ACTIVE (P8-G6 fresh production-semantic confirmation)
-P9  Local OpenAI-compatible API                     PLANNED
-P10 Activation/output-aware Q4 research              DEFERRED
+config/arcllm_v1_runtime_active_v0.2.json
 ```
 
-P10 is not required for a usable runtime.
+The public C++ entry point is:
 
-## Workflow
+```cpp
+arcllm::v1::runtime::generate(const RunRequest&)
+```
+
+Key files:
+
+| Area | Path |
+|---|---|
+| Public C++ API | [include/arcllm/v1/runtime.h](./include/arcllm/v1/runtime.h) |
+| Canonical runtime | [src/arcllm_v1_runtime.cpp](./src/arcllm_v1_runtime.cpp) |
+| CLI | [src/arcllm_v1_runtime_cli.cpp](./src/arcllm_v1_runtime_cli.cpp) |
+| Vulkan runtime support | [src/arcllm_v1_vulkan_runtime_support.h](./src/arcllm_v1_vulkan_runtime_support.h) |
+| Q4 Vulkan backend | [src/arcllm_v1_q4_vulkan_backend_v4_runtime.h](./src/arcllm_v1_q4_vulkan_backend_v4_runtime.h) |
+| Vulkan shaders | [shaders/](./shaders/) |
+| Runtime/config locks | [config/](./config/) |
+| Research documents | [docs/](./docs/) |
+| Scientific lineage | [lineage.md](./lineage.md) |
+
+---
+
+## Current validated boundary
+
+The canonical runtime is intentionally narrower than a general-purpose LLM framework.
+
+| Boundary | Current state |
+|---|---|
+| Runtime | Native C++17 + Vulkan Compute |
+| OS focus | Windows |
+| Validated hardware | Intel Arc 140V UMA |
+| Frozen model SHA256 | `60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463` |
+| Max prefill tokens | 256 |
+| Max context tokens | 4096 |
+| Evidence profiles | `PROFILE_0`, `PROFILE_1` |
+| Input boundary | caller-provided token IDs |
+| Generation | greedy |
+| Runtime lifetime | request-scoped |
+| Persistent model session | not currently supported |
+| Canonical NPU backend | not currently supported |
+| Current external llama.cpp performance-advantage claim | **none** |
+
+The `request_within_validated_domain` field is an **evidence boundary**, not a prompt classifier. Callers should only set it to `true` for requests covered by the currently validated runtime domain.
+
+---
+
+## Scientific status
+
+ArcLLM has established that the frozen 7B model can execute end-to-end on the target Intel Arc/Vulkan runtime. The matched performance program did **not** establish a current general performance advantage over the frozen external llama.cpp baseline.
+
+That distinction is intentional:
 
 ```text
-PLAN -> CODE -> TEST -> QA -> COMMIT -> PULL/RUN ON TARGET -> JSON EVIDENCE -> REVIEW
+feasibility evidence ≠ performance advantage claim
+component speedup    ≠ end-to-end speedup
+research PASS        ≠ automatic product promotion
 ```
 
-Rules:
-1. One bounded optimization hypothesis at a time.
-2. Never lower a gate after seeing results.
-3. Build/package/environment failures are not scientific negatives.
-4. Run static QA before commit.
-5. Authoritative experiment evidence is preserved with raw SHA256.
-6. `lineage.md` is append-only.
-7. The target Windows machine pulls the committed checkpoint and returns JSON evidence.
+The repository contains both positive and negative results. They are part of the project, not discarded history.
 
-## Current run
+For the chronological scientific record, including the exact questions, evidence, PASS/FAIL decisions, quantitative findings, and successor studies, read:
 
-**Q1 is CLOSED: Q1_FEASIBILITY_ESTABLISHED.**
+**➡️ [ArcLLM scientific lineage](./lineage.md)**
 
-The exact frozen Qwen2.5-Coder 7B model completed full 28-layer prefill + autoregressive cached decode on the target Intel Arc runtime. F0/F1 passed for both independent executions, F2 exact repeat passed, and the returned F3 evidence package is complete.
+---
 
-Authoritative Q1 evidence:
-- implementation: `ec83bf42727f799e31d3900a7545e2642b3b90eb`;
-- returned evidence archive SHA256: `DFB3E86C4F51D06290A2AE1ED1479C96F35AE0D329CFA5E2B7D50289DC641B43`;
-- raw result SHA256: `FAD892B25C3A82F62C0CC8060F413792B8B0B73F78A7C3B4CF969E19753E63FA`;
-- final summary SHA256: `36BFB413BCE31A1A6E2B77F96071162809B48FC7F566D61B34C779D90388AC95`.
+## Repository model
 
-Both A/B executions generated `[128275,128301,128275,128301,128275]`, with identical per-step logits and final-hidden hashes.
+```text
+main
+  │
+  ├── canonical runtime / accepted mechanisms
+  │
+  └── canonical scientific knowledge
+        ▲
+        │ converge only after formal adjudication
+        │
+research/<single-question>
+        │
+        ├── preregistration
+        ├── implementation
+        ├── bounded execution
+        ├── independent QA / adjudication
+        └── PASS / FAIL / UNRESOLVED
+```
 
-Q1 performance timings remain descriptive only.
+`lineage.md` is append-only for scientific results. Build repair, transport, runner maintenance, and other infrastructure work do not belong in scientific lineage.
 
-The project is now on **Q2 — matched performance/resource characterization**.
+See [Product and Research Governance](./docs/ARCLLM_PRODUCT_RESEARCH_GOVERNANCE.md) for the full rules.
 
-Q2 contract: `docs/Q2_MATCHED_BENCHMARK_CONTRACT.md`.
+---
 
-Frozen baseline:
-- `ggml-org/llama.cpp` v0.4.1;
-- commit `b29c606e28a01b1bc8c1351026a0fa6e616bf6c4`;
-- Vulkan;
-- exact same GGUF;
-- raw token input;
-- F32 KV;
-- context 4096;
-- 8 CPU threads;
-- batch/ubatch 256;
-- all layers requested for GPU offload.
+## Read the book
 
-Frozen workloads:
-- W-S: prompt 4, output 32;
-- W-C: prompt 256, output 32;
-- one warmup + five measured attempts per system/workload cell.
+If you want the project explained as a learning journey rather than as a research repository, start with:
 
-Q2 is characterization only. It cannot declare an advantage. Q3 remains blocked.
+### [Inside ArcLLM — Xây dựng một runtime LLM từ các nguyên lý đầu tiên](https://github.com/minhtri22/Inside-ArcLLM)
 
-Status: **FINAL — FEASIBLE_NO_DEMONSTRATED_ADVANTAGE**. Q1 established real 7B end-to-end feasibility, Q2 completed matched characterization, and Q3 completed two fresh sessions / 40 measured attempts without reproducing any preregistered practical regime advantage. The current ArcLLM architecture line is closed. Any future architecture work requires a separate post-verdict intervention review; NEXUS may only seed a new hypothesis after mechanistic mapping.
+The book walks through the ideas behind GGUF, packed quantization, Vulkan compute, memory residency, decoder execution, KV cache, measurement, and the decisions that shaped ArcLLM.
 
-Historical run archives are kept outside the active Git history unless their original byte-exact artifacts are available.
+---
 
+## Project philosophy
 
-## Post-verdict successor review
+ArcLLM is not an attempt to win by adding more layers of framework abstraction.
 
-The current ArcLLM architecture remains **CLOSED** at `FEASIBLE_NO_DEMONSTRATED_ADVANTAGE`.
+The project asks a narrower question:
 
-A specification-only post-verdict review of ArcLLM evidence, NEXUS findings and external publications selected one bounded **research reopen candidate**:
+> **How much of an LLM runtime can be understood, measured, and deliberately controlled when the path from packed model weights to physical GPU execution is made explicit?**
 
-`SA-H1 — Decode-Specialized Packed-Quant Executor`.
-
-This is not an implementation authorization. The next allowed step is SA0 causal/capability qualification only; no new kernel or target measurement is permitted yet. See `docs/POST_VERDICT_ARCHITECTURE_INTERVENTION_REVIEW.md`.
-
-
-## SA0 successor qualification
-
-SA0 is complete at the specification/causal level with status `SA0_SPECIFICATION_QUALIFIED_CAPABILITY_PREFLIGHT_REQUIRED`.
-
-The primary successor mechanism is refined to **SA-H1a: decode-specialized batch-1 packed Q4_K/Q6_K GEMM/dataflow**. QKV and gate+up fusion remain secondary enablers; fusion-only and direct Event-Ledger transfer are explicitly rejected as primary explanations.
-
-The current ArcLLM architecture remains closed and no successor kernel or target-model execution is authorized. The next permitted step is an **SA0-CAP zero-science exact-device Vulkan capability preflight** with no model load.
-
-
-### SA0-CAP
-
-The zero-science exact-device capability probe is now **implementation-static-locked**. It performs Vulkan physical-device queries only and cannot load the model, create shader modules/pipelines or submit compute dispatches.
-
-Run the target-local preflight and return `results/sa0_capability_return_to_chatgpt.zip` for independent adjudication. SA1-P remains closed until that evidence is accepted.
-
-
-### SA0-CAP adjudicated
-
-Exact-device SA0-CAP is **PASS**. The Arc 140V exposes the required baseline Vulkan compute/subgroup/timestamp/memory capabilities and optional subgroup-size-control, FP16/INT8 and KHR cooperative-matrix routes.
-
-SA0 is complete. The next permitted work is **SA1-P specification-only component-study preregistration**. No successor kernel or target-model run is authorized yet.
-
-
-### SA1-P
-
-SA1-P is now a **specification-only preregistration candidate**. The single frozen mechanism is subgroup-32 split-K per output row for batch-1 direct-packed Q4_K/Q6_K GEMM. Cooperative matrix/fusion/tile search are out of scope.
-
-No SA1 kernel, harness or measurement is authorized until independent QA passes and an implementation lock is committed.
-
-
-### SA1-P locked
-
-SA1-P independent QA passed and the implementation lock is frozen. Only **SA1-K1 Q4** implementation is now permitted under a finite allowlist: one subgroup-32 split-K candidate shader plus the component harness/tooling required to qualify it.
-
-Q6 implementation, component measurement, target-model inference and Q3 remain blocked.
-
-
-### SA1-K1 implementation
-
-The first successor implementation now exists under the SA1-P lock: one Q4_K subgroup-32 split-K shader plus an isolated synthetic component harness.
-
-Measurement is still **not authorized**. The next gate is independent static audit followed by the exact-device correctness-only zero-measurement preflight.
-
-
-SA1-K1 has passed an independent static-equivalent audit. Native compile/build and correctness-only preflight are still pending on the exact Arc 140V target; measured Q4 execution remains blocked.
-
-
-### SA1-K1 preflight adjudicated
-
-The Q4 subgroup-32 candidate passed exact-device compile/build and correctness-only preflight on the Arc 140V. Ten correctness cases passed the frozen numerical gates, with zero timestamp queries and zero measured pairs.
-
-The implementation evidence is now locked. Q4 performance measurement is still pending a separate execution-authorization commit; Q6/model/Q3 remain blocked.
-
-
-### SA1-K1 Q4 execution authorization
-
-The correctness-only preflight evidence is independently locked. Exactly one Q4 component measurement Process A and one Process B are now authorized under the frozen executable and SPIR-V hashes. No Q6 implementation or target-model run is authorized.
-
-
-### SA1-K1 Q4 measured result
-
-SA1-K1 Q4 is **Q4_STAGE_PASS**. Independent A/B geometric-mean component speedups are approximately 3.137x and 3.148x, and every frozen Q4 shape clears the 1.10x cell floor. No timing samples were deleted.
-
-This closes Q4 and permits the preregistered same-mechanism Q6 implementation stage to be locked. It is not an end-to-end model-speed claim.
-
-
-### SA1-K2 Q6 implementation lock
-
-After Q4_STAGE_PASS, the preregistered Q6 extension is now open for **one same-mechanism implementation only**. Q6 timing is still blocked until its own correctness-only preflight and execution authorization.
-
-
-### SA1-K2 Q6 implementation
-
-Exactly one Q6_K subgroup-32 split-K candidate is now implemented with the same mechanism/geometry that passed Q4. The component harness/build/preflight path has a Q6-only extension for the two frozen cells. Q6 performance timing remains blocked.
-
-
-SA1-K2 Q6 has passed independent static-equivalent QA. Exact Windows shader compile, native BuildOnly and Arc 140V correctness-only preflight are still pending; Q6 performance timing remains forbidden.
-
-
-### SA1-K2 Q6 adjudication
-
-Independent evidence adjudication classifies SA1-K2 as **Q6_STAGE_FAIL_CORRECTNESS**. The returned failure bundle is bound to scientific execution commit `b87f3bc...`; the frozen P7 Q6 baseline SPIR-V hash matches exactly, the Q6 candidate/lock/contract provenance matches the executed state, and no F0 invalidation was found. The fail-fast harness reached `candidate_cpu` only after `baseline_cpu` passed for the active case. Exact max-abs/RMSE magnitude was not retained and was not rerun.
-
-Q6 performance timing was never authorized or executed, measured pairs remain zero, and no target model was loaded.
-
-### SA1 final closeout
-
-SA1 is formally closed as **SA1_CLOSED_ASYMMETRIC_Q4_PASS_Q6_CORRECTNESS_FAIL**.
-
-- Q4_K: the frozen subgroup-32 split-K component mechanism passed correctness and produced reproducible component speedups (A geomean ~3.137x; B ~3.148x).
-- Q6_K: the unchanged mechanism/geometry failed the frozen numerical correctness contract before timing.
-- End-to-end applicability: not tested.
-
-The next scientifically valid action is not another SA1 kernel. Any investigation of the Q6 boundary must start as a new, independently preregistered specification-only research program.
+That means correctness before optimization, frozen gates before measurements, negative results kept as evidence, and a clear separation between what the runtime **can do**, what experiments **suggest**, and what the project is actually prepared to **claim**.
