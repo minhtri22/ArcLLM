@@ -1,0 +1,23 @@
+{
+  "schema": "arcllm.core0e_r1.implementation_static_preflight_independent_adjudication.v0.1",
+  "date": "2026-10-01",
+  "verdict": "PASS_CORE0E_R1_IMPLEMENTATION_STATIC_PREFLIGHT",
+  "open_findings": 0,
+  "reviewed_implementation_commit": "8bd82d0c61a1a900b82335bda9b59c352c2690a2",
+  "reviewed_blobs": {
+    "preregistration": "325230b74c7dfecac7cb23397e758f84bef76be8",
+    "runner": "250755f1425a24d9cf24bf0445a48d5a98c2114e",
+    "phase_contract": "f567b0c7d015d200624c3de07574415c07fa86ef",
+    "parent_final_adjudication": "9fe7b06efd1c9214013a874cc8ed12ba56316e60",
+    "parent_execution_lock": "579dcc5bb763e88499825d7ed2a07e37e3a6e40d"
+  },
+  "findings": [],
+  "confirmations": [
+    "Only the preregistered prefill_end-to-decode_start ordering predicate is relaxed.",
+    "Equality is accepted only at that boundary; decreasing timestamps and equality elsewhere remain invalid.",
+    "No benchmark executable, ArcLLM runtime, llama source, kernel, shader, trajectory, request order, threshold, or phase formula changed.",
+    "Parent failed collection is not used for timing or phase-magnitude selection.",
+    "No R1 measured authorization exists at this gate."
+  ],
+  "measured_requests_executed": 0
+}

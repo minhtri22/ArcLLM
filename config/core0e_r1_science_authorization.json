@@ -1,0 +1,18 @@
+{
+  "schema": "arcllm.core0e_r1.science_authorization.state.v0.1",
+  "date": "2026-10-01",
+  "program": "CORE-0E-R1",
+  "authorized": false,
+  "measured_requests_authorized": 0,
+  "status": "LOCKED_PENDING_EXPLICIT_EXECUTION_AUTHORIZATION",
+  "preregistration_path": "config/core0e_r1_marker_resolution_recovery_preregistration_v0.1.json",
+  "preregistration_blob": "325230b74c7dfecac7cb23397e758f84bef76be8",
+  "execution_lock_path": "config/core0e_r1_execution_lock_v0.1.json",
+  "execution_lock_blob": "5175d3c9ceb1f952d55e5f343d25c272d24dbc5a",
+  "preflight_final_adjudication_path": "artifacts/ARCLLM_V1/CORE0E_R1_PREFLIGHT_FINAL_ADJUDICATION_v0.1.json",
+  "preflight_final_adjudication_blob": "ec367205acf359f19a06ec747854deb9ef108758",
+  "rerun_authorized": false,
+  "selective_rerun_authorized": false,
+  "early_stop_authorized": false,
+  "next": "EXPLICIT_EXECUTION_AUTHORIZATION_REQUIRED"
+}
