@@ -1,0 +1,176 @@
+{
+  "schema": "arcllm.core0e_r1.marker_resolution_recovery_preregistration.v0.1",
+  "date": "2026-10-01",
+  "program": "CORE-0E-R1",
+  "title": "Marker-resolution recovery for outside-GPU temporal phase attribution",
+  "status": "PREREGISTERED_RECOVERY_IMPLEMENTATION_NOT_AUTHORIZED",
+  "parent": {
+    "program": "CORE-0E",
+    "final_adjudication": "STOP_CORE0E_COLLECTION_INCOMPLETE",
+    "final_adjudication_path": "artifacts/ARCLLM_V1/CORE0E_FINAL_ADJUDICATION_v0.1.json",
+    "final_adjudication_commit": "c307be4552aaca938095fc129ed35b050eb3dbe5",
+    "failed_collection": "core0e_measured_20260930T132234606409Z",
+    "failed_collection_use": "QUARANTINED_FROM_PRIMARY_AND_CONFIRMATORY_EVIDENCE"
+  },
+  "recovery_rationale": {
+    "observed_structural_failure_only": [
+      "24/24 frozen requests executed",
+      "4/12 matched rows were invalid",
+      "all four invalid arms were llama.cpp COMBINED_PHASE_TRACE",
+      "all four failed only marker_order with child returncode 0",
+      "the failing relation was prefill_wall_end_ns == decode_wall_start_ns at the clock-observed boundary"
+    ],
+    "forbidden_parent_information": [
+      "parent request wall-time magnitudes",
+      "parent GPU-time magnitudes",
+      "parent P0-P4 phase magnitudes",
+      "parent DeltaP/f_P/h_P values",
+      "parent workload ratios for recovery selection",
+      "any parent-derived phase winner or mechanism choice"
+    ],
+    "scientific_interpretation": "The parent collection did not qualify for phase attribution. R1 is a measurement-contract recovery, not a reinterpretation or rescue of parent outcomes."
+  },
+  "frozen_scientific_question": "Under the frozen common teacher-forced trajectory, which preregistered outside-token-GPU temporal phase, if any, carries a transferable and materially actionable share of ArcLLM excess relative to the pinned llama.cpp baseline?",
+  "inherited_science_contract": {
+    "parent_execution_lock_path": "config/core0e_execution_lock_v0.2.json",
+    "parent_execution_lock_blob": "579dcc5bb763e88499825d7ed2a07e37e3a6e40d",
+    "model": {
+      "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+      "bytes": 4683074048
+    },
+    "llama": {
+      "commit": "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4",
+      "backend": "Vulkan"
+    },
+    "token_xray": {
+      "head": "35f86ac68f98ffe60fc441a790274cd1f1269dfe"
+    },
+    "workloads": [
+      "W-S",
+      "W-C"
+    ],
+    "blocks_per_workload": 3,
+    "modes": [
+      "CONTROL_UNINSTRUMENTED",
+      "COMBINED_PHASE_TRACE"
+    ],
+    "systems": [
+      "ArcLLM",
+      "llama.cpp"
+    ],
+    "requests_per_block": 4,
+    "total_requests": 24,
+    "system_order": {
+      "block_0": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "block_1": [
+        "llama.cpp",
+        "ArcLLM"
+      ],
+      "block_2": [
+        "ArcLLM",
+        "llama.cpp"
+      ]
+    },
+    "mode_order": {
+      "block_0": [
+        "CONTROL_UNINSTRUMENTED",
+        "COMBINED_PHASE_TRACE"
+      ],
+      "block_1": [
+        "COMBINED_PHASE_TRACE",
+        "CONTROL_UNINSTRUMENTED"
+      ],
+      "block_2": [
+        "CONTROL_UNINSTRUMENTED",
+        "COMBINED_PHASE_TRACE"
+      ]
+    },
+    "adjacent_system_pairs": true,
+    "no_early_stop": true,
+    "no_selective_rerun": true,
+    "automatic_rerun": false,
+    "first_complete_valid_collection_is_primary": true,
+    "common_trajectory": "UNCHANGED_FROM_CORE0E_V0_2",
+    "phase_formulas": "UNCHANGED_FROM_CORE0E_V0_2",
+    "E1_to_E5_thresholds": "UNCHANGED_FROM_CORE0E_EXECUTION_LOCK_V0_2",
+    "phase_amdahl_thresholds": "UNCHANGED_FROM_CORE0E_EXECUTION_LOCK_V0_2",
+    "successor_routing": "UNCHANGED_FROM_CORE0E_EXECUTION_LOCK_V0_2"
+  },
+  "sole_measurement_contract_change": {
+    "boundary": "prefill_wall_end_ns -> decode_wall_start_ns",
+    "parent_rule": "prefill_wall_end_ns < decode_wall_start_ns",
+    "recovery_rule": "prefill_wall_end_ns <= decode_wall_start_ns",
+    "complete_marker_order": [
+      "child_science_window_start_ns < prefill_wall_start_ns",
+      "prefill_wall_start_ns < prefill_wall_end_ns",
+      "prefill_wall_end_ns <= decode_wall_start_ns",
+      "decode_wall_start_ns < decode_wall_end_ns",
+      "decode_wall_end_ns < child_science_window_end_ns"
+    ],
+    "decode_transition_formula": "decode_wall_start_ns - prefill_wall_end_ns",
+    "decode_transition_requirement": ">= 0",
+    "equality_semantics": "A zero observed transition is admissible when consecutive boundary observations resolve to the same steady_clock tick.",
+    "artificial_delay_forbidden": true,
+    "sleep_spin_or_fence_to_force_positive_gap_forbidden": true,
+    "timestamp_postprocessing_or_epsilon_injection_forbidden": true,
+    "negative_gap_clamping_forbidden": true
+  },
+  "implementation_scope": {
+    "allowed": [
+      "validator predicate and its zero-science fixtures",
+      "phase-contract checker predicate and its zero-science fixtures",
+      "recovery runner namespace/output guard",
+      "recovery execution lock and authorization plumbing after preflight"
+    ],
+    "forbidden": [
+      "ArcLLM canonical runtime/kernel/shader changes",
+      "llama.cpp source changes",
+      "CORE0E benchmark adapter semantic changes",
+      "trajectory/token changes",
+      "binary rebuild solely to alter timing gaps",
+      "threshold changes",
+      "request-order changes",
+      "phase-formula changes",
+      "optimization or mechanism selection"
+    ],
+    "preferred_binary_policy": "Reuse the exact parent frozen executable/shader hashes if implementation audit confirms no benchmark binary change is required."
+  },
+  "evidence_namespace": {
+    "recovery_prefix": "core0e_r1_measured_",
+    "parent_failed_collection_excluded": true,
+    "parent_failed_rows_not_replayed_as_evidence": true,
+    "fresh_complete_collection_required": true
+  },
+  "gates": {
+    "R0_IMPLEMENTATION_STATIC_PREFLIGHT": "Validator/checker changes are exact-scope, fixtures prove equality pass and decreasing boundary fail, all inherited science pins remain exact, zero measured requests.",
+    "R1_COLLECTION_VALIDITY": "All 24 fresh requests execute in frozen order and every row satisfies the recovery marker contract and existing structural validity rules.",
+    "R2_TO_R6": "Reuse CORE0E E1-to-E5 and phase-Amdahl rules unchanged, and open them only after R1_COLLECTION_VALIDITY passes."
+  },
+  "valid_final_classes": [
+    "PASS_CORE0E_R1_OUTSIDE_GPU_PHASE_ATTRIBUTION_COMPLETE",
+    "STOP_CORE0E_R1_COMMON_TRAJECTORY_INVALID",
+    "STOP_CORE0E_R1_TOTAL_TRANSFER_NOT_QUALIFIED",
+    "STOP_CORE0E_R1_COMBINED_TRACE_TRANSFER_NOT_QUALIFIED",
+    "STOP_CORE0E_R1_PHASE_MEASUREMENT_NOT_QUALIFIED",
+    "STOP_CORE0E_R1_PHASE_CLOSURE_NOT_QUALIFIED",
+    "STOP_CORE0E_R1_H_NOT_MATERIAL_OR_TRANSFERRED",
+    "STOP_CORE0E_R1_COLLECTION_INCOMPLETE"
+  ],
+  "recovery_budget": {
+    "this_is_the_only_marker_resolution_recovery": true,
+    "R2_recovery_for_marker_order_forbidden": true,
+    "if_collection_validity_fails_again": "STOP_CORE0E_R1_COLLECTION_INCOMPLETE_AND_CLOSE_MARKER_RECOVERY_LINE"
+  },
+  "authorization": {
+    "implementation": false,
+    "static_preflight": false,
+    "measured_execution": false,
+    "measured_requests_authorized": 0,
+    "recovery_execution_authorization_must_be_new": true,
+    "parent_authorization_reuse_forbidden": true
+  },
+  "next": "CORE0E_R1_IMPLEMENTATION_STATIC_PREFLIGHT_AND_EXECUTION_LOCK"
+}
