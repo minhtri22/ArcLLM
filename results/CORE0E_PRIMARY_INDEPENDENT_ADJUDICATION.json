@@ -1,0 +1,160 @@
+{
+  "schema": "arcllm.core0e.primary_independent_adjudication.v0.1",
+  "date": "2026-10-01",
+  "verdict": "STOP_CORE0E_COLLECTION_INCOMPLETE",
+  "classification": "INDEPENDENT_POST_EXECUTION_COLLECTION_VALIDITY_QA",
+  "source_collection": {
+    "local_workspace": "D:/WORK/RESEARCH/_arcllm_core0e_authorized_exec",
+    "dataset": "results/core0e_measured_20260930T132234606409Z",
+    "runner_log": "results/CORE0E_RUN_REMOTE_MCP.log",
+    "runner_reported_classification": "CORE0E_COLLECTION_INCOMPLETE"
+  },
+  "execution_accounting": {
+    "measured_requests_expected": 24,
+    "measured_requests_observed": 24,
+    "derived_request_count": 24,
+    "matched_rows": 12,
+    "valid_rows": 8,
+    "invalid_rows": 4,
+    "no_early_stop_observed": true
+  },
+  "invalid_rows": [
+    {
+      "workload": "W-S",
+      "block": 1,
+      "mode": "COMBINED_PHASE_TRACE",
+      "system_order": [
+        "llama.cpp",
+        "ArcLLM"
+      ],
+      "invalid_arms": [
+        {
+          "system": "llama.cpp",
+          "returncode": 0,
+          "errors": [
+            "marker_order"
+          ]
+        }
+      ]
+    },
+    {
+      "workload": "W-S",
+      "block": 2,
+      "mode": "COMBINED_PHASE_TRACE",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "invalid_arms": [
+        {
+          "system": "llama.cpp",
+          "returncode": 0,
+          "errors": [
+            "marker_order"
+          ]
+        }
+      ]
+    },
+    {
+      "workload": "W-C",
+      "block": 0,
+      "mode": "COMBINED_PHASE_TRACE",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "invalid_arms": [
+        {
+          "system": "llama.cpp",
+          "returncode": 0,
+          "errors": [
+            "marker_order"
+          ]
+        }
+      ]
+    },
+    {
+      "workload": "W-C",
+      "block": 1,
+      "mode": "COMBINED_PHASE_TRACE",
+      "system_order": [
+        "llama.cpp",
+        "ArcLLM"
+      ],
+      "invalid_arms": [
+        {
+          "system": "llama.cpp",
+          "returncode": 0,
+          "errors": [
+            "marker_order"
+          ]
+        }
+      ]
+    }
+  ],
+  "llama_combined_boundary_audit": [
+    {
+      "tag": "W_S_b0",
+      "prefill_wall_end_ns": 669017827832700,
+      "decode_wall_start_ns": 669017827832800,
+      "decode_transition_gap_ns": 100,
+      "strict_boundary_order": true
+    },
+    {
+      "tag": "W_S_b1",
+      "prefill_wall_end_ns": 669042929178100,
+      "decode_wall_start_ns": 669042929178100,
+      "decode_transition_gap_ns": 0,
+      "strict_boundary_order": false
+    },
+    {
+      "tag": "W_S_b2",
+      "prefill_wall_end_ns": 669526198255800,
+      "decode_wall_start_ns": 669526198255800,
+      "decode_transition_gap_ns": 0,
+      "strict_boundary_order": false
+    },
+    {
+      "tag": "W_C_b0",
+      "prefill_wall_end_ns": 669830189971100,
+      "decode_wall_start_ns": 669830189971100,
+      "decode_transition_gap_ns": 0,
+      "strict_boundary_order": false
+    },
+    {
+      "tag": "W_C_b1",
+      "prefill_wall_end_ns": 669847008512900,
+      "decode_wall_start_ns": 669847008512900,
+      "decode_transition_gap_ns": 0,
+      "strict_boundary_order": false
+    },
+    {
+      "tag": "W_C_b2",
+      "prefill_wall_end_ns": 670368687394000,
+      "decode_wall_start_ns": 670368687394100,
+      "decode_transition_gap_ns": 100,
+      "strict_boundary_order": true
+    }
+  ],
+  "frozen_rule": {
+    "source": "tools/run_core0e_measured.py validate_markers",
+    "rule": "all adjacent markers strictly increasing; equality is marker_order failure",
+    "preregistration_requires_strict_order": true
+  },
+  "adjudication": {
+    "collection_valid": false,
+    "phase_attribution_opened": false,
+    "e1_to_e5_primary_adjudication": "NOT_OPENED",
+    "phase_winner_selected": false,
+    "timing_magnitudes_used_for_recovery_design": false,
+    "allowed_recovery_input_only": [
+      "24/24 requests executed",
+      "4 matched rows invalid",
+      "all four invalid arms were llama.cpp COMBINED_PHASE_TRACE",
+      "all four failed only marker_order with returncode 0",
+      "failed boundary was prefill_wall_end == decode_wall_start at clock-observed 0 ns gap"
+    ]
+  },
+  "compact_failure_evidence_directory": "results/core0e_incomplete_20260930T132234606409Z",
+  "open_findings": 0
+}

@@ -1,0 +1,11 @@
+{
+  "schema":"arcllm.core0e.phase_markers.v0.1",
+  "timing_authority":"DIAGNOSTIC_ONLY",
+  "clock":"std::chrono::steady_clock",
+  "child_science_window_start_ns":669835339434800,
+  "prefill_wall_start_ns":669839313055600,
+  "prefill_wall_end_ns":669847008512900,
+  "decode_wall_start_ns":669847008512900,
+  "decode_wall_end_ns":669850559029600,
+  "child_science_window_end_ns":669851854161400
+}

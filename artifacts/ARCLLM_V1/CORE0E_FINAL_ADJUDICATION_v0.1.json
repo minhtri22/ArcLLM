@@ -1,0 +1,58 @@
+{
+  "schema": "arcllm.core0e.final_adjudication.v0.1",
+  "date": "2026-10-01",
+  "verdict": "STOP_CORE0E_COLLECTION_INCOMPLETE",
+  "scientific_role": "OUTSIDE_GPU_TEMPORAL_PHASE_ATTRIBUTION",
+  "dataset": {
+    "name": "core0e_measured_20260930T132234606409Z",
+    "measured_requests": 24,
+    "matched_rows": 12,
+    "valid_rows": 8,
+    "invalid_rows": 4,
+    "collection_classification": "CORE0E_COLLECTION_INCOMPLETE",
+    "compact_evidence_directory": "results/core0e_incomplete_20260930T132234606409Z"
+  },
+  "independent_adjudication": {
+    "result_path": "results/CORE0E_PRIMARY_INDEPENDENT_ADJUDICATION.json",
+    "open_findings": 0,
+    "failure_pattern": "llama.cpp COMBINED_PHASE_TRACE marker_order"
+  },
+  "failure_boundary": {
+    "boundary": "prefill_wall_end_ns -> decode_wall_start_ns",
+    "observed_gaps_ns": [
+      100,
+      0,
+      0,
+      0,
+      0,
+      100
+    ],
+    "strict_order_pass_count": 2,
+    "strict_order_fail_count": 4,
+    "interpretation": "The frozen strict marker-order contract is not satisfied on four llama combined arms. No phase attribution or phase priority is admissible from this collection."
+  },
+  "gates": {
+    "collection_validity": "FAIL",
+    "E0_to_E5": "NOT_OPENED_FOR_PRIMARY_ADJUDICATION",
+    "phase_amdahl_gate": "NOT_OPENED"
+  },
+  "authorization_consumption": {
+    "executed_authorization_original_path": "config/core0e_science_authorization.json",
+    "executed_authorization_archive_path": "config/core0e_science_authorization_executed_v0.2.json",
+    "executed_authorization_blob": "591402a502da3b8812d794190d0d942bcf60e980",
+    "measured_requests_consumed": 24,
+    "rerun_authorized": false,
+    "selective_rerun_authorized": false,
+    "same_authorization_reuse_forbidden": true
+  },
+  "boundaries": {
+    "timing_magnitudes_not_used_for_successor_selection": true,
+    "parent_core0d_authority_unchanged": true,
+    "canonical_runtime_modified": false,
+    "llama_source_modified": false,
+    "optimization_authorized": false,
+    "mechanism_selection_authorized": false,
+    "npu_conclusion": false
+  },
+  "next": "A separately preregistered recovery/successor study is required before any further CORE0E measurement."
+}

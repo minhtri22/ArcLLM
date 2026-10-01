@@ -1255,3 +1255,8 @@ Q6CB then terminated `STOP_INFRASTRUCTURE_UNSTABLE` before any valid scientific 
 Because the preregistered Q4/Q6 successor scope is incomplete and no supported causal result / SI-1 correctness / component-value chain exists, `RETURN_TO_END_TO_END_VALIDATION` is not admissible. The current SA-H1 successor line is therefore closed.
 The Q4 component PASS, SA0 capability PASS and original ArcLLM E2E feasibility remain valid bounded evidence; they are not promoted into a complete successor architecture claim.
 No current successor implementation, Q6CB execution, Q3 reopen or successor E2E validation is authorized.
+
+## 2026-10-01 — CORE-0E one-shot collection: STOP_CORE0E_COLLECTION_INCOMPLETE
+The authorized one-shot CORE-0E collection executed all 24 frozen requests across 12 matched rows, but only 8 rows satisfied collection validity. Four llama.cpp `COMBINED_PHASE_TRACE` rows failed the preregistered strict marker-order requirement; in each failed row `prefill_wall_end_ns == decode_wall_start_ns`, while the two llama combined rows that passed strict order had a 100 ns observed boundary gap.
+
+Because strict marker ordering was frozen before measured execution, equality cannot be reclassified post hoc. The collection is therefore formally adjudicated `STOP_CORE0E_COLLECTION_INCOMPLETE`. E1–E5 phase attribution and the phase Amdahl priority gate are not opened, no phase winner is selected, and measured timing magnitudes from this failed collection are not admissible for recovery design. The 24-request authorization is consumed; rerun or selective replay under the same authorization is forbidden. Any continuation requires a separately preregistered recovery/successor study with fresh evidence.

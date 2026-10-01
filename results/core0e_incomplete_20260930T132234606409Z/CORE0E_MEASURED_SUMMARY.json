@@ -1,0 +1,358 @@
+{
+  "schema": "arcllm.core0e.measured_summary.v0.1",
+  "classification": "CORE0E_COLLECTION_INCOMPLETE",
+  "measured_requests_expected": 24,
+  "measured_requests_observed": 24,
+  "rows": [
+    {
+      "workload": "W-S",
+      "block": 0,
+      "mode": "CONTROL_UNINSTRUMENTED",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ns": 112859566000,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b0_CONTROL_UNINSTRUMENTED_arc.json"
+        },
+        "llama.cpp": {
+          "wall_ns": 32667324400,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b0_CONTROL_UNINSTRUMENTED_llama.json"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-S",
+      "block": 0,
+      "mode": "COMBINED_PHASE_TRACE",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ns": 113806823900,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b0_COMBINED_PHASE_TRACE_arc.json",
+          "phase_file": "W_S_b0_COMBINED_PHASE_TRACE_arc_phase.json",
+          "trace_dir": "W_S_b0_COMBINED_PHASE_TRACE_arc_traces"
+        },
+        "llama.cpp": {
+          "wall_ns": 30777349900,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b0_COMBINED_PHASE_TRACE_llama.json",
+          "phase_file": "W_S_b0_COMBINED_PHASE_TRACE_llama_phase.json",
+          "vkperf_raw": "W_S_b0_COMBINED_PHASE_TRACE_llama_vkperf.txt",
+          "vkperf_file": "W_S_b0_COMBINED_PHASE_TRACE_llama_vkperf.json"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-S",
+      "block": 1,
+      "mode": "COMBINED_PHASE_TRACE",
+      "system_order": [
+        "llama.cpp",
+        "ArcLLM"
+      ],
+      "arms": {
+        "llama.cpp": {
+          "wall_ns": 24988720100,
+          "returncode": 0,
+          "valid": false,
+          "errors": [
+            "marker_order"
+          ],
+          "result_file": "W_S_b1_COMBINED_PHASE_TRACE_llama.json",
+          "phase_file": "W_S_b1_COMBINED_PHASE_TRACE_llama_phase.json",
+          "vkperf_raw": "W_S_b1_COMBINED_PHASE_TRACE_llama_vkperf.txt",
+          "vkperf_file": "W_S_b1_COMBINED_PHASE_TRACE_llama_vkperf.json"
+        },
+        "ArcLLM": {
+          "wall_ns": 114827901900,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b1_COMBINED_PHASE_TRACE_arc.json",
+          "phase_file": "W_S_b1_COMBINED_PHASE_TRACE_arc_phase.json",
+          "trace_dir": "W_S_b1_COMBINED_PHASE_TRACE_arc_traces"
+        }
+      },
+      "valid": false
+    },
+    {
+      "workload": "W-S",
+      "block": 1,
+      "mode": "CONTROL_UNINSTRUMENTED",
+      "system_order": [
+        "llama.cpp",
+        "ArcLLM"
+      ],
+      "arms": {
+        "llama.cpp": {
+          "wall_ns": 27217348700,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b1_CONTROL_UNINSTRUMENTED_llama.json"
+        },
+        "ArcLLM": {
+          "wall_ns": 89046134200,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b1_CONTROL_UNINSTRUMENTED_arc.json"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-S",
+      "block": 2,
+      "mode": "CONTROL_UNINSTRUMENTED",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ns": 107528233700,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b2_CONTROL_UNINSTRUMENTED_arc.json"
+        },
+        "llama.cpp": {
+          "wall_ns": 22362281800,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b2_CONTROL_UNINSTRUMENTED_llama.json"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-S",
+      "block": 2,
+      "mode": "COMBINED_PHASE_TRACE",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ns": 95398575900,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_S_b2_COMBINED_PHASE_TRACE_arc.json",
+          "phase_file": "W_S_b2_COMBINED_PHASE_TRACE_arc_phase.json",
+          "trace_dir": "W_S_b2_COMBINED_PHASE_TRACE_arc_traces"
+        },
+        "llama.cpp": {
+          "wall_ns": 26352995300,
+          "returncode": 0,
+          "valid": false,
+          "errors": [
+            "marker_order"
+          ],
+          "result_file": "W_S_b2_COMBINED_PHASE_TRACE_llama.json",
+          "phase_file": "W_S_b2_COMBINED_PHASE_TRACE_llama_phase.json",
+          "vkperf_raw": "W_S_b2_COMBINED_PHASE_TRACE_llama_vkperf.txt",
+          "vkperf_file": "W_S_b2_COMBINED_PHASE_TRACE_llama_vkperf.json"
+        }
+      },
+      "valid": false
+    },
+    {
+      "workload": "W-C",
+      "block": 0,
+      "mode": "CONTROL_UNINSTRUMENTED",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ns": 130460927900,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b0_CONTROL_UNINSTRUMENTED_arc.json"
+        },
+        "llama.cpp": {
+          "wall_ns": 23054348500,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b0_CONTROL_UNINSTRUMENTED_llama.json"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-C",
+      "block": 0,
+      "mode": "COMBINED_PHASE_TRACE",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ns": 127115990500,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b0_COMBINED_PHASE_TRACE_arc.json",
+          "phase_file": "W_C_b0_COMBINED_PHASE_TRACE_arc_phase.json",
+          "trace_dir": "W_C_b0_COMBINED_PHASE_TRACE_arc_traces"
+        },
+        "llama.cpp": {
+          "wall_ns": 23445342200,
+          "returncode": 0,
+          "valid": false,
+          "errors": [
+            "marker_order"
+          ],
+          "result_file": "W_C_b0_COMBINED_PHASE_TRACE_llama.json",
+          "phase_file": "W_C_b0_COMBINED_PHASE_TRACE_llama_phase.json",
+          "vkperf_raw": "W_C_b0_COMBINED_PHASE_TRACE_llama_vkperf.txt",
+          "vkperf_file": "W_C_b0_COMBINED_PHASE_TRACE_llama_vkperf.json"
+        }
+      },
+      "valid": false
+    },
+    {
+      "workload": "W-C",
+      "block": 1,
+      "mode": "COMBINED_PHASE_TRACE",
+      "system_order": [
+        "llama.cpp",
+        "ArcLLM"
+      ],
+      "arms": {
+        "llama.cpp": {
+          "wall_ns": 16636724900,
+          "returncode": 0,
+          "valid": false,
+          "errors": [
+            "marker_order"
+          ],
+          "result_file": "W_C_b1_COMBINED_PHASE_TRACE_llama.json",
+          "phase_file": "W_C_b1_COMBINED_PHASE_TRACE_llama_phase.json",
+          "vkperf_raw": "W_C_b1_COMBINED_PHASE_TRACE_llama_vkperf.txt",
+          "vkperf_file": "W_C_b1_COMBINED_PHASE_TRACE_llama_vkperf.json"
+        },
+        "ArcLLM": {
+          "wall_ns": 125022783000,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b1_COMBINED_PHASE_TRACE_arc.json",
+          "phase_file": "W_C_b1_COMBINED_PHASE_TRACE_arc_phase.json",
+          "trace_dir": "W_C_b1_COMBINED_PHASE_TRACE_arc_traces"
+        }
+      },
+      "valid": false
+    },
+    {
+      "workload": "W-C",
+      "block": 1,
+      "mode": "CONTROL_UNINSTRUMENTED",
+      "system_order": [
+        "llama.cpp",
+        "ArcLLM"
+      ],
+      "arms": {
+        "llama.cpp": {
+          "wall_ns": 19126602600,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b1_CONTROL_UNINSTRUMENTED_llama.json"
+        },
+        "ArcLLM": {
+          "wall_ns": 120101542400,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b1_CONTROL_UNINSTRUMENTED_arc.json"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-C",
+      "block": 2,
+      "mode": "CONTROL_UNINSTRUMENTED",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ns": 113136047500,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b2_CONTROL_UNINSTRUMENTED_arc.json"
+        },
+        "llama.cpp": {
+          "wall_ns": 16462309200,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b2_CONTROL_UNINSTRUMENTED_llama.json"
+        }
+      },
+      "valid": true
+    },
+    {
+      "workload": "W-C",
+      "block": 2,
+      "mode": "COMBINED_PHASE_TRACE",
+      "system_order": [
+        "ArcLLM",
+        "llama.cpp"
+      ],
+      "arms": {
+        "ArcLLM": {
+          "wall_ns": 110975673700,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b2_COMBINED_PHASE_TRACE_arc.json",
+          "phase_file": "W_C_b2_COMBINED_PHASE_TRACE_arc_phase.json",
+          "trace_dir": "W_C_b2_COMBINED_PHASE_TRACE_arc_traces"
+        },
+        "llama.cpp": {
+          "wall_ns": 16700905700,
+          "returncode": 0,
+          "valid": true,
+          "errors": [],
+          "result_file": "W_C_b2_COMBINED_PHASE_TRACE_llama.json",
+          "phase_file": "W_C_b2_COMBINED_PHASE_TRACE_llama_phase.json",
+          "vkperf_raw": "W_C_b2_COMBINED_PHASE_TRACE_llama_vkperf.txt",
+          "vkperf_file": "W_C_b2_COMBINED_PHASE_TRACE_llama_vkperf.json"
+        }
+      },
+      "valid": true
+    }
+  ]
+}
