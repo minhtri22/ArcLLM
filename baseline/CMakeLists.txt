@@ -27,8 +27,3 @@ target_compile_features(q2_llama_adapter PRIVATE cxx_std_17)
 add_executable(i003_llama_adapter i003_llama_adapter.cpp)
 target_link_libraries(i003_llama_adapter PRIVATE llama)
 target_compile_features(i003_llama_adapter PRIVATE cxx_std_17)
-
-
-add_executable(token_xray_r1_tokenizer_probe r1_tokenizer_probe.cpp)
-target_link_libraries(token_xray_r1_tokenizer_probe PRIVATE llama)
-target_compile_features(token_xray_r1_tokenizer_probe PRIVATE cxx_std_17)
