@@ -50,7 +50,7 @@ void write_u32s(std::ostream& o, const std::vector<std::uint32_t>& v) {
 
 int main(int argc, char** argv) {
     try {
-        std::string model, shader_dir, sidecar, token_csv, mode, prompt_id, out_path;
+        std::string model, shader_dir, sidecar, token_csv, mode, prompt_id, out_path, arcllm_head, model_sha256;
         for (int i = 1; i < argc; ++i) {
             const std::string a = argv[i];
             auto need = [&](const char* flag) {
@@ -64,10 +64,12 @@ int main(int argc, char** argv) {
             else if (a == "--mode") mode = need("--mode");
             else if (a == "--prompt-id") prompt_id = need("--prompt-id");
             else if (a == "--out") out_path = need("--out");
+            else if (a == "--arcllm-head") arcllm_head = need("--arcllm-head");
+            else if (a == "--model-sha256") model_sha256 = need("--model-sha256");
             else throw std::runtime_error("unknown argument: " + a);
         }
-        if (model.empty() || shader_dir.empty() || token_csv.empty() || prompt_id.empty() || out_path.empty())
-            throw std::runtime_error("required: --model --shader-dir --tokens --mode --prompt-id --out");
+        if (model.empty() || shader_dir.empty() || token_csv.empty() || prompt_id.empty() || out_path.empty() || arcllm_head.empty() || model_sha256.empty())
+            throw std::runtime_error("required: --model --shader-dir --tokens --mode --prompt-id --out --arcllm-head --model-sha256");
         if (mode != "baseline" && mode != "instrumented")
             throw std::runtime_error("--mode must be baseline or instrumented");
 
@@ -97,6 +99,8 @@ int main(int argc, char** argv) {
         o << "  \"input_token_ids\":"; write_u32s(o, req.input_token_ids); o << ",\n";
         o << "  \"generated_token_ids\":"; write_u32s(o, result.generated_token_ids); o << ",\n";
         o << "  \"requested_decode_tokens\":4,\n";
+        o << "  \"arcllm_head\":\"" << esc(arcllm_head) << "\",\n";
+        o << "  \"model_sha256\":\"" << esc(model_sha256) << "\",\n";
         o << "  \"execution_domain_id\":\"gpu.arc_140v\",\n";
         o << "  \"evidence_profile\":\"PROFILE_0\",\n";
         o << "  \"request_within_validated_domain\":false,\n";
