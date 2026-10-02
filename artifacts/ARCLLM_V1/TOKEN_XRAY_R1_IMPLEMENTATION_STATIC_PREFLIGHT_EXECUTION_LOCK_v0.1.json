@@ -1,0 +1,176 @@
+{
+  "schema": "arcllm.token_xray_r1.implementation_static_preflight_execution_lock.v0.1",
+  "date": "2026-10-02",
+  "status": "PASS_IMPLEMENTATION_STATIC_PREFLIGHT_EXECUTION_LOCK",
+  "classification": "ZERO_SCIENCE_IMPLEMENTATION_STATIC_QA_AND_EXECUTION_LOCK",
+  "arcllm_parent": "c6c9b2e0a198b8af43b120e2b269e2ddd0429ef1",
+  "validated_prelock_head": "cea930e01e691354132ac171460f3edaa34d52fa",
+  "validated_prelock_workflow": {
+    "run_id": 36991331258,
+    "conclusion": "success",
+    "static_preflight": "PASS",
+    "windows_powershell_parse": "PASS",
+    "windows_cpp_syntax": "PASS",
+    "windows_native_link": "PASS",
+    "capture_shader_compile": "PASS",
+    "tokenizer_probe_build": "PASS",
+    "model_execution": false
+  },
+  "execution_freeze": {
+    "arcllm_ref": "freeze/token-xray-r1-real-runtime-exec-v0.1",
+    "token_xray_ref": "freeze/representation-trajectory-r1-validator-v0.1",
+    "token_xray_head": "2e1680fa9187b166a8fb6c52a5c8677a86766c39",
+    "canonical_namespace": "results/token_xray_r1_one_shot_lock_v0.1",
+    "rerun_permitted": false,
+    "out_dir_override_permitted": false
+  },
+  "model": {
+    "logical_name": "registry.ollama.ai/library/qwen2.5-coder / local 7B Q4_K_M model layer",
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "size_bytes": 4683074048,
+    "architecture": "qwen2",
+    "layers": 28,
+    "hidden": 3584,
+    "vocab": 152064
+  },
+  "tokenization": {
+    "upstream_reference": {
+      "repo_id": "Qwen/Qwen2.5-Coder-7B-Instruct",
+      "revision": "c03e6d358207e414f1eca0bb1891e29f1db0e242",
+      "tokenizer_json_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+      "github_actions_run_id": 36989556741,
+      "artifact_id": 11219301267,
+      "artifact_zip_sha256": "fe3508b7cd93726be187533a7b14f9b9a984b819b33c50ee8e3c44dbab64147c"
+    },
+    "prompts": {
+      "P0": [
+        785,
+        6722,
+        315,
+        9625,
+        374
+      ],
+      "P1": [
+        17,
+        488,
+        220,
+        17,
+        284
+      ],
+      "P2": [
+        39,
+        6362,
+        128685,
+        37915,
+        128799,
+        130287,
+        59735
+      ],
+      "P3": [
+        32,
+        425,
+        356,
+        422,
+        468,
+        434,
+        479,
+        472
+      ]
+    },
+    "exact_gguf_crosscheck_required_before_first_generate_call": true,
+    "mismatch_action": "STOP_BEFORE_R1_SCIENCE"
+  },
+  "observational_hooks": {
+    "state_points_per_phase": 29,
+    "prefill_anchor": "embedding_output + block_output:0..27 for last prompt token",
+    "decode_anchor": "embedding_output + block_output:0..27 for first generated token when re-entered at first decode position",
+    "capture_shader": "shaders/token_xray_r1_capture_row.comp",
+    "capture_semantics": "dead_end_float32_row_copy_only",
+    "writes_back_to_model_state": false,
+    "semantic_interpretation": false,
+    "causal_interpretation": false
+  },
+  "one_shot": {
+    "matched_pairs": 8,
+    "request_members": 16,
+    "schedule": [
+      {
+        "pair": 1,
+        "prompt": "P0",
+        "order": [
+          "baseline",
+          "instrumented"
+        ]
+      },
+      {
+        "pair": 2,
+        "prompt": "P1",
+        "order": [
+          "instrumented",
+          "baseline"
+        ]
+      },
+      {
+        "pair": 3,
+        "prompt": "P2",
+        "order": [
+          "baseline",
+          "instrumented"
+        ]
+      },
+      {
+        "pair": 4,
+        "prompt": "P3",
+        "order": [
+          "instrumented",
+          "baseline"
+        ]
+      },
+      {
+        "pair": 5,
+        "prompt": "P0",
+        "order": [
+          "instrumented",
+          "baseline"
+        ]
+      },
+      {
+        "pair": 6,
+        "prompt": "P1",
+        "order": [
+          "baseline",
+          "instrumented"
+        ]
+      },
+      {
+        "pair": 7,
+        "prompt": "P2",
+        "order": [
+          "instrumented",
+          "baseline"
+        ]
+      },
+      {
+        "pair": 8,
+        "prompt": "P3",
+        "order": [
+          "baseline",
+          "instrumented"
+        ]
+      }
+    ],
+    "executable_hashes_materialized_before_first_generate_call": true,
+    "compiled_shader_hashes_materialized_before_first_generate_call": true,
+    "execution_state_created_before_first_generate_call": true,
+    "runtime_failure_after_start_forbids_rerun": true
+  },
+  "evidence_boundaries": {
+    "science_execution": false,
+    "model_inference": false,
+    "performance_authority": false,
+    "mechanism_selection": false,
+    "npu_claim": false,
+    "lineage_append": false
+  },
+  "next_if_final_freeze_ref_is_created": "TOKEN_XRAY_REPRESENTATION_TRAJECTORY_R1_REAL_RUNTIME_CAPTURE_ONE_SHOT_EXECUTION"
+}
