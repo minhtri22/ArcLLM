@@ -97,6 +97,9 @@ int main(int argc, char** argv) {
         o << "  \"input_token_ids\":"; write_u32s(o, req.input_token_ids); o << ",\n";
         o << "  \"generated_token_ids\":"; write_u32s(o, result.generated_token_ids); o << ",\n";
         o << "  \"requested_decode_tokens\":4,\n";
+        o << "  \"execution_domain_id\":\"gpu.arc_140v\",\n";
+        o << "  \"evidence_profile\":\"PROFILE_0\",\n";
+        o << "  \"request_within_validated_domain\":false,\n";
         o << "  \"request_elapsed_ns\":" << elapsed_ns << ",\n";
         o << "  \"runtime\":{";
         o << "\"finite\":" << (result.stats.finite ? "true" : "false");
