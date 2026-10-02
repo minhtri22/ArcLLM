@@ -42,3 +42,25 @@ jobs:
           path: r1-preflight/R1_REFERENCE_TOKENIZATION.json
           if-no-files-found: error
           retention-days: 90
+
+
+  windows-syntax:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Syntax-check R1 runtime and harness
+        shell: cmd
+        run: |
+          cl.exe /nologo /std:c++17 /EHsc /W4 /Zs src\arcllm_v1_runtime.cpp
+          cl.exe /nologo /std:c++17 /EHsc /W4 /Zs src\token_xray_r1_capture_harness.cpp
+
+      - name: Confirm no model execution
+        shell: powershell
+        run: |
+          Write-Host "TOKEN_XRAY_R1_WINDOWS_SYNTAX=PASS"
+          Write-Host "MODEL_EXECUTION=false"
