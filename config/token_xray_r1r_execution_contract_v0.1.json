@@ -1,0 +1,186 @@
+{
+  "schema": "arcllm.token_xray_r1r.execution_contract.v0.1",
+  "date": "2026-10-03",
+  "classification": "ZERO_SCIENCE_IMPLEMENTATION_EXECUTION_CONTRACT",
+  "r1r_scientific_branch": "research/representation-trajectory-r1r-execution-integrity-recovery",
+  "r1r_preregistration_qa_head": "1ea9995a8377aab24b1881f415f19f8a0a7a104f",
+  "inherited_r1_arcllm_head": "3e1b86ceb5fad8b423dfa8f8bbb46760d0f15328",
+  "model": {
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "size_bytes": 4683074048,
+    "architecture": "qwen2",
+    "layers": 28,
+    "hidden": 3584,
+    "vocab": 152064
+  },
+  "prompts": {
+    "P0": {
+      "utf8_hex": "546865206361706974616c206f66204672616e6365206973",
+      "utf8_sha256": "bbaff4d2ecd5892d4a442b0f53131641bf6e6f284761dd20fc0664bc97145762",
+      "token_ids": [
+        785,
+        6722,
+        315,
+        9625,
+        374
+      ]
+    },
+    "P1": {
+      "utf8_hex": "32202b2032203d",
+      "utf8_sha256": "154e0c9c6176389176dd7a541d8f5a34cdeffc97ddf6360af63543ac155888cf",
+      "token_ids": [
+        17,
+        488,
+        220,
+        17,
+        284
+      ]
+    },
+    "P2": {
+      "utf8_hex": "48c3a0204ee1bb9969206cc3a0207468e1bba720c491c3b42063e1bba761",
+      "utf8_sha256": "ab0bb6d25dbf870030f9d314b4fed4118f30b8971fc0dac85c09844c65b5b4b6",
+      "token_ids": [
+        39,
+        6362,
+        128685,
+        37915,
+        128799,
+        130287,
+        59735
+      ]
+    },
+    "P3": {
+      "utf8_hex": "412042204320442045204620472048",
+      "utf8_sha256": "bbebffe92c183094c6641400139773466c8ebf6e41e629ce4afcaa6562f5b690",
+      "token_ids": [
+        32,
+        425,
+        356,
+        422,
+        468,
+        434,
+        479,
+        472
+      ]
+    }
+  },
+  "exact_gguf_tokenization_gate": {
+    "tool": "token_xray_r1r_tokenizer_probe",
+    "prompt_source": "hex_decoded_bytes",
+    "all_prompts_must_match": true,
+    "mismatch_action": "STOP_BEFORE_MODEL_EXECUTION",
+    "model_inference_permitted_before_pass": false
+  },
+  "canonical_execution_route": {
+    "transport": "RemoteMCP managed task_job_submit",
+    "executable": "python",
+    "orchestrator": "tools/run_token_xray_r1r_one_shot.py",
+    "shell_wrapper": false,
+    "alternate_route_after_lock": false
+  },
+  "matched_pairs": [
+    {
+      "pair": 1,
+      "prompt": "P0",
+      "order": [
+        "baseline",
+        "instrumented"
+      ]
+    },
+    {
+      "pair": 2,
+      "prompt": "P1",
+      "order": [
+        "instrumented",
+        "baseline"
+      ]
+    },
+    {
+      "pair": 3,
+      "prompt": "P2",
+      "order": [
+        "baseline",
+        "instrumented"
+      ]
+    },
+    {
+      "pair": 4,
+      "prompt": "P3",
+      "order": [
+        "instrumented",
+        "baseline"
+      ]
+    },
+    {
+      "pair": 5,
+      "prompt": "P0",
+      "order": [
+        "instrumented",
+        "baseline"
+      ]
+    },
+    {
+      "pair": 6,
+      "prompt": "P1",
+      "order": [
+        "baseline",
+        "instrumented"
+      ]
+    },
+    {
+      "pair": 7,
+      "prompt": "P2",
+      "order": [
+        "instrumented",
+        "baseline"
+      ]
+    },
+    {
+      "pair": 8,
+      "prompt": "P3",
+      "order": [
+        "baseline",
+        "instrumented"
+      ]
+    }
+  ],
+  "runtime_request": {
+    "max_new_tokens": 4,
+    "evidence_profile": "PROFILE_0",
+    "request_within_validated_domain": false,
+    "greedy_generation": true
+  },
+  "capture": {
+    "states_per_phase": 29,
+    "hidden_dimension": 3584,
+    "prefill_anchor": "last prompt token at N-1",
+    "decode_anchor": "first generated token at N"
+  },
+  "token_xray_validator_freeze": {
+    "ref": "freeze/representation-trajectory-r1-validator-v0.1",
+    "head": "2e1680fa9187b166a8fb6c52a5c8677a86766c39",
+    "tool": "tools/validate_r1_real_runtime_capture.py"
+  },
+  "science_outcomes": [
+    "PASS_R1R_REAL_RUNTIME_CAPTURE_SEMANTICS_PRESERVED",
+    "FAIL_R1R_REAL_RUNTIME_CAPTURE_OR_EXECUTION_INTEGRITY"
+  ],
+  "execution_lock": {
+    "arcllm_freeze_ref": "freeze/token-xray-r1r-real-runtime-exec-v0.1",
+    "canonical_namespace": "results/token_xray_r1r_one_shot_lock_v0.1",
+    "route_preflight_namespace": "results/token_xray_r1r_route_preflight_v0.1",
+    "token_xray_freeze_ref": "freeze/representation-trajectory-r1-validator-v0.1",
+    "token_xray_head": "2e1680fa9187b166a8fb6c52a5c8677a86766c39",
+    "implementation_head_before_lock": null,
+    "expected_orchestrator_sha256": null,
+    "expected_harness_sha256": null,
+    "expected_tokenizer_probe_sha256": null,
+    "expected_capture_shader_sha256": null,
+    "expected_shader_inventory": null,
+    "out_dir_override_permitted": false,
+    "rerun_permitted": false,
+    "request_member_count": 16,
+    "matched_pair_count": 8
+  },
+  "performance_authority": false
+}
