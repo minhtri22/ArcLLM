@@ -142,14 +142,17 @@ def main() -> int:
     if "chrono" in selftest or "events_per_second" in selftest:
         fail("selftest must not become the preregistered performance subtest")
 
-    build_script = (exp / "buildonly.ps1")
-    if build_script.exists():
-        build_text = build_script.read_text(encoding="utf-8")
-        forbidden = ("--arm direct", "--arm ring", "--model ")
-        if any(token in build_text for token in forbidden):
-            fail("BuildOnly script contains outcome-bearing inference invocation")
-        if "--describe" not in build_text:
-            fail("BuildOnly runner smoke must use --describe only")
+    build_script = (exp / "buildonly.py")
+    if not build_script.exists():
+        fail("direct-executable BuildOnly orchestrator missing")
+    build_text = build_script.read_text(encoding="utf-8")
+    forbidden = ('"--arm"', '"--model"', "'--arm'", "'--model'")
+    if any(token in build_text for token in forbidden):
+        fail("BuildOnly orchestrator contains outcome-bearing inference invocation")
+    if '"--describe"' not in build_text:
+        fail("BuildOnly runner smoke must use --describe only")
+    if "powershell.exe" in build_text.lower():
+        fail("BuildOnly must not depend on a managed-mode PowerShell outer launcher")
 
     print("ARCLLM_LMAX_ARCH_P0_STATIC_QA=PASS")
     print(f"CANONICAL_RUNTIME_BLOB={runtime_blob}")
