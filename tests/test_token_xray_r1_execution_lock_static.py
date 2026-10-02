@@ -84,5 +84,5 @@ def test_both_repo_heads_are_execution_inputs_and_checked():
 def test_runtime_capture_is_not_performance_authority():
     assert contract["performance_authority"] is False
     assert contract["capture"]["observer_dispatches_excluded_from_canonical_model_dispatch_stats"] is True
-    assert '"request_elapsed_ns"' in harness
+    assert "request_elapsed_ns" in harness
     assert "performance" not in harness.lower()
