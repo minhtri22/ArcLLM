@@ -17,6 +17,9 @@ struct RunRequest {
     std::vector<std::uint32_t> input_token_ids;
     std::uint32_t max_new_tokens = 1;
     EvidenceProfile evidence_profile = EvidenceProfile::PROFILE_0;
+    // Token-XRay R1 observation switch. False preserves the pre-R1 runtime path.
+    // True adds dead-end GPU row-copy observation dispatches only.
+    bool capture_representation_trajectory = false;
     // This is an evidence boundary, not a prompt classifier. Callers must only
     // set true for requests covered by the currently validated runtime domain.
     bool request_within_validated_domain = false;
@@ -42,12 +45,30 @@ struct RuntimeStats {
     std::uint64_t p3_calls = 0;
     std::uint64_t p0_calls = 0;
 
+    // Observation-only dispatches are reported separately from canonical model
+    // graph dispatch counts so instrumented evidence cannot become performance authority.
+    std::uint32_t representation_prefill_capture_dispatches = 0;
+    std::uint32_t representation_decode_capture_dispatches = 0;
+
     bool finite = false;
+};
+
+struct RepresentationState {
+    std::string phase;
+    std::string state_point;
+    std::int32_t layer_index = -1;
+    std::uint32_t state_index = 0;
+    std::uint32_t token_id = 0;
+    std::uint32_t token_position = 0;
+    std::uint32_t hidden_dimension = 0;
+    std::string source_dtype;
+    std::vector<float> values;
 };
 
 struct RunResult {
     std::vector<std::uint32_t> generated_token_ids;
     RuntimeStats stats{};
+    std::vector<RepresentationState> representation_states;
 };
 
 // Reusable canonical inference entry point for the currently supported exact
