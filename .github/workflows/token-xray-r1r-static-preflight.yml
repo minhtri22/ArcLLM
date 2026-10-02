@@ -28,6 +28,27 @@ jobs:
         run: |
           test -z "$(git diff --name-only 3e1b86ceb5fad8b423dfa8f8bbb46760d0f15328 -- src include shaders | tr -d '\n')"
           echo "R1R_CAPTURE_RUNTIME_DELTA=0"
-      - name: Confirm native build authority remains target machine
+
+  tokenizer-native-build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build Unicode-safe exact-GGUF tokenizer probe
+        shell: powershell
         run: |
-          echo "Native tokenizer/harness/shader build is target-machine implementation preflight, not GitHub science."
+          ./tools/build_token_xray_r1r_tokenizer_probe.ps1
+          if(-not (Test-Path ./token_xray_r1r_tokenizer_probe.exe)){ throw "probe missing" }
+          $sha=(Get-FileHash ./token_xray_r1r_tokenizer_probe.exe -Algorithm SHA256).Hash
+          $size=(Get-Item ./token_xray_r1r_tokenizer_probe.exe).Length
+          @{sha256=$sha;bytes=$size}|ConvertTo-Json|Set-Content -Encoding UTF8 ./R1R_TOKENIZER_BUILD_META.json
+          Write-Host "R1R_TOKENIZER_NATIVE_BUILD=PASS sha=$sha bytes=$size"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: token-xray-r1r-tokenizer-probe
+          path: |
+            token_xray_r1r_tokenizer_probe.exe
+            R1R_TOKENIZER_BUILD_META.json
+          if-no-files-found: error
+          retention-days: 30
