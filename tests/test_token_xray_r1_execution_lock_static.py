@@ -74,11 +74,16 @@ def test_identity_and_exact_gguf_tokenization_gate_precede_model_execution():
     assert runner.index(sha_gate) < runner.index(gguf_probe) < runner.index(token_compare) < runner.index(invoke)
 
 
-def test_both_repo_heads_are_execution_inputs_and_checked():
-    assert '[Parameter(Mandatory=$true)][string]$ExpectedArcLLMHead' in runner
-    assert '[Parameter(Mandatory=$true)][string]$ExpectedTokenXRayHead' in runner
-    assert 'if($ArcHead-ne$ExpectedArcLLMHead){throw "STOP: ArcLLM HEAD mismatch"}' in runner
+def test_repo_heads_are_bound_to_frozen_refs_not_operator_arguments():
+    lock = contract["execution_lock"]
+    assert lock["arcllm_freeze_ref"] == "freeze/token-xray-r1-real-runtime-exec-v0.1"
+    assert lock["token_xray_freeze_ref"] == "freeze/representation-trajectory-r1-validator-v0.1"
+    assert lock["token_xray_head"] == "2e1680fa9187b166a8fb6c52a5c8677a86766c39"
+    assert "ExpectedArcLLMHead" not in runner
+    assert "[Parameter(Mandatory=$true)][string]$ExpectedTokenXRayHead" not in runner
+    assert 'if($ArcHead-ne$ArcFreezeHead){throw "STOP: ArcLLM HEAD is not the frozen R1 execution ref"}' in runner
     assert 'if($TxHead-ne$ExpectedTokenXRayHead){throw "STOP: Token-XRay HEAD mismatch"}' in runner
+    assert 'if($TxFreezeHead-ne$ExpectedTokenXRayHead){throw "STOP: Token-XRay freeze ref mismatch"}' in runner
 
 
 def test_runtime_capture_is_not_performance_authority():
@@ -86,3 +91,37 @@ def test_runtime_capture_is_not_performance_authority():
     assert contract["capture"]["observer_dispatches_excluded_from_canonical_model_dispatch_stats"] is True
     assert "request_elapsed_ns" in harness
     assert "performance" not in harness.lower()
+
+
+def test_namespace_and_rerun_are_frozen():
+    lock = contract["execution_lock"]
+    assert lock["canonical_namespace"] == "results/token_xray_r1_one_shot_lock_v0.1"
+    assert lock["out_dir_override_permitted"] is False
+    assert lock["rerun_permitted"] is False
+    assert 'if($ResolvedOut-ne$ResolvedCanonical){throw "STOP: R1 output namespace is frozen; override forbidden"}' in runner
+    assert 'if(Test-Path $StatePath){throw "STOP: R1 one-shot state already exists; rerun forbidden"}' in runner
+
+
+def test_executable_and_shader_hashes_are_materialized_before_first_generate_call():
+    for token in [
+        "$ContractSha=(Get-FileHash $ContractPath -Algorithm SHA256).Hash.ToUpperInvariant()",
+        "$RunnerSha=(Get-FileHash $RunnerPath -Algorithm SHA256).Hash.ToUpperInvariant()",
+        "$HarnessSha=(Get-FileHash $Harness -Algorithm SHA256).Hash.ToUpperInvariant()",
+        "$TokenizerSha=(Get-FileHash $TokenizerExe -Algorithm SHA256).Hash.ToUpperInvariant()",
+        "$CaptureShaderSha=(Get-FileHash $CaptureShader -Algorithm SHA256).Hash.ToUpperInvariant()",
+        "compiled_shaders=$ShaderRows",
+        "function Assert-ExecutionLock()",
+        "Assert-ExecutionLock",
+    ]:
+        assert token in runner
+    state_i = runner.index('status="PREFLIGHT_COMPLETE_NOT_STARTED"')
+    lock_call_i = runner.index("Assert-ExecutionLock", runner.index('$RawCandidate='))
+    invoke_i = runner.index("& $Harness --model $ModelPath")
+    assert state_i < lock_call_i < invoke_i
+
+
+def test_execution_contract_freezes_exact_16_member_schedule():
+    lock = contract["execution_lock"]
+    assert lock["matched_pair_count"] == 8
+    assert lock["request_member_count"] == 16
+    assert lock["execution_order_frozen"] is True
