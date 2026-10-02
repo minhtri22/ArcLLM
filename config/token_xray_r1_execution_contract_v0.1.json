@@ -1,0 +1,176 @@
+{
+  "schema": "arcllm.token_xray_r1.execution_contract.v0.1",
+  "date": "2026-10-02",
+  "classification": "ZERO_SCIENCE_IMPLEMENTATION_EXECUTION_CONTRACT",
+  "token_xray_r1_branch": "research/representation-trajectory-r1-real-runtime",
+  "token_xray_r1_preregistration_head": "f2faa7a5be6cabd782247b82944140a88baf38d1",
+  "arcllm_parent": "c6c9b2e0a198b8af43b120e2b269e2ddd0429ef1",
+  "model": {
+    "logical_name": "registry.ollama.ai/library/qwen2.5-coder / local 7B Q4_K_M model layer",
+    "source": "ollama-local",
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "size_bytes": 4683074048,
+    "architecture": "qwen2",
+    "layers": 28,
+    "hidden": 3584,
+    "vocab": 152064,
+    "exact_gguf_tokenization_crosscheck_required_before_model_execution": true
+  },
+  "upstream_reference_tokenizer": {
+    "repo_id": "Qwen/Qwen2.5-Coder-7B-Instruct",
+    "revision": "c03e6d358207e414f1eca0bb1891e29f1db0e242",
+    "tokenizer_json_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+    "add_special_tokens": false,
+    "chat_template_used": false,
+    "reference_only_until_exact_gguf_crosscheck": true,
+    "github_actions_run_id": 36989556741,
+    "github_actions_artifact_id": 11219301267,
+    "github_actions_artifact_zip_sha256": "fe3508b7cd93726be187533a7b14f9b9a984b819b33c50ee8e3c44dbab64147c"
+  },
+  "prompts": {
+    "P0": {
+      "utf8": "The capital of France is",
+      "utf8_sha256": "bbaff4d2ecd5892d4a442b0f53131641bf6e6f284761dd20fc0664bc97145762",
+      "token_ids": [
+        785,
+        6722,
+        315,
+        9625,
+        374
+      ]
+    },
+    "P1": {
+      "utf8": "2 + 2 =",
+      "utf8_sha256": "154e0c9c6176389176dd7a541d8f5a34cdeffc97ddf6360af63543ac155888cf",
+      "token_ids": [
+        17,
+        488,
+        220,
+        17,
+        284
+      ]
+    },
+    "P2": {
+      "utf8": "Hà Nội là thủ đô của",
+      "utf8_sha256": "ab0bb6d25dbf870030f9d314b4fed4118f30b8971fc0dac85c09844c65b5b4b6",
+      "token_ids": [
+        39,
+        6362,
+        128685,
+        37915,
+        128799,
+        130287,
+        59735
+      ]
+    },
+    "P3": {
+      "utf8": "A B C D E F G H",
+      "utf8_sha256": "bbebffe92c183094c6641400139773466c8ebf6e41e629ce4afcaa6562f5b690",
+      "token_ids": [
+        32,
+        425,
+        356,
+        422,
+        468,
+        434,
+        479,
+        472
+      ]
+    }
+  },
+  "exact_gguf_tokenization_gate": {
+    "tool": "token_xray_r1_tokenizer_probe",
+    "requirement": "All four exact-GGUF token-ID sequences must equal the frozen prompt token_ids byte-for-byte before any ArcLLM generate() call.",
+    "mismatch_action": "STOP_BEFORE_R1_SCIENCE",
+    "model_inference_permitted_before_pass": false
+  },
+  "runtime_request": {
+    "max_new_tokens": 4,
+    "evidence_profile": "PROFILE_0",
+    "request_within_validated_domain": false,
+    "greedy_generation": true,
+    "eos_early_stop": false
+  },
+  "capture": {
+    "enabled_only_for_instrumented_member": true,
+    "state_count_per_available_trajectory": 29,
+    "prefill_anchor": "last prompt token at position N-1",
+    "decode_anchor": "first generated token when processed at position N",
+    "prefill_expected_observer_dispatches": 29,
+    "first_decode_expected_observer_dispatches": 29,
+    "canonical_model_prefill_dispatches": 441,
+    "canonical_model_decode_dispatches_per_step": 469,
+    "observer_dispatches_excluded_from_canonical_model_dispatch_stats": true
+  },
+  "matched_pairs": [
+    {
+      "pair": 1,
+      "prompt": "P0",
+      "order": [
+        "baseline",
+        "instrumented"
+      ]
+    },
+    {
+      "pair": 2,
+      "prompt": "P1",
+      "order": [
+        "instrumented",
+        "baseline"
+      ]
+    },
+    {
+      "pair": 3,
+      "prompt": "P2",
+      "order": [
+        "baseline",
+        "instrumented"
+      ]
+    },
+    {
+      "pair": 4,
+      "prompt": "P3",
+      "order": [
+        "instrumented",
+        "baseline"
+      ]
+    },
+    {
+      "pair": 5,
+      "prompt": "P0",
+      "order": [
+        "instrumented",
+        "baseline"
+      ]
+    },
+    {
+      "pair": 6,
+      "prompt": "P1",
+      "order": [
+        "baseline",
+        "instrumented"
+      ]
+    },
+    {
+      "pair": 7,
+      "prompt": "P2",
+      "order": [
+        "instrumented",
+        "baseline"
+      ]
+    },
+    {
+      "pair": 8,
+      "prompt": "P3",
+      "order": [
+        "baseline",
+        "instrumented"
+      ]
+    }
+  ],
+  "science_outcomes": [
+    "PASS_R1_REAL_RUNTIME_CAPTURE_SEMANTICS_PRESERVED",
+    "FAIL_R1_REAL_RUNTIME_CAPTURE_OR_SEMANTICS"
+  ],
+  "performance_authority": false
+}
