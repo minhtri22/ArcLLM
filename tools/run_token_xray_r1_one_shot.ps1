@@ -110,7 +110,7 @@ foreach($Pair in @($Contract.matched_pairs)){
     Save-State
 
     $OutFile=Join-Path $RawDir ("pair{0:D2}_{1}.json" -f $PairNum,$Mode)
-    & $Harness --model $ModelPath --shader-dir $ShaderDir --tokens (Tokens-Csv $Pid) --mode $Mode --prompt-id $Pid --out $OutFile
+    & $Harness --model $ModelPath --shader-dir $ShaderDir --tokens (Tokens-Csv $Pid) --mode $Mode --prompt-id $Pid --arcllm-head $ArcHead --model-sha256 $ObservedSha --out $OutFile
     if($LASTEXITCODE-ne0){
       $PairState.members[-1].status="RUNTIME_FAILURE_AFTER_START"
       $State.status="STOPPED_RUNTIME_FAILURE_AFTER_MODEL_START"
