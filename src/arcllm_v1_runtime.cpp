@@ -168,6 +168,8 @@ arcllm::v1::runtime::RunResult arcllm::v1::runtime::generate(const RunRequest& r
         const uint32_t EXPECT_PREFILL=441,EXPECT_DECODE=469;
         const uint64_t RUNTIME_WEIGHT_BYTES=4677120000ull,RUNTIME_KV_BYTES=469762048ull,RUNTIME_WORKING_BYTES=200888324ull;
         const uint64_t RUNTIME_TOTAL_RESIDENT=5347770372ull,RUNTIME_USABLE_BUDGET=16374562816ull;
+        const uint32_t R1_CAPTURE_STATES=LAYERS+1u;
+        const uint64_t R1_CAPTURE_BYTES=uint64_t(R1_CAPTURE_STATES)*H*sizeof(float);
 
         if(gguf.tensor_count!=339u||gguf.tensors.size()!=339u)throw std::runtime_error("ArcLLM runtime exact tensor census mismatch");
         auto bc=gguf.scalars.find("qwen2.block_count");
@@ -261,9 +263,24 @@ arcllm::v1::runtime::RunResult arcllm::v1::runtime::generate(const RunRequest& r
         const uint64_t cache_elems=uint64_t(LAYERS)*MAXCTX*KV;
         Buffer b_kcache=kf(cache_elems),b_vcache=kf(cache_elems);
         if(kv_requested!=RUNTIME_KV_BYTES)throw std::runtime_error("ArcLLM runtime KV residency bytes mismatch");
-        const uint64_t total_requested=weight_requested+kv_requested+working_requested;
-        if(working_requested>RUNTIME_WORKING_BYTES||total_requested>RUNTIME_TOTAL_RESIDENT||total_requested>RUNTIME_USABLE_BUDGET)
+
+        uint64_t representation_capture_requested=0;
+        std::vector<Buffer> r1_capture_buffers;
+        if(request.capture_representation_trajectory){
+            r1_capture_buffers.reserve(R1_CAPTURE_STATES);
+            for(uint32_t i=0;i<R1_CAPTURE_STATES;++i){
+                representation_capture_requested+=uint64_t(H)*sizeof(float);
+                r1_capture_buffers.push_back(vk.make_buffer(uint64_t(H)*sizeof(float)));
+            }
+            if(representation_capture_requested!=R1_CAPTURE_BYTES)
+                throw std::runtime_error("ArcLLM runtime R1 capture allocation mismatch");
+        }
+
+        const uint64_t total_requested=weight_requested+kv_requested+working_requested+representation_capture_requested;
+        if(working_requested>RUNTIME_WORKING_BYTES||total_requested>RUNTIME_USABLE_BUDGET)
             throw std::runtime_error("ArcLLM runtime requested residency exceeds validated envelope");
+        if(!request.capture_representation_trajectory&&total_requested>RUNTIME_TOTAL_RESIDENT)
+            throw std::runtime_error("ArcLLM runtime baseline residency drift");
 
         struct PCEmbSeg{uint32_t n,count,row_bytes,boundary;};
         struct PCRms{uint32_t n,batch;float eps;uint32_t w_base;};
@@ -275,12 +292,21 @@ arcllm::v1::runtime::RunResult arcllm::v1::runtime::generate(const RunRequest& r
         struct PCAttnKV{uint32_t layer,pos,max_ctx,q_heads,kv_heads,dim;float scale;};
         struct PCN{uint32_t n;};
         struct PCLMSeg{uint32_t n,row_bytes,row_start,row_count,boundary,x_base;};
+        struct PCR1Capture{uint32_t row,hidden;};
 
         auto addop=[&](std::vector<DispatchOp>&ops,const std::string&name,const std::string&sh,std::vector<Buffer*>bufs,std::vector<uint8_t>push,uint32_t gx,uint32_t gy=1,uint32_t gz=1){
             ops.push_back({name,join_path_p8c(shader_dir,sh),std::move(bufs),std::move(push),gx,gy,gz});
         };
         Buffer*emb0=&arenas.at(EB.slices[0].arena);Buffer*emb1=&arenas.at(EB.slices[1].arena);
         Buffer*out0=&arenas.at(OB.slices[0].arena);Buffer*out1=&arenas.at(OB.slices[1].arena);
+
+        auto append_r1_capture=[&](std::vector<DispatchOp>&ops,Buffer*src,uint32_t state_index,uint32_t row){
+            if(!request.capture_representation_trajectory)return;
+            if(state_index>=r1_capture_buffers.size())throw std::runtime_error("R1 capture state index overflow");
+            addop(ops,"token_xray_r1_capture."+std::to_string(state_index),
+                  "token_xray_r1_capture_row.spv",{src,&r1_capture_buffers.at(state_index)},
+                  push_bytes(PCR1Capture{row,H}),(H+255u)/256u);
+        };
 
         auto append_lm=[&](std::vector<DispatchOp>&ops,uint32_t x_base){
             for(uint32_t rs=0;rs<VOC;rs+=LM_CHUNK){
@@ -341,6 +367,7 @@ arcllm::v1::runtime::RunResult arcllm::v1::runtime::generate(const RunRequest& r
             std::vector<DispatchOp>ops;
             addop(ops,"token_embedding","p8c_embedding_q4k_segmented_probe.spv",{emb0,emb1,&b_ids,&b_h0},
                   push_bytes(PCEmbSeg{H,seq,EMB_RB,EMB_BOUNDARY}),(seq*H+255u)/256u);
+            append_r1_capture(ops,&b_h0,0u,seq-1u);
             Buffer*cur=&b_h0;Buffer*nxt=&b_h1;
             for(uint32_t l=0;l<LAYERS;++l){
                 const LT&z=lt[l];std::string p="L"+(l<10?std::string("0"):std::string())+std::to_string(l)+".";
@@ -361,6 +388,7 @@ arcllm::v1::runtime::RunResult arcllm::v1::runtime::generate(const RunRequest& r
                 uint32_t drb=z.dw->ggml_type==Q4?q4_row_bytes(FFN):q6_row_bytes(FFN);
                 addop(ops,p+"ffn_down",z.dw->ggml_type==Q4?"p7g_ffn_q4k_tiled16.spv":"p7g_ffn_q6k_tiled16.spv",{AB(z.DW),&b_s,&b_dummy,&b_d},push_bytes(PCGemm{FFN,H,seq,drb,0,BASE(z.DW),0}),(H+7u)/8u,(seq+15u)/16u);
                 addop(ops,p+"ffn_residual","p7_add.spv",{&b_r1,&b_d,nxt},push_bytes(PCN{seq*H}),(seq*H+255u)/256u);
+                append_r1_capture(ops,nxt,l+1u,seq-1u);
                 std::swap(cur,nxt);
             }
             addop(ops,"output_norm","p7_rmsnorm_seq.spv",{cur,AB("output_norm.weight"),&b_norm},push_bytes(PCRms{H,seq,eps,FBASE("output_norm.weight")}),seq);
@@ -368,10 +396,11 @@ arcllm::v1::runtime::RunResult arcllm::v1::runtime::generate(const RunRequest& r
             return ops;
         };
 
-        auto build_decode=[&](uint32_t pos,bind::PrimitiveHandle q4_route){
+        auto build_decode=[&](uint32_t pos,bind::PrimitiveHandle q4_route,bool capture_this_step){
             std::vector<DispatchOp>ops;
             addop(ops,"token_embedding","p8c_embedding_q4k_segmented_probe.spv",{emb0,emb1,&b_dec_id,&b_h0},
                   push_bytes(PCEmbSeg{H,1,EMB_RB,EMB_BOUNDARY}),(H+255u)/256u);
+            if(capture_this_step)append_r1_capture(ops,&b_h0,0u,0u);
             Buffer*cur=&b_h0;Buffer*nxt=&b_h1;
             for(uint32_t l=0;l<LAYERS;++l){
                 const LT&z=lt[l];std::string p="L"+(l<10?std::string("0"):std::string())+std::to_string(l)+".";
@@ -413,6 +442,7 @@ arcllm::v1::runtime::RunResult arcllm::v1::runtime::generate(const RunRequest& r
                           (H+63u)/64u);
                 }
                 addop(ops,p+"ffn_residual","p7_add.spv",{&b_r1,&b_d,nxt},push_bytes(PCN{H}),(H+255u)/256u);
+                if(capture_this_step)append_r1_capture(ops,nxt,l+1u,0u);
                 std::swap(cur,nxt);
             }
             addop(ops,"output_norm","p7_rmsnorm_seq.spv",{cur,AB("output_norm.weight"),&b_norm},push_bytes(PCRms{H,1,eps,FBASE("output_norm.weight")}),1);
@@ -422,7 +452,8 @@ arcllm::v1::runtime::RunResult arcllm::v1::runtime::generate(const RunRequest& r
 
 
         auto ppops=build_prefill(seq);
-        if(LM_DISPATCHES!=19u||ppops.size()!=EXPECT_PREFILL)
+        const uint32_t expected_prefill_dispatches=EXPECT_PREFILL+(request.capture_representation_trajectory?R1_CAPTURE_STATES:0u);
+        if(LM_DISPATCHES!=19u||ppops.size()!=expected_prefill_dispatches)
             throw std::runtime_error("ArcLLM runtime prefill graph topology mismatch");
         PreparedChain ppchain=vk.prepare_chain(ppops);
 
@@ -438,7 +469,7 @@ arcllm::v1::runtime::RunResult arcllm::v1::runtime::generate(const RunRequest& r
         uint32_t z0=0;std::memcpy(b_dec_id.mapped,&z0,sizeof(z0));
 
         ChainStats ps=vk.execute_prepared(ppchain,ppops,false);
-        if(ps.dispatch_count!=EXPECT_PREFILL||ps.submit_count!=1u)
+        if(ps.dispatch_count!=expected_prefill_dispatches||ps.submit_count!=1u)
             throw std::runtime_error("ArcLLM runtime prefill dispatch topology mismatch");
 
         const float* lp=reinterpret_cast<const float*>(b_logits.mapped);
@@ -448,9 +479,33 @@ arcllm::v1::runtime::RunResult arcllm::v1::runtime::generate(const RunRequest& r
         RunResult result;
         result.generated_token_ids.reserve(request.max_new_tokens);
         result.generated_token_ids.push_back(top.top1);
-        result.stats.prefill_dispatches=ps.dispatch_count;
+        result.stats.prefill_dispatches=EXPECT_PREFILL;
         result.stats.prefill_submits=ps.submit_count;
+        result.stats.representation_prefill_capture_dispatches=
+            request.capture_representation_trajectory?R1_CAPTURE_STATES:0u;
         result.stats.finite=true;
+
+        auto collect_r1_states=[&](const char*phase,uint32_t token_id,uint32_t token_position){
+            if(!request.capture_representation_trajectory)return;
+            for(uint32_t state_index=0;state_index<R1_CAPTURE_STATES;++state_index){
+                RepresentationState s;
+                s.phase=phase;
+                s.state_index=state_index;
+                s.layer_index=(state_index==0u)?-1:std::int32_t(state_index-1u);
+                s.state_point=(state_index==0u)?"embedding_output":
+                    ("block_output:"+std::to_string(state_index-1u));
+                s.token_id=token_id;
+                s.token_position=token_position;
+                s.hidden_dimension=H;
+                s.source_dtype="float32";
+                const float*src=reinterpret_cast<const float*>(r1_capture_buffers.at(state_index).mapped);
+                s.values.assign(src,src+H);
+                for(float v:s.values)if(!std::isfinite(v))
+                    throw std::runtime_error("R1 captured non-finite representation state");
+                result.representation_states.push_back(std::move(s));
+            }
+        };
+        collect_r1_states("prefill",input_ids.back(),seq-1u);
 
         uint32_t next=top.top1;
         std::memcpy(b_dec_id.mapped,&next,sizeof(next));
@@ -475,8 +530,11 @@ arcllm::v1::runtime::RunResult arcllm::v1::runtime::generate(const RunRequest& r
             else throw std::runtime_error("ArcLLM runtime unknown Q4 primitive");
 
             const uint32_t pos=seq+di;
-            auto dops=build_decode(pos,applied.primitive);
-            if(dops.size()!=EXPECT_DECODE)
+            const uint32_t decode_input_token=next;
+            const bool capture_this_step=request.capture_representation_trajectory&&di==0u;
+            auto dops=build_decode(pos,applied.primitive,capture_this_step);
+            const uint32_t expected_decode_dispatches=EXPECT_DECODE+(capture_this_step?R1_CAPTURE_STATES:0u);
+            if(dops.size()!=expected_decode_dispatches)
                 throw std::runtime_error("ArcLLM runtime decode graph topology mismatch");
             if(!dchain_ready||dchain_route!=applied.primitive.opaque){
                 if(dchain_ready)vk.destroy_prepared(dchain);
@@ -485,14 +543,18 @@ arcllm::v1::runtime::RunResult arcllm::v1::runtime::generate(const RunRequest& r
                 dchain_route=applied.primitive.opaque;
             }
             ChainStats ds=vk.execute_prepared(dchain,dops,true);
-            if(ds.dispatch_count!=EXPECT_DECODE||ds.submit_count!=1u)
+            if(ds.dispatch_count!=expected_decode_dispatches||ds.submit_count!=1u)
                 throw std::runtime_error("ArcLLM runtime decode dispatch topology mismatch");
             if(result.stats.decode_steps==0u){
-                result.stats.decode_dispatches_per_step=ds.dispatch_count;
+                result.stats.decode_dispatches_per_step=EXPECT_DECODE;
                 result.stats.decode_submits_per_step=ds.submit_count;
-            }else if(result.stats.decode_dispatches_per_step!=ds.dispatch_count||
+            }else if(result.stats.decode_dispatches_per_step!=EXPECT_DECODE||
                      result.stats.decode_submits_per_step!=ds.submit_count){
                 throw std::runtime_error("ArcLLM runtime decode topology changed within request");
+            }
+            if(capture_this_step){
+                result.stats.representation_decode_capture_dispatches+=R1_CAPTURE_STATES;
+                collect_r1_states("decode",decode_input_token,pos);
             }
             ++result.stats.decode_steps;
 
@@ -531,6 +593,7 @@ arcllm::v1::runtime::RunResult arcllm::v1::runtime::generate(const RunRequest& r
         vk.destroy_prepared(ppchain);
         std::vector<Buffer*>scratch={&b_vcache,&b_kcache,&b_logits,&b_norm,&b_d,&b_s,&b_u,&b_g,&b_n2,&b_r1,&b_o,&b_attn,&b_kr,&b_qr,&b_v,&b_k,&b_q,&b_n1,&b_h1,&b_h0,&b_dummy,&b_dec_id,&b_ids};
         for(Buffer*p:scratch)vk.destroy_buffer(*p);
+        for(auto&b:r1_capture_buffers)vk.destroy_buffer(b);
         for(auto&b:arenas)vk.destroy_buffer(b);
         return result;
 }
