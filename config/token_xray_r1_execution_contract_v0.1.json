@@ -172,5 +172,28 @@
     "PASS_R1_REAL_RUNTIME_CAPTURE_SEMANTICS_PRESERVED",
     "FAIL_R1_REAL_RUNTIME_CAPTURE_OR_SEMANTICS"
   ],
-  "performance_authority": false
+  "performance_authority": false,
+  "token_xray_validator_freeze": {
+    "ref": "freeze/representation-trajectory-r1-validator-v0.1",
+    "head": "2e1680fa9187b166a8fb6c52a5c8677a86766c39",
+    "static_preflight_workflow_run_id": 36990411475,
+    "static_preflight_conclusion": "success"
+  },
+  "execution_lock": {
+    "arcllm_freeze_ref": "freeze/token-xray-r1-real-runtime-exec-v0.1",
+    "token_xray_freeze_ref": "freeze/representation-trajectory-r1-validator-v0.1",
+    "token_xray_head": "2e1680fa9187b166a8fb6c52a5c8677a86766c39",
+    "canonical_namespace": "results/token_xray_r1_one_shot_lock_v0.1",
+    "out_dir_override_permitted": false,
+    "rerun_permitted": false,
+    "matched_pair_count": 8,
+    "request_member_count": 16,
+    "execution_order_frozen": true,
+    "executable_hashes_materialized_before_first_generate_call": true,
+    "compiled_shader_hashes_materialized_before_first_generate_call": true,
+    "exact_model_hash_reverified_before_first_generate_call": true,
+    "exact_gguf_token_ids_reverified_before_first_generate_call": true,
+    "execution_permitted_only_when_arcllm_head_equals_freeze_ref": true,
+    "execution_permitted_only_when_token_xray_head_equals_frozen_head": true
+  }
 }
