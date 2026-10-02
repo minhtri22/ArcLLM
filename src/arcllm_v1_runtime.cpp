@@ -513,6 +513,7 @@ arcllm::v1::runtime::RunResult arcllm::v1::runtime::generate(const RunRequest& r
         PreparedChain dchain{};
         bool dchain_ready=false;
         uint64_t dchain_route=0;
+        bool dchain_capture=false;
         for(uint32_t di=0;di+1u<request.max_new_tokens;++di){
             const uint64_t future_reuse=uint64_t(request.max_new_tokens-1u-di);
             const gp::PolicyDecision decision=q4_decide(future_reuse);
@@ -536,11 +537,12 @@ arcllm::v1::runtime::RunResult arcllm::v1::runtime::generate(const RunRequest& r
             const uint32_t expected_decode_dispatches=EXPECT_DECODE+(capture_this_step?R1_CAPTURE_STATES:0u);
             if(dops.size()!=expected_decode_dispatches)
                 throw std::runtime_error("ArcLLM runtime decode graph topology mismatch");
-            if(!dchain_ready||dchain_route!=applied.primitive.opaque){
+            if(!dchain_ready||dchain_route!=applied.primitive.opaque||dchain_capture!=capture_this_step){
                 if(dchain_ready)vk.destroy_prepared(dchain);
                 dchain=vk.prepare_chain(dops);
                 dchain_ready=true;
                 dchain_route=applied.primitive.opaque;
+                dchain_capture=capture_this_step;
             }
             ChainStats ds=vk.execute_prepared(dchain,dops,true);
             if(ds.dispatch_count!=expected_decode_dispatches||ds.submit_count!=1u)
