@@ -11,6 +11,7 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <iterator>
 #include <new>
 #include <stdexcept>
 #include <string>
@@ -76,8 +77,8 @@ struct TokenTrace {
     static constexpr std::size_t kMaxTokens = 32;
     std::array<std::uint64_t, kMaxTokens> ready_ns{};
     std::array<std::uint32_t, kMaxTokens> token_ids{};
+    std::array<std::uint64_t, kMaxTokens> allocation_count_at_ready{};
     std::uint32_t count = 0;
-    std::uint64_t allocations_at_first_token = 0;
     bool overflow = false;
 };
 
@@ -89,10 +90,8 @@ void token_observer(std::uint32_t index, std::uint32_t token_id, void* user) {
     }
     trace->ready_ns[index] = now_ns();
     trace->token_ids[index] = token_id;
-    if (index == 0u) {
-        trace->allocations_at_first_token =
-            g_allocation_count.load(std::memory_order_relaxed);
-    }
+    trace->allocation_count_at_ready[index] =
+        g_allocation_count.load(std::memory_order_relaxed);
     ++trace->count;
 }
 
@@ -213,8 +212,12 @@ Observation run_direct(const RunRequest& request) {
     o.request_end_ns = now_ns();
     o.cpu_end_100ns = process_cpu_100ns();
     o.allocations_total = g_allocation_count.load(std::memory_order_relaxed);
-    if (o.trace.count > 0u && o.allocations_total >= o.trace.allocations_at_first_token) {
-        o.allocations_decode = o.allocations_total - o.trace.allocations_at_first_token;
+    if (o.trace.count > 1u &&
+        o.trace.allocation_count_at_ready[o.trace.count - 1u] >=
+            o.trace.allocation_count_at_ready[0]) {
+        o.allocations_decode =
+            o.trace.allocation_count_at_ready[o.trace.count - 1u] -
+            o.trace.allocation_count_at_ready[0];
     }
     return o;
 }
@@ -285,8 +288,12 @@ Observation run_ring(const RunRequest& request) {
     consumer.join();
 
     o.allocations_total = g_allocation_count.load(std::memory_order_relaxed);
-    if (o.trace.count > 0u && o.allocations_total >= o.trace.allocations_at_first_token) {
-        o.allocations_decode = o.allocations_total - o.trace.allocations_at_first_token;
+    if (o.trace.count > 1u &&
+        o.trace.allocation_count_at_ready[o.trace.count - 1u] >=
+            o.trace.allocation_count_at_ready[0]) {
+        o.allocations_decode =
+            o.trace.allocation_count_at_ready[o.trace.count - 1u] -
+            o.trace.allocation_count_at_ready[0];
     }
     if (error_buffer[0] != '\0') {
         o.error = error_buffer;
