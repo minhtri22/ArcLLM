@@ -35,6 +35,12 @@ jobs:
         run: |
           python tests/test_token_xray_r1_representation_capture_static.py
 
+      - name: Compile R1 capture shader
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y glslang-tools
+          glslangValidator -V --target-env vulkan1.2 -S comp             -o /tmp/token_xray_r1_capture_row.spv             shaders/token_xray_r1_capture_row.comp
+
       - name: Upload zero-science preflight evidence
         uses: actions/upload-artifact@v4
         with:
@@ -59,8 +65,45 @@ jobs:
           cl.exe /nologo /std:c++17 /EHsc /W4 /Zs src\arcllm_v1_runtime.cpp
           cl.exe /nologo /std:c++17 /EHsc /W4 /Zs src\token_xray_r1_capture_harness.cpp
 
+      - name: Native-link R1 capture harness
+        shell: cmd
+        run: |
+          cl.exe /nologo /std:c++17 /O2 /EHsc /W4 /bigobj /Fe:token_xray_r1_capture_harness.exe ^
+            src\arcllm_v1_runtime.cpp ^
+            src\token_xray_r1_capture_harness.cpp ^
+            src\gguf.cpp ^
+            src\tensor_store.cpp ^
+            src\arcllm_v1_primitive_registry_v2.cpp ^
+            src\arcllm_v1_generic_policy_engine_v4.cpp ^
+            src\arcllm_v1_generic_backend_binding_v4.cpp ^
+            src\registrations\arcllm_v1_q4k_down_reference_registration_v2.cpp
+
       - name: Confirm no model execution
         shell: powershell
         run: |
           Write-Host "TOKEN_XRAY_R1_WINDOWS_SYNTAX=PASS"
           Write-Host "MODEL_EXECUTION=false"
+
+
+  tokenizer-probe-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch pinned llama.cpp
+        run: |
+          git clone --filter=blob:none --no-checkout https://github.com/ggml-org/llama.cpp.git /tmp/llama.cpp
+          git -C /tmp/llama.cpp fetch --force --depth 1 origin b29c606e28a01b1bc8c1351026a0fa6e616bf6c4
+          git -C /tmp/llama.cpp checkout --detach b29c606e28a01b1bc8c1351026a0fa6e616bf6c4
+          test "$(git -C /tmp/llama.cpp rev-parse HEAD)" = "b29c606e28a01b1bc8c1351026a0fa6e616bf6c4"
+
+      - name: Build exact-GGUF tokenizer probe
+        run: |
+          cmake -S baseline/r1_tokenizer -B /tmp/r1tok             -DLLAMA_CPP_DIR=/tmp/llama.cpp             -DCMAKE_BUILD_TYPE=Release
+          cmake --build /tmp/r1tok --target token_xray_r1_tokenizer_probe -j2
+
+      - name: Confirm build-only boundary
+        run: |
+          test -x /tmp/r1tok/token_xray_r1_tokenizer_probe
+          echo "TOKEN_XRAY_R1_TOKENIZER_PROBE_BUILD=PASS"
+          echo "MODEL_EXECUTION=false"
