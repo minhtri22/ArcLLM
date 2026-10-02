@@ -31,9 +31,9 @@ jobs:
           mkdir -p r1-preflight
           python tools/token_xray_r1_freeze_token_ids.py --out r1-preflight/R1_REFERENCE_TOKENIZATION.json
 
-      - name: R1 static hook audit
+      - name: R1 static hook and execution-lock audit
         run: |
-          python tests/test_token_xray_r1_representation_capture_static.py
+          python -m pytest -q             tests/test_token_xray_r1_representation_capture_static.py             tests/test_token_xray_r1_execution_lock_static.py
 
       - name: Compile R1 capture shader
         run: |
