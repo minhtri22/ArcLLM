@@ -154,7 +154,11 @@
     "states_per_phase": 29,
     "hidden_dimension": 3584,
     "prefill_anchor": "last prompt token at N-1",
-    "decode_anchor": "first generated token at N"
+    "decode_anchor": "first generated token at N",
+    "canonical_model_prefill_dispatches": 441,
+    "canonical_model_decode_dispatches_per_step": 469,
+    "prefill_expected_observer_dispatches": 29,
+    "first_decode_expected_observer_dispatches": 29
   },
   "token_xray_validator_freeze": {
     "ref": "freeze/representation-trajectory-r1-validator-v0.1",
