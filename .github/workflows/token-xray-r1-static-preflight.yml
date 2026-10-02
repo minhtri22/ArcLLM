@@ -1,0 +1,44 @@
+name: Token-XRay R1 Static and Tokenization Preflight
+
+on:
+  push:
+    branches:
+      - research/token-xray-r1-representation-capture
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install zero-science tokenizer/static dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "huggingface_hub==0.26.5" "tokenizers==0.20.3" pytest
+
+      - name: Freeze P0-P3 upstream reference token IDs
+        run: |
+          mkdir -p r1-preflight
+          python tools/token_xray_r1_freeze_token_ids.py --out r1-preflight/R1_REFERENCE_TOKENIZATION.json
+
+      - name: R1 static hook audit
+        run: |
+          python tests/test_token_xray_r1_representation_capture_static.py
+
+      - name: Upload zero-science preflight evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: token-xray-r1-static-preflight
+          path: r1-preflight/R1_REFERENCE_TOKENIZATION.json
+          if-no-files-found: error
+          retention-days: 90
