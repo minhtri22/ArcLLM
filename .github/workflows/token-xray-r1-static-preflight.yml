@@ -59,6 +59,22 @@ jobs:
         with:
           arch: x64
 
+      - name: Parse R1 PowerShell execution lock
+        shell: powershell
+        run: |
+          $tokens=$null
+          $errors=$null
+          [System.Management.Automation.Language.Parser]::ParseFile(
+            (Resolve-Path "tools\run_token_xray_r1_one_shot.ps1"),
+            [ref]$tokens,
+            [ref]$errors
+          ) | Out-Null
+          if($errors.Count -ne 0){
+            $errors | ForEach-Object { Write-Error $_.Message }
+            exit 1
+          }
+          Write-Host "TOKEN_XRAY_R1_POWERSHELL_PARSE=PASS"
+
       - name: Syntax-check R1 runtime and harness
         shell: cmd
         run: |
