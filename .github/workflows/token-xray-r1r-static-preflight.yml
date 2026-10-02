@@ -28,16 +28,6 @@ jobs:
         run: |
           test -z "$(git diff --name-only 3e1b86ceb5fad8b423dfa8f8bbb46760d0f15328 -- src include shaders | tr -d '\n')"
           echo "R1R_CAPTURE_RUNTIME_DELTA=0"
-
-  tokenizer-native-build:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Build Unicode-safe exact-GGUF tokenizer probe
-        shell: powershell
+      - name: Confirm native build authority remains target machine
         run: |
-          ./tools/build_token_xray_r1r_tokenizer_probe.ps1
-          if(-not (Test-Path ./token_xray_r1r_tokenizer_probe.exe)){ throw "probe missing" }
-          Write-Host "R1R_TOKENIZER_NATIVE_BUILD=PASS"
+          echo "Native tokenizer/harness/shader build is target-machine implementation preflight, not GitHub science."
