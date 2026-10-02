@@ -33,7 +33,8 @@ $Names=@(
  "p7g_ffn_q6k_tiled16.comp",
  "p7_q6k_gemm_2d.comp",
  "p8c_embedding_q4k_segmented_probe.comp",
- "p8q1_lmhead_q6k_segmented_chunk.comp"
+ "p8q1_lmhead_q6k_segmented_chunk.comp",
+ "token_xray_r1_capture_row.comp"
 )
 $Rows=@()
 foreach($Name in $Names){
