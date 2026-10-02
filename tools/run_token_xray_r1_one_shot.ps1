@@ -1,24 +1,34 @@
 param(
   [string]$ModelPath,
   [Parameter(Mandatory=$true)][string]$TokenXRayRoot,
-  [Parameter(Mandatory=$true)][string]$ExpectedArcLLMHead,
-  [Parameter(Mandatory=$true)][string]$ExpectedTokenXRayHead,
   [string]$OutDir
 )
 $ErrorActionPreference="Stop"
 Set-StrictMode -Version Latest
 $Here=Split-Path -Parent $MyInvocation.MyCommand.Path
 $Root=Split-Path -Parent $Here
-if(-not $OutDir){$OutDir=Join-Path $Root "results\token_xray_r1_one_shot"}
 $ContractPath=Join-Path $Root "config\token_xray_r1_execution_contract_v0.1.json"
 $Contract=Get-Content $ContractPath -Raw -Encoding UTF8|ConvertFrom-Json
+$CanonicalOut=Join-Path $Root ([string]$Contract.execution_lock.canonical_namespace -replace "/","\")
+if(-not $OutDir){$OutDir=$CanonicalOut}
+$ResolvedOut=[IO.Path]::GetFullPath($OutDir)
+$ResolvedCanonical=[IO.Path]::GetFullPath($CanonicalOut)
+if($ResolvedOut-ne$ResolvedCanonical){throw "STOP: R1 output namespace is frozen; override forbidden"}
+$OutDir=$ResolvedCanonical
 
 $ArcHead=(git -C $Root rev-parse HEAD).Trim()
-if($ArcHead-ne$ExpectedArcLLMHead){throw "STOP: ArcLLM HEAD mismatch"}
+$ArcFreezeRef=[string]$Contract.execution_lock.arcllm_freeze_ref
+$ArcFreezeHead=(git -C $Root rev-parse $ArcFreezeRef).Trim()
+if($ArcHead-ne$ArcFreezeHead){throw "STOP: ArcLLM HEAD is not the frozen R1 execution ref"}
 $ArcDirty=((git -C $Root status --porcelain --untracked-files=no)|Out-String).Trim()
 if($ArcDirty){throw "STOP: ArcLLM tracked worktree dirty"}
+
 $TxHead=(git -C $TokenXRayRoot rev-parse HEAD).Trim()
+$ExpectedTokenXRayHead=[string]$Contract.execution_lock.token_xray_head
 if($TxHead-ne$ExpectedTokenXRayHead){throw "STOP: Token-XRay HEAD mismatch"}
+$TxFreezeRef=[string]$Contract.execution_lock.token_xray_freeze_ref
+$TxFreezeHead=(git -C $TokenXRayRoot rev-parse $TxFreezeRef).Trim()
+if($TxFreezeHead-ne$ExpectedTokenXRayHead){throw "STOP: Token-XRay freeze ref mismatch"}
 $TxDirty=((git -C $TokenXRayRoot status --porcelain --untracked-files=no)|Out-String).Trim()
 if($TxDirty){throw "STOP: Token-XRay tracked worktree dirty"}
 
@@ -55,8 +65,24 @@ foreach($Pid in @("P0","P1","P2","P3")){
 & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Root "tools\build_token_xray_r1_capture_harness.ps1")
 if($LASTEXITCODE-ne0){throw "STOP: R1 capture harness build failed"}
 $Harness=Join-Path $Root "token_xray_r1_capture_harness.exe"
+$TokenizerExe=Join-Path $Root "token_xray_r1_tokenizer_probe.exe"
 $ShaderDir=Join-Path $Root "compiled_shaders"
+$CaptureShader=Join-Path $ShaderDir "token_xray_r1_capture_row.spv"
 if(-not(Test-Path $Harness)){throw "STOP: R1 harness missing"}
+if(-not(Test-Path $TokenizerExe)){throw "STOP: R1 tokenizer probe missing"}
+if(-not(Test-Path $CaptureShader)){throw "STOP: R1 capture shader missing"}
+
+$ContractSha=(Get-FileHash $ContractPath -Algorithm SHA256).Hash.ToUpperInvariant()
+$RunnerPath=$MyInvocation.MyCommand.Path
+$RunnerSha=(Get-FileHash $RunnerPath -Algorithm SHA256).Hash.ToUpperInvariant()
+$HarnessSha=(Get-FileHash $Harness -Algorithm SHA256).Hash.ToUpperInvariant()
+$TokenizerSha=(Get-FileHash $TokenizerExe -Algorithm SHA256).Hash.ToUpperInvariant()
+$CaptureShaderSha=(Get-FileHash $CaptureShader -Algorithm SHA256).Hash.ToUpperInvariant()
+$ShaderRows=@()
+foreach($F in @(Get-ChildItem $ShaderDir -File -Filter *.spv|Sort-Object Name)){
+  $ShaderRows+=@([ordered]@{name=$F.Name;sha256=(Get-FileHash $F.FullName -Algorithm SHA256).Hash.ToUpperInvariant();bytes=$F.Length})
+}
+if($ShaderRows.Count-lt1){throw "STOP: compiled shader inventory empty"}
 
 $StatePath=Join-Path $OutDir "EXECUTION_STATE.json"
 if(Test-Path $StatePath){throw "STOP: R1 one-shot state already exists; rerun forbidden"}
@@ -67,10 +93,21 @@ $State=[ordered]@{
  schema="token_xray.r1.one_shot_state.v0.1"
  status="PREFLIGHT_COMPLETE_NOT_STARTED"
  arcllm_head=$ArcHead
+ arcllm_freeze_ref=$ArcFreezeRef
  token_xray_head=$TxHead
+ token_xray_freeze_ref=$TxFreezeRef
  model_sha256=$ObservedSha
  model_size_bytes=$ModelItem.Length
  exact_gguf_tokenization="PASS"
+ execution_lock=[ordered]@{
+   namespace=([string]$Contract.execution_lock.canonical_namespace)
+   contract_sha256=$ContractSha
+   runner_sha256=$RunnerSha
+   harness_sha256=$HarnessSha
+   tokenizer_probe_sha256=$TokenizerSha
+   capture_shader_sha256=$CaptureShaderSha
+   compiled_shaders=$ShaderRows
+ }
  pairs=@()
  current_pair=$null
  current_member=$null
@@ -93,6 +130,18 @@ function Same-U32($A,$B){
   for($i=0;$i-lt$X.Count;$i++){if([uint32]$X[$i]-ne[uint32]$Y[$i]){return $false}}
   return $true
 }
+function Assert-ExecutionLock(){
+  if((Get-FileHash $ContractPath -Algorithm SHA256).Hash.ToUpperInvariant()-ne$ContractSha){throw "STOP: R1 contract changed after lock"}
+  if((Get-FileHash $RunnerPath -Algorithm SHA256).Hash.ToUpperInvariant()-ne$RunnerSha){throw "STOP: R1 runner changed after lock"}
+  if((Get-FileHash $Harness -Algorithm SHA256).Hash.ToUpperInvariant()-ne$HarnessSha){throw "STOP: R1 harness changed after lock"}
+  if((Get-FileHash $TokenizerExe -Algorithm SHA256).Hash.ToUpperInvariant()-ne$TokenizerSha){throw "STOP: R1 tokenizer probe changed after lock"}
+  if((Get-FileHash $CaptureShader -Algorithm SHA256).Hash.ToUpperInvariant()-ne$CaptureShaderSha){throw "STOP: R1 capture shader changed after lock"}
+  foreach($Row in @($ShaderRows)){
+    $P=Join-Path $ShaderDir ([string]$Row.name)
+    if(-not(Test-Path $P)){throw "STOP: compiled shader disappeared after lock"}
+    if((Get-FileHash $P -Algorithm SHA256).Hash.ToUpperInvariant()-ne[string]$Row.sha256){throw "STOP: compiled shader changed after lock: $($Row.name)"}
+  }
+}
 
 $RawCandidate="PASS_CANDIDATE_PENDING_TOKEN_XRAY_VALIDATION"
 $FailReason=$null
@@ -109,6 +158,7 @@ foreach($Pair in @($Contract.matched_pairs)){
     $PairState.members+=@([ordered]@{mode=$Mode;status="STARTED"})
     Save-State
 
+    Assert-ExecutionLock
     $OutFile=Join-Path $RawDir ("pair{0:D2}_{1}.json" -f $PairNum,$Mode)
     & $Harness --model $ModelPath --shader-dir $ShaderDir --tokens (Tokens-Csv $Pid) --mode $Mode --prompt-id $Pid --arcllm-head $ArcHead --model-sha256 $ObservedSha --out $OutFile
     if($LASTEXITCODE-ne0){
