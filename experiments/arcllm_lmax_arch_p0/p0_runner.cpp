@@ -148,6 +148,28 @@ std::vector<std::uint32_t> make_tokens(const Workload& w) {
     return ids;
 }
 
+std::string read_text_file(const std::string& path) {
+    std::ifstream in(path, std::ios::binary);
+    if (!in) throw std::runtime_error("cannot open execution authorization");
+    return std::string(
+        (std::istreambuf_iterator<char>(in)),
+        std::istreambuf_iterator<char>());
+}
+
+bool execution_authorized(const std::string& path) {
+    if (path.empty()) return false;
+    const std::string text = read_text_file(path);
+    std::string compact;
+    compact.reserve(text.size());
+    for (char ch : text) {
+        if (ch != ' ' && ch != '\\t' && ch != '\\r' && ch != '\\n') {
+            compact.push_back(ch);
+        }
+    }
+    return compact.find("\"decision\":\"ARCLLM_LMAX_ARCH_P0_EXECUTION_AUTHORIZED\"") !=
+           std::string::npos;
+}
+
 std::string escape_json(const std::string& s) {
     std::string out;
     out.reserve(s.size() + 8u);
@@ -380,7 +402,7 @@ void write_result(
         << "\"evidence_profile\":0,"
         << "\"request_within_validated_domain\":false,"
         << "\"greedy_generation\":true,"
-        << "\"outcome_execution_authorized_by_this_binary\":false"
+        << "\"execution_authorization_verified\":true"
         << "}\n}\n";
 }
 } // namespace
@@ -441,7 +463,7 @@ void operator delete[](void* p, std::size_t, std::align_val_t alignment) noexcep
 
 int main(int argc, char** argv) {
     try {
-        std::string arm, cell, model, shader_dir, sidecar, out_path;
+        std::string arm, cell, model, shader_dir, sidecar, out_path, authorization_path;
         bool describe = false;
         for (int i = 1; i < argc; ++i) {
             const std::string a = argv[i];
@@ -456,6 +478,7 @@ int main(int argc, char** argv) {
             else if (a == "--shader-dir") shader_dir = need("--shader-dir");
             else if (a == "--sidecar") sidecar = need("--sidecar");
             else if (a == "--out") out_path = need("--out");
+            else if (a == "--authorization") authorization_path = need("--authorization");
             else throw std::runtime_error("unknown argument: " + a);
         }
 
@@ -471,10 +494,14 @@ int main(int argc, char** argv) {
             return 0;
         }
 
+        if (!execution_authorized(authorization_path)) {
+            throw std::runtime_error(
+                "outcome execution blocked: missing or invalid P0 execution authorization");
+        }
         if ((arm != "direct" && arm != "ring") || cell.empty() ||
             model.empty() || shader_dir.empty() || out_path.empty()) {
             throw std::runtime_error(
-                "required: --arm direct|ring --cell W1..W6 --model --shader-dir --out");
+                "required: --authorization FILE --arm direct|ring --cell W1..W6 --model --shader-dir --out");
         }
 
         const Workload w = workload_for(cell);
