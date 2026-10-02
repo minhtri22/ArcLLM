@@ -67,7 +67,6 @@ int main(int argc, char** argv) {
         llama_model_params mp = llama_model_default_params();
         mp.n_gpu_layers = 0;
         mp.vocab_only = true;
-        mp.use_mmap = true;
         llama_model* m = llama_model_load_from_file(model.c_str(), mp);
         if (!m) throw std::runtime_error("llama_model_load_from_file failed");
         const llama_vocab* vocab = llama_model_get_vocab(m);
