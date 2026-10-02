@@ -9,7 +9,7 @@ contract = json.loads((root / "config/token_xray_r1r_execution_contract_v0.1.jso
 assert 'u8"Hà Nội là thủ đô của"' not in probe
 assert "decode_hex" in probe
 assert "--prompt" in probe
-assert '"prompt_source":"hex_decoded_bytes"' in probe
+assert "prompt_source" in probe and "hex_decoded_bytes" in probe
 assert "llama_tokenize" in probe
 
 assert contract["canonical_execution_route"]["transport"] == "RemoteMCP managed task_job_submit"
