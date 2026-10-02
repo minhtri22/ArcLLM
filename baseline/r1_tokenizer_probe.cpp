@@ -63,14 +63,17 @@ int main(int argc, char** argv) {
         }
         if (model.empty() || out_path.empty()) throw std::runtime_error("required: --model --out");
 
+        llama_backend_init();
         llama_model_params mp = llama_model_default_params();
         mp.n_gpu_layers = 0;
+        mp.vocab_only = true;
         mp.use_mmap = true;
         llama_model* m = llama_model_load_from_file(model.c_str(), mp);
         if (!m) throw std::runtime_error("llama_model_load_from_file failed");
         const llama_vocab* vocab = llama_model_get_vocab(m);
         if (!vocab) {
             llama_model_free(m);
+            llama_backend_free();
             throw std::runtime_error("llama_model_get_vocab failed");
         }
 
@@ -85,6 +88,7 @@ int main(int argc, char** argv) {
         std::ofstream o(out_path, std::ios::binary | std::ios::trunc);
         if (!o) {
             llama_model_free(m);
+            llama_backend_free();
             throw std::runtime_error("cannot open output");
         }
         o << "{\n  \"schema\":\"arcllm.token_xray_r1.exact_gguf_tokenization.v0.1\",\n";
@@ -109,6 +113,7 @@ int main(int argc, char** argv) {
         o << "  \"model_inference_executed\":false\n}\n";
         o.close();
         llama_model_free(m);
+        llama_backend_free();
         std::cout << "TOKEN_XRAY_R1_EXACT_GGUF_TOKENIZATION=PASS\n";
         return 0;
     } catch (const std::exception& e) {
