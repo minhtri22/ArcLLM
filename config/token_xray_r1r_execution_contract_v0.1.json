@@ -175,16 +175,126 @@
     "route_preflight_namespace": "results/token_xray_r1r_route_preflight_v0.1",
     "token_xray_freeze_ref": "freeze/representation-trajectory-r1-validator-v0.1",
     "token_xray_head": "2e1680fa9187b166a8fb6c52a5c8677a86766c39",
-    "implementation_head_before_lock": null,
-    "expected_orchestrator_sha256": null,
-    "expected_harness_sha256": null,
-    "expected_tokenizer_probe_sha256": null,
-    "expected_capture_shader_sha256": null,
-    "expected_shader_inventory": null,
+    "implementation_head_before_lock": "29400f631750b53d69cd72d3b9aeeb6b942ed3df",
+    "expected_orchestrator_sha256": "5975FABD5A465AFF081C338E5AD272D1FCC459DF8F40C8B9168E5D47D3D524AD",
+    "expected_harness_sha256": "07003C412C9E17D60C57169E2C57135D5092FD55315158066E67193F4027BD77",
+    "expected_tokenizer_probe_sha256": "BA4D6ECE8981027DD242108F7E2A969F6BA80CA1600A35127A1103D5D09BC965",
+    "expected_capture_shader_sha256": "2A66B9E922C61FBBA66A4292A615FA15D8EB4CAB500A85AF08EA889355D81803",
+    "expected_shader_inventory": [
+      {
+        "name": "b1_2_exec148_gpu_materialize.comp.spv",
+        "sha256": "3A67C8F4FF7441CB0F13963380C1115770E7ADDA07048FC2F8476E1D271532C6",
+        "bytes": 8224
+      },
+      {
+        "name": "p7_add.spv",
+        "sha256": "189794B3BAE7CE6F3661E1407748F9DDEE5F7C384DC137D0D9B6BAB7200C9378",
+        "bytes": 1652
+      },
+      {
+        "name": "p7_attention_kv_online.spv",
+        "sha256": "0A6AB679398B0A71CC812D338850D791981A19A935333E92A6E2693BE0E4DE74",
+        "bytes": 6324
+      },
+      {
+        "name": "p7_attention_prefill_online.spv",
+        "sha256": "90778E1C9C82CC1A5A22C4D0A1208EB85D9AB00F25BB29BB3F6646E5E665DC3C",
+        "bytes": 6312
+      },
+      {
+        "name": "p7_kv_store.spv",
+        "sha256": "FA4F9F71F700EACC91F4910E061936D22EBEAC293B34C79A42696F0735B59686",
+        "bytes": 2960
+      },
+      {
+        "name": "p7_q4k_gemm_2d.spv",
+        "sha256": "2EFD94ACDA45555AF1C082C916AF7C3F1AA1BE46AD7868B7C4BE868816CAEE4A",
+        "bytes": 8260
+      },
+      {
+        "name": "p7_q6k_gemm_2d.spv",
+        "sha256": "F2267838D099128F233EF30817464658AAD71AAFA3933461FB315FAD10ED3F67",
+        "bytes": 9480
+      },
+      {
+        "name": "p7_rmsnorm_seq.spv",
+        "sha256": "AC92BCAD6F39E0A1FB8D77AA6D8D58DAB630D3237BBAA85E29722DDB5BBB6336",
+        "bytes": 4108
+      },
+      {
+        "name": "p7_rope_seq.spv",
+        "sha256": "865BFFEFFCFA0449CBBDDD33EA405F2E6F37546017F8DC394B547BB163ABFAD3",
+        "bytes": 3864
+      },
+      {
+        "name": "p7_swiglu.spv",
+        "sha256": "D3E9F2AD2706DB335853823443F04F31830D37EF49B6A273806FAEE81B73459F",
+        "bytes": 1836
+      },
+      {
+        "name": "p7c_ffn_q4k_tiled.spv",
+        "sha256": "38BE2A2470AD8CB6925CB005C992B515BC5AB8306428A5F14E9F478FD023FF54",
+        "bytes": 11136
+      },
+      {
+        "name": "p7c_ffn_q6k_tiled.spv",
+        "sha256": "A303F13125F6EDE85A93C6063019622B543DD1A1A30E744CCE266049FD5D328A",
+        "bytes": 12412
+      },
+      {
+        "name": "p7g_ffn_q4k_tiled16.spv",
+        "sha256": "5BD995EAA8381E64995AD108C7FEB88D02AA67905CB359BDC5B4CF95D4DE349F",
+        "bytes": 12692
+      },
+      {
+        "name": "p7g_ffn_q6k_tiled16.spv",
+        "sha256": "00E2E4767FDBBADD261F5002B2ACEB8BA12798825BD5B4CD51ED8C2C1F02803C",
+        "bytes": 13984
+      },
+      {
+        "name": "p7l_ffn_q4k_gateup_fused.spv",
+        "sha256": "60155DB8E86767C90EE35F5E3D97FAA62D1ADCCF8363C50C8E8742AC3436AA8F",
+        "bytes": 17692
+      },
+      {
+        "name": "p8c_embedding_q4k_segmented_probe.spv",
+        "sha256": "561B5B388763D1D9912868B6FD49B579F27BE815A0AC18F27D5C9BFF91A8B056",
+        "bytes": 8356
+      },
+      {
+        "name": "p8q1_lmhead_q6k_segmented_chunk.spv",
+        "sha256": "AB8AA31C970F634E8A7B01FB35EB820423B3A07CA545D7EEFA5776D8B3BC8419",
+        "bytes": 10344
+      },
+      {
+        "name": "q4_down_exec148_serial.spv",
+        "sha256": "140B8C7ADF5E88D4F1A50C4F8807874F4978070F301FCEEFC67A6A51A383D2A3",
+        "bytes": 6476
+      },
+      {
+        "name": "sa1_q4k_subgroup_splitk.spv",
+        "sha256": "B16868A807C4AE46EC2EE08457D8A3208D3D1CC2C856737CE109F010391A7569",
+        "bytes": 8152
+      },
+      {
+        "name": "token_xray_r1_capture_row.spv",
+        "sha256": "2A66B9E922C61FBBA66A4292A615FA15D8EB4CAB500A85AF08EA889355D81803",
+        "bytes": 1544
+      }
+    ],
     "out_dir_override_permitted": false,
     "rerun_permitted": false,
     "request_member_count": 16,
-    "matched_pair_count": 8
+    "matched_pair_count": 8,
+    "zero_science_lock_candidate": {
+      "status": "PASS_R1R_LOCK_CANDIDATE_ZERO_SCIENCE",
+      "machine": "machine-1",
+      "job_object_memory_limits": false,
+      "science_namespace_absent": true,
+      "model_inference": false,
+      "static_workflow_run_id": 37104635322,
+      "static_workflow_conclusion": "success"
+    }
   },
   "performance_authority": false
 }
