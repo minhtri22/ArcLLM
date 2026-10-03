@@ -74,11 +74,11 @@ def vc_environment() -> tuple[dict[str, str], str]:
         raise RuntimeError(f"vcvars64.bat not found: {devcmd}")
 
     env_cp = subprocess.run(
-        ["cmd.exe", "/d", "/s", "/c", f'call "{devcmd}" >nul && set'],
+        f'call "{devcmd}" >nul && set',
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
-        shell=False,
+        shell=True,
     )
     if env_cp.returncode != 0:
         raise RuntimeError(f"vcvars64 environment capture failed\n{env_cp.stdout}")
