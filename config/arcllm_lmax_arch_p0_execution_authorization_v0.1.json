@@ -1,0 +1,107 @@
+{
+  "schema": "arcllm.lmax_arch_p0.execution_authorization.v0.1",
+  "study": "ARCLLM_LMAX_ARCH_P0",
+  "gate": "ARCLLM_LMAX_ARCH_P0_EXPLICIT_ONE_SHOT_EXECUTION_AUTHORIZATION",
+  "decision": "ARCLLM_LMAX_ARCH_P0_EXECUTION_AUTHORIZED",
+  "authorized": true,
+  "authorization_parent_head": "4152b0ad0581a2cdff42198e3b765638359f1d39",
+  "execution_lock": {
+    "path": "config/arcllm_lmax_arch_p0_execution_lock_v0.1.json",
+    "git_blob": "8bc04cf202b3fee917ae42e5d442fda09affb1d7",
+    "source_freeze_commit": "8cfabfcd660f74d6d1623067174734caeee101e7",
+    "lock_commit": "3102a992de619aefd287206c172100d2f6e4a771",
+    "status": "EXECUTION_LOCKED"
+  },
+  "canonical_identity": {
+    "base_commit": "c6c9b2e0a198b8af43b120e2b269e2ddd0429ef1",
+    "runtime_blob": "0c613f6f740931a88ddd3ee5b904533a58001a06",
+    "api_blob": "d7821270ed253e1d1d96e3916b22b3daee50f5bc"
+  },
+  "target_model": {
+    "path": "C:\\Users\\minht\\.ollama\\models\\blobs\\sha256-60e05f2100071479f596b964f89f510f057ce397ea22f2833a0cfe029bfc2463",
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "bytes": 4683074048,
+    "verification": "PASS_EXACT_HASH_AND_SIZE"
+  },
+  "execution_binary": {
+    "path": "C:\\Users\\minht\\RemoteMCP-Workspace\\.remote-worktrees\\prj_74fdb393401cd0f267b4c943\\tsk_108cd7b086b786edc1d47322\\results\\arcllm_lmax_arch_p0_preflight\\build\\arcllm_lmax_p0_runner.exe",
+    "sha256": "E36F075B2E3801FEB80A5E2240693B1C96111EB95188CCD0D6A41AEE36147C26",
+    "bytes": 510976,
+    "verification": "PASS_EXACT_LOCK_MATCH"
+  },
+  "supporting_artifacts": {
+    "ring_selftest_sha256": "57D10D1EE50443AAD69947FBD7FABB23E27D83649EB64B7273B03691D79C6E43",
+    "buildonly_evidence_sha256": "2DC0CADA21D5DA8CCA14FAC42662819A4F79C82F7CEEBA10CEDE26466FCF7265",
+    "generated_runtime_sha256": "6D6E324C02DE2B8E57BB38995C6FB883A80E00A1217C9DB102D2A63AE3A3298D",
+    "runtime_transform_manifest_sha256": "714CEB490436BC079D99AC8917F082E6426F9B7C6CA7ED4AAE9C2649726B5522"
+  },
+  "execution_device": {
+    "device_id": "dev_dd73ebfa742f468f2d212bade88c175b",
+    "device_name": "machine-1",
+    "hostname": "DESKTOP-4PSD0G2",
+    "key_fingerprint_sha256": "b657d5395e393e0957a9ed358bb5a1fe1588fde5d3a44be71295a68d1e73def9",
+    "state_at_authorization": "ONLINE"
+  },
+  "resource_gate": {
+    "total_physical_memory_bytes": 33916248064,
+    "available_physical_memory_bytes": 11235815424,
+    "memory_load_percent": 66,
+    "disk_total_bytes": 485109002240,
+    "disk_free_bytes": 25809817600,
+    "ac_line_status": 1,
+    "battery_percent": 80,
+    "power_scheme": "Balanced",
+    "relevant_process_priority_class": "Normal",
+    "cloud_or_alternate_gpu": false,
+    "result": "PASS"
+  },
+  "contamination_gate": {
+    "arcllm_project_active_tasks": 1,
+    "active_task_identity": "authorization task only",
+    "concurrent_arcllm_scientific_gpu_job": false,
+    "concurrent_arcllm_runner_process": false,
+    "observed_background_services": [
+      "Ollama serve/app background processes",
+      "llama-server.exe CPU-only with -ngl 0"
+    ],
+    "loaded_ollama_runner_process_observed": false,
+    "result": "PASS"
+  },
+  "science_firewall": {
+    "model_executed_during_authorization": false,
+    "runner_invoked_during_authorization": false,
+    "measured_inference_runs_during_authorization": 0,
+    "performance_outcome_opened": false,
+    "lineage_modified": false
+  },
+  "authorization_scope": {
+    "exact_preregistered_campaign_only": true,
+    "workloads": [
+      "W1",
+      "W2",
+      "W3",
+      "W4",
+      "W5",
+      "W6"
+    ],
+    "warmups_per_arm_excluded": 2,
+    "measured_pairs_per_cell": 4,
+    "measured_pair_order": [
+      "A_B",
+      "B_A",
+      "A_B",
+      "B_A"
+    ],
+    "total_measured_pairs": 24,
+    "total_measured_inference_runs": 48,
+    "selective_rerun_allowed": false,
+    "outlier_deletion_allowed": false,
+    "posthoc_tuning_allowed": false,
+    "exact_locked_runner_required": true,
+    "exact_locked_model_required": true,
+    "exact_locked_device_required": true,
+    "resource_and_contamination_gate_must_be_rechecked_immediately_before_launch": true
+  },
+  "next_permitted_stage": "ARCLLM_LMAX_ARCH_P0_ONE_SHOT_FRESH_EXECUTION",
+  "execution_started": false
+}
