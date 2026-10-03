@@ -55,3 +55,7 @@ assert "token_xray_r1r_tokenizer_probe.exe" in lock_probe
 assert "compiled_shaders" in lock_probe
 assert "subprocess.run(argv" in lock_probe
 assert "generate(" not in lock_probe
+
+
+assert "final_arcllm_head" not in runner
+assert 'verify_git_identity(ROOT, str(lock["arcllm_freeze_ref"]))' in runner
