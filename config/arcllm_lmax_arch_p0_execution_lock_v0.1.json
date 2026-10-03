@@ -1,0 +1,70 @@
+{
+  "schema": "arcllm.lmax_arch_p0.execution_lock.v0.1",
+  "study": "ARCLLM_LMAX_ARCH_P0",
+  "gate": "ARCLLM_LMAX_ARCH_P0_IMPLEMENTATION_STATIC_PREFLIGHT_AND_EXECUTION_LOCK",
+  "status": "EXECUTION_LOCKED",
+  "source_freeze_commit": "8cfabfcd660f74d6d1623067174734caeee101e7",
+  "canonical_base_commit": "c6c9b2e0a198b8af43b120e2b269e2ddd0429ef1",
+  "canonical_runtime_git_blob": "0c613f6f740931a88ddd3ee5b904533a58001a06",
+  "canonical_api_git_blob": "d7821270ed253e1d1d96e3916b22b3daee50f5bc",
+  "build_device": {
+    "device_id": "dev_dd73ebfa742f468f2d212bade88c175b",
+    "device_name": "machine-1",
+    "key_fingerprint_sha256": "b657d5395e393e0957a9ed358bb5a1fe1588fde5d3a44be71295a68d1e73def9"
+  },
+  "compiler": {
+    "family": "MSVC x64",
+    "version": "19.44.35226",
+    "toolset": "14.44.35207"
+  },
+  "source_sha256": {
+    "experiments/arcllm_lmax_arch_p0/p0_ring.h": "2C93879DA5C50FE85CF9559BF3D5A08B0A9980C04FBF4A7437D69CD7007BC15B",
+    "experiments/arcllm_lmax_arch_p0/p0_ring_selftest.cpp": "06F8BA92C567EF211B56D6419900000EA0A84D92F50EE5F6B2FFFF3ED79A8C4A",
+    "experiments/arcllm_lmax_arch_p0/p0_runner.cpp": "8790FA95BC4FAF3AF3BE0DBBE826668B9D2A590A07A6C327682F580B9E5872E5",
+    "experiments/arcllm_lmax_arch_p0/generate_instrumented_runtime.py": "2F7F588861010EA47324CE130D9C7A0C0AD4C1D50CA48A9FF08DD4D43284C034",
+    "experiments/arcllm_lmax_arch_p0/static_qa.py": "80CD4AE444D2D42834DA5595FDF0A73A23816E84EA6D00CEA553F97D61A6508F",
+    "experiments/arcllm_lmax_arch_p0/buildonly.py": "9CA8734B2C638B654FCF56A5A017563A0AEE7FC6003207585B3FEA752D9723DA",
+    "config/arcllm_lmax_arch_p0_preregistration_v0.1.json": "B977B8F901D05555572201CC5C22E86F8484D6C9AE2AAC36D5A62936891AA684",
+    "docs/research/arcllm-v1/ARCLLM_LMAX_ARCH_P0_PREREGISTRATION.md": "ED1C673D92A1A8312F4A0DA6806F5F115656083592A5916B0FBEC5866D72CA86"
+  },
+  "source_git_blobs": {
+    "experiments/arcllm_lmax_arch_p0/p0_ring.h": "3e0f71d9d24db58c219efd51804a6afbc8d40790",
+    "experiments/arcllm_lmax_arch_p0/p0_ring_selftest.cpp": "b55b276e27f60c6a9e615a8c5fe46b002adcb890",
+    "experiments/arcllm_lmax_arch_p0/p0_runner.cpp": "f5f45a6974672cd0aa3d4ddda87f8b3ec9c2ee82",
+    "experiments/arcllm_lmax_arch_p0/generate_instrumented_runtime.py": "8a1f8f07e3d869b61f1f533608fd2ec8a6ae4f59",
+    "experiments/arcllm_lmax_arch_p0/static_qa.py": "2dae89fee093705d12a4f621a66ca5496bb23ebb",
+    "experiments/arcllm_lmax_arch_p0/buildonly.py": "8a04b976fd95874915aa22517794fc68e76df92c",
+    "config/arcllm_lmax_arch_p0_preregistration_v0.1.json": "ac9341b7d7af00b6e2be3247c217c779642bff21",
+    "docs/research/arcllm-v1/ARCLLM_LMAX_ARCH_P0_PREREGISTRATION.md": "5d48bf53344979c7c20d7ab08240ebe27969a533"
+  },
+  "generated_runtime_sha256": "6D6E324C02DE2B8E57BB38995C6FB883A80E00A1217C9DB102D2A63AE3A3298D",
+  "transform_manifest_sha256": "714CEB490436BC079D99AC8917F082E6426F9B7C6CA7ED4AAE9C2649726B5522",
+  "executables": {
+    "ring_selftest_sha256": "57D10D1EE50443AAD69947FBD7FABB23E27D83649EB64B7273B03691D79C6E43",
+    "matched_arm_runner_sha256": "E36F075B2E3801FEB80A5E2240693B1C96111EB95188CCD0D6A41AEE36147C26",
+    "matched_arm_runner_bytes": 510976
+  },
+  "build_evidence": {
+    "repo_path": "results/arcllm_lmax_arch_p0_preflight/BUILDONLY_EVIDENCE.json",
+    "machine_artifact_sha256": "2dc0cada21d5da8cca14fac42662819a4f79c82f7ceeba10cede26466fcf7265"
+  },
+  "qa": {
+    "static_qa": "PASS",
+    "reversible_runtime_transform": "PASS",
+    "ring_ordering": "PASS",
+    "forced_backpressure_invariant": "PASS",
+    "ring_steady_state_allocation_count": 0,
+    "runner_authorization_guard": "PASS_FAIL_CLOSED"
+  },
+  "science_boundaries": {
+    "model_executed": false,
+    "vulkan_initialized": false,
+    "shader_execution": false,
+    "outcome_performance_measured": false,
+    "measured_inference_runs": 0,
+    "preregistered_control_path_performance_subtest_executed": false,
+    "lineage_modified": false
+  },
+  "science_execution_authorized": false,
+  "next_permitted_gate": "ARCLLM_LMAX_ARCH_P0_EXPLICIT_ONE_SHOT_EXECUTION_AUTHORIZATION"
+}
