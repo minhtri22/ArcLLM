@@ -296,5 +296,12 @@
       "static_workflow_conclusion": "success"
     }
   },
-  "performance_authority": false
+  "performance_authority": false,
+  "independent_qa_freeze": {
+    "ref": "freeze/representation-trajectory-r1r-independent-qa-v0.1",
+    "head": "b0b7d0ffd2d805836a54992544a905c3cc42e107",
+    "tool": "tools/qa_r1r_real_runtime_capture.py",
+    "static_workflow_run_id": 37105495467,
+    "static_workflow_conclusion": "success"
+  }
 }
