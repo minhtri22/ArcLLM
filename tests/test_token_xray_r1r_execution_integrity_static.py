@@ -4,6 +4,7 @@ import json
 root = Path(__file__).resolve().parents[1]
 probe = (root / "baseline/r1r_tokenizer_probe.cpp").read_text(encoding="utf-8")
 runner = (root / "tools/run_token_xray_r1r_one_shot.py").read_text(encoding="utf-8")
+lock_probe = (root / "tools/prepare_token_xray_r1r_execution_lock.py").read_text(encoding="utf-8")
 contract = json.loads((root / "config/token_xray_r1r_execution_contract_v0.1.json").read_text(encoding="utf-8"))
 
 assert 'u8"Hà Nội là thủ đô của"' not in probe
@@ -41,3 +42,16 @@ assert '"causal_mechanism": False' in runner
 assert '"performance_authority": False' in runner
 
 print("TOKEN_XRAY_R1R_STATIC_PREFLIGHT=PASS")
+
+
+assert "PASS_R1R_LOCK_CANDIDATE_ZERO_SCIENCE" in lock_probe
+assert '"science_execution": False' in lock_probe
+assert '"model_inference": False' in lock_probe
+assert "token_xray_r1r_one_shot_lock_v0.1" in lock_probe
+assert "job_object_status" in lock_probe
+assert "memory_limit_flags" in lock_probe
+assert "token_xray_r1_capture_harness.exe" in lock_probe
+assert "token_xray_r1r_tokenizer_probe.exe" in lock_probe
+assert "compiled_shaders" in lock_probe
+assert "subprocess.run(argv" in lock_probe
+assert "generate(" not in lock_probe
