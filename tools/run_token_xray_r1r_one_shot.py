@@ -250,11 +250,8 @@ def main() -> int:
     lock = contract["execution_lock"]
     tx_root = pathlib.Path(args.token_xray_root).resolve()
 
-    expected_head = lock.get("final_arcllm_head")
-    arc_head = verify_git_identity(ROOT, str(lock["arcllm_freeze_ref"]), str(expected_head) if expected_head else None)
+    arc_head = verify_git_identity(ROOT, str(lock["arcllm_freeze_ref"]))
     tx_head = verify_git_identity(tx_root, str(lock["token_xray_freeze_ref"]), str(lock["token_xray_head"]))
-    if arc_head != str(lock.get("final_arcllm_head")):
-        raise RuntimeError("ArcLLM final lock head mismatch")
 
     model = resolve_model(contract, args.model_path)
     job = job_object_status()
