@@ -90,6 +90,12 @@ def main() -> int:
         "decode_allocation_counter_end",
         "completion_wait",
         "consumer_ready_wait",
+        "pair_index",
+        "pair_position",
+        "generated_token_count",
+        "--phase",
+        "--pair-index",
+        "--pair-position",
         "ARCLLM_LMAX_ARCH_P1_E_EXECUTION_AUTHORIZED",
     ):
         must(runner, token, "p1_runner.cpp")
@@ -123,6 +129,10 @@ def main() -> int:
         if forbidden in delay_block:
             fail(f"forbidden delay primitive: {forbidden}")
 
+    shader_manifest = json.loads((ROOT/"config"/"arcllm_lmax_arch_p1_shader_manifest_v0.1.json").read_text())
+    if shader_manifest["shader_count"] != 17 or len(shader_manifest["shaders"]) != 17:
+        fail("P1 shader manifest must bind exactly 17 shaders")
+
     # Fresh-E driver is frozen, fail-closed and schedule-complete.
     for token in (
         'CELLS=["W1","W2","W3","W4","W5","W6"]',
@@ -139,7 +149,11 @@ def main() -> int:
         'm["publish_to_consume_latency_ns_bytes"]=lat.stat().st_size',
         'm["expected_u64_bytes"]=8000000',
         'runtime_assets_manifest',
+        'shader_manifest',
         'shader_hashes',
+        '"--phase",item["phase"]',
+        '"--pair-index",str(pair_index)',
+        '"--pair-position",str(pair_position)',
         '"rerun_forbidden":True',
         '"adjudication_performed":False',
     ):
