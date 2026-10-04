@@ -17,6 +17,7 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include <utility>
 
 #ifdef _WIN32
 #define NOMINMAX
@@ -117,9 +118,8 @@ public:
             not_full_.wait(lock, [&] { return count_ < Capacity; });
         }
 
-        Event value = source;
-        std::forward<Prepare>(prepare)(value);
-        slots_[tail_] = value;
+        slots_[tail_] = source;
+        std::forward<Prepare>(prepare)(slots_[tail_]);
         tail_ = (tail_ + 1u) & (Capacity - 1u);
         ++count_;
         if (count_ > counters_.max_occupancy) counters_.max_occupancy = count_;
@@ -129,12 +129,18 @@ public:
     }
 
     Event consume() {
+        return consume_prepare([](const Event&) noexcept {});
+    }
+
+    template <typename ConsumePrepare>
+    Event consume_prepare(ConsumePrepare&& prepare) {
         std::unique_lock<std::mutex> lock(mutex_);
         while (count_ == 0u) {
             ++counters_.consumer_condition_variable_wait_count;
             not_empty_.wait(lock, [&] { return count_ > 0u; });
         }
         Event value = slots_[head_];
+        std::forward<ConsumePrepare>(prepare)(value);
         head_ = (head_ + 1u) & (Capacity - 1u);
         --count_;
         ++counters_.wake_count;
@@ -225,8 +231,10 @@ RunOutput run_direct(
 #endif
         }
         for (std::uint64_t i = 0; i < events; ++i) {
-            const Event e = queue.consume();
-            const std::uint64_t consume_timestamp_ns = now_ns();
+            std::uint64_t consume_timestamp_ns = 0u;
+            const Event e = queue.consume_prepare([&](const Event&) {
+                consume_timestamp_ns = now_ns();
+            });
             consumed[static_cast<std::size_t>(i)] = e.sequence_id;
             latency[static_cast<std::size_t>(i)] =
                 consume_timestamp_ns - e.publish_timestamp_ns;
@@ -299,8 +307,10 @@ RunOutput run_ring(
 #endif
         }
         for (std::uint64_t i = 0; i < events; ++i) {
-            const Event e = ring.consume();
-            const std::uint64_t consume_timestamp_ns = now_ns();
+            std::uint64_t consume_timestamp_ns = 0u;
+            const Event e = ring.consume_prepare([&](const Event&) {
+                consume_timestamp_ns = now_ns();
+            });
             consumed[static_cast<std::size_t>(i)] = e.sequence_id;
             latency[static_cast<std::size_t>(i)] =
                 consume_timestamp_ns - e.publish_timestamp_ns;
