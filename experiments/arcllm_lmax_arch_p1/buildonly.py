@@ -108,7 +108,9 @@ def main():
       "experiments/arcllm_lmax_arch_p1/generate_instrumented_runtime.py",
       "experiments/arcllm_lmax_arch_p1/static_qa.py",
       "experiments/arcllm_lmax_arch_p1/buildonly.py",
+      "experiments/arcllm_lmax_arch_p1/p1_e_driver.py",
       "config/arcllm_lmax_arch_p1_preregistration_v0.4.json",
+      "config/arcllm_lmax_arch_p1_runtime_assets_v0.1.json",
       "docs/research/arcllm-v1/ARCLLM_LMAX_ARCH_P1_PREREGISTRATION_REVISION_V0_4.md",
     ]
     ev={
