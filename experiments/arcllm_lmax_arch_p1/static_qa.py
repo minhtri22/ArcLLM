@@ -56,6 +56,7 @@ def main() -> int:
     runner = (EXP/"p1_runner.cpp").read_text()
     control = (EXP/"p1_control_path.cpp").read_text()
     gen = (EXP/"generate_instrumented_runtime.py").read_text()
+    driver = (EXP/"p1_e_driver.py").read_text()
 
     # Frozen ring wait semantics.
     for token in (
@@ -121,6 +122,30 @@ def main() -> int:
     for forbidden in ("SwitchToThread", "Sleep(", "sleep_for", "WaitOnAddress", "condition_variable"):
         if forbidden in delay_block:
             fail(f"forbidden delay primitive: {forbidden}")
+
+    # Fresh-E driver is frozen, fail-closed and schedule-complete.
+    for token in (
+        'CELLS=["W1","W2","W3","W4","W5","W6"]',
+        'PAIR_ORDERS=[["direct","ring"],["ring","direct"],["direct","ring"],["ring","direct"]]',
+        '(0,"direct_locked_spsc64"),(0,"lmax_ring_p1")',
+        '(10000,"lmax_ring_p1"),(10000,"direct_locked_spsc64")',
+        '(100000,"direct_locked_spsc64"),(100000,"lmax_ring_p1")',
+        'ARCLLM_LMAX_ARCH_P1_E_EXECUTION_AUTHORIZED',
+        '"planned_excluded_warmups":4',
+        '"planned_measured_inference_runs":48',
+        '"planned_control_runs":6',
+        '"control_events_per_run":1000000',
+        'm["consumed_sequence_ids_bytes"]=seq.stat().st_size',
+        'm["publish_to_consume_latency_ns_bytes"]=lat.stat().st_size',
+        'm["expected_u64_bytes"]=8000000',
+        '"rerun_forbidden":True',
+        '"adjudication_performed":False',
+    ):
+        must(driver, token, "p1_e_driver.py")
+    if "selective" in driver.lower() and "selective_rerun" in driver.lower():
+        fail("driver contains unexpected selective-rerun path")
+    if 'if not all(conditions.values())' not in driver or 'E_STARTED.json' not in driver:
+        fail("driver prelaunch/marker fail-close missing")
 
     # Runtime instrumentation remains reversible and P1-only.
     for token in (
