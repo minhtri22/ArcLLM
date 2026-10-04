@@ -1,0 +1,14 @@
+{
+  "schema": "arcllm.lmax_arch_p0.campaign_started.v0.1",
+  "started_at_utc": "2026-10-04T00:11:41.430319+00:00",
+  "attempt": 4,
+  "planned_warmups": 4,
+  "planned_measured_runs": 48,
+  "pair_order": [
+    "A_B",
+    "B_A",
+    "A_B",
+    "B_A"
+  ],
+  "selective_rerun_allowed": false
+}
