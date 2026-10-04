@@ -346,7 +346,6 @@ Observation run_ring(const RunRequest& request) {
     // Frozen v0.3 rule: consumer-ready handshake completes before measured
     // CPU/request timing and uses the same low-duty wait policy.
     wait_until_true(consumer_ready, ready_counters);
-    o.consumer_ready_wait = ready_counters.snapshot();
 
     g_allocation_count.store(0u, std::memory_order_relaxed);
     o.request_allocation_counter_start =
@@ -376,8 +375,9 @@ Observation run_ring(const RunRequest& request) {
     g_count_allocations.store(false, std::memory_order_release);
 
     o.ring = ring.counters();
-    o.completion_wait = completion_counters.snapshot();
     consumer.join();
+    o.completion_wait = completion_counters.snapshot();
+    o.consumer_ready_wait = ready_counters.snapshot();
 
     if (o.trace.count > 0u) {
         o.decode_allocation_counter_start = o.trace.allocation_count_at_ready[0];
