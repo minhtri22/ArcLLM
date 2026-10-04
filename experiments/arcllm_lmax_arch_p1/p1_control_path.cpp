@@ -119,8 +119,9 @@ public:
         }
 
         slots_[tail_] = source;
-        std::forward<Prepare>(prepare)(slots_[tail_]);
+        const std::size_t published_index = tail_;
         tail_ = (tail_ + 1u) & (Capacity - 1u);
+        std::forward<Prepare>(prepare)(slots_[published_index]);
         ++count_;
         if (count_ > counters_.max_occupancy) counters_.max_occupancy = count_;
         ++counters_.wake_count;
@@ -140,9 +141,9 @@ public:
             not_empty_.wait(lock, [&] { return count_ > 0u; });
         }
         Event value = slots_[head_];
-        std::forward<ConsumePrepare>(prepare)(value);
         head_ = (head_ + 1u) & (Capacity - 1u);
         --count_;
+        std::forward<ConsumePrepare>(prepare)(value);
         ++counters_.wake_count;
         lock.unlock();
         not_full_.notify_one();
