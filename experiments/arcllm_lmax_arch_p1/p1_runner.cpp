@@ -407,6 +407,9 @@ bool semantic_trace_consistent(const Observation& o, const Workload& w) {
 void write_result(
     const std::string& path,
     const std::string& arm,
+    const std::string& phase,
+    const std::int64_t pair_index,
+    const std::int64_t pair_position,
     const Workload& w,
     const Observation& o,
     const IdentityEvidence& identity) {
@@ -434,8 +437,11 @@ void write_result(
     const auto& s = o.result.stats;
     out << std::setprecision(15);
     out << "{\n";
-    out << "  \"schema\":\"arcllm.lmax_arch_p1.inference_observation.v0.3\",\n";
-    out << "  \"arm\":\"" << arm << "\",\"cell\":\"" << w.id << "\",";
+    out << "  \"schema\":\"arcllm.lmax_arch_p1.inference_observation.v0.4\",\n";
+    out << "  \"arm\":\"" << arm << "\",\"phase\":\"" << phase
+        << "\",\"cell\":\"" << w.id << "\","
+        << "\"pair_index\":" << pair_index
+        << ",\"pair_position\":" << pair_position << ",";
     out << "\"prefill_tokens\":" << w.prefill_tokens
         << ",\"max_new_tokens\":" << w.max_new_tokens << ",\n";
     out << "  \"success\":" << (o.success ? "true" : "false")
@@ -489,6 +495,7 @@ void write_result(
         out << o.result.generated_token_ids[i];
     }
     out << "],\n";
+    out << "  \"generated_token_count\":" << o.result.generated_token_ids.size() << ",\n";
     out << "  \"runtime_stats\":{"
         << "\"prefill_dispatches\":" << s.prefill_dispatches
         << ",\"prefill_submits\":" << s.prefill_submits
@@ -599,7 +606,9 @@ void operator delete[](void* p, std::size_t, std::align_val_t alignment) noexcep
 
 int main(int argc, char** argv) {
     try {
-        std::string arm, cell, model, shader_dir, sidecar, out_path, authorization_path;
+        std::string arm, phase, cell, model, shader_dir, sidecar, out_path, authorization_path;
+        std::int64_t pair_index = -1;
+        std::int64_t pair_position = -1;
         IdentityEvidence identity;
         bool describe = false;
         for (int i = 1; i < argc; ++i) {
@@ -610,6 +619,9 @@ int main(int argc, char** argv) {
             };
             if (a == "--describe") describe = true;
             else if (a == "--arm") arm = need("--arm");
+            else if (a == "--phase") phase = need("--phase");
+            else if (a == "--pair-index") pair_index = std::stoll(need("--pair-index"));
+            else if (a == "--pair-position") pair_position = std::stoll(need("--pair-position"));
             else if (a == "--cell") cell = need("--cell");
             else if (a == "--model") model = need("--model");
             else if (a == "--shader-dir") shader_dir = need("--shader-dir");
@@ -642,14 +654,21 @@ int main(int argc, char** argv) {
             throw std::runtime_error(
                 "outcome execution blocked: missing or invalid P1 E execution authorization");
         }
-        if ((arm != "direct" && arm != "ring") || cell.empty() ||
-            model.empty() || shader_dir.empty() || out_path.empty() ||
+        const bool measured_identity_ok =
+            phase == "measured" &&
+            pair_index >= 0 && pair_index <= 3 &&
+            pair_position >= 0 && pair_position <= 1;
+        const bool warmup_identity_ok =
+            phase == "warmup" && pair_index == -1 && pair_position == -1;
+        if ((arm != "direct" && arm != "ring") ||
+            (!measured_identity_ok && !warmup_identity_ok) ||
+            cell.empty() || model.empty() || shader_dir.empty() || out_path.empty() ||
             identity.runner_sha256.empty() || identity.model_sha256.empty() ||
             identity.shader_manifest_sha256.empty() ||
             identity.authorization_sha256.empty() ||
             identity.evidence_contract_sha256.empty()) {
             throw std::runtime_error(
-                "required: --authorization FILE --arm direct|ring --cell W1..W6 --model --shader-dir --out plus five frozen identity hashes");
+                "required: --authorization FILE --arm direct|ring --phase warmup|measured --pair-index --pair-position --cell W1..W6 --model --shader-dir --out plus five frozen identity hashes");
         }
 
         const Workload w = workload_for(cell);
@@ -664,7 +683,15 @@ int main(int argc, char** argv) {
 
         Observation observation =
             arm == "direct" ? run_direct(request) : run_ring(request);
-        write_result(out_path, arm == "direct" ? "CURRENT_DIRECT" : "LMAX_RING_P1", w, observation, identity);
+        write_result(
+            out_path,
+            arm == "direct" ? "CURRENT_DIRECT" : "LMAX_RING_P1",
+            phase,
+            pair_index,
+            pair_position,
+            w,
+            observation,
+            identity);
         return observation.success && semantic_trace_consistent(observation, w) ? 0 : 2;
     } catch (const std::exception& e) {
         std::cerr << "ARCLLM_LMAX_ARCH_P1_RUNNER_ERROR=" << e.what() << "\n";
