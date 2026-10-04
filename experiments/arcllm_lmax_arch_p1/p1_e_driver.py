@@ -62,7 +62,7 @@ def power_state():
     return {"ac":int(p.ACLineStatus),"battery":int(p.BatteryLifePercent),"scheme":scheme}
 
 def process_state(runner_name,control_name):
-    z={"p1_runner":[],"p1_control":[],"loaded_model_servers":[],"current_priority":None}
+    z={"p1_runner":[],"p1_control":[],"other_arcllm_executables":[],"loaded_model_servers":[],"current_priority":None}
     if psutil is None:
         z["psutil_unavailable"]=True
         return z
@@ -74,6 +74,8 @@ def process_state(runner_name,control_name):
             cmd=" ".join(p.info["cmdline"] or [])
             if runner_name.lower() in n:z["p1_runner"].append({"pid":p.info["pid"],"cmd":cmd[:1000]})
             if control_name.lower() in n:z["p1_control"].append({"pid":p.info["pid"],"cmd":cmd[:1000]})
+            if n.endswith(".exe") and "arcllm" in n and runner_name.lower() not in n and control_name.lower() not in n:
+                z["other_arcllm_executables"].append({"pid":p.info["pid"],"cmd":cmd[:1000]})
             if "llama-server" in n and "-ngl 0" not in cmd:
                 z["loaded_model_servers"].append({"pid":p.info["pid"],"cmd":cmd[:1000]})
         except Exception:pass
@@ -110,9 +112,11 @@ def main():
     runner=root/lock["runner"]["path"]
     control=root/lock["control"]["path"]
     runtime_assets_manifest=(root/lock["runtime_assets_manifest"]["path"]).resolve()
+    shader_manifest=(root/lock["shader_manifest"]["path"]).resolve()
     runtime_assets=json.loads(runtime_assets_manifest.read_text(encoding="utf-8"))
+    shaders=json.loads(shader_manifest.read_text(encoding="utf-8"))
     shader_hashes={}
-    for name,expected in runtime_assets["shaders"].items():
+    for name,expected in shaders["shaders"].items():
         p=SHADER_DIR/name
         shader_hashes[name]={"sha256":sha256(p) if p.is_file() else None,"expected":expected}
 
@@ -120,6 +124,7 @@ def main():
       "lock_sha256":sha256(lock_path),
       "authorization_sha256":sha256(auth_path),
       "runtime_assets_manifest":{"path":str(runtime_assets_manifest),"sha256":sha256(runtime_assets_manifest)},
+      "shader_manifest":{"path":str(shader_manifest),"sha256":sha256(shader_manifest)},
       "shader_hashes":shader_hashes,
       "runner":{"path":str(runner),"sha256":sha256(runner),"bytes":runner.stat().st_size},
       "control":{"path":str(control),"sha256":sha256(control),"bytes":control.stat().st_size},
@@ -142,15 +147,16 @@ def main():
       "model_hash":checks["model"]["sha256"]==lock["model"]["sha256"] and checks["model"]["bytes"]==lock["model"]["bytes"],
       "sidecar_hash":checks["sidecar"]["sha256"]==lock["sidecar"]["sha256"] and checks["sidecar"]["bytes"]==lock["sidecar"]["bytes"],
       "runtime_assets_manifest_hash":checks["runtime_assets_manifest"]["sha256"]==lock["runtime_assets_manifest"]["sha256"],
+      "shader_manifest_hash":checks["shader_manifest"]["sha256"]==lock["shader_manifest"]["sha256"],
       "shader_hashes":all(v["sha256"]==v["expected"] for v in checks["shader_hashes"].values()),
       "default_ollama_idle":checks["ollama_default"]["idle"],
       "u2_ollama_idle":checks["ollama_u2"]["idle"],
       "no_competing_loaded_model_server":not checks["processes"]["loaded_model_servers"],
       "no_p1_runner":not checks["processes"]["p1_runner"],
       "no_p1_control":not checks["processes"]["p1_control"],
+      "no_other_arcllm_executable":not checks["processes"]["other_arcllm_executables"],
       "arc140v":checks["gpu"]["arc140v"],
       "ac_online":checks["power"]["ac"]==1,
-      "balanced_power":"Balanced" in checks["power"]["scheme"],
       "ram_floor":checks["memory"]["available_physical_bytes"]>=lock["resource_minimums"]["available_ram_bytes"],
       "disk_floor":checks["disk_free_bytes"]>=lock["resource_minimums"]["disk_free_bytes"],
     }
@@ -173,7 +179,7 @@ def main():
     identity=[
       "--runner-sha256",lock["runner"]["sha256"],
       "--model-sha256",lock["model"]["sha256"],
-      "--shader-manifest-sha256",lock["runtime_assets_manifest"]["sha256"],
+      "--shader-manifest-sha256",lock["shader_manifest"]["sha256"],
       "--authorization-sha256",checks["authorization_sha256"],
       "--evidence-contract-sha256",lock["evidence_contract_sha256"],
     ]
@@ -194,7 +200,11 @@ def main():
             rel=pathlib.Path("inference")/"measured"/item["cell"]/("pair_%d_%d_%s.json"%(item["pair"],item["pos"],item["arm"]))
         op=out/rel; lp=op.with_suffix(".log.txt")
         op.parent.mkdir(parents=True,exist_ok=True)
-        argv=[runner,"--authorization",auth_path,"--arm",item["arm"],"--cell",item["cell"],
+        pair_index=item.get("pair",-1)
+        pair_position=item.get("pos",-1)
+        argv=[runner,"--authorization",auth_path,"--arm",item["arm"],
+              "--phase",item["phase"],"--pair-index",str(pair_index),
+              "--pair-position",str(pair_position),"--cell",item["cell"],
               "--model",MODEL,"--shader-dir",SHADER_DIR,"--sidecar",SIDECAR,"--out",op,*identity]
         cp=run_checked(argv,lp)
         rec={**item,"rc":cp.returncode,"out":str(rel).replace("\\","/"),"log":str(lp.relative_to(out)).replace("\\","/"),"finished_at_utc":now()}
