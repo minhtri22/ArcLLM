@@ -1,0 +1,258 @@
+{
+  "schema": "arcllm.lmax_arch_p1.preregistration.v0.1",
+  "status": "FROZEN_P_SPECIFICATION_ONLY",
+  "science_execution_authorized": false,
+  "repository": "minhtri22/ArcLLM",
+  "branch": "research/arcllm-lmax-arch-p1",
+  "parent_p0_terminal_commit": "2cc2d788aa2782cf9fd6b723f9daa183a476d755",
+  "parent_p0_verdict": "UNRESOLVED",
+  "parent_p0_raw_evidence_sha256": "ED3ED2659A9AD75A58DB2D4F7DAE537F7AFF5E7BC364A5A7A01F0536B01941F4",
+  "governance": {
+    "user_facing": [
+      "P",
+      "E",
+      "A",
+      "M",
+      "C"
+    ],
+    "readiness_internal": true,
+    "readiness_scientific_gate": false,
+    "stop_conditions": [
+      "scientific_contract_change_required",
+      "immediately_before_fresh_E",
+      "formal_PASS_FAIL_UNRESOLVED"
+    ]
+  },
+  "scientific_question": "Does a preallocated single-writer sequenced ring using a frozen low-duty adaptive blocking wait policy preserve exact ArcLLM inference semantics and produce either an end-to-end practical benefit without unacceptable CPU cost or an independently measurable control-path benefit relative to the canonical direct path?",
+  "study_mode": "exploratory_successor",
+  "p0_outcomes_pooled": false,
+  "arms": {
+    "A": {
+      "id": "CURRENT_DIRECT"
+    },
+    "B": {
+      "id": "LMAX_RING_P1",
+      "ring_capacity": 64,
+      "sequence_bits": 64,
+      "producer_count": 1,
+      "consumer_count": 1,
+      "no_heap_publish_consume_after_init": true,
+      "wait_policy": {
+        "active_yieldprocessor_spins": 16,
+        "switch_to_thread_calls_before_block": 1,
+        "blocking_primitive": "WaitOnAddress",
+        "wake_primitive": "WakeByAddressSingle",
+        "sleep_allowed": false,
+        "timed_polling_allowed": false
+      },
+      "request_level_only": true,
+      "speculative_decode": false
+    }
+  },
+  "forbidden_changes": [
+    "transformer_math",
+    "quantization",
+    "canonical_shaders",
+    "vulkan_graph",
+    "policy_binding_semantics",
+    "sampling",
+    "request_scoped_residency_semantics",
+    "model_bytes"
+  ],
+  "inference_evidence_required_raw_primitives": [
+    "request_start_ns",
+    "request_end_ns",
+    "first_token_ready_ns",
+    "token_ready_ns",
+    "cpu_start_100ns",
+    "cpu_end_100ns",
+    "logical_processor_count",
+    "request_allocation_counter_start",
+    "request_allocation_counter_end",
+    "decode_allocation_counter_start",
+    "decode_allocation_counter_end",
+    "generated_token_ids",
+    "generated_token_count",
+    "runtime_stats",
+    "finite",
+    "error"
+  ],
+  "quantiles": {
+    "estimator": "Hyndman-Fan Type 7 linear interpolation",
+    "p50": 0.5,
+    "p95": 0.95
+  },
+  "workloads": {
+    "evidence_profile": 0,
+    "request_within_validated_domain": false,
+    "token_formula": "1 + ((7919*i + 104729*cell_index) mod 152063)",
+    "cells": [
+      {
+        "id": "W1",
+        "cell_index": 1,
+        "prefill_tokens": 8,
+        "max_new_tokens": 8
+      },
+      {
+        "id": "W2",
+        "cell_index": 2,
+        "prefill_tokens": 8,
+        "max_new_tokens": 32
+      },
+      {
+        "id": "W3",
+        "cell_index": 3,
+        "prefill_tokens": 64,
+        "max_new_tokens": 8
+      },
+      {
+        "id": "W4",
+        "cell_index": 4,
+        "prefill_tokens": 64,
+        "max_new_tokens": 32
+      },
+      {
+        "id": "W5",
+        "cell_index": 5,
+        "prefill_tokens": 256,
+        "max_new_tokens": 8
+      },
+      {
+        "id": "W6",
+        "cell_index": 6,
+        "prefill_tokens": 256,
+        "max_new_tokens": 32
+      }
+    ],
+    "warmup_order": [
+      "A",
+      "B",
+      "A",
+      "B"
+    ],
+    "warmup_cell": "W1",
+    "measured_pairs_per_cell": 4,
+    "measured_pair_order": [
+      "A_B",
+      "B_A",
+      "A_B",
+      "B_A"
+    ],
+    "total_measured_pairs": 24,
+    "total_measured_inference_runs": 48
+  },
+  "control_path_subtest": {
+    "mandatory_inside_E": true,
+    "model_load": false,
+    "vulkan_init": false,
+    "events_per_arm_per_delay": 1000000,
+    "producer_count": 1,
+    "consumer_count": 1,
+    "service_delays_ns": [
+      0,
+      10000,
+      100000
+    ],
+    "arm_order_by_delay_ns": {
+      "0": [
+        "A",
+        "B"
+      ],
+      "10000": [
+        "B",
+        "A"
+      ],
+      "100000": [
+        "A",
+        "B"
+      ]
+    },
+    "raw_binary_evidence": {
+      "consumed_sequence_ids": {
+        "format": "u64 little-endian",
+        "entries": 1000000
+      },
+      "publish_to_consume_latency_ns": {
+        "format": "u64 little-endian",
+        "entries": 1000000
+      }
+    },
+    "manifest_fields": [
+      "run_start_ns",
+      "run_end_ns",
+      "event_count",
+      "allocation_counter_start",
+      "allocation_counter_end",
+      "max_occupancy",
+      "full_backpressure_observations",
+      "spin_count",
+      "switch_to_thread_count",
+      "wait_on_address_count",
+      "wake_count",
+      "first_ordering_mismatch",
+      "artifact_sha256",
+      "artifact_bytes"
+    ]
+  },
+  "adjudication": {
+    "priority": [
+      "SEMANTICS_FAIL",
+      "REGRESSION",
+      "E2E_SUPPORTED",
+      "CONTROL_PATH_ONLY",
+      "NO_SUPPORTED_BENEFIT",
+      "UNRESOLVED"
+    ],
+    "e2e_supported": {
+      "endpoint_improvement_percent": 5,
+      "both_p50_and_p95": true,
+      "ttft_p95_max_regression_percent": 3,
+      "itl_p95_max_regression_percent": 3,
+      "decode_tps_p50_max_regression_percent": 3,
+      "cpu_p50_p95_max_regression_percent": 5
+    },
+    "control_path_only": {
+      "evaluated_only_if_e2e_false": true,
+      "allocation_reduction_percent": 20,
+      "p95_latency_improvement_percent": 10,
+      "minimum_delay_cells": 2,
+      "exact_order_required": true,
+      "backpressure_rate_must_not_worsen": true
+    },
+    "regression": {
+      "ttft_or_itl_p95_regression_percent": 10,
+      "decode_tps_p50_regression_percent": 10,
+      "minimum_workload_cells": 4
+    }
+  },
+  "anti_rescue": {
+    "selective_rerun_allowed": false,
+    "outlier_deletion_allowed": false,
+    "workload_substitution_allowed": false,
+    "threshold_change_after_E_started": false,
+    "quantile_change_after_E_started": false,
+    "evidence_schema_repair_after_E_started": false,
+    "posthoc_control_subtest_allowed": false
+  },
+  "unlock_rules": {
+    "M_open_if": [
+      "E2E_SUPPORTED",
+      "CONTROL_PATH_ONLY"
+    ],
+    "M_closed_if": [
+      "NO_SUPPORTED_BENEFIT",
+      "REGRESSION",
+      "SEMANTICS_FAIL",
+      "UNRESOLVED"
+    ],
+    "C_requires": "separate C preregistration after prespecified positive M result"
+  },
+  "allowed_paths": [
+    "docs/research/arcllm-v1/ARCLLM_LMAX_ARCH_P1_*.md",
+    "config/arcllm_lmax_arch_p1_*.json",
+    "experiments/arcllm_lmax_arch_p1/",
+    "results/arcllm_lmax_arch_p1_*/"
+  ],
+  "next_user_facing_stage": "ARCLLM_LMAX_ARCH_P1_E_FRESH_EXPLORATORY_ONE_SHOT",
+  "internal_next": "R_READINESS_AUTONOMOUS"
+}
