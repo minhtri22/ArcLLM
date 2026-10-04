@@ -109,9 +109,18 @@ def main():
 
     runner=root/lock["runner"]["path"]
     control=root/lock["control"]["path"]
+    runtime_assets_manifest=(root/lock["runtime_assets_manifest"]["path"]).resolve()
+    runtime_assets=json.loads(runtime_assets_manifest.read_text(encoding="utf-8"))
+    shader_hashes={}
+    for name,expected in runtime_assets["shaders"].items():
+        p=SHADER_DIR/name
+        shader_hashes[name]={"sha256":sha256(p) if p.is_file() else None,"expected":expected}
+
     checks={
       "lock_sha256":sha256(lock_path),
       "authorization_sha256":sha256(auth_path),
+      "runtime_assets_manifest":{"path":str(runtime_assets_manifest),"sha256":sha256(runtime_assets_manifest)},
+      "shader_hashes":shader_hashes,
       "runner":{"path":str(runner),"sha256":sha256(runner),"bytes":runner.stat().st_size},
       "control":{"path":str(control),"sha256":sha256(control),"bytes":control.stat().st_size},
       "model":{"path":str(MODEL),"sha256":sha256(MODEL),"bytes":MODEL.stat().st_size},
@@ -132,6 +141,8 @@ def main():
       "control_hash":checks["control"]["sha256"]==lock["control"]["sha256"] and checks["control"]["bytes"]==lock["control"]["bytes"],
       "model_hash":checks["model"]["sha256"]==lock["model"]["sha256"] and checks["model"]["bytes"]==lock["model"]["bytes"],
       "sidecar_hash":checks["sidecar"]["sha256"]==lock["sidecar"]["sha256"] and checks["sidecar"]["bytes"]==lock["sidecar"]["bytes"],
+      "runtime_assets_manifest_hash":checks["runtime_assets_manifest"]["sha256"]==lock["runtime_assets_manifest"]["sha256"],
+      "shader_hashes":all(v["sha256"]==v["expected"] for v in checks["shader_hashes"].values()),
       "default_ollama_idle":checks["ollama_default"]["idle"],
       "u2_ollama_idle":checks["ollama_u2"]["idle"],
       "no_competing_loaded_model_server":not checks["processes"]["loaded_model_servers"],
@@ -162,7 +173,7 @@ def main():
     identity=[
       "--runner-sha256",lock["runner"]["sha256"],
       "--model-sha256",lock["model"]["sha256"],
-      "--shader-manifest-sha256",lock["shader_manifest"]["sha256"],
+      "--shader-manifest-sha256",lock["runtime_assets_manifest"]["sha256"],
       "--authorization-sha256",checks["authorization_sha256"],
       "--evidence-contract-sha256",lock["evidence_contract_sha256"],
     ]
@@ -198,7 +209,7 @@ def main():
         print("INFERENCE_DONE warmups=%d measured=%d"%(warmups,measured),flush=True)
 
     for delay,arm in CONTROL:
-        stem="%dus_%s"%(delay,arm)
+        stem="%dns_%s"%(delay,arm)
         ddir=out/"control"/stem; ddir.mkdir(parents=True,exist_ok=True)
         manifest=ddir/"manifest.json"; seq=ddir/"consumed_sequence_ids.u64le"; lat=ddir/"publish_to_consume_latency_ns.u64le"; log=ddir/"run.log.txt"
         cp=run_checked([control,"--authorization",auth_path,"--arm",arm,"--delay-ns",str(delay),
