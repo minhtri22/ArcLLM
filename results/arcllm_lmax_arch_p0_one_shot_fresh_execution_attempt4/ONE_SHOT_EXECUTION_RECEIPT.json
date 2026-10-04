@@ -1,0 +1,61 @@
+{
+  "schema": "arcllm.lmax_arch_p0.one_shot_execution_receipt.v0.1",
+  "study": "ARCLLM_LMAX_ARCH_P0",
+  "gate": "ARCLLM_LMAX_ARCH_P0_ONE_SHOT_FRESH_EXECUTION",
+  "status": "PASS_ONE_SHOT_COLLECTION_COMPLETE",
+  "valid_campaign_namespace": "results/arcllm_lmax_arch_p0_one_shot_fresh_execution_attempt4",
+  "prior_namespaces_before_marker": [
+    "results/arcllm_lmax_arch_p0_one_shot_fresh_execution",
+    "results/arcllm_lmax_arch_p0_one_shot_fresh_execution_attempt2",
+    "results/arcllm_lmax_arch_p0_one_shot_fresh_execution_attempt3"
+  ],
+  "prior_campaign_markers_present": false,
+  "execution_job": {
+    "proxy_job_id": "rjob_aba8f08f82572c1476bcefd444e2a55a",
+    "node_job_id": "job_d0dfd1b2c11ca15d2959f6e2318f46a2",
+    "terminal_event_id": 1040,
+    "exit_code": 0,
+    "state": "SUCCEEDED"
+  },
+  "device": {
+    "device_id": "dev_dd73ebfa742f468f2d212bade88c175b",
+    "device_name": "machine-1",
+    "hostname": "DESKTOP-4PSD0G2",
+    "key_fingerprint_sha256": "b657d5395e393e0957a9ed358bb5a1fe1588fde5d3a44be71295a68d1e73def9",
+    "route_generation": 1
+  },
+  "campaign": {
+    "started_at_utc": "2026-10-04T00:11:41.430319+00:00",
+    "completed_at_utc": "2026-10-04T00:53:13.981253+00:00",
+    "excluded_warmup_runs": 4,
+    "measured_pairs": 24,
+    "measured_inference_runs": 48,
+    "pair_order": [
+      "A_B",
+      "B_A",
+      "A_B",
+      "B_A"
+    ],
+    "selective_rerun": false
+  },
+  "immediate_prelaunch": {
+    "u2_idle": true,
+    "default_ollama_idle": true,
+    "runner_processes": [],
+    "available_ram_bytes": 14401146880,
+    "memory_load_percent": 57,
+    "ac_online": true,
+    "power_scheme": "Balanced"
+  },
+  "frozen_evidence_sha256": {
+    "PRELAUNCH_IMMEDIATE.json": "223896756c4539648b08d82b567bac3113278d2063f4ab205be3a171fbe45b55",
+    "CAMPAIGN_STARTED.json": "1fa88e913dac7bf2fa859e9d67f6fe035d9d1e91f11dac083f3243bd86300ac3",
+    "CAMPAIGN_PROGRESS.json": "9e44b8d30bf294d617e65ab843bc59a3db4e6ce7bf1a7fa7fba362c066ad9d66",
+    "CAMPAIGN_COMPLETE.json": "5d2d3c52ef328d97f65ce9097fd142b8b5f1aae0e0e217b483e941daaccded7d",
+    "RAW_EVIDENCE.json": "ed3ed2659a9ad75a58db2d4f7dae537f7aff5e7bc364a5a7a01f0536b01941f4"
+  },
+  "github_freeze_verified_text_identical": true,
+  "performance_adjudication_performed": false,
+  "lineage_modified": false,
+  "next_permitted_gate": "ARCLLM_LMAX_ARCH_P0_INDEPENDENT_QA_AND_ADJUDICATION"
+}
