@@ -1,0 +1,10 @@
+{
+  "status": "PASS_ONE_SHOT_COLLECTION_COMPLETE",
+  "completed_at_utc": "2026-10-04T00:53:13.981253+00:00",
+  "warmup_runs_completed": 4,
+  "measured_runs_completed": 48,
+  "measured_pairs_completed": 24,
+  "raw_evidence_sha256": "ED3ED2659A9AD75A58DB2D4F7DAE537F7AFF5E7BC364A5A7A01F0536B01941F4",
+  "performance_adjudication_performed": false,
+  "lineage_modified": false
+}
