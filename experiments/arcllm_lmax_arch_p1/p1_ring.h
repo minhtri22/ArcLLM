@@ -59,9 +59,8 @@ public:
         Slot& slot = slots_[static_cast<std::size_t>(seq) & (Capacity - 1)];
         wait_until(slot, seq, true);
 
-        T value = source;
-        std::forward<Prepare>(prepare)(value);
-        slot.value = value;
+        slot.value = source;
+        std::forward<Prepare>(prepare)(slot.value);
         slot.sequence.store(seq + 1u, std::memory_order_release);
         wake(slot.sequence);
         producer_sequence_ = seq + 1u;
@@ -73,11 +72,17 @@ public:
     }
 
     T consume() {
+        return consume_prepare([](const T&) noexcept {});
+    }
+
+    template <typename ConsumePrepare>
+    T consume_prepare(ConsumePrepare&& prepare) {
         const std::uint64_t seq = consumer_sequence_;
         Slot& slot = slots_[static_cast<std::size_t>(seq) & (Capacity - 1)];
         wait_until(slot, seq + 1u, false);
 
         T value = slot.value;
+        std::forward<ConsumePrepare>(prepare)(value);
         slot.sequence.store(seq + static_cast<std::uint64_t>(Capacity), std::memory_order_release);
         wake(slot.sequence);
         consumer_sequence_ = seq + 1u;
