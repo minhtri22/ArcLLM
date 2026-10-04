@@ -108,7 +108,7 @@ def main() -> int:
     out_path.write_text(generated, encoding="utf-8", newline="\n")
 
     manifest = {
-        "schema": "arcllm.lmax_arch_p1.instrumented_runtime_transform.v0.3",
+        "schema": "arcllm.lmax_arch_p1.instrumented_runtime_transform.v0.4",
         "status": "PASS_REVERSIBLE_TRANSFORM",
         "canonical_runtime_path": "src/arcllm_v1_runtime.cpp",
         "canonical_runtime_git_blob": blob,
