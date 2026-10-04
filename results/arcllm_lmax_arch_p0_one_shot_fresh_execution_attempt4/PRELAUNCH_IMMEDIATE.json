@@ -1,0 +1,15 @@
+{
+  "u2_rows": [
+    "NAME    ID    SIZE    PROCESSOR    CONTEXT    UNTIL"
+  ],
+  "u2_idle": true,
+  "default_rows": [
+    "NAME    ID    SIZE    PROCESSOR    CONTEXT    UNTIL"
+  ],
+  "default_idle": true,
+  "runner_pids": [],
+  "available_ram": 14401146880,
+  "memory_load": 57,
+  "ac": 1,
+  "scheme": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+}
