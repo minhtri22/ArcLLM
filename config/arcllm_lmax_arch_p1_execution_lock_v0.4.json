@@ -1,0 +1,154 @@
+{
+  "schema": "arcllm.lmax_arch_p1.execution_lock.v0.4",
+  "status": "EXECUTION_LOCKED",
+  "science_execution_authorized": false,
+  "fresh_e_started": false,
+  "branch": "research/arcllm-lmax-arch-p1",
+  "source_head_before_lock": "df21ed984e7b32ab67ce0a976e1d38231d25a3e9",
+  "scientific_contract": {
+    "path": "config/arcllm_lmax_arch_p1_preregistration_v0.4.json",
+    "git_blob": "205bf3989ba61494898c42c11568a34156530d0d",
+    "sha256": "1E8E9490F29F6B0922A7A652AB68A55D567D71EAEE110BE890EE2F9F47BB8610"
+  },
+  "evidence_contract_sha256": "1E8E9490F29F6B0922A7A652AB68A55D567D71EAEE110BE890EE2F9F47BB8610",
+  "managed_execution": {
+    "project_id": "prj_74fdb393401cd0f267b4c943",
+    "task_id": "tsk_e32763c2aea72ddf777bce94",
+    "task_base_commit": "3145c1aefaf342efd67c2641cde1244b88736073",
+    "worktree_rel": ".remotemcp/workspaces/prj_74fdb393401cd0f267b4c943/worktrees/tsk_e32763c2aea72ddf777bce94",
+    "task_worktree_has_cas_synced_build_critical_fixes": true,
+    "rebuild_after_lock_forbidden": true
+  },
+  "device": {
+    "device_id": "dev_dd73ebfa742f468f2d212bade88c175b",
+    "device_name": "machine-1",
+    "hostname": "DESKTOP-4PSD0G2",
+    "key_fingerprint_sha256": "b657d5395e393e0957a9ed358bb5a1fe1588fde5d3a44be71295a68d1e73def9",
+    "route_generation": 1,
+    "gpu": "Intel(R) Arc(TM) 140V GPU (16GB)",
+    "gpu_driver": "32.0.101.8860"
+  },
+  "runner": {
+    "path": "results/arcllm_lmax_arch_p1_readiness/build/arcllm_lmax_p1_runner.exe",
+    "sha256": "73580161BE084931C95DD107A6AC0E91AB5F8B1244F0513151F70DB40FF6D3D5",
+    "bytes": 518144
+  },
+  "control": {
+    "path": "results/arcllm_lmax_arch_p1_readiness/build/arcllm_lmax_p1_control_path.exe",
+    "sha256": "645A2F2013B04967F7618B2BD08A1E759045CB80EFDCFA4C99931D46B00E1905",
+    "bytes": 309248
+  },
+  "execution_driver": {
+    "path": "experiments/arcllm_lmax_arch_p1/p1_e_driver.py",
+    "git_blob": "94b2877d61b2c5e494910896bb231b36c6fc722b",
+    "sha256": "CE078484535C2F32DB6617EDA0E926776BA8510DCA94DC866762C586515B193C"
+  },
+  "generated_runtime": {
+    "sha256": "108F97AA7FA65D4257C61A7021E919CB4439D10A84232BA4D02CCECCA69AB805",
+    "transform_manifest_sha256": "38E5EDA235FCC0A541546CA3B79A6BFC4B550901C0F23AA93861B12E91F3581D"
+  },
+  "source_git_blobs": {
+    "experiments/arcllm_lmax_arch_p1/p1_ring.h": "16db0bf263b9394c41e573620774c05f105da701",
+    "experiments/arcllm_lmax_arch_p1/p1_runner.cpp": "13ec12d9262610e3e95e9ec81b935833cd7ea6d4",
+    "experiments/arcllm_lmax_arch_p1/p1_control_path.cpp": "c3d1985f2d2d86ad855492fd211c3ce47e4c181f",
+    "experiments/arcllm_lmax_arch_p1/generate_instrumented_runtime.py": "135a357721336b10dc9574c0d8603ce018410b7b",
+    "experiments/arcllm_lmax_arch_p1/static_qa.py": "1e0f6ac3d4abfcc0aad9739b8979e0015ae698ea",
+    "experiments/arcllm_lmax_arch_p1/buildonly.py": "007bab768459e557a0814f31339520b9bd1cda15",
+    "experiments/arcllm_lmax_arch_p1/p1_e_driver.py": "94b2877d61b2c5e494910896bb231b36c6fc722b",
+    "config/arcllm_lmax_arch_p1_preregistration_v0.4.json": "205bf3989ba61494898c42c11568a34156530d0d",
+    "config/arcllm_lmax_arch_p1_runtime_assets_v0.1.json": "fa1bc9efc933566003f6d574dd31917ee822963e",
+    "config/arcllm_lmax_arch_p1_shader_manifest_v0.1.json": "b950fbfaa480414d0b51655757e5f68767664502",
+    "docs/research/arcllm-v1/ARCLLM_LMAX_ARCH_P1_PREREGISTRATION_REVISION_V0_4.md": "d1711201542e640235b65b64cd9bbe7bebe339eb"
+  },
+  "source_sha256": {
+    "experiments/arcllm_lmax_arch_p1/p1_ring.h": "19EBC80103C36AE7E1869A2426FF840B57A612EF1B019A09CBC3043B9A19D923",
+    "experiments/arcllm_lmax_arch_p1/p1_runner.cpp": "BBF14BF8E39FFF41A41046FECA95D2C21A5E0456CF1489CBAED59C33A143EECA",
+    "experiments/arcllm_lmax_arch_p1/p1_control_path.cpp": "F7A23F336281ED154C91917E900588FBA9AA487639A95FBC145157B67859E59F",
+    "experiments/arcllm_lmax_arch_p1/generate_instrumented_runtime.py": "2B32C4BA01661FFCB8B39F69E821E51F4CF7D65F785A01EADA21BFB0DEF4F2CC",
+    "experiments/arcllm_lmax_arch_p1/static_qa.py": "DF2ED1DCA78B1463A3F6FD5DDADB94C5A6C4FD29DC28C509E11116412D94B0F0",
+    "experiments/arcllm_lmax_arch_p1/buildonly.py": "1305ED4E331809D01DAD02164EAB1F770245096F6706D957A32EEC8A52C73935",
+    "experiments/arcllm_lmax_arch_p1/p1_e_driver.py": "CE078484535C2F32DB6617EDA0E926776BA8510DCA94DC866762C586515B193C",
+    "config/arcllm_lmax_arch_p1_preregistration_v0.4.json": "1E8E9490F29F6B0922A7A652AB68A55D567D71EAEE110BE890EE2F9F47BB8610",
+    "config/arcllm_lmax_arch_p1_runtime_assets_v0.1.json": "4D189E59C57079C9D0B313F86AD63EB5197C4A463358BD2B7279FBE8A8FCF0D3",
+    "config/arcllm_lmax_arch_p1_shader_manifest_v0.1.json": "030C2A0D2C99FFCE29DA58D2553C1553007B0DB894A707F5F7E4A22692CEB39C",
+    "docs/research/arcllm-v1/ARCLLM_LMAX_ARCH_P1_PREREGISTRATION_REVISION_V0_4.md": "1AF2DB1F409FEE7856754A75CC008908CBA013CFD87181A6D00332163BB49F9D"
+  },
+  "runtime_assets_manifest": {
+    "path": "config/arcllm_lmax_arch_p1_runtime_assets_v0.1.json",
+    "git_blob": "fa1bc9efc933566003f6d574dd31917ee822963e",
+    "sha256": "4D189E59C57079C9D0B313F86AD63EB5197C4A463358BD2B7279FBE8A8FCF0D3"
+  },
+  "shader_manifest": {
+    "path": "config/arcllm_lmax_arch_p1_shader_manifest_v0.1.json",
+    "git_blob": "b950fbfaa480414d0b51655757e5f68767664502",
+    "sha256": "030C2A0D2C99FFCE29DA58D2553C1553007B0DB894A707F5F7E4A22692CEB39C",
+    "shader_count": 17
+  },
+  "model": {
+    "path": "C:\\Users\\minht\\.ollama\\models\\blobs\\sha256-60e05f2100071479f596b964f89f510f057ce397ea22f2833a0cfe029bfc2463",
+    "sha256": "60E05F2100071479F596B964F89F510F057CE397EA22F2833A0CFE029BFC2463",
+    "bytes": 4683074048
+  },
+  "sidecar": {
+    "path": "D:\\WORK\\RESEARCH\\_arcllm_v4_gate_clean\\results\\canonical_exec148.sidecar",
+    "sha256": "3F168749256E8ACBBBE61DA06196CA0E51A249B3923938E5651A4DA6F50AB43F",
+    "bytes": 549527552
+  },
+  "readiness_evidence": {
+    "buildonly": {
+      "path": "results/arcllm_lmax_arch_p1_readiness/BUILDONLY_EVIDENCE.json",
+      "sha256": "00C8F788E48D219C66136D4A13955390DF4113EE83058451836FE63169844406",
+      "status": "PASS_IMPLEMENTATION_STATIC_PREFLIGHT_BUILDONLY"
+    },
+    "evidence_schema_qa": {
+      "path": "results/arcllm_lmax_arch_p1_readiness/EVIDENCE_SCHEMA_QA.json",
+      "status": "PASS",
+      "inference_required_fields": 28,
+      "control_binary_streams_per_run": 2,
+      "control_u64_entries_per_stream": 1000000
+    },
+    "resource_audit": {
+      "path": "results/arcllm_lmax_arch_p1_readiness/RESOURCE_AUDIT.json",
+      "sha256": "F5045C908E3A092493655B5E445FB29870F09435D195CDCDA2CA498049DCE01D",
+      "status": "PASS",
+      "available_ram_bytes": 14097121280,
+      "disk_free_bytes": 25293938688,
+      "default_ollama_idle": true,
+      "u2_ollama_idle": true,
+      "no_loaded_gpu_model_server": true,
+      "ac_online": true
+    }
+  },
+  "resource_minimums": {
+    "available_ram_bytes": 8589934592,
+    "disk_free_bytes": 5368709120
+  },
+  "zero_science_assertions": {
+    "static_qa": "PASS",
+    "evidence_schema_qa": "PASS",
+    "reversible_runtime_transform": "PASS",
+    "runner_authorization_guard": "PASS_FAIL_CLOSED",
+    "control_authorization_guard": "PASS_FAIL_CLOSED",
+    "model_executed": false,
+    "vulkan_initialized": false,
+    "measured_inference_runs": 0,
+    "control_path_1m_runs": 0,
+    "lineage_modified": false
+  },
+  "frozen_e_plan": {
+    "excluded_warmups": 4,
+    "measured_pairs": 24,
+    "measured_inference_runs": 48,
+    "control_runs": 6,
+    "control_events_per_run": 1000000,
+    "control_total_events": 6000000,
+    "control_delays_ns": [
+      0,
+      10000,
+      100000
+    ],
+    "authorization_required": true,
+    "rerun_allowed_after_e_started": false
+  },
+  "next_user_facing_stage": "ARCLLM_LMAX_ARCH_P1_E_FRESH_EXPLORATORY_ONE_SHOT"
+}
