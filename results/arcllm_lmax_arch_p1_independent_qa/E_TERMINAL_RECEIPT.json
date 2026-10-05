@@ -1,0 +1,17 @@
+{
+  "schema": "arcllm.lmax_arch_p1.e_terminal_receipt.v0.4",
+  "proxy_job_id": "rjob_d1b02647d2ec23874710ce343af1d981",
+  "node_job_id": "job_2c84f1f8ae999c7c34e5de40621838a8",
+  "job_state": "FAILED",
+  "exit_code": 1,
+  "terminal_event_id": 1670,
+  "observed_measured_inference_completed": 48,
+  "observed_control_directories": [
+    "0ns_direct_locked_spsc64"
+  ],
+  "e_complete_present": false,
+  "e_aborted_present": false,
+  "stderr_signature": "ARCLLM_LMAX_ARCH_P1_E_DRIVER_ERROR=JSONDecodeError('Invalid \\\\escape: line 23 column 35 (char 783)')",
+  "failure_location": "p1_e_driver.py line 232: json.loads(manifest.read_text(encoding='utf-8'))",
+  "interpretation": "Driver failed after the first 1,000,000-event control run had produced raw binary streams and a manifest containing unescaped Windows backslashes. No post-E rescue or rerun is authorized."
+}
