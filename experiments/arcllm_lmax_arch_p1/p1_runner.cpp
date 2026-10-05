@@ -118,7 +118,7 @@ void wait_until_true(std::atomic<bool>& flag, WaitCountersAtomic& counters) noex
 #endif
         if (flag.load(std::memory_order_acquire)) return;
 #ifdef _WIN32
-        const bool expected = false;
+        bool expected = false;
         counters.wait_on_address_count.fetch_add(1u, std::memory_order_relaxed);
         WaitOnAddress(
             reinterpret_cast<volatile VOID*>(&flag),
