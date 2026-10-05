@@ -1,0 +1,17 @@
+{
+  "schema": "arcllm.lmax_arch_p1.evidence_schema_qa_receipt.v0.4",
+  "status": "PASS",
+  "job": {
+    "proxy_job_id": "rjob_9aae0e664a35a7403209ba40abd42982",
+    "node_job_id": "job_bb807b97fce548c5507420995b2b4ee9",
+    "state": "SUCCEEDED"
+  },
+  "checker_path": "experiments/arcllm_lmax_arch_p1/evidence_schema_qa.py",
+  "checker_sha256": "F32F9BCF1E5BA38793A93202DF5F9D67C41B50DA1F7849210FC59962948FEEB2",
+  "inference_required_fields": 28,
+  "control_binary_streams_per_run": 2,
+  "control_u64_entries_per_stream": 1000000,
+  "model_executed": false,
+  "vulkan_initialized": false,
+  "fresh_outcome_opened": false
+}
