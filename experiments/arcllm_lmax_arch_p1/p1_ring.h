@@ -156,7 +156,7 @@ private:
             }
 
 #ifdef _WIN32
-            const std::uint64_t expected =
+            std::uint64_t expected =
                 slot.sequence.load(std::memory_order_relaxed);
             slot_wait_on_address_count_.fetch_add(1u, std::memory_order_relaxed);
             WaitOnAddress(
