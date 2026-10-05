@@ -1,0 +1,95 @@
+{
+  "schema": "arcllm.lmax_arch_p1.e_execution_authorization.v0.4",
+  "decision": "ARCLLM_LMAX_ARCH_P1_E_EXECUTION_AUTHORIZED",
+  "authorized": true,
+  "scientific_stage": "E_FRESH_EXPLORATORY_ONE_SHOT",
+  "branch": "research/arcllm-lmax-arch-p1",
+  "execution_lock": {
+    "path": "config/arcllm_lmax_arch_p1_execution_lock_v0.4.json",
+    "sha256": "02E953CBBDDC6F7D844915D8BFF4141A73908CFDBECCAE8C18089EED67288E6C",
+    "git_blob": "02fa63bbbc1294ae2e83552e942627c710f6dd63"
+  },
+  "scientific_contract": {
+    "path": "config/arcllm_lmax_arch_p1_preregistration_v0.4.json",
+    "sha256": "1E8E9490F29F6B0922A7A652AB68A55D567D71EAEE110BE890EE2F9F47BB8610",
+    "git_blob": "205bf3989ba61494898c42c11568a34156530d0d"
+  },
+  "device": {
+    "device_id": "dev_dd73ebfa742f468f2d212bade88c175b",
+    "device_name": "machine-1",
+    "hostname": "DESKTOP-4PSD0G2",
+    "key_fingerprint_sha256": "b657d5395e393e0957a9ed358bb5a1fe1588fde5d3a44be71295a68d1e73def9",
+    "route_generation": 1
+  },
+  "managed_task": {
+    "project_id": "prj_74fdb393401cd0f267b4c943",
+    "task_id": "tsk_e32763c2aea72ddf777bce94"
+  },
+  "frozen_campaign": {
+    "excluded_warmups": 4,
+    "measured_pairs": 24,
+    "measured_inference_runs": 48,
+    "control_runs": 6,
+    "control_events_per_run": 1000000,
+    "total_control_events": 6000000,
+    "control_delays_ns": [
+      0,
+      10000,
+      100000
+    ],
+    "inference_pair_order": [
+      "A_B",
+      "B_A",
+      "A_B",
+      "B_A"
+    ],
+    "control_order": [
+      {
+        "delay_ns": 0,
+        "arm": "DIRECT_LOCKED_SPSC64"
+      },
+      {
+        "delay_ns": 0,
+        "arm": "LMAX_RING_P1"
+      },
+      {
+        "delay_ns": 10000,
+        "arm": "LMAX_RING_P1"
+      },
+      {
+        "delay_ns": 10000,
+        "arm": "DIRECT_LOCKED_SPSC64"
+      },
+      {
+        "delay_ns": 100000,
+        "arm": "DIRECT_LOCKED_SPSC64"
+      },
+      {
+        "delay_ns": 100000,
+        "arm": "LMAX_RING_P1"
+      }
+    ]
+  },
+  "anti_rescue": {
+    "one_shot_only": true,
+    "rerun_after_E_STARTED": false,
+    "tuning": false,
+    "selective_rerun": false,
+    "outlier_deletion": false,
+    "threshold_change": false,
+    "evidence_schema_change": false,
+    "posthoc_control_subtest": false
+  },
+  "prerequisite_readiness": {
+    "static_qa": "PASS",
+    "buildonly": "PASS",
+    "evidence_schema_qa": "PASS",
+    "resource_audit": "PASS",
+    "model_executed_during_R": false,
+    "control_path_1m_runs_during_R": 0,
+    "measured_inference_runs_during_R": 0
+  },
+  "outcome_namespace": "results/arcllm_lmax_arch_p1_e_fresh_exploratory_one_shot",
+  "authorized_by_user_instruction": true,
+  "note": "Authorization permits exactly one fresh P1 E campaign under frozen v0.4 contract. It does not authorize any implementation mutation, tuning, selective rerun, rescue, M, or C."
+}
