@@ -70,12 +70,12 @@ def main():
     ]
     cmd=["cl.exe","/nologo","/std:c++17","/O2","/EHsc","/W4","/bigobj","/Brepro",
          f"/I{root/'src'}",f"/I{root/'include'}",f"/I{here}",
-         f"/Fe:{runner}",*[str(p) for p in sources]]
+         f"/Fe:{runner}",*[str(p) for p in sources],"Synchronization.lib"]
     cp=run(cmd,cwd=build,env=env); sys.stdout.write(cp.stdout)
     if not runner.is_file(): raise RuntimeError("P1 runner missing")
 
     cmd2=["cl.exe","/nologo","/std:c++17","/O2","/EHsc","/W4","/Brepro",
-          f"/I{here}",f"/Fe:{control}",str(here/"p1_control_path.cpp")]
+          f"/I{here}",f"/Fe:{control}",str(here/"p1_control_path.cpp"),"Synchronization.lib"]
     cp=run(cmd2,cwd=build,env=env); sys.stdout.write(cp.stdout)
     if not control.is_file(): raise RuntimeError("P1 control harness missing")
 
